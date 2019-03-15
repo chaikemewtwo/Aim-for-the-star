@@ -1,16 +1,16 @@
-#pragma once
+ï»¿#pragma once
 #include "PlayerBase.h"
 
 
-// ©‹@2ƒNƒ‰ƒX
+// è‡ªæ©Ÿ2ã‚¯ãƒ©ã‚¹
 class Star2 : public PlayerBase {
 public:
 	Star2();
 	~Star2();
 
-	// XVˆ—
+	// æ›´æ–°å‡¦ç†
 	void Update() override;
-	// •`‰æˆ—
+	// æç”»å‡¦ç†
 	void Draw() override;
 
 private:

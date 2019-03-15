@@ -1,53 +1,53 @@
-#pragma once
+ï»¿#pragma once
 #include "Common.h"
 
 
-// ƒeƒNƒXƒ`ƒƒƒTƒCƒY’²®XÀ•W—p
+// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µã‚¤ã‚ºèª¿æ•´Xåº§æ¨™ç”¨
 const float TEXTURE_SIZE_X = 1.f;
-// ƒeƒNƒXƒ`ƒƒƒTƒCƒY’²®YÀ•W—p
+// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µã‚¤ã‚ºèª¿æ•´Yåº§æ¨™ç”¨
 const float TEXTURE_SIZE_Y = 1.f;
 
-// d—Í•‰‰×
+// é‡åŠ›è² è·
 const float GRAVITY = 0.01f;
-// X•ûŒü‚ÌˆÚ“®—Êi¶‰EˆÚ“®j
+// Xæ–¹å‘ã®ç§»å‹•é‡ï¼ˆå·¦å³ç§»å‹•ï¼‰
 const float X_ADD = 2.f;
-// Y•ûŒü‚ÌˆÚ“®—ÊiƒWƒƒƒ“ƒvj
+// Yæ–¹å‘ã®ç§»å‹•é‡ï¼ˆã‚¸ãƒ£ãƒ³ãƒ—ï¼‰
 const float Y_ADD = -1.5f;
-// ‰j‚¬ƒCƒ“ƒ^[ƒoƒ‹
+// æ³³ãŽã‚¤ãƒ³ã‚¿ãƒ¼ãƒãƒ«
 const float SWIM_INTERVAL = 90.f;
 
 class PlayerBase {
 public:
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	PlayerBase();
-	// ƒfƒXƒgƒ‰ƒNƒ^
+	// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	virtual ~PlayerBase() {}
 
-	// XVˆ—
+	// æ›´æ–°å‡¦ç†
 	virtual void Update() = 0;
-	// HACKFŽ©‹@‚PA‚Q‚Ìˆ—‚ªŽ—‚Ä‚¢‚é‚Ì‚ÅŠî’êƒNƒ‰ƒX‚Å‚Ü‚Æ‚ß‚½‚¢
+	// HACKï¼šè‡ªæ©Ÿï¼‘ã€ï¼’ã®å‡¦ç†ãŒä¼¼ã¦ã„ã‚‹ã®ã§åŸºåº•ã‚¯ãƒ©ã‚¹ã§ã¾ã¨ã‚ãŸã„
 
-	// •`‰æˆ—
+	// æç”»å‡¦ç†
 	virtual void Draw() = 0;
 	
 protected:
-	// Ž©‹@‘€ì
+	// è‡ªæ©Ÿæ“ä½œ
 	//virtual void Control() = 0;
 
-	// d—Í•‰‰×
+	// é‡åŠ›è² è·
 	void AddGravity();
 
-	// ‰j‚®iƒWƒƒƒ“ƒvj
+	// æ³³ãï¼ˆã‚¸ãƒ£ãƒ³ãƒ—ï¼‰
 	void SwimUp();
 
-	// X•ûŒüˆÚ“®ATRUE‚Å‰E‚ÖˆÚ“®
+	// Xæ–¹å‘ç§»å‹•ã€TRUEã§å³ã¸ç§»å‹•
 	void XMove(bool move_right);
 	
-	// ƒvƒŒƒCƒ„[XÀ•W
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼Xåº§æ¨™
 	float pos_x;
-	// ƒvƒŒƒCƒ„[YÀ•W
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼Yåº§æ¨™
 	float pos_y;
-	// HACKFpos_x,y‚Íprivate‚É‚µ‚½‚¢
+	// HACKï¼špos_x,yã¯privateã«ã—ãŸã„
 	float speed;
 
 	float interval_count;

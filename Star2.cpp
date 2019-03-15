@@ -1,7 +1,7 @@
-#include "Star2.h"
+ï»¿#include "Star2.h"
 
 Star2::Star2() {
-	// ˆÊ’u‰Šú‰»
+	// ä½ç½®åˆæœŸåŒ–
 	pos_x = (float)WINDOW_W / 2.f + 100.f;
 	pos_y = (float)WINDOW_H / 2.f;
 	speed = 0.f;
@@ -18,22 +18,22 @@ void Star2::Update() {
 
 	++interval_count;
 	
-	// ‰j‚®iƒWƒƒƒ“ƒvj
+	// æ³³ãï¼ˆã‚¸ãƒ£ãƒ³ãƒ—ï¼‰
 	if (kb.press('N')&& interval_count >= SWIM_INTERVAL) {
 		SwimUp();
 		interval_count = 0;
 	}
 	else {
-		// d—Í•‰‰×
+		// é‡åŠ›è² è·
 		AddGravity();
 	}
 
-	// ¶‰EˆÚ“®
-	// ¶
+	// å·¦å³ç§»å‹•
+	// å·¦
 	if (kb.on(VK_LEFT)) {
 		XMove(false);
 	}
-	// ‰E
+	// å³
 	if (kb.on(VK_RIGHT)) {
 		XMove(true);
 	}
@@ -41,5 +41,5 @@ void Star2::Update() {
 
 void Star2::Draw() {
 	Texture::Draw2D("Texture/starfish_sample2.png", pos_x, pos_y, TEXTURE_SIZE_X, TEXTURE_SIZE_Y, 0.f, 0.5f, 0.5f);
-	// HACK:‘æ˜Zˆø”‚ÅŠp“x•ÏX
+	// HACK:ç¬¬å…­å¼•æ•°ã§è§’åº¦å¤‰æ›´
 }

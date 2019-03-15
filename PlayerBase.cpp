@@ -1,4 +1,4 @@
-#include "PlayerBase.h"
+ï»¿#include "PlayerBase.h"
 
 
 PlayerBase::PlayerBase() {
@@ -17,6 +17,6 @@ void PlayerBase::SwimUp() {
 }
 
 void PlayerBase::XMove(bool move_right) {
-	// X•ûŒüˆÚ“®ATRUE‚Å‰E‚ÖˆÚ“®
+	// Xæ–¹å‘ç§»å‹•ã€TRUEã§å³ã¸ç§»å‹•
 	pos_x += move_right ? X_ADD : -X_ADD;
 }
