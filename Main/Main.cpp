@@ -3,6 +3,7 @@
 //#include "../Player/Star1/Star1.h"
 //#include "../Player/Star2/Star2.h"
 
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 	//if (DirectXInit() == false) {
 	//	return -1;
