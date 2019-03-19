@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="入力関連">
+      <UniqueIdentifier>{bae64ab6-00ef-48d9-997c-46bbb6e1d27c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="プレイヤー関連">
+      <UniqueIdentifier>{53d7df4e-a7cf-402c-9241-2d16595c28e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\リソース読み込み">
+      <UniqueIdentifier>{f8cad148-a247-4321-9ee3-80927db24d87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="プレイヤー関連\自機2">
+      <UniqueIdentifier>{b71d83ee-53c1-450e-a927-444443eea504}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="プレイヤー関連\自機1">
+      <UniqueIdentifier>{354ea3c9-e740-4179-986c-e902c6020d11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="プレイヤー関連\基底クラス">
+      <UniqueIdentifier>{1c885584-0a12-4596-9cff-3cc62a730bcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="テクスチャ関連">
+      <UniqueIdentifier>{a395ecdb-5626-40b5-a2e9-228016c52b21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ライブラリ関連">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Player\PlayerBase.h">
+      <Filter>プレイヤー関連\基底クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\Star1\Star1.h">
+      <Filter>プレイヤー関連\自機1</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\Star2\Star2.h">
+      <Filter>プレイヤー関連\自機2</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Common.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Ribrary\D3D9.h">
+      <Filter>ライブラリ関連</Filter>
+    </ClInclude>
+    <ClInclude Include="Ribrary\Window.h">
+      <Filter>ライブラリ関連</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\InputManager.h">
+      <Filter>入力関連</Filter>
+    </ClInclude>
+    <ClInclude Include="Ribrary\Texture.h">
+      <Filter>テクスチャ関連</Filter>
+    </ClInclude>
+    <ClInclude Include="Ribrary\TextureBoad2D.h">
+      <Filter>テクスチャ関連</Filter>
+    </ClInclude>
+    <ClInclude Include="Ribrary\UV.h">
+      <Filter>テクスチャ関連</Filter>
+    </ClInclude>
+    <ClInclude Include="Ribrary\Sound.h">
+      <Filter>ライブラリ関連</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadResource\LoadResource.h">
+      <Filter>リソース ファイル\リソース読み込み</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\Gamepad.h">
+      <Filter>入力関連</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\Keybord.h">
+      <Filter>入力関連</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Player\PlayerBase.cpp">
+      <Filter>プレイヤー関連\基底クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\Star1\Star1.cpp">
+      <Filter>プレイヤー関連\自機1</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\Star2\Star2.cpp">
+      <Filter>プレイヤー関連\自機2</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\InputManager.cpp">
+      <Filter>入力関連</Filter>
+    </ClCompile>
+    <ClCompile Include="Ribrary\Texture.cpp">
+      <Filter>テクスチャ関連</Filter>
+    </ClCompile>
+    <ClCompile Include="Ribrary\TextureBoad2D.cpp">
+      <Filter>テクスチャ関連</Filter>
+    </ClCompile>
+    <ClCompile Include="Ribrary\UV.cpp">
+      <Filter>テクスチャ関連</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\Main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadResource\LoadResource.cpp">
+      <Filter>リソース ファイル\リソース読み込み</Filter>
+    </ClCompile>
+    <ClCompile Include="Ribrary\Window.cpp">
+      <Filter>ライブラリ関連</Filter>
+    </ClCompile>
+    <ClCompile Include="Ribrary\D3D9.cpp">
+      <Filter>ライブラリ関連</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
