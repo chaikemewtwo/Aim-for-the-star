@@ -16,7 +16,7 @@ void PlayerBase::SwimUp() {
 	pos_y += speed;
 }
 
-void PlayerBase::XMove(bool move_right) {
+void PlayerBase::XMove(bool is_move_right) {
 	// X方向移動、TRUEで右へ移動
-	pos_x += move_right ? X_ADD : -X_ADD;
+	pos_x += is_move_right ? X_ADD : -X_ADD;
 }

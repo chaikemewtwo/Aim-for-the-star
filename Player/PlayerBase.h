@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Common.h"
+#include "../Common/Common.h"
 
 
 // テクスチャサイズ調整X座標用
@@ -12,7 +12,7 @@ const float GRAVITY = 0.01f;
 // X方向の移動量（左右移動）
 const float X_ADD = 2.f;
 // Y方向の移動量（ジャンプ）
-const float Y_ADD = -1.5f;
+const float Y_ADD = -2.f;
 // 泳ぎインターバル
 const float SWIM_INTERVAL = 90.f;
 
@@ -31,9 +31,6 @@ public:
 	virtual void Draw() = 0;
 	
 protected:
-	// 自機操作
-	//virtual void Control() = 0;
-
 	// 重力負荷
 	void AddGravity();
 
@@ -41,15 +38,18 @@ protected:
 	void SwimUp();
 
 	// X方向移動、TRUEで右へ移動
-	void XMove(bool move_right);
+	void XMove(bool is_move_right);
 	
 	// プレイヤーX座標
 	float pos_x;
 	// プレイヤーY座標
 	float pos_y;
 	// HACK：pos_x,yはprivateにしたい
+
+	// 落下速度
 	float speed;
 
+	// 泳ぎクールタイム計測用
 	float interval_count;
 private:
 	
