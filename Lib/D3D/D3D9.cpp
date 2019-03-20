@@ -24,9 +24,9 @@ LPDIRECT3DDEVICE9 InitD3D(HWND hWnd) {// デバイス
 	// ここの設定は描画に必要
 
 	// パラメーターズは全部設定
-	pp.BackBufferWidth = 0;// 解像度
-	pp.BackBufferHeight = 1088;
-	pp.BackBufferFormat = D3DFMT_A8R8G8B8;
+	pp.BackBufferWidth = 1920;// 解像度
+	pp.BackBufferHeight = 1080;// 1088か1024
+	pp.BackBufferFormat = D3DFMT_A8R8G8B8;// ディスプレイモード
 	pp.BackBufferCount = 1;
 	pp.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;
 	pp.MultiSampleQuality = 0;
@@ -39,7 +39,7 @@ LPDIRECT3DDEVICE9 InitD3D(HWND hWnd) {// デバイス
 	pp.Windowed = TRUE;// フルスクリーンモード
 	pp.FullScreen_RefreshRateInHz = 0;
 	pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
-
+	
 	// ③
 	direct3d9->CreateDevice(
 		D3DADAPTER_DEFAULT,
@@ -59,9 +59,14 @@ LPDIRECT3DDEVICE9 InitD3D(HWND hWnd) {// デバイス
 }
 
 // 解像度の変更(今は起動していないので注意)
-void ResolutionResize(const int&size_x, const int&size_y) {
+void SetResolutionResize(const int&size_x, const int&size_y) {
+
 	pp.BackBufferWidth = size_x;
 	pp.BackBufferHeight = size_y;
+	
+	// リセットメソッド(デバイスの設定を変更する)
+	dev->Reset(&pp);
+	// テクスチャZバッファなど新しいメソッドに作り替えられる
 }
 
 // 解放

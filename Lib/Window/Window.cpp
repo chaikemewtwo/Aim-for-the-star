@@ -1,10 +1,11 @@
-﻿#include"Window.h"
-#include"D3D9.h"
+﻿#include"./Window.h"
+#include"../D3D/D3D9.h"
+
+
+
 
 
 // ウィンドウプロシージャ(メッセージをどう解釈するか。)
-
-
 HRESULT CALLBACK WndProc(
 	HWND hWnd,
 	UINT uMsg,
@@ -41,7 +42,7 @@ HWND MakeWindow(int w, int h) {// 他にも入るものがあるかも
 		LoadCursor(NULL,IDC_ARROW),
 		NULL,// 背景色
 		NULL,
-		TEXT("ok"),
+		TEXT("DirectX9"),
 		NULL,
 	};// wcで略す。WNDCLASSEX構造体
 
@@ -58,8 +59,8 @@ HWND MakeWindow(int w, int h) {// 他にも入るものがあるかも
 	// ③ウィンドウクラスを設定する。
 	HWND hWnd = CreateWindowEx(
 		NULL,
-		TEXT("ok"),
-		TEXT("ok"),
+		TEXT("DirectX9"),
+		TEXT("DirectX9"),
 		/*(WS_OVERLAPPEDWINDOW^WS_THICKFRAME) | WS_VISIBLE ,*/WS_POPUP, 
 		0,// 引数を無視する。
 		0,//CW_USEDDEFAULTにしないと描画してくれない。
@@ -149,6 +150,9 @@ void DrawEnd()
 	dev->Present(NULL, NULL, NULL, NULL);
 }
 
+
+
+// ウィンドウハンドル(グローバル)
 HWND window_handle;
 
 // DirectX関係の初期化。
@@ -166,16 +170,48 @@ bool DirectXInit(const int window_w,const int window_h) {
 	// D3Dの初期化(ウィンドウ)
 	InitD3D(window_handle);
 
-
-	ShowWindow(window_handle, SW_SHOW);// 追加
+	
+	//ShowWindow(window_handle, SW_SHOW);// 追加
 	UpdateWindow(window_handle);
 
 
 	return true;
 }
 
+// ウィンドウサイズを変更
+void SetWindowSize(const UINT&cx,const UINT&cy) {
 
+	SetWindowPos(window_handle, NULL, 0, 0, cx, cy, SWP_NOMOVE | SWP_NOZORDER);
+}
 
+// ウィンドウを中央に移動
+void SetWindowCenterMove() {
+
+#define GetMonitorRect(rc) SystemParametersInfo(SPI_GETWORKAREA,0,rc,0)
+
+	RECT rc1;// デスクトップ領域
+	RECT rc2;// ウィンドウ領域
+	INT cx, cy;// ウィンドウ位置
+	INT sx, sy;// ウィンドウサイズ
+
+	// サイズの取得
+	GetMonitorRect(&rc1);//デスクトップのサイズ
+	GetWindowRect(window_handle, &rc2);// ウィンドウのサイズ
+
+	sx = (rc2.right - rc2.left);// ウィンドウの横幅
+	sy = (rc2.bottom - rc2.top);// ウィンドウの高さ
+
+	cx = (((rc1.right - rc1.left) - sx) / 2 + rc1.left);
+	cy = (((rc1.bottom - rc1.top) - sy) / 2 + rc1.top);
+
+	SetWindowPos(window_handle, NULL, cx, cy, 0, 0,
+		SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
+}
+
+// ウィンドウハンドルを返す
+HWND GetWindowHandle() {
+	return window_handle;
+}
 
 
 
