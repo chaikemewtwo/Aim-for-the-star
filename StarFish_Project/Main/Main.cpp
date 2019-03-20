@@ -1,8 +1,7 @@
-﻿#include "../Common/Common.h"
-#include "../LoadResource/LoadResource.h"
+﻿//#include "../Common/Common.h"
+//#include "../LoadResource/LoadResource.h"
 //#include "../Player/Star1/Star1.h"
 //#include "../Player/Star2/Star2.h"
-
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 	//if (DirectXInit() == false) {
