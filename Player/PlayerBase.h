@@ -1,13 +1,23 @@
 ﻿#pragma once
 #include "../Common/Common.h"
 
-// MEMO:簡略化のため自機1と2の操作が同一になっています
+// MEMO:リファクタリングのため自機1と2の操作が同一になっています
 
+//-----------------------------------------------------
+// 描画調整用定数
 // テクスチャサイズ調整X座標用
 const float TEXTURE_SIZE_X = 0.25f;
 // テクスチャサイズ調整Y座標用
 const float TEXTURE_SIZE_Y = 0.25f;
+// 分割画像X枚数
+const int TEXTURE_PARTITION_X_NUMBER = 4;
+// 分割画像枚数
+const int TEXTURE_PARTITION_Y_NUMBER = 4;
+//-----------------------------------------------------
 
+
+//-----------------------------------------------------
+// ゲーム内パラメータ
 // 重力負荷
 const float GRAVITY = 0.01f;
 // X方向の移動量（左右移動）
@@ -18,6 +28,10 @@ const float Y_ADD = -2.f;
 const float SWIM_INTERVAL = 96.f;
 // 向き変更時最大角度
 const float MAX_ANGLE = 45.f;
+// 泳ぎアニメーション補助用
+const int SWIM_ANIMATION_SUPPORT_NUMBER = 6;
+//-----------------------------------------------------
+
 
 class PlayerBase {
 public:

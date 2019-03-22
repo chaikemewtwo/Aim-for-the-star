@@ -2,7 +2,17 @@
 
 
 PlayerBase::PlayerBase() {
-	
+	// 落下速度
+	drop_speed = 0.f;
+
+	// 傾き
+	star_angle = 0.f;
+
+	// 泳ぎコマンドインターバル
+	swim_interval_count = SWIM_INTERVAL;
+
+	// 泳ぎアニメーション番号
+	swim_animetion_num = 0;
 }
 
 void PlayerBase::Update() {
@@ -13,7 +23,7 @@ void PlayerBase::Update() {
 	++swim_interval_count;
 
 	// 泳ぎアニメーション
-	swim_animetion_num = swim_interval_count / 6;
+	swim_animetion_num = swim_interval_count / SWIM_ANIMATION_SUPPORT_NUMBER;
 
 	// 泳ぐ（ジャンプ）
 	if (kb.press('V') && swim_interval_count >= (int)SWIM_INTERVAL) {
@@ -38,7 +48,9 @@ void PlayerBase::Update() {
 
 void PlayerBase::Draw() {
 	// 自機1のものを使用
-	Texture::Draw2D("Resource/de_swim.png",
+	// 第7、8引数が0.5fずつで中心座標から描画
+	Texture::Draw2D(
+		"Resource/de_swim.png",
 		pos_x,
 		pos_y,
 		TEXTURE_SIZE_X,
@@ -47,8 +59,8 @@ void PlayerBase::Draw() {
 		0.5f,
 		0.5f,
 		true,
-		4,
-		4,
+		TEXTURE_PARTITION_X_NUMBER,
+		TEXTURE_PARTITION_Y_NUMBER,
 		swim_animetion_num
 	);
 }
