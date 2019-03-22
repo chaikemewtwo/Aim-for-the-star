@@ -9,9 +9,10 @@ public:
 	~Star2();
 
 	// 更新処理
-	void Update() override;
+	//void Update() override;
+
 	// 描画処理
-	void Draw() override;
+	//void Draw() override;
 
 private:
 
