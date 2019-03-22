@@ -145,35 +145,6 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="Input\Gamepad.h" />
-    <ClInclude Include="Input\Keybord.h" />
-    <ClInclude Include="Ribrary\D3D9.h" />
-    <ClInclude Include="LoadResource\LoadResource.h" />
-    <ClInclude Include="Player\Star1\Star1.h" />
-    <ClInclude Include="Common\Common.h" />
-    <ClInclude Include="Input\InputManager.h" />
-    <ClInclude Include="Player\PlayerBase.h" />
-    <ClInclude Include="Player\Star2\Star2.h" />
-    <ClInclude Include="Ribrary\Sound.h" />
-    <ClInclude Include="Ribrary\Texture.h" />
-    <ClInclude Include="Ribrary\TextureBoad2D.h" />
-    <ClInclude Include="Ribrary\UV.h" />
-    <ClInclude Include="Ribrary\Window.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Ribrary\D3D9.cpp" />
-    <ClCompile Include="LoadResource\LoadResource.cpp" />
-    <ClCompile Include="Player\Star1\Star1.cpp" />
-    <ClCompile Include="Input\InputManager.cpp" />
-    <ClCompile Include="Main\Main.cpp" />
-    <ClCompile Include="Player\PlayerBase.cpp" />
-    <ClCompile Include="Player\Star2\Star2.cpp" />
-    <ClCompile Include="Ribrary\Texture.cpp" />
-    <ClCompile Include="Ribrary\TextureBoad2D.cpp" />
-    <ClCompile Include="Ribrary\UV.cpp" />
-    <ClCompile Include="Ribrary\Window.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
