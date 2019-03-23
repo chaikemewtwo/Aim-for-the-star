@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"D3D9.h"
+#include"../D3D/D3D9.h"
 
 // 何をすれば何をできるかを書く
 
@@ -33,7 +33,7 @@
  ④最後にそれぞれの頂点に振り分ける
 
  // VERTEX3Dの初期化
- CUSTOM_VERTEX cv[] =
+ CUSTOM_VERTEX cv[] = 
  {
  { x1,y1,0.0f,1.0f, up_left->x,up_left->y },       // 左上
  { x2,y1,0.0f,1.0f ,up_right->x,up_right->y },     // 右上
