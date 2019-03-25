@@ -2,8 +2,7 @@
 #include"./Object.h"
 #include<vector>
 #include<memory>
-#include"./ManagerAction.h"
-
+#include"../EnemyManager.h"
 
 
 // HACK
@@ -14,29 +13,44 @@ public:
 	
 	ObjectManager() {
 		// 管理クラスはコンストラクタで入れる
-		m_mng_action.emplace_back();
+		m_mng_data.emplace_back(new EnemyManager);
 	};
-	// 外部からオブジェクト群を代入する場合
-	ObjectManager(Object*object) {
+	
+	void SetObject(Object*object) {
 		m_obj.emplace_back(object);
 	}
 
-	// 更新
-	void Update();
-
-	// 描画
-	void Draw();
+	// 参照を返す
+	std::vector<std::unique_ptr<Object>>* GetpObject() {
+		return &m_obj;
+	}
 	
+	void Create();
+	void Update();
+	void Draw();
 
 private:
+
+	// idで要素を探す
+	int m_id;
 	// MEMO
 	// listにするかvectorにするか
 	// オブジェクト入れ
 	std::vector<std::unique_ptr<Object>>m_obj;
-	// 管理者入れ
-	std::vector<std::unique_ptr<ManagerAction>>m_mng_action;
-	
+	// 生成クラス群
+	std::vector<std::unique_ptr<ManagerData>>m_mng_data;
 };
+
+//template<class T>
+//// ベクターのコピー
+//void Copy(std::vector<T>&obj) {
+//	std::copy(m_obj.begin(), m_obj.end(), std::back_inserter(obj));
+//}
+
+//// 生成関数
+//void Entry(Object*object) {
+//	m_obj.emplace_back(object);
+//}
 
 // MEMO
 // Objectをポインタで管理して開始時に渡す方法もあるのかも
@@ -46,7 +60,6 @@ private:
 
 
 // グローバルにするならこれ,オブジェクトのポインタ型を返す
-
 /*
 namespace ObjectMethod {
 

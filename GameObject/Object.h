@@ -2,15 +2,15 @@
 #include"../Lib/D3D/D3D9.h"
 #include"../Lib/Window/Window.h"
 
-// オブジェクト(抽象クラス)
+// オブジェクトクラス
 class Object {
 public:
 	
 	// 更新
-	virtual void Update() {};
+	virtual void Update()=0;
 
 	// 描画
-	virtual void Draw() {};
+	virtual void Draw()=0;
 
 	~Object() {};
 protected:
