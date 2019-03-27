@@ -1,4 +1,5 @@
 ﻿#include "PlayerBase.h"
+#include <math.h>
 
 
 PlayerBase::PlayerBase() {
@@ -6,13 +7,27 @@ PlayerBase::PlayerBase() {
 	drop_speed = 0.f;
 
 	// 傾き
-	star_angle = 0.f;
+	star_angle.x = 0.f;
+	star_angle.y = 0.f;
+
+	star_add.x = X_ADD;
+	star_add.y = Y_ADD;
 
 	// 泳ぎコマンドインターバル
 	swim_interval_count = SWIM_INTERVAL;
 
 	// 泳ぎアニメーション番号
 	swim_animetion_num = 0;
+}
+
+Vector2D PlayerBase::tagGetStarVector(Vector2D v) {
+	// ベクトルの長さ
+	float length = pow((v.x * v.x) + (v.y * v.y), 0.5);
+
+	pos.x = v.x / length;
+	pos.y = v.y / length;
+
+	return pos;
 }
 
 void PlayerBase::Update() {
@@ -51,11 +66,11 @@ void PlayerBase::Draw() {
 	// 第7、8引数が0.5fずつで中心座標から描画
 	Texture::Draw2D(
 		"Resource/de_swim.png",
-		pos_x,
-		pos_y,
+		pos.x,
+		pos.y,
 		TEXTURE_SIZE_X,
 		TEXTURE_SIZE_Y,
-		star_angle,
+		star_angle.x,
 		0.5f,
 		0.5f,
 		true,
@@ -68,24 +83,25 @@ void PlayerBase::Draw() {
 void PlayerBase::AddGravity() {
 	// 下方向へ移動
 	drop_speed += GRAVITY;
-	pos_y += drop_speed;
+	pos.y += drop_speed;
 }
 
 void PlayerBase::SwimUp() {
-	// 上方向へ移動
-	drop_speed = Y_ADD;
-	pos_y += drop_speed;
+	// ベクトル付与
+	pos = tagGetStarVector(star_add);
+	// HACK:位置を初期化してしまっている
 }
 
 void PlayerBase::AngleAdjust(bool is_move_right) {
 	// 自機傾き変更、TRUEで右へ傾く
-	if (star_angle < MAX_ANGLE && star_angle > -MAX_ANGLE) {
-		star_angle += is_move_right ? X_ADD : -X_ADD;
+	if (star_angle.x < MAX_ANGLE && star_angle.x > -MAX_ANGLE) {
+		star_angle.x += is_move_right ? X_ADD : -X_ADD;
 	}
-	else if (star_angle > -MAX_ANGLE) {
-		star_angle = MAX_ANGLE - 1.f;
+	// 角度変更範囲設定
+	else if (star_angle.x > -MAX_ANGLE) {
+		star_angle.x = MAX_ANGLE - 1.f;
 	}
-	else if (star_angle < MAX_ANGLE) {
-		star_angle = -MAX_ANGLE + 1.f;
+	else if (star_angle.x < MAX_ANGLE) {
+		star_angle.x = -MAX_ANGLE + 1.f;
 	}
 }

@@ -2,9 +2,9 @@
 
 Star1::Star1() {
 	// 初期化
-	// 位置
-	pos_x = (float)WINDOW_W / 2.f - 100.f;
-	pos_y = (float)WINDOW_H / 2.f;
+	// 位置（画面左）
+	pos.x = (float)WINDOW_W / 2.f - 100.f;
+	pos.y = (float)WINDOW_H / 2.f;
 }
 
 Star1::~Star1() {

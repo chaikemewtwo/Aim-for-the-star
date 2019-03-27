@@ -11,19 +11,19 @@ const float TEXTURE_SIZE_X = 0.25f;
 const float TEXTURE_SIZE_Y = 0.25f;
 // 分割画像X枚数
 const int TEXTURE_PARTITION_X_NUMBER = 4;
-// 分割画像枚数
+// 分割画像Y枚数
 const int TEXTURE_PARTITION_Y_NUMBER = 4;
 //-----------------------------------------------------
 
 
 //-----------------------------------------------------
-// ゲーム内パラメータ
+// ゲーム内パラメータ用定数
 // 重力負荷
 const float GRAVITY = 0.01f;
 // X方向の移動量（左右移動）
 const float X_ADD = 1.f;
 // Y方向の移動量（ジャンプ）
-const float Y_ADD = -2.f;
+const float Y_ADD = -1.f;
 // 泳ぎインターバル
 const float SWIM_INTERVAL = 96.f;
 // 向き変更時最大角度
@@ -32,6 +32,25 @@ const float MAX_ANGLE = 45.f;
 const int SWIM_ANIMATION_SUPPORT_NUMBER = 6;
 //-----------------------------------------------------
 
+
+//-----------------------------------------------------
+// プレイヤー状態
+enum PlayerState {
+	PLAYER_STATE_NONE,              // null
+	PLAYER_STATE_DROP,              // 落下
+	PLAYER_STATE_SWIM,				// 泳ぎ
+	PLAYER_STATE_STAND_ON_OBJECT,	// オブジェクト上に立つ
+	PLAYER_STATE_STICK,				// 岩張り付き
+	PLAYER_STATE_DEATH,				// 死亡
+	PLAYER_STATE_MAX_NUM			// 最大値
+};
+//-----------------------------------------------------
+
+
+struct Vector2D {
+	float x;
+	float y;
+};
 
 class PlayerBase {
 public:
@@ -59,17 +78,21 @@ protected:
 	// X方向向き変更
 	void AngleAdjust(bool is_move_right);
 	
+
+	Vector2D tagGetStarVector(Vector2D v);
+
+	// 変数
 	// プレイヤーX座標
-	float pos_x;
-	// プレイヤーY座標
-	float pos_y;
+	Vector2D pos;
 	// HACK：pos_x,yはprivateにしたい
 
 	// 落下速度
 	float drop_speed;
 
 	// 自機画像角度
-	float star_angle;
+	Vector2D star_angle;
+
+	Vector2D star_add;
 
 	// 泳ぎアニメーション
 	int swim_animetion_num;
