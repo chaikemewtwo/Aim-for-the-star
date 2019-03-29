@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include<vector>
-#include"../Manager/ManagerData.h"
+#include"../Manager/Task.h"
 
 class TaskManager {
 public:
@@ -11,5 +11,5 @@ public:
 
 private:
 	// ここは管理クラスをまとめる所
-	std::vector<ManagerData*>m_mng_data;
+	std::vector<Task*>m_mng_data;
 };

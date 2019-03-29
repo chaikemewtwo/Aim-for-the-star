@@ -6,15 +6,18 @@
 #include<functional>
 
 
-/* 基底クラスのコンストラクタを使うにはpublicに
+/* 基底クラスのコンストラクタを使うには
+   派生先のクラスのpublicに
    using ManagerData::ManagerData;と書く      */
 
 // それぞれ管理クラスをまとめる抽象クラス
-class ManagerData {
+class Task {
 public:
 
 	// 生成時に必ずObjectのポインタを渡す
-	ManagerData(std::vector<Object*>&object);
+	Task(std::vector<Object*>&object);
+	// デフォコンも初期化に必要かも
+	Task() {};
 
 	// オブジェクトを追加する
 	void ObjectEntry(Object*obj);
@@ -23,7 +26,7 @@ public:
 	virtual void Entry() {};
 	// アップデート中の削除物を入れる
 	virtual void Exit() {};
-	virtual ~ManagerData() {};
+	virtual ~Task() {};
 	
 	// HACK
 	// 外からオブジェクトの参照を受け取って生成する場合に必要
