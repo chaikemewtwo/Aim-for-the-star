@@ -2,10 +2,15 @@
 
 
 
-void EnemyManager::Entry() {
+Object* EnemyManager::GetAfterTheEntry() {
 
 	// 生成
-	ObjectEntry(new Enemy);
+	
+	//if()条件
+	return new Enemy;
+
+	// 無かったらNULLを返す
+	return NULL;
 }
 
 void EnemyManager::Exit() {
@@ -13,17 +18,12 @@ void EnemyManager::Exit() {
 }
 
 
-void EnemyManager::EnemyExit(std::vector<Object*>&vec, int index) {
+std::vector<Object*> EnemyManager::GetAfterTheBatchEntry() {
 
-	// vector型オブジェクトの値を削除
-	delete vec[index];
-};
+m_enemy.emplace_back(new Enemy);
+m_batch_obj.emplace_back(m_enemy.back());
+m_enemy.emplace_back(new Enemy);
+m_batch_obj.emplace_back(m_enemy.back());
 
-// HACK
-//void EnemyManager::VectorObjectEntry(Object*obj, std::vector<Enemy*>&vec) {
-//
-//	vec.emplace_back(obj);
-//
-//	// アップキャスト,最小値の要素を代入
-//	m_object->emplace_back(vec.back());
-//}
+return m_batch_obj;
+}

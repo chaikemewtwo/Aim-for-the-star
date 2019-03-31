@@ -10,8 +10,8 @@ public:
 	virtual void Draw() = 0;
 	virtual ~Object() {};
 
-	bool GetLifeActive() {
-		return life_active;
+	bool IsActive() {
+		return m_active;
 	}
 
 protected:
@@ -20,5 +20,5 @@ protected:
 	// 拡縮
 	D3DXVECTOR2 m_scale;
 	// 生きているか
-	bool life_active;
+	bool m_active;
 };
