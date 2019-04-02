@@ -1,8 +1,7 @@
 ﻿#pragma once
 #include"../Manager/ManagerBase.h"
 #include"./PrototypeEnemy.h"
-
-
+#include"../ObjectConnector.h"
 
 /* マネージャークラスの例 */
 
@@ -10,18 +9,16 @@
 class EnemyManager : public ManagerBase {
 public:
 
-	// 親のコンストラクタを公開する
-	using ManagerBase::ManagerBase;
+	EnemyManager();
 
-	Object* GetAfterTheEntry()override;
-	std::vector<Object*> GetAfterTheBatchEntry()override;
+	void ObjectConnectorEntry(ObjectConnector*cca_mng)override;
+
 	void Exit()override;
 
 private:
 
 	// ここにオブジェクトを置いて管理する
 	std::vector<Enemy*>m_enemy;
-
-	// 渡す用
-	std::vector<Object*>m_batch_obj;
+	Enemy*enemy1;
+	Enemy*enemy2;
 };

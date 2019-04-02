@@ -4,6 +4,7 @@
 #include<memory>
 #include<algorithm>
 #include<functional>
+#include"../ObjectConnector.h"
 
 
 
@@ -12,12 +13,9 @@ class ManagerBase {
 public:
 	// デフォコン
 	ManagerBase() {};
-	
-	// ゲッターで生成するオブジェクトを一気に渡す
-	virtual std::vector<Object*> GetAfterTheBatchEntry()=0;
 
 	// オブジェクトを返す
-	virtual Object*GetAfterTheEntry() = 0;
+	virtual void ObjectConnectorEntry(ObjectConnector*ccaa_mng) = 0;
 
 	// アップデート中の削除物を入れる
 	virtual void Exit() {};
@@ -25,5 +23,15 @@ public:
 	virtual ~ManagerBase() {};
 protected:
 
-	int update_num;// 生成が更新されたら増える
+	// 生成が更新されたら増える
+	int update_num;
+
+	// 渡す用
+	std::vector<Object*>*m_obj;
 };
+
+/*
+
+一気に生成して返すBatchEntryはどうか
+
+*/

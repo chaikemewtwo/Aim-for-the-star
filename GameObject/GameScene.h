@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"../WrapperObject.h"
+#include"../ObjectAndManagerUser.h"
 
 
 class GameScene {
@@ -19,5 +19,5 @@ public:
 	}
 
 private:
-	WrapperObject top_obj_mng;
+	ObjectAndManagerUser top_obj_mng;
 };

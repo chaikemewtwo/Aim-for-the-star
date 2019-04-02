@@ -2,28 +2,42 @@
 
 
 
-Object* EnemyManager::GetAfterTheEntry() {
+
+EnemyManager::EnemyManager() {
+
+	// このように生成する
+	enemy1 = new Enemy;
+	enemy2 = new Enemy;
+}
+
+void EnemyManager::ObjectConnectorEntry(ObjectConnector*cca_mng) {
+	
+	// 試作です
 
 	// 生成
-	
-	//if()条件
-	return new Enemy;
+	if (enemy1 != nullptr) {
+		cca_mng->ObjectEntry(*enemy1);
+	}
 
-	// 無かったらNULLを返す
-	return NULL;
+	if (enemy2 != nullptr) {
+		cca_mng->ObjectEntry(*enemy2);
+	}
+		
+	// 削除
+	if (enemy1 != nullptr) {
+
+		enemy1 = nullptr;
+		delete enemy1;
+	}
+	if (enemy2 != nullptr) {
+
+		enemy2 = nullptr;
+		delete enemy2;
+	}
+	
+
 }
 
 void EnemyManager::Exit() {
 
-}
-
-
-std::vector<Object*> EnemyManager::GetAfterTheBatchEntry() {
-
-m_enemy.emplace_back(new Enemy);
-m_batch_obj.emplace_back(m_enemy.back());
-m_enemy.emplace_back(new Enemy);
-m_batch_obj.emplace_back(m_enemy.back());
-
-return m_batch_obj;
 }

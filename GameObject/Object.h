@@ -11,7 +11,7 @@ public:
 	virtual ~Object() {};
 
 	bool IsActive() {
-		return m_active;
+		return m_is_active;
 	}
 
 protected:
@@ -20,5 +20,5 @@ protected:
 	// 拡縮
 	D3DXVECTOR2 m_scale;
 	// 生きているか
-	bool m_active;
+	bool m_is_active;
 };
