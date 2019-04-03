@@ -4,16 +4,19 @@
 
 
 // オブジェクトの例
+// デバッグ中
 class Enemy : public Object {
 public:
 
 	Enemy() {
-		num = 0;
+		m_num = 0;
 	}
+
 	// 更新関数
 	void Update()override {
+		// 試作です
 		printf("Enemy Update\n");
-		printf("%d\n", num++);
+		printf("%d\n", m_num++);
 		
 	}
 	// 描画関数
@@ -22,5 +25,6 @@ public:
 	}
 
 private:
-	int num;
+	// デバッグ変数
+	int m_num;
 };

@@ -1,23 +1,21 @@
 ﻿#pragma once
-#include"../ObjectAndManagerUser.h"
+#include"../ObjectManager.h"
 
 
 class GameScene {
 
 public:
 
-	GameScene() {
-	
-	}
+	GameScene() {}
 
 	void Update() {
-		top_obj_mng.Update();
+		m_object_manager.Update();
 	}
 
 	void Draw() {
-		top_obj_mng.Draw();
+		m_object_manager.Draw();
 	}
 
 private:
-	ObjectAndManagerUser top_obj_mng;
+	ObjectManager m_object_manager;
 };

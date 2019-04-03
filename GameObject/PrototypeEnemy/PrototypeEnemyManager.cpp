@@ -3,41 +3,23 @@
 
 
 
-EnemyManager::EnemyManager() {
+EnemyManager::EnemyManager(ObjectManager*obj_mng) {
 
-	// このように生成する
-	enemy1 = new Enemy;
-	enemy2 = new Enemy;
+	// オブジェクトを入れる
+	if (m_obj_mng != nullptr) {
+		m_obj_mng = obj_mng;
+	}
 }
 
-void EnemyManager::ObjectConnectorEntry(ObjectConnector*cca_mng) {
-	
-	// 試作です
+void EnemyManager::Update() {
 
 	// 生成
-	if (enemy1 != nullptr) {
-		cca_mng->ObjectEntry(*enemy1);
-	}
+	m_enemy.emplace_back(new Enemy);
+	m_obj_mng->Entry(m_enemy.back());
+	m_id++;
 
-	if (enemy2 != nullptr) {
-		cca_mng->ObjectEntry(*enemy2);
-	}
-		
 	// 削除
-	if (enemy1 != nullptr) {
-
-		enemy1 = nullptr;
-		delete enemy1;
-	}
-	if (enemy2 != nullptr) {
-
-		enemy2 = nullptr;
-		delete enemy2;
-	}
-	
-
-}
-
-void EnemyManager::Exit() {
+	delete m_enemy.at(m_id);
+	m_obj_mng->Exit(m_id);
 
 }

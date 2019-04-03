@@ -2,27 +2,27 @@
 #include"../GameObject/Object.h"
 #include<vector>
 
+// 生成して参照を入れろ
 
-
-// 管理クラスを変換コネクトするクラス
-// 関連連結クラスともいう
+// 管理クラスをobectを連結するクラス
 class ObjectConnector {
 public:
 
-	// 初期化時にアドレスを受け取る
-	ObjectConnector(std::vector<Object*>&vector) {
-		m_obj = &vector;
+	// 配列の生ポインタを渡すのはいけない。
+	ObjectConnector() {};
+
+	// オブジェクトを登録できる
+	virtual Object* ObjectEntry(Object&obj) {
+		m_obj = &obj;
 	}
 
-	// オブジェクトを登録できる。
-	void ObjectEntry(Object&obj) {
-		m_obj->emplace_back(&obj);
+	// オブジェクトを送る
+	Object*GetObjector() {
+		return m_obj;
 	}
 
 private:
 	
-	// 注意!参照なので必ず参照を受け取ってから
-	// 入れる
-	// 関連データを入れる
-	std::vector<Object*>*m_obj;
+	// 注意!参照なので必ず参照を受け取ってから入れる
+	Object*m_obj;
 };

@@ -2,6 +2,7 @@
 #include"../Manager/ManagerBase.h"
 #include"./PrototypeEnemy.h"
 #include"../ObjectConnector.h"
+#include"../Manager/ManagerBase.h"
 
 /* マネージャークラスの例 */
 
@@ -9,16 +10,17 @@
 class EnemyManager : public ManagerBase {
 public:
 
-	EnemyManager();
+	// 親のコンストラクタを公開する
+	using ManagerBase::ManagerBase;
 
-	void ObjectConnectorEntry(ObjectConnector*cca_mng)override;
+	EnemyManager(ObjectManager*obj_and_mng);
 
-	void Exit()override;
+	void Update()override;
 
 private:
 
 	// ここにオブジェクトを置いて管理する
 	std::vector<Enemy*>m_enemy;
-	Enemy*enemy1;
-	Enemy*enemy2;
+	// オブジェクト管理
+	ObjectManager*m_obj_mng;
 };

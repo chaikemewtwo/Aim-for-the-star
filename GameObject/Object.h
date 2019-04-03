@@ -6,10 +6,13 @@
 
 class Object {
 public:
+
+	// 仮想関数
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 	virtual ~Object() {};
 
+	// 生きているか
 	bool IsActive() {
 		return m_is_active;
 	}
