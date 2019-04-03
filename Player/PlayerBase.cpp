@@ -15,7 +15,7 @@ PlayerBase::PlayerBase() {
 	// 泳ぎコマンドインターバル
 	swim_interval_count = SWIM_INTERVAL;
 
-	// 泳ぎアニメーション番号
+	// アニメーション番号
 	animation_num = 0;
 }
 
@@ -24,6 +24,7 @@ void PlayerBase::Update() {
 	Keybord& kb = Keybord::getInterface();
 
 	// 泳ぎアニメーション
+	// HACK:Stateパターン内で管理する
 	animation_num = swim_interval_count / SWIM_ANIMATION_SUPPORT_NUMBER;
 
 	//重力を付与(常時)
@@ -91,8 +92,8 @@ void PlayerBase::AngleAdjust(bool is_move_right) {
 
 void PlayerBase::SwimUp() {
 	// ベクトルの長さ(上方向への移動)
-	move_x = sin(character_angle * PI / 180) * move_speed;
-	move_y = cos(character_angle * PI / 180) * move_speed;
+	move_x = sin(character_angle * PI / (float)180.f) * move_speed;
+	move_y = cos(character_angle * PI / (float)180.f) * move_speed;
 
 	// 移動量インクリメント
 	pos_x += move_x;
