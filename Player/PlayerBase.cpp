@@ -1,54 +1,33 @@
 ﻿#include "PlayerBase.h"
-#include <math.h>
+#include <cmath>
 
 
 PlayerBase::PlayerBase() {
+	// 移動速度
+	move_speed = 2.f;
+
 	// 落下速度
 	drop_speed = 0.f;
 
 	// 傾き
-	star_angle.x = 0.f;
-	star_angle.y = 0.f;
-
-	star_add.x = X_ADD;
-	star_add.y = Y_ADD;
+	character_angle = 0.f;
 
 	// 泳ぎコマンドインターバル
 	swim_interval_count = SWIM_INTERVAL;
 
 	// 泳ぎアニメーション番号
-	swim_animetion_num = 0;
-}
-
-Vector2D PlayerBase::tagGetStarVector(Vector2D v) {
-	// ベクトルの長さ
-	float length = pow((v.x * v.x) + (v.y * v.y), 0.5);
-
-	pos.x = v.x / length;
-	pos.y = v.y / length;
-
-	return pos;
+	animation_num = 0;
 }
 
 void PlayerBase::Update() {
 	// HACK:自機2の操作を分離する
 	Keybord& kb = Keybord::getInterface();
 
-	// 泳ぎインターバルカウントアップ
-	++swim_interval_count;
-
 	// 泳ぎアニメーション
-	swim_animetion_num = swim_interval_count / SWIM_ANIMATION_SUPPORT_NUMBER;
+	animation_num = swim_interval_count / SWIM_ANIMATION_SUPPORT_NUMBER;
 
-	// 泳ぐ（ジャンプ）
-	if (kb.press('V') && swim_interval_count >= (int)SWIM_INTERVAL) {
-		SwimUp();
-		swim_interval_count = 0;
-	}
-	else {
-		// 重力負荷
-		AddGravity();
-	}
+	//重力を付与(常時)
+	AddGravity();
 
 	// 左右角度変更
 	// 左
@@ -59,49 +38,63 @@ void PlayerBase::Update() {
 	if ((kb.on('D'))) {
 		AngleAdjust(true);
 	}
+	// キャラクターが向いている角度に向かって泳ぐ
+	if (swim_interval_count >= SWIM_INTERVAL) {
+		if (kb.press('V')) {
+			swim_interval_count = 0;
+		}
+	}
+	else {
+		SwimUp();
+		// 泳ぎインターバルカウントアップ
+		++swim_interval_count;
+	}
 }
 
 void PlayerBase::Draw() {
-	// 自機1のものを使用
+	// 自機2にも自機1のものを使用中
 	// 第7、8引数が0.5fずつで中心座標から描画
 	Texture::Draw2D(
 		"Resource/de_swim.png",
-		pos.x,
-		pos.y,
+		pos_x,
+		pos_y,
 		TEXTURE_SIZE_X,
 		TEXTURE_SIZE_Y,
-		star_angle.x,
+		character_angle,
 		0.5f,
 		0.5f,
 		true,
 		TEXTURE_PARTITION_X_NUMBER,
 		TEXTURE_PARTITION_Y_NUMBER,
-		swim_animetion_num
+		animation_num
 	);
 }
 
 void PlayerBase::AddGravity() {
-	// 下方向へ移動
-	drop_speed += GRAVITY;
-	pos.y += drop_speed;
-}
-
-void PlayerBase::SwimUp() {
-	// ベクトル付与
-	pos = tagGetStarVector(star_add);
-	// HACK:位置を初期化してしまっている
+	// 常時下方向へ負荷がかかる
+	pos_y += GRAVITY;
 }
 
 void PlayerBase::AngleAdjust(bool is_move_right) {
 	// 自機傾き変更、TRUEで右へ傾く
-	if (star_angle.x < MAX_ANGLE && star_angle.x > -MAX_ANGLE) {
-		star_angle.x += is_move_right ? X_ADD : -X_ADD;
+	if (character_angle < MAX_ANGLE && character_angle > -MAX_ANGLE) {
+		character_angle += is_move_right ? ANGLE_ADD : -ANGLE_ADD;
 	}
 	// 角度変更範囲設定
-	else if (star_angle.x > -MAX_ANGLE) {
-		star_angle.x = MAX_ANGLE - 1.f;
+	else if (character_angle > -MAX_ANGLE) {
+		character_angle = MAX_ANGLE - 1.f;
 	}
-	else if (star_angle.x < MAX_ANGLE) {
-		star_angle.x = -MAX_ANGLE + 1.f;
+	else if (character_angle < MAX_ANGLE) {
+		character_angle = -MAX_ANGLE + 1.f;
 	}
+}
+
+void PlayerBase::SwimUp() {
+	// ベクトルの長さ(上方向への移動)
+	move_x = sin(character_angle * PI / 180) * move_speed;
+	move_y = cos(character_angle * PI / 180) * move_speed;
+
+	// 移動量インクリメント
+	pos_x += move_x;
+	pos_y -= move_y;
 }

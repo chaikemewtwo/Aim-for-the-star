@@ -3,54 +3,6 @@
 
 // MEMO:リファクタリングのため自機1と2の操作が同一になっています
 
-//-----------------------------------------------------
-// 描画調整用定数
-// テクスチャサイズ調整X座標用
-const float TEXTURE_SIZE_X = 0.25f;
-// テクスチャサイズ調整Y座標用
-const float TEXTURE_SIZE_Y = 0.25f;
-// 分割画像X枚数
-const int TEXTURE_PARTITION_X_NUMBER = 4;
-// 分割画像Y枚数
-const int TEXTURE_PARTITION_Y_NUMBER = 4;
-//-----------------------------------------------------
-
-
-//-----------------------------------------------------
-// ゲーム内パラメータ用定数
-// 重力負荷
-const float GRAVITY = 0.01f;
-// X方向の移動量（左右移動）
-const float X_ADD = 1.f;
-// Y方向の移動量（ジャンプ）
-const float Y_ADD = -1.f;
-// 泳ぎインターバル
-const float SWIM_INTERVAL = 96.f;
-// 向き変更時最大角度
-const float MAX_ANGLE = 45.f;
-// 泳ぎアニメーション補助用
-const int SWIM_ANIMATION_SUPPORT_NUMBER = 6;
-//-----------------------------------------------------
-
-
-//-----------------------------------------------------
-// プレイヤー状態
-enum PlayerState {
-	PLAYER_STATE_NONE,              // null
-	PLAYER_STATE_DROP,              // 落下
-	PLAYER_STATE_SWIM,				// 泳ぎ
-	PLAYER_STATE_STAND_ON_OBJECT,	// オブジェクト上に立つ
-	PLAYER_STATE_STICK,				// 岩張り付き
-	PLAYER_STATE_DEATH,				// 死亡
-	PLAYER_STATE_MAX_NUM			// 最大値
-};
-//-----------------------------------------------------
-
-
-struct Vector2D {
-	float x;
-	float y;
-};
 
 class PlayerBase {
 public:
@@ -60,46 +12,96 @@ public:
 	virtual ~PlayerBase() {}
 
 	// 更新処理
-	void Update();
 	// HACK：自機2も自機1の操作方法になっているので操作の分離が必要
-
+	void Update();
+	
 	// 描画処理
-	void Draw();
 	// MEMO:自機2も自機1の画像を使用中
+	void Draw();
 	
 protected:
+	//-----------------------------------------------------
+	// 描画調整用定数
+	// テクスチャサイズ調整X座標用
+	const float TEXTURE_SIZE_X = 0.25f;
+
+	// テクスチャサイズ調整Y座標用
+	const float TEXTURE_SIZE_Y = 0.25f;
+
+	// 分割画像X枚数
+	const int TEXTURE_PARTITION_X_NUMBER = 4;
+
+	// 分割画像Y枚数
+	const int TEXTURE_PARTITION_Y_NUMBER = 4;
+	//-----------------------------------------------------
+
+	//-----------------------------------------------------
+	// ゲーム内パラメータ用定数
+	// 重力負荷
+	const float GRAVITY = 1.f;
+
+	// 角度変換
+	const float ANGLE_ADD = 0.5f;
+
+	// 泳ぎインターバル
+	const int SWIM_INTERVAL = 96;
+
+	// 向き変更時最大角度
+	const float MAX_ANGLE = 45.f;
+
+	// 泳ぎアニメーション補助用
+	const int SWIM_ANIMATION_SUPPORT_NUMBER = 6;
+	//-----------------------------------------------------
+
+	//-----------------------------------------------------
+	// プレイヤー状態列挙型
+	enum State {
+		STATE_NONE,              // null
+		STATE_DROP,              // 落下
+		STATE_SWIM,				// 泳ぎ
+		STATE_STAND_ON_OBJECT,	// オブジェクト上に立つ
+		STATE_GET_STUCK,		// 岩張り付き
+		STATE_DEATH,			// 死亡
+		STATE_MAX_NUM			// 最大値
+	};
+	//-----------------------------------------------------
+
+	// 関数
 	// 重力負荷
 	void AddGravity();
-
-	// 泳ぐ（ジャンプ）
-	// HACK:向いている方向に泳ぎたい
-	void SwimUp();
 
 	// X方向向き変更
 	void AngleAdjust(bool is_move_right);
 	
 
-	Vector2D tagGetStarVector(Vector2D v);
-
 	// 変数
-	// プレイヤーX座標
-	Vector2D pos;
-	// HACK：pos_x,yはprivateにしたい
+	// プレイヤー座標
+	float pos_x,pos_y;
+
+	// X、Y方向移動量
+	float move_x, move_y;
+
+	// 移動速度
+	float move_speed;
 
 	// 落下速度
 	float drop_speed;
 
 	// 自機画像角度
-	Vector2D star_angle;
+	float character_angle;
 
-	Vector2D star_add;
-
-	// 泳ぎアニメーション
-	int swim_animetion_num;
+	// 挙動のアニメーション番号管理用
+	int animation_num;
 
 	// 泳ぎクールタイム計測用
 	int swim_interval_count;
 
 private:
-	
+	// 泳ぐ（ジャンプ）
+	// 傾いてる向きに移動
+	void SwimUp();
+
+	// アニメーション番号リセット用（未実装）
+	// 状態を切り替える際に使いたい
+	//void AnimationReset();
 };
