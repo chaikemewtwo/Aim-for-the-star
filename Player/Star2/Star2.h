@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../PlayerBase.h"
+#include "../PlayerBase/PlayerBase.h"
 
 
 // 自機2クラス
