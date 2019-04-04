@@ -1,26 +1,25 @@
 ﻿#pragma once
-#include"../Manager/ManagerBase.h"
 #include"./PrototypeEnemy.h"
-#include"../ObjectConnector.h"
 #include"../Manager/ManagerBase.h"
+#include<memory>
 
-/* マネージャークラスの例 */
+
+
+/* マネージャークラスの例.試作です */
 
 // ここで敵を管理できるようにする
 class EnemyManager : public ManagerBase {
 public:
 
-	// 親のコンストラクタを公開する
-	using ManagerBase::ManagerBase;
-
-	EnemyManager(ObjectManager*obj_and_mng);
+	// 親のコンストラクタも初期化する
+	EnemyManager(ObjectManagerToDoRegistr*manager);
 
 	void Update()override;
 
 private:
 
 	// ここにオブジェクトを置いて管理する
-	std::vector<Enemy*>m_enemy;
+	std::vector<std::unique_ptr<Enemy>>m_enemy;
 	// オブジェクト管理
-	ObjectManager*m_obj_mng;
+	ObjectManagerToDoRegistr*m_obj_mng;
 };

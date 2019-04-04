@@ -1,8 +1,9 @@
 ﻿#pragma once
 #include"../Object.h"
+#include<stdio.h>
 
 
-
+// HACK
 // オブジェクトの例
 // デバッグ中
 class Enemy : public Object {

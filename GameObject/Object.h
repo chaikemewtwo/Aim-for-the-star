@@ -24,4 +24,6 @@ protected:
 	D3DXVECTOR2 m_scale;
 	// 生きているか
 	bool m_is_active;
+	// 分割画像のナンバー(引数がintなのでint型)
+	int uv_div_graph_number;
 };
