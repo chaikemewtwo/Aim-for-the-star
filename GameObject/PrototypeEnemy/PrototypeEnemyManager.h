@@ -12,7 +12,7 @@ class EnemyManager : public ManagerBase {
 public:
 
 	// 親のコンストラクタも初期化する
-	EnemyManager(ObjectManagerToDoRegistr*manager);
+	EnemyManager(ObjectManager*manager);
 
 	void Update()override;
 
@@ -21,5 +21,5 @@ private:
 	// ここにオブジェクトを置いて管理する
 	std::vector<std::unique_ptr<Enemy>>m_enemy;
 	// オブジェクト管理
-	ObjectManagerToDoRegistr*m_obj_mng;
+	ObjectManager*m_obj_mng;
 };

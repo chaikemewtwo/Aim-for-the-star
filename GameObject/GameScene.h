@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"../GameObject/ObjectManagerToDoRegistr.h"
+#include"../GameObject/ObjectManager.h"
 
 
 /* ゲームシーンクラスの例です */
@@ -23,5 +23,5 @@ public:
 private:
 
 	// オブジェクトの生成管理者をここで定義
-	ObjectManagerToDoRegistr m_object_manager;
+	ObjectManager m_object_manager;
 };

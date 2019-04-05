@@ -11,21 +11,19 @@
 
 コンストラクタはメンバイニシャライザでObjectManagerを受け取る
 
-Entry関数はObjectクラスにObjectを継承した物を登録する
+Entry関数 = ObjectクラスにObjectを継承した物を登録する
 
-Exit関数は指定したint型番号の配列を消す。
-メモリの削除は要素のデストラクタが呼ばれた時に
-unique_ptrが勝手にやってくれる。
+Exit関数 = 指定したint型番号の配列を消す。
 
 */
 
 
 // MEMO
 // 登録を行うObject管理者という意味で付けました。
-class ObjectManagerToDoRegistr {
+class ObjectManager {
 public:
 
-	ObjectManagerToDoRegistr();
+	ObjectManager();
 
 	// 更新
 	void Update();

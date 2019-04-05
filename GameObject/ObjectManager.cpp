@@ -1,16 +1,16 @@
-﻿#include"ObjectManagerToDoRegistr.h"
+﻿#include"ObjectManager.h"
 #include"../GameObject/PrototypeEnemy/PrototypeEnemyManager.h"
 
 
 
-ObjectManagerToDoRegistr::ObjectManagerToDoRegistr() {
+ObjectManager::ObjectManager() {
 
 	// 管理クラス生成
 	m_mng_lists.emplace_back(new EnemyManager(this));
 }
 
 
-void ObjectManagerToDoRegistr::Update() {
+void ObjectManager::Update() {
 
 	// 更新
 	for (auto&itr : m_obj_lists) {
@@ -26,7 +26,7 @@ void ObjectManagerToDoRegistr::Update() {
 }
 
 
-void ObjectManagerToDoRegistr::Draw() {
+void ObjectManager::Draw() {
 
 	// 描画
 	for (auto&itr : m_obj_lists) {
@@ -35,13 +35,13 @@ void ObjectManagerToDoRegistr::Draw() {
 }
 
 
-void ObjectManagerToDoRegistr::Entry(Object*obj) {
+void ObjectManager::Entry(Object*obj) {
 
 	// Objectの要素を追加
 	m_obj_lists.emplace_back(obj);
 }
 
-void ObjectManagerToDoRegistr::Exit(int id) {
+void ObjectManager::Exit(int id) {
 
 	// Objectの配列番号の要素を削除
 	m_obj_lists.erase(m_obj_lists.begin() + id);

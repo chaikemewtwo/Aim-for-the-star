@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include"../Lib/D3D/D3D9.h"
 #include"../Lib/Window/Window.h"
+#include<unordered_map>
 
 // オブジェクト(抽象クラス)
 
@@ -24,6 +25,8 @@ protected:
 	D3DXVECTOR2 m_scale;
 	// 生きているか
 	bool m_is_active;
-	// 分割画像のナンバー(引数がintなのでint型)
-	int uv_div_graph_number;
+	// 分割画像のナンバー(画像の文字列がハッシュ,整数で受け取りを使ったらいい)
+	std::unordered_map<std::string,int>m_div_graph_lists;
+	// 画像の最大の数を入れる
+	std::vector<int>m_graph_max_num_lists;
 };

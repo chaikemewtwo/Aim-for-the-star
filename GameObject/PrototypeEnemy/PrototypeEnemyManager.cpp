@@ -1,10 +1,10 @@
 ﻿#include"./PrototypeEnemyManager.h"
-#include"../ObjectManagerToDoRegistr.h"
+#include"../ObjectManager.h"
 
 
 
 // 親のコンストラクタも行う
-EnemyManager::EnemyManager(ObjectManagerToDoRegistr*obj_mng) : ManagerBase(obj_mng) {
+EnemyManager::EnemyManager(ObjectManager*obj_mng) : ManagerBase(obj_mng) {
 
 	// オブジェクトを入れる
 	if (obj_mng != nullptr) {

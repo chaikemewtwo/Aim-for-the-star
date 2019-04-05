@@ -7,14 +7,14 @@
 
 
 // 前方宣言
-class ObjectManagerToDoRegistr;
+class ObjectManager;
 
 // それぞれ管理クラスをまとめる抽象クラス
 class ManagerBase {
 public:
 
 	// 必ずコンストラクタでポインタを受け取る
-	ManagerBase(ObjectManagerToDoRegistr*obj_and_mng) {};
+	ManagerBase(ObjectManager*obj_and_mng) {};
 
 	// 更新関数
 	virtual void Update() = 0;
@@ -23,7 +23,8 @@ public:
 	virtual ~ManagerBase() {};
 	
 protected:
+
 	// インデックス番号で消す場合に使う
-	int m_id;                    // 登録するid番号
+	int m_id;                    // 最新id番号で使う
 	std::vector<int>m_id_lists;  // id番号が入ってるもの
 };
