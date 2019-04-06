@@ -5,21 +5,24 @@
 
 
 
-/* オブジェクト登録クラス
+/* 説明書
 
-まずObjectクラスを継承する
+①Objectクラスを継承する。
 
-コンストラクタはメンバイニシャライザでObjectManagerを受け取る
+②ObjectManagerを仮引数に書く。
 
-Entry関数 = ObjectクラスにObjectを継承した物を登録する
+③ObjectManagerを実引数に入れる。
 
+②Entry関数でオブジェクトを登録する。
+
+生成と削除は下の関数を使う
+Entry関数 = ObjectクラスにObjectを継承した物を登録する。
 Exit関数 = 指定したint型番号の配列を消す。
 
 */
 
 
-// MEMO
-// 登録を行うObject管理者という意味で付けました。
+// オブジェクト管理クラス
 class ObjectManager {
 public:
 
@@ -36,8 +39,6 @@ public:
 	void Exit(int id);
 
 private:
-
-	// MEMO deleteの管理がめんどくさいのでunique_ptrを使いました
 
 	// ここは管理クラスをまとめる所
 	std::vector<std::unique_ptr<ManagerBase>>m_mng_lists;

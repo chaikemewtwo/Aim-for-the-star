@@ -3,8 +3,9 @@
 #include"../Lib/Window/Window.h"
 #include<unordered_map>
 
-// オブジェクト(抽象クラス)
 
+
+// オブジェクト(抽象クラス)
 class Object {
 public:
 
@@ -19,13 +20,14 @@ public:
 	}
 
 protected:
+
 	// 位置
 	D3DXVECTOR2 m_pos;
 	// 拡縮
 	D3DXVECTOR2 m_scale;
 	// 生きているか
 	bool m_is_active;
-	// 分割画像のナンバー(画像の文字列がハッシュ,整数で受け取りを使ったらいい)
+	// 分割画像のナンバー(画像名がハッシュキー,整数でアニメーションナンバー受け取り)
 	std::unordered_map<std::string,int>m_div_graph_lists;
 	// 画像の最大の数を入れる
 	std::vector<int>m_graph_max_num_lists;

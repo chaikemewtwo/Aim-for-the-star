@@ -10,22 +10,22 @@ EnemyManager::EnemyManager(ObjectManager*obj_mng) : ManagerBase(obj_mng) {
 	if (obj_mng != nullptr) {
 		m_obj_mng = obj_mng;
 	}
-	m_id = 0;
+	m_current_id = 0;
 }
 
 void EnemyManager::Update() {
 
 	// 生成
-	m_enemy.emplace_back(new Enemy);
+	m_enemy_lists.emplace_back(new Enemy);
 	// 一番後ろが最新なので後ろから入れる
-	m_obj_mng->Entry(m_enemy.back().get());
+	m_obj_mng->Entry(m_enemy_lists.back().get());
 	// idを加算する
-	m_id++;
+	m_current_id++;
 
 	
 	// 配列の削除
-	m_obj_mng->Exit(m_id);
+	m_obj_mng->Exit(m_current_id);
 	// idを減算する
-	m_id--;
+	m_current_id--;
 
 }

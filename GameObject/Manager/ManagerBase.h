@@ -6,6 +6,7 @@
 #include<functional>
 
 
+
 // 前方宣言
 class ObjectManager;
 
@@ -24,7 +25,7 @@ public:
 	
 protected:
 
-	// インデックス番号で消す場合に使う
-	int m_id;                    // 最新id番号で使う
+	/* インデックス番号で消す場合に使う */
+	int m_current_id;            // 現在の最新id番号で使う
 	std::vector<int>m_id_lists;  // id番号が入ってるもの
 };

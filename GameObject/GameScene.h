@@ -5,7 +5,6 @@
 /* ゲームシーンクラスの例です */
 
 class GameScene {
-
 public:
 
 	GameScene() {}
