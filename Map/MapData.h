@@ -2,7 +2,10 @@
 #include<string>
 #include<vector>
 
-// マップの情報を送るクラス
+
+
+
+// マップ関連の情報をいれるラッパークラス
 class MapData {
 public:
 

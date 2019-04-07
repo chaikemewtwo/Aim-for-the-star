@@ -10,6 +10,10 @@ public:
 
 	}
 
+	void SetMapData() {
+
+	}
+
 private:
 	
 };
