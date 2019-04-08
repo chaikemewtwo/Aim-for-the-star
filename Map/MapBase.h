@@ -8,6 +8,10 @@ public:
 	// コンストラクタで入れる
 	MapBase(MapData*md) {
 		pm_md = md;
+
+		// 初期化
+		pm_obj = new MapObject;
+		pm_bg = new BackGround(pm_md);
 	}
 
 	~MapBase() {
@@ -24,5 +28,8 @@ public:
 
 protected:
 
+	// マップに必要な情報
+	MapObject * pm_obj;
+	BackGround * pm_bg;
 	MapData * pm_md;
 };

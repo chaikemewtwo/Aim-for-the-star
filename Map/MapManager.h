@@ -3,7 +3,7 @@
 #include"MapBase.h"
 #include"MapLoader.h"
 #include"BackGround.h"
-#include"../MapObject.h"
+#include"./MapObject.h"
 #include<vector>
 #include<memory>
 
@@ -17,9 +17,6 @@ public:
 
 	MapManager() {
 
-		// 初期化
-		m_map_obj = new MapObject;
-		m_bg = new BackGround;
 		m_map_loader = new MapLoader;
 	}
 
@@ -29,9 +26,7 @@ public:
 	void Update();
 
 private:
-	MapBase *m_map_base;         // マップの選択
 
-	MapObject*m_map_obj;         // マップのオブジェクト管理
-	BackGround*m_bg;             // 背景
+	MapBase *m_map_base;         // マップの選択
 	MapLoader*m_map_loader;      // マップ読み込み
 };

@@ -1,5 +1,5 @@
-﻿#include"../MapClass/Map/MapLoader.h"
-#include"../MapClass/Map/MapData.h"
+﻿#include"MapLoader.h"
+#include"MapData.h"
 
 
 
@@ -15,7 +15,7 @@ MapData MapLoader::GetToLoadToCreateTheMapData(const std::string&map_name,const 
 }
 
 
-MapData MapLoader::MapLoad(const std::string&map_name) {
+void MapLoader::MapLoad(const std::string&map_name) {
 
 
 	FILE*fp;

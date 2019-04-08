@@ -4,6 +4,7 @@
 #include"MapData.h"
 
 
+
 class MapLoader {
 public:
 
@@ -13,7 +14,7 @@ public:
 private:
 
 	// ファイル名を受け取って使う
-	MapData MapLoad(const std::string&map_name);
+	void MapLoad(const std::string&map_name);
 
 	// 背景レイヤー
 	void BGLoad(const std::string&bg_name);
