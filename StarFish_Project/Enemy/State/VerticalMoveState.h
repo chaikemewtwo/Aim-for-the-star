@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"StateBaseh.h"
+#include"StateBase.h"
 
 // 縦移動クラス
 class VerticalMove :public StateBase {

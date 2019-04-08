@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"StateBaseh.h"
+#include"StateBase.h"
 
 // 追跡クラス
 class Chase :public StateBase {

@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"StateBaseh.h"
+#include"StateBase.h"
 
 // 待機クラス
 class Wait :public StateBase {
