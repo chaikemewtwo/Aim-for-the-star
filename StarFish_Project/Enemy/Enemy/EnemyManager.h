@@ -13,5 +13,5 @@ public:
 	void Draw();
 	void Create();
 
-	SeaUrchin *seaurchin[Enemy_Max_Num];
+	SeaUrchin *m_seaurchin[Enemy_Max_Num];
 };

@@ -7,14 +7,9 @@ SeaUrchin::SeaUrchin(float x,float y) {
 	m_posy = y;
 }
 
-SeaUrchin::~SeaUrchin() {
-	// 状態を解放
-	delete pm_state_base;
-}
-
 void SeaUrchin::Init() {
 	// StateをWaitで初期化
-	pm_state_base = Wait::GetInstance();
+	m_pstate_base = Wait::GetInstance();
 	Texture::Load("uni.jpg");
 	m_posx = 0;
 	m_posy = 0;
@@ -22,9 +17,13 @@ void SeaUrchin::Init() {
 }
 
 void SeaUrchin::Update() {
-	pm_state_base->Action();
+	m_pstate_base->Action();
 }
 
 void SeaUrchin::Draw() {
 	Texture::Draw2D("uni.jpg", m_posx, m_posy);
+}
+
+bool SeaUrchin::GetDeadFlag() {
+	return is_dead;
 }

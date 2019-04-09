@@ -14,6 +14,6 @@ public:
 	virtual void Draw() = 0;
 protected:
 	// 現在の状態変数
-	StateBase *pm_state_base;
+	StateBase *m_pstate_base;
 private:
 };
