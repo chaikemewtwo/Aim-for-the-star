@@ -41,18 +41,18 @@
 	MapObject  = マップのオブジェクトを描画するクラス。
 
 
-内部の処理:
+内部の処理(処理の流れ):
 
 	MapDataはファイル名などを入れるクラス
 
-	MapManagerで生成依頼を受ける
-	ファイル名をMapLoaderに渡す
+	①MapManagerで外部から生成依頼を受ける(Create関数)
+	②ファイル名をMapLoaderにコンストラクタで渡す
 
-	MapLoaderでMapDataを生成し、
-	読み込んだものをMapDataに入れる。
+	③MapLoaderでMapDataを生成し、
+	④読み込んだものをMapDataに入れる。
 
-	MapDataをSeaMapに渡す。
+	⑤MapDataをSeaMapにコンストラクタの引数で渡す。
 
-	SeaMapでMapDataからデータを取り出し、
+	⑥SeaMapでMapDataからファイル名チップ配列を取り出し、
 	MapObjectとBackGroundに渡す。
 
