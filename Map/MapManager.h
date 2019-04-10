@@ -1,9 +1,7 @@
 ﻿#pragma once
 #include"SeaMap.h"
 #include"MapBase.h"
-#include"MapLoader.h"
 #include"BackGround.h"
-#include"./MapObject.h"
 #include<vector>
 #include<memory>
 
@@ -17,16 +15,26 @@ public:
 
 	MapManager() {
 
-		m_map_loader = new MapLoader;
+		m_pbg = new BackGround;
+		m_pmap_base = new SeaMap;
+
+		m_pbg->BGLoad("Map");
 	}
 
-	// マップ生成
-	void MapCreate(MapBase&mb, std::string&map_file_name, std::string&bg_file_name);
+	~MapManager() {
+		// マップデータが入っている場合は削除する
+		if (m_pmap_base != nullptr) {
+
+			m_pmap_base = nullptr;
+			delete m_pmap_base;
+		}
+	}
+
 
 	void Update();
 
 private:
 
-	MapBase *m_map_base;         // マップの選択
-	MapLoader*m_map_loader;      // マップ読み込み
+	MapBase *m_pmap_base;         // マップの選択
+	BackGround*m_pbg;
 };

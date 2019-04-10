@@ -25,6 +25,11 @@ public:
 		m_map_chip[index_y][index_x] = chip;
 	}
 
+	// マップファイル名を返す
+	std::string GetMapName() {
+		return m_map_name;
+	}
+
 private:
 	// 初期化時に生成
 	std::string m_map_name;     // マップを読み込むファイル名

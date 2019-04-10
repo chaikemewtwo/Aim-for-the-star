@@ -1,18 +1,19 @@
 ﻿#pragma once
 #include"MapBase.h"
+#include"BackGround.h"
 
 
 
 class SeaMap : public MapBase{
 public:
 
-	SeaMap(MapData*md) : MapBase(md){
-
+	SeaMap() : MapBase(){
+		
 	}
 
 
 	// 更新
 	void Update() {
-
+		
 	}
 };

@@ -3,17 +3,19 @@
 
 
 
+// 背景クラス
 class BackGround : public Object{
 public:
 
 	// マップデータ受け取り
-	BackGround(MapData*md) {};
+	BackGround() {};
 
 	void Update() {
 
 	}
 
-	void SetMapData() {
+	// 背景の読み込み
+	void BGLoad(const std::string&file_name) {
 
 	}
 

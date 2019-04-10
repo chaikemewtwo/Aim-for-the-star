@@ -1,35 +1,27 @@
 ﻿#pragma once
 #include"MapData.h"
 
+
+
 // マップ生成抽象ベース
 class MapBase {
 public:
 
 	// コンストラクタで入れる
-	MapBase(MapData*md) {
-		pm_md = md;
-
-		// 初期化
-		pm_obj = new MapObject;
-		pm_bg = new BackGround(pm_md);
-	}
-
-	~MapBase() {
-		// マップが消えたらマップデータも消えるようにしたい
-		delete pm_md;
-	}
-
-	// 描画関数
-	void MapDraw(int y, int x, int h,MapData&map_data) {
+	MapBase() {
 
 	}
 
-	virtual void Draw() {};
+	virtual ~MapBase() {}
+
+	// マップ読み込み
+	void MapLoad(const std::string&file_name);
+
+	// マップの更新
+	virtual void Update() {};
 
 protected:
 
-	// マップに必要な情報
-	MapObject * pm_obj;
-	BackGround * pm_bg;
-	MapData * pm_md;
+	// マップ配列
+	int chip[1000][1000];
 };
