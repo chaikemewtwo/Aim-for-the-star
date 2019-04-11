@@ -307,31 +307,28 @@ void Map::Colision(float &pos_x, float &pos_y, float *move_x, float *move_y) {
 	// 現在、移動量増分のすり抜けが起こっている
 	float hsize = CHIP_SIZE / 2;
 
-	if (*move_x >= 32.f) {
-		*move_x = 32.f;
-	}
 
-	// Y軸床
-	if (GetChipParam(after_x + hsize, -after_y + CHIP_SIZE) == 1 ||
-		GetChipParam(after_x + CHIP_SIZE - hsize, -after_y + CHIP_SIZE)==1) {
+	// Y軸床(ジャンプフラグを作る)
+	if (GetChipParam(after_x + hsize, -after_y + CHIP_SIZE,4) == 1 ||
+		GetChipParam(after_x + CHIP_SIZE - hsize, -after_y + CHIP_SIZE,4) == 1) {
 
 		// チップサイズ割り出し
-		chip_pos_y = (float)(int)(-after_y / CHIP_SIZE);
+		chip_pos_y = static_cast<float>((int)((-after_y) / CHIP_SIZE + 1));
 		//  チップサイズ = 現在の位置 + 一つ前のチップ
-		pos_y = (-chip_pos_y * CHIP_SIZE) - CHIP_SIZE;// これが原因
+		pos_y = (chip_pos_y * -CHIP_SIZE) + CHIP_SIZE;// これが原因
 	
 		*move_y = 0.f;
 	}
 
 	
 	// Y軸天井
-	if (GetChipParam(after_x +hsize, -after_y,4) == 1 ||
+	else if (GetChipParam(after_x +hsize, -after_y,4) == 1 ||
 		GetChipParam(after_x + CHIP_SIZE -hsize, -after_y,4) == 1) {
 
 		// チップサイズ割り出し
-		chip_pos_y = (float)(int)(-after_y / CHIP_SIZE);
+		chip_pos_y = static_cast<float>((int)(-after_y / CHIP_SIZE));
 		//  チップサイズ = 現在の位置 + 一つ前のチップ
-		pos_y = (chip_pos_y * -CHIP_SIZE) - CHIP_SIZE;// これが原因
+		pos_y = (chip_pos_y * -CHIP_SIZE) - CHIP_SIZE;
 
 		// 移動ベクトルなし
 		*move_y = 0.f;
@@ -339,10 +336,10 @@ void Map::Colision(float &pos_x, float &pos_y, float *move_x, float *move_y) {
 
 
 	// X軸左
-	if (GetChipParam(after_x ,-after_y+hsize,4) == 1 ||
-		GetChipParam(after_x, -after_y+ CHIP_SIZE+hsize,4)==1) {// y軸も調べる
+	if (GetChipParam(after_x ,-after_y + hsize,4) == 1 ||
+		GetChipParam(after_x, -after_y+ CHIP_SIZE - hsize,4)==1) {// y軸も調べる
 
-		chip_pos_x = (float)((int)after_x / CHIP_SIZE + 1);// 移動後が大きいので補正
+		chip_pos_x = static_cast<float>((int)(after_x / CHIP_SIZE + 1));// 移動後が大きいので補正
 														   // 位置を戻す
 		pos_x = (chip_pos_x * CHIP_SIZE_F);
 
@@ -351,10 +348,10 @@ void Map::Colision(float &pos_x, float &pos_y, float *move_x, float *move_y) {
 	}
 
 	// X軸右
-	if (GetChipParam(after_x + CHIP_SIZE, -after_y+hsize,4) == 1 ||
-		GetChipParam(after_x + CHIP_SIZE, -after_y + CHIP_SIZE + hsize,4)==1) {
+	else if (GetChipParam(after_x + CHIP_SIZE, -after_y+hsize,4) == 1 ||
+		GetChipParam(after_x + CHIP_SIZE, -after_y + CHIP_SIZE - hsize,4)==1) {
 
-		chip_pos_x = (float)((int)(after_x - CHIP_SIZE) / CHIP_SIZE);
+		chip_pos_x = static_cast<float>((int)((after_x - CHIP_SIZE) / CHIP_SIZE));
 		// 位置を戻す
 		pos_x = (chip_pos_x * CHIP_SIZE_F) + CHIP_SIZE;
 
@@ -362,10 +359,6 @@ void Map::Colision(float &pos_x, float &pos_y, float *move_x, float *move_y) {
 		*move_x = 0.f;
 	}
 
-
-	if (*move_x >= 32.f) {
-		*move_x = 200;
-	}
 
 }
 
