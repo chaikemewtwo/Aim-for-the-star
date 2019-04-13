@@ -5,6 +5,8 @@ VerticalMove *VerticalMove::GetInstance() {
 	return &s_vertical_move;
 }
 
-void VerticalMove::Action() {
-	// 縦の直進移動処理
+// 縦の直線移動
+void VerticalMove::Action(EnemyBase* e) {
+	float y = e->GetPosY() + e->GetSpeed();
+	e->SetPosY(y);
 }

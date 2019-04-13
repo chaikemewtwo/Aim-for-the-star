@@ -5,6 +5,6 @@ Chase *Chase::GetInstance() {
 	return &s_chase;
 }
 
-void Chase::Action() {
+void Chase::Action(EnemyBase* e) {
 	// 追跡処理
 }

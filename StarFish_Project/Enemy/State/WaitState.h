@@ -4,8 +4,9 @@
 // 待機クラス
 class Wait :public StateBase {
 public:
+	// シングルトン
 	static Wait *GetInstance();
-	void Action()override;
+	void Action(EnemyBase* e)override;
 private:
-	Wait() {}
+	~Wait() {}
 };

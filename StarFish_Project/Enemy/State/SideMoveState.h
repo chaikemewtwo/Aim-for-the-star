@@ -4,8 +4,9 @@
 // 横移動クラス
 class SideMove :public StateBase {
 public:
+	// シングルトン
 	static SideMove *GetInstance();
-	void Action()override;
+	void Action(EnemyBase* e)override;
 private:
-	SideMove() {}
+	~SideMove() {}
 };
