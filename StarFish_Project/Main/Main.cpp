@@ -8,15 +8,19 @@
 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
-
 	// 初期化
 	if (DirectXInit() == false) {
 		return -1;
 	}
 
+	Keybord& kb = Keybord::getInterface();
 	EnemyManager e;
 
 	while (ProcessMessage() == true) {
+		kb.update();
+		if (kb.on(VK_ESCAPE)) {
+			break;
+		}
 
 		// 描画開始
 		if (DrawStart() == true) {

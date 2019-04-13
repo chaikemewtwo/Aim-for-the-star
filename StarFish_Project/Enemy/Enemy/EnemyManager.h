@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"../../Lib/Window/Window.h"
+#include<time.h>
 #include"SeaUrchin.h"
 
 // 敵の生成最大数(仮)
@@ -13,5 +13,7 @@ public:
 	void Draw();
 	void Create();
 
-	SeaUrchin *m_seaurchin[Enemy_Max_Num];
+private:
+	// ウニ配列
+	std::vector<SeaUrchin*> m_seaurchin;
 };
