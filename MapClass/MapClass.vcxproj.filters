@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{8d0f0db6-e0c3-477d-a7c2-8bc5015a38d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib">
+      <UniqueIdentifier>{2a0e684d-a495-4853-8d6b-01236cf42abf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Map\Object.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PosConnecter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Resource.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Map\MapManager.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Map\MapBase.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Map\SeaMap.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Map\BackGround.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\D3D\D3D9.h">
+      <Filter>Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Input\KeyBord.h">
+      <Filter>Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Texture\Texture.h">
+      <Filter>Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Texture\TextureBoad2D.h">
+      <Filter>Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\UV\UV.h">
+      <Filter>Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Window\Window.h">
+      <Filter>Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\Player.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Resource.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Map\BackGround.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="SeaMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Map\MapManager.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapBase.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\D3D\D3D9.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\UV\UV.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Texture\Texture.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Texture\TextureBoad2D.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Window\Window.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\Player.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
