@@ -13,7 +13,7 @@
 
 ③ObjectManagerを実引数に入れる。
 
-②Entry関数でオブジェクトを登録する。
+④Entry関数でオブジェクトを登録する。
 
 生成と削除は下の関数を使う
 Entry関数 = ObjectクラスにObjectを継承した物を登録する。

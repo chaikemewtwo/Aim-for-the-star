@@ -28,7 +28,7 @@ protected:
 	// 生きているか
 	bool m_is_active;
 	// 分割画像のナンバー(画像名がハッシュキー,整数でアニメーションナンバー受け取り)
-	std::unordered_map<std::string,int>m_div_graph_lists;
+	int m_div_graph_lists;
 	// 画像の最大の数を入れる
-	std::vector<int>m_graph_max_num_lists;
+	int m_graph_max_num_lists;
 };
