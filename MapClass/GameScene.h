@@ -1,26 +1,44 @@
 ﻿#pragma once
 #include"../MapClass/Map/MapManager.h"
-#include"../MapClass/PosConnecter.h"
+#include"../MapClass/PosConnector/PosConnecter.h"
 #include"../MapClass/Player/Player.h"
 
 
 
-
+// ゲームシーン
 class GameScene {
 public:
 
-	void Update() {
-		m_map_mng.Update();
-		m_pplayer.Update();
+	GameScene() {
+		// 生成
+		m_pplayer = new Player;// 試作用に自機を作成
+		m_pmap_mng = new MapManager;
 	}
 
+	void Update() {
+
+		// 更新
+		m_pmap_mng->Update();
+
+		// キャストアップ
+		m_pmap_mng->SetPosConnector(m_pplayer);
+
+		// 自機の更新()
+		m_pplayer->Update();
+	}
+
+	
 	void Draw() {
-		m_map_mng.Draw();
-		m_pplayer.Draw();
+		
+		// 描画
+		m_pmap_mng->Draw();
+		m_pplayer->Draw();
 	}
 
 private:
 
-	MapManager m_map_mng;
-	Player m_pplayer;
+	PosConnector * m_ppos_connector;
+	MapManager * m_pmap_mng;
+	Player * m_pplayer;
+
 };

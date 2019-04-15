@@ -24,9 +24,6 @@
     <ClInclude Include="Map\Object.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="PosConnecter.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Resource\Resource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -34,9 +31,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Map\MapManager.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="Map\MapBase.h">
       <Filter>Map</Filter>
     </ClInclude>
     <ClInclude Include="Map\SeaMap.h">
@@ -66,6 +60,9 @@
     <ClInclude Include="Player\Player.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="PosConnector\PosConnecter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -77,13 +74,7 @@
     <ClCompile Include="Map\BackGround.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="SeaMap.cpp">
-      <Filter>Map</Filter>
-    </ClCompile>
     <ClCompile Include="Map\MapManager.cpp">
-      <Filter>Map</Filter>
-    </ClCompile>
-    <ClCompile Include="MapBase.cpp">
       <Filter>Map</Filter>
     </ClCompile>
     <ClCompile Include="Lib\D3D\D3D9.cpp">
@@ -103,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="Player\Player.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Map\SeaMap.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 ﻿#pragma once
-#include"../MapClass/Map/Object.h"
+#include"../Map/Object.h"
+
 
 
 // 位置を外部に漏らさず繋げてくれる

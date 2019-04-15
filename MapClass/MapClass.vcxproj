@@ -30,15 +30,11 @@
     <ClInclude Include="Lib\UV\UV.h" />
     <ClInclude Include="Lib\Window\Window.h" />
     <ClInclude Include="Map\BackGround.h" />
-    <ClInclude Include="Map\MapBase.h" />
     <ClInclude Include="Map\MapManager.h" />
     <ClInclude Include="Map\Object.h" />
     <ClInclude Include="Map\SeaMap.h" />
     <ClInclude Include="Player\Player.h" />
-    <ClInclude Include="PosConnecter.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
+    <ClInclude Include="PosConnector\PosConnecter.h" />
     <ClInclude Include="Resource\Resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -51,18 +47,11 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="MapBase.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Map\BackGround.cpp" />
     <ClCompile Include="Map\MapManager.cpp" />
+    <ClCompile Include="Map\SeaMap.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Resource\Resource.cpp" />
-    <ClCompile Include="SeaMap.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

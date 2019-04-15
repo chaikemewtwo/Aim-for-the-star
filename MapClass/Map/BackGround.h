@@ -27,11 +27,15 @@ public:
 	static constexpr int SCROLL_SPEED = (int)SPEED / 3;
 	static constexpr float CHIP_SIZE = 128.f;
 
-	
 	BackGround();
 
-	// 背景スクロール
-	void Scroll();
+
+	// コネクター
+	void SetPosConnector(PosConnector*p) {
+		// 移動ベクトルを入れる
+		m_move_pos = p->GetMovePos();
+	}
+
 
 	// 毎回移動を持つ
 	void SetMovePos(const D3DXVECTOR2&pos) {
@@ -43,6 +47,7 @@ public:
 		m_pos = pos;
 	}
 
+
 	// アクセサ
 	D3DXVECTOR2 GetPos() {
 		return m_pos;
@@ -51,12 +56,7 @@ public:
 		return m_move_pos;
 	}
 
-	// 位置更新
-	void PosUpdate() {
-		m_pos += m_move_pos;
-	}
 	
-
 	// 背景の読み込み
 	//void BGLoad(const std::string&file_name);
 
@@ -64,6 +64,14 @@ public:
 	void Draw();
 
 private:
+
+	// 背景スクロール
+	void Scroll();
+
+	// 位置更新
+	void PosUpdate() {
+		m_pos += m_move_pos;
+	}
 
 	// 背景文字列
 	const char *m_pback_str[GRAPH_NUMBER];

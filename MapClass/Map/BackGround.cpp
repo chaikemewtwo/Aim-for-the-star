@@ -87,6 +87,7 @@ void BackGround::Scroll() {
 }
 
 void BackGround::Update() {
+
 	PosUpdate();
 	Scroll();
 }

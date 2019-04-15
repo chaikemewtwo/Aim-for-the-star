@@ -1,9 +1,9 @@
 ﻿#include"D3D9.h"
-#include"./Lib/Window/Window.h"
-#include"./Lib/Texture/Texture.h"
-#include"./Lib/Texture/TextureBoad2D.h"
-#include"./Lib/Input/KeyBord.h"
-#include"../MapClass/Map/SeaMap.h"
+#include"../Lib/Window/Window.h"
+#include"../Lib/Texture/Texture.h"
+#include"../Lib/Texture/TextureBoad2D.h"
+#include"../Lib/Input/KeyBord.h"
+#include"../Map/SeaMap.h"
 //#include"oxdebugfont.h"
 
 
@@ -25,8 +25,8 @@
 // 当たり判定はずらした分だけ戻ってもいい
 
 int map[SeaMap::MAP_SAET_NUM][SeaMap::MAP_NUM_Y][SeaMap::MAP_NUM_X] = {
-	{
-		{ 1,1,1,0,0,0,0,0,0,0,0,0,0,0,0, },
+{
+{ 1,1,1,0,0,0,0,0,0,0,0,0,0,0,0, },
 { 1,1,1,0,0,0,0,0,0,0,0,0,0,0,0, },
 { 1,1,1,0,0,0,0,0,0,0,0,0,1,1,1, },
 { 1,1,1,0,0,0,0,0,0,0,0,0,1,1,1, },
@@ -34,9 +34,9 @@ int map[SeaMap::MAP_SAET_NUM][SeaMap::MAP_NUM_Y][SeaMap::MAP_NUM_X] = {
 { 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1, },
 { 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1, },
 { 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1, },
-	},
+},
 {
-	{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
+{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
 { 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
 { 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
 { 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
@@ -46,17 +46,7 @@ int map[SeaMap::MAP_SAET_NUM][SeaMap::MAP_NUM_Y][SeaMap::MAP_NUM_X] = {
 { 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
 },
 {
-	{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
 { 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
-{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
-{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
-{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
-{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
-{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
-{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
-},
-{
-	{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
 { 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
 { 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
 { 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
@@ -66,7 +56,17 @@ int map[SeaMap::MAP_SAET_NUM][SeaMap::MAP_NUM_Y][SeaMap::MAP_NUM_X] = {
 { 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
 },
 {
-	{ 1,1,1,0,0,0,0,0,1,1,1,1,0,0,0, },
+{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
+{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
+{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
+{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
+{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
+{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
+{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
+{ 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
+},
+{
+{ 1,1,1,0,0,0,0,0,1,1,1,1,0,0,0, },
 { 1,1,1,0,0,0,0,0,1,1,1,1,0,0,0, },
 { 1,1,1,0,0,0,0,0,1,1,1,1,0,0,0, },
 { 1,1,1,0,0,0,0,0,1,1,1,1,0,0,0, },
@@ -76,6 +76,64 @@ int map[SeaMap::MAP_SAET_NUM][SeaMap::MAP_NUM_Y][SeaMap::MAP_NUM_X] = {
 { 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1, },
 },
 };
+
+
+
+void SeaMap::MapLoad(const std::string&file_name) {
+
+	// fgets行の終端の改行文字まで読み込み
+	
+		FILE*fp;                                // ストリーム
+		char fname[] = "MapTextFile/Map1.txt";  // ファイル名
+		char str_buf[256];                      // 文字列バッファ 
+
+		// ファイルオープン
+		fopen_s(&fp, fname, "r");
+
+		// ファイルが読み込まれてない場合
+		if (fp == NULL) {
+			return;
+		}
+
+		// 高さ 
+		int h = 0;
+
+		// 文字列読み込み、改行まで
+		while (fgets(str_buf, 256, fp) != NULL) {
+
+			// 最初が改行と空白なら戻す
+			if (str_buf[0] == '\n' || str_buf[0] == '\0') {
+				h++;
+				continue;
+			}
+
+			// 文字列読み込みfor
+			for (int j = 0; j < str_buf[j] != '\0'; j++) {
+
+				// ,なし
+				if (str_buf[j] == ',') {
+					continue;
+				}
+
+				// 文字列をバッファにいれる
+				char *str2 = &str_buf[j];
+
+				// 整数値変換
+				m_draw_map[h][j] = strtol(str2, NULL, 10);
+
+			}
+			// 文字列初期化
+			str_buf[0] = '\0';
+
+			// 次の行へ
+			h++;
+		}
+
+		// ファイルを閉じる
+		fclose(fp);
+		return;
+
+}
 
 
 // コンストラクタ
@@ -114,10 +172,10 @@ void SeaMap::MapInit() {
 		// マップを上げる
 		map_up = MAP_NUM_Y * z;
 
+		// マップ初期化
 		for (int y = 0; y < MAP_NUM_Y; y++) {
-			for (int x = 0; x < MAP_NUM_X; x++) {
+			for (int x = 0; x < MAP_NUM_X; x++){
 
-				// at(y + map_up).at(x)
 				// 参照にする予定,上から入れる。
 				m_draw_map[y + map_up][x] = map[(MAP_SAET_NUM - 1) - z][y][x];
 			}
@@ -125,11 +183,17 @@ void SeaMap::MapInit() {
 	}
 }
 
-// 描画
-void SeaMap::Draw() {
 
-	MapObjectCreateDraw();
+// 位置変更
+void SeaMap::SetPosConnector(PosConnector*pos_connector) {
+
+	// 位置変更
+	m_player_pos = pos_connector->GetPos();
+
+	// 移動位置変更
+	m_move_pos = pos_connector->GetMovePos();
 }
+
 
 // マップの描画
 void SeaMap::MapObjectCreateDraw() {
@@ -138,8 +202,7 @@ void SeaMap::MapObjectCreateDraw() {
 	// 描画位置の開始地点
 	D3DXVECTOR2 start_pos(0, 900);//y-50上の高さ
 
-
-								  // 前進するごとにチップを置き換える
+	// 前進するごとにチップを置き換える
 	m_draw_range_begin = GetChipPosCast(m_chip_pos.y) + MAP_NUM_Y;
 	m_draw_range_end = GetChipPosCast(m_chip_pos.y);
 
@@ -163,7 +226,6 @@ void SeaMap::MapObjectCreateDraw() {
 }
 
 
-
 /*
 どのような地形に対して
 どのように衝突したか
@@ -175,7 +237,7 @@ void SeaMap::MapColider() {
 	// 4隅調べる
 
 	// 当たり判定
-	Colision(m_player_pos.x, m_player_pos.y, &m_move_pos.x, &m_move_pos.y);
+	Collision(m_player_pos.x, m_player_pos.y, &m_move_pos.x, &m_move_pos.y);
 
 	// 加算
 	m_player_pos += m_move_pos;
@@ -190,7 +252,7 @@ void SeaMap::MapColider() {
 
 
 // 仮移動
-void SeaMap::Colision(float &pos_x, float &pos_y, float *move_x, float *move_y) {
+void SeaMap::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y) {
 
 	// 修正定数
 	const int RETOUCH = 1;
