@@ -1,12 +1,12 @@
 ﻿#include"ObjectManager.h"
-#include"../GameObject/PrototypeEnemy/PrototypeEnemyManager.h"
+
 
 
 
 ObjectManager::ObjectManager() {
 
-	// 管理クラス生成
-	m_mng_lists.emplace_back(new EnemyManager(this));
+	// 管理クラス生成例
+	//m_mng_lists.emplace_back(new EnemyManager(this));
 }
 
 

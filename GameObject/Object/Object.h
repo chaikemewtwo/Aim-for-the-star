@@ -1,6 +1,7 @@
 ﻿#pragma once
-#include"../Lib/D3D/D3D9.h"
-#include"../Lib/Window/Window.h"
+
+
+#include<d3dx9.h>
 #include<unordered_map>
 
 
