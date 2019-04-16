@@ -14,7 +14,7 @@ public:
 
 	/* 各定数 */
 
-	static constexpr int CHIP_SIZE = 128;                                   // 画像、全てのセルの大きさ
+	static constexpr int CHIP_SIZE = 64;                                    // 画像、全てのセルの大きさ
 	static constexpr float CHIP_SIZE_F = (float)CHIP_SIZE;                  // float版
 	static constexpr int INTERVAL_HEIGHT = 60;                              // 間隔をあけて遷移などをする
 	static constexpr int MAP_NUM_X = BackGround::GRAPH_SCALE_W / CHIP_SIZE; // 画面マップチップの大きさ
