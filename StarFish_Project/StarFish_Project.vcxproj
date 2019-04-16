@@ -18,6 +18,30 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+<<<<<<< HEAD
+=======
+  <ItemGroup>
+    <ClCompile Include="Enemy\Enemy\EnemyManager.cpp" />
+    <ClCompile Include="Enemy\Enemy\SeaUrchin.cpp" />
+    <ClCompile Include="Enemy\NapoleonFish.cpp" />
+    <ClCompile Include="Enemy\State\ChaseStatecpp.cpp" />
+    <ClCompile Include="Enemy\State\SideMoveState.cpp" />
+    <ClCompile Include="Enemy\State\VerticalMoveState.cpp" />
+    <ClCompile Include="Enemy\State\WaitState.cpp" />
+    <ClCompile Include="Main\Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
+    <ClInclude Include="Enemy\Enemy\EnemyManager.h" />
+    <ClInclude Include="Enemy\Enemy\SeaUrchin.h" />
+    <ClInclude Include="Enemy\State\ChaseState.h" />
+    <ClInclude Include="Enemy\State\SideMoveState.h" />
+    <ClInclude Include="Enemy\State\StateBase.h" />
+    <ClInclude Include="Enemy\State\StateBaseh.h" />
+    <ClInclude Include="Enemy\State\VerticalMoveState.h" />
+    <ClInclude Include="Enemy\State\WaitState.h" />
+  </ItemGroup>
+>>>>>>> master
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{FD9ED209-6EED-49F2-9267-236B129902A3}</ProjectGuid>

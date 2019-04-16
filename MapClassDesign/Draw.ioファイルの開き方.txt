@@ -1,8 +1,0 @@
-﻿
-
-Draw.io拡張子のファイルを見る場合。
-
-	https://www.draw.io/にアクセス。
-	OpenExitDiagramを選択GitHubにある
-	Draw.ioの拡張子のあるファイルをローカルに戻す。
-	Deviceからさっきのファイルを選択
