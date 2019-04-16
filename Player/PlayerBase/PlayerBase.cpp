@@ -2,18 +2,21 @@
 #include <cmath>
 
 
-PlayerBase::PlayerBase() {
+PlayerBase::PlayerBase() /*:m_state(new WaitState)*/{
 	// 移動速度
 	m_move_speed = 2.f;
 
 	// 傾き
 	m_character_angle = 0.f;
 
-	// 泳ぎコマンドインターバル
+	// 泳ぎコマンドインターバル、初期化時はMAX値
 	m_swim_interval_count = SWIM_INTERVAL;
 
 	// アニメーション番号
 	m_animation_number = 0;
+
+	// 初期化時に表示する画像
+	m_player_texture/*[WAIT]*/;
 }
 
 
@@ -21,10 +24,10 @@ void PlayerBase::Update() {
 	// HACK:自機2の操作を分離する
 	Keybord& kb = Keybord::getInterface();
 
-	// 泳ぎアニメーション
-	// HACK:Stateパターン内で管理する
-	m_animation_number = m_swim_interval_count / SWIM_ANIMATION_SUPPORT_NUMBER;
 
+	//-----------------------------------------------------
+	// 張り付き状態、死亡状態以外共通処理
+	// HACK:関数化したほうがスッキリするかも
 	//重力を付与(常時)
 	AddGravity();
 
@@ -37,6 +40,13 @@ void PlayerBase::Update() {
 	if ((kb.on('D'))) {
 		AngleAdjust(true);
 	}
+	//-----------------------------------------------------
+
+	/*m_state->Update(this);*/
+
+	// 泳ぎアニメーション
+	m_animation_number = m_swim_interval_count / SWIM_ANIMATION_SUPPORT_NUMBER;
+
 	// キャラクターが向いている角度に向かって泳ぐ
 	if (m_swim_interval_count >= SWIM_INTERVAL) {
 		if (kb.press('V')) {
@@ -53,9 +63,9 @@ void PlayerBase::Update() {
 
 void PlayerBase::Draw() {
 	// 自機2にも自機1のものを使用中
-	// 第7、8引数が0.5fずつで中心座標から描画
+	// 第7、8引数が0.5fずつで中心座標から描画	
 	Texture::Draw2D(
-		"Resource/de_swim.png",
+		m_player_texture/*[MAX_STATE_NUMBER]*/.c_str(),
 		m_pos_x,
 		m_pos_y,
 		TEXTURE_SIZE_X,
@@ -103,6 +113,14 @@ void PlayerBase::SwimUp() {
 }
 
 
-void PlayerBase::AnimationReset() {
-	m_animation_number = 0;
+void PlayerBase::SetAnimationNumber(int new_animation_number) {
+	// アニメーション番号上書き
+	m_animation_number = new_animation_number;
 }
+
+
+
+//void PlayerBase::ChangeState(STATE* new_state) {
+//	delete this->m_state;
+//	this->m_state = new_state;
+//}

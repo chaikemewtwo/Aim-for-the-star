@@ -6,6 +6,6 @@
 class DeathState : public PlayerStateBase {
 public:
 	void Update(PlayerBase* p) override;
-	void Draw(PlayerBase* p) override;
+	void Init(PlayerBase* p) override;
 
 };

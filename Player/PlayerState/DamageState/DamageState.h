@@ -3,8 +3,10 @@
 
 
 // 被弾状態
+// HACK:被弾状態は不要な可能性がある
 class DamageState : public PlayerStateBase {
 public:
+	void Init(PlayerBase* p) override;
 	void Update(PlayerBase* p) override;
-	void Draw(PlayerBase* p) override;
+	
 };

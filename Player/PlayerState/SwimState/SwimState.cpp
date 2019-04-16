@@ -2,12 +2,20 @@
 
 
 // 泳ぎ状態
-// 更新
-void SwimState::Update(PlayerBase* p) {
-
+// 初期化
+void SwimState::Init(PlayerBase* p) {
+	count = 0;
+	// アニメーション番号
+	p->SetAnimationNumber(0);
+	// 描画する画像の変更
+	p->SWIM;
 }
 
-// 描画
-void SwimState::Draw(PlayerBase* p) {
 
+// 更新
+void SwimState::Update(PlayerBase* p) {
+	/*++count;
+	if (count <= MAX_COUNT) {
+		p->ChangeState(new WaitState);
+	}*/
 }

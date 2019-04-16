@@ -2,13 +2,14 @@
 
 
 // 死亡状態
-// 更新
-void DeathState::Update(PlayerBase* p) {
-
+// 初期化
+void DeathState::Init(PlayerBase* p) {
+	// アニメーション番号
+	p->SetAnimationNumber(0);
 }
 
 
-// 描画
-void DeathState::Draw(PlayerBase* p) {
+// 更新
+void DeathState::Update(PlayerBase* p) {
 
 }

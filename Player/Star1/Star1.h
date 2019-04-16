@@ -6,8 +6,5 @@
 class Star1 : public PlayerBase {
 public:
 	Star1();
-	~Star1();
-
-private:
 
 };
