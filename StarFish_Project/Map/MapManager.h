@@ -24,6 +24,8 @@ public:
 		
 		// 海マップにセット
 		m_pmap_tip->SetPlayer(player);
+
+		// ゲッターで返す
 		player->SetPosition(m_pmap_tip->GetPos());
 		player->SetPMovePos(m_pmap_tip->GetMovePos());
 

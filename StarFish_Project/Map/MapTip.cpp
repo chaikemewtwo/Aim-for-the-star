@@ -25,16 +25,27 @@
 // 当たり判定はずらした分だけ戻ってもいい
 
 // 試し
+/*
 int map[MapTip::MAP_SAET_NUM][MapTip::MAP_NUM_Y][MapTip::MAP_NUM_X] = {
 {
-{ 1,1,1,0,0,0,0,0,0,0,0,0,0,0,0, },
-{ 1,1,1,0,0,0,0,0,0,0,0,0,0,0,0, },
-{ 1,1,1,0,0,0,0,0,0,0,0,0,1,1,1, },
-{ 1,1,1,0,0,0,0,0,0,0,0,0,1,1,1, },
-{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1, },
-{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1, },
-{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1, },
-{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
+{ 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1, },
 },
 {
 { 1,1,1,1,1,0,0,0,1,1,1,1,1,1,1, },
@@ -77,62 +88,60 @@ int map[MapTip::MAP_SAET_NUM][MapTip::MAP_NUM_Y][MapTip::MAP_NUM_X] = {
 { 1,1,1,0,0,0,0,0,1,1,1,1,1,1,1, },
 },
 };
-
+*/
 
 
 void MapTip::Load(const std::string&file_name) {
 
+
 	// fgets行の終端の改行文字まで読み込み
-	
-		FILE*fp;                                // ストリーム
-		char fname[] = "MapTextFile/Map1.txt";  // ファイル名
-		char str_buf[256];                      // 文字列バッファ 
+	FILE*fp;                                  // ストリーム
+	const char *fname = file_name.c_str();    // ファイル名
+	char str_buf[256];                        // 文字列バッファ 
 
-		// ファイルオープン
-		fopen_s(&fp, fname, "r");
+	// ファイルオープン
+	fopen_s(&fp, fname, "r");
 
-		// ファイルが読み込まれてない場合
-		if (fp == NULL) {
-			return;
-		}
-
-		// 高さ 
-		int h = 0;
-
-		// 文字列読み込み、改行まで
-		while (fgets(str_buf, 256, fp) != NULL) {
-
-			// 最初が改行と空白なら戻す
-			if (str_buf[0] == '\n' || str_buf[0] == '\0') {
-				h++;
-				continue;
-			}
-
-			// 文字列読み込みfor
-			for (int j = 0; j < str_buf[j] != '\0'; j++) {
-
-				// ,なし
-				if (str_buf[j] == ',') {
-					continue;
-				}
-
-				// 文字列をバッファにいれる
-				char *str2 = &str_buf[j];
-
-				// 整数値変換
-				m_draw_map[h][j] = strtol(str2, NULL, 10);
-
-			}
-			// 文字列初期化
-			str_buf[0] = '\0';
-
-			// 次の行へ
-			h++;
-		}
-
-		// ファイルを閉じる
-		fclose(fp);
+	// ファイルが読み込まれてない場合
+	if (fp == NULL) {
 		return;
+	}
+
+	// 縦 
+	int h = 0;
+	
+	int w = 0;
+
+	// 文字列読み込み、改行まで
+	while (fgets(str_buf, 256, fp) != NULL) {
+
+		// 最初が改行と空白なら戻す
+		if (str_buf[0] == '\n' || str_buf[0] == '\0') {
+			h++;
+			continue;
+		}
+
+		// 文字列をバッファにいれる
+		char *str2 = str_buf;
+
+		// 次の列へ
+		while(*str2 !='\0'&& *str2 != '\n') {
+
+			// 整数値変換
+			m_draw_map[h][w++] = strtol(str2,NULL,10);
+
+		   *str2++;
+		}
+		// 文字列初期化
+		str_buf[0] = '\0';
+
+		// 次の行へ
+		h++;
+	}
+
+	// ファイルを閉じる
+	fclose(fp);
+	return;
 
 }
 
@@ -154,7 +163,10 @@ MapTip::MapTip() {
 	// 動的生成
 	//m_draw_map = new std::vector<std::vector<int>>;
 
-	MapInit();
+	//MapInit();
+
+	// ファイル読み込み
+	Load("MapData/MapData.txt");
 }
 
 // 更新
@@ -178,7 +190,7 @@ void MapTip::MapInit() {
 			for (int x = 0; x < MAP_NUM_X; x++){
 
 				// 参照にする予定,上から入れる。
-				m_draw_map[y + map_up][x] = map[(MAP_SAET_NUM - 1) - z][y][x];
+				//m_draw_map[y + map_up][x] = map[(MAP_SAET_NUM - 1) - z][y][x];
 			}
 		}
 	}
@@ -219,8 +231,8 @@ void MapTip::ObjectCreatedDraw() {
 			// この配列描画
 			if (m_draw_map[y][x] == 1) {
 
-				Texture::Draw2D("Texture/renga.png", (float)(x * CHIP_SIZE) + start_pos.x,
-					(float)(-y * CHIP_SIZE) + (INTERVAL_HEIGHT)+m_chip_pos.y + start_pos.y);
+				Texture::Draw2D("Texture/renga2.png", (float)(x * CHIP_SIZE) + start_pos.x,
+					(float)(-y * CHIP_SIZE) + (INTERVAL_HEIGHT) + m_chip_pos.y + start_pos.y);
 			}
 		}
 	}
@@ -353,13 +365,14 @@ int MapTip::GetChipParam(const float &pos_x, const float&pos_y, const int&map_nu
 		return 0;
 	}
 
-	return map[map_number][py][px];
+	// マップの当たり判定をm_draw_mapに変更
+	return m_draw_map[py][px];
 }
 
 // 所定位置にブロックを置く
 void MapTip::SetPosParam(const int&pos_x, const int&pos_y, const int &cell, const int&map_number) {
 
-	map[map_number][pos_y][pos_x] = cell;
+	//map[map_number][pos_y][pos_x] = cell;
 }
 
 
