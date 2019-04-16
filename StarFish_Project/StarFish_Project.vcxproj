@@ -18,6 +18,27 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Enemy\NapoleonFish.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Enemy\SeaUrchin.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Enemy\ShellFish.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Main\Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Enemy\StateBaseh.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{FD9ED209-6EED-49F2-9267-236B129902A3}</ProjectGuid>
