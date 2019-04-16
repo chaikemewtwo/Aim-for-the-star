@@ -18,6 +18,8 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+<<<<<<< HEAD
+=======
   <ItemGroup>
     <ClCompile Include="Enemy\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Enemy\Enemy\SeaUrchin.cpp" />
@@ -39,6 +41,7 @@
     <ClInclude Include="Enemy\State\VerticalMoveState.h" />
     <ClInclude Include="Enemy\State\WaitState.h" />
   </ItemGroup>
+>>>>>>> master
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{FD9ED209-6EED-49F2-9267-236B129902A3}</ProjectGuid>

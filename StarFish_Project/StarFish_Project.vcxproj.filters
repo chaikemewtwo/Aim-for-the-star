@@ -14,6 +14,8 @@
     <ClCompile Include="Main\Main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+<<<<<<< HEAD
+=======
     <ClCompile Include="Enemy\Enemy\EnemyManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -46,5 +48,6 @@
     <ClInclude Include="Enemy\State\StateBase.h" />
     <ClInclude Include="Enemy\State\VerticalMoveState.h" />
     <ClInclude Include="Enemy\State\WaitState.h" />
+>>>>>>> master
   </ItemGroup>
 </Project>
