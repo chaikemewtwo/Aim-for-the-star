@@ -16,7 +16,7 @@ PlayerBase::PlayerBase() /*:m_state(new WaitState)*/{
 	m_animation_number = 0;
 
 	// 初期化時に表示する画像
-	m_player_texture/*[WAIT]*/;
+	/*m_player_texture[WAIT];*/
 }
 
 
@@ -42,8 +42,10 @@ void PlayerBase::Update() {
 	}
 	//-----------------------------------------------------
 
+	// 状態推移はステートで切り替え予定
 	/*m_state->Update(this);*/
 
+	// 以下の処理は全てステートで管理する
 	// 泳ぎアニメーション
 	m_animation_number = m_swim_interval_count / SWIM_ANIMATION_SUPPORT_NUMBER;
 
