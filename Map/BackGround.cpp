@@ -1,3 +1,0 @@
-﻿#include"./Map/BackGround.h"
-
-

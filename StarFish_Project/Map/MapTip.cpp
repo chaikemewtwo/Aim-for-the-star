@@ -3,7 +3,7 @@
 #include"../Lib/Texture/Texture.h"
 #include"../Lib/Texture/TextureBoad2D.h"
 #include"../Lib/Input/KeyBord.h"
-#include"../Map/SeaMap.h"
+#include"../Map/MapTip.h"
 //#include"oxdebugfont.h"
 
 
@@ -24,7 +24,8 @@
 // 2枚の背景でいける
 // 当たり判定はずらした分だけ戻ってもいい
 
-int map[SeaMap::MAP_SAET_NUM][SeaMap::MAP_NUM_Y][SeaMap::MAP_NUM_X] = {
+// 試し
+int map[MapTip::MAP_SAET_NUM][MapTip::MAP_NUM_Y][MapTip::MAP_NUM_X] = {
 {
 { 1,1,1,0,0,0,0,0,0,0,0,0,0,0,0, },
 { 1,1,1,0,0,0,0,0,0,0,0,0,0,0,0, },
@@ -79,7 +80,7 @@ int map[SeaMap::MAP_SAET_NUM][SeaMap::MAP_NUM_Y][SeaMap::MAP_NUM_X] = {
 
 
 
-void SeaMap::MapLoad(const std::string&file_name) {
+void MapTip::Load(const std::string&file_name) {
 
 	// fgets行の終端の改行文字まで読み込み
 	
@@ -137,7 +138,7 @@ void SeaMap::MapLoad(const std::string&file_name) {
 
 
 // コンストラクタ
-SeaMap::SeaMap() {
+MapTip::MapTip() {
 
 	m_player_pos.x = ((WINDOW_W_F / 2) - 200.f);
 	m_player_pos.y = (-WINDOW_H_F / 2);// 高さは表示と逆の操作になるので、-変換 
@@ -157,13 +158,13 @@ SeaMap::SeaMap() {
 }
 
 // 更新
-void SeaMap::Update() {
+void MapTip::Update() {
 
 	MapColider();
 }
 
 
-void SeaMap::MapInit() {
+void MapTip::MapInit() {
 
 	int map_up = 0;
 
@@ -185,18 +186,18 @@ void SeaMap::MapInit() {
 
 
 // 位置変更
-void SeaMap::SetPosConnector(PosConnector*pos_connector) {
+void MapTip::SetPlayer(Player*player) {
 
 	// 位置変更
-	m_player_pos = pos_connector->GetPos();
+	m_player_pos = player->GetPosition();
 
 	// 移動位置変更
-	m_move_pos = pos_connector->GetMovePos();
+	m_move_pos = player->GetPMovePos();
 }
 
 
 // マップの描画
-void SeaMap::MapObjectCreateDraw() {
+void MapTip::ObjectCreatedDraw() {
 
 
 	// 描画位置の開始地点
@@ -232,7 +233,9 @@ void SeaMap::MapObjectCreateDraw() {
 どこに戻るか
 */
 
-void SeaMap::MapColider() {
+
+void MapTip::MapColider() {
+
 
 	// 4隅調べる
 
@@ -252,14 +255,14 @@ void SeaMap::MapColider() {
 
 
 // 仮移動
-void SeaMap::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y) {
+void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y) {
 
 	// 修正定数
 	const int RETOUCH = 1;
 
 	// 移動後の座標を入れる
-	float after_x = pos_x + *move_x;
-	float after_y = pos_y + *move_y;
+	float after_pos_x = pos_x + *move_x;
+	float after_pos_y = pos_y + *move_y;
 
 	// 入ったマップチップの座標を割り出す
 	float chip_pos_x = 0;
@@ -277,11 +280,11 @@ void SeaMap::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 
 
 	// Y軸床(ジャンプフラグを作る)
-	if (GetChipParam(after_x + hsize, -after_y + CHIP_SIZE, 4) == 1 ||
-		GetChipParam(after_x + CHIP_SIZE - hsize, -after_y + CHIP_SIZE, 4) == 1) {
+	if (GetChipParam(after_pos_x + hsize, -after_pos_y + CHIP_SIZE, 4) == 1 ||
+		GetChipParam(after_pos_x + CHIP_SIZE - hsize, -after_pos_y + CHIP_SIZE, 4) == 1) {
 
 		// チップサイズ割り出し
-		chip_pos_y = static_cast<float>((int)((-after_y) / CHIP_SIZE + 1));
+		chip_pos_y = static_cast<float>((int)((-after_pos_y) / CHIP_SIZE + 1));
 		//  チップサイズ = 現在の位置 + 一つ前のチップ
 		pos_y = (chip_pos_y * -CHIP_SIZE) + CHIP_SIZE;// これが原因
 
@@ -290,11 +293,11 @@ void SeaMap::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 
 
 	// Y軸天井
-	else if (GetChipParam(after_x + hsize, -after_y, 4) == 1 ||
-		GetChipParam(after_x + CHIP_SIZE - hsize, -after_y, 4) == 1) {
+	else if (GetChipParam(after_pos_x + hsize, -after_pos_y, 4) == 1 ||
+		GetChipParam(after_pos_x + CHIP_SIZE - hsize, -after_pos_y, 4) == 1) {
 
 		// チップサイズ割り出し
-		chip_pos_y = static_cast<float>((int)(-after_y / CHIP_SIZE));
+		chip_pos_y = static_cast<float>((int)(-after_pos_y / CHIP_SIZE));
 		//  チップサイズ = 現在の位置 + 一つ前のチップ
 		pos_y = (chip_pos_y * -CHIP_SIZE) - CHIP_SIZE;
 
@@ -304,10 +307,10 @@ void SeaMap::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 
 
 	// X軸左
-	if (GetChipParam(after_x, -after_y + hsize, 4) == 1 ||
-		GetChipParam(after_x, -after_y + CHIP_SIZE - hsize, 4) == 1) {// y軸も調べる
+	if (GetChipParam(after_pos_x, -after_pos_y + hsize, 4) == 1 ||
+		GetChipParam(after_pos_x, -after_pos_y + CHIP_SIZE - hsize, 4) == 1) {// y軸も調べる
 
-		chip_pos_x = static_cast<float>((int)(after_x / CHIP_SIZE + 1));// 移動後が大きいので補正
+		chip_pos_x = static_cast<float>((int)(after_pos_x / CHIP_SIZE + 1));// 移動後が大きいので補正
 																		// 位置を戻す
 		pos_x = (chip_pos_x * CHIP_SIZE_F);
 
@@ -316,10 +319,10 @@ void SeaMap::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 	}
 
 	// X軸右
-	else if (GetChipParam(after_x + CHIP_SIZE, -after_y + hsize, 4) == 1 ||
-		GetChipParam(after_x + CHIP_SIZE, -after_y + CHIP_SIZE - hsize, 4) == 1) {
+	else if (GetChipParam(after_pos_x + CHIP_SIZE, -after_pos_y + hsize, 4) == 1 ||
+		GetChipParam(after_pos_x + CHIP_SIZE, -after_pos_y + CHIP_SIZE - hsize, 4) == 1) {
 
-		chip_pos_x = static_cast<float>((int)((after_x - CHIP_SIZE) / CHIP_SIZE));
+		chip_pos_x = static_cast<float>((int)((after_pos_x - CHIP_SIZE) / CHIP_SIZE));
 		// 位置を戻す
 		pos_x = (chip_pos_x * CHIP_SIZE_F) + CHIP_SIZE;
 
@@ -334,12 +337,12 @@ void SeaMap::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 
 template<class T>
 // セルに変換
-int SeaMap::GetChipPosCast(const T&pos) {
+int MapTip::GetChipPosCast(const T&pos) {
 	return static_cast<int>(std::floor(pos / CHIP_SIZE));
 }
 
 // 座標を入れたらマップチップの位置を返す
-int SeaMap::GetChipParam(const float &pos_x, const float&pos_y, const int&map_number) {
+int MapTip::GetChipParam(const float &pos_x, const float&pos_y, const int&map_number) {
 
 	// マップ座標変換
 	int px = GetChipPosCast(pos_x);
@@ -354,16 +357,11 @@ int SeaMap::GetChipParam(const float &pos_x, const float&pos_y, const int&map_nu
 }
 
 // 所定位置にブロックを置く
-void SeaMap::SetPosParam(const int&pos_x, const int&pos_y, const int &cell, const int&map_number) {
+void MapTip::SetPosParam(const int&pos_x, const int&pos_y, const int &cell, const int&map_number) {
 
 	map[map_number][pos_y][pos_x] = cell;
 }
 
-
-// マップのワープ
-void MapWrap() {
-
-}
 
 // マップのリセット
 void MapResat() {

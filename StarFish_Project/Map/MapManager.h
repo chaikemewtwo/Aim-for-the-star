@@ -1,9 +1,10 @@
 ﻿#pragma once
-#include"SeaMap.h"
+#include"MapTip.h"
 #include"BackGround.h"
 #include<vector>
 #include<memory>
 #include"../Player/Player.h"
+#include"MapTip.h"
 
 
 // ここで使うマップを決める。
@@ -19,11 +20,15 @@ public:
 	~MapManager();
 
 	// 位置
-	void SetPosConnector(PosConnector*p) {
+	void SetPlayer(Player*player) {
 		
-		// 海マップに送る
-		m_psea_map->SetPosConnector(p);
-		m_pbg->SetPosConnector(p);
+		// 海マップにセット
+		m_pmap_tip->SetPlayer(player);
+		player->SetPosition(m_pmap_tip->GetPos());
+		player->SetPMovePos(m_pmap_tip->GetMovePos());
+
+		// 背景にセット
+		m_pbg->SetPlayer(player);
 	}
 
 	// 更新と描画
@@ -33,6 +38,6 @@ public:
 private:
 
 	
-	SeaMap *m_psea_map; // マップの選択
+	MapTip *m_pmap_tip; // マップの選択
 	BackGround*m_pbg;     // 背景
 };

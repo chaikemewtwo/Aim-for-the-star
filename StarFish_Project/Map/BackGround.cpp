@@ -11,10 +11,10 @@ BackGround::BackGround() {
 	m_pback_str[1] = "Texture/bg_hero_02.png";
 	m_pback_str[2] = "Texture/bg_hero_02.png";
 	m_pback_str[3] = "Texture/bg_hero_02.png";
-	m_pback_str[4] = "Texture/bg_hero_02.png";
+	m_pback_str[4] = "Texture/bg_hero_03.png";
 
 	// 最初の背景の位置
-	m_pos.x = 50.f;
+	m_pos.x = -50.f;// 50
 	m_pos.y = 0.f;
 
 	// 今自機がいる場所
@@ -32,12 +32,9 @@ void BackGround::Scroll() {
 
 
 	// 画面遷移基準
-	float screen_up = SCREEN_DIFFERENCE - GRAPH_SCALE_H;
-	float screen_down = -SCREEN_DIFFERENCE + GRAPH_SCALE_H;
+	float screen_up = GRAPH_DIFFERENCE - GRAPH_SCALE_H;
+	float screen_down = -GRAPH_DIFFERENCE + GRAPH_SCALE_H;
 
-	if (m_now_graph == 2) {
-		m_now_graph = 2;
-	}
 
 	// 前にずれているか後ろにずれているかを判断して画像をずらす
 
@@ -53,14 +50,14 @@ void BackGround::Scroll() {
 	}
 
 	// 下に背景遷移ラインを貼る
-	if ((-m_pos.y + GRAPH_SCALE_H - SCREEN_DIFFERENCE) + BG_MOVE_LINE
+	if ((-m_pos.y + GRAPH_SCALE_H - GRAPH_DIFFERENCE) + BG_MOVE_LINE
 		>= (-GRAPH_SCALE_H) * (m_now_graph - 1)) {
 
 		m_next_graph = m_now_graph - 1;
 	}
 
 	// ラインより上の場合
-	if ((-m_pos.y + GRAPH_SCALE_H - SCREEN_DIFFERENCE) + BG_MOVE_LINE
+	if ((-m_pos.y + GRAPH_SCALE_H - GRAPH_DIFFERENCE) + BG_MOVE_LINE
 		>= (-GRAPH_SCALE_H) * (m_next_graph - 1)) {
 
 		m_now_graph = m_next_graph - 1;
@@ -94,17 +91,18 @@ void BackGround::Update() {
 
 void BackGround::Draw() {
 
+	// 端数分GRAPH_DIFFERENCEでずらす
+
 	// 1枚目描画
-	Texture::Draw2D(m_pback_str[m_now_graph % 4], 0.f, m_pos.y - (float)SCREEN_DIFFERENCE + (-GRAPH_SCALE_H * m_now_graph));
+	Texture::Draw2D(m_pback_str[m_now_graph % 5],-GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_now_graph));
 	// 2枚目描画
-	Texture::Draw2D(m_pback_str[m_next_graph % 4], 0.f, m_pos.y - (float)SCREEN_DIFFERENCE + (-GRAPH_SCALE_H * m_next_graph));
+	Texture::Draw2D(m_pback_str[m_next_graph % 5],-GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_next_graph));
 
 
-	Texture::Draw2D("player1.png", -m_pos.x, ((-m_pos.y) + (GRAPH_SCALE_H - SCREEN_DIFFERENCE) + 10.f));
+	Texture::Draw2D("player1.png", -m_pos.x, ((-m_pos.y) + (GRAPH_SCALE_H - GRAPH_DIFFERENCE) + 10.f));
 
 	Texture::Draw2D("renga.png", m_pos.x, -m_pos.y + (-GRAPH_SCALE_H) * m_now_graph);
 
-	int debug1 = (-GRAPH_SCALE_H * m_now_graph);
 
 	//OX::DebugFont::print(100, 100, 1000, "-back_pos => %f", -back_pos_up.y);
 	//OX::DebugFont::print(100, 200, 500, "back_pos => %f", back_pos_up.y);

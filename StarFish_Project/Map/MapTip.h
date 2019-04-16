@@ -3,12 +3,12 @@
 
 #include"../Map/BackGround.h"
 #include"../Lib/Window/Window.h"
-#include"../PosConnector/PosConnecter.h"
+#include"../PosConnector/CollisionObject.h"
 
 
 
 // 海マップ
-class SeaMap {
+class MapTip {
 public:
 
 
@@ -21,10 +21,11 @@ public:
 	static constexpr int MAP_NUM_Y = BackGround::GRAPH_SCALE_H / CHIP_SIZE;	// 画面マップチップの大きさ
 	static constexpr int MAP_SAET_NUM = 5;                                  // マップシートの数
 
-	SeaMap();
+	MapTip();
 
 	// 更新関数(ここに全て書く)
 	void Update();
+
 
 	/* 当たり判定 */
 
@@ -36,16 +37,15 @@ public:
 
 	/* マップ操作 */
 
-	
 	// マップのオブジェクトを生成して描画
-	void MapObjectCreateDraw();
+	void ObjectCreatedDraw();
 	// 更新や描画,初期化
 	void MapInit();
 	// マップ読み込み
-	void MapLoad(const std::string&file_name);
+	void Load(const std::string&file_name);
 
 
-	/* 各アクセサ(座標の開示) */
+	/* 各アクセサ(座標のプロパティ) */
 
 	void SetMovePos(D3DXVECTOR2 &pos) {
 		m_move_pos = pos;
@@ -73,7 +73,7 @@ public:
 
 
 	// PosConnectorによる座標変更
-	void SetPosConnector(PosConnector*pos_connector);
+	void SetPlayer(Player*pos_connector);
 
 private:
 

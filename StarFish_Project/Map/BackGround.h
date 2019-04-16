@@ -20,7 +20,7 @@ public:
 	static constexpr int GRAPH_SCALE_H = 1180;
 	static constexpr int GRAPH_SCALE_W = 1920;
 	// 背景の端数
-	static constexpr int SCREEN_DIFFERENCE = 50;
+	static constexpr int GRAPH_DIFFERENCE = 50;
 	// 背景が遷移する範囲
 	static constexpr float BG_MOVE_LINE = 10.f;
 	// スクロールスピードはプレイヤー速度の3分の1
@@ -29,24 +29,27 @@ public:
 
 	BackGround();
 
+	// 自機を取り入れる
+	void SetPlayer(Player*player) {
 
-	// コネクター
-	void SetPosConnector(PosConnector*p) {
 		// 移動ベクトルを入れる
-		m_move_pos = p->GetMovePos();
+		SetMovePos(player->GetPMovePos());
 	}
-
 
 	// 毎回移動を持つ
 	void SetMovePos(const D3DXVECTOR2&pos) {
-		m_move_pos = pos / 3;// プレイヤーの3分の１の速度にする
+
+		// プレイヤーの3分の１の速度にする
+		m_move_pos = pos / 3;
 	}
+
 	// どこから始めるか
 	void SetPos(const D3DXVECTOR2&pos, int now) {
+
+		// 今の位置
 		m_now_position = now;
 		m_pos = pos;
 	}
-
 
 	// アクセサ
 	D3DXVECTOR2 GetPos() {
@@ -55,7 +58,6 @@ public:
 	D3DXVECTOR2 GetMovePos() {
 		return m_move_pos;
 	}
-
 	
 	// 背景の読み込み
 	//void BGLoad(const std::string&file_name);

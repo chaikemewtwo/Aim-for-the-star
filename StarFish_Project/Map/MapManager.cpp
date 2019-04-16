@@ -6,8 +6,9 @@
 
 MapManager::MapManager() {
 	
+	// 生成
 	m_pbg = new BackGround;
-	m_psea_map = new SeaMap;
+	m_pmap_tip = new MapTip;
 
 	//m_pbg->BGLoad("Map");
 }
@@ -15,26 +16,33 @@ MapManager::MapManager() {
 MapManager::~MapManager() {
 
 	// マップデータが入っている場合は削除する
-	if (m_psea_map != nullptr) {
+	if (m_pmap_tip != nullptr) {
 
-		m_psea_map = nullptr;
-		delete m_psea_map;
+		// マップの削除
+		m_pmap_tip = nullptr;
+		delete m_pmap_tip;
 	}
 }
 
 
 void MapManager::Update() {
 
-	if (m_psea_map != nullptr) {
+	// nullチェック
+	if (m_pmap_tip == nullptr) {
+		return;
+	}
+	if (m_pbg == nullptr) {
 		return;
 	}
 
-	// 描画
-	m_psea_map->Update();
+	// 更新
+	m_pmap_tip->Update();
 	m_pbg->Update();
 }
 
 void MapManager::Draw() {
 
+	// 描画
 	m_pbg->Draw();
+	m_pmap_tip->ObjectCreatedDraw();
 }
