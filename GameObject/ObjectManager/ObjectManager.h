@@ -2,22 +2,50 @@
 #include"../Object/Object.h"
 #include<memory>
 
-
+// 動作してる前提
 
 /* 説明書
 
-①Objectクラスを継承する。
+使用例
 
-②ObjectManagerを仮引数に書く。
+     class Player : public Object{
+	 public:
 
-③ObjectManagerを実引数に入れる。
+	 }
 
-④Entry関数でオブジェクトを登録する。
+	 class Enemy : public Object{
+	 public:
+
+	 }
+
+	 使うときはたいていの場合ObjectManagerを引数に入れる。
+
+	 // 自機のコンストラクタ
+	 Player(ObjectManager*obj_mng);
 
 生成と削除は下の関数を使う
 
-      Entry関数 = ObjectクラスにObjectを継承した物を登録する。
-      Exit関数 = 指定したint型番号の配列を消す。(メモリは削除しない)
+      Entry関数 = Objectの登録。
+      Exit関数  = int型番号の配列を消す。(メモリは削除しない)
+
+	  仮想関数UpdateとDrawについて
+
+	  Updateはオブジェクトの更新
+	  Drawはオブジェクトの描画を入れる。
+
+	  class Player : public Object{
+
+	  void Update()override{
+
+	  // Playerの更新情報
+
+	  }
+
+	  void Draw()override{
+
+	  // Playerの描画情報
+
+	  }
 
 */
 

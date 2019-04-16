@@ -18,11 +18,6 @@ void ObjectManager::Update() {
 		itr->Update();
 	}
 
-	// 生成と削除を回す
-	for (auto&itr : m_mng_lists) {
-
-		itr->Update();
-	}
 }
 
 
