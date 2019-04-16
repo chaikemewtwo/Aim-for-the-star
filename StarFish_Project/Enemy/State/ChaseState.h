@@ -9,5 +9,6 @@ public:
 	static Chase *GetInstance();
 	void Action(EnemyBase* e)override;
 private:
+	Chase() {}
 	~Chase() {}
 };

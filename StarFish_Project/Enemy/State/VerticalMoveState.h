@@ -9,5 +9,6 @@ public:
 	static VerticalMove *GetInstance();
 	void Action(EnemyBase* e)override;
 private:
+	VerticalMove() {}
 	~VerticalMove() {}
 };

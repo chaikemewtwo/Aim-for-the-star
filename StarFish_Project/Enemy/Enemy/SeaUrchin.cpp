@@ -1,5 +1,7 @@
 ﻿#include"SeaUrchin.h"
 
+
+
 //コンストラクタ
 SeaUrchin::SeaUrchin(float x,float y) {
 	Init();
@@ -24,10 +26,10 @@ void SeaUrchin::Init() {
 	m_speed = 2;
 	m_dead_timer = 60;
 	m_change_timer = 0;
-	is_dead = false;
+	m_is_dead = false;
 
 	// 敵の種類を設定
-	enemy_type = SeaUrchinId;
+	m_enemy_type = SeaUrchinId;
 }
 //―――――――――――――――――――――――――――
 
@@ -36,23 +38,11 @@ void SeaUrchin::Update() {
 	// 現在のState処理を実行
 	m_pstate_base->Action(this);
 
-	// 画面外に出たら削除までの時間をカウントダウン
-	if (m_pos.y > WINDOW_H_F || m_pos.x<0 || m_pos.x>WINDOW_W_F) {
-		if (m_dead_timer >= 0) {
-			m_dead_timer--;
-			// デッドタイムを下回ったらデッドフラグをtrue
-			if (m_dead_timer <= 0) {
-				is_dead = true;
-			}
-		}
-	}
-	// 画面内に戻ったら時間を戻す
-	else if (m_pos.y < WINDOW_H_F || m_pos.x > 0 || m_pos.x < WINDOW_W_F) {
-		m_dead_timer = 60;
-	}
+	DeleteJudg();
 
-	if (m_change_timer >= 30) {
-		ChangeState(new VerticalMove);
+	// 仮の遷移　のちにStateないで遷移させる部分
+	if (m_change_timer >= 10) {
+		ChangeState(VerticalMove::GetInstance());
 		m_change_timer = 0;
 	}
 }
@@ -64,57 +54,8 @@ void SeaUrchin::Draw() {
 }
 //―――――――――――――――――――――――――――
 
-// 遷移関数
+// 遷移関数《要/変更》
 void SeaUrchin::ChangeState(StateBase* state) {
 	m_pstate_base = state;
-}
-//―――――――――――――――――――――――――――
-
-// 座標ゲッター・セッター
-float SeaUrchin::GetPosX() {
-	return m_pos.x;
-}
-
-float SeaUrchin::GetPosY() {
-	return m_pos.y;
-}
-
-float SeaUrchin::SetPosX(float x) {
-	m_pos.x = x;
-	return m_pos.x;
-}
-
-float SeaUrchin::SetPosY(float y) {
-	m_pos.y = y;
-	return m_pos.y;
-}
-//―――――――――――――――――――――――――――
-
-// 速度ゲッター
-float SeaUrchin::GetSpeed() {
-	return m_speed;
-}
-//―――――――――――――――――――――――――――
-
-// 遷移用タイマーゲッター・セッター
-int SeaUrchin::GetChangeTimer() {
-	return m_change_timer;
-}
-
-int SeaUrchin::SetChangeTimer() {
-	m_change_timer++;
-	return m_change_timer;
-}
-//―――――――――――――――――――――――――――
-
-// 削除用タイマーゲッター
-int SeaUrchin::GetDeadTimer() {
-	return m_dead_timer;
-}
-//―――――――――――――――――――――――――――
-
-// 削除フラグゲッター
-bool SeaUrchin::GetDeadFlag() {
-	return is_dead;
 }
 //―――――――――――――――――――――――――――

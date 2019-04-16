@@ -8,5 +8,6 @@ public:
 	static SideMove *GetInstance();
 	void Action(EnemyBase* e)override;
 private:
+	SideMove() {}
 	~SideMove() {}
 };

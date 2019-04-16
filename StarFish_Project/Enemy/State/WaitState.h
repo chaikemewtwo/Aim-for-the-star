@@ -8,5 +8,6 @@ public:
 	static Wait *GetInstance();
 	void Action(EnemyBase* e)override;
 private:
+	Wait() {}
 	~Wait() {}
 };

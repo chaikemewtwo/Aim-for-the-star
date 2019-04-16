@@ -19,15 +19,18 @@ EnemyManager::~EnemyManager() {
 void EnemyManager::Update() {
 	Create();
 
-	// 要素指定用の変数
-	int num = 0;
 	// 要素数分ループ
 	for (auto it : m_seaurchin) {
 		// 各要素のUpdate関数を呼ぶ
 		it->Update();
-
+	}
+	
+	// 要素指定用の変数
+	int num = 0;
+	// 仮の削除ループ　　《要変更》
+	for (auto it : m_seaurchin) {
 		// デッドフラグがtrueであれば、該当の要素を削除
-		if (it->GetDeadFlag() == true) {
+		if (it->IsDead() == true) {
 			m_seaurchin.erase(m_seaurchin.begin() + num);
 		}
 		num++;

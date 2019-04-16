@@ -7,5 +7,6 @@ Wait *Wait::GetInstance() {
 }
 
 void Wait::Action(EnemyBase* e) {
-	e->SetChangeTimer();
+	int t = e->GetChangeTimer() + 1;
+	e->SetChangeTimer(t);
 }
