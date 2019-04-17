@@ -1,7 +1,5 @@
 ﻿#include"SeaUrchin.h"
 
-
-
 //コンストラクタ
 SeaUrchin::SeaUrchin(float x,float y) {
 	Init();
@@ -38,7 +36,7 @@ void SeaUrchin::Update() {
 	// 現在のState処理を実行
 	m_pstate_base->Action(this);
 
-	DeleteJudg();
+	OutScreen();
 
 	// 仮の遷移　のちにStateないで遷移させる部分
 	if (m_change_timer >= 10) {

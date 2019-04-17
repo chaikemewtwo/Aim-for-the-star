@@ -27,8 +27,8 @@ public:
 	// 《要/変更》→State内で遷移するように
 	virtual void ChangeState(StateBase* state) = 0;
 
-	// 画面外に出たらm_is_deadをtrueにする関数《要/修正》
-	virtual void  DeleteJudg() {
+	// 画面外に出たらm_is_deadをtrueにする関数
+	virtual void  OutScreen() {
 		// 画面外に出たら、削除までの時間をカウントダウン
 		if (m_pos.y > WINDOW_H_F || m_pos.x<0 || m_pos.x>WINDOW_W_F) {
 			if (m_dead_timer >= 0) {
