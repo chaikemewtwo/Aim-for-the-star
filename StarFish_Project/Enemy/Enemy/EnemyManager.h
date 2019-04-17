@@ -12,6 +12,7 @@ public:
 	void Update();
 	void Draw();
 	void Create();
+	void Delete();
 
 private:
 	// ウニ配列　《要/変更》→敵全体を通した配列に
