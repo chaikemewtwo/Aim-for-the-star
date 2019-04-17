@@ -1,9 +1,7 @@
 ﻿#pragma once
 #include"BackGround.h"
-
 #include"../Map/BackGround.h"
 #include"../Lib/Window/Window.h"
-#include"../PosConnector/CollisionObject.h"
 
 
 
@@ -73,7 +71,7 @@ public:
 
 
 	// PosConnectorによる座標変更
-	void SetPlayer(Player*pos_connector);
+	void SetPlayer(PlayerBase *player);
 
 private:
 

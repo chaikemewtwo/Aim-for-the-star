@@ -3,7 +3,7 @@
 #include"BackGround.h"
 #include<vector>
 #include<memory>
-#include"../Player/Player.h"
+#include"../Player/PlayerBase/PlayerBase.h"
 #include"MapTip.h"
 
 
@@ -14,27 +14,26 @@
 class MapManager {
 public:
 
-	
 	MapManager();
 
 	~MapManager();
 
 	// 位置
-	void SetPlayer(Player*player) {
+	void SetPlayer(PlayerBase*player) {
 		
 		// 海マップにセット
 		m_pmap_tip->SetPlayer(player);
 
 		// ゲッターで返す
-		player->SetPosition(m_pmap_tip->GetPos());
-		player->SetPMovePos(m_pmap_tip->GetMovePos());
+		player->SetPos(m_pmap_tip->GetPos());
+		player->SetMovePos(m_pmap_tip->GetMovePos());
 
 		// 背景にセット
 		m_pbg->SetPlayer(player);
 	}
 
 	// 更新と描画
-	void Update();
+	void Update(PlayerBase*player_base);
 	void Draw();
 
 private:

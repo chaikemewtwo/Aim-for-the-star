@@ -1,12 +1,12 @@
 ﻿#pragma once
-#include"Object.h"
+#include"../GameObject/Object/Object.h"
 
 #include"../Lib/D3D/D3D9.h"
 #include"../Lib/Texture/Texture.h"
 #include"../Lib/Texture/TextureBoad2D.h"
 #include"../Lib/Input/KeyBord.h"
 //#include"../oxdebugfont.h"
-#include"../Player/Player.h"
+#include"../Player/PlayerBase/PlayerBase.h"
 
 
 
@@ -24,16 +24,16 @@ public:
 	// 背景が遷移する範囲
 	static constexpr float BG_MOVE_LINE = 10.f;
 	// スクロールスピードはプレイヤー速度の3分の1
-	static constexpr int SCROLL_SPEED = (int)SPEED / 3;
+	//static constexpr int SCROLL_SPEED = (int)SPEED / 3;
 	static constexpr float CHIP_SIZE = 128.f;
 
 	BackGround();
 
 	// 自機を取り入れる
-	void SetPlayer(Player*player) {
+	void SetPlayer(PlayerBase*player) {
 
 		// 移動ベクトルを入れる
-		SetMovePos(player->GetPMovePos());
+		SetMovePos(player->GetMovePos() / 3);
 	}
 
 	// 毎回移動を持つ

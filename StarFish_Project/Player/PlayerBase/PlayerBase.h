@@ -38,6 +38,18 @@ public:
 	// ステート変更
 	void ChangeState(STATE* state);
 
+	D3DXVECTOR2 GetPos();
+
+	// 移動量ゲッター
+	D3DXVECTOR2 GetMovePos();
+
+	// 当たり判定用
+	// ポジションセッター
+	void SetPos(D3DXVECTOR2 pos);
+
+	// 移動量セッター
+	void SetMovePos(D3DXVECTOR2 move);
+
 	// アニメーション番号上書き（セッター）
 	void SetAnimationNumber(int new_animation_number);
 	
@@ -88,14 +100,14 @@ protected:
 
 	// 変数
 	// プレイヤー座標
-	float m_pos_x, m_pos_y;
+	D3DXVECTOR2 m_pos;
 
 	// 画像格納用
 	// HACK:配列の方がいいかも
 	std::string m_player_texture;
 
 	// X、Y方向移動量
-	float m_move_x, m_move_y;
+	D3DXVECTOR2 m_move;
 
 	// 移動速度
 	float m_move_speed;

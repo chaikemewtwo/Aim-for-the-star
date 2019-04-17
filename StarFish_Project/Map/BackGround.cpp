@@ -7,11 +7,11 @@ BackGround::BackGround() {
 
 	m_pos.x = m_pos.y = 0.f;
 
-	m_pback_str[0] = "Texture/bg_hero_01.png";
-	m_pback_str[1] = "Texture/bg_hero_02.png";
-	m_pback_str[2] = "Texture/bg_hero_02.png";
-	m_pback_str[3] = "Texture/bg_hero_02.png";
-	m_pback_str[4] = "Texture/bg_hero_03.png";
+	m_pback_str[0] = "Resource/bg_hero_01.png";
+	m_pback_str[1] = "Resource/bg_hero_02.png";
+	m_pback_str[2] = "Resource/bg_hero_02.png";
+	m_pback_str[3] = "Resource/bg_hero_02.png";
+	m_pback_str[4] = "Resource/bg_hero_03.png";
 
 	// 最初の背景の位置
 	m_pos.x = -50.f;// 50
@@ -23,6 +23,8 @@ BackGround::BackGround() {
 	// 画像の位置
 	m_now_graph = 0;
 	m_next_graph = 1;
+
+	m_move_pos.x = m_move_pos.y = 0.f;
 
 }
 
@@ -91,26 +93,21 @@ void BackGround::Update() {
 
 void BackGround::Draw() {
 
+	if (m_now_graph < 0) {
+		m_now_graph = 0;
+		m_next_graph = 1;
+	}
+	else if(m_next_graph < 0){
+		m_now_graph = 0;
+		m_next_graph = 1;
+	}
+
 	// 端数分GRAPH_DIFFERENCEでずらす
 
 	// 1枚目描画
-	Texture::Draw2D(m_pback_str[m_now_graph % 5],-GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_now_graph));
+	Texture::Draw2D(m_pback_str[m_now_graph % 4],-GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_now_graph));
 	// 2枚目描画
-	Texture::Draw2D(m_pback_str[m_next_graph % 5],-GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_next_graph));
+	Texture::Draw2D(m_pback_str[m_next_graph % 4],-GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_next_graph));
 
-
-	Texture::Draw2D("player1.png", -m_pos.x, ((-m_pos.y) + (GRAPH_SCALE_H - GRAPH_DIFFERENCE) + 10.f));
-
-	Texture::Draw2D("renga.png", m_pos.x, -m_pos.y + (-GRAPH_SCALE_H) * m_now_graph);
-
-
-	//OX::DebugFont::print(100, 100, 1000, "-back_pos => %f", -back_pos_up.y);
-	//OX::DebugFont::print(100, 200, 500, "back_pos => %f", back_pos_up.y);
-	////OX::DebugFont::print(100, 300, 0, "condition:%d",debug1);
-	//OX::DebugFont::print(100, 600, 100, "now_graph => %d", now_graph);
-	//OX::DebugFont::print(100, 700, 100, "next_graph => %d", next_graph);
-	//
-	//OX::DebugFont::draw(dev);
-	//OX::DebugFont::clear();
 }
 

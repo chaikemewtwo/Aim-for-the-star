@@ -7,6 +7,7 @@
 #include"../Player/Star1/Star1.h"
 #include"../Player/Star2/Star2.h"
 #include"../LoadResource/LoadResource.h"
+#include"../Map/MapManager.h"
 
 
 
@@ -20,6 +21,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 
 	// リソース読み込み
 	Resource::LoadResouce();
+
+	// マップ
+	MapManager map_m;
 
 	// 自機インスタンス生成
 	Star1 star1;
@@ -39,6 +43,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 
 		// 描画開始
 		if (DrawStart() == true) {
+			// マップ
+			map_m.Update();
+			map_m.Draw();
+
 			// 自機1
 			// 更新
 			star1.Update();

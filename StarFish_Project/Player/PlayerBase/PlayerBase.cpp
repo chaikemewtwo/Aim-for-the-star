@@ -68,8 +68,8 @@ void PlayerBase::Draw() {
 	// 第7、8引数が0.5fずつで中心座標から描画	
 	Texture::Draw2D(
 		m_player_texture.c_str(),
-		m_pos_x,
-		m_pos_y,
+		m_pos.x,
+		m_pos.y,
 		TEXTURE_SIZE_X,
 		TEXTURE_SIZE_Y,
 		m_character_angle,
@@ -85,7 +85,8 @@ void PlayerBase::Draw() {
 
 void PlayerBase::AddGravity() {
 	// 常時下方向へ負荷がかかる
-	m_pos_y += GRAVITY;
+	m_move.y = GRAVITY;
+	m_pos.y += m_move.y;
 }
 
 
@@ -106,12 +107,12 @@ void PlayerBase::AngleAdjust(bool is_move_right) {
 
 void PlayerBase::SwimUp() {
 	// ベクトルの長さ(上方向への移動)
-	m_move_x = sin(m_character_angle * PI / (float)180.f) * m_move_speed;
-	m_move_y = cos(m_character_angle * PI / (float)180.f) * m_move_speed;
+	m_move.x = sin(m_character_angle * PI / (float)180.f) * m_move_speed;
+	m_move.y = cos(m_character_angle * PI / (float)180.f) * m_move_speed;
 
 	// 移動量インクリメント
-	m_pos_x += m_move_x;
-	m_pos_y -= m_move_y;
+	m_pos.x += m_move.x;
+	m_pos.y -= m_move.y;
 }
 
 
@@ -120,6 +121,22 @@ void PlayerBase::SetAnimationNumber(int new_animation_number) {
 	m_animation_number = new_animation_number;
 }
 
+D3DXVECTOR2 PlayerBase::GetPos() {
+	return m_pos;
+}
+
+D3DXVECTOR2 PlayerBase::GetMovePos() {
+	return m_move;
+}
+
+
+void PlayerBase::SetPos(D3DXVECTOR2 pos) {
+	m_pos = pos;
+}
+
+void PlayerBase::SetMovePos(D3DXVECTOR2 move) {
+	m_move = move;
+}
 
 
 //void PlayerBase::ChangeState(STATE* new_state) {

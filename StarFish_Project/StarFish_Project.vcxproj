@@ -33,6 +33,9 @@
     <ClCompile Include="Lib\Window\Window.cpp" />
     <ClCompile Include="LoadResource\LoadResource.cpp" />
     <ClCompile Include="Main\Main.cpp" />
+    <ClCompile Include="Map\BackGround.cpp" />
+    <ClCompile Include="Map\MapManager.cpp" />
+    <ClCompile Include="Map\MapTip.cpp" />
     <ClCompile Include="Player\PlayerBase\PlayerBase.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerDamageState\PlayerDamageState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.cpp" />
@@ -63,6 +66,9 @@
     <ClInclude Include="Lib\UV\UV.h" />
     <ClInclude Include="Lib\Window\Window.h" />
     <ClInclude Include="LoadResource\LoadResource.h" />
+    <ClInclude Include="Map\BackGround.h" />
+    <ClInclude Include="Map\MapManager.h" />
+    <ClInclude Include="Map\MapTip.h" />
     <ClInclude Include="Player\PlayerBase\PlayerBase.h" />
     <ClInclude Include="Player\PlayerState\PlayerDamageState\PlayerDamageState.h" />
     <ClInclude Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.h" />

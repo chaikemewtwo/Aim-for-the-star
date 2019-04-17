@@ -77,6 +77,15 @@
     <ClCompile Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Map\BackGround.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Map\MapManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Map\MapTip.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -108,5 +117,8 @@
     <ClInclude Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.h" />
     <ClInclude Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.h" />
     <ClInclude Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.h" />
+    <ClInclude Include="Map\BackGround.h" />
+    <ClInclude Include="Map\MapManager.h" />
+    <ClInclude Include="Map\MapTip.h" />
   </ItemGroup>
 </Project>
