@@ -23,42 +23,63 @@ public:
 
 	MapTip();
 
-	// 更新関数(ここに全て書く)
-	void Update();
+	// 更新関数
+	//void Update();
+	// マップのオブジェクトを生成して描画
+	void Draw();
 
-
+	
 	/* 当たり判定 */
 
 	// 全体の当たり判定
 	void MapColider();
-	// 当たり判定
-	void Collision(float &pos_x, float &pos_y, float *move_x, float *move_y);
-
-
-	/* マップ操作 */
-
-	// マップのオブジェクトを生成して描画
-	void ObjectCreatedDraw();
-	// 更新や描画,初期化
-	void MapInit();
-	// マップ読み込み
-	void Load(const std::string&file_name);
-
+	
 
 	/* 各アクセサ(座標のプロパティ) */
 
-	void SetMovePos(D3DXVECTOR2 &pos) {
+	void SetMovePos(D3DXVECTOR2&pos) {
 		m_move_pos = pos;
 	}
-	void SetPos(D3DXVECTOR2 &pos) {
-		m_player_pos = pos;
+	void SetPos(D3DXVECTOR2&pos) {
+		m_obj_pos = pos;
 	}
 	D3DXVECTOR2 GetPos() {
-		return m_player_pos;
+		return m_obj_pos;
 	}
 	D3DXVECTOR2 GetMovePos() {
 		return m_move_pos;
 	}
+
+
+	// Playerをセットするだけではないので関数名を変えるべき
+	void SetpPlayerInstance(Player*player);
+
+private:
+
+	// 方角
+	enum Direction {
+		NORTH,
+		SOUTH,
+		EAST,
+		WEST,
+		MAX,
+	};
+
+	/* private指定子関数 */
+
+	// マップチップの当たり判定
+	void Collision(float &pos_x, float &pos_y, float *move_x, float *move_y);
+
+	// 移動ベクトルが加算されてる方角を知る
+	MapTip::Direction MoveActionControl(D3DXVECTOR2&move_pos);
+
+	/* マップ操作 */
+
+	
+	// 更新や描画,初期化
+	void MapInit();
+	// マップ読み込み
+	void Load(const std::string&file_name);
 
 
 	/* マップチップの便利機能 */
@@ -72,19 +93,15 @@ public:
 	void SetPosParam(const int&pos_x, const int&pos_y, const int &cell, const int&map_number = 0);
 
 
-	// PosConnectorによる座標変更
-	void SetPlayer(Player*pos_connector);
-
-private:
-
 	/* マップ座標 */
 
-	D3DXVECTOR2 m_player_pos;// 自機の位置
+	D3DXVECTOR2 m_obj_pos;// 自機の位置
 	D3DXVECTOR2 m_chip_pos;  // チップの位置 
 	D3DXVECTOR2 m_move_pos;  // 自機の移動ベクトル
 
 	// 描画用マップバッファ
 	int m_draw_map[1000][1000] = {};
+
 
 	/* マップ描画領域 */
 

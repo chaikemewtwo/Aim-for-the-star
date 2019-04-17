@@ -20,18 +20,7 @@ public:
 	~MapManager();
 
 	// 位置
-	void SetPlayer(Player*player) {
-		
-		// 海マップにセット
-		m_pmap_tip->SetPlayer(player);
-
-		// ゲッターで返す
-		player->SetPosition(m_pmap_tip->GetPos());
-		player->SetPMovePos(m_pmap_tip->GetMovePos());
-
-		// 背景にセット
-		m_pbg->SetPlayer(player);
-	}
+	void SetpPlayerInstance(Player*player);
 
 	// 更新と描画
 	void Update();

@@ -24,6 +24,7 @@ BackGround::BackGround() {
 	m_now_graph = 0;
 	m_next_graph = 1;
 
+	m_move_pos.x = m_move_pos.y = 0.f;
 }
 
 
@@ -40,24 +41,24 @@ void BackGround::Scroll() {
 
 	// MEMO 背景は-50 * -50を頂点に描画するので前は50piずらす必要はない
 	// 前
-	if (-m_pos.y - BG_MOVE_LINE <= (-GRAPH_SCALE_H) * m_now_graph) {
+	if (-m_pos.y - BG_CHANGE_LINE <= (-GRAPH_SCALE_H) * m_now_graph) {
 		m_next_graph = m_now_graph + 1;
 	}
 
 	// 前に進んでいる今
-	if (-m_pos.y - BG_MOVE_LINE <= (-GRAPH_SCALE_H) * m_next_graph) {
+	if (-m_pos.y - BG_CHANGE_LINE <= (-GRAPH_SCALE_H) * m_next_graph) {
 		m_now_graph = m_next_graph + 1;
 	}
 
 	// 下に背景遷移ラインを貼る
-	if ((-m_pos.y + GRAPH_SCALE_H - GRAPH_DIFFERENCE) + BG_MOVE_LINE
+	if ((-m_pos.y + GRAPH_SCALE_H - GRAPH_DIFFERENCE) + BG_CHANGE_LINE
 		>= (-GRAPH_SCALE_H) * (m_now_graph - 1)) {
 
 		m_next_graph = m_now_graph - 1;
 	}
 
 	// ラインより上の場合
-	if ((-m_pos.y + GRAPH_SCALE_H - GRAPH_DIFFERENCE) + BG_MOVE_LINE
+	if ((-m_pos.y + GRAPH_SCALE_H - GRAPH_DIFFERENCE) + BG_CHANGE_LINE
 		>= (-GRAPH_SCALE_H) * (m_next_graph - 1)) {
 
 		m_now_graph = m_next_graph - 1;
@@ -94,14 +95,14 @@ void BackGround::Draw() {
 	// 端数分GRAPH_DIFFERENCEでずらす
 
 	// 1枚目描画
-	Texture::Draw2D(m_pback_str[m_now_graph % 5],-GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_now_graph));
+	Texture::Draw2D(m_pback_str[m_now_graph % GRAPH_NUM],-GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_now_graph));
 	// 2枚目描画
-	Texture::Draw2D(m_pback_str[m_next_graph % 5],-GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_next_graph));
+	Texture::Draw2D(m_pback_str[m_next_graph % GRAPH_NUM],-GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_next_graph));
 
 
-	Texture::Draw2D("player1.png", -m_pos.x, ((-m_pos.y) + (GRAPH_SCALE_H - GRAPH_DIFFERENCE) + 10.f));
+	//Texture::Draw2D("player1.png", -m_pos.x, ((-m_pos.y) + (GRAPH_SCALE_H - GRAPH_DIFFERENCE) + 10.f));
 
-	Texture::Draw2D("renga.png", m_pos.x, -m_pos.y + (-GRAPH_SCALE_H) * m_now_graph);
+	//Texture::Draw2D("renga.png", m_pos.x, -m_pos.y + (-GRAPH_SCALE_H) * m_now_graph);
 
 
 	//OX::DebugFont::print(100, 100, 1000, "-back_pos => %f", -back_pos_up.y);

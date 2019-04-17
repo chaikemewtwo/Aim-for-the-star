@@ -15,25 +15,25 @@ class BackGround : public Object{
 public:
 
 	// constexprはコンパイル時定数になる
-	static constexpr int GRAPH_NUMBER = 5;
+	static constexpr int GRAPH_NUM = 5;
 	// 背景の大きさ
 	static constexpr int GRAPH_SCALE_H = 1180;
 	static constexpr int GRAPH_SCALE_W = 1920;
 	// 背景の端数
 	static constexpr int GRAPH_DIFFERENCE = 50;
-	// 背景が遷移する範囲
-	static constexpr float BG_MOVE_LINE = 10.f;
+	// 背景が入れ替わる範囲
+	static constexpr float BG_CHANGE_LINE = 10.f;
 	// スクロールスピードはプレイヤー速度の3分の1
-	static constexpr int SCROLL_SPEED = (int)SPEED / 3;
+	//static constexpr int SCROLL_SPEED = (int)SPEED / 3;
 	static constexpr float CHIP_SIZE = 128.f;
 
 	BackGround();
 
 	// 自機を取り入れる
-	void SetPlayer(Player*player) {
+	void SetpPlayerPos(Player*player) {
 
 		// 移動ベクトルを入れる
-		SetMovePos(player->GetPMovePos());
+		m_move_pos = player->GetMovePos()/3;
 	}
 
 	// 毎回移動を持つ
@@ -43,21 +43,13 @@ public:
 		m_move_pos = pos / 3;
 	}
 
-	// どこから始めるか
-	void SetPos(const D3DXVECTOR2&pos, int now) {
-
-		// 今の位置
-		m_now_position = now;
-		m_pos = pos;
-	}
-
 	// アクセサ
-	D3DXVECTOR2 GetPos() {
-		return m_pos;
-	}
-	D3DXVECTOR2 GetMovePos() {
-		return m_move_pos;
-	}
+	//D3DXVECTOR2 GetPos() {
+	//	return m_pos;
+	//}
+	//D3DXVECTOR2 GetMovePos() {
+	//	return m_move_pos;
+	//}
 	
 	// 背景の読み込み
 	//void BGLoad(const std::string&file_name);
@@ -72,11 +64,13 @@ private:
 
 	// 位置更新
 	void PosUpdate() {
-		m_pos += m_move_pos;
+
+		// 上下だけ加算
+		m_pos.y += m_move_pos.y;
 	}
 
 	// 背景文字列
-	const char *m_pback_str[GRAPH_NUMBER];
+	const char *m_pback_str[GRAPH_NUM];
 
 	// 背景
 	D3DXVECTOR2 m_pos;// 背景遷移判定上

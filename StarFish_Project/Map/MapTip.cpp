@@ -110,6 +110,7 @@ void MapTip::Load(const std::string&file_name) {
 	// 縦 
 	int h = 0;
 	
+	// 横
 	int w = 0;
 
 	// 文字列読み込み、改行まで
@@ -117,7 +118,6 @@ void MapTip::Load(const std::string&file_name) {
 
 		// 最初が改行と空白なら戻す
 		if (str_buf[0] == '\n' || str_buf[0] == '\0') {
-			h++;
 			continue;
 		}
 
@@ -125,15 +125,16 @@ void MapTip::Load(const std::string&file_name) {
 		char *str2 = str_buf;
 
 		// 次の列へ
-		while(*str2 !='\0'&& *str2 != '\n') {
+		while(*str2 != '\0'&& *str2 != '\n') {
 
 			// 整数値変換
-			m_draw_map[h][w++] = strtol(str2,NULL,10);
+			m_draw_map[h][w++] = strtol(str2,&str2,10);// str2に変換できない文字列を入れる。
 
-		   *str2++;
+		   // 文字列加算
+		   str2++;
 		}
-		// 文字列初期化
-		str_buf[0] = '\0';
+
+		w = 0;
 
 		// 次の行へ
 		h++;
@@ -149,8 +150,8 @@ void MapTip::Load(const std::string&file_name) {
 // コンストラクタ
 MapTip::MapTip() {
 
-	m_player_pos.x = ((WINDOW_W_F / 2) - 200.f);
-	m_player_pos.y = (-WINDOW_H_F / 2);// 高さは表示と逆の操作になるので、-変換 
+	m_obj_pos.x = ((WINDOW_W_F / 2) - 200.f);
+	m_obj_pos.y = (-WINDOW_H_F / 2);// 高さは表示と逆の操作になるので、-変換 
 
 	m_move_pos.x = m_move_pos.y = 0.f;
 
@@ -167,12 +168,6 @@ MapTip::MapTip() {
 
 	// ファイル読み込み
 	Load("MapData/MapData.txt");
-}
-
-// 更新
-void MapTip::Update() {
-
-	MapColider();
 }
 
 
@@ -198,18 +193,27 @@ void MapTip::MapInit() {
 
 
 // 位置変更
-void MapTip::SetPlayer(Player*player) {
+void MapTip::SetpPlayerInstance(Player*player) {
 
-	// 位置変更
-	m_player_pos = player->GetPosition();
-
+	// マップチップの位置変更
+	m_obj_pos = player->GetPosition();
 	// 移動位置変更
-	m_move_pos = player->GetPMovePos();
+	m_move_pos = player->GetMovePos();
+
+
+	// 当たり判定
+	MapColider();
+
+
+	// 自機(obj)の位置変更
+	player->SetPosition(m_obj_pos);
+	// 自機の移動ベクトル変更
+	player->SetPMovePos(m_move_pos);
 }
 
 
 // マップの描画
-void MapTip::ObjectCreatedDraw() {
+void MapTip::Draw() {
 
 
 	// 描画位置の開始地点
@@ -219,23 +223,27 @@ void MapTip::ObjectCreatedDraw() {
 	m_draw_range_begin = GetChipPosCast(m_chip_pos.y) + MAP_NUM_Y;
 	m_draw_range_end = GetChipPosCast(m_chip_pos.y);
 
+	// 描画範囲の大きさ
+	int draw_range = m_draw_range_begin - m_draw_range_end;
+
 	// 描画範囲を狭める
 	for (int y = m_draw_range_end; y < m_draw_range_begin; y++) {
 		for (int x = 0; x < MAP_NUM_X; x++) {
 
 			// 配列外アクセスは許させない
-			if (y < 0 || y>m_draw_range_begin) {
+			if (y < 0 || y > m_draw_range_begin) {
 				y = 0;
 			}
 
-			// この配列描画
-			if (m_draw_map[y][x] == 1) {
+			// 描画の時は逆の方向から描画すると正しく描画できる
+			if (m_draw_map[(MAP_NUM_Y + draw_range) - y][x] == 1) {
 
-				Texture::Draw2D("Texture/renga2.png", (float)(x * CHIP_SIZE) + start_pos.x,
+				Texture::Draw2D("Texture/renga2.png",(float)(x * CHIP_SIZE) + start_pos.x,
 					(float)(-y * CHIP_SIZE) + (INTERVAL_HEIGHT) + m_chip_pos.y + start_pos.y);
 			}
 		}
 	}
+	start_pos.x = 0;
 }
 
 
@@ -248,25 +256,23 @@ void MapTip::ObjectCreatedDraw() {
 
 void MapTip::MapColider() {
 
-
 	// 4隅調べる
 
 	// 当たり判定
-	Collision(m_player_pos.x, m_player_pos.y, &m_move_pos.x, &m_move_pos.y);
+	Collision(m_obj_pos.x, m_obj_pos.y, &m_move_pos.x, &m_move_pos.y);
 
 	// 加算
-	m_player_pos += m_move_pos;
+	m_obj_pos += m_move_pos;
 
 	// マップも移動
 	m_chip_pos.y += m_move_pos.y;
 
-	// 移動をなくす
-	m_move_pos.x = m_move_pos.y = 0.f;
-
 }
 
+// MEMO
+// ゲッターで情報を返すようにしたら、複雑にならないかも
 
-// 仮移動
+// 仮移動当たり判定
 void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y) {
 
 	// 修正定数
@@ -282,8 +288,9 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 
 	// それぞれ判定を行う
 
+	// MEMO
 	/*
-	Y軸の4隅を調べ
+	Y軸の4隅を調べ,
 	X軸の4隅を調べる
 	*/
 
@@ -342,9 +349,31 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 		*move_x = 0.f;
 	}
 
-
 }
 
+
+// どの方角に当たったか
+MapTip::Direction MapTip::MoveActionControl(D3DXVECTOR2&move_pos) {
+
+	// xマイナスの場合
+	if (move_pos.x < 0.f) {
+		return WEST;
+	}
+	// xプラスの場合
+	else if (move_pos.x > 0.f) {
+		return EAST;
+	}
+	// yマイナスの場合
+	else if (move_pos.y < 0.f) {
+		return NORTH;
+	}
+	// yプラスの場合
+	else if (move_pos.y > 0.f) {
+		return SOUTH;
+	}
+
+	return MAX;
+}
 
 
 template<class T>
