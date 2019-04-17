@@ -67,7 +67,7 @@ void PlayerBase::Draw() {
 	// 自機2にも自機1のものを使用中
 	// 第7、8引数が0.5fずつで中心座標から描画	
 	Texture::Draw2D(
-		m_player_texture/*[MAX_STATE_NUMBER]*/.c_str(),
+		m_player_texture.c_str(),
 		m_pos_x,
 		m_pos_y,
 		TEXTURE_SIZE_X,

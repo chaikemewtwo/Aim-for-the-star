@@ -6,7 +6,7 @@
 
 
 // ウィンドウプロシージャ(メッセージをどう解釈するか。)
-HRESULT CALLBACK WndProc(
+LRESULT CALLBACK WndProc(
 	HWND hWnd,
 	UINT uMsg,
 	WPARAM wParam,

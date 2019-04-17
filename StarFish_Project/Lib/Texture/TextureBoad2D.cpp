@@ -63,7 +63,7 @@ namespace Texture {
 		D3DXMatrixIdentity(&mat_scale);
 
 		D3DXMatrixTranslation(&mat_trans, x, y, 0.f);
-		D3DXMatrixScaling(&mat_scale, tex_d->Width + scale_w, tex_d->Height + scale_h, 0.0f);
+		D3DXMatrixScaling(&mat_scale, tex_d->Width * scale_w, tex_d->Height * scale_h, 0.0f);
 		D3DXMatrixRotationZ(&mat_rotz, D3DXToRadian(angle));
 
 		// Šgk * ‰ñ“] * ˆÚ“®

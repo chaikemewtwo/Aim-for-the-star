@@ -18,7 +18,7 @@ void SeaUrchin::Init() {
 	m_pstate_base = Wait::GetInstance();
 
 	// ウニの画像をロード
-	Texture::Load("uni.jpg");
+	//Texture::Load("Resource/uni.png");
 
 	// 変数の初期化
 	m_pos.x = 0;
@@ -50,7 +50,7 @@ void SeaUrchin::Update() {
 
 // 描画関数
 void SeaUrchin::Draw() {
-	Texture::Draw2D("uni.jpg", m_pos.x, m_pos.y);
+	Texture::Draw2D("Resource/uni.jpg", m_pos.x, m_pos.y);
 }
 //―――――――――――――――――――――――――――
 

@@ -6,6 +6,7 @@
 #include"../State/WaitState.h"
 #include"../../Lib/Texture/Texture.h"
 #include"../../Lib/Texture/TextureBoad2D.h"
+#include"../../Lib/D3D/D3D9.h"
 
 enum EnemyTypeId {
 	SeaUrchinId,		// ウニ

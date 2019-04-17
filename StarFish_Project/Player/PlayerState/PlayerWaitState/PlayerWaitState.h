@@ -1,10 +1,10 @@
 ﻿#pragma once
 #include "../PlayerStateBase.h"
+#include "../PlayerSwimState/PlayerSwimState.h"
 
 
-// 被弾状態
-// HACK:被弾状態は不要な可能性がある
-class DamageState : public PlayerStateBase {
+// 待機状態(落下)
+class PlayerWaitState : public PlayerStateBase {
 public:
 	void Init(PlayerBase* p) override;
 	void Update(PlayerBase* p) override;

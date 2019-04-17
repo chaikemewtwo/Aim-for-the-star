@@ -18,17 +18,29 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-<<<<<<< HEAD
-=======
   <ItemGroup>
     <ClCompile Include="Enemy\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Enemy\Enemy\SeaUrchin.cpp" />
-    <ClCompile Include="Enemy\NapoleonFish.cpp" />
     <ClCompile Include="Enemy\State\ChaseStatecpp.cpp" />
     <ClCompile Include="Enemy\State\SideMoveState.cpp" />
     <ClCompile Include="Enemy\State\VerticalMoveState.cpp" />
     <ClCompile Include="Enemy\State\WaitState.cpp" />
+    <ClCompile Include="GameObject\ObjectManager\ObjectManager.cpp" />
+    <ClCompile Include="Lib\D3D\D3D9.cpp" />
+    <ClCompile Include="Lib\Texture\Texture.cpp" />
+    <ClCompile Include="Lib\Texture\TextureBoad2D.cpp" />
+    <ClCompile Include="Lib\UV\UV.cpp" />
+    <ClCompile Include="Lib\Window\Window.cpp" />
+    <ClCompile Include="LoadResource\LoadResource.cpp" />
     <ClCompile Include="Main\Main.cpp" />
+    <ClCompile Include="Player\PlayerBase\PlayerBase.cpp" />
+    <ClCompile Include="Player\PlayerState\PlayerDamageState\PlayerDamageState.cpp" />
+    <ClCompile Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.cpp" />
+    <ClCompile Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.cpp" />
+    <ClCompile Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.cpp" />
+    <ClCompile Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.cpp" />
+    <ClCompile Include="Player\Star1\Star1.cpp" />
+    <ClCompile Include="Player\Star2\Star2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -40,8 +52,27 @@
     <ClInclude Include="Enemy\State\StateBaseh.h" />
     <ClInclude Include="Enemy\State\VerticalMoveState.h" />
     <ClInclude Include="Enemy\State\WaitState.h" />
+    <ClInclude Include="GameObject\ObjectManager\ObjectManager.h" />
+    <ClInclude Include="GameObject\Object\Object.h" />
+    <ClInclude Include="Lib\D3D\D3D9.h" />
+    <ClInclude Include="Lib\Input\GamePad.h" />
+    <ClInclude Include="Lib\Input\KeyBord.h" />
+    <ClInclude Include="Lib\Sound\DirectSound.h" />
+    <ClInclude Include="Lib\Texture\Texture.h" />
+    <ClInclude Include="Lib\Texture\TextureBoad2D.h" />
+    <ClInclude Include="Lib\UV\UV.h" />
+    <ClInclude Include="Lib\Window\Window.h" />
+    <ClInclude Include="LoadResource\LoadResource.h" />
+    <ClInclude Include="Player\PlayerBase\PlayerBase.h" />
+    <ClInclude Include="Player\PlayerState\PlayerDamageState\PlayerDamageState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerStateBase.h" />
+    <ClInclude Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.h" />
+    <ClInclude Include="Player\Star1\Star1.h" />
+    <ClInclude Include="Player\Star2\Star2.h" />
   </ItemGroup>
->>>>>>> master
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{FD9ED209-6EED-49F2-9267-236B129902A3}</ProjectGuid>

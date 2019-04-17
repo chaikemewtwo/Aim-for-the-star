@@ -3,7 +3,7 @@
 
 
 // 死亡状態
-class DeathState : public PlayerStateBase {
+class PlayerDeathState : public PlayerStateBase {
 public:
 	void Update(PlayerBase* p) override;
 	void Init(PlayerBase* p) override;

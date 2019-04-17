@@ -14,8 +14,6 @@
     <ClCompile Include="Main\Main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-<<<<<<< HEAD
-=======
     <ClCompile Include="Enemy\Enemy\EnemyManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -34,7 +32,49 @@
     <ClCompile Include="Enemy\State\WaitState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy\NapoleonFish.cpp">
+    <ClCompile Include="GameObject\ObjectManager\ObjectManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\D3D\D3D9.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Texture\Texture.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Texture\TextureBoad2D.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\UV\UV.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Window\Window.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerBase\PlayerBase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\Star1\Star1.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\Star2\Star2.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadResource\LoadResource.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerState\PlayerDamageState\PlayerDamageState.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -48,6 +88,25 @@
     <ClInclude Include="Enemy\State\StateBase.h" />
     <ClInclude Include="Enemy\State\VerticalMoveState.h" />
     <ClInclude Include="Enemy\State\WaitState.h" />
->>>>>>> master
+    <ClInclude Include="GameObject\Object\Object.h" />
+    <ClInclude Include="GameObject\ObjectManager\ObjectManager.h" />
+    <ClInclude Include="Lib\D3D\D3D9.h" />
+    <ClInclude Include="Lib\Input\GamePad.h" />
+    <ClInclude Include="Lib\Input\KeyBord.h" />
+    <ClInclude Include="Lib\Sound\DirectSound.h" />
+    <ClInclude Include="Lib\Texture\Texture.h" />
+    <ClInclude Include="Lib\Texture\TextureBoad2D.h" />
+    <ClInclude Include="Lib\UV\UV.h" />
+    <ClInclude Include="Lib\Window\Window.h" />
+    <ClInclude Include="Player\PlayerBase\PlayerBase.h" />
+    <ClInclude Include="Player\PlayerState\PlayerStateBase.h" />
+    <ClInclude Include="Player\Star1\Star1.h" />
+    <ClInclude Include="Player\Star2\Star2.h" />
+    <ClInclude Include="LoadResource\LoadResource.h" />
+    <ClInclude Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerDamageState\PlayerDamageState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.h" />
   </ItemGroup>
 </Project>

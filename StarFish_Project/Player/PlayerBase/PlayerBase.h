@@ -1,5 +1,9 @@
 ﻿#pragma once
-#include "../../Common/Common.h"
+#include"../../Lib/D3D/D3D9.h"
+#include"../../Lib/Window/Window.h"
+#include"../../Lib/Texture/Texture.h"
+#include"../../Lib/Texture/TextureBoad2D.h"
+#include"../../Lib/Input/KeyBord.h"
 
 // MEMO:リファクタリングのため自機1と2の操作が同一になっています
 
@@ -88,7 +92,7 @@ protected:
 
 	// 画像格納用
 	// HACK:配列の方がいいかも
-	std::string m_player_texture/*[MAX_STATE_NUMBER]*/;
+	std::string m_player_texture;
 
 	// X、Y方向移動量
 	float m_move_x, m_move_y;

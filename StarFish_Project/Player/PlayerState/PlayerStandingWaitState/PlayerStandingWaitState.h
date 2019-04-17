@@ -3,7 +3,7 @@
 
 
 // 立ち待機状態（オブジェクト上など）
-class StandingWaitState : public PlayerStateBase {
+class PlayerStandingWaitState : public PlayerStateBase {
 public:
 	void Init(PlayerBase* p) override;
 	void Update(PlayerBase* p) override;

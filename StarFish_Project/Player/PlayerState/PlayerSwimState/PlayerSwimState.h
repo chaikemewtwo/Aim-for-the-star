@@ -1,10 +1,10 @@
 ﻿#pragma once
 #include "../PlayerStateBase.h"
-#include "../WaitState/WaitState.h"
+#include "../PlayerWaitState/PlayerWaitState.h"
 
 
 // 泳ぎ状態
-class SwimState : public PlayerStateBase {
+class PlayerSwimState : public PlayerStateBase {
 public:
 	void Init(PlayerBase* p) override;
 	void Update(PlayerBase* p) override;

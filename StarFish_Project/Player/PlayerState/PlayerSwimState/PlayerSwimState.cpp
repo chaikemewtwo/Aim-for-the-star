@@ -1,9 +1,9 @@
-﻿#include "SwimState.h"
+﻿#include "PlayerSwimState.h"
 
 
 // 泳ぎ状態
 // 初期化
-void SwimState::Init(PlayerBase* p) {
+void PlayerSwimState::Init(PlayerBase* p) {
 	count = 0;
 	// アニメーション番号
 	p->SetAnimationNumber(0);
@@ -13,7 +13,7 @@ void SwimState::Init(PlayerBase* p) {
 
 
 // 更新
-void SwimState::Update(PlayerBase* p) {
+void PlayerSwimState::Update(PlayerBase* p) {
 	/*++count;
 	if (count <= MAX_COUNT) {
 		p->ChangeState(new WaitState);
