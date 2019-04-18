@@ -25,7 +25,7 @@ void EnemyManager::Update() {
 		it->Update();
 	}
 	
-	
+	Delete();
 }
 //―――――――――――――――――――――――――――
 
@@ -61,14 +61,14 @@ void EnemyManager::Create() {
 //―――――――――――――――――――――――――――
 
 void EnemyManager::Delete() {
-	// 要素指定用の変数
-	int num = 0;
 	// 仮の削除ループ　　《要変更》
-	for (auto it : m_seaurchin) {
+	for (auto it = m_seaurchin.begin(); it != m_seaurchin.end();) {
 		// デッドフラグがtrueであれば、該当の要素を削除
-		if (it->IsDead() == true) {
-			m_seaurchin.erase(m_seaurchin.begin() + num);
+		if ((*it)->IsDead() == true) {
+			it = m_seaurchin.erase(it);
 		}
-		num++;
+		else {
+			++it;
+		}
 	}
 }
