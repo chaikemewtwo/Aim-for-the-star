@@ -25,7 +25,7 @@ MapManager::~MapManager() {
 }
 
 
-void MapManager::Update(PlayerBase*pb) {
+void MapManager::Update() {
 
 	// nullチェック
 	if (m_pmap_tip == nullptr) {
@@ -35,8 +35,6 @@ void MapManager::Update(PlayerBase*pb) {
 		return;
 	}
 
-	m_pbg->SetPlayer(pb);
-	m_pbg->SetPlayer(pb);
 	// 更新
 	m_pmap_tip->Update();
 	m_pbg->Update();

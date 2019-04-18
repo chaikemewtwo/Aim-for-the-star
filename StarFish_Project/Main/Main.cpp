@@ -22,6 +22,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 	// リソース読み込み
 	Resource::LoadResouce();
 
+	//dev->SetRenderState(D3DPT_AR)
+
 	// マップ
 	MapManager map_m;
 

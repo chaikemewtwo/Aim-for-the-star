@@ -33,7 +33,7 @@ public:
 	}
 
 	// 更新と描画
-	void Update(PlayerBase*player_base);
+	void Update();
 	void Draw();
 
 private:

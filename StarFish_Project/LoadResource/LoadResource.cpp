@@ -11,7 +11,7 @@ void Resource::LoadResouce() {
 
 	// 敵
 	// ウニ
-	Texture::Load("Resource/uni.jpg");
+	Texture::Load("Resource/uni.png");
 
 	// マップ
 	Texture::Load("Resource/bg_hero_01.png");

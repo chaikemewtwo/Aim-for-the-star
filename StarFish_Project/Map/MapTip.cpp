@@ -271,7 +271,7 @@ void MapTip::MapColider() {
 	m_chip_pos.y += m_move_pos.y;
 
 	// 移動をなくす
-	m_move_pos.x = m_move_pos.y = 0.f;
+	//m_move_pos.x = m_move_pos.y = 0.f;
 
 }
 

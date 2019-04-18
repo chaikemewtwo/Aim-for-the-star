@@ -50,7 +50,7 @@ void SeaUrchin::Update() {
 
 // 描画関数
 void SeaUrchin::Draw() {
-	Texture::Draw2D("Resource/uni.jpg", m_pos.x, m_pos.y);
+	Texture::Draw2D("Resource/uni.png", m_pos.x, m_pos.y);
 }
 //―――――――――――――――――――――――――――
 
