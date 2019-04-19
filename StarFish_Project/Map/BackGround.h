@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"Object.h"
+//#include"Object.h"
 
 #include"../Lib/D3D/D3D9.h"
 #include"../Lib/Texture/Texture.h"
@@ -11,7 +11,7 @@
 
 
 // 背景クラス
-class BackGround : public Object{
+class BackGround{
 public:
 
 	// constexprはコンパイル時定数になる

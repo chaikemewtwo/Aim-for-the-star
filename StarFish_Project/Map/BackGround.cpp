@@ -1,4 +1,5 @@
 ﻿#include"BackGround.h"
+#include"../oxdebugfont.h"
 
 
 
@@ -105,13 +106,13 @@ void BackGround::Draw() {
 	//Texture::Draw2D("renga.png", m_pos.x, -m_pos.y + (-GRAPH_SCALE_H) * m_now_graph);
 
 
-	//OX::DebugFont::print(100, 100, 1000, "-back_pos => %f", -back_pos_up.y);
-	//OX::DebugFont::print(100, 200, 500, "back_pos => %f", back_pos_up.y);
-	////OX::DebugFont::print(100, 300, 0, "condition:%d",debug1);
-	//OX::DebugFont::print(100, 600, 100, "now_graph => %d", now_graph);
-	//OX::DebugFont::print(100, 700, 100, "next_graph => %d", next_graph);
-	//
-	//OX::DebugFont::draw(dev);
-	//OX::DebugFont::clear();
+	OX::DebugFont::print(100, 100, 1000, "-back_pos => %f", -m_pos.y);
+	OX::DebugFont::print(100, 200, 500, "back_pos => %f", m_pos.y);
+	//OX::DebugFont::print(100, 300, 0, "condition:%d",debug1);
+	OX::DebugFont::print(100, 600, 100, "now_graph => %d", m_now_graph);
+	OX::DebugFont::print(100, 700, 100, "next_graph => %d", m_next_graph);
+	
+	OX::DebugFont::draw(dev);
+	OX::DebugFont::clear();
 }
 

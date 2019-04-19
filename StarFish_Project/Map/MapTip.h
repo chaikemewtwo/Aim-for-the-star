@@ -95,7 +95,7 @@ private:
 
 	/* マップ座標 */
 
-	D3DXVECTOR2 m_obj_pos;// 自機の位置
+	D3DXVECTOR2 m_obj_pos;   // 自機の位置
 	D3DXVECTOR2 m_chip_pos;  // チップの位置 
 	D3DXVECTOR2 m_move_pos;  // 自機の移動ベクトル
 
@@ -104,6 +104,8 @@ private:
 
 
 	/* マップ描画領域 */
+
+	int m_height_map_num;    // マップデータの高さ
 
 	int m_draw_range_begin;  // 描画領域前
 	int m_draw_range_end;    // 描画領域後
