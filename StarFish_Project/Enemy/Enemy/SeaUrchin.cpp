@@ -37,12 +37,6 @@ void SeaUrchin::Update() {
 	m_pstate_base->Action(this);
 
 	OutScreen();
-
-	// 仮の遷移　のちにStateないで遷移させる部分
-	if (m_change_timer >= 10) {
-		ChangeState(VerticalMove::GetInstance());
-		m_change_timer = 0;
-	}
 }
 //―――――――――――――――――――――――――――
 

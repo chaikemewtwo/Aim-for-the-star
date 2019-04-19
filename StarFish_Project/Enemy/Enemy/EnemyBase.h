@@ -82,8 +82,12 @@ public:
 
 	// 《仮関数》
 	virtual void SetChangeTimer(int t) {
-		int num = t;
-		m_change_timer = num;
+		m_change_timer = t;
+	}
+
+	// 敵種類のゲッター
+	virtual int GetEnemyType() {
+		return m_enemy_type;
 	}
 
 protected:
