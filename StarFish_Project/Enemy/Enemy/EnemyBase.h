@@ -1,9 +1,9 @@
 ﻿#pragma once
 #include"../State/StateBase.h"
-#include"../State/ChaseState.h"
-#include"../State/SideMoveState.h"
-#include"../State/VerticalMoveState.h"
-#include"../State/WaitState.h"
+#include"../State/EnemyWaitState.h"
+#include"../State/EnemyChaseState.h"
+#include"../State/EnemySideMoveState.h"
+#include"../State/EnemyVerticalMoveState.h"
 #include"../../Lib/Texture/Texture.h"
 #include"../../Lib/Texture/TextureBoad2D.h"
 #include"../../Lib/D3D/D3D9.h"

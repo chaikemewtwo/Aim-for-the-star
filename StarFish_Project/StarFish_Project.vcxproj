@@ -21,10 +21,10 @@
   <ItemGroup>
     <ClCompile Include="Enemy\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Enemy\Enemy\SeaUrchin.cpp" />
-    <ClCompile Include="Enemy\State\ChaseStatecpp.cpp" />
-    <ClCompile Include="Enemy\State\SideMoveState.cpp" />
-    <ClCompile Include="Enemy\State\VerticalMoveState.cpp" />
-    <ClCompile Include="Enemy\State\WaitState.cpp" />
+    <ClCompile Include="Enemy\State\EnemyChaseState.cpp" />
+    <ClCompile Include="Enemy\State\EnemySideMoveState.cpp" />
+    <ClCompile Include="Enemy\State\EnemyVerticalMoveState.cpp" />
+    <ClCompile Include="Enemy\State\EbemyWaitState.cpp" />
     <ClCompile Include="GameObject\ObjectManager\ObjectManager.cpp" />
     <ClCompile Include="Lib\D3D\D3D9.cpp" />
     <ClCompile Include="Lib\Texture\Texture.cpp" />
@@ -46,12 +46,11 @@
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
     <ClInclude Include="Enemy\Enemy\EnemyManager.h" />
     <ClInclude Include="Enemy\Enemy\SeaUrchin.h" />
-    <ClInclude Include="Enemy\State\ChaseState.h" />
-    <ClInclude Include="Enemy\State\SideMoveState.h" />
+    <ClInclude Include="Enemy\State\EnemyChaseState.h" />
+    <ClInclude Include="Enemy\State\EnemySideMoveState.h" />
     <ClInclude Include="Enemy\State\StateBase.h" />
-    <ClInclude Include="Enemy\State\StateBaseh.h" />
-    <ClInclude Include="Enemy\State\VerticalMoveState.h" />
-    <ClInclude Include="Enemy\State\WaitState.h" />
+    <ClInclude Include="Enemy\State\EnemyVerticalMoveState.h" />
+    <ClInclude Include="Enemy\State\EnemyWaitState.h" />
     <ClInclude Include="GameObject\ObjectManager\ObjectManager.h" />
     <ClInclude Include="GameObject\Object\Object.h" />
     <ClInclude Include="Lib\D3D\D3D9.h" />

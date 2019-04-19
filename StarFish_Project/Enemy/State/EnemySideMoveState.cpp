@@ -1,4 +1,4 @@
-﻿#include"SideMoveState.h"
+﻿#include"EnemySideMoveState.h"
 
 SideMove* SideMove::GetInstance() {
 	static SideMove s_side_move;

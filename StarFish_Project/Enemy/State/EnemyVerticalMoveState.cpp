@@ -1,4 +1,4 @@
-﻿#include"VerticalMoveState.h"
+﻿#include"EnemyVerticalMoveState.h"
 
 VerticalMove *VerticalMove::GetInstance() {
 	static VerticalMove s_vertical_move;
