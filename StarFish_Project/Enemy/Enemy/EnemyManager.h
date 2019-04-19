@@ -16,5 +16,5 @@ public:
 
 private:
 	// ウニ配列　《要/変更》→敵全体を通した配列に
-	std::vector<SeaUrchin*> m_seaurchin;
+	std::vector<EnemyBase*> m_enemy_list;
 };
