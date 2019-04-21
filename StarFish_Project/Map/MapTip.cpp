@@ -117,7 +117,7 @@ void MapTip::Load(const std::string&file_name) {
 
 		// 最初が改行と空白なら戻す
 		if (str_buf[0] == '\n' || str_buf[0] == '\0') {
-			h++;
+			//h++;
 			continue;
 		}
 
@@ -220,8 +220,8 @@ void MapTip::SetpPlayerInstance(Player*player) {
 void MapTip::Draw() {
 
 
-	// 描画位置の開始地点
-	D3DXVECTOR2 start_pos(0, 900);//y-50上の高さ
+	// 描画位置の開始地点    900
+	D3DXVECTOR2 start_pos(0, 950);//y-50上の高さ
 
 	// 前進するごとにチップを置き換える
 	m_draw_range_begin = GetChipPosCast(m_chip_pos.y) + MAP_NUM_Y-2;
@@ -238,6 +238,7 @@ void MapTip::Draw() {
 			if (y < 0 || y > m_draw_range_begin) {
 				y = 0;
 			}
+			// ブロックがなくなったらループに入らない
 			if ((m_height_map_num - 1) - y <= 0) {
 				return;
 			}
@@ -254,7 +255,7 @@ void MapTip::Draw() {
 	start_pos.x = 0;
 	
 	// お試し描画
-	OX::DebugFont::print(1000, -500, 0x444, "draw_range => %d", draw_range);
+	OX::DebugFont::print(300,300,1000, "draw_range => %d", draw_range);
 	
 	OX::DebugFont::draw(dev);
 	OX::DebugFont::clear();
@@ -401,13 +402,25 @@ int MapTip::GetChipParam(const float &pos_x, const float&pos_y, const int&map_nu
 	int px = GetChipPosCast(pos_x);
 	int py = GetChipPosCast(pos_y);
 
-	// 範囲外なら
-	if (px < 0 || px >= MAP_NUM_X || py < 0 || py >= MAP_NUM_Y) {
-		return 0;
+	// デバッグ場
+	if (py <= 0) {
+		py = 0;
+	}
+	//else if (py >= MAP_NUM_Y) {
+	//	py = 18;
+	//}
+	else if ((py - MAP_NUM_Y
+		)<= -30) {
+		py = 40;
 	}
 
+	// 範囲外なら
+	//if (px < 0 || px >= MAP_NUM_X || (m_height_map_num - py) < 0) {
+	//	return 0;
+	//}
+
 	// マップの当たり判定をm_draw_mapに変更
-	return m_draw_map[m_height_map_num - 2 - py][px];
+	return m_draw_map[m_height_map_num - (py - MAP_NUM_Y)][px];
 }
 
 // 所定位置にブロックを置く
