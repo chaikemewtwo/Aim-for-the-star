@@ -10,7 +10,7 @@ SeaUrchin::SeaUrchin(float x,float y) {
 }
 //――――――――――――――――――――――――――
 
-// デストラクタ
+// 初期化関数
 void SeaUrchin::Init() {
 	// StateをWaitで初期化
 	m_pstate_base = Wait::GetInstance();
@@ -23,7 +23,6 @@ void SeaUrchin::Init() {
 	m_pos.y = 0;
 	m_speed = 2;
 	m_dead_timer = 60;
-	m_change_timer = 0;
 	m_is_dead = false;
 
 	// 敵の種類を設定

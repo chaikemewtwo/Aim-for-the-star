@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"../State/StateBase.h"
+#include"../State/EnemyStateBase.h"
 #include"../State/EnemyWaitState.h"
 #include"../State/EnemyChaseState.h"
 #include"../State/EnemySideMoveState.h"
@@ -11,7 +11,7 @@
 enum EnemyTypeId {
 	SeaUrchinId,		// ウニ
 	SellFishId,			// ほら貝
-	NapoleonFishId,		// ナポレオン
+	NapoleonFishId,		// ナポレオンフィッシュ
 	EnemyTypeMax		// 敵種の最大数
 };
 
@@ -21,11 +21,10 @@ public:
 	EnemyBase() {}
 	virtual ~EnemyBase() {}
 
-	virtual void Init() = 0;
-	virtual void Update() = 0;
-	virtual void Draw() = 0;
-	// 《要/変更》→State内で遷移するように
-	virtual void ChangeState(StateBase* state) = 0;
+	virtual void Init() = 0;						// 初期化
+	virtual void Update() = 0;						// 更新
+	virtual void Draw() = 0;						// 描画
+	virtual void ChangeState(StateBase* state) = 0;	// 遷移
 
 	// 画面外に出たらm_is_deadをtrueにする関数
 	virtual void  OutScreen() {
@@ -33,7 +32,8 @@ public:
 		if (m_pos.y > WINDOW_H_F || m_pos.x<0 || m_pos.x>WINDOW_W_F) {
 			if (m_dead_timer >= 0) {
 				m_dead_timer--;
-				if (m_change_timer <= 0) {
+				// 時間が0になったら削除フラグをtrueに
+				if (m_dead_timer <= 0) {
 					m_is_dead = true;
 				}
 			}
@@ -44,7 +44,7 @@ public:
 		}
 	}
 
-	// 位置座標ゲッター、セッター
+	// 位置座標のゲッター、セッター
 	virtual float GetPosX() {
 		return m_pos.x;
 	}
@@ -61,28 +61,19 @@ public:
 		m_pos.y = y;
 	}
 
-	// 速度ゲッター
+	// 速度のゲッター
 	virtual float GetSpeed() {
 		return m_speed;
 	}
 
-	// フラグゲッター
+	// 死亡フラグのゲッター
 	virtual bool IsDead() {
 		return m_is_dead;
 	}
 
-	// タイマー各種ゲッター、セッター
+	// タイマーのゲッター、セッター
 	virtual int GetDeadTimer() {
 		return m_dead_timer;
-	}
-
-	virtual int GetChangeTimer() {
-		return m_change_timer;
-	}
-
-	// 《仮関数》
-	virtual void SetChangeTimer(int t) {
-		m_change_timer = t;
 	}
 
 	// 敵種類のゲッター
@@ -94,7 +85,6 @@ protected:
 	D3DXVECTOR2 m_pos;	// 座標
 	float m_speed;		// 速度
 	int m_dead_timer;	// 削除用タイマー
-	int m_change_timer;	// 遷移用タイマー
 	bool m_is_dead;		// 削除フラグ
 	int m_enemy_type;	// 敵の種類
 };

@@ -4,8 +4,9 @@
 // ウニクラス
 class SeaUrchin :public EnemyBase {
 public:
-	SeaUrchin(float x, float y);
-	~SeaUrchin()override {}
+	// コンストラクタの引数に初期位置を入れる
+	SeaUrchin(float x, float y);	
+	~SeaUrchin()override {}	
 
 	void Init()override;
 	void Update()override;
