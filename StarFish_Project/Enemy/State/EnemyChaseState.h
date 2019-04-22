@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"StateBase.h"
+#include"EnemyStateBase.h"
 #include"../Enemy/SeaUrchin.h"
 
 // 追跡クラス

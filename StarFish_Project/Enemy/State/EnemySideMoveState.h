@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"StateBase.h"
+#include"EnemyStateBase.h"
 
 // 横移動クラス
 class SideMove :public StateBase {

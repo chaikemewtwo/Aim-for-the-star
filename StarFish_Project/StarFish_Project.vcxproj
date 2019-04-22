@@ -24,7 +24,7 @@
     <ClCompile Include="Enemy\State\EnemyChaseState.cpp" />
     <ClCompile Include="Enemy\State\EnemySideMoveState.cpp" />
     <ClCompile Include="Enemy\State\EnemyVerticalMoveState.cpp" />
-    <ClCompile Include="Enemy\State\EbemyWaitState.cpp" />
+    <ClCompile Include="Enemy\State\EnemyWaitState.cpp" />
     <ClCompile Include="GameObject\ObjectManager\ObjectManager.cpp" />
     <ClCompile Include="Lib\D3D\D3D9.cpp" />
     <ClCompile Include="Lib\Texture\Texture.cpp" />
@@ -48,7 +48,7 @@
     <ClInclude Include="Enemy\Enemy\SeaUrchin.h" />
     <ClInclude Include="Enemy\State\EnemyChaseState.h" />
     <ClInclude Include="Enemy\State\EnemySideMoveState.h" />
-    <ClInclude Include="Enemy\State\StateBase.h" />
+    <ClInclude Include="Enemy\State\EnemyStateBase.h" />
     <ClInclude Include="Enemy\State\EnemyVerticalMoveState.h" />
     <ClInclude Include="Enemy\State\EnemyWaitState.h" />
     <ClInclude Include="GameObject\ObjectManager\ObjectManager.h" />
