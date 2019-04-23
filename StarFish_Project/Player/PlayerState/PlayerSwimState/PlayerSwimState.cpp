@@ -7,8 +7,8 @@ void PlayerSwimState::Init(PlayerBase* p) {
 	count = 0;
 	// アニメーション番号
 	p->SetAnimationNumber(0);
-	// 描画する画像の変更
-	p->SetTextureType(p->SWIM_TEXTURE);
+	// 状態に適した画像に変更
+	p->SetTextureType(SWIM);
 }
 
 

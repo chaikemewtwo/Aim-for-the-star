@@ -6,22 +6,10 @@
 #include "../../Lib/Input/KeyBord.h"
 #include "../../GameObject/Object/Object.h"
 
-// MEMO:リファクタリングのため自機1と2の操作が同一になっています
+// MEMO:自機1と2の操作が同一になっています（分割する必要あり）
 
 class PlayerBase : public Object {
 public:
-
-	//-----------------------------------------------------
-	// これいらん気がする
-	enum STATE {
-		WAIT_TEXTURE,				// 待機
-		SWIM_TEXTURE,				// 泳ぐ
-		STANDING_WAIT_TEXTURE,		// 立ち待機
-		DAMAGE_TEXTURE,				// ダメージ
-		DEATH_TEXTURE,				// 死亡状態
-		MAX_STATE__TEXTURE_NUMBER	// 最大値
-	};
-	//-----------------------------------------------------
 
 	// 関数 ------------------------------------------------
 	// コンストラクタ
@@ -61,6 +49,7 @@ public:
 	}
 
 	// プレイヤー状態各画像変更用セッター
+	// 統合画像の最大値は16枚だが状態によって16枚全て使用するとは限らないので注意する
 	void SetTextureType(STATE state) {
 		texture_type = state;
 	}
@@ -81,13 +70,14 @@ protected:
 	// 角度変換
 	const float ANGLE_ADD = 0.5f;
 
+	// 向き変更時最大角度（ヒトデの頭の向きの左右の最大角度）
+	const float MAX_ANGLE = 45.f;
+
 	// 泳ぎインターバル
 	const int SWIM_INTERVAL = 96;
 
-	// 向き変更時最大角度
-	const float MAX_ANGLE = 45.f;
-
 	// 泳ぎアニメーション補助用
+	// HACK:SwimStateに移行する
 	const int SWIM_ANIMATION_SUPPORT_NUMBER = 6;
 	//-----------------------------------------------------
 
@@ -106,8 +96,6 @@ protected:
 	const int TEXTURE_PARTITION_Y_NUMBER = 4;
 	//-----------------------------------------------------
 
-
-
 	// 関数 ------------------------------------------------
 	// 重力負荷
 	void AddGravity();
@@ -115,11 +103,9 @@ protected:
 	// X方向向き変更
 	void AngleAdjust(bool is_move_right);
 	
-
 	// 変数 ------------------------------------------------
-
 	// 画像格納用
-	// HACK:配列の方がいいかも
+	// HACK:配列にenum突っ込んだ方がいいかも、自機が2種類分あるので工夫する必要がある
 	std::string m_player_texture;
 
 	// X、Y方向移動量
@@ -138,9 +124,12 @@ protected:
 	// HACK:Stateパターン内で管理する
 	int m_swim_interval_count;
 	//-----------------------------------------------------
+
 private:
-	// 関数
+
+	// 関数　----------------------------------------------
 	// 泳ぐ（ジャンプ）、傾いてる向きに移動
 	// HACK:Stateに書き直す
 	void SwimUp();
+	//-----------------------------------------------------
 };

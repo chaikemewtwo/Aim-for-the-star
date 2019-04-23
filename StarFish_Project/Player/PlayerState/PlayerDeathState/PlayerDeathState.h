@@ -8,4 +8,7 @@ public:
 	void Update(PlayerBase* p) override;
 	void Init(PlayerBase* p) override;
 
+private:
+	// 数値は仮のもの、統合画像が完成次第変更する
+	const int MAX_TEXTURE_NUM = 8;
 };

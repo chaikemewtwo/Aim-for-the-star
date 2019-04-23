@@ -7,5 +7,11 @@ class PlayerStandingWaitState : public PlayerStateBase {
 public:
 	void Init(PlayerBase* p) override;
 	void Update(PlayerBase* p) override;
-	
+
+private:
+	int count;
+	// 数値は仮のもの
+	const int MAX_COUNT = 120;
+
+	const int MAX_TEXTURE_NUM = 8;
 };
