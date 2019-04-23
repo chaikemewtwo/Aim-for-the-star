@@ -6,17 +6,15 @@
 void PlayerWaitState::Init(PlayerBase* p) {
 	// アニメーション番号
 	p->SetAnimationNumber(0);
-	p->WAIT;
+	// 
+	p->SetTextureType(p->WAIT_TEXTURE);
 }
 
 
 // 更新
 void PlayerWaitState::Update(PlayerBase* p) {
-	Keybord& kb = Keybord::getInterface();
-
-	// テスト用なので自機1の操作を使用
-	// 泳ぎ状態へ移行
-	//if (kb.press('V')) {
-	//	p->ChangeState(new SwimState);
-	//}
+	// アニメーション番号更新（アニメーションの速さは考慮していない、高速で動く）
+	for (int animation_num = 0; animation_num < MAX_TEXTURE_NUM; ++animation_num) {
+		p->SetAnimationNumber(animation_num);
+	}
 }

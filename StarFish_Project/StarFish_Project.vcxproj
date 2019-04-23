@@ -39,6 +39,10 @@
     <ClCompile Include="Player\PlayerBase\PlayerBase.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerDamageState\PlayerDamageState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.cpp" />
+    <ClCompile Include="Player\PlayerState\PlayerManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.cpp" />
@@ -72,6 +76,10 @@
     <ClInclude Include="Player\PlayerBase\PlayerBase.h" />
     <ClInclude Include="Player\PlayerState\PlayerDamageState\PlayerDamageState.h" />
     <ClInclude Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Player\PlayerState\PlayerStateBase.h" />
     <ClInclude Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.h" />
     <ClInclude Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.h" />

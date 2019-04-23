@@ -2,9 +2,9 @@
 #include <cmath>
 
 
-PlayerBase::PlayerBase() /*:m_state(new WaitState)*/{
+PlayerBase::PlayerBase() {
 	// 移動速度
-	m_move_speed = 2.f;
+	m_speed = 2.f;
 
 	// 傾き
 	m_character_angle = 0.f;
@@ -16,7 +16,7 @@ PlayerBase::PlayerBase() /*:m_state(new WaitState)*/{
 	m_animation_number = 0;
 
 	// 初期化時に表示する画像
-	/*m_player_texture[WAIT];*/
+	m_player_texture = WAIT_TEXTURE;
 }
 
 
@@ -42,8 +42,6 @@ void PlayerBase::Update() {
 	}
 	//-----------------------------------------------------
 
-	// 状態推移はステートで切り替え予定
-	/*m_state->Update(this);*/
 
 	// 以下の処理は全てステートで管理する
 	// 泳ぎアニメーション
@@ -107,39 +105,10 @@ void PlayerBase::AngleAdjust(bool is_move_right) {
 
 void PlayerBase::SwimUp() {
 	// ベクトルの長さ(上方向への移動)
-	m_move.x = sin(m_character_angle * PI / (float)180.f) * m_move_speed;
-	m_move.y = cos(m_character_angle * PI / (float)180.f) * m_move_speed;
+	m_move.x = sin(m_character_angle * PI / (float)180.f) * m_speed;
+	m_move.y = cos(m_character_angle * PI / (float)180.f) * m_speed;
 
 	// 移動量インクリメント
 	m_pos.x += m_move.x;
 	m_pos.y -= m_move.y;
 }
-
-
-void PlayerBase::SetAnimationNumber(int new_animation_number) {
-	// アニメーション番号上書き
-	m_animation_number = new_animation_number;
-}
-
-D3DXVECTOR2 PlayerBase::GetPos() {
-	return m_pos;
-}
-
-D3DXVECTOR2 PlayerBase::GetMovePos() {
-	return m_move;
-}
-
-
-void PlayerBase::SetPos(D3DXVECTOR2 pos) {
-	m_pos = pos;
-}
-
-void PlayerBase::SetMovePos(D3DXVECTOR2 move) {
-	m_move = move;
-}
-
-
-//void PlayerBase::ChangeState(STATE* new_state) {
-//	delete this->m_state;
-//	this->m_state = new_state;
-//}

@@ -1,26 +1,29 @@
 ﻿#pragma once
-#include"../../Lib/D3D/D3D9.h"
-#include"../../Lib/Window/Window.h"
-#include"../../Lib/Texture/Texture.h"
-#include"../../Lib/Texture/TextureBoad2D.h"
-#include"../../Lib/Input/KeyBord.h"
+#include "../../Lib/D3D/D3D9.h"
+#include "../../Lib/Window/Window.h"
+#include "../../Lib/Texture/Texture.h"
+#include "../../Lib/Texture/TextureBoad2D.h"
+#include "../../Lib/Input/KeyBord.h"
+#include "../../GameObject/Object/Object.h"
 
 // MEMO:リファクタリングのため自機1と2の操作が同一になっています
 
-class PlayerBase {
+class PlayerBase : public Object {
 public:
+
 	//-----------------------------------------------------
+	// これいらん気がする
 	enum STATE {
-		WAIT,
-		SWIM,
-		STANDING_WAIT,
-		DAMAGE,
-		DEATH,
-		MAX_STATE_NUMBER
+		WAIT_TEXTURE,				// 待機
+		SWIM_TEXTURE,				// 泳ぐ
+		STANDING_WAIT_TEXTURE,		// 立ち待機
+		DAMAGE_TEXTURE,				// ダメージ
+		DEATH_TEXTURE,				// 死亡状態
+		MAX_STATE__TEXTURE_NUMBER	// 最大値
 	};
 	//-----------------------------------------------------
 
-	// 関数
+	// 関数 ------------------------------------------------
 	// コンストラクタ
 	PlayerBase();
 
@@ -34,25 +37,40 @@ public:
 	// 描画処理
 	// MEMO:自機2も自機1の画像を使用中、自機2の画像が完成次第変更する
 	void Draw();
+	//-----------------------------------------------------
 
-	// ステート変更
-	void ChangeState(STATE* state);
+	// ゲッターとセッター ----------------------------------
+	// プレイヤー座標ゲッター
+	D3DXVECTOR2 GetPos() {
+		return m_pos;
+	}
 
-	D3DXVECTOR2 GetPos();
+	// プレイヤー移動量ゲッター
+	D3DXVECTOR2 GetMovePos() {
+		return m_move;
+	}
 
-	// 移動量ゲッター
-	D3DXVECTOR2 GetMovePos();
+	// プレイヤー座標セッター
+	void SetPos(D3DXVECTOR2 pos) {
+		m_pos = pos;
+	}
 
-	// 当たり判定用
-	// ポジションセッター
-	void SetPos(D3DXVECTOR2 pos);
+	// プレイヤー移動量セッター
+	void SetMovePos(D3DXVECTOR2 move) {
+		m_move = move;
+	}
 
-	// 移動量セッター
-	void SetMovePos(D3DXVECTOR2 move);
+	// プレイヤー状態各画像変更用セッター
+	void SetTextureType(STATE state) {
+		texture_type = state;
+	}
 
-	// アニメーション番号上書き（セッター）
-	void SetAnimationNumber(int new_animation_number);
-	
+	// アニメーション番号セッター
+	void SetAnimationNumber(int new_animation_number) {
+		m_animation_number = new_animation_number;
+	};
+	//-----------------------------------------------------
+
 protected:
 
 	//-----------------------------------------------------
@@ -90,7 +108,7 @@ protected:
 
 
 
-	// 関数
+	// 関数 ------------------------------------------------
 	// 重力負荷
 	void AddGravity();
 
@@ -98,9 +116,7 @@ protected:
 	void AngleAdjust(bool is_move_right);
 	
 
-	// 変数
-	// プレイヤー座標
-	D3DXVECTOR2 m_pos;
+	// 変数 ------------------------------------------------
 
 	// 画像格納用
 	// HACK:配列の方がいいかも
@@ -109,11 +125,11 @@ protected:
 	// X、Y方向移動量
 	D3DXVECTOR2 m_move;
 
-	// 移動速度
-	float m_move_speed;
-
 	// 自機画像角度
 	float m_character_angle;
+
+	// ステート（状態）
+	STATE texture_type;
 
 	// 挙動のアニメーション番号管理用
 	int m_animation_number;
@@ -121,12 +137,10 @@ protected:
 	// 泳ぎクールタイム計測用
 	// HACK:Stateパターン内で管理する
 	int m_swim_interval_count;
-
+	//-----------------------------------------------------
 private:
 	// 関数
 	// 泳ぐ（ジャンプ）、傾いてる向きに移動
+	// HACK:Stateに書き直す
 	void SwimUp();
-
-	// ステートベースインスタンス
-	STATE m_state;
 };
