@@ -1,4 +1,6 @@
 ﻿#include"EnemyWaitState.h"
+#include"EnemySideMoveState.h"
+#include"EnemyVerticalMoveState.h"
 #include"../Enemy/SeaUrchin.h"
 
 Wait *Wait::GetInstance() {

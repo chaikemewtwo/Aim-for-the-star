@@ -1,7 +1,9 @@
 ﻿#pragma once
-#include<time.h>
+
+#include<vector>
 #include"SeaUrchin.h"
 
+class EnemyBase;
 // 敵の生成最大数(仮)
 const int Enemy_Max_Num = 5;
 

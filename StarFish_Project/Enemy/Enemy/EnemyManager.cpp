@@ -1,4 +1,5 @@
-﻿#include"EnemyManager.h"
+﻿#include<time.h>
+#include"EnemyManager.h"
 
 EnemyManager::EnemyManager() {
 	// ランダム生成のためのシード値設定
