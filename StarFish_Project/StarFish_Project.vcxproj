@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Enemy\Enemy\EnemyBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Enemy\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Enemy\Enemy\SeaUrchin.cpp" />
     <ClCompile Include="Enemy\State\EnemyChaseState.cpp" />
