@@ -8,6 +8,10 @@
 
 使用例
 
+オブジェクトの継承を行う。
+Objectを継承する基準は描画と更新を行うかどうか
+
+～例～
      class Player : public Object{
 	 public:
 
@@ -50,6 +54,9 @@
 */
 
 
+// 敵管理の参照
+class EnemyManager;
+
 // オブジェクト管理クラス
 class ObjectManager {
 public:
@@ -70,4 +77,10 @@ private:
 
 	// オブジェクト管理クラス(更新時にアドレスを入れる)
 	std::vector<std::unique_ptr<Object>>m_obj_lists;
+	// 当たり判定管理所
+	CollisionManager *m_pcol_mng;
+	
+	// Playerの実体
+	Player m_p1;
+	Player m_p2;
 };

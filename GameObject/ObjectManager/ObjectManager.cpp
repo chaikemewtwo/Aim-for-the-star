@@ -1,12 +1,12 @@
 ﻿#include"ObjectManager.h"
-
+#include"../../CollisionObject/CollisionManager.h"
 
 
 
 ObjectManager::ObjectManager() {
 
-	// 管理クラス生成例
-	//m_mng_lists.emplace_back(new EnemyManager(this));
+	// 当たり判定管理所を作る
+	m_pcol_mng = new CollisionManager(m_p1,m_p2);
 }
 
 
@@ -18,6 +18,8 @@ void ObjectManager::Update() {
 		itr->Update();
 	}
 
+	// 当たり判定
+	m_pcol_mng->Collision();
 }
 
 
