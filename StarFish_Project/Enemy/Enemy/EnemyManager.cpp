@@ -1,5 +1,7 @@
 ﻿#include<time.h>
 #include"EnemyManager.h"
+#include"SeaUrchin.h"
+#include"SellFish.h"
 
 EnemyManager::EnemyManager() {
 	// ランダム生成のためのシード値設定
@@ -20,8 +22,8 @@ EnemyManager::~EnemyManager() {
 // 更新関数
 void EnemyManager::Update() {
 	Create();
-
-	// 要素数分ループ
+	
+	// 要素数分ループ　《ObjectManagerで実装のため削除予定》
 	for (auto i : m_enemy_list) {
 		// 各要素のUpdate関数を呼ぶ
 		i->Update();
@@ -51,10 +53,16 @@ void EnemyManager::Create() {
 		if (m_enemy_list.size() < Enemy_Max_Num) {
 			float x = (rand() % (WINDOW_W_INT - 100));
 			float y = (rand() % (WINDOW_H_INT - 100));
-			// 一定の確率で敵を生成
+			// 一定の確率で敵を生成　《仮の生成実装》
 			if (rand() % 100 == 0) {
 				// ランダムに割り出したxyを使用して敵を登録
 				m_enemy_list.emplace_back(new SeaUrchin(x, y));
+			}
+			else if (rand() % 100 == 5) {
+				m_enemy_list.emplace_back(new SeaUrchin(x, y, true));
+			}
+			else if (rand() % 100 == 3) {
+				m_enemy_list.emplace_back(new SellFish(x, y));
 			}
 		}
 	}
@@ -66,10 +74,9 @@ void EnemyManager::Delete() {
 	// 削除ループ
 	for (auto it = m_enemy_list.begin(); it != m_enemy_list.end();) {
 		// デッドフラグがtrueであれば、該当の要素を削除
-		if ((*it)->IsDead() == true) {
+		if ((*it)->IsActive() == false) {
 			it = m_enemy_list.erase(it);
 		}
-		// falseであればイテレータを進める
 		else {
 			++it;
 		}
