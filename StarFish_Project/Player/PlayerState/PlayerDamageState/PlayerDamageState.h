@@ -6,8 +6,16 @@
 // HACK:被弾状態は不要な可能性がある
 class PlayerDamageState : public PlayerStateBase {
 public:
+	// インスタンス取得
+	static PlayerDamageState *GetInstance()
+	{
+		static PlayerDamageState instance;
+		return &instance;
+	}
+
 	void Init(PlayerBase * p) override;
 	void Update(PlayerBase * p) override;
+
 private:
 	int count;
 	// 数値は仮のもの

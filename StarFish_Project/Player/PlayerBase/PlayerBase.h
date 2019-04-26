@@ -5,29 +5,29 @@
 #include "../../Lib/Texture/TextureBoad2D.h"
 #include "../../Lib/Input/KeyBord.h"
 #include "../../GameObject/Object/Object.h"
+#include "../PlayerState/PlayerStateBase.h"
 
 // MEMO:自機1と2の操作が同一になっています（分割する必要あり）
 
 class PlayerBase : public Object {
-public:
-
-	// 関数 ------------------------------------------------
+public:	
 	// コンストラクタ
 	PlayerBase();
-
 	// 仮想デストラクタ
 	virtual ~PlayerBase() {}
 
+	// ゲームシーンで使用する関数 -------------------------
 	// 更新処理
 	// HACK：自機2も自機1の操作方法になっているので操作の分離が必要
 	void Update();
-	
+
 	// 描画処理
 	// MEMO:自機2も自機1の画像を使用中、自機2の画像が完成次第変更する
 	void Draw();
 	//-----------------------------------------------------
 
-	// ゲッターとセッター ----------------------------------
+
+	// 当たり判定で使用する関数	---------------------------
 	// プレイヤー座標ゲッター
 	D3DXVECTOR2 GetPos() {
 		return m_pos;
@@ -47,17 +47,42 @@ public:
 	void SetMovePos(D3DXVECTOR2 move) {
 		m_move = move;
 	}
+	//-----------------------------------------------------
 
-	// プレイヤー状態各画像変更用セッター
-	// 統合画像の最大値は16枚だが状態によって16枚全て使用するとは限らないので注意する
-	void SetTextureType(STATE state) {
-		texture_type = state;
+
+	// 状態遷移（各State）で使用する関数 ------------------
+	// アニメーション番号ゲッター
+	int GetAnimationNumber() {
+		return m_animation_number;
 	}
 
-	// アニメーション番号セッター
-	void SetAnimationNumber(int new_animation_number) {
-		m_animation_number = new_animation_number;
-	};
+	// アニメーション番号0初期化
+	void ResetAnimationNumber() {
+		m_animation_number = 0;
+	}
+
+	// アニメーション番号インクリメント
+	int AddAnimationNumber() {
+		m_animation_number++;
+		return m_animation_number;
+	}
+
+
+	// 状態遷移タイマーゲッター
+	int GetStateChangeTimer() {
+		return m_state_change_timer;
+	}
+
+	// 状態遷移タイマー0初期化
+	void ResetStateChangeTimer() {
+		m_state_change_timer = 0;
+	}
+
+	// 状態遷移タイマーインクリメント
+	int AddStateChangeTimer(){
+		++m_state_change_timer;
+		return m_state_change_timer;
+	}
 	//-----------------------------------------------------
 
 protected:
@@ -114,11 +139,10 @@ protected:
 	// 自機画像角度
 	float m_character_angle;
 
-	// ステート（状態）
-	STATE texture_type;
-
-	// 挙動のアニメーション番号管理用
+	// アニメーション番号（統合画像のどの画像を描画するか）
 	int m_animation_number;
+
+	// ステート（状態）
 
 	// 泳ぎクールタイム計測用
 	// HACK:Stateパターン内で管理する
@@ -126,6 +150,10 @@ protected:
 	//-----------------------------------------------------
 
 private:
+	// 状態遷移用タイマー
+	int m_state_change_timer;
+
+	PlayerStateBase * m_state;
 
 	// 関数　----------------------------------------------
 	// 泳ぐ（ジャンプ）、傾いてる向きに移動

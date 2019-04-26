@@ -1,22 +1,17 @@
 ﻿#include "PlayerBase.h"
+#include "../PlayerState/PlayerWaitState/PlayerWaitState.h"
 #include <cmath>
 
 
-PlayerBase::PlayerBase() {
+PlayerBase::PlayerBase() :m_state(PlayerWaitState::GetInstance()) {
 	// 移動速度
 	m_speed = 2.f;
 
 	// 傾き
 	m_character_angle = 0.f;
 
-	// 泳ぎコマンドインターバル、初期化時はMAX値
-	m_swim_interval_count = SWIM_INTERVAL;
-
 	// アニメーション番号
 	m_animation_number = 0;
-
-	// 初期化時に表示する画像
-	m_player_texture = WAIT_TEXTURE;
 }
 
 
@@ -24,6 +19,7 @@ void PlayerBase::Update() {
 	// HACK:自機2の操作を分離する
 	Keybord& kb = Keybord::getInterface();
 
+	m_state->Update(this);
 
 	//-----------------------------------------------------
 	// 張り付き状態、死亡状態以外共通処理
@@ -43,21 +39,21 @@ void PlayerBase::Update() {
 	//-----------------------------------------------------
 
 
-	// 以下の処理は全てステートで管理する
-	// 泳ぎアニメーション
-	m_animation_number = m_swim_interval_count / SWIM_ANIMATION_SUPPORT_NUMBER;
-
-	// キャラクターが向いている角度に向かって泳ぐ
-	if (m_swim_interval_count >= SWIM_INTERVAL) {
-		if (kb.press('V')) {
-			m_swim_interval_count = 0;
-		}
-	}
-	else {
-		SwimUp();
-		// 泳ぎインターバルカウントアップ
-		++m_swim_interval_count;
-	}
+//	// 以下の処理は全てステートで管理する
+//	// 泳ぎアニメーション
+//	m_animation_number = m_swim_interval_count / SWIM_ANIMATION_SUPPORT_NUMBER;
+//
+//	// キャラクターが向いている角度に向かって泳ぐ
+//	if (m_swim_interval_count >= SWIM_INTERVAL) {
+//		if (kb.press('V')) {
+//			m_swim_interval_count = 0;
+//		}
+//	}
+//	else {
+//		SwimUp();
+//		// 泳ぎインターバルカウントアップ
+//		++m_swim_interval_count;
+//	}
 }
 
 

@@ -1,8 +1,9 @@
 ﻿#pragma once
-#include "../PlayerBase/PlayerBase.h"
 
+class PlayerBase;
 
 //-----------------------------------------------------
+// HACK:どこかのクラスのpublicに置きたい
 enum STATE {
 	WAIT,				// 待機
 	SWIM,				// 泳ぐ
@@ -20,4 +21,6 @@ public:
 	virtual void Update(PlayerBase * p) = 0;
 	virtual ~PlayerStateBase() {};
 protected:
+	// アニメーション1枚分タイマー
+	int m_animation_timer;
 };

@@ -5,6 +5,13 @@
 // 死亡状態
 class PlayerDeathState : public PlayerStateBase {
 public:
+	// インスタンス取得
+	static PlayerDeathState *GetInstance()
+	{
+		static PlayerDeathState instance;
+		return &instance;
+	}
+
 	void Update(PlayerBase* p) override;
 	void Init(PlayerBase* p) override;
 
