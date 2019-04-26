@@ -12,25 +12,28 @@ public:
 
 	virtual ~Object() {};
 
-	// オブジェクトのid登録
-	void ObjectIdRedister();
-
 	// ゲッターアクティブ
 	bool GetIsActive() {
 		return m_is_active;
 	}
 
 	// 削除したオブジェクトなどのidを取得に使う
-	int GetId(int id) {
-		return m_id_lists.at(id);
+	int GetId() {
+		return m_id;
+	}
+	// 生成したときにidの設定に使う
+	void SetId(int id) {
+		m_id = id;
 	}
 
 	// 仮想関数
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
-	
 
 protected:
+
+	// オブジェクトのid登録
+	void IdRegistr(int id);
 
 	// 位置
 	D3DXVECTOR2 m_pos;
@@ -38,7 +41,6 @@ protected:
 	bool m_is_active;
 
 	// 生成id入れ
-	std::vector<int>m_id_lists;
-	// 最新id
-	static int m_current_id;
+	int m_id;
+
 };
