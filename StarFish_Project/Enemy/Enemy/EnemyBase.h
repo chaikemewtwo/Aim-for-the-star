@@ -5,7 +5,6 @@
 #include"../State/EnemyWaitState.h"
 #include"../../GameObject/Object/Object.h"
 
-
 enum EnemyTypeId {
 	SeaUrchinId,		// ウニ
 	SellFishId,			// ほら貝
@@ -36,18 +35,25 @@ public:
 	// 速度のゲッター
 	virtual float GetSpeed();
 
-	// 死亡フラグのゲッター
-	virtual bool IsDead();
+	// 攻撃力のゲッター
+	virtual int GetPower();
 
-	// 削除用タイマーのゲッター
-	virtual int GetDeleteTimer();
+	// 移動するかの判定フラグのゲッター
+	virtual bool NoMove();
+
+	virtual bool IsLeft();
+
+	// 削除フラグのゲッター
+	virtual bool IsActive();
 
 	// 敵種類のゲッター
 	virtual int GetEnemyType();
 
 protected:
-	// まだObject未反映なので変数はそのまま
-	int m_delete_timer;	// 削除用タイマー
-	bool m_is_delete;		// 削除フラグ	《削除予定》
-	int m_enemy_type;	// 敵の種類
+	int m_power;			// 攻撃力
+	int m_delete_timer;		// 削除用タイマー
+	bool m_no_move;			// 移動するかのフラグ
+	bool m_is_left;			// 画面中央から左右どちらにいるかのフラグ
+	bool m_is_active;		// 削除フラグ	《削除予定》
+	int m_enemy_type;		// 敵の種類
 };

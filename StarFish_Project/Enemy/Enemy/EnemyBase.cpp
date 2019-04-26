@@ -5,7 +5,7 @@ EnemyBase::EnemyBase() {
 	m_pos.x = 0.f;
 	m_pos.y = 0.f;
 	m_delete_timer = 60;
-	m_is_delete = false;
+	m_is_active = true;
 }
 //―――――――――――――――――――――
 
@@ -16,7 +16,7 @@ void EnemyBase::OutScreen() {
 			m_delete_timer--;
 			// 時間が0になったら削除フラグをtrueに
 			if (m_delete_timer <= 0) {
-				m_is_delete = true;
+				m_is_active = false;
 			}
 		}
 	}
@@ -47,12 +47,20 @@ float EnemyBase::GetSpeed() {
 	return m_speed;
 }
 
-bool EnemyBase::IsDead() {
-	return m_is_delete;
+int EnemyBase::GetPower() {
+	return m_power;
 }
 
-int EnemyBase::GetDeleteTimer() {
-	return m_delete_timer;
+bool EnemyBase::NoMove() {
+	return m_no_move;
+}
+
+bool EnemyBase::IsLeft() {
+	return m_is_left;
+}
+
+bool EnemyBase::IsActive() {
+	return m_is_active;
 }
 
 int EnemyBase::GetEnemyType() {
