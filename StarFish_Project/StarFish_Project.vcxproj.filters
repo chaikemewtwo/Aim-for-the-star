@@ -80,6 +80,9 @@
     <ClCompile Include="Enemy\Enemy\EnemyBase.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy\Enemy\SellFish.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -110,5 +113,6 @@
     <ClInclude Include="Enemy\State\EnemyVerticalMoveState.h" />
     <ClInclude Include="Enemy\State\EnemyWaitState.h" />
     <ClInclude Include="Enemy\State\EnemyStateBase.h" />
+    <ClInclude Include="Enemy\Enemy\SellFish.h" />
   </ItemGroup>
 </Project>

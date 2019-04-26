@@ -25,6 +25,10 @@
     </ClCompile>
     <ClCompile Include="Enemy\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Enemy\Enemy\SeaUrchin.cpp" />
+    <ClCompile Include="Enemy\Enemy\SellFish.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Enemy\State\EnemyChaseState.cpp" />
     <ClCompile Include="Enemy\State\EnemySideMoveState.cpp" />
     <ClCompile Include="Enemy\State\EnemyVerticalMoveState.cpp" />
@@ -50,6 +54,10 @@
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
     <ClInclude Include="Enemy\Enemy\EnemyManager.h" />
     <ClInclude Include="Enemy\Enemy\SeaUrchin.h" />
+    <ClInclude Include="Enemy\Enemy\SellFish.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Enemy\State\EnemyChaseState.h" />
     <ClInclude Include="Enemy\State\EnemySideMoveState.h" />
     <ClInclude Include="Enemy\State\EnemyStateBase.h" />
