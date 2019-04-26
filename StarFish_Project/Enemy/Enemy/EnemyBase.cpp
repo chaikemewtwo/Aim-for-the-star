@@ -1,27 +1,28 @@
-﻿#include"EnemyBase.h"
+﻿#include"../../Lib/Window/Window.h"
+#include"EnemyBase.h"
 
 EnemyBase::EnemyBase() {
 	m_pos.x = 0.f;
 	m_pos.y = 0.f;
-	m_dead_timer = 60;
-	m_is_dead = false;
+	m_delete_timer = 60;
+	m_is_delete = false;
 }
 //―――――――――――――――――――――
 
 void EnemyBase::OutScreen() {
 	// 画面外に出たら、削除までの時間をカウントダウン
 	if (m_pos.y > WINDOW_H_F || m_pos.x<0 || m_pos.x>WINDOW_W_F) {
-		if (m_dead_timer >= 0) {
-			m_dead_timer--;
+		if (m_delete_timer >= 0) {
+			m_delete_timer--;
 			// 時間が0になったら削除フラグをtrueに
-			if (m_dead_timer <= 0) {
-				m_is_dead = true;
+			if (m_delete_timer <= 0) {
+				m_is_delete = true;
 			}
 		}
 	}
 	// 画面内に戻ったら時間を戻す
 	else if (m_pos.y < WINDOW_H_F || m_pos.x>0 || m_pos.x < WINDOW_W_F) {
-		m_dead_timer = 60;
+		m_delete_timer = 60;
 	}
 }
 //―――――――――――――――――――――
@@ -47,11 +48,11 @@ float EnemyBase::GetSpeed() {
 }
 
 bool EnemyBase::IsDead() {
-	return m_is_dead;
+	return m_is_delete;
 }
 
-int EnemyBase::GetDeadTimer() {
-	return m_dead_timer;
+int EnemyBase::GetDeleteTimer() {
+	return m_delete_timer;
 }
 
 int EnemyBase::GetEnemyType() {

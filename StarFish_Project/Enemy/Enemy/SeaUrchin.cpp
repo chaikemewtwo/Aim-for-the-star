@@ -15,15 +15,9 @@ void SeaUrchin::Init() {
 	// StateをWaitで初期化
 	m_pstate_base = Wait::GetInstance();
 
-	// ウニの画像をロード
-	//Texture::Load("Resource/uni.png");
-
 	// 変数の初期化
-	m_pos.x = 0;
-	m_pos.y = 0;
 	m_speed = 2;
-	m_dead_timer = 60;
-	m_is_dead = false;
+	m_delete_timer = 60;
 
 	// 敵の種類を設定
 	m_enemy_type = SeaUrchinId;
