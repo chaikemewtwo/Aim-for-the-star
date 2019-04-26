@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"StateBase.h"
+#include"EnemyStateBase.h"
 #include"../Enemy/SeaUrchin.h"
 
 // 縦移動クラス
