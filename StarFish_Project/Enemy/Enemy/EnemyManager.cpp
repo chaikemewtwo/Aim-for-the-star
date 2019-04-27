@@ -3,7 +3,8 @@
 #include"SeaUrchin.h"
 #include"SellFish.h"
 
-EnemyManager::EnemyManager() {
+EnemyManager::EnemyManager(ObjectManager* obg_mng) {
+	m_pobj_mng = obg_mng;
 	// ランダム生成のためのシード値設定
 	srand((unsigned int)time(nullptr));
 }
@@ -24,10 +25,10 @@ void EnemyManager::Update() {
 	Create();
 	
 	// 要素数分ループ　《ObjectManagerで実装のため削除予定》
-	for (auto i : m_enemy_list) {
-		// 各要素のUpdate関数を呼ぶ
-		i->Update();
-	}
+	//for (auto i : m_enemy_list) {
+	//	// 各要素のUpdate関数を呼ぶ
+	//	i->Update();
+	//}
 	
 	Delete();
 }
@@ -57,13 +58,16 @@ void EnemyManager::Create() {
 			if (rand() % 100 == 0) {
 				// ランダムに割り出したxyを使用して敵を登録
 				m_enemy_list.emplace_back(new SeaUrchin(x, y));
+				m_pobj_mng->Entry(m_enemy_list.back());
 			}
 			else if (rand() % 100 == 5) {
 				m_enemy_list.emplace_back(new SeaUrchin(x, y, true));
+				m_pobj_mng->Entry(m_enemy_list.back());
 			}
-			else if (rand() % 100 == 3) {
-				m_enemy_list.emplace_back(new SellFish(x, y));
-			}
+			//else if (rand() % 100 == 3) {
+			//	m_enemy_list.emplace_back(new SellFish(x, y));
+			//	m_pobj_mng->Entry(m_enemy_list.back());
+			//}
 		}
 	}
 }
