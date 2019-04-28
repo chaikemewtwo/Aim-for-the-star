@@ -16,14 +16,27 @@ public:
 	bool GetIsActive() {
 		return m_is_active;
 	}
+	void SetIsActive(bool active) {
+		m_is_active = active;
+	}
+
+
+	/* 各アクセサ */
 
 	// 削除したオブジェクトなどのidを取得に使う
-	int GetId() {
+	int GetId() const{
 		return m_id;
 	}
 	// 生成したときにidの設定に使う
 	void SetId(int id) {
 		m_id = id;
+	}
+
+	D3DXVECTOR2 GetPos() const{
+		return m_pos;
+	}
+	void SetPos(const D3DXVECTOR2&pos) {
+		m_pos = pos;
 	}
 
 	// 仮想関数
@@ -42,5 +55,4 @@ protected:
 
 	// 生成id入れ
 	int m_id;
-
 };

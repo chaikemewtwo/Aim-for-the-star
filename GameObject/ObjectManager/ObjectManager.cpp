@@ -20,7 +20,8 @@ void ObjectManager::Update() {
 	// 更新
 	for (auto&itr : m_obj_lists) {
 
-		itr->Update();
+		itr.second->Update();
+		
 	}
 
 	// 当たり判定
@@ -31,43 +32,45 @@ void ObjectManager::Update() {
 void ObjectManager::Draw() {
 
 	// 描画
-	for (auto&itr : m_obj_lists) {
-		itr->Draw();
+	for (auto &itr : m_obj_lists) {
+
+		itr.second->Draw();
 	}
 }
 
 
 void ObjectManager::Entry(Object*obj) {
 
-	if (nullptr != obj) {
-		
-		// Objectの要素を追加
-		m_obj_lists.emplace_back(obj);
-
-		// idリストにObjectのid登録
-		m_id_lists.push_back(m_current_id);
-		// Objectの最新のidをセット
-		m_obj_lists.at(m_id_lists[m_current_id])->SetId(m_id_lists[m_current_id]);
-		
-		// 最新のid更新
-		m_current_id++;
+	// nullなら戻す
+	if (nullptr == obj) {
+		return;
 	}
+		
+	// Objectの要素を追加
+	//m_obj_lists[m_current_id].reset(obj);
+	m_obj_lists[m_current_id] = obj;
+
+	// idリストにObjectのid登録
+	m_id_lists.push_back(m_current_id);
+	// Objectの最新のidをセット
+	m_obj_lists.at(m_current_id)->SetId(m_current_id);
+		
+	// 最新のid更新
+	m_current_id++;
 }
 
 void ObjectManager::Exit(int id) {
 
-	
+	// 削除されたid番号を保存しておく処理もつける
+
 	// 消す前にnullptrを代入させる
-	//m_obj_lists[id] = nullptr;
+//	m_obj_lists[id] = nullptr;
 
 	// Objectの配列番号の要素を削除
-	m_obj_lists.erase(m_obj_lists.begin() + id);
+	m_obj_lists.erase(id);
 
 	// idリストの特定の位置を削除
-	m_id_lists.erase(m_id_lists.begin() + id);
-
-	// 最新位置を減算(最大値)
-	m_current_id--;
+	//m_id_lists.erase(m_id_lists.begin() + id);
 }
 
 

@@ -2,6 +2,7 @@
 #include"../Object/Object.h"
 #include"../../CollisionObject/CollisionManager.h"
 #include<memory>
+#include<unordered_map>
 
 
 // 動作してる前提
@@ -75,17 +76,11 @@ public:
 	// 配列の削除(メモリの削除ではない)
 	void Exit(int id);
 
-	// idを返す
-	//int GetIdList(int id) {
-	//	m_id_lists.at(id);
-	//}
-
-	//void IsNotActiveExit();
 
 private:
 
 	// オブジェクト管理クラス(更新時にアドレスを入れる)
-	std::vector<std::unique_ptr<Object>>m_obj_lists;
+	std::unordered_map<int,Object*>m_obj_lists;
 
 	// idのリスト
 	std::vector<int>m_id_lists;
