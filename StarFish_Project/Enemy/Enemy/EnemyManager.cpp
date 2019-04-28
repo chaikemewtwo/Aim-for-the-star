@@ -24,12 +24,6 @@ EnemyManager::~EnemyManager() {
 void EnemyManager::Update() {
 	Create();
 	
-	// 要素数分ループ　《ObjectManagerで実装のため削除予定》
-	//for (auto i : m_enemy_list) {
-	//	// 各要素のUpdate関数を呼ぶ
-	//	i->Update();
-	//}
-	
 	Delete();
 }
 //―――――――――――――――――――――――――――
@@ -64,6 +58,7 @@ void EnemyManager::Create() {
 				m_enemy_list.emplace_back(new SeaUrchin(x, y, true));
 				m_pobj_mng->Entry(m_enemy_list.back());
 			}
+			// 動作確認のためコメントアウト
 			//else if (rand() % 100 == 3) {
 			//	m_enemy_list.emplace_back(new SellFish(x, y));
 			//	m_pobj_mng->Entry(m_enemy_list.back());
