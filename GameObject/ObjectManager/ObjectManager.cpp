@@ -1,6 +1,8 @@
 ﻿#include"ObjectManager.h"
 #include"../../CollisionObject/CollisionManager.h"
 #include"../../PrototypeEnemy/PrototypeEnemyManager.h"
+#include<algorithm>
+
 
 
 ObjectManager::ObjectManager() {
@@ -25,7 +27,7 @@ void ObjectManager::Update() {
 	}
 
 	// 当たり判定
-	//m_pcol_mng->Collision();
+	m_pcol_mng->Collision();
 }
 
 
@@ -45,57 +47,57 @@ void ObjectManager::Entry(Object*obj) {
 	if (nullptr == obj) {
 		return;
 	}
-		
-	// Objectの要素を追加
-	//m_obj_lists[m_current_id].reset(obj);
-	m_obj_lists[m_current_id] = obj;
 
-	// idリストにObjectのid登録
-	m_id_lists.push_back(m_current_id);
-	// Objectの最新のidをセット
-	m_obj_lists.at(m_current_id)->SetId(m_current_id);
-		
-	// 最新のid更新
-	m_current_id++;
-}
+	// 生成専用id
+	unsigned int create_id = 0;
 
-void ObjectManager::Exit(int id) {
+	// idの空きがないなら最新idを作る
+	if (m_used_id_lists.empty() != 0) {
 
-	// 削除されたid番号を保存しておく処理もつける
+		// 生成idに現在最大のidを入れる
+		create_id = m_max_id;
+		// 最新idにする
+		m_max_id++;
+	}
+	// 使われていないid番号があるなら
+	else {
 
-	// 消す前にnullptrを代入させる
-//	m_obj_lists[id] = nullptr;
+		for (unsigned int i = 0; i < m_used_id_lists.size(); i++) {
 
-	// Objectの配列番号の要素を削除
-	m_obj_lists.erase(id);
+			// idがすでに使われているか
+			auto itr = m_obj_lists.find(m_used_id_lists[i]);
 
-	// idリストの特定の位置を削除
-	//m_id_lists.erase(m_id_lists.begin() + id);
-}
+			// 設定されているなら
+			if (itr != m_obj_lists.end()) {
+				continue;
+			}
 
+			/* ここまできたら設定されていない */
 
-/*
-void ObjectManager::IsNotActiveExit() {
+			// 最初に入っているidを入れる
+			create_id = m_used_id_lists[i];
 
-	for (auto obj_itr = m_obj_lists.begin(); obj_itr != m_obj_lists.end();) {
+			// idを渡したので使っているとみなして要素を消す
+			m_used_id_lists.erase(m_used_id_lists.begin() + i);
 
-		// 死亡フラグオンなら削除
-		if (obj_itr->get()->GetIsActive() == true) {
-
-			// 配列の削除
-			obj_itr = m_obj_lists.erase(obj_itr);
-
-			// idリストの特定の位置を削除
-			m_id_lists.erase(m_id_lists.begin() + obj_itr->get()->GetId());
-
-			// 最新位置を減算
-			m_current_id--;
-		}
-		// そうでなければ加算
-		else {
-			obj_itr++;
+			break;
 		}
 	}
 
+	// Objectの要素を追加
+	m_obj_lists[create_id] = obj;
+
+	// Objectの最新のidをセット
+	m_obj_lists.at(create_id)->SetId(create_id);
+
 }
-*/
+
+void ObjectManager::Exit(unsigned int id) {
+
+	// 使い終わったidを保存
+	m_used_id_lists.push_back(id);
+
+	// Objectの配列番号の要素を削除
+	m_obj_lists.erase(id);
+}
+

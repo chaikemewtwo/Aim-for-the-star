@@ -74,25 +74,21 @@ public:
 	// 要素の追加
 	void Entry(Object*obj);
 	// 配列の削除(メモリの削除ではない)
-	void Exit(int id);
-
+	void Exit(unsigned int id);
 
 private:
 
 	// オブジェクト管理クラス(更新時にアドレスを入れる)
-	std::unordered_map<int,Object*>m_obj_lists;
+	std::unordered_map<unsigned int,Object*>m_obj_lists;
 
-	// idのリスト
-	std::vector<int>m_id_lists;
+	// 使い終わったidを再利用するための配列
+	std::vector<unsigned int>m_used_id_lists;
 	// 最新id
-	int m_current_id;
+	unsigned int m_max_id;
 
 	// 当たり判定管理所
 	CollisionManager *m_pcol_mng;
 	
-	// Playerの実体
-	Player m_p1;
-	Player m_p2;
 	// 敵管理クラス
 	EnemyManager *m_pe_mng;
 };
