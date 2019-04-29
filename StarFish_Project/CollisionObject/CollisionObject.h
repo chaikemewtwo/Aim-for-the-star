@@ -9,19 +9,19 @@
 class CollisionObject : public Object {
 public:
 
+	// 当たった相手を識別する定数
+	enum Type {
+		PLAYER,
+		ENEMY,
+		MAX,
+	};
+
 	virtual ~CollisionObject() {};
 
-	// オブジェクト登録関数があればいいかも
-	virtual void HitAction() {};
+	// どのObjectを返したのかを返す
+	virtual Type GetObjectType() = 0;
 
-	// 仮想関数のアクセサ
-	virtual D3DXVECTOR2 GetPos();
-	virtual D3DXVECTOR2 GetMovePos();
+	// 当たり判定の結果を返す,引数は当たった相手の定数を入れる
+	virtual void HitAction(Type type) {};
 	
-	virtual void SetPos(D3DXVECTOR2*pos) {};
-	virtual void SetMovePos(D3DXVECTOR2*move_pos) {};
-private:
-
-	// MEMO move_posはCollisonにいる?
-	D3DXVECTOR2 m_move_pos;
 };
