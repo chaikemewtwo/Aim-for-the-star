@@ -6,16 +6,48 @@
 
 struct CUSTOM_VERTEX
 {
-	// ���_���W
+	// 頂点座標
 	float x;
 	float y;
 	float z;
-	// ���Z��
+	// 除算数
 	float rhw;
-	// �e�N�X�`�����W
+	// テクスチャ座標
 	float tu;
 	float tv;
 };
+
+
+// Draw2Dの使い方
+
+/*
+引数1 ファイル名
+引数2,3 位置 
+引数4,5 大きさ
+引数6 角度
+引数7,8 オフセット位置x,y(どこから描画を始めるか)
+引数9 分割総数
+引数10 分割する数、横 
+引数11 分割する数、縦
+引数12 分割した現在の画像(アニメーションをするならここを動かす)
+*/
+
+/*
+アニメーションするならまず分割画像を分割する
+
+例
+16枚の統合画像を分割するとする
+横4縦2で分割するとする
+
+引数9で16の整数を入れる
+引数10で4を入れる
+引数11で2を入れる
+引数12は整数型で現在の画像を指定する
+
+引数12(graph_num)の仕組み(アニメーションする場合は通常見なくて大丈夫です)
+横に走査して描画していく。
+横の最大数まで来たら一段下に下がる。
+*/
 
 
 namespace Texture {
@@ -29,32 +61,32 @@ namespace Texture {
 		const float y1 = -cy;
 		const float y2 = 1.f - cy;
 
-		// UV�̕���
+		// UVの分割
 		UV uv(u_axis, v_axis);
 
-		// uv�J�b�g���I���Ȃ��
+		// uvカットがオンならば
 		if (uv_cut == true) {
 			uv.ToTheRightDivGraph(graph_num);
 		}
 		
-		// ���_�o�b�t�@���Q�ƂŎ󂯎��
+		// 頂点バッファを参照で受け取り
 		D3DXVECTOR2 *up_left = &uv.GetUvUpLeftBuffer();
 		D3DXVECTOR2 *up_right = &uv.GetUvUpRightBuffer();
 		D3DXVECTOR2 *down_left = &uv.GetUvDownLeftBuffer();
 		D3DXVECTOR2 *down_right = &uv.GetUvDownRightBuffer();
 		
-		// VERTEX3D�̏�����
+		// VERTEX3Dの初期化
 		CUSTOM_VERTEX cv[] =
 		{
-		{ x1,y1,0.0f,1.0f,up_left->x,up_left->y },       // ����
-		{ x2,y1,0.0f,1.0f,up_right->x,up_right->y },     // �E��
-		{ x2,y2,0.0f,1.0f,down_right->x,down_right->y }, // �E��
-		{ x1,y2,0.0f,1.0f,down_left->x,down_left->y },   // ����
+		{ x1,y1,0.0f,1.0f,up_left->x,up_left->y },       // 左上
+		{ x2,y1,0.0f,1.0f,up_right->x,up_right->y },     // 右上
+		{ x2,y2,0.0f,1.0f,down_right->x,down_right->y }, // 右下
+		{ x1,y2,0.0f,1.0f,down_left->x,down_left->y },   // 左下
 		};
 
-		// ���[���h���W�ϊ��n
+		// ワールド座標変換系
 		D3DXMATRIX mat_world, mat_trans, mat_scale;
-		// ���[���h�ϊ���]�B
+		// ワールド変換回転。
 		D3DXMATRIX mat_rotz;
 
 		D3DXMatrixIdentity(&mat_world);
@@ -66,27 +98,27 @@ namespace Texture {
 		D3DXMatrixScaling(&mat_scale, tex_d->Width * scale_w, tex_d->Height * scale_h, 0.0f);
 		D3DXMatrixRotationZ(&mat_rotz, D3DXToRadian(angle));
 
-		// �g�k * ��] * �ړ�
+		// 拡縮 * 回転 * 移動
 		mat_world = mat_scale * mat_rotz * mat_trans;
 
 		D3DXVec3TransformCoordArray((D3DXVECTOR3*)cv, sizeof(CUSTOM_VERTEX), (D3DXVECTOR3*)cv, sizeof(CUSTOM_VERTEX), &mat_world, std::size(cv));
 
-		// VERTEX3D�̍\������DirectX�֒ʒm�B										  
+		// VERTEX3Dの構造情報をDirectXへ通知。										  
 		dev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1);
 
-		// �f�o�C�X�ɂ��̂܂ܓn�����Ƃ��ł���B
-		dev->SetTexture(0, tex_list[file_name]);// ����̓e�N�X�`���̎w��A�|�C���^��n���Ċm�F����B
-												// ����tex_list[file_name]	// 0�̓e�N�X�`���X�e�[�W�ԍ�
+		// デバイスにそのまま渡すことができる。
+		dev->SetTexture(0, tex_list[file_name]);// これはテクスチャの指定、ポインタを渡して確認する。
+												// 元はtex_list[file_name]	// 0はテクスチャステージ番号
 		
 		dev->DrawPrimitiveUP(
 			D3DPT_TRIANGLEFAN,
 			2,
-			cv,// cv �J�X�^���o�[�e�b�N�X�̃|�C���^
+			cv,// cv カスタムバーテックスのポインタ
 			sizeof(CUSTOM_VERTEX)
 		);
 	}
 
-	// �`��֌W
+	// 描画関係
 	void Draw2DGraph(const char*file_name, const float&pos_x, const float&pos_y) {
 		Draw2D(file_name, pos_x, pos_y);
 	}
