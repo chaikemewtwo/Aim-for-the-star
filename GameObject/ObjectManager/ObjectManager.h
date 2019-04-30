@@ -88,7 +88,9 @@ private:
 
 	// 当たり判定管理所
 	CollisionManager *m_pcol_mng;
-	
+
+	/* ここにオブジェクトインスタンスを持つ */
+
 	// 敵管理クラス
 	EnemyManager *m_pe_mng;
 };

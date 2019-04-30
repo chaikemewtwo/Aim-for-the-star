@@ -7,8 +7,8 @@
 
 ObjectManager::ObjectManager() {
 
-	// 当たり判定管理所を作る
-	//m_pcol_mng = new CollisionManager(m_p1,m_p2);
+	// 当たり判定管理を作る
+	//m_pcol_mng = new CollisionManager(m_pp[0],m_pp[1]);
 
 	m_pe_mng = new EnemyManager(this);
 }
@@ -23,7 +23,6 @@ void ObjectManager::Update() {
 	for (auto&itr : m_obj_lists) {
 
 		itr.second->Update();
-		
 	}
 
 	// 当たり判定
@@ -76,7 +75,6 @@ void ObjectManager::Entry(Object*obj) {
 
 			// 最初に入っているidを入れる
 			create_id = m_used_id_lists[i];
-
 			// idを渡したので使っているとみなして要素を消す
 			m_used_id_lists.erase(m_used_id_lists.begin() + i);
 
