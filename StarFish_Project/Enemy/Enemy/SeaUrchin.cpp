@@ -20,9 +20,17 @@ void SeaUrchin::Init() {
 	// 変数の初期化
 	m_speed = 2;
 	m_power = 5;			// 攻撃力は仮の数値
+	m_animation_speed = 20;
 
 	// 敵の種類を設定
 	m_enemy_type = SeaUrchinId;
+
+	if (m_pos.x < (WINDOW_W_F / 2)) {
+		m_is_left = true;
+	}
+	else if (m_pos.x > (WINDOW_W_F / 2)) {
+		m_is_left = false;
+	}
 }
 //―――――――――――――――――――――――――――
 
@@ -37,7 +45,15 @@ void SeaUrchin::Update() {
 
 // 描画関数
 void SeaUrchin::Draw() {
-	Texture::Draw2D("Resource/uni.png", m_pos.x, m_pos.y);
+	Texture::Draw2D(
+		"uni_move.png",
+		m_pos.x, m_pos.y,
+		TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
+		0,
+		0.5f, 0.5f,
+		true, TEXT_PARTITION_NUM2, TEXT_PARTITION_NUM2,
+		m_animation_num);
+	AnimationDraw(TEXT_PARTITION_NUM2, TEXT_PARTITION_NUM2, m_animation_speed);
 }
 //―――――――――――――――――――――――――――
 

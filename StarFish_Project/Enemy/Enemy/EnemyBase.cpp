@@ -5,6 +5,7 @@ EnemyBase::EnemyBase() {
 	m_pos.x = 0.f;
 	m_pos.y = 0.f;
 	m_delete_timer = 60;
+	m_animation_timer = 0;
 	m_is_active = true;
 }
 //―――――――――――――――――――――
@@ -23,6 +24,21 @@ void EnemyBase::OutScreen() {
 	// 画面内に戻ったら時間を戻す
 	else if (m_pos.y < WINDOW_H_F || m_pos.x>0 || m_pos.x < WINDOW_W_F) {
 		m_delete_timer = 60;
+	}
+}
+//―――――――――――――――――――――
+
+void EnemyBase::AnimationDraw(int text_x_num, int text_y_num, int anim_speed) {
+	if (m_animation_timer >= anim_speed) {
+		m_animation_timer = 0;
+		m_animation_num++;
+		// 描画する画像番号が分割後の使用枚数を超えたら、番号を初期化
+		if (m_animation_num >= (text_x_num*text_y_num)) {
+			m_animation_num = 0;
+		}
+	}
+	else {
+		m_animation_timer++;
 	}
 }
 //―――――――――――――――――――――
@@ -65,5 +81,9 @@ bool EnemyBase::IsActive() {
 
 int EnemyBase::GetEnemyType() {
 	return m_enemy_type;
+}
+
+void EnemyBase::SetStateId(StateId state_id) {
+	m_stateid = state_id;
 }
 //―――――――――――――――――――――
