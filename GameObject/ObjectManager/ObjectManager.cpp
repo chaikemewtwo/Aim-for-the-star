@@ -7,7 +7,7 @@
 
 ObjectManager::ObjectManager() {
 
-	// 当たり判定管理を作る
+	// TODO 当たり判定管理を作る
 	//m_pcol_mng = new CollisionManager(m_pp[0],m_pp[1]);
 
 	m_pe_mng = new EnemyManager(this);
@@ -25,8 +25,8 @@ void ObjectManager::Update() {
 		itr.second->Update();
 	}
 
-	// 当たり判定
-	m_pcol_mng->Collision();
+	// TODO 当たり判定
+	//m_pcol_mng->Collision();
 }
 
 
@@ -54,9 +54,9 @@ void ObjectManager::Entry(Object*obj) {
 	if (m_used_id_lists.empty() != 0) {
 
 		// 生成idに現在最大のidを入れる
-		create_id = m_max_id;
+		create_id = m_current_max_id;
 		// 最新idにする
-		m_max_id++;
+		m_current_max_id++;
 	}
 	// 使われていないid番号があるなら
 	else {

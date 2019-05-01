@@ -9,13 +9,7 @@ class Object {
 public:
 
 	Object();
-
 	virtual ~Object() {};
-
-	// ゲッターアクティブ
-	bool GetIsActive() {
-		return m_is_active;
-	}
 
 	/* 各アクセサ */
 
@@ -31,6 +25,10 @@ public:
 	}
 	void SetId(int id) {
 		m_id = id;
+	}
+
+	bool GetIsActive()const {
+		return m_is_active;
 	}
 
 	// 仮想関数

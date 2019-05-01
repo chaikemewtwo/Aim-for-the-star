@@ -1,61 +1,69 @@
 ﻿#pragma once
 #include"../Object/Object.h"
 #include"../../CollisionObject/CollisionManager.h"
-#include<memory>
 #include<unordered_map>
 
 
-// 動作してる前提
+
 
 /* 説明書
 
-使用例
+       使用例
+       
+       ①まずObjectの継承を行う。
+       オブジェクトを継承する基準はゲーム内で描画されているものならほとんどObjectとして扱う
+       
+       例:
 
-オブジェクトの継承を行う。
-Objectを継承する基準は描画と更新を行うかどうか
+       {
+       // プレイヤーをオブジェクトとして継承
+       class Player : public Object
+	   }
+       
+       ②ObjectManagerによる登録
+       ObjectManagerをセッター、コンストラクタなどで受け取るなどして、
+       登録関数、「Entry(Object*obj)」にオブジェクトを入れて登録
+       
+       例:
 
-～例～
-     class Player : public Object{
-	 public:
-
-	 }
-
-	 class Enemy : public Object{
-	 public:
-
-	 }
-
-	 使うときはたいていの場合ObjectManagerを引数に入れる。
-
-	 // 自機のコンストラクタ
-	 Player(ObjectManager*obj_mng);
-
-生成と削除は下の関数を使う
-
-      Entry関数 = Objectの登録。
-      Exit関数  = int型番号の配列を消す。(メモリは削除しない)
-
-	  仮想関数UpdateとDrawについて
-
-	  Updateはオブジェクトの更新
-	  Drawはオブジェクトの描画を入れる。
-
-	  class Player : public Object{
-
-	  void Update()override{
-
-	  // Playerの更新情報
-
-	  }
-
-	  void Draw()override{
-
-	  // Playerの描画情報
-
-	  }
+	   {
+       Player p;      // 自機のインスタンス
+       obj->Entry(p); // Playerを登録
+       }
+       
+       ③Update,Drawなどにそれぞれ処理を入れる。
+       
+       これでうまく回ったらOK、不具合があったら教えてください
 
 */
 
+// 配列型オブジェクトの消し方(敵など)
+/*
+
+       // 敵の配列
+       auto itr = m_enemy_lists.begin();
+       
+       for (; itr != m_enemy_lists.end();) {
+       
+       // 活動を停止したら
+       if ((**itr).GetIsActive() == true) {
+       
+	   // m_obj_mngはObjectManagerのポインタ
+       m_obj_mng->Exit((**itr).GetId());
+       
+       // メモリの削除
+       delete (*itr);
+       // 敵の要素の削除
+       itr = m_enemy_lists.erase(itr);
+                  }
+           else {
+           itr++;
+         }
+       }
+       
+       MEMO そのままコピペして使ってください
+
+*/
 
 // 敵管理の参照
 class EnemyManager;
@@ -83,11 +91,11 @@ private:
 
 	// 使い終わったidを再利用するための配列
 	std::vector<unsigned int>m_used_id_lists;
-	// 最新id
-	unsigned int m_max_id;
+	// 現在最大のid
+	unsigned int m_current_max_id;
 
-	// 当たり判定管理所
-	CollisionManager *m_pcol_mng;
+	// TODO 当たり判定管理所
+	//CollisionManager *m_pcol_mng;
 
 	/* ここにオブジェクトインスタンスを持つ */
 
