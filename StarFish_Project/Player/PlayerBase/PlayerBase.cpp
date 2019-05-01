@@ -1,5 +1,6 @@
 ﻿#include "PlayerBase.h"
 #include "../PlayerState/PlayerWaitState/PlayerWaitState.h"
+#include "../PlayerState/PlayerSwimState/PlayerSwimState.h"
 #include <cmath>
 
 
@@ -12,6 +13,9 @@ PlayerBase::PlayerBase() :m_state(PlayerWaitState::GetInstance()) {
 
 	// アニメーション番号
 	m_animation_number = 0;
+
+	// 待機状態初期化
+	m_state->Init(this);
 }
 
 

@@ -43,7 +43,12 @@
     <ClCompile Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.cpp" />
     <ClCompile Include="Player\Star1\Star1.cpp" />
-    <ClCompile Include="Player\Star2\Star2.cpp" />
+    <ClCompile Include="Player\Star2\Star2.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -77,7 +82,12 @@
     <ClInclude Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.h" />
     <ClInclude Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.h" />
     <ClInclude Include="Player\Star1\Star1.h" />
-    <ClInclude Include="Player\Star2\Star2.h" />
+    <ClInclude Include="Player\Star2\Star2.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

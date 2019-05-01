@@ -26,6 +26,11 @@ public:
 	void Draw();
 	//-----------------------------------------------------
 
+	// ステート切り替え
+	void ChangeState(PlayerStateBase* state) {
+		m_state = state;
+		m_state->Init(this);
+	}
 
 	// 当たり判定で使用する関数	---------------------------
 	// プレイヤー座標ゲッター
@@ -62,11 +67,14 @@ public:
 	}
 
 	// アニメーション番号インクリメント
-	int AddAnimationNumber() {
+	void AddAnimationNumber() {
 		m_animation_number++;
-		return m_animation_number;
 	}
 
+	// 状態画像セッター
+	void SetPlayerTexture(std::string new_player_texture) {
+		m_player_texture = new_player_texture;
+	}
 
 	// 状態遷移タイマーゲッター
 	int GetStateChangeTimer() {
@@ -79,11 +87,15 @@ public:
 	}
 
 	// 状態遷移タイマーインクリメント
-	int AddStateChangeTimer(){
+	void AddStateChangeTimer(){
 		++m_state_change_timer;
-		return m_state_change_timer;
 	}
+
+
+	// 泳ぐ（ジャンプ）、傾いてる向きに移動
+	void SwimUp();
 	//-----------------------------------------------------
+
 
 protected:
 
@@ -130,7 +142,7 @@ protected:
 	
 	// 変数 ------------------------------------------------
 	// 画像格納用
-	// HACK:配列にenum突っ込んだ方がいいかも、自機が2種類分あるので工夫する必要がある
+	// HACK:自機が2種類分あるので工夫する必要がある
 	std::string m_player_texture;
 
 	// X、Y方向移動量
@@ -155,9 +167,5 @@ private:
 
 	PlayerStateBase * m_state;
 
-	// 関数　----------------------------------------------
-	// 泳ぐ（ジャンプ）、傾いてる向きに移動
-	// HACK:Stateに書き直す
-	void SwimUp();
-	//-----------------------------------------------------
+
 };

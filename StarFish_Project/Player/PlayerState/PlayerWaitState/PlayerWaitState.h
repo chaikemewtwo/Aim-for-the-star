@@ -19,10 +19,10 @@ private:
 	PlayerWaitState() {}
 
 	// 数値は仮のもの
-	const int MAX_COUNT = 80;
-
-	const float ONE_ANIMATION_SPEED = 25;
+	// HACK:奇数じゃないと止まる
+	const int ONE_ANIMATION_SPEED = 7;
 
 	const int MAX_TEXTURE_NUM = 6;
-	
+
+	const int MAX_COUNT = ONE_ANIMATION_SPEED* MAX_TEXTURE_NUM;
 };

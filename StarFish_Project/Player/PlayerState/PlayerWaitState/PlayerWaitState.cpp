@@ -13,17 +13,26 @@ void PlayerWaitState::Init(PlayerBase* p) {
 
 	// アニメーション番号
 	p->ResetAnimationNumber();
+
+	// 状態画像変更
+	p->SetPlayerTexture("Resource/de_wait.png");
 }
 
 
 // 更新
 void PlayerWaitState::Update(PlayerBase* p) {
+	Keybord& kb = Keybord::getInterface();
 	// 状態遷移タイマーインクリメント
 	p->AddStateChangeTimer();
 
 	// 待機状態が1回終わるごとに状態遷移タイマーリセット
 	if(p->GetStateChangeTimer() <= MAX_COUNT){
 		p->ResetStateChangeTimer();
+	}
+
+	// 泳ぎ状態へ移行
+	if (kb.press(VK_SPACE)) {
+		p->ChangeState(PlayerSwimState::GetInstance());
 	}
 
 	// アニメーション1枚分タイマーインクリメント
