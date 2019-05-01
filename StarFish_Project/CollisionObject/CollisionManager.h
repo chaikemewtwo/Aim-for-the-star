@@ -5,6 +5,9 @@
 #include<vector>
 
 
+// enumで形状を返してもいい
+
+const int PLAYER_NUM = 2;
 
 // 敵管理の参照
 class EnemyManager;
@@ -22,9 +25,8 @@ public:
 private:
 
 	// オブジェクトを置く場所
-	Player * m_pp1;
-	Player * m_pp2;
-	EnemyManager*e_mng;
+	Player * m_pp[PLAYER_NUM];
+	EnemyManager*m_pe_mng;
 };
 
 

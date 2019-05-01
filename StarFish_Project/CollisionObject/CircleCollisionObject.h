@@ -3,7 +3,7 @@
 
 
 
-// 円の情報が入ってる当たり判定クラス
+// 円の情報が入ってる当たり判定Objectクラス
 class CircleCollisionObject : public CollisionObject{
 public:
 
