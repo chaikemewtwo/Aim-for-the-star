@@ -27,15 +27,9 @@ public:
 	//static constexpr int SCROLL_SPEED = (int)SPEED / 3;
 	static constexpr float CHIP_SIZE = 128.f;
 
-	BackGround();
+	BackGround(const std::string&file_name,Player*p);
 
-	// 自機を取り入れる
-	void SetpPlayerPos(Player*player) {
-
-		// 移動ベクトルを入れる
-		m_move_pos = player->GetMovePos()/3;
-	}
-
+	
 	// 毎回移動を持つ
 	void SetMovePos(const D3DXVECTOR2&pos) {
 
@@ -43,21 +37,20 @@ public:
 		m_move_pos = pos / 3;
 	}
 
-	// アクセサ
-	//D3DXVECTOR2 GetPos() {
-	//	return m_pos;
-	//}
-	//D3DXVECTOR2 GetMovePos() {
-	//	return m_move_pos;
-	//}
-	
-	// 背景の読み込み
-	//void BGLoad(const std::string&file_name);
-
 	void Update();
 	void Draw();
 
 private:
+
+	// 自機を取り入れる
+	void pPlayerMovePosUpdate() {
+
+		// 移動ベクトルを入れる
+		m_move_pos = m_pp->GetMovePos() / 3;
+	}
+
+	// 背景の読み込み
+	void BGLoad(const std::string&file_name);
 
 	// 背景スクロール
 	void Scroll();
@@ -70,7 +63,9 @@ private:
 	}
 
 	// 背景文字列
-	const char *m_pback_str[GRAPH_NUM];
+	const char* m_pback_str[GRAPH_NUM];
+	// 読み込み専用のもの
+	char str_load[GRAPH_NUM][500];
 
 	// 背景
 	D3DXVECTOR2 m_pos;// 背景遷移判定上
@@ -82,4 +77,7 @@ private:
 	// 今の画像
 	int m_now_graph;
 	int m_next_graph;
+
+	// 自機
+	Player*m_pp;
 };

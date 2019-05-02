@@ -4,13 +4,16 @@
 
 
 
-MapManager::MapManager() {
+MapManager::MapManager(Player*p,EnemyManager*e_mng) {
 	
-	// 生成
-	m_pbg = new BackGround;
-	m_pmap_tip = new MapTip;
-
-	//m_pbg->BGLoad("Map");
+	// 背景1
+	m_pbg = new BackGround("BGData/BG1.txt",p);
+	// マップチップ
+	m_pmap_tip = new MapTip(p);
+	// 背景2
+	m_pbg2 = new BackGround("BGData/BG2.txt",p);
+	// インスタンスを持たせる
+	m_pp = p;
 }
 
 MapManager::~MapManager() {
@@ -36,7 +39,7 @@ void MapManager::Update() {
 	}
 
 	// マップ関連更新
-	//m_pmap_tip->Update();
+	m_pmap_tip->Update();
 	m_pbg->Update();
 }
 
@@ -45,25 +48,4 @@ void MapManager::Draw() {
 	// 描画
 	m_pbg->Draw();
 	m_pmap_tip->Draw();
-}
-
-void MapManager::SetpPlayerInstance(Player*player) {
-
-	// 仮の位置と移動位置を入れる
-	//D3DXVECTOR2 prov_pos = player->GetPosition();
-	//D3DXVECTOR2 prov_move_pos = player->GetPMovePos();
-
-	// 背景を先にしないと更新されない時があった
-	// マップ先で移動ベクトルが初期化されていた。
-	
-	// 海マップにセット
-	m_pmap_tip->SetpPlayerInstance(player);
-	// 背景にセット
-	m_pbg->SetpPlayerPos(player);
-	
-
-	// ゲッターで返す
-	//player->SetPosition(prov_pos);
-	//player->SetPMovePos(prov_move_pos);
-
 }
