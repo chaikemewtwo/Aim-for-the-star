@@ -14,7 +14,6 @@ CollisionManager::CollisionManager(Player*p1, Player*p2, EnemyManager*e_mng) {
 
 void CollisionManager::Collision() {
 
-	
 	// プレイヤーとの当たり判定
 	ChackHitCircle(m_pp[0],m_pp[1]);
 
@@ -25,7 +24,6 @@ void CollisionManager::Collision() {
 			ChackHitCircle(&m_pe_mng->GetEnemypInstance(i), m_pp[i]);
 		}
 	}
-
 }
 
 /* 以下当たり判定 */
