@@ -21,7 +21,6 @@ void CollisionManager::Collision() {
 	for (int i = 0; i < PLAYER_NUM; i++) {
 
 		for (int i = 0; i < m_pe_mng->GetEnemyArraySize(); i++) {
-
 			ChackHitCircle(&m_pe_mng->GetEnemypInstance(i), m_pp[i]);
 		}
 	}
@@ -30,7 +29,7 @@ void CollisionManager::Collision() {
 /* 以下当たり判定 */
 
 // 円の当たり判定
-void ChackHitCircle(CircleCollisionObject*obj1,CircleCollisionObject*obj2) {
+void ChackHitCircle(CircleCollisionObject*obj1, CircleCollisionObject*obj2) {
 	
 	// 位置を受け取る
 	D3DXVECTOR2 pos1 = obj1->GetPos();

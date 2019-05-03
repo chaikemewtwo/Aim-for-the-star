@@ -5,6 +5,7 @@
 #include<vector>
 
 
+// enumで形状を返してもいい
 
 const int PLAYER_NUM = 2;
 

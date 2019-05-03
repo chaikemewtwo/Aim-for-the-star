@@ -4,12 +4,6 @@
 
 
 
-/* 衝突オブジェクト
-
-当たり判定を行うならobjectではなくCollisionObjectを継承させる。
-
-*/
-
 
 // 当たり判定付きのオブジェクトを継承するにはCollisionObjectを継承する
 class CollisionObject : public Object {
