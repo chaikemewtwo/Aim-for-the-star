@@ -26,7 +26,7 @@ public:
 	void Draw();
 	//-----------------------------------------------------
 
-	// ステート切り替え
+	// 状態切り替え
 	void ChangeState(PlayerStateBase* state) {
 		m_state = state;
 		m_state->Init(this);
@@ -94,6 +94,12 @@ public:
 
 	// 泳ぐ（ジャンプ）、傾いてる向きに移動
 	void SwimUp();
+
+	// 重力負荷
+	void AddGravity();
+
+	// X方向向き変更
+	void AngleAdjust(bool is_move_right);
 	//-----------------------------------------------------
 
 
@@ -101,21 +107,14 @@ protected:
 
 	//-----------------------------------------------------
 	// ゲーム内パラメータ用定数
-	// 重力負荷
-	const float GRAVITY = 1.f;
+	// 1フレームごとの画面下への移動量、重力負荷に使用
+	const float GRAVITY = 0.5f;
 
-	// 角度変換
+	// 向き変更時に1フレームごとに傾く角度
 	const float ANGLE_ADD = 0.5f;
 
 	// 向き変更時最大角度（ヒトデの頭の向きの左右の最大角度）
 	const float MAX_ANGLE = 45.f;
-
-	// 泳ぎインターバル
-	const int SWIM_INTERVAL = 96;
-
-	// 泳ぎアニメーション補助用
-	// HACK:SwimStateに移行する
-	const int SWIM_ANIMATION_SUPPORT_NUMBER = 6;
 	//-----------------------------------------------------
 
 	//-----------------------------------------------------
@@ -132,13 +131,6 @@ protected:
 	// 分割画像Y枚数
 	const int TEXTURE_PARTITION_Y_NUMBER = 4;
 	//-----------------------------------------------------
-
-	// 関数 ------------------------------------------------
-	// 重力負荷
-	void AddGravity();
-
-	// X方向向き変更
-	void AngleAdjust(bool is_move_right);
 	
 	// 変数 ------------------------------------------------
 	// 画像格納用
@@ -148,24 +140,17 @@ protected:
 	// X、Y方向移動量
 	D3DXVECTOR2 m_move;
 
-	// 自機画像角度
+	// 自機画像角度（MAX_ANGLEから-MAX_ANGLE度まで）
 	float m_character_angle;
 
-	// アニメーション番号（統合画像のどの画像を描画するか）
+	// アニメーション番号（統合画像内のどの画像を描画するか）
 	int m_animation_number;
-
-	// ステート（状態）
-
-	// 泳ぎクールタイム計測用
-	// HACK:Stateパターン内で管理する
-	int m_swim_interval_count;
 	//-----------------------------------------------------
 
 private:
 	// 状態遷移用タイマー
 	int m_state_change_timer;
 
+	// ステート基底クラスのインスタンス
 	PlayerStateBase * m_state;
-
-
 };

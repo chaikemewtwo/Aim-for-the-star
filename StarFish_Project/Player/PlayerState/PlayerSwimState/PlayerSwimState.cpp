@@ -21,9 +21,24 @@ void PlayerSwimState::Init(PlayerBase* p) {
 
 // 更新
 void PlayerSwimState::Update(PlayerBase* p) {
+	Keybord& kb = Keybord::getInterface();
+
 	// 状態遷移タイマーインクリメント
 	p->AddStateChangeTimer();
 	p->SwimUp();
+
+	// 重力付与
+	p->AddGravity();
+
+	// 左右角度変更
+	// 左
+	if ((kb.on('A'))) {
+		p->AngleAdjust(false);
+	}
+	// 右
+	if ((kb.on('D'))) {
+		p->AngleAdjust(true);
+	}
 
 	// アニメーション1枚分タイマーインクリメント
 	++m_animation_timer;

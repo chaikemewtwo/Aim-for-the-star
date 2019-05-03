@@ -25,6 +25,19 @@ void PlayerWaitState::Update(PlayerBase* p) {
 	// 状態遷移タイマーインクリメント
 	p->AddStateChangeTimer();
 
+	// 重力付与
+	p->AddGravity();
+
+	// 左右角度変更
+	// 左
+	if ((kb.on('A'))) {
+		p->AngleAdjust(false);
+	}
+	// 右
+	if ((kb.on('D'))) {
+		p->AngleAdjust(true);
+	}
+
 	// 待機状態が1回終わるごとに状態遷移タイマーリセット
 	if(p->GetStateChangeTimer() <= MAX_COUNT){
 		p->ResetStateChangeTimer();
@@ -37,10 +50,18 @@ void PlayerWaitState::Update(PlayerBase* p) {
 
 	// アニメーション1枚分タイマーインクリメント
 	++m_animation_timer;
+
+	// アニメーションタイマーが1回のアニメーション分の長さ以上になったら
 	if (m_animation_timer >= ONE_ANIMATION_SPEED) {
+		// アニメーション番号インクリメント
 		p->AddAnimationNumber();
+
+		// アニメーションタイマーをリセット
 		m_animation_timer = 0;
+
+		// アニメーション番号が統合画像内の枚数以上になったら
 		if (p->GetAnimationNumber() >= MAX_TEXTURE_NUM) {
+			// アニメーション番号をリセット
 			p->ResetAnimationNumber();
 		}
 	}
