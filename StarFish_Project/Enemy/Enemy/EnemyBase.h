@@ -34,7 +34,7 @@ public:
 	// 画面外に出たらm_is_deadをtrueにする関数
 	virtual void  OutScreen();
 	// アニメーション操作関数
-	virtual void AnimationDraw(int text_x_num, int text_y_num, int anim_speed);
+	virtual void AnimationDraw(int max_animation, int anim_speed);
 
 	// 位置座標のゲッター、セッター
 	virtual float GetPosX();
@@ -71,13 +71,13 @@ protected:
 	bool m_is_active;		// 削除フラグ	《削除予定》
 	int m_enemy_type;		// 敵の種類
 	int m_animation_num;	// 現在のアニメーション画像番号
-	int m_animation_speed;	// アニメーションの速度
+	int m_anim_change_time;	// アニメーションの速度
 	int m_animation_timer;	// アニメーションのカウント用変数
 	float m_angle;			// 描画角度
 	int m_stateid;			// 現在のStateId
+	int m_max_animation;	// 使用するアニメーション数
 
-	const int TEXT_PARTITION_NUM2 = 2;	// 画像の分割数　　2分割
-	const int NEED_PARTITION_NUM1 = 1;	// 使用する分割列　1列分
+	const int TEX_PARTITION_NUM2 = 2;	// 画像の分割数　　2分割
 	const float TEXTURE_SIZE_X = 0.5f;	// 描画する画像のXサイズ
 	const float TEXTURE_SIZE_Y = 0.5f;	// 描画する画像のYサイズ
 };

@@ -6,6 +6,7 @@ EnemyBase::EnemyBase() {
 	m_pos.y = 0.f;
 	m_delete_timer = 60;
 	m_animation_timer = 0;
+	m_max_animation = 0;
 	m_is_active = true;
 }
 //―――――――――――――――――――――
@@ -28,12 +29,12 @@ void EnemyBase::OutScreen() {
 }
 //―――――――――――――――――――――
 
-void EnemyBase::AnimationDraw(int text_x_num, int text_y_num, int anim_speed) {
-	if (m_animation_timer >= anim_speed) {
+void EnemyBase::AnimationDraw(int max_animation, int anim_cange_time) {
+	if (m_animation_timer >= anim_cange_time) {
 		m_animation_timer = 0;
 		m_animation_num++;
 		// 描画する画像番号が分割後の使用枚数を超えたら、番号を初期化
-		if (m_animation_num >= (text_x_num*text_y_num)) {
+		if (m_animation_num >= max_animation) {
 			m_animation_num = 0;
 		}
 	}
