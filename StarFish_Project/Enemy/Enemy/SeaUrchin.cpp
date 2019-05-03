@@ -7,7 +7,7 @@ SeaUrchin::SeaUrchin(float x, float y, bool no_move) {
 	// 生成時に座標を受けとって代入
 	m_pos.x = x;
 	m_pos.y = y;
-	// m_no_moveには基本的にデフォルトfのalseが入る
+	// m_no_moveには基本的にデフォルトのfalseが入る
 	m_no_move = no_move;
 }
 //――――――――――――――――――――――――――
@@ -20,9 +20,18 @@ void SeaUrchin::Init() {
 	// 変数の初期化
 	m_speed = 2;
 	m_power = 5;			// 攻撃力は仮の数値
+	m_animation_num = 4;
+	m_anim_change_time = 20;
 
 	// 敵の種類を設定
 	m_enemy_type = SeaUrchinId;
+
+	if (m_pos.x < (WINDOW_W_F / 2)) {
+		m_is_left = true;
+	}
+	else if (m_pos.x > (WINDOW_W_F / 2)) {
+		m_is_left = false;
+	}
 }
 //―――――――――――――――――――――――――――
 
@@ -37,7 +46,16 @@ void SeaUrchin::Update() {
 
 // 描画関数
 void SeaUrchin::Draw() {
-	Texture::Draw2D("Resource/uni.png", m_pos.x, m_pos.y);
+
+	Texture::Draw2D(
+		"Resource/uni_move.png",
+		m_pos.x, m_pos.y,
+		TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
+		0,0.5f, 0.5f,
+		true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
+		m_animation_num);
+
+	AnimationDraw(m_max_animation, m_anim_change_time);
 }
 //―――――――――――――――――――――――――――
 

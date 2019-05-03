@@ -8,6 +8,7 @@ SideMove* SideMove::GetInstance() {
 //――――――――――――――――――――――
 
 void SideMove::Action(EnemyBase* e) {
+	e->SetStateId(SideMoveId);
 	// 横に直線移動する処理
 	int x;
 	if (e->IsLeft() == true) {

@@ -54,15 +54,15 @@ void EnemyManager::Create() {
 				m_enemy_list.emplace_back(new SeaUrchin(x, y));
 				m_pobj_mng->Entry(m_enemy_list.back());
 			}
-			else if (rand() % 100 == 5) {
-				m_enemy_list.emplace_back(new SeaUrchin(x, y, true));
-				m_pobj_mng->Entry(m_enemy_list.back());
-			}
-			// 動作確認のためコメントアウト
-			//else if (rand() % 100 == 3) {
-			//	m_enemy_list.emplace_back(new SellFish(x, y));
+			//else if (rand() % 100 == 5) {
+			//	m_enemy_list.emplace_back(new SeaUrchin(x, y, true));
 			//	m_pobj_mng->Entry(m_enemy_list.back());
 			//}
+			// 動作確認のためコメントアウト
+			else if (rand() % 100 == 3) {
+				m_enemy_list.emplace_back(new SellFish(x, y));
+				m_pobj_mng->Entry(m_enemy_list.back());
+			}
 		}
 	}
 }
