@@ -33,7 +33,7 @@ public:
 
 	// 画面外に出たらm_is_deadをtrueにする関数
 	virtual void  OutScreen();
-	// アニメーション操作関数
+	// アニメーション操作関数　《削除予定》
 	virtual void AnimationDraw(int max_animation, int anim_speed);
 
 	// 位置座標のゲッター、セッター

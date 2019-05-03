@@ -13,6 +13,7 @@ void SellFish::Init() {
 	
 	m_speed = 5;
 	m_power = 15;			//　攻撃力の値は仮
+	m_max_animation = 2;
 	m_anim_change_time = 20;
 	m_enemy_type = SellFishId;	
 
@@ -39,27 +40,29 @@ void SellFish::Draw() {
 	case WaitId:
 		m_animation_timer = 20;
 		m_max_animation = 2;
+
 		Texture::Draw2D(
-			"hora_wait.png",
+			"Resource/hora_wait.png",
 			m_pos.x, m_pos.y,
 			TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
 			m_angle, 0.5, 0.5,
 			true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
-			m_animation_num
-		);
+			m_animation_num);
+
 		AnimationDraw(m_max_animation, m_anim_change_time);
 		break;
 	case SideMoveId:
 		m_animation_timer = 5;
 		m_max_animation = 4;
+
 		Texture::Draw2D(
-			"hora_attack.png",
+			"Resource/hora_attack.png",
 			m_pos.x, m_pos.y,
 			TEXTURE_SIZE_X, TEXTURE_SIZE_Y, 
 			m_angle, 0.5, 0.5,
 			true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
-			m_animation_num
-		);
+			m_animation_num);
+
 		AnimationDraw(m_max_animation, m_anim_change_time);
 		break;
 	}
