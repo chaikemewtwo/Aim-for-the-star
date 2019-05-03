@@ -11,6 +11,8 @@ Wait *Wait::GetInstance() {
 
 // 待機　　基本はここから各Stateに遷移
 void Wait::Action(EnemyBase* e) {
+	e->SetStateId(WaitId);
+
 	// NoMoveがtrueならStateは遷移させない
 	if (e->NoMove() == true) {
 		return;
