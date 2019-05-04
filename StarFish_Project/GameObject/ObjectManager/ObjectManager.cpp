@@ -1,16 +1,27 @@
 ﻿#include"ObjectManager.h"
 #include"../../CollisionObject/CollisionManager.h"
-#include"../../PrototypeEnemy/PrototypeEnemyManager.h"
+#include"../../Enemy/Enemy/EnemyManager.h"
+#include"../../Player/Star1/Star1.h"
+#include"../../Player/Star2/Star2.h"
+#include"../../Map/MapManager.h"
 #include<algorithm>
 
 
 
 ObjectManager::ObjectManager() {
 
-	// TODO 当たり判定管理を作る
-	//m_pcol_mng = new CollisionManager(m_pp[0],m_pp[1]);
-
+	// 敵管理生成
 	m_pe_mng = new EnemyManager(this);
+
+	// 自機生成＆objectに登録
+	Entry(m_pstar1 = new Star1);
+	Entry(m_pstar2 = new Star2);
+
+	// マップ管理生成
+	m_pm_mng = new MapManager(m_pstar1, m_pstar2, m_pe_mng);
+
+	// 当たり判定管理を作る
+	m_pcol_mng = new CollisionManager(m_pstar1,m_pstar2,m_pe_mng);
 }
 
 
@@ -19,18 +30,25 @@ void ObjectManager::Update() {
 	// 敵管理クラス更新
 	m_pe_mng->Update();
 
+	// マップ管理クラス更新
+	m_pm_mng->Update();
+
 	// 更新
 	for (auto&itr : m_obj_lists) {
 
 		itr.second->Update();
 	}
 
-	// TODO 当たり判定
+
+	// 当たり判定
 	//m_pcol_mng->Collision();
 }
 
 
 void ObjectManager::Draw() {
+
+	// マップ管理クラス描画
+	m_pm_mng->Draw();
 
 	// 描画
 	for (auto &itr : m_obj_lists) {

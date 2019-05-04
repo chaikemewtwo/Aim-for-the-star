@@ -1,4 +1,4 @@
-#include"../D3D/D3D9.h"
+﻿#include"../D3D/D3D9.h"
 #include"../Texture/TextureBoad2D.h"
 #include"./Texture.h"
 #include"../UV/UV.h"

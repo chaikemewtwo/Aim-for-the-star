@@ -15,6 +15,10 @@ PlayerBase::PlayerBase() /*:m_state(new WaitState)*/{
 	// アニメーション番号
 	m_animation_number = 0;
 
+	// 追加(初期化していなかったので):移動初期化
+	m_move.x = 0.f;
+	m_move.y = 0.f;
+
 	// 初期化時に表示する画像
 	/*m_player_texture[WAIT];*/
 }
@@ -24,7 +28,8 @@ void PlayerBase::Update() {
 	// HACK:自機2の操作を分離する
 	Keybord& kb = Keybord::getInterface();
 
-
+	m_move.x = 0.f;// 毎回初期化は行う
+	m_move.y = 0.f;
 	//-----------------------------------------------------
 	// 張り付き状態、死亡状態以外共通処理
 	// HACK:関数化したほうがスッキリするかも
@@ -69,7 +74,7 @@ void PlayerBase::Draw() {
 	Texture::Draw2D(
 		m_player_texture.c_str(),
 		m_pos.x,
-		m_pos.y,
+		500,// 変更 Playerが進むのではなく、チップを動かす
 		TEXTURE_SIZE_X,
 		TEXTURE_SIZE_Y,
 		m_character_angle,
@@ -106,6 +111,7 @@ void PlayerBase::AngleAdjust(bool is_move_right) {
 
 
 void PlayerBase::SwimUp() {
+	
 	// ベクトルの長さ(上方向への移動)
 	m_move.x = sin(m_character_angle * PI / (float)180.f) * m_move_speed;
 	m_move.y = cos(m_character_angle * PI / (float)180.f) * m_move_speed;

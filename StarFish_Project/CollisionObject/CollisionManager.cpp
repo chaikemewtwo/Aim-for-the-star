@@ -1,13 +1,13 @@
 ﻿#include"CollisionManager.h"
 #include"../GameObject/Object/Object.h"
-#include"../PrototypeEnemy/PrototypeEnemyManager.h"
+#include"../Player/Star1/Star1.h"
+#include"../Player/Star2/Star2.h"
 
 
+CollisionManager::CollisionManager(Star1*p1,Star2*p2, EnemyManager*e_mng) {
 
-CollisionManager::CollisionManager(Player*p1, Player*p2, EnemyManager*e_mng) {
-
-	m_pp[0] = p1;
-	m_pp[1] = p2;
+	m_star1 = p1;
+	m_star2 = p2;
 	m_pe_mng = e_mng;
 }
 
@@ -15,14 +15,15 @@ CollisionManager::CollisionManager(Player*p1, Player*p2, EnemyManager*e_mng) {
 void CollisionManager::Collision() {
 
 	// プレイヤーとの当たり判定
-	ChackHitCircle(m_pp[0],m_pp[1]);
+	ChackHitCircle(m_star1,m_star2);
 
 	// 敵と自機の当たり判定
 	for (int i = 0; i < PLAYER_NUM; i++) {
 
-		for (int i = 0; i < m_pe_mng->GetEnemyArraySize(); i++) {
-			ChackHitCircle(&m_pe_mng->GetEnemypInstance(i), m_pp[i]);
-		}
+		// 一旦
+		//for (int i = 0; i < m_pe_mng->GetEnemyArraySize(); i++) {
+		//	ChackHitCircle(&m_pe_mng->GetEnemypInstance(i), m_pp[i]);
+		//}
 	}
 }
 

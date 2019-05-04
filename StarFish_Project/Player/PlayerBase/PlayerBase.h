@@ -4,10 +4,11 @@
 #include"../../Lib/Texture/Texture.h"
 #include"../../Lib/Texture/TextureBoad2D.h"
 #include"../../Lib/Input/KeyBord.h"
+#include"../../CollisionObject/CircleCollisionObject.h" // 追加
 
 // MEMO:リファクタリングのため自機1と2の操作が同一になっています
 
-class PlayerBase {
+class PlayerBase : public CircleCollisionObject{
 public:
 	//-----------------------------------------------------
 	enum STATE {
@@ -29,11 +30,11 @@ public:
 
 	// 更新処理
 	// HACK：自機2も自機1の操作方法になっているので操作の分離が必要
-	void Update();
+	void Update()override;
 	
 	// 描画処理
 	// MEMO:自機2も自機1の画像を使用中、自機2の画像が完成次第変更する
-	void Draw();
+	void Draw()override;
 
 	// ステート変更
 	void ChangeState(STATE* state);
@@ -52,6 +53,11 @@ public:
 
 	// アニメーション番号上書き（セッター）
 	void SetAnimationNumber(int new_animation_number);
+
+	// MEMO 追加
+	Type GetObjectType()override { // 自機を返す設定をする
+		return PLAYER;
+	}
 	
 protected:
 

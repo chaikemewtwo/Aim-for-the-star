@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include"CollisionObject.h"
 #include"../CollisionObject/CircleCollisionObject.h"
-#include"../Player.h"
 #include<vector>
 
 
@@ -11,13 +10,15 @@ const int PLAYER_NUM = 2;
 
 // 敵管理の参照
 class EnemyManager;
+class Star1;
+class Star2;
 
 // 当たり判定を行う場所
 class CollisionManager{
 public:
 
 	// コンストラクタで実体を入れる
-	CollisionManager(Player*p1, Player*p2, EnemyManager*e_mng);
+	CollisionManager(Star1*p1,Star2*p2, EnemyManager*e_mng);
 
 	// 当たり判定を行う所
 	void Collision();
@@ -25,7 +26,8 @@ public:
 private:
 
 	// オブジェクトを置く場所
-	Player * m_pp[PLAYER_NUM];
+	Star1 * m_star1;
+	Star2 * m_star2;
 	EnemyManager*m_pe_mng;
 };
 

@@ -12,6 +12,16 @@ void Resource::LoadResouce() {
 	// 敵
 	// ウニ
 	Texture::Load("Resource/uni.png");
+	Texture::Load("Resource/uni_move.png");
+
+	// サカナ
+	Texture::Load("Resource/megane_attack.png");
+	Texture::Load("Resource/megane_move.png");
+
+	// 貝
+	Texture::Load("Resource/hora_attack.png");
+	Texture::Load("Resource/hora_ready.png");
+	Texture::Load("Resource/hora_wait.png");
 
 	// マップ
 	Texture::Load("Resource/bg_hero_01.png");
@@ -20,5 +30,6 @@ void Resource::LoadResouce() {
 
 	// 岩
 	Texture::Load("Resource/iwa.jpg");
+	Texture::Load("Resource/chip_map_image_64.png");
 	
 }

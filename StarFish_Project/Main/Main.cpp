@@ -8,10 +8,12 @@
 #include"../Player/Star2/Star2.h"
 #include"../LoadResource/LoadResource.h"
 #include"../Map/MapManager.h"
+#include"../SetRenderStateFile/SetRenderStateFile.h"
 
 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
+
 	// 初期化
 	if (DirectXInit() == false) {
 		return -1;
@@ -22,17 +24,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 	// リソース読み込み
 	Resource::LoadResouce();
 
-	//dev->SetRenderState(D3DPT_AR)
+	// DirectX描画状態の設定s
+	SetRenderStateConfig();
 
-	// マップ
-	MapManager map_m;
-
-	// 自機インスタンス生成
-	Star1 star1;
-	Star2 star2;
-
-	// 敵インスタンス生成
-	EnemyManager e;
+	ObjectManager * m_pobj_mng = new ObjectManager;// object管理者
 
 	while (ProcessMessage() == true) {
 		// キー入力情報更新
@@ -43,29 +38,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 			break;
 		}
 
+		// 更新
+		m_pobj_mng->Update();
+
 		// 描画開始
 		if (DrawStart() == true) {
-			// マップ
-			map_m.Update();
-			map_m.Draw();
 
-			// 自機1
-			// 更新
-			star1.Update();
 			// 描画
-			star1.Draw();
-
-			// 自機2
-			// 更新
-			star2.Update();
-			// 描画
-			star2.Draw();
-
-			// 敵
-			// 更新
-			e.Update();
-			// 描画
-			e.Draw();
+			m_pobj_mng->Draw();
 
 		}
 		DrawEnd();

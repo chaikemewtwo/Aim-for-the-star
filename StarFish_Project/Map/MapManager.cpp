@@ -1,17 +1,18 @@
 ﻿#include"MapManager.h"
+#include"../Player/Star1/Star1.h"
+#include"../Player/Star2/Star2.h"
 
 
-
-
-
-MapManager::MapManager() {
+MapManager::MapManager(Star1*star1,Star2*star2,EnemyManager*e_mng) {
 	
-	// 生成
-	m_pbg = new BackGround;
-	m_pmap_tip = new MapTip;
-
-	//m_pbg->BGLoad("Map");
+	// 背景1
+	m_pbg = new BackGround("Map/BGData/BG1.csv",star1);
+	// マップチップ
+	m_pmap_tip = new MapTip(star1,star2,e_mng);
+	// 背景2
+	m_pbg2 = new BackGround("Map/BGData/BG2.csv",star1);
 }
+
 
 MapManager::~MapManager() {
 
@@ -35,7 +36,7 @@ void MapManager::Update() {
 		return;
 	}
 
-	// 更新
+	// マップ関連更新
 	m_pmap_tip->Update();
 	m_pbg->Update();
 }
@@ -44,5 +45,5 @@ void MapManager::Draw() {
 
 	// 描画
 	m_pbg->Draw();
-	m_pmap_tip->ObjectCreatedDraw();
+	m_pmap_tip->Draw();
 }

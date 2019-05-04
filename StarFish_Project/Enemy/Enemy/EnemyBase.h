@@ -3,7 +3,7 @@
 #include"../../Lib/Texture/TextureBoad2D.h"
 #include"../State/EnemyStateBase.h"
 #include"../State/EnemyWaitState.h"
-#include"../../GameObject/Object/Object.h"
+#include"../../CollisionObject/CircleCollisionObject.h"
 
 // 敵の種類
 enum EnemyTypeId {
@@ -22,7 +22,7 @@ enum StateId {
 
 
 // 敵基底クラス
-class EnemyBase :public Object{
+class EnemyBase :public CircleCollisionObject{
 public:
 	// コンストラクタ内で共通変数の初期化
 	EnemyBase();
@@ -63,6 +63,11 @@ public:
 	// 現在のStateIdのセッター
 	virtual void SetStateId(StateId state_id);
 
+	// 追加:敵という情報を返す
+	Type GetObjectType() {
+		return ENEMY;
+	}
+
 protected:
 	int m_power;			// 攻撃力
 	int m_delete_timer;		// 削除用タイマー
@@ -80,4 +85,6 @@ protected:
 	const int TEX_PARTITION_NUM2 = 2;	// 画像の分割数　　2分割
 	const float TEXTURE_SIZE_X = 0.5f;	// 描画する画像のXサイズ
 	const float TEXTURE_SIZE_Y = 0.5f;	// 描画する画像のYサイズ
+
+	float m_speed;// 仮
 };

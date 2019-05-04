@@ -3,42 +3,40 @@
 #include"BackGround.h"
 #include<vector>
 #include<memory>
-#include"../Player/PlayerBase/PlayerBase.h"
 #include"MapTip.h"
 
 
-// ここで使うマップを決める。
 
+// ここで使うマップを決める。
+// Playerインスタンスを持つ。
+
+// 前方参照
+class EnemyManager;
+class Star1;
+class Star2;
 
 // マップ管理
 class MapManager {
 public:
 
-	MapManager();
+	// EnemyManagerも入れる
+	MapManager(Star1*star1, Star2*star2, EnemyManager*e_mng);
 
 	~MapManager();
-
-	// 位置
-	void SetPlayer(PlayerBase*player) {
-		
-		// 海マップにセット
-		m_pmap_tip->SetPlayer(player);
-
-		// ゲッターで返す
-		player->SetPos(m_pmap_tip->GetPos());
-		player->SetMovePos(m_pmap_tip->GetMovePos());
-
-		// 背景にセット
-		m_pbg->SetPlayer(player);
-	}
 
 	// 更新と描画
 	void Update();
 	void Draw();
 
+	// 奥行バージョン
+	void AfterUpdate() {
+		m_pbg2->Update();
+		m_pbg2->Draw();
+	}
+
 private:
 
-	
 	MapTip *m_pmap_tip; // マップの選択
 	BackGround*m_pbg;     // 背景
+	BackGround *m_pbg2;   // 奥行用の背景
 };

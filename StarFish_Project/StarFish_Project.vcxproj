@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CollisionObject\CollisionManager.cpp" />
     <ClCompile Include="Enemy\Enemy\EnemyBase.cpp">
       <SubType>
       </SubType>
@@ -34,6 +35,7 @@
     <ClCompile Include="Enemy\State\EnemyVerticalMoveState.cpp" />
     <ClCompile Include="Enemy\State\EnemyWaitState.cpp" />
     <ClCompile Include="GameObject\ObjectManager\ObjectManager.cpp" />
+    <ClCompile Include="GameObject\Object\Object.cpp" />
     <ClCompile Include="Lib\D3D\D3D9.cpp" />
     <ClCompile Include="Lib\Texture\Texture.cpp" />
     <ClCompile Include="Lib\Texture\TextureBoad2D.cpp" />
@@ -52,8 +54,12 @@
     <ClCompile Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.cpp" />
     <ClCompile Include="Player\Star1\Star1.cpp" />
     <ClCompile Include="Player\Star2\Star2.cpp" />
+    <ClCompile Include="SetRenderStateFile\SetRenderStateFile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CollisionObject\CircleCollisionObject.h" />
+    <ClInclude Include="CollisionObject\CollisionManager.h" />
+    <ClInclude Include="CollisionObject\CollisionObject.h" />
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
     <ClInclude Include="Enemy\Enemy\EnemyManager.h" />
     <ClInclude Include="Enemy\Enemy\SeaUrchin.h" />
@@ -89,6 +95,20 @@
     <ClInclude Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.h" />
     <ClInclude Include="Player\Star1\Star1.h" />
     <ClInclude Include="Player\Star2\Star2.h" />
+    <ClInclude Include="SetRenderStateFile\SetRenderStateFile.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\bg_hero_01.png" />
+    <Image Include="Resource\bg_hero_02.png" />
+    <Image Include="Resource\bg_hero_03.png" />
+    <Image Include="Resource\de_standing_wait.png" />
+    <Image Include="Resource\de_swim.png" />
+    <Image Include="Resource\de_wait.png" />
+    <Image Include="Resource\iwa.jpg" />
+    <Image Include="Resource\uni.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resource\swim_se.wav" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
