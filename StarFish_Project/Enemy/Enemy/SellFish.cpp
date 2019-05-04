@@ -38,7 +38,7 @@ void SellFish::Update() {
 void SellFish::Draw() {
 	switch (m_stateid) {
 	case WaitId:
-		m_animation_timer = 20;
+		m_anim_change_time = 20;
 		m_max_animation = 2;
 
 		Texture::Draw2D(
@@ -52,7 +52,7 @@ void SellFish::Draw() {
 		AnimationDraw(m_max_animation, m_anim_change_time);
 		break;
 	case SideMoveId:
-		m_animation_timer = 5;
+		m_anim_change_time = 5;
 		m_max_animation = 4;
 
 		Texture::Draw2D(

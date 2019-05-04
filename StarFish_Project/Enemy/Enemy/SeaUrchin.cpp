@@ -20,7 +20,7 @@ void SeaUrchin::Init() {
 	// 変数の初期化
 	m_speed = 2;
 	m_power = 5;			// 攻撃力は仮の数値
-	m_animation_num = 4;
+	m_max_animation = 4;
 	m_anim_change_time = 20;
 
 	// 敵の種類を設定
