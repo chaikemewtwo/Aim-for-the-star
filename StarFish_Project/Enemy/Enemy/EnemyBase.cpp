@@ -2,12 +2,9 @@
 #include"EnemyBase.h"
 
 EnemyBase::EnemyBase() {
-	m_pos.x = 0.f;
-	m_pos.y = 0.f;
 	m_delete_timer = 60;
 	m_animation_timer = 0;
 	m_max_animation = 0;
-	m_is_active = true;
 }
 //―――――――――――――――――――――
 
@@ -44,22 +41,6 @@ void EnemyBase::AnimationDraw(int max_animation, int anim_cange_time) {
 }
 //―――――――――――――――――――――
 
-float EnemyBase::GetPosX() {
-	return m_pos.x;
-}
-
-float EnemyBase::GetPosY() {
-	return m_pos.y;
-}
-
-void EnemyBase::SetPosX(float x) {
-	m_pos.x = x;
-}
-
-void EnemyBase::SetPosY(float y) {
-	m_pos.y = y;
-}
-
 float EnemyBase::GetSpeed() {
 	return m_speed;
 }
@@ -74,10 +55,6 @@ bool EnemyBase::NoMove() {
 
 bool EnemyBase::IsLeft() {
 	return m_is_left;
-}
-
-bool EnemyBase::IsActive() {
-	return m_is_active;
 }
 
 int EnemyBase::GetEnemyType() {

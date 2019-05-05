@@ -36,13 +36,6 @@ public:
 	// アニメーション操作関数　《削除予定》
 	virtual void AnimationDraw(int max_animation, int anim_speed);
 
-	// 位置座標のゲッター、セッター
-	virtual float GetPosX();
-	virtual float GetPosY();
-
-	virtual void SetPosX(float x);
-	virtual void SetPosY(float y);
-
 	// 速度のゲッター
 	virtual float GetSpeed();
 
@@ -53,9 +46,6 @@ public:
 	virtual bool NoMove();
 
 	virtual bool IsLeft();
-
-	// 削除フラグのゲッター
-	virtual bool IsActive();
 
 	// 敵種類のゲッター
 	virtual int GetEnemyType();
@@ -69,11 +59,11 @@ public:
 	}
 
 protected:
+	int m_speed;			// 移動速度
 	int m_power;			// 攻撃力
 	int m_delete_timer;		// 削除用タイマー
 	bool m_no_move;			// 移動するかのフラグ
 	bool m_is_left;			// 画面中央から左右どちらにいるかのフラグ
-	bool m_is_active;		// 削除フラグ	《削除予定》
 	int m_enemy_type;		// 敵の種類
 	int m_animation_num;	// 現在のアニメーション画像番号
 	int m_anim_change_time;	// アニメーションの速度
