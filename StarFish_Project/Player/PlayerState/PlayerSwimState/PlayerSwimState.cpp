@@ -25,6 +25,8 @@ void PlayerSwimState::Update(PlayerBase* p) {
 
 	// 状態遷移タイマーインクリメント
 	p->AddStateChangeTimer();
+
+	// 泳ぐ関数呼び出し
 	p->SwimUp();
 
 	// 重力付与

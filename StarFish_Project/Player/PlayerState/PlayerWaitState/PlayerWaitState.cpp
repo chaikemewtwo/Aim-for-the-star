@@ -2,7 +2,7 @@
 #include "../PlayerSwimState/PlayerSwimState.h"
 #include "../../PlayerBase/PlayerBase.h"
 
-// 待機状態（オブジェクト上以外、オブジェクト上での待機状態はStandingWaitState）
+// 待機状態（オブジェクト上以外、オブジェクト上での待機状態はStandingWaitStateクラス）
 // 初期化
 void PlayerWaitState::Init(PlayerBase* p) {
 	// 状態遷移タイマー
@@ -22,8 +22,6 @@ void PlayerWaitState::Init(PlayerBase* p) {
 // 更新
 void PlayerWaitState::Update(PlayerBase* p) {
 	Keybord& kb = Keybord::getInterface();
-	// 状態遷移タイマーインクリメント
-	p->AddStateChangeTimer();
 
 	// 重力付与
 	p->AddGravity();
@@ -36,11 +34,6 @@ void PlayerWaitState::Update(PlayerBase* p) {
 	// 右
 	if ((kb.on('D'))) {
 		p->AngleAdjust(true);
-	}
-
-	// 待機状態が1回終わるごとに状態遷移タイマーリセット
-	if(p->GetStateChangeTimer() <= MAX_COUNT){
-		p->ResetStateChangeTimer();
 	}
 
 	// 泳ぎ状態へ移行

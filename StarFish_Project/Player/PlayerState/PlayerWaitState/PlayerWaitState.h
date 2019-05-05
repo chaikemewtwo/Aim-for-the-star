@@ -2,7 +2,7 @@
 #include "../PlayerStateBase.h"
 
 
-// 待機状態(落下)
+// 待機状態(オブジェクト上以外、オブジェクト上での待機状態はStandingWaitStateクラス)
 class PlayerWaitState : public PlayerStateBase {
 public:
 	// インスタンス取得

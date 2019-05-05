@@ -1,6 +1,7 @@
 ﻿#include "PlayerBase.h"
 #include "../PlayerState/PlayerWaitState/PlayerWaitState.h"
 #include "../PlayerState/PlayerSwimState/PlayerSwimState.h"
+#include "../PlayerState/PlayerStandingWaitState/PlayerStandingWaitState.h"
 #include <cmath>
 
 
