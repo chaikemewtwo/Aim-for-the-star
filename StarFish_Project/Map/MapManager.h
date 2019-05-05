@@ -15,7 +15,7 @@
 class MapManager {
 public:
 
-
+	// EnemyManagerも入れる
 	MapManager(Player*p,EnemyManager*e_mng);
 
 	~MapManager();

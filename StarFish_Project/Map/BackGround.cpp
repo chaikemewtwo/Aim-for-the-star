@@ -25,7 +25,7 @@ BackGround::BackGround(const std::string&file_name,Player*p) {
 	m_pos.y = 0.f;
 
 	// 今自機がいる場所
-	m_now_position = 0;
+	m_now_pos = 0;
 
 	// 画像の位置
 	m_now_graph = 0;
@@ -39,8 +39,7 @@ void BackGround::BGLoad(const std::string&file_name) {
 
 	// fgets行の終端の改行文字まで読み込み
 	FILE*fp;                                  // ストリーム
-	//char str_buf[500];                       // 文字列バッファ 
-
+	
 	// ファイルオープン
 	fopen_s(&fp,file_name.c_str(), "r");
 
@@ -110,11 +109,6 @@ void BackGround::Scroll() {
 	// デバッグエリア
 	{
 
-		if (m_pback_str[m_now_graph % 4] == ERROR || m_pback_str[m_next_graph % 4] == ERROR) {
-			m_now_graph *= -1;
-			m_next_graph *= -1;
-		}
-
 		// 最後の画像なら下まで行かせないようにする
 		if (m_now_graph == 0 && -m_pos.y >= 0) {
 			// 参照でないといけないかも
@@ -149,18 +143,5 @@ void BackGround::Draw() {
 		Texture::Draw2D(m_pback_str[m_next_graph % GRAPH_NUM], -GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_next_graph));
 	}
 
-	//Texture::Draw2D("player1.png", -m_pos.x, ((-m_pos.y) + (GRAPH_SCALE_H - GRAPH_DIFFERENCE) + 10.f));
-
-	//Texture::Draw2D("renga.png", m_pos.x, -m_pos.y + (-GRAPH_SCALE_H) * m_now_graph);
-
-
-	//OX::DebugFont::print(100, 100, 1000, "-back_pos => %f", -m_pos.y);
-	//OX::DebugFont::print(100, 200, 500, "back_pos => %f", m_pos.y);
-	////OX::DebugFont::print(100, 300, 0, "condition:%d",debug1);
-	//OX::DebugFont::print(100, 600, 100, "now_graph => %d", m_now_graph);
-	//OX::DebugFont::print(100, 700, 100, "next_graph => %d", m_next_graph);
-	//
-	//OX::DebugFont::draw(dev);
-	//OX::DebugFont::clear();
 }
 

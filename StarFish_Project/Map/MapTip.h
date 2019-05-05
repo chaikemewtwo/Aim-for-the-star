@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include"BackGround.h"
-
 #include"../Map/BackGround.h"
 #include"../Lib/Window/Window.h"
 #include"../PosConnector/CollisionObject.h"
@@ -11,7 +10,6 @@ class EnemyManager;
 // 海マップ
 class MapTip {
 public:
-
 
 	/* 各定数 */
 

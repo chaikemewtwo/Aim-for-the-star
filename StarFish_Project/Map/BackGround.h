@@ -72,7 +72,7 @@ private:
 	D3DXVECTOR2 m_move_pos;// 移動ベクトル
 
 	// 今いる位置
-	int m_now_position;
+	int m_now_pos;
 
 	// 今の画像
 	int m_now_graph;

@@ -8,12 +8,13 @@
 #include"../EnemyManager.h"
 
 
+// マップチップオブジェクト配置
 
+// MEMO
 // 64ピクセル /* 横30 縦16 *//* 1088*/
 // 128ピクセル/* 横15 縦8 *//*1024*/
 
-// マップチップオブジェクト配置
-
+// MEMO
 // 画像位置を決めるとき
 // 1シート目の必要な場所
 // 描画で必要な場所,
@@ -43,12 +44,11 @@ MapTip::MapTip(Player*p,EnemyManager*e_mng) {
 	m_move_pos.x = m_move_pos.y = 0.f;
 
 	// ファイル読み込み
-	Load("MapData/MapData.txt");
+	Load("Map/MapData/MapData.csv");
 }
 
 
 void MapTip::Load(const std::string&file_name) {
-
 
 	// fgets行の終端の改行文字まで読み込み
 	FILE*fp;                                  // ストリーム
@@ -136,31 +136,9 @@ void MapTip::Draw() {
 
 	// 前進するごとにチップを置き換える
 	// m_chip_posからm_obj_posに変更
-	int m_draw_range_begin = GetChipPosCast(m_obj_pos.y) + MAP_NUM_Y + 10;// 描画のし始め
-	int m_draw_range_end = GetChipPosCast(m_obj_pos.y) + 10;// 描画の終わり
+	int m_draw_range_begin = GetChipPosCast(-m_obj_pos.y) + MAP_NUM_Y + 10;// 描画のし始め
+	int m_draw_range_end = GetChipPosCast(-m_obj_pos.y) + 10;// 描画の終わり
 
-	// 描画範囲を狭める
-	//for (int y = m_draw_range_end; y < m_draw_range_begin; y++) {
-	//	for (int x = 0; x < MAP_NUM_X; x++) {
-	//
-	//		// 配列外アクセスは許させない
-	//		if (y < 0 || y > m_draw_range_begin) {
-	//			y = 0;
-	//		}
-	//		// ブロックがなくなったらループに入らない
-	//		if ((m_height_map_num - 1) - y <= 0) {
-	//			return;
-	//		}
-	//
-	//		// 描画の時は逆の方向から描画すると正しく描画できる
-	//		if (m_draw_map[((m_height_map_num - 1) - y)][x] == 1){
-	//
-	//			// マップと描画がかみ合ってない
-	//			Texture::Draw2D("Texture/renga2.png",(float)(x * CHIP_SIZE) + start_pos.x,
-	//				(float)(-y * CHIP_SIZE) + (HEIGHT_INTERVAL) + m_obj_pos.y + start_pos.y);
-	//		}
-	//	}
-	//}
 
 	// MEMO マップチップ番号の敵が生成されている場合は生成しない感じにしたらいい
 	
@@ -172,15 +150,16 @@ void MapTip::Draw() {
 				return;
 			}
 
-			if (m_draw_map[m_height_map_num - y][x] == 1) {
+			if (m_draw_map[m_height_map_num + y][x] == 1) {
 
 				Texture::Draw2D("Texture/renga2.png",
 					(float)(x * CHIP_SIZE),
-					(float)(-y * CHIP_SIZE) + 1674 + m_obj_pos.y);
+					(float)(-y * CHIP_SIZE) + 1674 - m_obj_pos.y);
 			}
 		}
 	}
-	
+
+	Create();
 }
 
 
@@ -198,18 +177,19 @@ void MapTip::Create() {
 			}
 
 			// オブジェクト生成、idの場所が0以上なら
-			if (m_draw_map[m_height_map_num - y][x] == 2 && m_map_chip_id[m_height_map_num - y] == 0) {
+			if (m_draw_map[m_height_map_num - y][x] >= 2) {
 
 				// 位置を代入
-				D3DXVECTOR2 pos(
-					(float)(x * CHIP_SIZE),
-					(float)(-y * CHIP_SIZE) + 1674 + m_obj_pos.y);
+				D3DXVECTOR2 pos((float)(x * CHIP_SIZE), (float)(-y * CHIP_SIZE) + 1674 + m_obj_pos.y);
 
-				// 敵生成
-				e_pmng->Create(pos);
+				if (m_map_chip_id[m_height_map_num - y] == 0) {
 
-				// id記録
-				m_map_chip_id[m_height_map_num - y] = m_draw_map[m_height_map_num - y][x];
+					// 敵生成
+					e_pmng->Create(pos, m_pp);
+					// マップチップ記録
+					m_map_chip_id[m_height_map_num - y] = m_draw_map[m_height_map_num - y][x];
+				
+				}
 			}
 		}
 	}
@@ -230,9 +210,6 @@ void MapTip::MapColider() {
 
 	// 加算
 	m_obj_pos += m_move_pos;
-
-	// マップも移動
-	//m_obj_pos.y += m_move_pos.y;
 }
 
 // MEMO
@@ -265,8 +242,8 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 	float hsize = CHIP_SIZE / 2;
 
 	// Y軸床(ジャンプフラグを作る)
-	if (GetChipParam(after_pos.x + hsize, -after_pos.y + CHIP_SIZE + hit_point.y) == 1||
-		GetChipParam(after_pos.x + CHIP_SIZE - hsize, -after_pos.y + CHIP_SIZE) == 1) {
+	if (GetChipParam(after_pos.x + hsize,-after_pos.y + CHIP_SIZE) == 1||
+		GetChipParam(after_pos.x + CHIP_SIZE - hsize,-after_pos.y + CHIP_SIZE) == 1) {
 
 		// チップサイズ割り出し
 		chip_pos_y = (float)GetChipPosCast(-after_pos.y) + RETOUCH;
@@ -384,3 +361,25 @@ void MapResat() {
 
 
 
+// 描画範囲を狭める
+//for (int y = m_draw_range_end; y < m_draw_range_begin; y++) {
+//	for (int x = 0; x < MAP_NUM_X; x++) {
+//
+//		// 配列外アクセスは許させない
+//		if (y < 0 || y > m_draw_range_begin) {
+//			y = 0;
+//		}
+//		// ブロックがなくなったらループに入らない
+//		if ((m_height_map_num - 1) - y <= 0) {
+//			return;
+//		}
+//
+//		// 描画の時は逆の方向から描画すると正しく描画できる
+//		if (m_draw_map[((m_height_map_num - 1) - y)][x] == 1){
+//
+//			// マップと描画がかみ合ってない
+//			Texture::Draw2D("Texture/renga2.png",(float)(x * CHIP_SIZE) + start_pos.x,
+//				(float)(-y * CHIP_SIZE) + (HEIGHT_INTERVAL) + m_obj_pos.y + start_pos.y);
+//		}
+//	}
+//}

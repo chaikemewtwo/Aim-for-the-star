@@ -2,19 +2,18 @@
 
 
 
-
-
 MapManager::MapManager(Player*p,EnemyManager*e_mng) {
 	
 	// 背景1
-	m_pbg = new BackGround("BGData/BG1.txt",p);
+	m_pbg = new BackGround("Map/BGData/BG1.csv",p);
 	// マップチップ
-	m_pmap_tip = new MapTip(p);
+	m_pmap_tip = new MapTip(p,e_mng);
 	// 背景2
-	m_pbg2 = new BackGround("BGData/BG2.txt",p);
+	m_pbg2 = new BackGround("Map/BGData/BG2.csv",p);
 	// インスタンスを持たせる
 	m_pp = p;
 }
+
 
 MapManager::~MapManager() {
 
