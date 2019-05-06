@@ -13,6 +13,7 @@ public:
 	void Update()override;
 	void Draw()override;
 	void ChangeState(StateBase* state)override;
+	EnemyBase* GetInstance()override;
 
 private:
 	// 状態を保存する変数

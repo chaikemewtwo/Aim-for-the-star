@@ -28,8 +28,11 @@ public:
 	EnemyBase();
 	virtual ~EnemyBase() {}
 
-	virtual void Init() = 0;						// 初期化《変更予定》
-	virtual void ChangeState(StateBase* state) = 0;	// 遷移
+	// 初期化《変更予定》
+	virtual void Init() = 0;						
+	virtual void ChangeState(StateBase* state) = 0;
+	// 敵のインスタンスを返す関数
+	virtual EnemyBase* GetInstance() = 0;
 
 	// 画面外に出たらm_is_deadをtrueにする関数
 	virtual void  OutScreen();

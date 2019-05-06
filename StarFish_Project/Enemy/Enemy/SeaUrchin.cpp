@@ -64,3 +64,8 @@ void SeaUrchin::ChangeState(StateBase* state) {
 	m_pstate_base = state;
 }
 //―――――――――――――――――――――――――――
+
+EnemyBase* SeaUrchin::GetInstance() {
+	return this;
+}
+//―――――――――――――――――――――――――――

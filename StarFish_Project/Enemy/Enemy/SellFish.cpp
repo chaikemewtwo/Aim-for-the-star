@@ -73,3 +73,8 @@ void SellFish::ChangeState(StateBase* state) {
 	m_pstate_base = state;
 }
 //―――――――――――――――――――――――
+
+EnemyBase* SellFish::GetInstance() {
+	return this;
+}
+//―――――――――――――――――――――――
