@@ -5,13 +5,14 @@
 #include"../Lib/Texture/Texture.h"
 #include"../Lib/Texture/TextureBoad2D.h"
 #include"../Lib/Input/KeyBord.h"
-//#include"../oxdebugfont.h"
-#include"../Player/Player.h"
+#include"../GameObject/Object/Object.h"
 
 
+// 前方参照
+class PlayerBase;
 
 // 背景クラス
-class BackGround{
+class BackGround : public Object{
 public:
 
 	// constexprはコンパイル時定数になる
@@ -27,7 +28,7 @@ public:
 	//static constexpr int SCROLL_SPEED = (int)SPEED / 3;
 	static constexpr float CHIP_SIZE = 128.f;
 
-	BackGround(const std::string&file_name,Player*p);
+	BackGround(const std::string&file_name,PlayerBase*p);
 
 	
 	// 毎回移動を持つ
@@ -43,11 +44,7 @@ public:
 private:
 
 	// 自機を取り入れる
-	void pPlayerMovePosUpdate() {
-
-		// 移動ベクトルを入れる
-		m_move_pos = m_pp->GetMovePos() / 3;
-	}
+	void pPlayerMovePosUpdate();
 
 	// 背景の読み込み
 	void BGLoad(const std::string&file_name);
@@ -79,5 +76,5 @@ private:
 	int m_next_graph;
 
 	// 自機
-	Player*m_pp;
+	PlayerBase*m_pp_base;
 };

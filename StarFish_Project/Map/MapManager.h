@@ -3,7 +3,6 @@
 #include"BackGround.h"
 #include<vector>
 #include<memory>
-#include"../Player/Player.h"
 #include"MapTip.h"
 
 
@@ -11,12 +10,17 @@
 // ここで使うマップを決める。
 // Playerインスタンスを持つ。
 
+// 前方参照
+class EnemyManager;
+class Star1;
+class Star2;
+
 // マップ管理
 class MapManager {
 public:
 
 	// EnemyManagerも入れる
-	MapManager(Player*p,EnemyManager*e_mng);
+	MapManager(Star1*star1, Star2*star2, EnemyManager*e_mng);
 
 	~MapManager();
 
@@ -35,7 +39,4 @@ private:
 	MapTip *m_pmap_tip; // マップの選択
 	BackGround*m_pbg;     // 背景
 	BackGround *m_pbg2;   // 奥行用の背景
-
-	// 自機のポインタ
-	Player*m_pp;
 };

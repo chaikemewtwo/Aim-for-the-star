@@ -1,4 +1,4 @@
-#include"../D3D/D3D9.h"
+ï»¿#include"../D3D/D3D9.h"
 #include"../Texture/TextureBoad2D.h"
 #include"./Texture.h"
 #include"../UV/UV.h"
@@ -6,16 +6,17 @@
 
 struct CUSTOM_VERTEX
 {
-	// ’¸“_À•W
+	// é ‚ç‚¹åº§æ¨™
 	float x;
 	float y;
 	float z;
-	// œZ”
+	// é™¤ç®—æ•°
 	float rhw;
-	// ƒeƒNƒXƒ`ƒƒÀ•W
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™
 	float tu;
 	float tv;
 };
+
 
 
 namespace Texture {
@@ -29,32 +30,32 @@ namespace Texture {
 		const float y1 = -cy;
 		const float y2 = 1.f - cy;
 
-		// UV‚Ì•ªŠ„
+		// UVã®åˆ†å‰²
 		UV uv(u_axis, v_axis);
 
-		// uvƒJƒbƒg‚ªƒIƒ“‚È‚ç‚Î
+		// uvã‚«ãƒƒãƒˆãŒã‚ªãƒ³ãªã‚‰ã°
 		if (uv_cut == true) {
 			uv.ToTheRightDivGraph(graph_num);
 		}
 		
-		// ’¸“_ƒoƒbƒtƒ@‚ğQÆ‚Åó‚¯æ‚è
+		// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã‚’å‚ç…§ã§å—ã‘å–ã‚Š
 		D3DXVECTOR2 *up_left = &uv.GetUvUpLeftBuffer();
 		D3DXVECTOR2 *up_right = &uv.GetUvUpRightBuffer();
 		D3DXVECTOR2 *down_left = &uv.GetUvDownLeftBuffer();
 		D3DXVECTOR2 *down_right = &uv.GetUvDownRightBuffer();
 		
-		// VERTEX3D‚Ì‰Šú‰»
+		// VERTEX3Dã®åˆæœŸåŒ–
 		CUSTOM_VERTEX cv[] =
 		{
-		{ x1,y1,0.0f,1.0f,up_left->x,up_left->y },       // ¶ã
-		{ x2,y1,0.0f,1.0f,up_right->x,up_right->y },     // ‰Eã
-		{ x2,y2,0.0f,1.0f,down_right->x,down_right->y }, // ‰E‰º
-		{ x1,y2,0.0f,1.0f,down_left->x,down_left->y },   // ¶‰º
+		{ x1,y1,0.0f,1.0f,up_left->x,up_left->y },       // å·¦ä¸Š
+		{ x2,y1,0.0f,1.0f,up_right->x,up_right->y },     // å³ä¸Š
+		{ x2,y2,0.0f,1.0f,down_right->x,down_right->y }, // å³ä¸‹
+		{ x1,y2,0.0f,1.0f,down_left->x,down_left->y },   // å·¦ä¸‹
 		};
 
-		// ƒ[ƒ‹ƒhÀ•W•ÏŠ·Œn
+		// ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™å¤‰æ›ç³»
 		D3DXMATRIX mat_world, mat_trans, mat_scale;
-		// ƒ[ƒ‹ƒh•ÏŠ·‰ñ“]B
+		// ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›å›è»¢ã€‚
 		D3DXMATRIX mat_rotz;
 
 		D3DXMatrixIdentity(&mat_world);
@@ -63,30 +64,30 @@ namespace Texture {
 		D3DXMatrixIdentity(&mat_scale);
 
 		D3DXMatrixTranslation(&mat_trans, x, y, 0.f);
-		D3DXMatrixScaling(&mat_scale, tex_d->Width + scale_w, tex_d->Height + scale_h, 0.0f);
+		D3DXMatrixScaling(&mat_scale, tex_d->Width * scale_w, tex_d->Height * scale_h, 0.0f);
 		D3DXMatrixRotationZ(&mat_rotz, D3DXToRadian(angle));
 
-		// Šgk * ‰ñ“] * ˆÚ“®
+		// æ‹¡ç¸® * å›è»¢ * ç§»å‹•
 		mat_world = mat_scale * mat_rotz * mat_trans;
 
 		D3DXVec3TransformCoordArray((D3DXVECTOR3*)cv, sizeof(CUSTOM_VERTEX), (D3DXVECTOR3*)cv, sizeof(CUSTOM_VERTEX), &mat_world, std::size(cv));
 
-		// VERTEX3D‚Ì\‘¢î•ñ‚ğDirectX‚Ö’Ê’mB										  
+		// VERTEX3Dã®æ§‹é€ æƒ…å ±ã‚’DirectXã¸é€šçŸ¥ã€‚										  
 		dev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1);
 
-		// ƒfƒoƒCƒX‚É‚»‚Ì‚Ü‚Ü“n‚·‚±‚Æ‚ª‚Å‚«‚éB
-		dev->SetTexture(0, tex_list[file_name]);// ‚±‚ê‚ÍƒeƒNƒXƒ`ƒƒ‚Ìw’èAƒ|ƒCƒ“ƒ^‚ğ“n‚µ‚ÄŠm”F‚·‚éB
-												// Œ³‚Ítex_list[file_name]	// 0‚ÍƒeƒNƒXƒ`ƒƒƒXƒe[ƒW”Ô†
+		// ãƒ‡ãƒã‚¤ã‚¹ã«ãã®ã¾ã¾æ¸¡ã™ã“ã¨ãŒã§ãã‚‹ã€‚
+		dev->SetTexture(0, tex_list[file_name]);// ã“ã‚Œã¯ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æŒ‡å®šã€ãƒã‚¤ãƒ³ã‚¿ã‚’æ¸¡ã—ã¦ç¢ºèªã™ã‚‹ã€‚
+												// å…ƒã¯tex_list[file_name]	// 0ã¯ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚¹ãƒ†ãƒ¼ã‚¸ç•ªå·
 		
 		dev->DrawPrimitiveUP(
 			D3DPT_TRIANGLEFAN,
 			2,
-			cv,// cv ƒJƒXƒ^ƒ€ƒo[ƒeƒbƒNƒX‚Ìƒ|ƒCƒ“ƒ^
+			cv,// cv ã‚«ã‚¹ã‚¿ãƒ ãƒãƒ¼ãƒ†ãƒƒã‚¯ã‚¹ã®ãƒã‚¤ãƒ³ã‚¿
 			sizeof(CUSTOM_VERTEX)
 		);
 	}
 
-	// •`‰æŠÖŒW
+	// æç”»é–¢ä¿‚
 	void Draw2DGraph(const char*file_name, const float&pos_x, const float&pos_y) {
 		Draw2D(file_name, pos_x, pos_y);
 	}

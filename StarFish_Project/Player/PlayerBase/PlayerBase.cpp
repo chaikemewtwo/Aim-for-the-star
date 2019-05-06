@@ -1,30 +1,44 @@
 ﻿#include "PlayerBase.h"
+#include "../PlayerState/PlayerWaitState/PlayerWaitState.h"
+#include "../PlayerState/PlayerSwimState/PlayerSwimState.h"
+#include "../PlayerState/PlayerStandingWaitState/PlayerStandingWaitState.h"
 #include <cmath>
 
 
-PlayerBase::PlayerBase() /*:m_state(new WaitState)*/{
+PlayerBase::PlayerBase() :m_state(PlayerWaitState::GetInstance()) {
 	// 移動速度
-	m_move_speed = 2.f;
+	m_speed = 2.f;
 
 	// 傾き
 	m_character_angle = 0.f;
 
-	// 泳ぎコマンドインターバル、初期化時はMAX値
-	m_swim_interval_count = SWIM_INTERVAL;
-
 	// アニメーション番号
 	m_animation_number = 0;
 
+<<<<<<< HEAD
+	// 追加(初期化していなかったので):移動初期化
+	m_move.x = 0.f;
+	m_move.y = 0.f;
+
 	// 初期化時に表示する画像
 	/*m_player_texture[WAIT];*/
+=======
+	// 待機状態初期化
+	m_state->Init(this);
+>>>>>>> player(State)
 }
 
 
 void PlayerBase::Update() {
+<<<<<<< HEAD
 	// HACK:自機2の操作を分離する
 	Keybord& kb = Keybord::getInterface();
 
+	// 毎回移動を加算
+	m_pos += m_move;
 
+	m_move.x = 0.f;// 毎回初期化は行う
+	m_move.y = 0.f;
 	//-----------------------------------------------------
 	// 張り付き状態、死亡状態以外共通処理
 	// HACK:関数化したほうがスッキリするかも
@@ -60,16 +74,21 @@ void PlayerBase::Update() {
 		// 泳ぎインターバルカウントアップ
 		++m_swim_interval_count;
 	}
+=======
+	// 内部の処理は各ステート内で管理しています
+	m_state->Update(this);
+>>>>>>> player(State)
 }
 
 
 void PlayerBase::Draw() {
 	// 自機2にも自機1のものを使用中
 	// 第7、8引数が0.5fずつで中心座標から描画	
+	// 被弾状態は描画する、しないを切り替えて表現する DamageStateが消えるかも
 	Texture::Draw2D(
-		m_player_texture/*[MAX_STATE_NUMBER]*/.c_str(),
-		m_pos_x,
-		m_pos_y,
+		m_player_texture.c_str(),
+		m_pos.x,
+		500,// 変更 Playerが進むのではなく、チップを動かす
 		TEXTURE_SIZE_X,
 		TEXTURE_SIZE_Y,
 		m_character_angle,
@@ -85,44 +104,45 @@ void PlayerBase::Draw() {
 
 void PlayerBase::AddGravity() {
 	// 常時下方向へ負荷がかかる
-	m_pos_y += GRAVITY;
+	m_move.y += -GRAVITY;
+	//m_pos.y += m_move.y;
 }
 
 
 void PlayerBase::AngleAdjust(bool is_move_right) {
 	// 自機傾き変更、TRUEで右へ傾く
-	if (m_character_angle < MAX_ANGLE && m_character_angle > -MAX_ANGLE) {
+	if (m_character_angle <= MAX_ANGLE && m_character_angle >= -MAX_ANGLE) {
 		m_character_angle += is_move_right ? ANGLE_ADD : -ANGLE_ADD;
 	}
 	// 角度変更範囲設定
-	else if (m_character_angle > -MAX_ANGLE) {
-		m_character_angle = MAX_ANGLE - 1.f;
+	// 
+	else if (m_character_angle >= MAX_ANGLE) {
+		m_character_angle = MAX_ANGLE;
 	}
-	else if (m_character_angle < MAX_ANGLE) {
-		m_character_angle = -MAX_ANGLE + 1.f;
+	else if (m_character_angle <= MAX_ANGLE) {
+		m_character_angle = -MAX_ANGLE;
 	}
 }
 
 
 void PlayerBase::SwimUp() {
+<<<<<<< HEAD
+	
 	// ベクトルの長さ(上方向への移動)
-	m_move_x = sin(m_character_angle * PI / (float)180.f) * m_move_speed;
-	m_move_y = cos(m_character_angle * PI / (float)180.f) * m_move_speed;
+<<<<<<< HEAD
+	m_move.x = sin(m_character_angle * PI / (float)180.f) * m_move_speed;
+	m_move.y = cos(m_character_angle * PI / (float)180.f) * m_move_speed;
+=======
+	// 上方向への移動量(ベクトルの長さ)を割り出す
+	m_move.x = sin(m_character_angle * PI / (float)180.f) * m_speed;
+	m_move.y = cos(m_character_angle * PI / (float)180.f) * m_speed;
+>>>>>>> player(State)
+=======
+	m_move.x += sin(m_character_angle * PI / (float)180.f) * m_move_speed;
+	m_move.y += cos(m_character_angle * PI / (float)180.f) * m_move_speed;
+>>>>>>> c1b858d9a26b0737d6c4097bb5cca4fca65fc154
 
 	// 移動量インクリメント
-	m_pos_x += m_move_x;
-	m_pos_y -= m_move_y;
+	//m_pos.x += m_move.x;
+	//m_pos.y -= m_move.y;
 }
-
-
-void PlayerBase::SetAnimationNumber(int new_animation_number) {
-	// アニメーション番号上書き
-	m_animation_number = new_animation_number;
-}
-
-
-
-//void PlayerBase::ChangeState(STATE* new_state) {
-//	delete this->m_state;
-//	this->m_state = new_state;
-//}

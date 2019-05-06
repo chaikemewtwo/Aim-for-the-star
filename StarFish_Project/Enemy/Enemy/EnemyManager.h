@@ -1,19 +1,26 @@
 ﻿#pragma once
-#include<time.h>
-#include"SeaUrchin.h"
 
+#include<vector>
+#include"../../GameObject/ObjectManager/ObjectManager.h"
+#include"EnemyBase.h"
+
+class EnemyBase;
 // 敵の生成最大数(仮)
-const int Enemy_Max_Num = 5;
+const int Enemy_Max_Num = 10;
 
 class EnemyManager {
 public:
-	EnemyManager();
+	EnemyManager(ObjectManager* obj_mng);
 	~EnemyManager();
-	void Update();
-	void Draw();
-	void Create();
+
+	void Update();	// 更新
+	void Draw();	// 描画
+	void Create();	// 敵の生成
+	void Delete();	// 敵の削除
 
 private:
-	// ウニ配列　《要/変更》→敵全体を通した配列に
-	std::vector<SeaUrchin*> m_seaurchin;
+	// 生成した敵の配列
+	std::vector<EnemyBase*> m_enemy_list;
+	// オブジェクトのポインタ変数
+	ObjectManager* m_pobj_mng;
 };

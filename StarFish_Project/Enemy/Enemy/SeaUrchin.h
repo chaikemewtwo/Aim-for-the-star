@@ -1,11 +1,13 @@
 ﻿#pragma once
+
 #include"EnemyBase.h"
 
 // ウニクラス
 class SeaUrchin :public EnemyBase {
 public:
-	SeaUrchin(float x, float y);
-	~SeaUrchin()override {}
+	// コンストラクタの引数に初期位置を入れる
+	SeaUrchin(float x, float y, bool no_move = false);
+	~SeaUrchin()override {}	
 
 	void Init()override;
 	void Update()override;

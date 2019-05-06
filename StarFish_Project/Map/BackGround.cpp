@@ -1,13 +1,13 @@
 ﻿#include"BackGround.h"
-#include"../oxdebugfont.h"
 #include<stdlib.h>
+#include"../Player/PlayerBase/PlayerBase.h"
 
 
-// コンストラクタ
-BackGround::BackGround(const std::string&file_name,Player*p) {
+
+BackGround::BackGround(const std::string&file_name,PlayerBase*p) {
 
 	// 自機の参照を入れる
-	m_pp = p;
+	m_pp_base = p;
 
 	m_pos.x = m_pos.y = 0.f;
 
@@ -35,11 +35,36 @@ BackGround::BackGround(const std::string&file_name,Player*p) {
 }
 
 
+void BackGround::Update() {
+
+	pPlayerMovePosUpdate();
+	PosUpdate();
+	Scroll();
+}
+
+
+void BackGround::Draw() {
+
+	// 端数分GRAPH_DIFFERENCEでずらす
+
+	// 1枚目描画
+	if (m_pback_str[m_now_graph] != '\0') {
+		Texture::Draw2D(m_pback_str[m_now_graph % GRAPH_NUM], -GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_now_graph));
+	}
+	// 2枚目描画
+	if (m_pback_str[m_next_graph] != '\0') {
+		Texture::Draw2D(m_pback_str[m_next_graph % GRAPH_NUM], -GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_next_graph));
+	}
+}
+
+
+
 void BackGround::BGLoad(const std::string&file_name) {
 
 	// fgets行の終端の改行文字まで読み込み
 	FILE*fp;                                  // ストリーム
-	
+	//char str_buf[500];                       // 文字列バッファ 
+
 	// ファイルオープン
 	fopen_s(&fp,file_name.c_str(), "r");
 
@@ -121,27 +146,8 @@ void BackGround::Scroll() {
 	}
 }
 
+void BackGround::pPlayerMovePosUpdate() {
 
-void BackGround::Update() {
-
-	pPlayerMovePosUpdate();
-	PosUpdate();
-	Scroll();
+	// 移動ベクトルを入れる
+	m_move_pos = m_pp_base->GetMovePos() / 3;
 }
-
-
-void BackGround::Draw() {
-
-	// 端数分GRAPH_DIFFERENCEでずらす
-
-	// 1枚目描画
-	if (m_pback_str[m_now_graph] != '\0') {
-		Texture::Draw2D(m_pback_str[m_now_graph % GRAPH_NUM], -GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_now_graph));
-	}
-	// 2枚目描画
-	if (m_pback_str[m_next_graph] != '\0') {
-		Texture::Draw2D(m_pback_str[m_next_graph % GRAPH_NUM], -GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_next_graph));
-	}
-
-}
-

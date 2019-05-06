@@ -1,17 +1,16 @@
 ﻿#include"MapManager.h"
+#include"../Player/Star1/Star1.h"
+#include"../Player/Star2/Star2.h"
 
 
-
-MapManager::MapManager(Player*p,EnemyManager*e_mng) {
+MapManager::MapManager(Star1*star1,Star2*star2,EnemyManager*e_mng) {
 	
 	// 背景1
-	m_pbg = new BackGround("Map/BGData/BG1.csv",p);
+	m_pbg = new BackGround("Map/BGData/BG1.csv",star1);
 	// マップチップ
-	m_pmap_tip = new MapTip(p,e_mng);
+	m_pmap_tip = new MapTip(star1,star2,e_mng);
 	// 背景2
-	m_pbg2 = new BackGround("Map/BGData/BG2.csv",p);
-	// インスタンスを持たせる
-	m_pp = p;
+	m_pbg2 = new BackGround("Map/BGData/BG2.csv",star1);
 }
 
 

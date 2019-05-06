@@ -1,95 +1,88 @@
 ﻿#pragma once
-#include"../State/StateBase.h"
-#include"../State/ChaseState.h"
-#include"../State/SideMoveState.h"
-#include"../State/VerticalMoveState.h"
-#include"../State/WaitState.h"
-#include"../../Lib/Texture/Texture.h"
-#include"../../Lib/Texture/TextureBoad2D.h"
 
+#include"../../Lib/Texture/TextureBoad2D.h"
+#include"../State/EnemyStateBase.h"
+#include"../State/EnemyWaitState.h"
+#include"../../CollisionObject/CircleCollisionObject.h"
+
+// 敵の種類
 enum EnemyTypeId {
 	SeaUrchinId,		// ウニ
 	SellFishId,			// ほら貝
-	NapoleonFishId,		// ナポレオン
-	EnemyTypeMax		// 敵種の最大数
+	NapoleonFishId,		// ナポレオンフィッシュ
+	//EnemyTypeMax		// 敵種の最大数
 };
 
+// 敵の状態識別Id
+enum StateId {
+	WaitId,				// 待機
+	SideMoveId,			// 横線移動
+	VerticalMoveId		// 縦線移動
+};
+
+
 // 敵基底クラス
-class EnemyBase {
+class EnemyBase :public CircleCollisionObject{
 public:
-	EnemyBase() {}
+	// コンストラクタ内で共通変数の初期化
+	EnemyBase();
 	virtual ~EnemyBase() {}
 
-	virtual void Init() = 0;
-	virtual void Update() = 0;
-	virtual void Draw() = 0;
-	// 《要/変更》→State内で遷移するように
-	virtual void ChangeState(StateBase* state) = 0;
+	virtual void Init() = 0;						// 初期化《変更予定》
+	virtual void ChangeState(StateBase* state) = 0;	// 遷移
 
-	// 画面外に出たらm_is_deadをtrueにする関数《要/修正》
-	virtual void  DeleteJudg() {
-		// 画面外に出たら、削除までの時間をカウントダウン
-		if (m_pos.y > WINDOW_H_F || m_pos.x<0 || m_pos.x>WINDOW_W_F) {
-			if (m_dead_timer >= 0) {
-				m_dead_timer--;
-				if (m_change_timer <= 0) {
-					m_is_dead = true;
-				}
-			}
-		}
-		// 画面内に戻ったら時間を戻す
-		else if (m_pos.y < WINDOW_H_F || m_pos.x>0 || m_pos.x < WINDOW_W_F) {
-			m_dead_timer = 60;
-		}
-	}
+	// 画面外に出たらm_is_deadをtrueにする関数
+	virtual void  OutScreen();
+	// アニメーション操作関数　《削除予定》
+	virtual void AnimationDraw(int max_animation, int anim_speed);
 
-	// 位置座標ゲッター、セッター
-	virtual float GetPosX() {
-		return m_pos.x;
-	}
+	// 位置座標のゲッター、セッター
+	virtual float GetPosX();
+	virtual float GetPosY();
 
-	virtual float GetPosY() {
-		return m_pos.y;
-	}
+	virtual void SetPosX(float x);
+	virtual void SetPosY(float y);
 
-	virtual void SetPosX(float x) {
-		m_pos.x = x;
-	}
+	// 速度のゲッター
+	virtual float GetSpeed();
 
-	virtual void SetPosY(float y) {
-		m_pos.y = y;
-	}
+	// 攻撃力のゲッター
+	virtual int GetPower();
 
-	// 速度ゲッター
-	virtual float GetSpeed() {
-		return m_speed;
-	}
+	// 移動するかの判定フラグのゲッター
+	virtual bool NoMove();
 
-	// フラグゲッター
-	virtual bool IsDead() {
-		return m_is_dead;
-	}
+	virtual bool IsLeft();
 
-	// タイマー各種ゲッター、セッター
-	virtual int GetDeadTimer() {
-		return m_dead_timer;
-	}
+	// 削除フラグのゲッター
+	virtual bool IsActive();
 
-	virtual int GetChangeTimer() {
-		return m_change_timer;
-	}
+	// 敵種類のゲッター
+	virtual int GetEnemyType();
 
-	// 《仮関数》
-	virtual void SetChangeTimer(int t) {
-		int num = t;
-		m_change_timer = num;
+	// 現在のStateIdのセッター
+	virtual void SetStateId(StateId state_id);
+
+	// 追加:敵という情報を返す
+	Type GetObjectType() {
+		return ENEMY;
 	}
 
 protected:
-	D3DXVECTOR2 m_pos;	// 座標
-	float m_speed;		// 速度
-	int m_dead_timer;	// 削除用タイマー
-	int m_change_timer;	// 遷移用タイマー
-	bool m_is_dead;		// 削除フラグ
-	int m_enemy_type;	// 敵の種類
+	int m_power;			// 攻撃力
+	int m_delete_timer;		// 削除用タイマー
+	bool m_no_move;			// 移動するかのフラグ
+	bool m_is_left;			// 画面中央から左右どちらにいるかのフラグ
+	bool m_is_active;		// 削除フラグ	《削除予定》
+	int m_enemy_type;		// 敵の種類
+	int m_animation_num;	// 現在のアニメーション画像番号
+	int m_anim_change_time;	// アニメーションの速度
+	int m_animation_timer;	// アニメーションのカウント用変数
+	float m_angle;			// 描画角度
+	int m_stateid;			// 現在のStateId
+	int m_max_animation;	// 使用するアニメーション数
+
+	const int TEX_PARTITION_NUM2 = 2;	// 画像の分割数　　2分割
+	const float TEXTURE_SIZE_X = 0.5f;	// 描画する画像のXサイズ
+	const float TEXTURE_SIZE_Y = 0.5f;	// 描画する画像のYサイズ
 };

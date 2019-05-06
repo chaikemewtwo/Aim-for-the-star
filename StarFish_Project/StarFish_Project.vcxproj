@@ -18,30 +18,116 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-<<<<<<< HEAD
-=======
   <ItemGroup>
+    <ClCompile Include="CollisionObject\CollisionManager.cpp" />
+    <ClCompile Include="Enemy\Enemy\EnemyBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Enemy\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Enemy\Enemy\SeaUrchin.cpp" />
-    <ClCompile Include="Enemy\NapoleonFish.cpp" />
-    <ClCompile Include="Enemy\State\ChaseStatecpp.cpp" />
-    <ClCompile Include="Enemy\State\SideMoveState.cpp" />
-    <ClCompile Include="Enemy\State\VerticalMoveState.cpp" />
-    <ClCompile Include="Enemy\State\WaitState.cpp" />
+    <ClCompile Include="Enemy\Enemy\SellFish.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Enemy\State\EnemyChaseState.cpp" />
+    <ClCompile Include="Enemy\State\EnemySideMoveState.cpp" />
+    <ClCompile Include="Enemy\State\EnemyVerticalMoveState.cpp" />
+    <ClCompile Include="Enemy\State\EnemyWaitState.cpp" />
+    <ClCompile Include="GameObject\ObjectManager\ObjectManager.cpp" />
+    <ClCompile Include="GameObject\Object\Object.cpp" />
+    <ClCompile Include="Lib\D3D\D3D9.cpp" />
+    <ClCompile Include="Lib\Texture\Texture.cpp" />
+    <ClCompile Include="Lib\Texture\TextureBoad2D.cpp" />
+    <ClCompile Include="Lib\UV\UV.cpp" />
+    <ClCompile Include="Lib\Window\Window.cpp" />
+    <ClCompile Include="LoadResource\LoadResource.cpp" />
     <ClCompile Include="Main\Main.cpp" />
+    <ClCompile Include="Map\BackGround.cpp" />
+    <ClCompile Include="Map\MapManager.cpp" />
+    <ClCompile Include="Map\MapTip.cpp" />
+    <ClCompile Include="Player\PlayerBase\PlayerBase.cpp" />
+    <ClCompile Include="Player\PlayerState\PlayerDamageState\PlayerDamageState.cpp" />
+    <ClCompile Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.cpp" />
+    <ClCompile Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.cpp" />
+    <ClCompile Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.cpp" />
+    <ClCompile Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.cpp" />
+    <ClCompile Include="Player\Star1\Star1.cpp" />
+<<<<<<< HEAD
+    <ClCompile Include="Player\Star2\Star2.cpp" />
+    <ClCompile Include="SetRenderStateFile\SetRenderStateFile.cpp" />
+=======
+    <ClCompile Include="Player\Star2\Star2.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+>>>>>>> player(State)
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CollisionObject\CircleCollisionObject.h" />
+    <ClInclude Include="CollisionObject\CollisionManager.h" />
+    <ClInclude Include="CollisionObject\CollisionObject.h" />
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
     <ClInclude Include="Enemy\Enemy\EnemyManager.h" />
     <ClInclude Include="Enemy\Enemy\SeaUrchin.h" />
-    <ClInclude Include="Enemy\State\ChaseState.h" />
-    <ClInclude Include="Enemy\State\SideMoveState.h" />
-    <ClInclude Include="Enemy\State\StateBase.h" />
-    <ClInclude Include="Enemy\State\StateBaseh.h" />
-    <ClInclude Include="Enemy\State\VerticalMoveState.h" />
-    <ClInclude Include="Enemy\State\WaitState.h" />
+    <ClInclude Include="Enemy\Enemy\SellFish.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Enemy\State\EnemyChaseState.h" />
+    <ClInclude Include="Enemy\State\EnemySideMoveState.h" />
+    <ClInclude Include="Enemy\State\EnemyStateBase.h" />
+    <ClInclude Include="Enemy\State\EnemyVerticalMoveState.h" />
+    <ClInclude Include="Enemy\State\EnemyWaitState.h" />
+    <ClInclude Include="GameObject\ObjectManager\ObjectManager.h" />
+    <ClInclude Include="GameObject\Object\Object.h" />
+    <ClInclude Include="Lib\D3D\D3D9.h" />
+    <ClInclude Include="Lib\Input\GamePad.h" />
+    <ClInclude Include="Lib\Input\KeyBord.h" />
+    <ClInclude Include="Lib\Sound\DirectSound.h" />
+    <ClInclude Include="Lib\Texture\Texture.h" />
+    <ClInclude Include="Lib\Texture\TextureBoad2D.h" />
+    <ClInclude Include="Lib\UV\UV.h" />
+    <ClInclude Include="Lib\Window\Window.h" />
+    <ClInclude Include="LoadResource\LoadResource.h" />
+    <ClInclude Include="Map\BackGround.h" />
+    <ClInclude Include="Map\MapManager.h" />
+    <ClInclude Include="Map\MapTip.h" />
+    <ClInclude Include="Player\PlayerBase\PlayerBase.h" />
+    <ClInclude Include="Player\PlayerState\PlayerDamageState\PlayerDamageState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerStateBase.h" />
+    <ClInclude Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.h" />
+    <ClInclude Include="Player\Star1\Star1.h" />
+<<<<<<< HEAD
+    <ClInclude Include="Player\Star2\Star2.h" />
+    <ClInclude Include="SetRenderStateFile\SetRenderStateFile.h" />
   </ItemGroup>
->>>>>>> master
+  <ItemGroup>
+    <Image Include="Resource\bg_hero_01.png" />
+    <Image Include="Resource\bg_hero_02.png" />
+    <Image Include="Resource\bg_hero_03.png" />
+    <Image Include="Resource\de_standing_wait.png" />
+    <Image Include="Resource\de_swim.png" />
+    <Image Include="Resource\de_wait.png" />
+    <Image Include="Resource\iwa.jpg" />
+    <Image Include="Resource\uni.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resource\swim_se.wav" />
+=======
+    <ClInclude Include="Player\Star2\Star2.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+>>>>>>> player(State)
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{FD9ED209-6EED-49F2-9267-236B129902A3}</ProjectGuid>

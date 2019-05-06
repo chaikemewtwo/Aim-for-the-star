@@ -1,53 +1,86 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Main\Main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-<<<<<<< HEAD
-=======
-    <ClCompile Include="Enemy\Enemy\EnemyManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\Enemy\SeaUrchin.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\State\ChaseStatecpp.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\State\SideMoveState.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\State\VerticalMoveState.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\State\WaitState.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\NapoleonFish.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
+    <ClCompile Include="Enemy\Enemy\EnemyBase.cpp" />
+    <ClCompile Include="Enemy\Enemy\EnemyManager.cpp" />
+    <ClCompile Include="Enemy\Enemy\SeaUrchin.cpp" />
+    <ClCompile Include="Enemy\Enemy\SellFish.cpp" />
+    <ClCompile Include="Enemy\State\EnemyChaseState.cpp" />
+    <ClCompile Include="Enemy\State\EnemySideMoveState.cpp" />
+    <ClCompile Include="Enemy\State\EnemyVerticalMoveState.cpp" />
+    <ClCompile Include="Enemy\State\EnemyWaitState.cpp" />
+    <ClCompile Include="GameObject\ObjectManager\ObjectManager.cpp" />
+    <ClCompile Include="Lib\D3D\D3D9.cpp" />
+    <ClCompile Include="Lib\Texture\Texture.cpp" />
+    <ClCompile Include="Lib\Texture\TextureBoad2D.cpp" />
+    <ClCompile Include="Lib\UV\UV.cpp" />
+    <ClCompile Include="Lib\Window\Window.cpp" />
+    <ClCompile Include="LoadResource\LoadResource.cpp" />
+    <ClCompile Include="Main\Main.cpp" />
+    <ClCompile Include="Map\BackGround.cpp" />
+    <ClCompile Include="Map\MapManager.cpp" />
+    <ClCompile Include="Map\MapTip.cpp" />
+    <ClCompile Include="Player\PlayerBase\PlayerBase.cpp" />
+    <ClCompile Include="Player\PlayerState\PlayerDamageState\PlayerDamageState.cpp" />
+    <ClCompile Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.cpp" />
+    <ClCompile Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.cpp" />
+    <ClCompile Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.cpp" />
+    <ClCompile Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.cpp" />
+    <ClCompile Include="Player\Star1\Star1.cpp" />
+    <ClCompile Include="Player\Star2\Star2.cpp" />
+    <ClCompile Include="CollisionObject\CollisionManager.cpp" />
+    <ClCompile Include="GameObject\Object\Object.cpp" />
+    <ClCompile Include="SetRenderStateFile\SetRenderStateFile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
     <ClInclude Include="Enemy\Enemy\EnemyManager.h" />
     <ClInclude Include="Enemy\Enemy\SeaUrchin.h" />
-    <ClInclude Include="Enemy\State\ChaseState.h" />
-    <ClInclude Include="Enemy\State\SideMoveState.h" />
-    <ClInclude Include="Enemy\State\StateBaseh.h" />
-    <ClInclude Include="Enemy\State\StateBase.h" />
-    <ClInclude Include="Enemy\State\VerticalMoveState.h" />
-    <ClInclude Include="Enemy\State\WaitState.h" />
->>>>>>> master
+    <ClInclude Include="Enemy\Enemy\SellFish.h" />
+    <ClInclude Include="Enemy\State\EnemyChaseState.h" />
+    <ClInclude Include="Enemy\State\EnemySideMoveState.h" />
+    <ClInclude Include="Enemy\State\EnemyStateBase.h" />
+    <ClInclude Include="Enemy\State\EnemyVerticalMoveState.h" />
+    <ClInclude Include="Enemy\State\EnemyWaitState.h" />
+    <ClInclude Include="GameObject\ObjectManager\ObjectManager.h" />
+    <ClInclude Include="GameObject\Object\Object.h" />
+    <ClInclude Include="Lib\D3D\D3D9.h" />
+    <ClInclude Include="Lib\Input\GamePad.h" />
+    <ClInclude Include="Lib\Input\KeyBord.h" />
+    <ClInclude Include="Lib\Sound\DirectSound.h" />
+    <ClInclude Include="Lib\Texture\Texture.h" />
+    <ClInclude Include="Lib\Texture\TextureBoad2D.h" />
+    <ClInclude Include="Lib\UV\UV.h" />
+    <ClInclude Include="Lib\Window\Window.h" />
+    <ClInclude Include="LoadResource\LoadResource.h" />
+    <ClInclude Include="Map\BackGround.h" />
+    <ClInclude Include="Map\MapManager.h" />
+    <ClInclude Include="Map\MapTip.h" />
+    <ClInclude Include="Player\PlayerBase\PlayerBase.h" />
+    <ClInclude Include="Player\PlayerState\PlayerDamageState\PlayerDamageState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerStateBase.h" />
+    <ClInclude Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.h" />
+    <ClInclude Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.h" />
+    <ClInclude Include="Player\Star1\Star1.h" />
+    <ClInclude Include="Player\Star2\Star2.h" />
+    <ClInclude Include="CollisionObject\CircleCollisionObject.h" />
+    <ClInclude Include="CollisionObject\CollisionManager.h" />
+    <ClInclude Include="CollisionObject\CollisionObject.h" />
+    <ClInclude Include="SetRenderStateFile\SetRenderStateFile.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\bg_hero_01.png" />
+    <Image Include="Resource\bg_hero_02.png" />
+    <Image Include="Resource\bg_hero_03.png" />
+    <Image Include="Resource\de_standing_wait.png" />
+    <Image Include="Resource\de_swim.png" />
+    <Image Include="Resource\de_wait.png" />
+    <Image Include="Resource\iwa.jpg" />
+    <Image Include="Resource\uni.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resource\swim_se.wav" />
   </ItemGroup>
 </Project>
