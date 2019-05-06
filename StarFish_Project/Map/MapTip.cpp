@@ -38,7 +38,7 @@ MapTip::MapTip(Star1*star1,Star2*star2,EnemyManager*e_mng) {
 	// 敵の参照受け取り
 	e_pmng = e_mng;
 
-	m_id = 0;
+	m_chip_num = 0;
 
 	PlayerBase *p_base = star1;
 	for (int i = 0; i < PLAYER_NUM; i++) {
@@ -161,18 +161,22 @@ void MapTip::Draw() {
 	// 前進するごとにチップを置き換える
 	// TODO いずれはどちらの自機が優先されるか決める。
 
+	// MEMO
+	// マップ座標とスクリーン座標を作るべき
+
 	// 0番目が最初に送られてくるので
 	m_obj_pos[1].y = m_obj_pos[0].y;
 	m_obj_pos[0].y = m_obj_pos[1].y;
 
-	for (int i = 0; i < 2; i++) {
-		int m_draw_range_begin = GetChipPosCast(m_obj_pos[i].y) + MAP_NUM_Y + 10;// 描画のし始め
-		int m_draw_range_end = GetChipPosCast(m_obj_pos[i].y) + 10;              // 描画の終わり
 
+	// HACK 2回描画を行っているのは、描画がズレてないか確認するため
+		// どこから描画するか
+		int draw_range_begin = GetChipPosCast(m_obj_pos[0].y) + 10;// 描画のし始め
+		int draw_range_end = GetChipPosCast(m_obj_pos[0].y) + MAP_NUM_Y + 10;// 描画の終わり
 
 		// MEMO マップチップ番号の敵が生成されている場合は生成しない感じにしたらいい
 
-		for (int y = m_draw_range_end; y < m_draw_range_begin; y++) {
+		for (int y = draw_range_begin; y < draw_range_end; y++) {
 			for (int x = 0; x < MAP_NUM_X; x++) {
 
 				// 配列外アクセスは許させない
@@ -188,7 +192,6 @@ void MapTip::Draw() {
 				}
 			}
 		}
-	}
 
 	//Create();
 }
@@ -199,7 +202,7 @@ void MapTip::Create() {
 	int m_draw_range_begin = GetChipPosCast(m_obj_pos[0].y) + MAP_NUM_Y + 10;// 描画のし始め
 	int m_draw_range_end = GetChipPosCast(m_obj_pos[0].y) + 10;// 描画の終わり
 	
-	for (int y = m_draw_range_end; y < m_draw_range_begin; y++) {
+	for (int y = m_draw_range_end; y < m_draw_range_begin; y++){
 		for (int x = 0; x < MAP_NUM_X; x++) {
 
 			// 配列外アクセスは許させない
@@ -224,6 +227,25 @@ void MapTip::Create() {
 			}
 		}
 	}
+}
+
+
+// 遷移はy軸だけ
+int MapTip::DrawLineIsActive(float*move_y) {
+
+	// 描画遷移範囲 = 現在のマップ座標(本来はスクリーン座標の方がいい) + 遷移範囲(スクリーンから見て)
+
+	// 上
+	if (m_obj_pos[0].y + (WINDOW_H/4) >= m_obj_pos[0].y +(WINDOW_H/4) + *move_y) {
+		return 1;
+	}
+	// 下
+	else if (m_obj_pos[0].y + (WINDOW_H / 2) >= m_obj_pos[0].y + (WINDOW_H / 2) + *move_y) {
+		return 2;
+	}
+
+	// なにもない0を返す
+	return 0;
 }
 
 // MEMO
@@ -390,5 +412,16 @@ void MapResat() {
 
 }
 
-
-
+// アクセサ
+void MapTip::SetMovePos(D3DXVECTOR2&pos, int player_number) {
+	m_move_pos[player_number] = pos;
+}
+void MapTip::SetPos(D3DXVECTOR2&pos, int player_number) {
+	m_obj_pos[player_number] = pos;
+}
+D3DXVECTOR2 MapTip::GetPos(int player_number) {
+	return m_obj_pos[player_number];
+}
+D3DXVECTOR2 MapTip::GetMovePos(int player_number) {
+	return m_move_pos[player_number];
+}
