@@ -107,7 +107,7 @@ void MapTip::Load(const std::string&file_name) {
 		h++;
 	}
 	// 高さを記録
-	m_height_map_num = h - 1;
+	m_height_map_num = h;
 
 	// ファイルを閉じる
 	fclose(fp);
@@ -125,27 +125,27 @@ void MapTip::Update() {
 
 	// HACK 同じ処理を一つにまとめなければならない
 	// 自機1の当たり判定処理
+
+	
 	
 	for (int i = 0; i < PLAYER_NUM; i++) {
 
 		// マップチップの位置変更
-		m_obj_pos[i] =-m_pbase[i]->GetPos();// - 変換
+		m_obj_pos[i] =m_pbase[i]->GetPos();
 		// 移動位置変更
 		m_move_pos[i] = m_pbase[i]->GetMovePos();
+		
 
+		// 0番目が最初に送られてくるので
+		m_obj_pos[1].y = m_obj_pos[0].y;
+		m_obj_pos[0].y = m_obj_pos[1].y;
 
 		// 当たり判定
 		MapColider(i);
 
 
-		// 片方が移動してなかったらどちらも移動させない
-		//if (m_move_pos[0].y == 0.f || m_move_pos[1].y == 0.f) {
-		//
-		//	m_move_pos[0].y = m_move_pos[1].y = 0.f;
-		//}
-
 		// 自機(obj)の位置変更
-		m_pbase[i]->SetPos(-m_obj_pos[i]);// -変換
+		m_pbase[i]->SetPos(m_obj_pos[i]);
 		// 自機の移動ベクトル変更
 		m_pbase[i]->SetMovePos(m_move_pos[i]);
 
@@ -161,7 +161,10 @@ void MapTip::Draw() {
 	// 前進するごとにチップを置き換える
 	// TODO いずれはどちらの自機が優先されるか決める。
 
-	//D3DXVECTOR2 m_chip_pos = m_obj_pos[0] - m_obj_pos[1];
+	// 0番目が最初に送られてくるので
+	m_obj_pos[1].y = m_obj_pos[0].y;
+	m_obj_pos[0].y = m_obj_pos[1].y;
+
 	for (int i = 0; i < 2; i++) {
 		int m_draw_range_begin = GetChipPosCast(m_obj_pos[i].y) + MAP_NUM_Y + 10;// 描画のし始め
 		int m_draw_range_end = GetChipPosCast(m_obj_pos[i].y) + 10;              // 描画の終わり
@@ -173,11 +176,11 @@ void MapTip::Draw() {
 			for (int x = 0; x < MAP_NUM_X; x++) {
 
 				// 配列外アクセスは許させない
-				if (m_height_map_num - y < 0 || x < 0) {
+				if ((m_height_map_num)-y + MAP_NUM_Y < 0 || x < 0) {
 					return;
 				}
 
-				if (m_draw_map[m_height_map_num - y][x] == 1) {
+				if (m_draw_map[(m_height_map_num) - y + MAP_NUM_Y][x] == 1) {
 
 					Texture::Draw2D("Resource/chip_map_image_64.png",
 						(float)(x * CHIP_SIZE),
@@ -230,6 +233,13 @@ void MapTip::Create() {
 どこに戻るか
 */
 
+
+// MEMO
+/*
+Y軸の4隅を調べ,
+X軸の4隅を調べる
+*/
+
 // 0番目がバグっている
 void MapTip::MapColider(int i) {
 
@@ -237,7 +247,7 @@ void MapTip::MapColider(int i) {
 	Collision(m_obj_pos[i].x,m_obj_pos[i].y, &m_move_pos[i].x, &m_move_pos[i].y);
 
 	// 加算
-	m_obj_pos[i] += m_move_pos[i];
+	//m_obj_pos[i] += m_move_pos[i];
 }
 
 // MEMO
@@ -256,14 +266,6 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 	float chip_pos_x = 0;
 	float chip_pos_y = 0;
 
-	// 当たった位置を修正する
-	D3DXVECTOR2 hit_point(32, 64);
-
-	// MEMO
-	/*
-	Y軸の4隅を調べ,
-	X軸の4隅を調べる
-	*/
 
 	// 現在、移動量増分のすり抜けが起こっている
 	float hsize = CHIP_SIZE / 2;
@@ -273,7 +275,7 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 		GetChipParam(after_pos.x + CHIP_SIZE - hsize,after_pos.y + CHIP_SIZE) == 1) {
 
 		// チップサイズ割り出し
-		chip_pos_y = (float)GetChipPosCast(-after_pos.y) + RETOUCH;
+		chip_pos_y = (float)GetChipPosCast(after_pos.y) + RETOUCH;
 		// バグが起こっていた式
 		//chip_pos_y = static_cast<float>((int)((-after_pos.y) / CHIP_SIZE) + 1);// + 1
 		//  チップサイズ = 現在の位置 + 一つ前のチップ
@@ -324,6 +326,36 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 }
 
 
+// セルに変換
+int MapTip::GetChipPosCast(const float&pos) {
+	return static_cast<int>(std::floor(pos / CHIP_SIZE));
+}
+
+namespace {
+	int timer = 0;
+}
+
+// 座標を入れたらマップチップの位置を返す
+int MapTip::GetChipParam(const float &pos_x, const float&pos_y, const int&map_number) {
+
+	// マップ座標変換
+	int px = GetChipPosCast(pos_x);
+	int py = GetChipPosCast(pos_y);
+
+	if (timer >= 5000) {
+      		timer = 0;
+	}
+	timer++;
+
+	// 範囲外なら0
+	if (px < 0 || px >= MAP_NUM_X || m_height_map_num + 1 - py < 0) {
+		return 0;
+	}
+	
+	// マップの当たり判定をm_draw_mapに変更
+	return m_draw_map[m_height_map_num + 1 - py][px];// -MAP_NUM_Y
+}
+
 // 移動後の方向を返す
 MapTip::Direction MapTip::GetMoveDirection(D3DXVECTOR2&move_pos) {
 
@@ -345,30 +377,6 @@ MapTip::Direction MapTip::GetMoveDirection(D3DXVECTOR2&move_pos) {
 	}
 
 	return MAX;
-}
-
-
-
-// セルに変換
-int MapTip::GetChipPosCast(const float&pos) {
-	return static_cast<int>(std::floor(pos / CHIP_SIZE));
-}
-
-
-// 座標を入れたらマップチップの位置を返す
-int MapTip::GetChipParam(const float &pos_x, const float&pos_y, const int&map_number) {
-
-	// マップ座標変換
-	int px = GetChipPosCast(pos_x);
-	int py = GetChipPosCast(pos_y);
-
-	// 範囲外なら
-	if (px < 0 || px >= MAP_NUM_X || m_height_map_num + (py - MAP_NUM_Y + 1) < 0) {
-		return 0;
-	}
-	
-	// マップの当たり判定をm_draw_mapに変更
-	return m_draw_map[m_height_map_num + (py - MAP_NUM_Y + 1)][px];// -MAP_NUM_Y
 }
 
 // 所定位置にブロックを置く
