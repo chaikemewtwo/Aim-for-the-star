@@ -1,42 +1,17 @@
 ﻿#pragma once
-<<<<<<< HEAD
-#include"../../Lib/D3D/D3D9.h"
-#include"../../Lib/Window/Window.h"
-#include"../../Lib/Texture/Texture.h"
-#include"../../Lib/Texture/TextureBoad2D.h"
-#include"../../Lib/Input/KeyBord.h"
-#include"../../CollisionObject/CircleCollisionObject.h" // 追加
 
-// MEMO:リファクタリングのため自機1と2の操作が同一になっています
-
-class PlayerBase : public CircleCollisionObject{
-public:
-	//-----------------------------------------------------
-	enum STATE {
-		WAIT,
-		SWIM,
-		STANDING_WAIT,
-		DAMAGE,
-		DEATH,
-		MAX_STATE_NUMBER
-	};
-	//-----------------------------------------------------
-
-	// 関数
-=======
 #include "../../Lib/D3D/D3D9.h"
 #include "../../Lib/Window/Window.h"
 #include "../../Lib/Texture/Texture.h"
 #include "../../Lib/Texture/TextureBoad2D.h"
 #include "../../Lib/Input/KeyBord.h"
-#include "../../GameObject/Object/Object.h"
+#include "../../CollisionObject/CircleCollisionObject.h"
 #include "../PlayerState/PlayerStateBase.h"
 
 // MEMO:自機1と2の操作が同一になっています（分割する必要あり）
 
-class PlayerBase : public Object {
+class PlayerBase : public CircleCollisionObject {
 public:	
->>>>>>> player(State)
 	// コンストラクタ
 	PlayerBase();
 	// 仮想デストラクタ
@@ -45,20 +20,13 @@ public:
 	// ゲームシーンで使用する関数 -------------------------
 	// 更新処理
 	// HACK：自機2も自機1の操作方法になっているので操作の分離が必要
-<<<<<<< HEAD
+
 	void Update()override;
-	
-	// 描画処理
-	// MEMO:自機2も自機1の画像を使用中、自機2の画像が完成次第変更する
-	void Draw()override;
-=======
-	void Update();
 
 	// 描画処理
 	// MEMO:自機2も自機1の画像を使用中、自機2の画像が完成次第変更する
-	void Draw();
+	void Draw()override;
 	//-----------------------------------------------------
->>>>>>> player(State)
 
 	// 状態切り替え
 	void ChangeState(PlayerStateBase* state) {
@@ -136,18 +104,11 @@ public:
 	void AngleAdjust(bool is_move_right);
 	//-----------------------------------------------------
 
-
-<<<<<<< HEAD
-	// アニメーション番号上書き（セッター）
-	void SetAnimationNumber(int new_animation_number);
-
-	// MEMO 追加
+	// MEMO CollisionObjectで必要なので追加
 	Type GetObjectType()override { // 自機を返す設定をする
 		return PLAYER;
 	}
 	
-=======
->>>>>>> player(State)
 protected:
 
 	//-----------------------------------------------------

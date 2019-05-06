@@ -53,17 +53,9 @@
     <ClCompile Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.cpp" />
     <ClCompile Include="Player\Star1\Star1.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="Player\Star2\Star2.cpp" />
     <ClCompile Include="SetRenderStateFile\SetRenderStateFile.cpp" />
-=======
-    <ClCompile Include="Player\Star2\Star2.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClCompile>
->>>>>>> player(State)
+
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionObject\CircleCollisionObject.h" />
@@ -103,7 +95,6 @@
     <ClInclude Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.h" />
     <ClInclude Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.h" />
     <ClInclude Include="Player\Star1\Star1.h" />
-<<<<<<< HEAD
     <ClInclude Include="Player\Star2\Star2.h" />
     <ClInclude Include="SetRenderStateFile\SetRenderStateFile.h" />
   </ItemGroup>
@@ -119,14 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resource\swim_se.wav" />
-=======
-    <ClInclude Include="Player\Star2\Star2.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClInclude>
->>>>>>> player(State)
+
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
