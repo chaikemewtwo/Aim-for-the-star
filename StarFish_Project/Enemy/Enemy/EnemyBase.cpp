@@ -3,7 +3,7 @@
 
 EnemyBase::EnemyBase() {
 	m_delete_timer = 60;
-	m_animation_timer = 0;
+	//m_animation_timer = 0;
 	m_max_animation = 0;
 }
 //―――――――――――――――――――――
@@ -26,7 +26,8 @@ void EnemyBase::OutScreen() {
 }
 //―――――――――――――――――――――
 
-void EnemyBase::AnimationDraw(int max_animation, int anim_cange_time) {
+// Object反映のためコメントアウト　《要/調整》
+/*void EnemyBase::AnimationDraw(int max_animation, int anim_cange_time) {
 	if (m_animation_timer >= anim_cange_time) {
 		m_animation_timer = 0;
 		m_animation_num++;
@@ -38,7 +39,7 @@ void EnemyBase::AnimationDraw(int max_animation, int anim_cange_time) {
 	else {
 		m_animation_timer++;
 	}
-}
+}*/
 //―――――――――――――――――――――
 
 float EnemyBase::GetSpeed() {
