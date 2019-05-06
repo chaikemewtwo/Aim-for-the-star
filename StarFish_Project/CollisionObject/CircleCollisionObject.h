@@ -7,8 +7,12 @@
 class CircleCollisionObject : public CollisionObject{
 public:
 
+	// 半径のアクセサ
 	float GetRadius() {
 		return m_radius;
+	}
+	void SetRadius(float radius) {
+		m_radius = radius;
 	}
 
 private:
