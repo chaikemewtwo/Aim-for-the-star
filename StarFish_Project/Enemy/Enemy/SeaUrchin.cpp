@@ -59,7 +59,7 @@ void SeaUrchin::Draw() {
 }
 //―――――――――――――――――――――――――――
 
-// 遷移関数《要/変更》
+// 遷移関数
 void SeaUrchin::ChangeState(StateBase* state) {
 	m_pstate_base = state;
 }

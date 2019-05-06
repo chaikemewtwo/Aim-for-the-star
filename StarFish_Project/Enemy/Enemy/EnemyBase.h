@@ -75,6 +75,4 @@ protected:
 	const int TEX_PARTITION_NUM2 = 2;	// 画像の分割数　　2分割
 	const float TEXTURE_SIZE_X = 0.5f;	// 描画する画像のXサイズ
 	const float TEXTURE_SIZE_Y = 0.5f;	// 描画する画像のYサイズ
-
-	float m_speed;// 仮
 };
