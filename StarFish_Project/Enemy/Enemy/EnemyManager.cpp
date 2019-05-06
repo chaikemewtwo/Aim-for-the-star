@@ -40,12 +40,10 @@ void EnemyManager::Draw() {
 // 敵生成の関数
 void EnemyManager::Create() {
 	// 敵の最大数と配列サイズの差分を保存
-	float diff = Enemy_Max_Num - m_enemy_list.size();
+	int diff = Enemy_Max_Num - m_enemy_list.size();
 
 	// 差分だけ配列を回す
 	for (int num = 0; num < diff; num++) {
-		// 要素数が生成数に達していなければ
-		if (m_enemy_list.size() < Enemy_Max_Num) {
 			float x = (rand() % (WINDOW_W_INT - 100));
 			float y = (rand() % (WINDOW_H_INT - 100));
 			// 一定の確率で敵を生成　《仮の生成実装》
@@ -63,7 +61,6 @@ void EnemyManager::Create() {
 				m_enemy_list.emplace_back(new SellFish(x, y));
 				m_pobj_mng->Entry(m_enemy_list.back());
 			}
-		}
 	}
 }
 //―――――――――――――――――――――――――――
@@ -73,7 +70,9 @@ void EnemyManager::Delete() {
 	// 削除ループ
 	for (auto it = m_enemy_list.begin(); it != m_enemy_list.end();) {
 		// デッドフラグがtrueであれば、該当の要素を削除
-		if ((*it)->IsActive() == false) {
+		if ((*it)->GetIsActive() == false) {
+			// 生成時に登録されているIdで、Object配列側の要素を指定
+			m_pobj_mng->Exit((*it)->GetId());
 			it = m_enemy_list.erase(it);
 		}
 		else {

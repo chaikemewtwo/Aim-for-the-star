@@ -7,17 +7,22 @@ SideMove* SideMove::GetInstance() {
 }
 //――――――――――――――――――――――
 
+// 横に直線移動する処理
 void SideMove::Action(EnemyBase* e) {
 	e->SetStateId(SideMoveId);
-	// 横に直線移動する処理
-	int x;
+
+	// 画面の左側にいたら、右に向かって移動
+	D3DXVECTOR2 pos;
 	if (e->IsLeft() == true) {
-		x = e->GetPosX() + e->GetSpeed();
-		e->SetPosX(x);
+		pos = e->GetPos();
+		pos.x += e->GetSpeed();
+		e->SetPos(pos);
 	}
+	// 画面の右側にいたら、左に向かって移動
 	else if (e->IsLeft() == false) {
-		x = e->GetPosX() - e->GetSpeed();
-		e->SetPosX(x);
+		pos = e->GetPos();
+		pos.x -= e->GetSpeed();
+		e->SetPos(pos);
 	}
 }
 //――――――――――――――――――――――
