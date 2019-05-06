@@ -28,6 +28,9 @@ void PlayerBase::Update() {
 	// HACK:自機2の操作を分離する
 	Keybord& kb = Keybord::getInterface();
 
+	// 毎回移動を加算
+	m_pos += m_move;
+
 	m_move.x = 0.f;// 毎回初期化は行う
 	m_move.y = 0.f;
 	//-----------------------------------------------------
@@ -90,8 +93,8 @@ void PlayerBase::Draw() {
 
 void PlayerBase::AddGravity() {
 	// 常時下方向へ負荷がかかる
-	m_move.y = GRAVITY;
-	m_pos.y += m_move.y;
+	m_move.y += -GRAVITY;
+	//m_pos.y += m_move.y;
 }
 
 
@@ -113,12 +116,12 @@ void PlayerBase::AngleAdjust(bool is_move_right) {
 void PlayerBase::SwimUp() {
 	
 	// ベクトルの長さ(上方向への移動)
-	m_move.x = sin(m_character_angle * PI / (float)180.f) * m_move_speed;
-	m_move.y = cos(m_character_angle * PI / (float)180.f) * m_move_speed;
+	m_move.x += sin(m_character_angle * PI / (float)180.f) * m_move_speed;
+	m_move.y += cos(m_character_angle * PI / (float)180.f) * m_move_speed;
 
 	// 移動量インクリメント
-	m_pos.x += m_move.x;
-	m_pos.y -= m_move.y;
+	//m_pos.x += m_move.x;
+	//m_pos.y -= m_move.y;
 }
 
 

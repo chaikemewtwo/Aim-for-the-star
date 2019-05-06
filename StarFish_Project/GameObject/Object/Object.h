@@ -11,6 +11,8 @@ public:
 	Object();
 	virtual ~Object() {};
 
+	void AnimationDraw(int textur_x, int textur_y, int anim_speed);
+
 	/* 各アクセサ */
 
 	D3DXVECTOR2 GetPos() const{
@@ -45,4 +47,8 @@ protected:
 private:
 	// 生成id入れ
 	int m_id;
+
+	// アニメーション番号
+	int m_animation_timer;
+	int m_animation_num;
 };
