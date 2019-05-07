@@ -24,7 +24,7 @@ void SeaUrchin::Init() {
 	m_anim_change_time = 20;
 
 	// 敵の種類を設定
-	m_enemy_type = SeaUrchinId;
+	m_enemy_type = SEAURCHIN_ID;
 
 	if (m_pos.x < (WINDOW_W_F / 2)) {
 		m_is_left = true;

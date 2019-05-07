@@ -9,7 +9,7 @@ SideMove* SideMove::GetInstance() {
 
 // 横に直線移動する処理
 void SideMove::Action(EnemyBase* e) {
-	e->SetStateId(SideMoveId);
+	e->SetStateId(SIDEMOVE_ID);
 
 	// 画面の左側にいたら、右に向かって移動
 	D3DXVECTOR2 pos;

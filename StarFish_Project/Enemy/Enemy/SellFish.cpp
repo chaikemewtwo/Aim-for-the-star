@@ -15,7 +15,7 @@ void SellFish::Init() {
 	m_power = 15;			//　攻撃力の値は仮
 	m_max_animation = 2;
 	m_anim_change_time = 20;
-	m_enemy_type = SellFishId;	
+	m_enemy_type = SELLFISH_ID;	
 
 	if (m_pos.x < (WINDOW_W_F / 2)) {
 		m_is_left = true;
@@ -37,7 +37,7 @@ void SellFish::Update() {
 
 void SellFish::Draw() {
 	switch (m_stateid) {
-	case WaitId:
+	case WAIT_ID:
 		m_anim_change_time = 20;
 		m_max_animation = 2;
 
@@ -51,7 +51,7 @@ void SellFish::Draw() {
 
 		AnimationDraw(m_max_animation, m_anim_change_time);
 		break;
-	case SideMoveId:
+	case SIDEMOVE_ID:
 		m_anim_change_time = 5;
 		m_max_animation = 4;
 

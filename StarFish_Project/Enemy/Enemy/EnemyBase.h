@@ -1,23 +1,24 @@
 ﻿#pragma once
 
 #include"../../Lib/Texture/TextureBoad2D.h"
+#include"../../CollisionObject/CircleCollisionObject.h"
 #include"../State/EnemyStateBase.h"
 #include"../State/EnemyWaitState.h"
-#include"../../CollisionObject/CircleCollisionObject.h"
+
 
 // 敵の種類
 enum EnemyTypeId {
-	SeaUrchinId,		// ウニ
-	SellFishId,			// ほら貝
-	NapoleonFishId,		// ナポレオンフィッシュ
+	SEAURCHIN_ID,		// ウニ
+	SELLFISH_ID,		// ほら貝
+	NAPOLEONFISH_ID,	// ナポレオンフィッシュ
 	//EnemyTypeMax		// 敵種の最大数
 };
 
 // 敵の状態識別Id
 enum StateId {
-	WaitId,				// 待機
-	SideMoveId,			// 横線移動
-	VerticalMoveId		// 縦線移動
+	WAIT_ID,			// 待機
+	SIDEMOVE_ID,		// 横線移動
+	VERTICALMOVE_ID		// 縦線移動
 };
 
 
@@ -39,24 +40,16 @@ public:
 	// アニメーション操作関数　《削除予定》
 	//virtual void AnimationDraw(int max_animation, int anim_speed);
 
-	// 速度のゲッター
+	// 各種ゲッター、セッター
 	virtual float GetSpeed();
-
-	// 攻撃力のゲッター
 	virtual int GetPower();
-
 	// 移動するかの判定フラグのゲッター
 	virtual bool NoMove();
-
+	// 左右どちらにいるか判定フラグのゲッター
 	virtual bool IsLeft();
-
-	// 敵種類のゲッター
 	virtual int GetEnemyType();
-
 	// 現在のStateIdのセッター
 	virtual void SetStateId(StateId state_id);
-
-	// 追加:敵という情報を返す
 	Type GetObjectType() {
 		return ENEMY;
 	}
