@@ -5,11 +5,12 @@
 Object::Object() {
 
 	m_pos.x = m_pos.y = 0.f;
-	// 死んだらtrueにする
-	m_is_active = false;
+	// 死んだらfalseにする
+	m_is_active = true;
 	m_id = 0;
+	m_animation_timer = 0;
+	m_animation_num = 0;
 }
-
 
 void Object::AnimationDraw(int max_animation, int anim_cange_time) {
 	if (m_animation_timer >= anim_cange_time) {
@@ -25,23 +26,25 @@ void Object::AnimationDraw(int max_animation, int anim_cange_time) {
 	}
 }
 
+
 /* 各アクセサ */
-D3DXVECTOR2 Object::GetPos()const {
+D3DXVECTOR2 Object::GetPos() const {
 	return m_pos;
-}
-
-int Object::GetId()const {
-	return m_id;
-}
-
-bool Object::IsActive()const {
-	return m_is_active;
 }
 
 void Object::SetPos(const D3DXVECTOR2&pos) {
 	m_pos = pos;
 }
 
+int Object::GetId() const {
+	return m_id;
+}
+
 void Object::SetId(int id) {
 	m_id = id;
 }
+
+bool Object::IsActive()const {
+	return m_is_active;
+}
+
