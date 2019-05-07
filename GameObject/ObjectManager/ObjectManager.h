@@ -67,6 +67,7 @@
 
 // 敵管理の参照
 class EnemyManager;
+class CollisionManager;
 
 // オブジェクト管理クラス
 class ObjectManager {
@@ -94,11 +95,11 @@ private:
 	// 現在最大のid
 	unsigned int m_current_max_id;
 
-	// TODO 当たり判定管理所
-	//CollisionManager *m_pcol_mng;
 
 	/* ここにオブジェクトインスタンスを持つ */
 
 	// 敵管理クラス
 	EnemyManager *m_pe_mng;
+	// 衝突管理クラス
+	CollisionManager *m_pcol_mng;
 };
