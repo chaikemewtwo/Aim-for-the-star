@@ -16,24 +16,28 @@ PlayerBase::PlayerBase() :m_state(PlayerWaitState::GetInstance()) {
 	m_animation_number = 0;
 
 
-	// 追加(初期化していなかったので):移動初期化
+	// 移動量
 	m_move.x = 0.f;
 	m_move.y = 0.f;
 
 	// 待機状態初期化
 	m_state->Init(this);
 
+	SetRadius(50.f);
 }
 
 
 void PlayerBase::Update() {
 
-	// 毎回移動を加算
+	// 移動を加算
 	m_pos += m_move;
 
-	m_move.x = 0.f;// 毎回初期化は行う
+	// 移動量を初期化（マップとの兼ね合い）
+	// HACK:毎ｆリセットは気持ち悪いのでできれば消したい
+	m_move.x = 0.f;
 	m_move.y = 0.f;
 	
+
 	// 内部の処理は各ステート内で管理しています
 	m_state->Update(this);
 }
@@ -46,7 +50,7 @@ void PlayerBase::Draw() {
 	Texture::Draw2D(
 		m_player_texture.c_str(),
 		m_pos.x,
-		500,// 変更 Playerが進むのではなく、チップを動かす
+		WINDOW_H/2,					// MEMO:マップとの兼ね合いでとりあえずy座標を画面中央に固定　HACK:自機2体の処理が分離されたときにバグが生まれる
 		TEXTURE_SIZE_X,
 		TEXTURE_SIZE_Y,
 		m_character_angle,
@@ -62,8 +66,7 @@ void PlayerBase::Draw() {
 
 void PlayerBase::AddGravity() {
 	// 常時下方向へ負荷がかかる
-	m_move.y += -GRAVITY;
-	//m_pos.y += m_move.y;
+	m_move.y += GRAVITY;
 }
 
 
@@ -92,4 +95,12 @@ void PlayerBase::SwimUp() {
 	// 移動量インクリメント
 	//m_pos.x += m_move.x;
 	//m_pos.y -= m_move.y;
+}
+
+
+// 自機と敵との当たり判定後の処理(点滅させる)
+void  PlayerBase::HitAction(Type type) {
+	if (type == ENEMY) {
+
+	}
 }
