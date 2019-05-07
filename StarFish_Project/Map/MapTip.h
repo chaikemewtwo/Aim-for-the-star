@@ -81,6 +81,7 @@ private:
 	D3DXVECTOR2 m_move_pos[2];      // 自機の移動ベクトル
 	int m_draw_map[1000][1000] = {};// 描画用マップバッファ
 	/* マップ描画領域 */
+	D3DXVECTOR2 m_draw_map_pos;         // 描画用マップの位置              
 	int m_height_map_num;       // マップデータの高さ
 	int m_map_chip_id[1000]={}; // 生成されたらマップチップを保存する
 	int m_chip_num;             // チップの番号

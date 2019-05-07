@@ -188,7 +188,7 @@ void MapTip::Draw() {
 
 					Texture::Draw2D("Resource/chip_map_image_64.png",
 						(float)(x * CHIP_SIZE),
-						(float)(-y * CHIP_SIZE) + 1550 + m_obj_pos[i].y);// 1674
+						(float)(-y * CHIP_SIZE) + 1550 + m_obj_pos[0].y);// 1674
 				}
 			}
 		}
