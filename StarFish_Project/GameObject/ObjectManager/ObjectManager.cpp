@@ -39,9 +39,9 @@ void ObjectManager::Update() {
 		itr.second->Update();
 	}
 
-
 	// 当たり判定
-	//m_pcol_mng->Collision();
+	m_pcol_mng->Collision();
+
 }
 
 

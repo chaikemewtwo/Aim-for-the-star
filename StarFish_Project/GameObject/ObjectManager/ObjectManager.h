@@ -66,10 +66,12 @@
 */
 
 
-class EnemyManager; // 敵管理の前方参照
-class MapManager;   // マップ管理の前方参照
-class Star1;        // 自機1の前方参照
-class Star2;        // 自機2の前方参照
+class EnemyManager;    // 敵管理の前方参照
+class MapManager;      // マップ管理の前方参照
+class Star1;           // 自機1の前方参照
+class Star2;           // 自機2の前方参照
+class CollisionManager // 衝突管理の前方参照 
+
 
 // オブジェクト管理クラス
 class ObjectManager {
@@ -97,13 +99,17 @@ private:
 	// 現在最大のid
 	unsigned int m_current_max_id;
 
-	// TODO 当たり判定管理所
+	// 当たり判定管理所
 	CollisionManager *m_pcol_mng;
 
 	/* ここにオブジェクトインスタンスを持つ */
 
-	EnemyManager *m_pe_mng;   // 敵管理クラス
 	MapManager * m_pm_mng;    // マップ管理クラス
 	Star1 * m_pstar1;         // 自機1
 	Star2 * m_pstar2;         // 自機2
+
+	// 敵管理クラス
+	EnemyManager *m_pe_mng;
+	// 衝突管理クラス
+	CollisionManager *m_pcol_mng;
 };
