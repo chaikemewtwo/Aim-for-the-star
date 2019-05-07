@@ -22,7 +22,10 @@ EnemyManager::~EnemyManager() {
 
 // 更新関数
 void EnemyManager::Update() {
-	Create();
+	// 仮の座標生成(まだObjectManagerで渡せないのでここで座標生成)
+	float x = (rand() % (WINDOW_W_INT - 100));
+	float y = (rand() % (WINDOW_H_INT - 100));
+	Create(x, y);
 	
 	Delete();
 }
@@ -40,15 +43,13 @@ void EnemyManager::Draw() {
 //―――――――――――――――――――――――――――
 
 // 敵生成の関数
-void EnemyManager::Create() {
+void EnemyManager::Create(float x, float y) {
 	// 敵の最大数と配列サイズの差分を保存
 	int diff = Enemy_Max_Num - m_enemy_list.size();
 
 	// 差分だけ配列を回す
 	for (int num = 0; num < diff; num++) {
-			float x = (rand() % (WINDOW_W_INT - 100));
-			float y = (rand() % (WINDOW_H_INT - 100));
-			// 一定の確率で敵を生成　《仮の生成実装》
+			// 一定の確率で敵を生成
 			if (rand() % 100 == 0) {
 				// ランダムに割り出したxyを使用して敵を登録
 				m_enemy_list.emplace_back(new SeaUrchin(x, y));
@@ -81,3 +82,11 @@ void EnemyManager::Delete() {
 		}
 	}
 }
+
+//――――――――――――――――――――――――――――
+
+// 生成している敵の総数を返す関数
+int EnemyManager::GetEnemyTotal() {
+	return m_enemy_list.size();
+}
+//――――――――――――――――――――――――――――
