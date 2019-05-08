@@ -9,9 +9,6 @@ void PlayerWaitState::Init(PlayerBase* p) {
 	// 状態遷移タイマー
 	p->ResetStateChangeTimer();
 
-	// アニメーション1枚分タイマー
-	m_animation_timer = 0;
-
 	// アニメーション番号
 	p->ResetAnimationNumber();
 
@@ -24,8 +21,8 @@ void PlayerWaitState::Init(PlayerBase* p) {
 void PlayerWaitState::Update(PlayerBase* p) {
 	Keybord& kb = Keybord::getInterface();
 
-	// 待機状態アニメーション
-	p->AnimationDraw(4, 4, ONE_ANIMATION_SPEED);
+	// アニメーション
+	p->AnimationDraw(MAX_ANIMATION_TEX_NUM, ONE_ANIMATION_SPEED);
 
 	// 重力付与
 	p->AddGravity();
@@ -41,11 +38,11 @@ void PlayerWaitState::Update(PlayerBase* p) {
 	}
 
 	// 泳ぐコマンド入力
-	if (p->GetStamina() >= 10 && kb.press(VK_SPACE)) {
-		// 泳ぎ状態へ移行
-		p->ChangeState(PlayerSwimState::GetInstance());
-
+	if (p->GetStamina() >= 1000 && kb.press(VK_SPACE)) {
 		// スタミナ減算
-		p->DecStamina(10);
+		p->DecStamina(1000);
+
+		// 泳ぎ状態へ移行
+		p->ChangeState(PlayerSwimState::GetInstance());		
 	}
 }

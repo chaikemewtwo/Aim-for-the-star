@@ -3,6 +3,7 @@
 #include "../PlayerState/PlayerSwimState/PlayerSwimState.h"
 #include "../PlayerState/PlayerStandingWaitState/PlayerStandingWaitState.h"
 #include <cmath>
+#include <time.h>
 
 
 PlayerBase::PlayerBase() :m_state(PlayerWaitState::GetInstance()) {
@@ -13,7 +14,7 @@ PlayerBase::PlayerBase() :m_state(PlayerWaitState::GetInstance()) {
 	m_character_angle = 0.f;
 
 	// アニメーション番号
-	m_animation_number = 0;
+	m_animation_num = 0;
 
 
 	// 移動量
@@ -26,27 +27,28 @@ PlayerBase::PlayerBase() :m_state(PlayerWaitState::GetInstance()) {
 	// スタミナ
 	m_stamina = MAX_SUTAMINA;
 
-	SetRadius(50.f);
-
+	// 描画フラグ
 	m_draw_enable = true;
 }
 
 
 void PlayerBase::Update() {
-
 	// 移動を加算
 	m_pos += m_move;
 
-	// 移動量を初期化（マップとの兼ね合い）
-	// HACK:毎ｆリセットは気持ち悪いのでできれば消したい
+	// 移動量を初期化（マップの当たり判定で必要）
 	m_move.x = 0.f;
 	m_move.y = 0.f;
 
+	// スタミナ自動回復
 	if (m_stamina <= MAX_SUTAMINA) {
-		m_stamina += 1;
+		++m_stamina;
 	}
-	
+	else {
+		m_stamina = MAX_SUTAMINA;
+	}
 
+	// ステート更新
 	// 内部の処理は各ステート内で管理しています
 	m_state->Update(this);
 }
@@ -55,12 +57,12 @@ void PlayerBase::Update() {
 void PlayerBase::Draw() {
 	// 自機2にも自機1のものを使用中
 	// 第7、8引数が0.5fずつで中心座標から描画	
-	// 被弾状態は描画する、しないを切り替えて表現する DamageStateが消えるかも
+	// 被弾状態は描画する、しないを切り替えて表現する
 	if (m_draw_enable == true) {
 		Texture::Draw2D(
 			m_player_texture.c_str(),
 			m_pos.x,
-			WINDOW_H / 2,					// MEMO:マップとの兼ね合いでとりあえずy座標を画面中央に固定　HACK:自機2体の処理が分離されたときにバグが生まれる
+			m_pos.y,
 			TEXTURE_SIZE_X,
 			TEXTURE_SIZE_Y,
 			m_character_angle,
@@ -69,7 +71,7 @@ void PlayerBase::Draw() {
 			true,
 			TEXTURE_PARTITION_X_NUMBER,
 			TEXTURE_PARTITION_Y_NUMBER,
-			m_animation_number
+			m_animation_num
 		);
 	}
 }
@@ -110,7 +112,7 @@ void PlayerBase::SwimUp() {
 }
 
 
-// 自機と敵との当たり判定後の処理(点滅させる)
+// 自機と敵との当たり判定後の処理(点滅処理へ移行)
 void  PlayerBase::HitAction(Type type) {
 	if (type == ENEMY) {
 		

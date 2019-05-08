@@ -17,11 +17,9 @@ public:
 	void Update(PlayerBase* p) override;
 
 private:
-	// HACK:奇数じゃないと止まる
-	const int ONE_ANIMATION_SPEED = 7;
+	const int ONE_ANIMATION_SPEED = 8;
 
-	const int MAX_TEXTURE_NUM = 16;
+	const int MAX_ANIMATION_TEX_NUM = 16;
 
-	// 数値は仮のもの
-	const int MAX_COUNT = ONE_ANIMATION_SPEED * MAX_TEXTURE_NUM;
+	const int MAX_COUNT = ONE_ANIMATION_SPEED * MAX_ANIMATION_TEX_NUM;
 };

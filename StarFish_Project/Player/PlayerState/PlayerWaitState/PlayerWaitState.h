@@ -16,12 +16,9 @@ public:
 	void Update(PlayerBase* p)  override;
 
 private:
-	PlayerWaitState() {}
+	// アニメーション1枚を何Fやるか
+	const int ONE_ANIMATION_SPEED = 8;
 
-	// 数値は仮のもの
-	// HACK:奇数じゃないと止まる
-	const int ONE_ANIMATION_SPEED = 7;
-
-	// 統合画像内の画像枚数
-	const int MAX_TEXTURE_NUM = 6;
+	// アニメーションの画像枚数
+	const int MAX_ANIMATION_TEX_NUM = 6;
 };

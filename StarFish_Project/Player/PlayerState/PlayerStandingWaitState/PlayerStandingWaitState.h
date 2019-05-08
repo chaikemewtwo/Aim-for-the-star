@@ -21,8 +21,8 @@ private:
 	const int ONE_ANIMATION_SPEED = 7;
 
 	// 統合画像内の画像枚数
-	const int MAX_TEXTURE_NUM = 7;
+	const int MAX_ANIMATION_TEX_NUM = 7;
 
 
-	const int MAX_COUNT = ONE_ANIMATION_SPEED * MAX_TEXTURE_NUM;
+	const int MAX_COUNT = ONE_ANIMATION_SPEED * MAX_ANIMATION_TEX_NUM;
 };

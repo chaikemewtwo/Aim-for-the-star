@@ -17,10 +17,8 @@ public:
 	// 仮想デストラクタ
 	virtual ~PlayerBase() {}
 
-	// ゲームシーンで使用する関数 -------------------------
 	// 更新処理
 	// HACK：自機2も自機1の操作方法になっているので操作の分離が必要
-
 	void Update()override;
 
 	// 描画処理
@@ -28,14 +26,6 @@ public:
 	void Draw()override;
 
 	
-	//-----------------------------------------------------
-
-	// 状態切り替え
-	void ChangeState(PlayerStateBase* state) {
-		m_state = state;
-		m_state->Init(this);
-	}
-
 	// 当たり判定で使用する関数	---------------------------
 	// プレイヤー座標ゲッター
 	D3DXVECTOR2 GetPos() {
@@ -60,19 +50,15 @@ public:
 
 
 	// 状態遷移（各State）で使用する関数 ------------------
-	// アニメーション番号ゲッター
-	int GetAnimationNumber() {
-		return m_animation_number;
+	// 状態切り替え
+	void ChangeState(PlayerStateBase* state) {
+		m_state = state;
+		m_state->Init(this);
 	}
 
 	// アニメーション番号0初期化
 	void ResetAnimationNumber() {
-		m_animation_number = 0;
-	}
-
-	// アニメーション番号インクリメント
-	void AddAnimationNumber() {
-		m_animation_number++;
+		m_animation_num = 0;
 	}
 
 	// 状態画像セッター
@@ -105,7 +91,6 @@ public:
 		m_stamina -= dec_sutamina_num;
 	}
 
-
 	// 泳ぐ（ジャンプ）、傾いてる向きに移動
 	void SwimUp();
 
@@ -116,8 +101,14 @@ public:
 	void AngleAdjust(bool is_move_right);
 	//-----------------------------------------------------
 
+<<<<<<< HEAD
 	// MEMO CollisionObjectで必要なので追加
 	Type GetObjectType()const override { // 自機を返す設定をする
+=======
+	// MEMO:CollisionObjectで必要なので追加
+	// 自機を返す設定をする
+	Type GetObjectType()const override { 
+>>>>>>> player（主にスタミナ関連）
 		return PLAYER;
 	}
 
@@ -129,7 +120,7 @@ protected:
 	//-----------------------------------------------------
 	// ゲーム内パラメータ用定数
 	// 1フレームごとの画面下への移動量、重力負荷に使用
-	const float GRAVITY = -0.5f;
+	const float GRAVITY = -1.f;
 
 	// 向き変更時に1フレームごとに傾く角度
 	const float ANGLE_ADD = 0.5f;
@@ -164,9 +155,6 @@ protected:
 
 	// 自機画像角度（MAX_ANGLEから-MAX_ANGLE度まで）
 	float m_character_angle;
-
-	// アニメーション番号（統合画像内のどの画像を描画するか）
-	int m_animation_number;
 	//-----------------------------------------------------
 
 private:
@@ -180,7 +168,7 @@ private:
 	int m_stamina;
 
 	// スタミナ最大値
-	const int MAX_SUTAMINA = 100;
+	const int MAX_SUTAMINA = 1000;
 
 	// 被弾時点滅用描画切り替え
 	bool m_draw_enable;
