@@ -99,9 +99,6 @@ private:
 	// 現在最大のid
 	unsigned int m_current_max_id;
 
-	// 当たり判定管理所
-	CollisionManager *m_pcol_mng;
-
 	/* ここにオブジェクトインスタンスを持つ */
 
 	MapManager * m_pm_mng;    // マップ管理クラス

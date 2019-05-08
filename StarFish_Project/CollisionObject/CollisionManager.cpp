@@ -2,6 +2,7 @@
 #include"../GameObject/Object/Object.h"
 #include"../Player/Star1/Star1.h"
 #include"../Player/Star2/Star2.h"
+#include"../Enemy/Enemy/EnemyManager.h"
 
 
 CollisionManager::CollisionManager(Star1*p1,Star2*p2, EnemyManager*e_mng) {

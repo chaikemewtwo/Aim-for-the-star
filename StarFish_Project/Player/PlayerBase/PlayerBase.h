@@ -117,7 +117,7 @@ public:
 	//-----------------------------------------------------
 
 	// MEMO CollisionObjectで必要なので追加
-	Type GetObjectType()override { // 自機を返す設定をする
+	Type GetObjectType()const override { // 自機を返す設定をする
 		return PLAYER;
 	}
 

@@ -72,7 +72,7 @@ void EnemyManager::Delete() {
 	// 削除ループ
 	for (auto it = m_enemy_list.begin(); it != m_enemy_list.end();) {
 		// デッドフラグがtrueであれば、該当の要素を削除
-		if ((*it)->GetIsActive() == false) {
+		if ((*it)->IsActive() == false) {
 			// 生成時に登録されているIdで、Object配列側の要素を指定
 			m_pobj_mng->Exit((*it)->GetId());
 			it = m_enemy_list.erase(it);

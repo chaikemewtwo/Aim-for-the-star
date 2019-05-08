@@ -48,7 +48,7 @@ public:
 	virtual int GetEnemyType();
 	// 現在のStateIdのセッター
 	virtual void SetStateId(StateId state_id);
-	Type GetObjectType() {
+	Type GetObjectType()const override {
 		return ENEMY;
 	}
 
