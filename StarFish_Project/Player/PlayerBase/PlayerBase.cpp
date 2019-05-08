@@ -43,7 +43,6 @@ void PlayerBase::Update() {
 		m_sutamina += 1;
 	}
 	
-	
 
 	// 内部の処理は各ステート内で管理しています
 	m_state->Update(this);
@@ -98,6 +97,8 @@ void PlayerBase::SwimUp() {
 	// 上方向への移動量(ベクトルの長さ)を割り出す
 	m_move.x += sin(m_character_angle * PI / (float)180.f) * m_speed;
 	m_move.y += cos(m_character_angle * PI / (float)180.f) * m_speed;
+
+	m_sutamina -= 2;
 
 	// 移動量インクリメント
 	//m_pos.x += m_move.x;

@@ -41,21 +41,5 @@ void PlayerWaitState::Update(PlayerBase* p) {
 		p->ChangeState(PlayerSwimState::GetInstance());
 	}
 
-	// アニメーション1枚分タイマーインクリメント
-	++m_animation_timer;
-
-	// アニメーションタイマーが1回のアニメーション分の長さ以上になったら
-	if (m_animation_timer >= ONE_ANIMATION_SPEED) {
-		// アニメーション番号インクリメント
-		p->AddAnimationNumber();
-
-		// アニメーションタイマーをリセット
-		m_animation_timer = 0;
-
-		// アニメーション番号が統合画像内の枚数以上になったら
-		if (p->GetAnimationNumber() >= MAX_TEXTURE_NUM) {
-			// アニメーション番号をリセット
-			p->ResetAnimationNumber();
-		}
-	}
+	p->AnimationDraw(4,4,ONE_ANIMATION_SPEED);
 }

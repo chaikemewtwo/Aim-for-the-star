@@ -168,5 +168,7 @@ private:
 	PlayerStateBase * m_state;
 
 	// スタミナ
-	int sutamina;
+	int m_sutamina;
+
+	const int MAX_SUTAMINA = 100;
 };
