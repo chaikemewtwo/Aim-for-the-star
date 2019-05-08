@@ -27,11 +27,7 @@ public:
 	// MEMO:自機2も自機1の画像を使用中、自機2の画像が完成次第変更する
 	void Draw()override;
 
-	// 自機と敵との当たり判定後の処理(点滅させる)
-	void  HitAction(Type type)override {
-
-		m_pos.y = 10.f;
-	}
+	
 	//-----------------------------------------------------
 
 	// 状態切り替え
@@ -99,6 +95,16 @@ public:
 		++m_state_change_timer;
 	}
 
+	// スタミナゲッター
+	int GetStamina() {
+		return m_stamina;
+	}
+
+	// スタミナセッター
+	void DecStamina(int dec_sutamina_num) {
+		m_stamina -= dec_sutamina_num;
+	}
+
 
 	// 泳ぐ（ジャンプ）、傾いてる向きに移動
 	void SwimUp();
@@ -114,6 +120,9 @@ public:
 	Type GetObjectType()override { // 自機を返す設定をする
 		return PLAYER;
 	}
+
+	// 自機と敵との当たり判定後の処理(点滅させる)
+	void HitAction(Type type)override;
 	
 protected:
 
@@ -136,13 +145,13 @@ protected:
 	const float TEXTURE_SIZE_X = 0.25f;
 
 	// テクスチャサイズ調整Y座標用
-	const float TEXTURE_SIZE_Y = 0.25f;
+	const float TEXTURE_SIZE_Y = TEXTURE_SIZE_X;
 
 	// 分割画像X枚数
 	const int TEXTURE_PARTITION_X_NUMBER = 4;
 
 	// 分割画像Y枚数
-	const int TEXTURE_PARTITION_Y_NUMBER = 4;
+	const int TEXTURE_PARTITION_Y_NUMBER = TEXTURE_PARTITION_X_NUMBER;
 	//-----------------------------------------------------
 	
 	// 変数 ------------------------------------------------
@@ -168,7 +177,11 @@ private:
 	PlayerStateBase * m_state;
 
 	// スタミナ
-	int m_sutamina;
+	int m_stamina;
 
+	// スタミナ最大値
 	const int MAX_SUTAMINA = 100;
+
+	// 被弾時点滅用描画切り替え
+	bool m_draw_enable;
 };

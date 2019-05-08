@@ -23,9 +23,12 @@ PlayerBase::PlayerBase() :m_state(PlayerWaitState::GetInstance()) {
 	// 待機状態初期化
 	m_state->Init(this);
 
-	m_sutamina = 100;
+	// スタミナ
+	m_stamina = MAX_SUTAMINA;
 
 	SetRadius(50.f);
+
+	m_draw_enable = true;
 }
 
 
@@ -39,8 +42,8 @@ void PlayerBase::Update() {
 	m_move.x = 0.f;
 	m_move.y = 0.f;
 
-	if (m_sutamina <= MAX_SUTAMINA) {
-		m_sutamina += 1;
+	if (m_stamina <= MAX_SUTAMINA) {
+		m_stamina += 1;
 	}
 	
 
@@ -53,20 +56,22 @@ void PlayerBase::Draw() {
 	// 自機2にも自機1のものを使用中
 	// 第7、8引数が0.5fずつで中心座標から描画	
 	// 被弾状態は描画する、しないを切り替えて表現する DamageStateが消えるかも
-	Texture::Draw2D(
-		m_player_texture.c_str(),
-		m_pos.x,
-		WINDOW_H/2,					// MEMO:マップとの兼ね合いでとりあえずy座標を画面中央に固定　HACK:自機2体の処理が分離されたときにバグが生まれる
-		TEXTURE_SIZE_X,
-		TEXTURE_SIZE_Y,
-		m_character_angle,
-		0.5f,
-		0.5f,
-		true,
-		TEXTURE_PARTITION_X_NUMBER,
-		TEXTURE_PARTITION_Y_NUMBER,
-		m_animation_number
-	);
+	if (m_draw_enable == true) {
+		Texture::Draw2D(
+			m_player_texture.c_str(),
+			m_pos.x,
+			WINDOW_H / 2,					// MEMO:マップとの兼ね合いでとりあえずy座標を画面中央に固定　HACK:自機2体の処理が分離されたときにバグが生まれる
+			TEXTURE_SIZE_X,
+			TEXTURE_SIZE_Y,
+			m_character_angle,
+			0.5f,
+			0.5f,
+			true,
+			TEXTURE_PARTITION_X_NUMBER,
+			TEXTURE_PARTITION_Y_NUMBER,
+			m_animation_number
+		);
+	}
 }
 
 
@@ -98,7 +103,6 @@ void PlayerBase::SwimUp() {
 	m_move.x += sin(m_character_angle * PI / (float)180.f) * m_speed;
 	m_move.y += cos(m_character_angle * PI / (float)180.f) * m_speed;
 
-	m_sutamina -= 2;
 
 	// 移動量インクリメント
 	//m_pos.x += m_move.x;
@@ -109,6 +113,6 @@ void PlayerBase::SwimUp() {
 // 自機と敵との当たり判定後の処理(点滅させる)
 void  PlayerBase::HitAction(Type type) {
 	if (type == ENEMY) {
-
+		
 	}
 }
