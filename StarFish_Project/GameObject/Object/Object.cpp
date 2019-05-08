@@ -8,6 +8,8 @@ Object::Object() {
 	// 死んだらtrueにする
 	m_is_active = false;
 	m_id = 0;
+	m_animation_timer = 0;
+	m_animation_num = 0;
 }
 
 

@@ -20,10 +20,10 @@ void CollisionManager::Collision() {
 	// 敵と自機の当たり判定
 	for (int i = 0; i < PLAYER_NUM; i++) {
 
-		// 一旦
-		//for (int i = 0; i < m_pe_mng->GetEnemyArraySize(); i++) {
-		//	ChackHitCircle(&m_pe_mng->GetEnemypInstance(i), m_pp[i]);
-		//}
+		// 敵と自機の当たり判定
+		for (int i = 0; i < m_pe_mng->GetEnemyTotal(); i++) {
+			ChackHitCircle(&m_pe_mng->GetInstance(i), m_pp[i]);
+		}
 	}
 }
 

@@ -16,13 +16,16 @@ public:
 		MAX,
 	};
 
+	// 仮想デストラクタ
 	virtual ~CollisionObject() {};
 
 	// どのObjectを返したのかを返す
-	virtual Type GetObjectType() = 0;
-
+	virtual Type GetObjectType()const {
+		return MAX;
+	}
 	// 当たり判定の結果を返す,引数は当たった相手の定数を入れる
 	virtual void HitAction(Type type) {};
+
 protected:
 	float m_speed; // 移動速度
 };
