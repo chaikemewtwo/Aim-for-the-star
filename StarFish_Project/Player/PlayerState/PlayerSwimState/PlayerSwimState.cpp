@@ -8,9 +8,6 @@ void PlayerSwimState::Init(PlayerBase* p) {
 	// 状態遷移タイマー
 	p->ResetStateChangeTimer();
 
-	// アニメーション1枚分タイマー
-	m_animation_timer = 0;
-
 	// アニメーション番号
 	p->ResetAnimationNumber();
 
@@ -22,6 +19,9 @@ void PlayerSwimState::Init(PlayerBase* p) {
 // 更新
 void PlayerSwimState::Update(PlayerBase* p) {
 	Keybord& kb = Keybord::getInterface();
+
+	// アニメーション
+	p->AnimationDraw(MAX_ANIMATION_TEX_NUM, ONE_ANIMATION_SPEED);
 
 	// 状態遷移タイマーインクリメント
 	p->AddStateChangeTimer();
@@ -40,13 +40,6 @@ void PlayerSwimState::Update(PlayerBase* p) {
 	// 右
 	if ((kb.on('D'))) {
 		p->AngleAdjust(true);
-	}
-
-	// アニメーション1枚分タイマーインクリメント
-	++m_animation_timer;
-	if (m_animation_timer >= ONE_ANIMATION_SPEED) {
-		p->AddAnimationNumber();
-		m_animation_timer = 0;
 	}
 
 	// 待機状態が1回終わるごとに状態遷移タイマーリセット

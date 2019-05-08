@@ -12,10 +12,13 @@ public:
 		return &instance;
 	}
 
-	void Update(PlayerBase* p) override;
 	void Init(PlayerBase* p) override;
+	void Update(PlayerBase* p) override;
 
 private:
+	// 数値は仮のもの
+	const int ONE_ANIMATION_SPEED = 10;
+
 	// 数値は仮のもの、統合画像が完成次第変更する
-	const int MAX_TEXTURE_NUM = 8;
+	const int MAX_ANIMATION_TEX_NUM = 8;
 };
