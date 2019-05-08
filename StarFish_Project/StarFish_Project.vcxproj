@@ -47,7 +47,6 @@
     <ClCompile Include="Map\MapManager.cpp" />
     <ClCompile Include="Map\MapTip.cpp" />
     <ClCompile Include="Player\PlayerBase\PlayerBase.cpp" />
-    <ClCompile Include="Player\PlayerState\PlayerDamageState\PlayerDamageState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.cpp" />
@@ -55,7 +54,6 @@
     <ClCompile Include="Player\Star1\Star1.cpp" />
     <ClCompile Include="Player\Star2\Star2.cpp" />
     <ClCompile Include="SetRenderStateFile\SetRenderStateFile.cpp" />
-
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionObject\CircleCollisionObject.h" />
@@ -88,7 +86,6 @@
     <ClInclude Include="Map\MapManager.h" />
     <ClInclude Include="Map\MapTip.h" />
     <ClInclude Include="Player\PlayerBase\PlayerBase.h" />
-    <ClInclude Include="Player\PlayerState\PlayerDamageState\PlayerDamageState.h" />
     <ClInclude Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.h" />
     <ClInclude Include="Player\PlayerState\PlayerStateBase.h" />
     <ClInclude Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.h" />
@@ -110,7 +107,6 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resource\swim_se.wav" />
-
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

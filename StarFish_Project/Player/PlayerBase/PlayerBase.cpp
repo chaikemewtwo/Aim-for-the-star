@@ -16,24 +16,37 @@ PlayerBase::PlayerBase() :m_state(PlayerWaitState::GetInstance()) {
 	m_animation_number = 0;
 
 
-	// 追加(初期化していなかったので):移動初期化
+	// 移動量
 	m_move.x = 0.f;
 	m_move.y = 0.f;
 
 	// 待機状態初期化
 	m_state->Init(this);
 
+	// スタミナ
+	m_stamina = MAX_SUTAMINA;
+
+	SetRadius(50.f);
+
+	m_draw_enable = true;
 }
 
 
 void PlayerBase::Update() {
 
-	// 毎回移動を加算
+	// 移動を加算
 	m_pos += m_move;
 
-	m_move.x = 0.f;// 毎回初期化は行う
+	// 移動量を初期化（マップとの兼ね合い）
+	// HACK:毎ｆリセットは気持ち悪いのでできれば消したい
+	m_move.x = 0.f;
 	m_move.y = 0.f;
+
+	if (m_stamina <= MAX_SUTAMINA) {
+		m_stamina += 1;
+	}
 	
+
 	// 内部の処理は各ステート内で管理しています
 	m_state->Update(this);
 }
@@ -43,27 +56,28 @@ void PlayerBase::Draw() {
 	// 自機2にも自機1のものを使用中
 	// 第7、8引数が0.5fずつで中心座標から描画	
 	// 被弾状態は描画する、しないを切り替えて表現する DamageStateが消えるかも
-	Texture::Draw2D(
-		m_player_texture.c_str(),
-		m_pos.x,
-		500,// 変更 Playerが進むのではなく、チップを動かす
-		TEXTURE_SIZE_X,
-		TEXTURE_SIZE_Y,
-		m_character_angle,
-		0.5f,
-		0.5f,
-		true,
-		TEXTURE_PARTITION_X_NUMBER,
-		TEXTURE_PARTITION_Y_NUMBER,
-		m_animation_number
-	);
+	if (m_draw_enable == true) {
+		Texture::Draw2D(
+			m_player_texture.c_str(),
+			m_pos.x,
+			WINDOW_H / 2,					// MEMO:マップとの兼ね合いでとりあえずy座標を画面中央に固定　HACK:自機2体の処理が分離されたときにバグが生まれる
+			TEXTURE_SIZE_X,
+			TEXTURE_SIZE_Y,
+			m_character_angle,
+			0.5f,
+			0.5f,
+			true,
+			TEXTURE_PARTITION_X_NUMBER,
+			TEXTURE_PARTITION_Y_NUMBER,
+			m_animation_number
+		);
+	}
 }
 
 
 void PlayerBase::AddGravity() {
 	// 常時下方向へ負荷がかかる
-	m_move.y += -GRAVITY;
-	//m_pos.y += m_move.y;
+	m_move.y += GRAVITY;
 }
 
 
@@ -89,7 +103,16 @@ void PlayerBase::SwimUp() {
 	m_move.x += sin(m_character_angle * PI / (float)180.f) * m_speed;
 	m_move.y += cos(m_character_angle * PI / (float)180.f) * m_speed;
 
+
 	// 移動量インクリメント
 	//m_pos.x += m_move.x;
 	//m_pos.y -= m_move.y;
+}
+
+
+// 自機と敵との当たり判定後の処理(点滅させる)
+void  PlayerBase::HitAction(Type type) {
+	if (type == ENEMY) {
+		
+	}
 }

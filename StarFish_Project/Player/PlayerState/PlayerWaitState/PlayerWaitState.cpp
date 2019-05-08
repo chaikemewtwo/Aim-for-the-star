@@ -2,6 +2,7 @@
 #include "../PlayerSwimState/PlayerSwimState.h"
 #include "../../PlayerBase/PlayerBase.h"
 
+
 // 待機状態（オブジェクト上以外、オブジェクト上での待機状態はStandingWaitStateクラス）
 // 初期化
 void PlayerWaitState::Init(PlayerBase* p) {
@@ -23,6 +24,9 @@ void PlayerWaitState::Init(PlayerBase* p) {
 void PlayerWaitState::Update(PlayerBase* p) {
 	Keybord& kb = Keybord::getInterface();
 
+	// 待機状態アニメーション
+	p->AnimationDraw(4, 4, ONE_ANIMATION_SPEED);
+
 	// 重力付与
 	p->AddGravity();
 
@@ -36,26 +40,12 @@ void PlayerWaitState::Update(PlayerBase* p) {
 		p->AngleAdjust(true);
 	}
 
-	// 泳ぎ状態へ移行
-	if (kb.press(VK_SPACE)) {
+	// 泳ぐコマンド入力
+	if (p->GetStamina() >= 10 && kb.press(VK_SPACE)) {
+		// 泳ぎ状態へ移行
 		p->ChangeState(PlayerSwimState::GetInstance());
-	}
 
-	// アニメーション1枚分タイマーインクリメント
-	++m_animation_timer;
-
-	// アニメーションタイマーが1回のアニメーション分の長さ以上になったら
-	if (m_animation_timer >= ONE_ANIMATION_SPEED) {
-		// アニメーション番号インクリメント
-		p->AddAnimationNumber();
-
-		// アニメーションタイマーをリセット
-		m_animation_timer = 0;
-
-		// アニメーション番号が統合画像内の枚数以上になったら
-		if (p->GetAnimationNumber() >= MAX_TEXTURE_NUM) {
-			// アニメーション番号をリセット
-			p->ResetAnimationNumber();
-		}
+		// スタミナ減算
+		p->DecStamina(10);
 	}
 }
