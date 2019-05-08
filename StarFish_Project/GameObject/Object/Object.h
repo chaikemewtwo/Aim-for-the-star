@@ -17,7 +17,7 @@ public:
 	virtual void Draw() = 0;
 
 	// 描画関数
-	void AnimationDraw(int max_animation, int anim_cange_time);
+	void AnimationDraw(int max_animation, int anim_cange_time, int init_anim_num = 0);
 
 	/* ゲッター */
 	D3DXVECTOR2 GetPos()const;
