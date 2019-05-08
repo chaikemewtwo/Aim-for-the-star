@@ -42,6 +42,11 @@ void EnemyBase::OutScreen() {
 }*/
 //―――――――――――――――――――――
 
+EnemyBase* EnemyBase::GetInstance() {
+	return this;
+}
+//―――――――――――――――――――――
+
 float EnemyBase::GetSpeed() {
 	return m_speed;
 }

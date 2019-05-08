@@ -33,7 +33,7 @@ public:
 	virtual void Init() = 0;						
 	virtual void ChangeState(StateBase* state) = 0;
 	// 敵のインスタンスを返す関数
-	virtual EnemyBase* GetInstance() = 0;
+	virtual EnemyBase* GetInstance();
 
 	// 画面外に出たらm_is_deadをtrueにする関数
 	virtual void  OutScreen();

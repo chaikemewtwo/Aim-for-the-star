@@ -13,7 +13,6 @@ public:
 	void Update()override;
 	void Draw()override;
 	void ChangeState(StateBase* state)override;
-	EnemyBase* GetInstance()override;
 
 private:
 	StateBase* m_pstate_base;
