@@ -149,5 +149,5 @@ void BackGround::Scroll() {
 void BackGround::pPlayerMovePosUpdate() {
 
 	// 移動ベクトルを入れる
-	m_move_pos = m_pp_base->GetMovePos() / 3;
+	m_move_pos = -m_pp_base->GetMovePos() / 3;// -変換
 }
