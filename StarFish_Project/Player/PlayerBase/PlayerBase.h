@@ -166,4 +166,7 @@ private:
 
 	// ステート基底クラスのインスタンス
 	PlayerStateBase * m_state;
+
+	// スタミナ
+	int sutamina;
 };

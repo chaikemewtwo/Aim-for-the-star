@@ -23,6 +23,8 @@ PlayerBase::PlayerBase() :m_state(PlayerWaitState::GetInstance()) {
 	// 待機状態初期化
 	m_state->Init(this);
 
+	m_sutamina = 100;
+
 	SetRadius(50.f);
 }
 
@@ -36,6 +38,11 @@ void PlayerBase::Update() {
 	// HACK:毎ｆリセットは気持ち悪いのでできれば消したい
 	m_move.x = 0.f;
 	m_move.y = 0.f;
+
+	if (m_sutamina <= MAX_SUTAMINA) {
+		m_sutamina += 1;
+	}
+	
 	
 
 	// 内部の処理は各ステート内で管理しています
