@@ -66,11 +66,11 @@
 */
 
 
-class EnemyManager;    // 敵管理の前方参照
-class MapManager;      // マップ管理の前方参照
-class Star1;           // 自機1の前方参照
-class Star2;           // 自機2の前方参照
-class CollisionManager // 衝突管理の前方参照 
+class EnemyManager;     // 敵管理の前方参照
+class MapManager;       // マップ管理の前方参照
+class Star1;            // 自機1の前方参照
+class Star2;            // 自機2の前方参照
+class CollisionManager; // 衝突管理の前方参照 
 
 
 // オブジェクト管理クラス
