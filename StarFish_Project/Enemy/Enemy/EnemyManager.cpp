@@ -23,8 +23,8 @@ EnemyManager::~EnemyManager() {
 // 更新関数
 void EnemyManager::Update() {
 	// 仮の座標生成(まだObjectManagerで渡せないのでここで座標生成)
-	float x = (rand() % (WINDOW_W_INT - 100));
-	float y = (rand() % (WINDOW_H_INT - 100));
+	float x = (float)(rand() % (WINDOW_W_INT - 100));
+	float y = (float)(rand() % (WINDOW_H_INT - 100));
 	Create(x, y);
 	
 	Delete();

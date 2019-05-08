@@ -32,13 +32,11 @@ public:
 	// 初期化《変更予定》
 	virtual void Init() = 0;						
 	virtual void ChangeState(StateBase* state) = 0;
-	// 敵のインスタンスを返す関数
-	virtual EnemyBase* GetInstance();
 
 	// 画面外に出たらm_is_deadをtrueにする関数
 	virtual void  OutScreen();
-	// アニメーション操作関数　《削除予定》
-	//virtual void AnimationDraw(int max_animation, int anim_speed);
+	// 敵のインスタンスを返す関数
+	virtual EnemyBase* GetInstance();
 
 	// 各種ゲッター、セッター
 	virtual float GetSpeed();
@@ -55,7 +53,6 @@ public:
 	}
 
 protected:
-	int m_speed;			// 移動速度
 	int m_power;			// 攻撃力
 	int m_delete_timer;		// 削除用タイマー
 	bool m_no_move;			// 移動するかのフラグ
@@ -64,8 +61,6 @@ protected:
 	int m_stateid;			// 現在のStateId
 	float m_angle;			// 描画角度
 	int m_anim_change_time;	// アニメーションの速度
-	//int m_animation_timer;	// アニメーションのカウント用変数
-	//int m_animation_num;	// 現在のアニメーション画像番号
 	int m_max_animation;	// 使用するアニメーション数
 
 	const int TEX_PARTITION_NUM2 = 2;	// 画像の分割数　　2分割

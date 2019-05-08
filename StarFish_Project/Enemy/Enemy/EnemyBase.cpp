@@ -3,7 +3,6 @@
 
 EnemyBase::EnemyBase() {
 	m_delete_timer = 60;
-	//m_animation_timer = 0;
 	m_max_animation = 0;
 }
 //―――――――――――――――――――――
@@ -24,22 +23,6 @@ void EnemyBase::OutScreen() {
 		m_delete_timer = 60;
 	}
 }
-//―――――――――――――――――――――
-
-// Object反映のためコメントアウト　《要/調整》
-/*void EnemyBase::AnimationDraw(int max_animation, int anim_cange_time) {
-	if (m_animation_timer >= anim_cange_time) {
-		m_animation_timer = 0;
-		m_animation_num++;
-		// 描画する画像番号が分割後の使用枚数を超えたら、番号を初期化
-		if (m_animation_num >= max_animation) {
-			m_animation_num = 0;
-		}
-	}
-	else {
-		m_animation_timer++;
-	}
-}*/
 //―――――――――――――――――――――
 
 EnemyBase* EnemyBase::GetInstance() {
