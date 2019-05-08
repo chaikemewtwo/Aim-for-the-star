@@ -8,8 +8,9 @@ VerticalMove *VerticalMove::GetInstance() {
 
 // 縦の直線移動
 void VerticalMove::Action(EnemyBase* e) {
-	e->SetStateId(VerticalMoveId);
-	float y = e->GetPosY() + e->GetSpeed();
-	e->SetPosY(y);
+	e->SetStateId(VERTICALMOVE_ID);
+	D3DXVECTOR2 pos = e->GetPos();
+	pos.y += e->GetSpeed();
+	e->SetPos(pos);
 }
 //――――――――――――――――――――――――

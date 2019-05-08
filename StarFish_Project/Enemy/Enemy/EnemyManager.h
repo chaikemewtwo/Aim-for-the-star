@@ -5,20 +5,24 @@
 #include"EnemyBase.h"
 
 class EnemyBase;
-// 敵の生成最大数(仮)
-const int Enemy_Max_Num = 10;
+
 
 class EnemyManager {
 public:
 	EnemyManager(ObjectManager* obj_mng);
 	~EnemyManager();
+	
+	void Update();	
+	void Draw();
+	void Create(float x, float y);
+	void Delete();
 
-	void Update();	// 更新
-	void Draw();	// 描画
-	void Create();	// 敵の生成
-	void Delete();	// 敵の削除
+	// 生成されている敵の総数を返す関数
+	int GetEnemyTotal();	
 
 private:
+	// 敵の生成最大数(仮)
+	const int Enemy_Max_Num = 10;
 	// 生成した敵の配列
 	std::vector<EnemyBase*> m_enemy_list;
 	// オブジェクトのポインタ変数
