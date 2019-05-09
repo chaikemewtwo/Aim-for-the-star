@@ -101,14 +101,10 @@ public:
 	void AngleAdjust(bool is_move_right);
 	//-----------------------------------------------------
 
-<<<<<<< HEAD
-	// MEMO CollisionObjectで必要なので追加
-	Type GetObjectType()const override { // 自機を返す設定をする
-=======
+
 	// MEMO:CollisionObjectで必要なので追加
 	// 自機を返す設定をする
 	Type GetObjectType()const override { 
->>>>>>> player（主にスタミナ関連）
 		return PLAYER;
 	}
 

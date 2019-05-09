@@ -12,7 +12,7 @@
 class PlayerBase;
 
 // 背景クラス
-class BackGround : public Object{
+class BackGround{
 public:
 
 	// constexprはコンパイル時定数になる

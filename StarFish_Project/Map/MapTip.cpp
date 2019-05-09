@@ -353,9 +353,6 @@ int MapTip::GetChipPosCast(const float&pos) {
 	return static_cast<int>(std::floor(pos / CHIP_SIZE));
 }
 
-namespace {
-	int timer = 0;
-}
 
 // 座標を入れたらマップチップの位置を返す
 int MapTip::GetChipParam(const float &pos_x, const float&pos_y, const int&map_number) {
@@ -363,11 +360,6 @@ int MapTip::GetChipParam(const float &pos_x, const float&pos_y, const int&map_nu
 	// マップ座標変換
 	int px = GetChipPosCast(pos_x);
 	int py = GetChipPosCast(pos_y);
-
-	if (timer >= 5000) {
-      		timer = 0;
-	}
-	timer++;
 
 	// 範囲外なら0
 	if (px < 0 || px >= MAP_NUM_X || m_height_map_num + 1 - py < 0) {
