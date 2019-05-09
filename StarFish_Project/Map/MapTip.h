@@ -98,6 +98,7 @@ private:
 	// デバッグ用
 	int m_py;
 	float m_after_pos_y;
+	D3DXVECTOR2 m_map_move_pos;// マップ座標の移動ベクトル
 };
 
 

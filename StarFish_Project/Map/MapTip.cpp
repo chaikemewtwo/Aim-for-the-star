@@ -44,6 +44,8 @@ MapTip::MapTip(Star1*star1,Star2*star2,EnemyManager*e_mng) {
 
 	m_map_pos.x = INIT_MAP_POS_X;
 	m_map_pos.y = INIT_MAP_POS_Y;// 画面上まで
+	m_map_move_pos.x = 0.f;
+	m_map_move_pos.y = 0.f;
 
 	PlayerBase *p_base = star1;
 	for (int i = 0; i < PLAYER_NUM; i++) {
@@ -152,6 +154,11 @@ void MapTip::Update() {
 
 	}
 
+	// マップ座標にマップの移動ベクトルを加算
+	m_map_pos.y += m_map_move_pos.y;
+	// 初期化
+	m_map_move_pos.x = m_map_move_pos.y = 0.f;
+
 }
 
 
@@ -207,15 +214,15 @@ void MapTip::Draw() {
 			500,
 			540,
 			0x000ffff,
-			"screen_pos.y => %f",
+			"PLAYER_POS_Y => %f",
 			m_obj_pos[0].y);
 
 		OX::DebugFont::print(
 			500,
 			560,
 			0x000ffff,
-			"player_pos.y - m_map_pos.y + INIT_MAP_POS_Y => %f",
-			m_obj_pos[0].y - m_map_pos.y + INIT_MAP_POS_Y
+			"player_pos.y - m_map_pos.y  => %f",
+			m_obj_pos[0].y - m_map_pos.y
 		);
 
 		OX::DebugFont::print(
@@ -247,14 +254,14 @@ int MapTip::DrawLineIsActive(float&pos_y, float&move_y, float up_range, float do
 	if (pos_y < up_range) {// (pos_y + (m_map_pos.y - INIT_MAP_POS_Y) < up_range + (m_map_pos.y - INIT_MAP_POS_Y))
 		// スクリーン座標を戻す
 		pos_y = up_range;// 移動分減算
-		
-		m_map_pos.y += move_y;// マップ座標を加算
+		m_map_move_pos.y += move_y;// マップ座標を加算
 		return 1;
 	}
 	// 下の遷移基準
-	else if (pos_y + (m_map_pos.y - INIT_MAP_POS_Y) > down_range + (m_map_pos.y - INIT_MAP_POS_Y)) {
-		//pos_y = down_range + move_y;
-		m_map_pos.y+=move_y;// マップ座標を加算
+	else if (pos_y > down_range) {// pos_y + (m_map_pos.y - INIT_MAP_POS_Y) > down_range + (m_map_pos.y - INIT_MAP_POS_Y
+		
+		pos_y = down_range;
+		m_map_move_pos.y += move_y;// マップ座標を加算
 		return 2;
 	}
 
@@ -332,9 +339,9 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 	}
 
 	// 現在のスクリーン座標にマップ座標を加算する
-	D3DXVECTOR2 after_pos(pos_x + *move_x,pos_y + *move_y + (m_map_pos.y - INIT_MAP_POS_Y));
+	D3DXVECTOR2 after_pos(pos_x + *move_x,pos_y + *move_y + (m_map_pos.y + m_map_move_pos.y - INIT_MAP_POS_Y));
 	// デバッグ変数
-	m_after_pos_y = pos_y + -*move_y + (m_map_pos.y - INIT_MAP_POS_Y);
+	m_after_pos_y = pos_y + *move_y + (m_map_pos.y - INIT_MAP_POS_Y);
 
 	// 入ったマップチップの座標を割り出す
 	float chip_pos_x = 0;
@@ -347,12 +354,16 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 	if (GetChipParam(after_pos.x + hsize,after_pos.y + CHIP_SIZE) == 1||
 		GetChipParam(after_pos.x + CHIP_SIZE - hsize,after_pos.y + CHIP_SIZE) == 1) {
 
-		// チップサイズ割り出し
-		chip_pos_y = (float)GetChipPosCast(after_pos.y) + RETOUCH;
-		//  チップサイズ = 現在の位置 + 一つ前のチップ
-		pos_y = (chip_pos_y * CHIP_SIZE) + CHIP_SIZE * 2;// 前 + CHIP_SIZE
+		// チップサイズ割り出し(マップ座標も合わせて描画してあるので)
+ 		chip_pos_y = (float)GetChipPosCast(after_pos.y);
+		//  現在の位置まで戻す = チップで当たった全体座標 + 全体マップでずらした分(最新マップ座標)
+		pos_y = (chip_pos_y * CHIP_SIZE) +  -m_map_pos.y;
+		// あとマップの移動値を位置に足さないといけない
+
 		// 移動ベクトルなし
 		*move_y = 0.f;
+		//m_map_move_pos.y = 0.f;
+		
 	}
 
 	// Y軸天井
@@ -362,9 +373,10 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 		// チップサイズ割り出し
 		chip_pos_y = (float)GetChipPosCast(after_pos.y);// -1
 		//  チップサイズ = 現在の位置 + 一つ前のチップ
-		pos_y = (chip_pos_y * CHIP_SIZE) + CHIP_SIZE;
+		pos_y = (chip_pos_y * CHIP_SIZE) + -(m_map_pos.y - CHIP_SIZE);// -変換
 		// 移動ベクトルなし
 		*move_y = 0.f;
+		//m_map_move_pos.y = 0.f;
 	}
 
 	// X軸左
@@ -377,6 +389,7 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 
 		// 移動ベクトルをなしにする
 		*move_x = 0.f;
+		//m_map_move_pos.y = 0.f;
 	}
 
 	// X軸右
@@ -389,6 +402,7 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 
 		// 移動ベクトルをなしにする
 		*move_x = 0.f;
+		//m_map_move_pos.y = 0.f;
 	}
 }
 
