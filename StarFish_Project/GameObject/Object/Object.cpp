@@ -5,8 +5,8 @@
 Object::Object() {
 
 	m_pos.x = m_pos.y = 0.f;
-	// 死んだらtrueにする
-	m_is_active = false;
+	// 死んだらfalseにする
+	m_is_active = true;
 	m_id = 0;
 	m_animation_timer = 0;
 	m_animation_num = 0;

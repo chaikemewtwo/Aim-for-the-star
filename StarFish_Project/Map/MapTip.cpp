@@ -343,8 +343,6 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 		// 移動ベクトルをなしにする
 		*move_x = 0.f;
 	}
-
-
 }
 
 
