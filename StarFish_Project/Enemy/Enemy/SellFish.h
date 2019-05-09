@@ -6,7 +6,7 @@
 // ほら貝クラス
 class SellFish :public EnemyBase {
 public:
-	SellFish(float x, float y, bool no_move = false);
+	SellFish(D3DXVECTOR2 pos, bool no_move = false);
 	~SellFish() {}
 
 	void Init()override;

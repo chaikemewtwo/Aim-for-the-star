@@ -1,8 +1,8 @@
 ﻿#include"SellFish.h"
 
-SellFish::SellFish(float x, float y, bool no_move) {
-	m_pos.x = x;
-	m_pos.y = y;
+SellFish::SellFish(D3DXVECTOR2 pos, bool no_move) {
+	m_pos.x = pos.x;
+	m_pos.y = pos.y;
 	m_no_move = no_move;
 	Init();
 }

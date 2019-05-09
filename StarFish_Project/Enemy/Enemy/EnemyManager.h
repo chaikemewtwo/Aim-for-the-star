@@ -2,6 +2,7 @@
 
 #include<vector>
 #include"../../GameObject/ObjectManager/ObjectManager.h"
+#include"../../Map/MapTip.h"
 #include"EnemyBase.h"
 
 class EnemyBase;
@@ -14,11 +15,13 @@ public:
 	
 	void Update();	
 	void Draw();
-	void Create(float x, float y);
+	void Create(D3DXVECTOR2 pos);// , MapTip* map_tip);
 	void Delete();
 
 	// 生成されている敵の総数を返す関数
 	int GetEnemyTotal();	
+	// 敵の指定された敵の関数を返す関数
+	void GetEnemyInstance(int num);
 
 private:
 	// 敵の生成最大数(仮)
