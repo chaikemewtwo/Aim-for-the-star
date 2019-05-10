@@ -37,10 +37,10 @@ void PlayerWaitState::Update(PlayerBase* p) {
 		p->AngleAdjust(true);
 	}
 
-	// 泳ぐコマンド入力
-	if (p->GetStamina() >= 1000 && kb.press(VK_SPACE)) {
+	// &泳ぐコマンド入力
+	if (p->GetStamina() >= TO_SWIM_NEEDED_STAMINA && kb.press(VK_SPACE)) {
 		// スタミナ減算
-		p->DecStamina(1000);
+		p->DecStamina(TO_SWIM_NEEDED_STAMINA);
 
 		// 泳ぎ状態へ移行
 		p->ChangeState(PlayerSwimState::GetInstance());		
