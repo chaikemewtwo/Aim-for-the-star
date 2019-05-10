@@ -1,12 +1,12 @@
-﻿#include "PlayerBase.h"
-#include "../PlayerState/PlayerWaitState/PlayerWaitState.h"
-#include "../PlayerState/PlayerSwimState/PlayerSwimState.h"
-#include "../PlayerState/PlayerStandingWaitState/PlayerStandingWaitState.h"
+﻿#include "Player.h"
+#include "PlayerState/PlayerWaitState/PlayerWaitState.h"
+#include "PlayerState/PlayerSwimState/PlayerSwimState.h"
+#include "PlayerState/PlayerStandingWaitState/PlayerStandingWaitState.h"
 #include <cmath>
 #include <time.h>
 
 
-PlayerBase::PlayerBase() :m_state(PlayerWaitState::GetInstance()) {
+Player::Player() :m_state(PlayerWaitState::GetInstance()) {
 	// 移動速度
 	m_speed = 2.f;
 
@@ -32,7 +32,7 @@ PlayerBase::PlayerBase() :m_state(PlayerWaitState::GetInstance()) {
 }
 
 
-void PlayerBase::Update() {
+void Player::Update() {
 	// 移動を加算
 	m_pos += m_move;
 
@@ -54,7 +54,7 @@ void PlayerBase::Update() {
 }
 
 
-void PlayerBase::Draw() {
+void Player::Draw() {
 	// 自機2にも自機1のものを使用中
 	// 第7、8引数が0.5fずつで中心座標から描画	
 	// 被弾状態は描画する、しないを切り替えて表現する
@@ -77,13 +77,13 @@ void PlayerBase::Draw() {
 }
 
 
-void PlayerBase::AddGravity() {
+void Player::AddGravity() {
 	// 常時下方向へ負荷がかかる
 	m_move.y += GRAVITY;
 }
 
 
-void PlayerBase::AngleAdjust(bool is_move_right) {
+void Player::AngleAdjust(bool is_move_right) {
 	// 自機傾き変更、TRUEで右へ傾く
 	if (m_character_angle <= MAX_ANGLE && m_character_angle >= -MAX_ANGLE) {
 		m_character_angle += is_move_right ? ANGLE_ADD : -ANGLE_ADD;
@@ -99,7 +99,7 @@ void PlayerBase::AngleAdjust(bool is_move_right) {
 }
 
 
-void PlayerBase::SwimUp() {
+void Player::SwimUp() {
 
 	// 上方向への移動量(ベクトルの長さ)を割り出す
 	m_move.x += sin(m_character_angle * PI / (float)180.f) * m_speed;
@@ -113,7 +113,7 @@ void PlayerBase::SwimUp() {
 
 
 // 自機と敵との当たり判定後の処理(点滅処理へ移行)
-void  PlayerBase::HitAction(Type type) {
+void  Player::HitAction(Type type) {
 	if (type == ENEMY) {
 		
 	}

@@ -1,10 +1,10 @@
 ﻿#include "PlayerSwimState.h"
-#include "../../PlayerBase/PlayerBase.h"
+#include "../../Player/Player.h"
 
 
 // 泳ぎ状態
 // 初期化
-void PlayerSwimState::Init(PlayerBase* p) {
+void PlayerSwimState::Init(Player* p) {
 	// 状態遷移タイマー
 	p->ResetStateChangeTimer();
 
@@ -17,7 +17,7 @@ void PlayerSwimState::Init(PlayerBase* p) {
 
 
 // 更新
-void PlayerSwimState::Update(PlayerBase* p) {
+void PlayerSwimState::Update(Player* p) {
 	Keybord& kb = Keybord::getInterface();
 
 	// アニメーション
