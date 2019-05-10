@@ -4,8 +4,7 @@
 #include"../Lib/Texture/TextureBoad2D.h"
 #include"../Lib/Input/KeyBord.h"
 #include"../Enemy/Enemy/EnemyManager.h"
-#include"../Player/Star1/Star1.h"
-#include"../Player/Star2/Star2.h"
+#include"../Player/Player.h"
 #include"../LoadResource/LoadResource.h"
 #include"../Map/MapManager.h"
 #include"../SetRenderStateFile/SetRenderStateFile.h"
@@ -24,7 +23,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 	// リソース読み込み
 	Resource::LoadResouce();
 
-	// DirectX描画状態の設定s
+	// DirectX描画状態の設定
 	SetRenderStateConfig();
 
 	ObjectManager * m_pobj_mng = new ObjectManager;// object管理者

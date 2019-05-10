@@ -12,8 +12,8 @@ public:
 		return &instance;
 	}
 
-	void Init(PlayerBase* p) override;
-	void Update(PlayerBase* p)  override;
+	void Init(Player* p) override;
+	void Update(Player* p)  override;
 
 private:
 	// アニメーション1枚を何Fやるか
@@ -21,4 +21,7 @@ private:
 
 	// アニメーションの画像枚数
 	const int MAX_ANIMATION_TEX_NUM = 6;
+
+	// 泳ぎ状態へ移行する際に消費するスタミナ
+	const int TO_SWIM_NEEDED_STAMINA = 10;
 };

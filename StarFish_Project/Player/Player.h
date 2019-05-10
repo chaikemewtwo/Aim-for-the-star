@@ -6,16 +6,16 @@
 #include "../../Lib/Texture/TextureBoad2D.h"
 #include "../../Lib/Input/KeyBord.h"
 #include "../../CollisionObject/CircleCollisionObject.h"
-#include "../PlayerState/PlayerStateBase.h"
+#include "PlayerState\PlayerStateBase.h"
 
 // MEMO:自機1と2の操作が同一になっています（分割する必要あり）
 
-class PlayerBase : public CircleCollisionObject {
+class Player : public CircleCollisionObject {
 public:	
 	// コンストラクタ
-	PlayerBase();
+	Player();
 	// 仮想デストラクタ
-	virtual ~PlayerBase() {}
+	virtual ~Player() {}
 
 	// 更新処理
 	// HACK：自機2も自機1の操作方法になっているので操作の分離が必要

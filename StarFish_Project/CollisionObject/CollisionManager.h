@@ -8,17 +8,17 @@
 
 const int PLAYER_NUM = 2;
 
-// 敵管理の参照
-class EnemyManager;
-class Star1;
-class Star2;
+
+class EnemyManager; // 敵管理の前方参照
+class Player;       // 自機の前方参照
+
 
 // 当たり判定を行う場所
 class CollisionManager{
 public:
 
 	// コンストラクタで実体を入れる
-	CollisionManager(Star1*p1,Star2*p2, EnemyManager*e_mng);
+	CollisionManager(Player*p1,Player*p2, EnemyManager*e_mng);
 
 	// 当たり判定を行う所
 	void Collision();
@@ -26,8 +26,8 @@ public:
 private:
 
 	// オブジェクトを置く場所
-	Star1 * m_star1;
-	Star2 * m_star2;
+	Player * m_pplayer1;
+	Player * m_pplayer2;
 	EnemyManager*m_pe_mng;
 };
 

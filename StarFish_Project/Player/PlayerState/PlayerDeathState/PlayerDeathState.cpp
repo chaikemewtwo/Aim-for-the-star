@@ -1,10 +1,10 @@
 ﻿#include "PlayerDeathState.h"
-#include "../../PlayerBase/PlayerBase.h"
+#include "../../Player/Player.h"
 
 
 // 死亡状態
 // 初期化
-void PlayerDeathState::Init(PlayerBase* p) {
+void PlayerDeathState::Init(Player* p) {
 	// アニメーション番号
 	p->ResetAnimationNumber();
 
@@ -14,7 +14,7 @@ void PlayerDeathState::Init(PlayerBase* p) {
 
 
 // 更新
-void PlayerDeathState::Update(PlayerBase* p) {
+void PlayerDeathState::Update(Player* p) {
 	// 重力付与
 	p->AddGravity();
 

@@ -9,7 +9,7 @@
 
 
 // 前方参照
-class PlayerBase;
+class Player;
 
 // 背景クラス
 class BackGround{
@@ -28,7 +28,7 @@ public:
 	//static constexpr int SCROLL_SPEED = (int)SPEED / 3;
 	static constexpr float CHIP_SIZE = 128.f;
 
-	BackGround(const std::string&file_name,PlayerBase*p);
+	BackGround(const std::string&file_name,Player*p);
 
 	
 	// 毎回移動を持つ
@@ -44,7 +44,7 @@ public:
 private:
 
 	// 自機を取り入れる
-	void pPlayerMovePosUpdate();
+	void MovePosUpdate();
 
 	// 背景の読み込み
 	void BGLoad(const std::string&file_name);
@@ -76,5 +76,5 @@ private:
 	int m_next_graph;
 
 	// 自機
-	PlayerBase*m_pp_base;
+	Player*m_pp_base;
 };
