@@ -28,6 +28,7 @@
     <ClCompile Include="GameObject\Object\Object.cpp" />
     <ClCompile Include="SetRenderStateFile\SetRenderStateFile.cpp" />
     <ClCompile Include="Player\Player.cpp" />
+    <ClCompile Include="Blind\Blind.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -63,6 +64,7 @@
     <ClInclude Include="CollisionObject\CollisionObject.h" />
     <ClInclude Include="SetRenderStateFile\SetRenderStateFile.h" />
     <ClInclude Include="Player\Player.h" />
+    <ClInclude Include="Blind\Blind.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />

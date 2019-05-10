@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Blind\Blind.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CollisionObject\CollisionManager.cpp" />
     <ClCompile Include="Enemy\Enemy\EnemyBase.cpp">
       <SubType>
@@ -54,6 +58,10 @@
     <ClCompile Include="SetRenderStateFile\SetRenderStateFile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Blind\Blind.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CollisionObject\CircleCollisionObject.h" />
     <ClInclude Include="CollisionObject\CollisionManager.h" />
     <ClInclude Include="CollisionObject\CollisionObject.h" />
