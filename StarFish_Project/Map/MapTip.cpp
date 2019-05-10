@@ -5,8 +5,7 @@
 #include"../Lib/Input/KeyBord.h"
 #include"../Map/MapTip.h"
 #include"../Enemy/Enemy/EnemyManager.h"
-#include"../Player/Star1/Star1.h"
-#include"../Player/Star2/Star2.h"
+#include"../Player/Player.h"
 
 
 // マップチップオブジェクト配置
@@ -30,7 +29,7 @@
 
 
 // コンストラクタ
-MapTip::MapTip(Star1*star1,Star2*star2,EnemyManager*e_mng) {
+MapTip::MapTip(Player*star1,Player*star2,EnemyManager*e_mng) {
 
 	// 自機の参照受け取り
 	m_pbase[0] = star1;

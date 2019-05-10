@@ -8,6 +8,7 @@
 class EnemyManager;
 class Star1;
 class Star2;
+class Player;
 
 // 海マップ
 class MapTip : public Object {
@@ -27,7 +28,7 @@ public:
 	static constexpr float SCROLL_RANGE_UP = 300.f;
 	static constexpr float SCROLL_RANGE_DOWN = 800.f;
 
-	MapTip(Star1*star1,Star2*star2,EnemyManager*e_mng);
+	MapTip(Player*star1,Player*star2,EnemyManager*e_mng);
 
 	// 更新関数
 	void Update();
@@ -99,7 +100,7 @@ private:
 	float m_scroll_range_up;        // スクロールライン上
 	float m_scroll_range_down;      // スクロールライン下
 	/* 各オブジェクトの参照 */
-	PlayerBase * m_pbase[2];        // 自機2体  
+	Player * m_pbase[2];        // 自機2体  
 	EnemyManager * e_pmng;          // 敵の状態
 
 	// デバッグ用

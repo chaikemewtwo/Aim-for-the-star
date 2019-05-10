@@ -1,9 +1,9 @@
 ﻿#include"MapManager.h"
-#include"../Player/Star1/Star1.h"
-#include"../Player/Star2/Star2.h"
+#include"../Player/Player.h"
 
 
-MapManager::MapManager(Star1*star1,Star2*star2,EnemyManager*e_mng) {
+
+MapManager::MapManager(Player*star1,Player*star2,EnemyManager*e_mng) {
 	
 	// 背景1
 	m_pbg = new BackGround("Map/BGData/BG1.csv",star1);

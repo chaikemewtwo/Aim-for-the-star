@@ -68,8 +68,7 @@
 
 class EnemyManager;     // 敵管理の前方参照
 class MapManager;       // マップ管理の前方参照
-class Star1;            // 自機1の前方参照
-class Star2;            // 自機2の前方参照
+class Player;           // 自機の前方参照
 class CollisionManager; // 衝突管理の前方参照 
 
 
@@ -102,8 +101,8 @@ private:
 	/* ここにオブジェクトインスタンスを持つ */
 
 	MapManager * m_pm_mng;    // マップ管理クラス
-	Star1 * m_pstar1;         // 自機1
-	Star2 * m_pstar2;         // 自機2
+	Player * m_pplayer1;         // 自機1
+	Player * m_pplayer2;         // 自機2
 
 	// 敵管理クラス
 	EnemyManager *m_pe_mng;

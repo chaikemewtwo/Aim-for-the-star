@@ -20,7 +20,7 @@ class MapManager {
 public:
 
 	// EnemyManagerも入れる
-	MapManager(Star1*star1, Star2*star2, EnemyManager*e_mng);
+	MapManager(Player*star1,Player*star2, EnemyManager*e_mng);
 
 	~MapManager();
 

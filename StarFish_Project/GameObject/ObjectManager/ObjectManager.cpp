@@ -1,8 +1,7 @@
 ﻿#include"ObjectManager.h"
 #include"../../CollisionObject/CollisionManager.h"
 #include"../../Enemy/Enemy/EnemyManager.h"
-#include"../../Player/Star1/Star1.h"
-#include"../../Player/Star2/Star2.h"
+#include"../../Player/Player.h"
 #include"../../Map/MapManager.h"
 #include<algorithm>
 
@@ -14,14 +13,14 @@ ObjectManager::ObjectManager() {
 	m_pe_mng = new EnemyManager(this);
 
 	// 自機生成＆objectに登録
-	Entry(m_pstar1 = new Star1);
-	Entry(m_pstar2 = new Star2);
+	Entry(m_pplayer1 = new Player);
+	Entry(m_pplayer2 = new Player);
 
 	// マップ管理生成
-	m_pm_mng = new MapManager(m_pstar1, m_pstar2, m_pe_mng);
+	m_pm_mng = new MapManager(m_pplayer1, m_pplayer2, m_pe_mng);
 
 	// 当たり判定管理を作る
-	m_pcol_mng = new CollisionManager(m_pstar1,m_pstar2,m_pe_mng);
+	m_pcol_mng = new CollisionManager(m_pplayer1,m_pplayer2,m_pe_mng);
 }
 
 
