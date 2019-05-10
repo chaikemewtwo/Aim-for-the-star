@@ -23,6 +23,9 @@ public:
     // マップの位置に関する定数																	// マップの位置に関する定数
 	static constexpr float INIT_MAP_POS_X = 0.f;
 	static constexpr float INIT_MAP_POS_Y = 0.f;
+	// マップのスクロール遷移ライン定数
+	static constexpr float SCROLL_RANGE_UP = 300.f;
+	static constexpr float SCROLL_RANGE_DOWN = 800.f;
 
 	MapTip(Star1*star1,Star2*star2,EnemyManager*e_mng);
 
@@ -68,6 +71,8 @@ private:
 	// マップ読み込み
 	void Load(const std::string&file_name);
 
+	// 地面に着地
+	void LandOnTheGround();
 
 	/* マップチップの便利機能 */
 	// マップ座標を一部取り出す
@@ -91,6 +96,8 @@ private:
 	/* マップ遷移 */
 	float m_draw_range_up;          // 上の描画の範囲
 	float m_draw_range_down;        // 後ろの描画の範囲
+	float m_scroll_range_up;        // スクロールライン上
+	float m_scroll_range_down;      // スクロールライン下
 	/* 各オブジェクトの参照 */
 	PlayerBase * m_pbase[2];        // 自機2体  
 	EnemyManager * e_pmng;          // 敵の状態

@@ -39,30 +39,22 @@ MapTip::MapTip(Star1*star1,Star2*star2,EnemyManager*e_mng) {
 	// 敵の参照受け取り
 	e_pmng = e_mng;
 
-	m_py = 0;
-	m_chip_num = 0;
-
+	// マップ座標初期化
 	m_map_pos.x = INIT_MAP_POS_X;
 	m_map_pos.y = INIT_MAP_POS_Y;// 画面上まで
+	// マップ座標移動座標初期化
 	m_map_move_pos.x = 0.f;
 	m_map_move_pos.y = 0.f;
-
-	PlayerBase *p_base = star1;
-	for (int i = 0; i < PLAYER_NUM; i++) {
-
-		// 自機の位置を引き継ぐ
-		m_obj_pos[i].x = p_base->GetPos().x;
-		m_obj_pos[i].y = -p_base->GetPos().y;// 高さは表示と逆の操作になるので、-変換 
-
-		// 初期化
-		m_move_pos[i].x = m_move_pos[i].y = 0.f;
-
-		// 自機変更
-		p_base = star2;
-	}
+	// スクロールする範囲初期化
+	m_scroll_range_up = SCROLL_RANGE_UP;
+	m_scroll_range_down = SCROLL_RANGE_DOWN;
 
 	// ファイル読み込み
 	Load("Map/MapData/MapData.csv");
+
+	// デバッグ初期化
+	m_py = 0;
+	m_chip_num = 0;
 }
 
 
@@ -134,10 +126,12 @@ void MapTip::Update() {
 	// 自機1の当たり判定処理
 
 	
-	for (int i = 0; i < PLAYER_NUM - 1; i++) {// 一旦当たり判定を一つにする
+	for (int i = 0; i < PLAYER_NUM; i++) {// 一旦当たり判定を一つにする
 
 		// マップチップの位置変更
-		m_obj_pos[i] =m_pbase[i]->GetPos();
+		m_obj_pos[i].x = m_pbase[i]->GetPos().x;
+		m_obj_pos[i].y = m_pbase[i]->GetPos().y;
+
 		// 移動位置変更
 		m_move_pos[i] = m_pbase[i]->GetMovePos();
 
@@ -145,7 +139,7 @@ void MapTip::Update() {
 		MapColider(i);
 
 		// スクロールライン
-		DrawLineIsActive(m_obj_pos[i].y, m_move_pos[i].y, 300.f, 800.f);
+		DrawLineIsActive(m_obj_pos[i].y, m_move_pos[i].y,m_scroll_range_up,m_scroll_range_down);
 
 		// 自機(obj)の位置変更
 		m_pbase[i]->SetPos(m_obj_pos[i]);
@@ -154,11 +148,15 @@ void MapTip::Update() {
 
 	}
 
-	// マップ座標にマップの移動ベクトルを加算
-	m_map_pos.y += m_map_move_pos.y;
-	// 初期化
-	m_map_move_pos.x = m_map_move_pos.y = 0.f;
-
+	// マップ関連
+	{
+		// マップ座標にマップの移動ベクトルを加算
+		m_map_pos.y += m_map_move_pos.y;
+		// 初期化
+		m_map_move_pos.x = m_map_move_pos.y = 0.f;
+		// 着地点
+		LandOnTheGround();
+	}
 }
 
 
@@ -249,7 +247,6 @@ int MapTip::DrawLineIsActive(float&pos_y, float&move_y, float up_range, float do
 
 	// 描画遷移範囲 = 現在のマップ座標(本来はスクリーン座標の方がいい) + 遷移範囲(スクリーンから見て)
 
-
 	// 上の遷移基準
 	if (pos_y < up_range) {// (pos_y + (m_map_pos.y - INIT_MAP_POS_Y) < up_range + (m_map_pos.y - INIT_MAP_POS_Y))
 		// スクリーン座標を戻す
@@ -267,6 +264,18 @@ int MapTip::DrawLineIsActive(float&pos_y, float&move_y, float up_range, float do
 
 	// なにもない0を返す
 	return 0;
+}
+
+
+void MapTip::LandOnTheGround() {
+
+	// 着地点に着地したら
+	if (m_map_pos.y > INIT_MAP_POS_Y) {
+
+		m_map_pos.y = INIT_MAP_POS_Y;
+		m_move_pos[0].y = 0.f;
+		m_move_pos[1].y = 0.f;
+	}
 }
 
 
@@ -310,36 +319,36 @@ void MapTip::ObjectCreate() {
 どこに戻るか
 */
 
-
 // MEMO
 /*
-Y軸の4隅を調べ,
+Y軸の4隅を調べ
 X軸の4隅を調べる
 */
+
+// あとマップの移動値を位置に足さないといけない
+// マップ最大値まで来たらその分上がるようにする
+// 原因はスクロール座標で逃げられないようになっている。→マップ座標をずらす。
 
 // 0番目がバグっている
 void MapTip::MapColider(int i) {
 
 	// 当たり判定
 	Collision(m_obj_pos[i].x,m_obj_pos[i].y, &m_move_pos[i].x, &m_move_pos[i].y);
-
 }
 
-// MEMO
-// ゲッターで情報を返すようにしたら、複雑にならないかも
-int time=0;
+
 // 仮移動当たり判定
 void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y) {
 
 	// 修正定数
 	const int RETOUCH = 1;
 
-	if (m_map_pos.y > 0) {
-  		time = 0;
-	}
+	// 当たり判定を左上からずらす
+	D3DXVECTOR2 hit_point(0.f,0.f);
 
 	// 現在のスクリーン座標にマップ座標を加算する
-	D3DXVECTOR2 after_pos(pos_x + *move_x,pos_y + *move_y + (m_map_pos.y + m_map_move_pos.y - INIT_MAP_POS_Y));
+	D3DXVECTOR2 after_pos(pos_x + *move_x,
+		pos_y + *move_y + (m_map_pos.y - INIT_MAP_POS_Y) + m_map_move_pos.y);
 	// デバッグ変数
 	m_after_pos_y = pos_y + *move_y + (m_map_pos.y - INIT_MAP_POS_Y);
 
@@ -351,58 +360,60 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 	float hsize = CHIP_SIZE / 2;
 
 	// Y軸床(ジャンプフラグを作る)
-	if (GetChipParam(after_pos.x + hsize,after_pos.y + CHIP_SIZE) == 1||
-		GetChipParam(after_pos.x + CHIP_SIZE - hsize,after_pos.y + CHIP_SIZE) == 1) {
+	if (GetChipParam(after_pos.x + hsize + hit_point.x,after_pos.y + CHIP_SIZE + hit_point.y) == 1||
+		GetChipParam(after_pos.x + CHIP_SIZE - hsize + hit_point.x,after_pos.y + CHIP_SIZE + hit_point.y) == 1) {
 
 		// チップサイズ割り出し(マップ座標も合わせて描画してあるので)
  		chip_pos_y = (float)GetChipPosCast(after_pos.y);
 		//  現在の位置まで戻す = チップで当たった全体座標 + 全体マップでずらした分(最新マップ座標)
-		pos_y = (chip_pos_y * CHIP_SIZE) +  -m_map_pos.y;
-		// あとマップの移動値を位置に足さないといけない
-
+		pos_y = (chip_pos_y * CHIP_SIZE) + (-m_map_pos.y - INIT_MAP_POS_Y);
+		
+		// スクロール範囲に入っていれば
+		if (pos_y < m_scroll_range_up) {
+			m_map_pos.y += (pos_y - m_scroll_range_up);
+		}
 		// 移動ベクトルなし
 		*move_y = 0.f;
-		//m_map_move_pos.y = 0.f;
-		
 	}
 
 	// Y軸天井
-	if (GetChipParam(after_pos.x + hsize, after_pos.y) == 1 ||
-		GetChipParam(after_pos.x + CHIP_SIZE - hsize, after_pos.y) == 1) {
+	if (GetChipParam(after_pos.x + hsize + hit_point.x, after_pos.y + hit_point.y) == 1 ||
+		GetChipParam(after_pos.x + CHIP_SIZE - hsize + hit_point.x, after_pos.y + hit_point.y) == 1) {
 	
 		// チップサイズ割り出し
-		chip_pos_y = (float)GetChipPosCast(after_pos.y);// -1
+		chip_pos_y = (float)GetChipPosCast(after_pos.y);
 		//  チップサイズ = 現在の位置 + 一つ前のチップ
-		pos_y = (chip_pos_y * CHIP_SIZE) + -(m_map_pos.y - CHIP_SIZE);// -変換
+		pos_y = (chip_pos_y * CHIP_SIZE) + -((m_map_pos.y - INIT_MAP_POS_Y) - CHIP_SIZE);// -変換
+		
+		// スクロール範囲に入っていれば
+		if (pos_y > m_scroll_range_down){
+			m_map_pos.y += (pos_y - m_scroll_range_up);
+		}
 		// 移動ベクトルなし
 		*move_y = 0.f;
-		//m_map_move_pos.y = 0.f;
 	}
 
 	// X軸左
-	if (GetChipParam(after_pos.x, after_pos.y + hsize) == 1||
-		GetChipParam(after_pos.x, after_pos.y + CHIP_SIZE - hsize) == 1) {// y軸も調べる
+	if (GetChipParam(after_pos.x + hit_point.x, after_pos.y + hsize + hit_point.y) == 1||
+		GetChipParam(after_pos.x + hit_point.x, after_pos.y + CHIP_SIZE - hsize + hit_point.y) == 1) {// y軸も調べる
 
 		chip_pos_x = static_cast<float>((int)(after_pos.x / CHIP_SIZE + RETOUCH));// 移動後が大きいので補正
 		// 位置を戻す
 		pos_x = (chip_pos_x * CHIP_SIZE);
-
 		// 移動ベクトルをなしにする
 		*move_x = 0.f;
-		//m_map_move_pos.y = 0.f;
 	}
 
 	// X軸右
-	if (GetChipParam(after_pos.x + CHIP_SIZE, after_pos.y + hsize) == 1 ||
-		GetChipParam(after_pos.x + CHIP_SIZE, after_pos.y + CHIP_SIZE - hsize) == 1) {
+	if (GetChipParam(after_pos.x + CHIP_SIZE + hit_point.x, after_pos.y + hsize + hit_point.y) == 1 ||
+		GetChipParam(after_pos.x + CHIP_SIZE + hit_point.x, after_pos.y + CHIP_SIZE - hsize + hit_point.y) == 1) {
 
-		chip_pos_x = static_cast<float>((int)((after_pos.x - CHIP_SIZE) / CHIP_SIZE));
+		chip_pos_x = (float)GetChipPosCast(after_pos.x - CHIP_SIZE);
+		//chip_pos_x = static_cast<float>((int)((after_pos.x - CHIP_SIZE) / CHIP_SIZE));
 		// 位置を戻す
 		pos_x = (chip_pos_x * CHIP_SIZE) + CHIP_SIZE;
-
 		// 移動ベクトルをなしにする
 		*move_x = 0.f;
-		//m_map_move_pos.y = 0.f;
 	}
 }
 

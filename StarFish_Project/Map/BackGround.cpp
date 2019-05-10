@@ -37,7 +37,7 @@ BackGround::BackGround(const std::string&file_name,PlayerBase*p) {
 
 void BackGround::Update() {
 
-	pPlayerMovePosUpdate();
+	MovePosUpdate();
 	PosUpdate();
 	Scroll();
 }
@@ -56,7 +56,6 @@ void BackGround::Draw() {
 		Texture::Draw2D(m_pback_str[m_next_graph % GRAPH_NUM], -GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_next_graph));
 	}
 }
-
 
 
 void BackGround::BGLoad(const std::string&file_name) {
@@ -103,7 +102,6 @@ void BackGround::Scroll() {
 	float screen_up = GRAPH_DIFFERENCE - GRAPH_SCALE_H;
 	float screen_down = -GRAPH_DIFFERENCE + GRAPH_SCALE_H;
 
-
 	// 前にずれているか後ろにずれているかを判断して画像をずらす
 
 	// MEMO 背景は-50 * -50を頂点に描画するので前は50piずらす必要はない
@@ -146,7 +144,8 @@ void BackGround::Scroll() {
 	}
 }
 
-void BackGround::pPlayerMovePosUpdate() {
+
+void BackGround::MovePosUpdate() {
 
 	// 移動ベクトルを入れる
 	m_move_pos = -m_pp_base->GetMovePos() / 3;// -変換

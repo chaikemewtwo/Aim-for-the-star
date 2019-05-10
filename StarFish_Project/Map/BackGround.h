@@ -44,7 +44,7 @@ public:
 private:
 
 	// 自機を取り入れる
-	void pPlayerMovePosUpdate();
+	void MovePosUpdate();
 
 	// 背景の読み込み
 	void BGLoad(const std::string&file_name);
