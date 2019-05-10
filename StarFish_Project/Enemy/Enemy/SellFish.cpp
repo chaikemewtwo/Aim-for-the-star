@@ -1,9 +1,13 @@
 ﻿#include"SellFish.h"
 
-SellFish::SellFish(D3DXVECTOR2 pos, bool no_move) {
+
+SellFish::SellFish(D3DXVECTOR2 pos, MapTip* map_tip, bool no_move) {
+	m_pmap = map_tip;
+
 	m_pos.x = pos.x;
 	m_pos.y = pos.y;
 	m_no_move = no_move;
+
 	Init();
 }
 //―――――――――――――――――――――――

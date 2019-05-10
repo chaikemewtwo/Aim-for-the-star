@@ -1,14 +1,17 @@
 ﻿#include"SeaUrchin.h"
 
+
 //コンストラクタ
-SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, bool no_move) {
-	Init();
+SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, MapTip* map_tip, bool no_move) {
+	m_pmap = map_tip;
 
 	// 生成時に座標を受けとって代入
 	m_pos.x = pos.x;
 	m_pos.y = pos.y;
 	// m_no_moveには基本的にデフォルトのfalseが入る
 	m_no_move = no_move;
+
+	Init();
 }
 //――――――――――――――――――――――――――
 
