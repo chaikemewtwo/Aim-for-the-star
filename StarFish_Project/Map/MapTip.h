@@ -20,6 +20,12 @@ public:
 	static constexpr int MAP_NUM_X = BackGround::GRAPH_SCALE_W / CHIP_SIZE; // 画面マップチップの大きさ
 	static constexpr int MAP_NUM_Y = BackGround::GRAPH_SCALE_H / CHIP_SIZE;	// 画面マップチップの大きさ
 	static constexpr int MAP_SAET_NUM = 5;                                  // マップシートの数
+    // マップの位置に関する定数																	// マップの位置に関する定数
+	static constexpr float INIT_MAP_POS_X = 0.f;
+	static constexpr float INIT_MAP_POS_Y = 0.f;
+	// マップのスクロール遷移ライン定数
+	static constexpr float SCROLL_RANGE_UP = 300.f;
+	static constexpr float SCROLL_RANGE_DOWN = 800.f;
 
 	MapTip(Star1*star1,Star2*star2,EnemyManager*e_mng);
 
@@ -29,7 +35,7 @@ public:
 	void Draw();
 
 	// Object生成
-	void Create();
+	void ObjectCreate();
 	
 	/* 当たり判定 */
 	void MapColider(int i);
@@ -59,12 +65,14 @@ private:
 	MapTip::Direction GetMoveDirection(D3DXVECTOR2&move_pos);
 
 	// 描画範囲に入っているか入っていないか判断する関数
-	int DrawLineIsActive(float*move_y);
+	int DrawLineIsActive(float&pos_y, float&move_y, float up_range, float down_range);
 
 	/* マップ操作 */
 	// マップ読み込み
 	void Load(const std::string&file_name);
 
+	// 地面に着地
+	void LandOnTheGround();
 
 	/* マップチップの便利機能 */
 	// マップ座標を一部取り出す
@@ -81,16 +89,23 @@ private:
 	D3DXVECTOR2 m_move_pos[2];      // 自機の移動ベクトル
 	int m_draw_map[1000][1000] = {};// 描画用マップバッファ
 	/* マップ描画領域 */
-	D3DXVECTOR2 m_draw_map_pos;         // 描画用マップの位置              
-	int m_height_map_num;       // マップデータの高さ
-	int m_map_chip_id[1000]={}; // 生成されたらマップチップを保存する
-	int m_chip_num;             // チップの番号
+	D3DXVECTOR2 m_map_pos;          // 描画用マップの位置              
+	int m_height_map_num;           // マップデータの高さ
+	int m_map_chip_id[1000]={};     // 生成されたらマップチップを保存する
+	int m_chip_num;                 // チップの番号
 	/* マップ遷移 */
-	float m_draw_range_up;        // 上の描画の範囲
-	float m_draw_range_down;      // 後ろの描画の範囲
+	float m_draw_range_up;          // 上の描画の範囲
+	float m_draw_range_down;        // 後ろの描画の範囲
+	float m_scroll_range_up;        // スクロールライン上
+	float m_scroll_range_down;      // スクロールライン下
 	/* 各オブジェクトの参照 */
-	PlayerBase * m_pbase[2];    // 自機2体  
-	EnemyManager * e_pmng;      // 敵の状態
+	PlayerBase * m_pbase[2];        // 自機2体  
+	EnemyManager * e_pmng;          // 敵の状態
+
+	// デバッグ用
+	int m_py;
+	float m_after_pos_y;
+	D3DXVECTOR2 m_map_move_pos;// マップ座標の移動ベクトル
 };
 
 
