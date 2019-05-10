@@ -1,10 +1,10 @@
 ﻿#include "PlayerStandingWaitState.h"
-#include "../../PlayerBase/PlayerBase.h"
+#include "../../Player/Player.h"
 
 
 // 立ち待機状態
 // 初期化
-void PlayerStandingWaitState::Init(PlayerBase* p) {
+void PlayerStandingWaitState::Init(Player* p) {
 	// 状態遷移タイマー
 	p->ResetStateChangeTimer();
 
@@ -17,7 +17,7 @@ void PlayerStandingWaitState::Init(PlayerBase* p) {
 
 
 // 更新
-void PlayerStandingWaitState::Update(PlayerBase* p) {
+void PlayerStandingWaitState::Update(Player* p) {
 	Keybord& kb = Keybord::getInterface();
 
 	// アニメーション

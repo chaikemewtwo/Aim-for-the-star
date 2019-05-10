@@ -40,7 +40,7 @@ MapTip::MapTip(Star1*star1,Star2*star2,EnemyManager*e_mng) {
 
 	m_chip_num = 0;
 
-	PlayerBase *p_base = star1;
+	Player *p_base = star1;
 	for (int i = 0; i < PLAYER_NUM; i++) {
 
 		// 自機の位置を引き継ぐ

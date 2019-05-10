@@ -4,7 +4,7 @@
 
 
 
-BackGround::BackGround(const std::string&file_name,PlayerBase*p) {
+BackGround::BackGround(const std::string&file_name,Player*p) {
 
 	// 自機の参照を入れる
 	m_pp_base = p;

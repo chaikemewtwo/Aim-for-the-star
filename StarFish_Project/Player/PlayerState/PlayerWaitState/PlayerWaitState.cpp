@@ -1,11 +1,11 @@
 ﻿#include "PlayerWaitState.h"
 #include "../PlayerSwimState/PlayerSwimState.h"
-#include "../../PlayerBase/PlayerBase.h"
+#include "../../Player/Player.h"
 
 
 // 待機状態（オブジェクト上以外、オブジェクト上での待機状態はStandingWaitStateクラス）
 // 初期化
-void PlayerWaitState::Init(PlayerBase* p) {
+void PlayerWaitState::Init(Player* p) {
 	// 状態遷移タイマー
 	p->ResetStateChangeTimer();
 
@@ -18,7 +18,7 @@ void PlayerWaitState::Init(PlayerBase* p) {
 
 
 // 更新
-void PlayerWaitState::Update(PlayerBase* p) {
+void PlayerWaitState::Update(Player* p) {
 	Keybord& kb = Keybord::getInterface();
 
 	// アニメーション

@@ -46,13 +46,11 @@
     <ClCompile Include="Map\BackGround.cpp" />
     <ClCompile Include="Map\MapManager.cpp" />
     <ClCompile Include="Map\MapTip.cpp" />
-    <ClCompile Include="Player\PlayerBase\PlayerBase.cpp" />
+    <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.cpp" />
-    <ClCompile Include="Player\Star1\Star1.cpp" />
-    <ClCompile Include="Player\Star2\Star2.cpp" />
     <ClCompile Include="SetRenderStateFile\SetRenderStateFile.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -85,14 +83,12 @@
     <ClInclude Include="Map\BackGround.h" />
     <ClInclude Include="Map\MapManager.h" />
     <ClInclude Include="Map\MapTip.h" />
-    <ClInclude Include="Player\PlayerBase\PlayerBase.h" />
+    <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.h" />
     <ClInclude Include="Player\PlayerState\PlayerStateBase.h" />
     <ClInclude Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.h" />
     <ClInclude Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.h" />
     <ClInclude Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.h" />
-    <ClInclude Include="Player\Star1\Star1.h" />
-    <ClInclude Include="Player\Star2\Star2.h" />
     <ClInclude Include="SetRenderStateFile\SetRenderStateFile.h" />
   </ItemGroup>
   <ItemGroup>

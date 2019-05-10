@@ -12,8 +12,8 @@ public:
 		return &instance;
 	}
 
-	void Init(PlayerBase* p) override;
-	void Update(PlayerBase* p) override;
+	void Init(Player* p) override;
+	void Update(Player* p) override;
 
 private:
 	// 数値は仮のもの

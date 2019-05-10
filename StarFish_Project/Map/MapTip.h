@@ -89,7 +89,7 @@ private:
 	float m_draw_range_up;        // 上の描画の範囲
 	float m_draw_range_down;      // 後ろの描画の範囲
 	/* 各オブジェクトの参照 */
-	PlayerBase * m_pbase[2];    // 自機2体  
+	Player * m_pbase[2];    // 自機2体  
 	EnemyManager * e_pmng;      // 敵の状態
 };
 

@@ -13,8 +13,8 @@ public:
 		return &instance;
 	}
 
-	void Init(PlayerBase* p) override;
-	void Update(PlayerBase* p) override;
+	void Init(Player* p) override;
+	void Update(Player* p) override;
 
 private:
 	const int ONE_ANIMATION_SPEED = 8;
