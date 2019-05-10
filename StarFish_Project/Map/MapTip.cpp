@@ -10,6 +10,15 @@
 #include"../DebugFont/oxdebugfont.h"
 
 
+// バグの報告
+
+// スクロールのバグ
+// 上下ヒトデが行ったらバグった
+
+// スクロールで下と上に強制的に言ったらバグった
+
+// チップをでかくする
+
 // マップチップオブジェクト配置
 
 // MEMO
@@ -117,6 +126,9 @@ void MapTip::Load(const std::string&file_name) {
 
 void MapTip::Update() {
 
+	// 初期化
+	m_map_move_pos.x = m_map_move_pos.y = 0.f;
+
 	for (int i = 0; i < PLAYER_NUM; i++) {
 		m_move_pos[i].x = m_move_pos[i].y = 0.f;
 		m_obj_pos[i].x = m_obj_pos[i].y = 0.f;
@@ -129,8 +141,8 @@ void MapTip::Update() {
 	for (int i = 0; i < PLAYER_NUM; i++) {// 一旦当たり判定を一つにする
 
 		// マップチップの位置変更
-		m_obj_pos[i].x = m_pbase[i]->GetPos().x;
-		m_obj_pos[i].y = m_pbase[i]->GetPos().y;
+		m_obj_pos[i].x = m_pbase[i]->GetPos().x + HIT_POINT_X;
+		m_obj_pos[i].y = m_pbase[i]->GetPos().y + HIT_POINT_Y;
 
 		// 移動位置変更
 		m_move_pos[i] = m_pbase[i]->GetMovePos();
@@ -140,6 +152,9 @@ void MapTip::Update() {
 
 		// スクロールライン
 		DrawLineIsActive(m_obj_pos[i].y, m_move_pos[i].y,m_scroll_range_up,m_scroll_range_down);
+
+		m_obj_pos[i].x -= HIT_POINT_X;
+		m_obj_pos[i].y -= HIT_POINT_Y;
 
 		// 自機(obj)の位置変更
 		m_pbase[i]->SetPos(m_obj_pos[i]);
@@ -152,54 +167,54 @@ void MapTip::Update() {
 	{
 		// マップ座標にマップの移動ベクトルを加算
 		m_map_pos.y += m_map_move_pos.y;
-		// 初期化
-		m_map_move_pos.x = m_map_move_pos.y = 0.f;
+		
 		// 着地点
 		LandOnTheGround();
 	}
 }
 
-
+int timer = 0;
 // マップの描画
 void MapTip::Draw() {
 
+	// どこから描画するか
+	int draw_range_begin = GetChipPosCast(-m_map_pos.y);                      // 描画のし始め 
+	int draw_range_end = GetChipPosCast(-m_map_pos.y) + (MAX_CHIP_NUM_H + 1); // 描画の終わり
 
-	// 前進するごとにチップを置き換える
-	// TODO いずれはどちらの自機が優先されるか決める。
+	// MEMO マップチップ番号の敵が生成されている場合は生成しない感じにしたらいい
 
-	// MEMO
-	// マップ座標とスクリーン座標を作るべき
+	for (int y = draw_range_begin; y < draw_range_end; y++) {
+		for (int x = 0; x < MAX_CHIP_NUM_W; x++) {
 
-	// HACK 2回描画を行っているのは、描画がズレてないか確認するため
-		// どこから描画するか
-		int draw_range_begin = GetChipPosCast(-m_map_pos.y);// 描画のし始め // 前10
-		int draw_range_end = GetChipPosCast(-m_map_pos.y) + MAP_NUM_Y + 20;// 描画の終わり// 前10
+			// 配列外アクセスは許させない
+			if ((m_height_map_num)-y < 0 || x < 0) {
+				return;
+			}
 
-		// MEMO マップチップ番号の敵が生成されている場合は生成しない感じにしたらいい
+			if (m_draw_map[(m_height_map_num)-y][x] == 1) {
 
-		for (int y = draw_range_begin; y < draw_range_end; y++) {
-			for (int x = 0; x < MAP_NUM_X; x++) {
-
-				// 配列外アクセスは許させない
-				if ((m_height_map_num)-y + MAP_NUM_Y < 0 || x < 0) {
-					return;
-				}
-
-				if (m_draw_map[(m_height_map_num) - y + MAP_NUM_Y][x] == 1) {
-
-					Texture::Draw2D("Resource/chip_map_image_64.png",
-						(float)(x * CHIP_SIZE),
-						(float)(-y * CHIP_SIZE) + 2200 - m_map_pos.y);// 前 1647
-				}
+				Texture::Draw2D("Resource/chip_map_image_64.png",
+					(float)(x * CHIP_SIZE),
+					(float)(-y * CHIP_SIZE) + 1080 - m_map_pos.y);
 			}
 		}
+	}
+
+		OX::DebugFont::print(
+			500,
+			480,
+			0x000ffff,
+			"range_num => %d",
+			draw_range_begin - draw_range_end
+			);
+
 		// お試し描画
 		OX::DebugFont::print(
 			500,
 			500,
 			0x000ffff,
 			"current_chip => %d",
-			(int)(m_height_map_num + 1) + (m_py - MAP_NUM_Y));
+			(int)(m_height_map_num + 1) + (m_py - MAX_CHIP_NUM_H));
 
 		OX::DebugFont::print(
 			500,
@@ -248,16 +263,18 @@ int MapTip::DrawLineIsActive(float&pos_y, float&move_y, float up_range, float do
 	// 描画遷移範囲 = 現在のマップ座標(本来はスクリーン座標の方がいい) + 遷移範囲(スクリーンから見て)
 
 	// 上の遷移基準
-	if (pos_y < up_range) {// (pos_y + (m_map_pos.y - INIT_MAP_POS_Y) < up_range + (m_map_pos.y - INIT_MAP_POS_Y))
-		// スクリーン座標を戻す
+	if (pos_y < up_range) {
+		// スクリーン座標を戻すs
 		pos_y = up_range;// 移動分減算
+		// ここでバグが起こっている
 		m_map_move_pos.y += move_y;// マップ座標を加算
 		return 1;
 	}
 	// 下の遷移基準
-	else if (pos_y > down_range) {// pos_y + (m_map_pos.y - INIT_MAP_POS_Y) > down_range + (m_map_pos.y - INIT_MAP_POS_Y
+	else if (pos_y > down_range) {
 		
 		pos_y = down_range;
+		
 		m_map_move_pos.y += move_y;// マップ座標を加算
 		return 2;
 	}
@@ -281,11 +298,11 @@ void MapTip::LandOnTheGround() {
 
 void MapTip::ObjectCreate() {
 
-	int m_draw_range_begin = GetChipPosCast(m_obj_pos[0].y) + MAP_NUM_Y + 10;// 描画のし始め
-	int m_draw_range_end = GetChipPosCast(m_obj_pos[0].y) + 10;// 描画の終わり
+	int m_draw_range_begin = GetChipPosCast(m_obj_pos[0].y) + MAX_CHIP_NUM_H + 10;// 描画のし始め
+	int m_draw_range_end = GetChipPosCast(m_obj_pos[0].y) + 10;                   // 描画の終わり
 
 	for (int y = m_draw_range_end; y < m_draw_range_begin; y++) {
-		for (int x = 0; x < MAP_NUM_X; x++) {
+		for (int x = 0; x < MAX_CHIP_NUM_W; x++) {
 
 			// 配列外アクセスは許させない
 			if (m_height_map_num - y < 0 || x < 0) {
@@ -312,23 +329,6 @@ void MapTip::ObjectCreate() {
 }
 
 
-// MEMO
-/*
-どのような地形に対して
-どのように衝突したか
-どこに戻るか
-*/
-
-// MEMO
-/*
-Y軸の4隅を調べ
-X軸の4隅を調べる
-*/
-
-// あとマップの移動値を位置に足さないといけない
-// マップ最大値まで来たらその分上がるようにする
-// 原因はスクロール座標で逃げられないようになっている。→マップ座標をずらす。
-
 // 0番目がバグっている
 void MapTip::MapColider(int i) {
 
@@ -342,9 +342,6 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 
 	// 修正定数
 	const int RETOUCH = 1;
-
-	// 当たり判定を左上からずらす
-	D3DXVECTOR2 hit_point(0.f,0.f);
 
 	// 現在のスクリーン座標にマップ座標を加算する
 	D3DXVECTOR2 after_pos(pos_x + *move_x,
@@ -360,8 +357,8 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 	float hsize = CHIP_SIZE / 2;
 
 	// Y軸床(ジャンプフラグを作る)
-	if (GetChipParam(after_pos.x + hsize + hit_point.x,after_pos.y + CHIP_SIZE + hit_point.y) == 1||
-		GetChipParam(after_pos.x + CHIP_SIZE - hsize + hit_point.x,after_pos.y + CHIP_SIZE + hit_point.y) == 1) {
+	if (GetChipParam(after_pos.x + hsize,after_pos.y) == 1||
+		GetChipParam(after_pos.x + CHIP_SIZE - hsize,after_pos.y) == 1) {
 
 		// チップサイズ割り出し(マップ座標も合わせて描画してあるので)
  		chip_pos_y = (float)GetChipPosCast(after_pos.y);
@@ -377,13 +374,13 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 	}
 
 	// Y軸天井
-	if (GetChipParam(after_pos.x + hsize + hit_point.x, after_pos.y + hit_point.y) == 1 ||
-		GetChipParam(after_pos.x + CHIP_SIZE - hsize + hit_point.x, after_pos.y + hit_point.y) == 1) {
+	if (GetChipParam(after_pos.x + hsize, after_pos.y + CHIP_SIZE) == 1 ||// 上の当たり判定を広げる
+		GetChipParam(after_pos.x + CHIP_SIZE - hsize, after_pos.y + CHIP_SIZE) == 1) {
 	
 		// チップサイズ割り出し
 		chip_pos_y = (float)GetChipPosCast(after_pos.y);
 		//  チップサイズ = 現在の位置 + 一つ前のチップ
-		pos_y = (chip_pos_y * CHIP_SIZE) + -((m_map_pos.y - INIT_MAP_POS_Y) - CHIP_SIZE);// -変換
+		pos_y = (chip_pos_y * CHIP_SIZE) + -((m_map_pos.y - INIT_MAP_POS_Y) - CHIP_SIZE) + CHIP_SIZE;// -変換
 		
 		// スクロール範囲に入っていれば
 		if (pos_y > m_scroll_range_down){
@@ -394,10 +391,10 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 	}
 
 	// X軸左
-	if (GetChipParam(after_pos.x + hit_point.x, after_pos.y + hsize + hit_point.y) == 1||
-		GetChipParam(after_pos.x + hit_point.x, after_pos.y + CHIP_SIZE - hsize + hit_point.y) == 1) {// y軸も調べる
+	if (GetChipParam(after_pos.x, after_pos.y + hsize) == 1||
+		GetChipParam(after_pos.x, after_pos.y + CHIP_SIZE - hsize) == 1) {// y軸も調べる
 
-		chip_pos_x = static_cast<float>((int)(after_pos.x / CHIP_SIZE + RETOUCH));// 移動後が大きいので補正
+		chip_pos_x = (float)GetChipPosCast(after_pos.x) + RETOUCH;
 		// 位置を戻す
 		pos_x = (chip_pos_x * CHIP_SIZE);
 		// 移動ベクトルをなしにする
@@ -405,11 +402,10 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 	}
 
 	// X軸右
-	if (GetChipParam(after_pos.x + CHIP_SIZE + hit_point.x, after_pos.y + hsize + hit_point.y) == 1 ||
-		GetChipParam(after_pos.x + CHIP_SIZE + hit_point.x, after_pos.y + CHIP_SIZE - hsize + hit_point.y) == 1) {
+	if (GetChipParam(after_pos.x + CHIP_SIZE, after_pos.y + hsize) == 1 ||
+		GetChipParam(after_pos.x + CHIP_SIZE, after_pos.y + CHIP_SIZE - hsize) == 1) {
 
 		chip_pos_x = (float)GetChipPosCast(after_pos.x - CHIP_SIZE);
-		//chip_pos_x = static_cast<float>((int)((after_pos.x - CHIP_SIZE) / CHIP_SIZE));
 		// 位置を戻す
 		pos_x = (chip_pos_x * CHIP_SIZE) + CHIP_SIZE;
 		// 移動ベクトルをなしにする
@@ -432,13 +428,13 @@ int MapTip::GetChipParam(const float &pos_x, const float&pos_y, const int&map_nu
 	m_py = GetChipPosCast(pos_y);
 
 	// 範囲外なら0
-	if (px < 0 || px >= MAP_NUM_X || m_height_map_num + 1 - (m_py - MAP_NUM_Y) < 0) {
+	if (px < 0 || px >= MAX_CHIP_NUM_W || (m_height_map_num + 1) + (m_py - MAX_CHIP_NUM_H) < 0) {
 		return 0;
 	}
 
 	
 	// マップの当たり判定をm_draw_mapに変更
-	return m_draw_map[(m_height_map_num + 1) + (m_py - MAP_NUM_Y)][px];// 前 (py)
+	return m_draw_map[(m_height_map_num + 1) + (m_py - MAX_CHIP_NUM_H)][px];// 前 (py)
 }
 
 // 移動後の方向を返す
@@ -476,15 +472,29 @@ void MapResat() {
 }
 
 // アクセサ
-void MapTip::SetMovePos(D3DXVECTOR2&pos, int player_number) {
-	m_move_pos[player_number] = pos;
+D3DXVECTOR2 MapTip::GetMapPos()const{
+	return m_map_pos;
 }
-void MapTip::SetPos(D3DXVECTOR2&pos, int player_number) {
-	m_obj_pos[player_number] = pos;
+D3DXVECTOR2 MapTip::GetMapMovePos()const {
+	return m_map_move_pos;
 }
-D3DXVECTOR2 MapTip::GetPos(int player_number) {
-	return m_obj_pos[player_number];
-}
-D3DXVECTOR2 MapTip::GetMovePos(int player_number) {
-	return m_move_pos[player_number];
-}
+
+
+
+
+// MEMO
+/*
+どのような地形に対して
+どのように衝突したか
+どこに戻るか
+*/
+
+// MEMO
+/*
+Y軸の4隅を調べ
+X軸の4隅を調べる
+*/
+
+// あとマップの移動値を位置に足さないといけない
+// マップ最大値まで来たらその分上がるようにする
+// 原因はスクロール座標で逃げられないようになっている。→マップ座標をずらす。

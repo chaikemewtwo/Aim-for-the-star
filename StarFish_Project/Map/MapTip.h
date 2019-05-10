@@ -4,28 +4,31 @@
 #include"../Lib/Window/Window.h"
 #include"../GameObject/Object/Object.h"
 
+
+/*
+
+マップでは二つの座標があります。
+
+一つ目はスクリーン座標(自分が勝手に付けた名前です)
+主に自機などのキャラクターの座標
+
+二つ目はマップ座標(これも自分が勝手につけた名前です)
+スクリーン座標をもとにマップチップを動かす座標です。
+
+*/
+
+
 // 各オブジェクトの前方参照
 class EnemyManager;
 class Star1;
 class Star2;
+class PlayerBase;
+
 
 // 海マップ
 class MapTip : public Object {
 public:
 
-	/* 各定数 */
-	static constexpr int CHIP_SIZE = 64;                                    // 画像、全てのセルの大きさ
-	static constexpr float CHIP_SIZE_F = (float)CHIP_SIZE;                  // float版
-	static constexpr int HEIGHT_INTERVAL = 60;                              // 縦間隔をあけて遷移などをする
-	static constexpr int MAP_NUM_X = BackGround::GRAPH_SCALE_W / CHIP_SIZE; // 画面マップチップの大きさ
-	static constexpr int MAP_NUM_Y = BackGround::GRAPH_SCALE_H / CHIP_SIZE;	// 画面マップチップの大きさ
-	static constexpr int MAP_SAET_NUM = 5;                                  // マップシートの数
-    // マップの位置に関する定数																	// マップの位置に関する定数
-	static constexpr float INIT_MAP_POS_X = 0.f;
-	static constexpr float INIT_MAP_POS_Y = 0.f;
-	// マップのスクロール遷移ライン定数
-	static constexpr float SCROLL_RANGE_UP = 300.f;
-	static constexpr float SCROLL_RANGE_DOWN = 800.f;
 
 	MapTip(Star1*star1,Star2*star2,EnemyManager*e_mng);
 
@@ -40,12 +43,8 @@ public:
 	/* 当たり判定 */
 	void MapColider(int i);
 
-	/* 各アクセサ(座標のプロパティ) */
-	void SetMovePos(D3DXVECTOR2&pos, int player_number);
-	void SetPos(D3DXVECTOR2&pos, int player_number);
-	D3DXVECTOR2 GetPos(int player_number);
-	D3DXVECTOR2 GetMovePos(int player_number);
-
+	D3DXVECTOR2 GetMapPos()const;
+	D3DXVECTOR2 GetMapMovePos()const;
 
 private:
 	
@@ -71,7 +70,7 @@ private:
 	// マップ読み込み
 	void Load(const std::string&file_name);
 
-	// 地面に着地
+	// 地面に着地する点
 	void LandOnTheGround();
 
 	/* マップチップの便利機能 */
@@ -81,6 +80,24 @@ private:
 	int GetChipParam(const float &pos_x, const float&pos_y, const int&map_number = 0);
 	// マップ座標を位置に変換
 	void SetPosParam(const int&pos_x, const int&pos_y, const int &cell, const int&map_number = 0);
+
+private:
+
+	/* 各定数 */
+	static constexpr int CHIP_SIZE = 64;                                         // 画像、全てのセルの大きさ
+	static constexpr int HEIGHT_INTERVAL = 60;                                   // 縦間隔をあけて遷移などをする
+	static constexpr int MAX_CHIP_NUM_W = BackGround::GRAPH_SCALE_W / CHIP_SIZE; // 画面マップチップの大きさ
+	static constexpr int MAX_CHIP_NUM_H = BackGround::GRAPH_SCALE_H / CHIP_SIZE; // 画面マップチップの大きさ
+	static constexpr int MAP_SAET_NUM = 5;                                       // マップシートの数
+	// マップ座標に関する定数
+	static constexpr float INIT_MAP_POS_X = 0.f;
+	static constexpr float INIT_MAP_POS_Y = 0.f;
+	// マップのスクロール遷移ライン定数
+	static constexpr float SCROLL_RANGE_UP = 300.f;
+	static constexpr float SCROLL_RANGE_DOWN = 800.f;
+	// マップ当たり判定の頂点
+	static constexpr float HIT_POINT_X = -32.f;// -32.f
+	static constexpr float HIT_POINT_Y = 0.f;
 
 private:
 

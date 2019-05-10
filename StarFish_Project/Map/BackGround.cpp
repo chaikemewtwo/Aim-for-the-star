@@ -1,13 +1,13 @@
 ﻿#include"BackGround.h"
 #include<stdlib.h>
-#include"../Player/PlayerBase/PlayerBase.h"
+#include"../Map/MapTip.h"
 
 
 
-BackGround::BackGround(const std::string&file_name,PlayerBase*p) {
+BackGround::BackGround(const std::string&file_name,MapTip*p) {
 
 	// 自機の参照を入れる
-	m_pp_base = p;
+	m_pmap = p;
 
 	m_pos.x = m_pos.y = 0.f;
 
@@ -134,9 +134,6 @@ void BackGround::Scroll() {
 
 		// 最後の画像なら下まで行かせないようにする
 		if (m_now_graph == 0 && -m_pos.y >= 0) {
-			// 参照でないといけないかも
-			m_move_pos.x = 0;
-			m_move_pos.y = 0;
 
 			m_now_graph = 0;
 			m_next_graph = 1;
@@ -145,8 +142,38 @@ void BackGround::Scroll() {
 }
 
 
+void BackGround::PosUpdate() {
+
+	// 上下だけ加算
+	if (LandOnTheGround() == true) {
+		m_pos.y += m_move_pos.y;
+	}
+}
+
+
 void BackGround::MovePosUpdate() {
 
 	// 移動ベクトルを入れる
-	m_move_pos = -m_pp_base->GetMovePos() / 3;// -変換
+	m_move_pos = -m_pmap->GetMapMovePos() / 4;// -変換
+}
+
+
+bool BackGround::LandOnTheGround(){
+
+	// 背景のスクロール制限
+	if (m_pmap->GetMapPos().y < 0.f) {
+		return true;
+	}
+	else if (m_pmap->GetMapPos().y >= 0.f) {
+		return false;
+	}
+
+	return true;
+}
+
+
+void BackGround::SetMovePos(const D3DXVECTOR2&pos) {
+
+	// プレイヤーの3分の１の速度にする
+	m_move_pos = pos / 3;
 }
