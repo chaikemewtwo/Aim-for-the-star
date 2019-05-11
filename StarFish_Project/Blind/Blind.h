@@ -6,13 +6,12 @@
 
 class Blind :public Object {
 public:
-	Blind(D3DXVECTOR2 pos, ObjectManager* obj_mng);
+	Blind();
 	~Blind() {}
 	
 	void Update();
 	void Draw();
-	//void Create(D3DXVECTOR2 pos);
-	void Delete();
+	void Create(D3DXVECTOR2 pos);
 
 private:
 	float m_speed;

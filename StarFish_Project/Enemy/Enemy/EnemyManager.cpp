@@ -2,6 +2,7 @@
 #include"EnemyManager.h"
 #include"SeaUrchin.h"
 #include"SellFish.h"
+#include"../../Blind/Blind.h"
 
 EnemyManager::EnemyManager(ObjectManager* obg_mng) {
 	m_pobj_mng = obg_mng;
@@ -28,6 +29,11 @@ void EnemyManager::Update() {
 	pos.y = (float)(rand() % (WINDOW_H_INT - 100));
 	// Createはマップで呼び出される。第二引数に入れるものがないのでコメントアウト
 	//Create(pos,);
+	if (rand() % 100 == 5) {
+		
+		m_pobj_mng->Entry(m_pblind = new Blind);
+		m_pblind->Create(pos);
+	}
 	
 	Delete();
 }
@@ -83,6 +89,10 @@ void EnemyManager::Delete() {
 		else {
 			++it;
 		}
+	}
+	if (m_pblind != nullptr && m_pblind->IsActive()==false) {
+		m_pobj_mng->Exit(m_pblind->GetId());
+		delete m_pblind;
 	}
 }
 

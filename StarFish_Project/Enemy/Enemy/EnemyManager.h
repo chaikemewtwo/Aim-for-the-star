@@ -3,6 +3,7 @@
 #include<vector>
 #include"../../GameObject/ObjectManager/ObjectManager.h"
 #include"../../Map/MapTip.h"
+#include"../../Blind/Blind.h"
 #include"EnemyBase.h"
 
 class EnemyBase;
@@ -30,4 +31,5 @@ private:
 	std::vector<EnemyBase*> m_enemy_list;
 	// オブジェクトのポインタ変数
 	ObjectManager* m_pobj_mng;
+	Blind* m_pblind;
 };
