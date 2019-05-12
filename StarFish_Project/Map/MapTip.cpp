@@ -138,7 +138,7 @@ void MapTip::Update() {
 	// 自機1の当たり判定処理
 
 	
-	for (int i = 0; i < PLAYER_NUM; i++) {// 一旦当たり判定を一つにする
+	for (int i = 0; i < PLAYER_NUM - 1; i++) {// 一旦当たり判定を一つにする
 
 		// マップチップの位置変更
 		m_obj_pos[i].x = m_pbase[i]->GetPos().x + HIT_POINT_X;
@@ -328,14 +328,138 @@ void MapTip::ObjectCreate() {
 	}
 }
 
+// 先にx次にyを調べるようにさせる
+// 衝突した後に移動方向を調べるか逆か
+// 当たった後に移動方向を調べればはじける
 
 // 0番目がバグっている
 void MapTip::MapColider(int i) {
 
 	// 当たり判定
-	Collision(m_obj_pos[i].x,m_obj_pos[i].y, &m_move_pos[i].x, &m_move_pos[i].y);
+	//Collision(m_obj_pos[i].x,m_obj_pos[i].y, &m_move_pos[i].x, &m_move_pos[i].y);// コメントアウト
+
+	// 4隅を調べている、当たり判定後の処理に移動方向で戻すのを決める。
+	// CHIP_SIZE * 2は128の高さで当たり判定を取っている為
+	const float RS = 1.f;           // ResizeのRS.サイズを補正
+									// y軸の衝突判定(四隅)
+	if (FloorCollision(m_obj_pos[i].x + RS, m_obj_pos[i].y + RS, 0.f, m_move_pos[i].y) == true ||                          // 左上
+		FloorCollision(m_obj_pos[i].x + CHIP_SIZE - RS, m_obj_pos[i].y + RS, 0.f, m_move_pos[i].y) == true ||                    // 右上
+		FloorCollision(m_obj_pos[i].x + RS, m_obj_pos[i].y + CHIP_SIZE * 2 - RS, 0.f, m_move_pos[i].y) == true ||              // 左下
+		FloorCollision(m_obj_pos[i].x + CHIP_SIZE - RS, m_obj_pos[i].y + CHIP_SIZE * 2 - RS, 0.f, m_move_pos[i].y) == true) {  // 右下
+	
+																													  // 縦の衝突判定
+		VerticalCollision(m_obj_pos[i].y, m_move_pos[i].y); // 縦にずらす
+	}
+	
+	// x軸の衝突判定
+	if (FloorCollision(m_obj_pos[i].x + RS, m_obj_pos[i].y + RS, m_move_pos[i].x, 0.f) == true ||                         // 左上
+		FloorCollision(m_obj_pos[i].x + CHIP_SIZE - RS, m_obj_pos[i].y + RS, m_move_pos[i].x, 0.f) == true ||                  // 右上
+		FloorCollision(m_obj_pos[i].x + RS, m_obj_pos[i].y + CHIP_SIZE * 2 - RS, m_move_pos[i].x, 0.f) == true ||            // 左下
+		FloorCollision(m_obj_pos[i].x + CHIP_SIZE - RS, m_obj_pos[i].y + CHIP_SIZE * 2 - RS, m_move_pos[i].x, 0.f) == true) {  // 右下
+	
+																													  // 横の衝突後の判定(衝突応答)
+		SideCollision(m_obj_pos[i].x, m_move_pos[i].x);     // 横にずらす
+	}
+	
+	// x軸の中心
+	else if (FloorCollision(m_obj_pos[i].x + RS, m_obj_pos[i].y + CHIP_SIZE - RS, m_move_pos[i].x, 0.f) == true ||         // 左下
+		FloorCollision(m_obj_pos[i].x + CHIP_SIZE - RS, m_obj_pos[i].y + CHIP_SIZE - RS, m_move_pos[i].x, 0.f) == true) {  // 右下
+	
+	
+		SideCollision(m_obj_pos[i].x, m_move_pos[i].x);     // 横にずらす
+	}
+
+
 }
 
+
+bool MapTip::FloorCollision(float pos_x, float pos_y,float move_x,float move_y) {
+
+	// 現在のスクリーン座標にマップ座標を加算する
+	D3DXVECTOR2 after_pos(pos_x + move_x,pos_y + move_y + (m_map_pos.y) + m_map_move_pos.y);
+
+	// 床と衝突しているか
+	if (GetChipParam(after_pos.x, after_pos.y) == 1) {
+
+		// 衝突している
+		return true;
+	}
+	
+	// 衝突していない
+	return false;
+}
+
+
+void MapTip::SideCollision(float &pos_x, float &move_x) {
+
+	// 修正定数
+	const int RETOUCH = 1;
+	// 入ったマップチップの座標を割り出す
+	float chip_pos_x = 0;
+
+	// 左
+	if (move_x < 0.f) {
+
+		chip_pos_x = (float)GetChipPosCast(pos_x - (move_x - RETOUCH));
+
+		pos_x = (chip_pos_x * CHIP_SIZE);
+
+		// 移動ベクトルなし
+		move_x = 0.f;
+	}
+
+	// 右
+	else if (move_x > 0.f) {
+
+		chip_pos_x = (float)GetChipPosCast(pos_x + move_x);
+		// 位置を戻す
+		pos_x = (chip_pos_x * CHIP_SIZE);
+
+		// 移動ベクトルなし
+		move_x = 0.f;
+	}
+}
+
+
+void MapTip::VerticalCollision(float &pos_y, float &move_y) {
+
+	// 修正定数
+	const int RETOUCH = 1;
+	// 入ったマップチップの座標を割り出す
+	float chip_pos_y = 0;
+
+	// 上
+	if (move_y < 0.f) {
+		// チップサイズ割り出し
+		chip_pos_y = (float)GetChipPosCast((pos_y +(m_map_pos.y)) - (move_y - RETOUCH));
+
+		pos_y = (chip_pos_y * CHIP_SIZE) + (-m_map_pos.y) + 1.f;
+
+		// スクロール範囲に入っていればs
+		if (pos_y < m_scroll_range_up) {
+			m_map_pos.y += (pos_y - m_scroll_range_up);
+		}
+		
+		// 移動ベクトルなし
+		move_y = 0.f;
+	}
+
+	// 下
+	else if (move_y > 0.f) {
+		// チップサイズ割り出し
+		chip_pos_y = (float)GetChipPosCast(pos_y + move_y);
+
+		pos_y = (chip_pos_y * CHIP_SIZE);
+
+		// スクロール範囲に入っていれば
+		if (pos_y > m_scroll_range_down) {
+			m_map_pos.y += (pos_y + m_scroll_range_down);
+		}
+
+		// 移動ベクトルなし
+		move_y = 0.f;
+	}
+}
 
 // 仮移動当たり判定
 void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y) {
@@ -357,14 +481,14 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 	float hsize = CHIP_SIZE / 2;
 
 	// Y軸床(ジャンプフラグを作る)
-	if (GetChipParam(after_pos.x + hsize,after_pos.y) == 1||
-		GetChipParam(after_pos.x + CHIP_SIZE - hsize,after_pos.y) == 1) {
+	if (GetChipParam(after_pos.x + 1.f, after_pos.y + CHIP_SIZE) == 1 ||
+		GetChipParam(after_pos.x + CHIP_SIZE - 1.f, after_pos.y + CHIP_SIZE) == 1) {
 
 		// チップサイズ割り出し(マップ座標も合わせて描画してあるので)
- 		chip_pos_y = (float)GetChipPosCast(after_pos.y);
+		chip_pos_y = (float)GetChipPosCast(after_pos.y);
 		//  現在の位置まで戻す = チップで当たった全体座標 + 全体マップでずらした分(最新マップ座標)
 		pos_y = (chip_pos_y * CHIP_SIZE) + (-m_map_pos.y - INIT_MAP_POS_Y);
-		
+
 		// スクロール範囲に入っていれば
 		if (pos_y < m_scroll_range_up) {
 			m_map_pos.y += (pos_y - m_scroll_range_up);
@@ -374,25 +498,25 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 	}
 
 	// Y軸天井
-	if (GetChipParam(after_pos.x + hsize, after_pos.y + CHIP_SIZE) == 1 ||// 上の当たり判定を広げる
-		GetChipParam(after_pos.x + CHIP_SIZE - hsize, after_pos.y + CHIP_SIZE) == 1) {
-	
+	if (GetChipParam(after_pos.x + 1.f, after_pos.y) == 1 ||// 上の当たり判定を広げる
+		GetChipParam(after_pos.x + CHIP_SIZE - 1.f, after_pos.y) == 1) {
+
 		// チップサイズ割り出し
 		chip_pos_y = (float)GetChipPosCast(after_pos.y);
 		//  チップサイズ = 現在の位置 + 一つ前のチップ
-		pos_y = (chip_pos_y * CHIP_SIZE) + -((m_map_pos.y - INIT_MAP_POS_Y) - CHIP_SIZE) + CHIP_SIZE;// -変換
-		
+		pos_y = (chip_pos_y * CHIP_SIZE) + -((m_map_pos.y - INIT_MAP_POS_Y) - CHIP_SIZE);// -変換
+
 		// スクロール範囲に入っていれば
-		if (pos_y > m_scroll_range_down){
-			m_map_pos.y += (pos_y - m_scroll_range_up);
+		if (pos_y > m_scroll_range_down) {
+			m_map_pos.y += (pos_y + m_scroll_range_down);
 		}
 		// 移動ベクトルなし
 		*move_y = 0.f;
 	}
 
 	// X軸左
-	if (GetChipParam(after_pos.x, after_pos.y + hsize) == 1||
-		GetChipParam(after_pos.x, after_pos.y + CHIP_SIZE - hsize) == 1) {// y軸も調べる
+	if (GetChipParam(after_pos.x, after_pos.y + 1.f) == 1||
+		GetChipParam(after_pos.x, after_pos.y + CHIP_SIZE - 1.f) == 1) {// y軸も調べる
 
 		chip_pos_x = (float)GetChipPosCast(after_pos.x) + RETOUCH;
 		// 位置を戻す
@@ -402,8 +526,8 @@ void MapTip::Collision(float &pos_x, float &pos_y, float *move_x, float *move_y)
 	}
 
 	// X軸右
-	if (GetChipParam(after_pos.x + CHIP_SIZE, after_pos.y + hsize) == 1 ||
-		GetChipParam(after_pos.x + CHIP_SIZE, after_pos.y + CHIP_SIZE - hsize) == 1) {
+	if (GetChipParam(after_pos.x + CHIP_SIZE, after_pos.y + 1.f) == 1 ||
+		GetChipParam(after_pos.x + CHIP_SIZE, after_pos.y + CHIP_SIZE - 1.f) == 1) {
 
 		chip_pos_x = (float)GetChipPosCast(after_pos.x - CHIP_SIZE);
 		// 位置を戻す

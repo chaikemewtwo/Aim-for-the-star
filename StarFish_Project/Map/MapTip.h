@@ -57,6 +57,11 @@ private:
 		MAX,
 	};
 
+	bool FloorCollision(float pos_x, float pos_y, float move_x, float move_y);
+
+	void SideCollision(float &pos_x, float &move_x);
+	void VerticalCollision(float &pos_y, float &move_y);
+
 	// マップチップの当たり判定
 	void Collision(float &pos_x, float &pos_y, float *move_x, float *move_y);
 
