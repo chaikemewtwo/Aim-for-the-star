@@ -1,13 +1,14 @@
 ﻿#include"MapManager.h"
-#include"../Player/Star1/Star1.h"
-#include"../Player/Star2/Star2.h"
+#include"../../Player/Star1/Star1.h"
+#include"../../Player/Star2/Star2.h"
+#include"../MapChip/MapChip.h"
 
 
 MapManager::MapManager(Star1*star1,Star2*star2,EnemyManager*e_mng) {
 	
 	
 	// マップチップ
-	m_pmap_tip = new MapTip(star1,star2,e_mng);
+	m_pmap_tip = new MapChip(star1,star2,e_mng);
 	// 背景1
 	m_pbg = new BackGround("Map/BGData/BG1.csv", m_pmap_tip);
 	// 背景2

@@ -1,15 +1,20 @@
 ﻿#pragma once
 //#include"Object.h"
 
-#include"../Lib/D3D/D3D9.h"
-#include"../Lib/Texture/Texture.h"
-#include"../Lib/Texture/TextureBoad2D.h"
-#include"../Lib/Input/KeyBord.h"
-#include"../GameObject/Object/Object.h"
+#include"../../Lib/D3D/D3D9.h"
+#include"../../Lib/Texture/Texture.h"
+#include"../../Lib/Texture/TextureBoad2D.h"
+#include"../../Lib/Input/KeyBord.h"
+#include"../../GameObject/Object/Object.h"
 
+/*
 
+Objectを変更するセッターを作るべき
+誰の座標を使っているかを知る必要がある
 
-class MapTip; //マップの前方参照
+*/
+
+class MapChip; //マップの前方参照
 
 // 背景クラス
 class BackGround : public Object{
@@ -25,10 +30,8 @@ public:
 	// 背景が入れ替わる範囲
 	static constexpr float BG_CHANGE_LINE = 10.f;
 
-	BackGround(const std::string&file_name,MapTip*map_tip);
-	
-	// 毎回移動を持つ
-	void SetMovePos(const D3DXVECTOR2&pos);
+	// ファイル名とスクロールする位置の参照をいれる。
+	BackGround(const std::string&file_name,MapChip*map);
 
 	void Update();
 	void Draw();
@@ -66,6 +69,6 @@ private:
 	int m_now_graph;
 	int m_next_graph;
 
-	// 自機
-	MapTip*m_pmap;
+	// 遷移位置
+	MapChip *m_pmap;
 };

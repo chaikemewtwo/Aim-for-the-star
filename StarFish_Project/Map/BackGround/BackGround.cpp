@@ -1,16 +1,13 @@
 ﻿#include"BackGround.h"
 #include<stdlib.h>
-#include"../Map/MapTip.h"
+#include"../MapChip/MapChip.h"
 
 
 
-BackGround::BackGround(const std::string&file_name,MapTip*p) {
-
-	// 自機の参照を入れる
-	m_pmap = p;
+BackGround::BackGround(const std::string&file_name,MapChip*map) {
 
 	m_pos.x = m_pos.y = 0.f;
-
+	
 	// デバッグの背景読み込み
 
 	for (int i = 0; i < GRAPH_NUM; i++) {
@@ -21,7 +18,7 @@ BackGround::BackGround(const std::string&file_name,MapTip*p) {
 	BGLoad(file_name);
 
 	// 最初の背景の位置
-	m_pos.x = -50.f;// 50
+	m_pos.x = -50.f;
 	m_pos.y = 0.f;
 
 	// 今自機がいる場所
@@ -32,6 +29,9 @@ BackGround::BackGround(const std::string&file_name,MapTip*p) {
 	m_next_graph = 1;
 	// 自機の移動初期化
 	m_move_pos.x = m_move_pos.y = 0.f;
+
+	// 遷移スクロール位置のポインタを入れる。
+	m_pmap = map;
 }
 
 
@@ -154,26 +154,20 @@ void BackGround::PosUpdate() {
 void BackGround::MovePosUpdate() {
 
 	// 移動ベクトルを入れる
-	m_move_pos = -m_pmap->GetMapMovePos() / 4;// -変換
+	// プレイヤーの4分の１の速度にする
+	m_move_pos = m_pmap->GetMapMovePos() / 4;// 反対方向に行くので-変換
 }
 
 
 bool BackGround::LandOnTheGround(){
 
 	// 背景のスクロール制限
-	if (m_pmap->GetMapPos().y < 0.f) {
+	if (m_pmap->GetMapPos().y > 0.f) {
 		return true;
 	}
-	else if (m_pmap->GetMapPos().y >= 0.f) {
+	else if (m_pmap->GetMapPos().y <= 0.f) {
 		return false;
 	}
 
 	return true;
-}
-
-
-void BackGround::SetMovePos(const D3DXVECTOR2&pos) {
-
-	// プレイヤーの3分の１の速度にする
-	m_move_pos = pos / 3;
 }

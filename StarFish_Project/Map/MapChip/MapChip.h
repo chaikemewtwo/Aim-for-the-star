@@ -1,8 +1,7 @@
 ﻿#pragma once
-#include"BackGround.h"
-#include"../Map/BackGround.h"
-#include"../Lib/Window/Window.h"
-#include"../GameObject/Object/Object.h"
+#include"../BackGround/BackGround.h"
+#include"../../Lib/Window/Window.h"
+#include"../../GameObject/Object/Object.h"
 
 
 /*
@@ -39,11 +38,11 @@ class PlayerBase;
 
 
 // 海マップ
-class MapTip : public Object {
+class MapChip : public Object {
 public:
 
 
-	MapTip(Star1*star1,Star2*star2,EnemyManager*e_mng);
+	MapChip(Star1*star1,Star2*star2,EnemyManager*e_mng);
 
 	// 更新関数
 	void Update();
@@ -84,12 +83,13 @@ private:
 	// マップ座標を位置に変換
 	float GetChipPosCastByChip(const float &chip_x, const float &chip_y)const;
 	// 位置をマップ座標に変換
-	int GetChipParam(const float &pos_x, const float&pos_y, const int&map_number = 0);
+	int GetChipParam(const float &pos_x, const float&pos_y);
 	
 
 private:
 
 	/* 各定数 */
+
 	const int CHIP_SIZE = 64;                                         // 画像、全てのセルの大きさ
 	const int HEIGHT_INTERVAL = 60;                                   // 縦間隔をあけて遷移などをする
 	const int MAX_CHIP_NUM_W = BackGround::GRAPH_SCALE_W / CHIP_SIZE; // 画面マップチップの大きさ
@@ -103,7 +103,9 @@ private:
 	const float SCROLL_RANGE_DOWN = 800.f;
 	// マップ当たり判定の頂点
 	const float HIT_POINT_X = -32.f;
-	const float HIT_POINT_Y = -32.f;
+	const float HIT_POINT_Y = -52.f;
+	const float SHRINK_X = 0.f;    // 縮小
+	const float SHRINK_Y = 0.f;
 
 private:
 
