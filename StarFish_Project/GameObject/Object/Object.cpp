@@ -3,7 +3,6 @@
 
 
 Object::Object() {
-
 	m_pos.x = m_pos.y = 0.f;
 	// 死んだらfalseにする
 	m_is_active = true;

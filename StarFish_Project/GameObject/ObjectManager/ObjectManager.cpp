@@ -13,8 +13,8 @@ ObjectManager::ObjectManager() {
 	m_pe_mng = new EnemyManager(this);
 
 	// 自機生成＆objectに登録
-	Entry(m_pplayer1 = new Player);
-	Entry(m_pplayer2 = new Player);
+	Entry(m_pplayer1 = new Player(m_pplayer1->STAR_1));
+	Entry(m_pplayer2 = new Player(m_pplayer2->STAR_2));
 
 	// マップ管理生成
 	m_pm_mng = new MapManager(m_pplayer1, m_pplayer2, m_pe_mng);
