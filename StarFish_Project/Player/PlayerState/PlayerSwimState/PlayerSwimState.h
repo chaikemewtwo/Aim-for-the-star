@@ -17,7 +17,7 @@ public:
 	void Update(Player* p) override;
 
 private:
-	const int ONE_ANIMATION_SPEED = 8;
+	const int ONE_ANIMATION_SPEED = 6;
 
 	const int MAX_ANIMATION_TEX_NUM = 16;
 

@@ -13,7 +13,7 @@ void PlayerWaitState::Init(Player* p) {
 	p->ResetAnimationNumber();
 
 	// 状態画像変更
-	p->SetPlayerTexture("Resource/de_wait.png");
+	p->SetPlayerTexture(p->star_texture_name[p->WAIT_TEXTURE][256]);
 }
 
 
@@ -29,16 +29,16 @@ void PlayerWaitState::Update(Player* p) {
 
 	// 左右角度変更
 	// 左
-	if ((kb.on('A'))) {
+	if ((kb.on(p->imput_button_name[p->LEFT_KEY][256]))) {
 		p->AngleAdjust(false);
 	}
 	// 右
-	if ((kb.on('D'))) {
+	if ((kb.on(p->imput_button_name[p->RIGHT_KEY][256]))) {
 		p->AngleAdjust(true);
 	}
 
-	// &泳ぐコマンド入力
-	if (p->GetStamina() >= TO_SWIM_NEEDED_STAMINA && kb.press(VK_SPACE)) {
+	// スタミナが泳ぐのに必要なスタミナを満たしている&泳ぐコマンド入力
+	if (p->GetStamina() >= TO_SWIM_NEEDED_STAMINA && kb.press(p->imput_button_name[p->SWIM_KEY][256])) {
 		// スタミナ減算
 		p->DecStamina(TO_SWIM_NEEDED_STAMINA);
 
