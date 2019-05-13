@@ -12,7 +12,7 @@ void PlayerSwimState::Init(Player* p) {
 	p->ResetAnimationNumber();
 
 	// 状態画像変更
-	p->SetPlayerTexture("Resource/de_swim.png");
+	p->SetPlayerTexture(p->star_texture_name[p->SWIM_TEXTURE][256]);
 }
 
 
@@ -34,11 +34,11 @@ void PlayerSwimState::Update(Player* p) {
 
 	// 左右角度変更
 	// 左
-	if ((kb.on('A'))) {
+	if ((kb.on(p->imput_button_name[p->LEFT_KEY][256]))) {
 		p->AngleAdjust(false);
 	}
 	// 右
-	if ((kb.on('D'))) {
+	if ((kb.on(p->imput_button_name[p->RIGHT_KEY][256]))) {
 		p->AngleAdjust(true);
 	}
 

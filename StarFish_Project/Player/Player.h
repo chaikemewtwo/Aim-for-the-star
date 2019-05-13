@@ -11,24 +11,42 @@
 
 // MEMO:自機1と2の操作が同一になっています（分割する必要あり）
 
+
 class Player : public CircleCollisionObject {
 public:	
-	enum PLAYER_ID {
+	enum ID {
 		STAR_1,
 		STAR_2
 	};
 
-	enum PLAYER_IMPUT_BUTTON {
-		LEFT_ANGLE_ADJUST_KEY,
-		RIGHT_ANGLE_ADJUST_KEY,
-		SWIM_KEY,
-		GRAB_KEY,
-		PULL_ROPE_KEY
+	enum IMPUT_KEY {
+		LEFT_KEY,		// 左キー
+		RIGHT_KEY,		// 右キー
+		SWIM_KEY,		// 泳ぐキー
+		PULL_ROPE_KEY,	// ロープ引っ張りキー
+
+		MAX_KEY_NUM		// 最大値
 	};
+
+	// 入力キー文字列保持（操作分割のため）
+	char imput_button_name[MAX_KEY_NUM][256];
+
+	enum STAR_TEXTUE {
+		WAIT_TEXTURE,
+		STANDING_WAIT_TEXTURE,
+		SWIM_TEXTURE,
+		GRAB_TEXTURE,
+		PULL_ROPE_TEXTURE,
+		DEATH_TEXTURE,
+
+		MAX_TEXTURE_NUM
+	};
+
+	std::string star_texture_name[MAX_TEXTURE_NUM][256];
 
 
 	// コンストラクタ
-	Player(PLAYER_ID id);
+	Player(ID id);
 	// 仮想デストラクタ
 	virtual ~Player() {}
 
