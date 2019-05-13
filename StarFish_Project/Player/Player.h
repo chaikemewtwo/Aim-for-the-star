@@ -1,19 +1,34 @@
 ﻿#pragma once
 
-#include "../../Lib/D3D/D3D9.h"
-#include "../../Lib/Window/Window.h"
-#include "../../Lib/Texture/Texture.h"
-#include "../../Lib/Texture/TextureBoad2D.h"
-#include "../../Lib/Input/KeyBord.h"
-#include "../../CollisionObject/CircleCollisionObject.h"
+#include "../Lib/D3D/D3D9.h"
+#include "../Lib/Window/Window.h"
+#include "../Lib/Texture/Texture.h"
+#include "../Lib/Texture/TextureBoad2D.h"
+#include "../Lib/Input/KeyBord.h"
+#include "../Lib/Input/GamePad.h"
+#include "../CollisionObject/CircleCollisionObject.h"
 #include "PlayerState\PlayerStateBase.h"
 
 // MEMO:自機1と2の操作が同一になっています（分割する必要あり）
 
 class Player : public CircleCollisionObject {
 public:	
+	enum PLAYER_ID {
+		STAR_1,
+		STAR_2
+	};
+
+	enum PLAYER_IMPUT_BUTTON {
+		LEFT_ANGLE_ADJUST_KEY,
+		RIGHT_ANGLE_ADJUST_KEY,
+		SWIM_KEY,
+		GRAB_KEY,
+		PULL_ROPE_KEY
+	};
+
+
 	// コンストラクタ
-	Player();
+	Player(PLAYER_ID id);
 	// 仮想デストラクタ
 	virtual ~Player() {}
 
@@ -25,7 +40,6 @@ public:
 	// MEMO:自機2も自機1の画像を使用中、自機2の画像が完成次第変更する
 	void Draw()override;
 
-	
 	// 当たり判定で使用する関数	---------------------------
 	// プレイヤー座標ゲッター
 	D3DXVECTOR2 GetPos() {
