@@ -16,7 +16,8 @@ public:
 	
 	void Update();	
 	void Draw();
-	void Create(D3DXVECTOR2 pos, MapTip* map_tip);
+	void EnemyCreate(D3DXVECTOR2 pos, MapTip* map_tip);
+	void BlindCreate(D3DXVECTOR2 pos);
 	void Delete();
 
 	// 生成されている敵の総数を返す関数
@@ -25,11 +26,9 @@ public:
 	void GetEnemyInstance(int num);
 
 private:
-	// 敵の生成最大数(仮)
-	const int Enemy_Max_Num = 10;
-	// 生成した敵の配列
-	std::vector<EnemyBase*> m_enemy_list;
-	// オブジェクトのポインタ変数
-	ObjectManager* m_pobj_mng;
-	Blind* m_pblind;
+	ObjectManager* m_pobj_mng;				// オブジェクトの格納変数
+	Blind* m_pblind;						// ブラインドクラス格納変数
+	std::vector<EnemyBase*> m_enemy_list;	// 生成した敵の配列
+
+	const int Enemy_Max_Num = 10;			// 敵の生成最大数(仮)
 };

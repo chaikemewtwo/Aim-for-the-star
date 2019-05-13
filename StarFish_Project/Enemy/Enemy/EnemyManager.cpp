@@ -28,11 +28,9 @@ void EnemyManager::Update() {
 	pos.x = (float)(rand() % (WINDOW_W_INT - 100));
 	pos.y = (float)(rand() % (WINDOW_H_INT - 100));
 	// Createはマップで呼び出される。第二引数に入れるものがないのでコメントアウト
-	//Create(pos,);
-	if (rand() % 100 == 5) {
-		
-		m_pobj_mng->Entry(m_pblind = new Blind);
-		m_pblind->Create(pos);
+	//EnemyCreate(pos,);
+	if (m_pblind == nullptr) {
+		BlindCreate(pos);
 	}
 	
 	Delete();
@@ -51,7 +49,7 @@ void EnemyManager::Draw() {
 //―――――――――――――――――――――――――――
 
 // 敵生成の関数
-void EnemyManager::Create(D3DXVECTOR2 pos, MapTip* map_tip) {
+void EnemyManager::EnemyCreate(D3DXVECTOR2 pos, MapTip* map_tip) {
 	// 敵の最大数と配列サイズの差分を保存
 	int diff = Enemy_Max_Num - m_enemy_list.size();
 
@@ -75,6 +73,14 @@ void EnemyManager::Create(D3DXVECTOR2 pos, MapTip* map_tip) {
 }
 //―――――――――――――――――――――――――――
 
+// ブラインド生成の関数
+void EnemyManager::BlindCreate(D3DXVECTOR2 pos) {
+		// Objectに登録時にブラインド用変数に代入、その後にブラインドを生成
+		m_pobj_mng->Entry(m_pblind = new Blind);
+		m_pblind->Create(pos);
+}
+//―――――――――――――――――――――――――――
+
 // 敵削除の関数
 void EnemyManager::Delete() {
 	// 削除ループ
@@ -93,9 +99,9 @@ void EnemyManager::Delete() {
 	if (m_pblind != nullptr && m_pblind->IsActive()==false) {
 		m_pobj_mng->Exit(m_pblind->GetId());
 		delete m_pblind;
+		m_pblind = nullptr;
 	}
 }
-
 //――――――――――――――――――――――――――――
 
 // 生成している敵の総数を返す関数
