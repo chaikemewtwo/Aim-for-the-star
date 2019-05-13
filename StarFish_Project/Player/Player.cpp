@@ -6,7 +6,9 @@
 #include <time.h>
 
 
-Player::Player() :m_state(PlayerWaitState::GetInstance()) {
+Player::Player(PLAYER_ID id) :m_state(PlayerWaitState::GetInstance()) {
+	Keybord& kb = Keybord::getInterface();
+
 	// 移動速度
 	m_speed = 2.f;
 
@@ -15,7 +17,6 @@ Player::Player() :m_state(PlayerWaitState::GetInstance()) {
 
 	// アニメーション番号
 	m_animation_num = 0;
-
 
 	// 移動量
 	m_move.x = 0.f;
@@ -29,6 +30,24 @@ Player::Player() :m_state(PlayerWaitState::GetInstance()) {
 
 	// 描画フラグ
 	m_draw_enable = true;
+
+	if (id == STAR_1) {
+		// 位置
+		m_pos.x = WINDOW_W / 2 - 200.f;
+		m_pos.y = WINDOW_H / 2;
+
+		// 操作
+		
+	}
+
+	if (id == STAR_2) {
+		// 位置
+		m_pos.x = WINDOW_W / 2 + 200.f;
+		m_pos.y = WINDOW_H / 2;
+
+		// 操作
+
+	}
 }
 
 
@@ -89,10 +108,11 @@ void Player::AngleAdjust(bool is_move_right) {
 		m_character_angle += is_move_right ? ANGLE_ADD : -ANGLE_ADD;
 	}
 	// 角度変更範囲設定
-	// 
+	// 左
 	else if (m_character_angle >= MAX_ANGLE) {
 		m_character_angle = MAX_ANGLE;
 	}
+	// 右
 	else if (m_character_angle <= MAX_ANGLE) {
 		m_character_angle = -MAX_ANGLE;
 	}
@@ -100,15 +120,9 @@ void Player::AngleAdjust(bool is_move_right) {
 
 
 void Player::SwimUp() {
-
 	// 上方向への移動量(ベクトルの長さ)を割り出す
 	m_move.x += sin(m_character_angle * PI / (float)180.f) * m_speed;
 	m_move.y += cos(m_character_angle * PI / (float)180.f) * m_speed;
-
-
-	// 移動量インクリメント
-	//m_pos.x += m_move.x;
-	//m_pos.y -= m_move.y;
 }
 
 
