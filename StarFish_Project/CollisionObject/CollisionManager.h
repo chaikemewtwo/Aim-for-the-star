@@ -30,6 +30,7 @@ private:
 	EnemyManager*m_pe_mng;
 };
 
-
-// 円の当たり判定
-void ChackHitCircle(CircleCollisionObject*obj1, CircleCollisionObject*obj2);
+namespace ShapeCollision {
+	// 円の当たり判定
+	void ChackHitCircle(CircleCollisionObject*obj1, CircleCollisionObject*obj2);
+}
