@@ -6,8 +6,8 @@
 
 CollisionManager::CollisionManager(Player*p1,Player*p2, EnemyManager*e_mng) {
 
-	m_pplayer1 = p1;
-	m_pplayer2 = p2;
+	m_pplayer[0] = p1;
+	m_pplayer[1] = p2;
 	m_pe_mng = e_mng;
 }
 
@@ -15,14 +15,14 @@ CollisionManager::CollisionManager(Player*p1,Player*p2, EnemyManager*e_mng) {
 void CollisionManager::Collision() {
 
 	// プレイヤーとの当たり判定
-	ChackHitCircle(m_pplayer1,m_pplayer2);
+	ChackHitCircle(m_pplayer[0],m_pplayer[1]);
 
 	// 敵と自機の当たり判定
 	for (int i = 0; i < PLAYER_NUM; i++) {
 
 		// 敵と自機の当たり判定
 		for (int i = 0; i < m_pe_mng->GetEnemyTotal(); i++) {
-			//ChackHitCircle(&m_pe_mng->GetInstance(i), m_pp[i]);
+			ChackHitCircle(m_pe_mng->GetEnemyInstance(i),m_pplayer[i]);
 		}
 	}
 }

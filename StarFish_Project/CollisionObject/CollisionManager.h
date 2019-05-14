@@ -26,8 +26,7 @@ public:
 private:
 
 	// オブジェクトを置く場所
-	Player * m_pplayer1;
-	Player * m_pplayer2;
+	Player * m_pplayer[2];
 	EnemyManager*m_pe_mng;
 };
 
