@@ -25,7 +25,7 @@ struct tagMapChip {
 
 	tagMapChip() {
 		m_chip_num = 0;
-		m_is_active = true;
+		m_is_active = false;
 	}
 };
 
@@ -55,6 +55,8 @@ public:
 	// アクセサ
 	D3DXVECTOR2 GetMapPos()const;
 	D3DXVECTOR2 GetMapMovePos()const;
+	// ジャンプしているかどうか
+	bool IsJamp()const;
 
 private:
 
@@ -84,12 +86,10 @@ private:
 	float GetChipPosCastByChip(const float &chip_x, const float &chip_y)const;
 	// 位置をマップ座標に変換
 	int GetChipParam(const float &pos_x, const float&pos_y);
-	
 
 private:
 
 	/* 各定数 */
-
 	const int CHIP_SIZE = 64;                                         // 画像、全てのセルの大きさ
 	const int HEIGHT_INTERVAL = 60;                                   // 縦間隔をあけて遷移などをする
 	const int MAX_CHIP_NUM_W = BackGround::GRAPH_SCALE_W / CHIP_SIZE; // 画面マップチップの大きさ
@@ -103,31 +103,33 @@ private:
 	const float SCROLL_RANGE_DOWN = 800.f;
 	// マップ当たり判定の頂点
 	const float HIT_POINT_X = -32.f;
-	const float HIT_POINT_Y = -52.f;
-	const float SHRINK_X = 0.f;    // 縮小
-	const float SHRINK_Y = 0.f;
+	const float HIT_POINT_Y = -56.f;
+	// 縮小
+	const float SHRINK_X = 6.f;
+	const float SHRINK_Y = 6.f;
 
 private:
 
 	/* マップ座標 */
 	D3DXVECTOR2 m_obj_pos[2];              // 自機の位置
 	D3DXVECTOR2 m_move_pos[2];             // 自機の移動ベクトル
-	tagMapChip m_map[1000][1000] = {};            // 全体マップバッファ
+	tagMapChip m_map[1000][1000] = {};     // 全体マップバッファ
 	/* マップ描画領域 */
 	D3DXVECTOR2 m_map_pos;                 // 描画用マップの位置              
 	int m_height_map_num;                  // マップデータの高さ
 	int m_map_chip_id[1000]={};            // 生成されたらマップチップを保存する
 	int m_chip_num;                        // チップの番号
-	float m_draw_range_begin;
-	float m_draw_range_end;
 	/* マップ遷移 */
 	float m_draw_range_up;                 // 上の描画の範囲
 	float m_draw_range_down;               // 後ろの描画の範囲
 	float m_scroll_range_up;               // スクロールライン上
 	float m_scroll_range_down;             // スクロールライン下
+	bool m_is_scroll;
 	/* 各オブジェクトの参照 */	   	       
 	PlayerBase * m_pbase[2];               // 自機2体  
 	EnemyManager * e_pmng;                 // 敵の状態
+	// ジャンプフラグ
+	bool m_is_jamp;
 
 	// デバッグ用
 	int m_py;
