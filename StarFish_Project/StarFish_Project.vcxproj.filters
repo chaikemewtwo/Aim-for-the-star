@@ -17,9 +17,6 @@
     <ClCompile Include="Lib\Window\Window.cpp" />
     <ClCompile Include="LoadResource\LoadResource.cpp" />
     <ClCompile Include="Main\Main.cpp" />
-    <ClCompile Include="Map\BackGround.cpp" />
-    <ClCompile Include="Map\MapManager.cpp" />
-    <ClCompile Include="Map\MapTip.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.cpp" />
@@ -29,6 +26,9 @@
     <ClCompile Include="SetRenderStateFile\SetRenderStateFile.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="StaminaUI\StaminaUI.cpp" />
+    <ClCompile Include="Map\BackGround\BackGround.cpp" />
+    <ClCompile Include="Map\MapChip\MapChip.cpp" />
+    <ClCompile Include="Map\MapManager\MapManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -51,9 +51,6 @@
     <ClInclude Include="Lib\UV\UV.h" />
     <ClInclude Include="Lib\Window\Window.h" />
     <ClInclude Include="LoadResource\LoadResource.h" />
-    <ClInclude Include="Map\BackGround.h" />
-    <ClInclude Include="Map\MapManager.h" />
-    <ClInclude Include="Map\MapTip.h" />
     <ClInclude Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.h" />
     <ClInclude Include="Player\PlayerState\PlayerStateBase.h" />
     <ClInclude Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.h" />
@@ -65,6 +62,9 @@
     <ClInclude Include="SetRenderStateFile\SetRenderStateFile.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="StaminaUI\StaminaUI.h" />
+    <ClInclude Include="Map\BackGround\BackGround.h" />
+    <ClInclude Include="Map\MapChip\MapChip.h" />
+    <ClInclude Include="Map\MapManager\MapManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />

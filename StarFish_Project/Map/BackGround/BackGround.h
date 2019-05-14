@@ -1,18 +1,23 @@
 ﻿#pragma once
 //#include"Object.h"
 
-#include"../Lib/D3D/D3D9.h"
-#include"../Lib/Texture/Texture.h"
-#include"../Lib/Texture/TextureBoad2D.h"
-#include"../Lib/Input/KeyBord.h"
-#include"../GameObject/Object/Object.h"
+#include"../../Lib/D3D/D3D9.h"
+#include"../../Lib/Texture/Texture.h"
+#include"../../Lib/Texture/TextureBoad2D.h"
+#include"../../Lib/Input/KeyBord.h"
+#include"../../GameObject/Object/Object.h"
 
+/*
 
-// 前方参照
-class Player;
+Objectを変更するセッターを作るべき
+誰の座標を使っているかを知る必要がある
+
+*/
+
+class MapChip; //マップの前方参照
 
 // 背景クラス
-class BackGround{
+class BackGround : public Object{
 public:
 
 	// constexprはコンパイル時定数になる
@@ -24,19 +29,9 @@ public:
 	static constexpr int GRAPH_DIFFERENCE = 50;
 	// 背景が入れ替わる範囲
 	static constexpr float BG_CHANGE_LINE = 10.f;
-	// スクロールスピードはプレイヤー速度の3分の1
-	//static constexpr int SCROLL_SPEED = (int)SPEED / 3;
-	static constexpr float CHIP_SIZE = 128.f;
 
-	BackGround(const std::string&file_name,Player*p);
-
-	
-	// 毎回移動を持つ
-	void SetMovePos(const D3DXVECTOR2&pos) {
-
-		// プレイヤーの3分の１の速度にする
-		m_move_pos = pos / 3;
-	}
+	// ファイル名とスクロールする位置の参照をいれる。
+	BackGround(const std::string&file_name,MapChip*map);
 
 	void Update();
 	void Draw();
@@ -53,11 +48,10 @@ private:
 	void Scroll();
 
 	// 位置更新
-	void PosUpdate() {
+	void PosUpdate();
 
-		// 上下だけ加算
-		m_pos.y += m_move_pos.y;
-	}
+	// 地面に着地
+	bool LandOnTheGround();
 
 	// 背景文字列
 	const char* m_pback_str[GRAPH_NUM];
@@ -75,6 +69,6 @@ private:
 	int m_now_graph;
 	int m_next_graph;
 
-	// 自機
-	Player*m_pp_base;
+	// 遷移位置
+	MapChip *m_pmap;
 };

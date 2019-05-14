@@ -43,9 +43,9 @@
     <ClCompile Include="Lib\Window\Window.cpp" />
     <ClCompile Include="LoadResource\LoadResource.cpp" />
     <ClCompile Include="Main\Main.cpp" />
-    <ClCompile Include="Map\BackGround.cpp" />
-    <ClCompile Include="Map\MapManager.cpp" />
-    <ClCompile Include="Map\MapTip.cpp" />
+    <ClCompile Include="Map\BackGround\BackGround.cpp" />
+    <ClCompile Include="Map\MapChip\MapChip.cpp" />
+    <ClCompile Include="Map\MapManager\MapManager.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.cpp" />
@@ -84,9 +84,9 @@
     <ClInclude Include="Lib\UV\UV.h" />
     <ClInclude Include="Lib\Window\Window.h" />
     <ClInclude Include="LoadResource\LoadResource.h" />
-    <ClInclude Include="Map\BackGround.h" />
-    <ClInclude Include="Map\MapManager.h" />
-    <ClInclude Include="Map\MapTip.h" />
+    <ClInclude Include="Map\BackGround\BackGround.h" />
+    <ClInclude Include="Map\MapChip\MapChip.h" />
+    <ClInclude Include="Map\MapManager\MapManager.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.h" />
     <ClInclude Include="Player\PlayerState\PlayerStateBase.h" />

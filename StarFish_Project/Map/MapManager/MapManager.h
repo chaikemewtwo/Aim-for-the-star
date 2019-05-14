@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include"MapTip.h"
-#include"BackGround.h"
+#include"../MapChip/MapChip.h"
+#include"../BackGround/BackGround.h"
 #include<vector>
 #include<memory>
-#include"MapTip.h"
+
 
 
 
@@ -14,13 +14,14 @@
 class EnemyManager;
 class Star1;
 class Star2;
+class MapChip;
 
 // マップ管理
 class MapManager {
 public:
 
 	// EnemyManagerも入れる
-	MapManager(Player*star1,Player*star2, EnemyManager*e_mng);
+	MapManager(Star1*star1, Star2*star2, EnemyManager*e_mng);
 
 	~MapManager();
 
@@ -36,7 +37,7 @@ public:
 
 private:
 
-	MapTip *m_pmap_tip; // マップの選択
+	MapChip *m_pmap_tip; // マップの選択
 	BackGround*m_pbg;     // 背景
 	BackGround *m_pbg2;   // 奥行用の背景
 };

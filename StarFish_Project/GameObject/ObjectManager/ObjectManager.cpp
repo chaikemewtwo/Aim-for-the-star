@@ -2,7 +2,7 @@
 #include"../../CollisionObject/CollisionManager.h"
 #include"../../Enemy/Enemy/EnemyManager.h"
 #include"../../Player/Player.h"
-#include"../../Map/MapManager.h"
+#include"../../Map/MapChip/MapChip.h"
 #include<algorithm>
 #include"../../StaminaUI/StaminaUI.h"
 
