@@ -185,7 +185,7 @@ void MapTip::Draw() {
 
 				if (m_draw_map[(m_height_map_num) - y + MAP_NUM_Y][x] == 1) {
 
-					Texture::Draw2D("Resource/chip_map_image_64.png",
+					Texture::Draw2D("Resource/Texture/Map/chip_map_image_64.png",
 						(float)(x * CHIP_SIZE),
 						(float)(-y * CHIP_SIZE) + 2200 - m_map_pos.y);// 前 1647
 				}

@@ -15,14 +15,14 @@ CollisionManager::CollisionManager(Player*p1,Player*p2, EnemyManager*e_mng) {
 void CollisionManager::Collision() {
 
 	// プレイヤーとの当たり判定
-	ChackHitCircle(m_pplayer[0],m_pplayer[1]);
+	ShapeCollision::ChackHitCircle(m_pplayer[0],m_pplayer[1]);
 
 	// 敵と自機の当たり判定
 	for (int i = 0; i < PLAYER_NUM; i++) {
 
 		// 敵と自機の当たり判定
 		for (int i = 0; i < m_pe_mng->GetEnemyTotal(); i++) {
-			ChackHitCircle(m_pe_mng->GetEnemyInstance(i),m_pplayer[i]);
+			//ShapeCollision::ChackHitCircle(m_pe_mng->GetEnemyInstance(i),m_pplayer[i]);
 		}
 	}
 }
@@ -30,7 +30,7 @@ void CollisionManager::Collision() {
 /* 以下当たり判定 */
 
 // 円の当たり判定
-void ChackHitCircle(CircleCollisionObject*obj1, CircleCollisionObject*obj2) {
+void ShapeCollision::ChackHitCircle(CircleCollisionObject*obj1, CircleCollisionObject*obj2) {
 	
 	// 位置を受け取る
 	D3DXVECTOR2 pos1 = obj1->GetPos();
