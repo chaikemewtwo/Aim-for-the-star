@@ -6,7 +6,15 @@ void Resource::LoadResouce() {
 
 	// テクスチャ読み込み
 
-	// ゲームメイン
+	// タイトル--------------------------------------------
+	// 背景
+	Texture::Load("Resource/Texture/Title/タイトル　背景.png");
+	// ロゴ
+	Texture::Load("Resource/Texture/Title/タイトル　ロゴ.png");
+	//-----------------------------------------------------
+
+
+	// ゲームメイン----------------------------------------
 	// 自機1(デくん、オレンジ)（全て統合画像）
 	// 待機状態
 	Texture::Load("Resource/Texture/Player/de_wait.png");
@@ -36,7 +44,6 @@ void Resource::LoadResouce() {
 	// 死亡モーション						
 	Texture::Load("Resource/Texture/Player/hi_die.png");
 	
-
 	// 敵
 	// ウニ
 	Texture::Load("Resource/Texture/Enemy/uni.png");
@@ -73,9 +80,10 @@ void Resource::LoadResouce() {
 	Texture::Load("Resource/Texture/UI/UI　黒.png");
 	Texture::Load("Resource/Texture/UI/UI　紫バー.png");
 	Texture::Load("Resource/Texture/UI/UI　橙バー.png");
+	//-----------------------------------------------------
 
 
-	// 勝利シーン
+	// 勝利シーン------------------------------------------
 	// 自機1
 	// 勝利モーション（1モーションで計2枚）
 	Texture::Load("Resource/Texture/Player/de_crear_01.png");
@@ -93,4 +101,5 @@ void Resource::LoadResouce() {
 	Texture::Load("Resource/Texture/Map/bg_clear_01.png");
 	Texture::Load("Resource/Texture/Map/bg_clear_02.png");
 	Texture::Load("Resource/Texture/Map/bg_clear_03.png");
+	//-----------------------------------------------------
 }
