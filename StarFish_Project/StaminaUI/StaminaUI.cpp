@@ -2,43 +2,39 @@
 
 
 StaminaUI::StaminaUI(Player* p_1, Player* p_2) {
-	// テスト用
-	y = ALL_GAGE;
 	p1 = p_1;
 	p2 = p_2;
 };
 
 
 void StaminaUI::Update(){
-	Keybord& kb = Keybord::getInterface();
-	//float stamina_parcentage(p1)
-
-	// テスト用
-	++y;
-	if (kb.press(VK_SPACE)) {
-		y -= 100.f;
-	}
+	p1_stamina_parcent = StaminaParcentage(p1);
+	p2_stamina_parcent = StaminaParcentage(p2);
 }
+
 
 void StaminaUI::Draw() {
 	// 黒バー
-	Texture::Draw2D("Resource/Texture/UI/UI　黒.png", 0, 0);
+	Texture::Draw2D("Resource/Texture/UI/UI　黒.png", 0.f, 0.f);
 
 	// オレンジバー
-	//Texture::Draw2D("Resource/Texture/UI/UI　橙バー.png", 0, stamina_parcentage(p1), 1.f, 1.f);
-	// テスト用
-	Texture::Draw2D("Resource/Texture/UI/UI　橙バー.png", 0, GAGE_UNDER_POS - y, 1.f, 1.f);
+	Texture::Draw2D("Resource/Texture/UI/UI　橙バー.png", 0.f, GagePosYCalc(p1_stamina_parcent));
 	
 	// ピンクバー
-	Texture::Draw2D("Resource/Texture/UI/UI　紫バー.png", 0, 0, 1.f, 1.f);
-	// テスト用
-	//Texture::Draw2D("Resource/Texture/UI/UI　紫バー.png", 0, 1000 , 1.f, 1.f);
+	Texture::Draw2D("Resource/Texture/UI/UI　紫バー.png", 0.f, GagePosYCalc(p2_stamina_parcent));
 	
 	// 岩
-	Texture::Draw2DGraph("Resource/Texture/UI/UI 岩.png", 0, 0);
+	Texture::Draw2D("Resource/Texture/UI/UI 岩.png", 0.f, 0.f);
 }
 
-float StaminaUI::stamina_parcentage(Player* p) {
-	float parcentage = p->GetStamina() / p->MAX_STAMINA;
+
+float StaminaUI::StaminaParcentage(Player* p) {
+	float parcentage = (float)p->GetStamina() / (float)p->MAX_STAMINA;
 	return parcentage;
+}
+
+
+float StaminaUI::GagePosYCalc(float stamina_parcent) {
+	float gage_pos_y = GAGE_UNDER_POS - (ALL_GAGE * stamina_parcent);
+	return gage_pos_y;
 }

@@ -10,24 +10,30 @@ public:
 	void Draw()override;
 
 private:
-	// スタミナの最大値を100%としたスタミナの割合
-	float stamina_parcentage(Player* p);
+	// プレイヤーのスタミナの最大値を100%としたスタミナの割合
+	float StaminaParcentage(Player* p);
+
+	// ゲージのY座標算出
+	float GagePosYCalc(float stamina_parcent);
 
 	// ゲージ満タン時の座標
-	const int GAGE_MAX_POS = 380;
+	const float GAGE_MAX_POS = 380.f;
 
 	// ゲージがなくなった時の座標
-	const int GAGE_UNDER_POS = 1000;
+	const float GAGE_UNDER_POS = 1000.f;
 
 	// ゲージの量
-	const int ALL_GAGE = GAGE_UNDER_POS - GAGE_MAX_POS;
+	const float ALL_GAGE = GAGE_UNDER_POS - GAGE_MAX_POS;
 
 	// 自機1
 	Player * p1;
 	// 自機2
 	Player * p2;
 
-	int test;
+	// 自機1のスタミナの割合
+	float p1_stamina_parcent;
+	// 自機2のスタミナの割合
+	float p2_stamina_parcent;
 
 	// テスト用
 	float y;
