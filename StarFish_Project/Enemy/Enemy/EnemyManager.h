@@ -17,7 +17,7 @@ public:
 	void Update();	
 	void Draw();
 	void EnemyCreate(D3DXVECTOR2 pos, MapTip* map_tip);
-	void BlindCreate(D3DXVECTOR2 pos);
+	void BlindCreate(D3DXVECTOR2 pos, D3DXVECTOR2 goal);
 	void Delete();
 
 	// 生成されている敵の総数を返す関数

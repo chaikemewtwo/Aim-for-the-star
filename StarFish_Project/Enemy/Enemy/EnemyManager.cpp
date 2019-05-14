@@ -25,13 +25,10 @@ EnemyManager::~EnemyManager() {
 void EnemyManager::Update() {
 	// 仮の座標生成(まだObjectManagerで渡せないのでここで座標生成)
 	D3DXVECTOR2 pos;
-	pos.x = (float)(rand() % (WINDOW_W_INT - 100));
+	pos.x = WINDOW_W_F;//(float)(rand() % (WINDOW_W_INT - 100));
 	pos.y = (float)(rand() % (WINDOW_H_INT - 100));
 	// Createはマップで呼び出される。第二引数に入れるものがないのでコメントアウト
 	//EnemyCreate(pos,);
-	if (m_pblind == nullptr) {
-		BlindCreate(pos);
-	}
 	
 	Delete();
 }
@@ -74,10 +71,10 @@ void EnemyManager::EnemyCreate(D3DXVECTOR2 pos, MapTip* map_tip) {
 //―――――――――――――――――――――――――――
 
 // ブラインド生成の関数
-void EnemyManager::BlindCreate(D3DXVECTOR2 pos) {
+void EnemyManager::BlindCreate(D3DXVECTOR2 pos, D3DXVECTOR2 goal) {
 		// Objectに登録時にブラインド用変数に代入、その後にブラインドを生成
 		m_pobj_mng->Entry(m_pblind = new Blind);
-		m_pblind->Create(pos);
+		m_pblind->Create(pos, goal);
 }
 //―――――――――――――――――――――――――――
 
