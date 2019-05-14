@@ -89,7 +89,7 @@ void Player::Update() {
 	m_move.y = 0.f;
 
 	// スタミナ自動回復
-	if (m_stamina <= MAX_STAMINA) {
+	if (m_stamina < MAX_STAMINA) {
 		++m_stamina;
 	}
 	else {
