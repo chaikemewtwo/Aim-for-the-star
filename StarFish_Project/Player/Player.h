@@ -42,13 +42,14 @@ public:
 		MAX_TEXTURE_NUM
 	};
 
+	// テクスチャ文字列保持
 	std::string star_texture_name[MAX_TEXTURE_NUM][256];
 
 
-	// コンストラクタ
+	// コンストラクタ（引数はプレイヤーのID）
 	Player(ID id);
-	// 仮想デストラクタ
-	virtual ~Player() {}
+	// デストラクタ（まだ触れていない、ゲームメインの2周目に不具合が出る可能性あり）
+	~Player() {}
 
 	// 更新処理
 	// HACK：自機2も自機1の操作方法になっているので操作の分離が必要
@@ -112,6 +113,9 @@ public:
 	void AddStateChangeTimer(){
 		++m_state_change_timer;
 	}
+
+	// スタミナ最大値
+	const int MAX_STAMINA = 1000;
 
 	// スタミナゲッター
 	int GetStamina() {
@@ -194,9 +198,6 @@ private:
 
 	// スタミナ
 	int m_stamina;
-
-	// スタミナ最大値
-	const int MAX_SUTAMINA = 1000;
 
 	// 被弾時点滅用描画切り替え
 	bool m_draw_enable;

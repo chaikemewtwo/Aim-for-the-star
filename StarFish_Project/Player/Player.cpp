@@ -26,7 +26,7 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	m_state->Init(this);
 
 	// スタミナ
-	m_stamina = MAX_SUTAMINA;
+	m_stamina = MAX_STAMINA;
 
 	// 描画フラグ
 	m_draw_enable = true;
@@ -45,9 +45,9 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 		imput_button_name[PULL_ROPE_KEY][256] = 'Q';
 	
 		// 画像
-		star_texture_name[WAIT_TEXTURE][256] = "Resource/de_wait.png";
-		star_texture_name[STANDING_WAIT_TEXTURE][256] = "Resource/de_standing_wait.png";
-		star_texture_name[SWIM_TEXTURE][256] = "Resource/de_swim.png";
+		star_texture_name[WAIT_TEXTURE][256] = "Resource/Texture/Player/de_wait.png";
+		star_texture_name[STANDING_WAIT_TEXTURE][256] = "Resource/Texture/Player/de_standing_wait.png";
+		star_texture_name[SWIM_TEXTURE][256] = "Resource/Texture/Player/de_swim.png";
 		//star_texture_name[GRAB_TEXTURE][256] = "Resource/de_swim.png";
 		//star_texture_name[PULL_ROPE_TEXTURE][256] = "Resource/de_swim.png";
 		//star_texture_name[DEATH_TEXTURE][256] = "Resource/de_swim.png";
@@ -66,9 +66,9 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 		imput_button_name[PULL_ROPE_KEY][256] = 'M';
 
 		// 画像
-		star_texture_name[WAIT_TEXTURE][256] = "Resource/de_wait.png";
-		star_texture_name[STANDING_WAIT_TEXTURE][256] = "Resource/de_standing_wait.png";
-		star_texture_name[SWIM_TEXTURE][256] = "Resource/de_swim.png";
+		star_texture_name[WAIT_TEXTURE][256] = "Resource/Texture/Player/hi_wait.png";
+		star_texture_name[STANDING_WAIT_TEXTURE][256] = "Resource/Texture/Player/hi_standing_wait.png";
+		star_texture_name[SWIM_TEXTURE][256] = "Resource/Texture/Player/hi_swim.png";
 		//star_texture_name[GRAB_TEXTURE][256] = "Resource/de_swim.png";
 		//star_texture_name[PULL_ROPE_TEXTURE][256] = "Resource/de_swim.png";
 		//star_texture_name[DEATH_TEXTURE][256] = "Resource/de_swim.png";
@@ -89,11 +89,11 @@ void Player::Update() {
 	m_move.y = 0.f;
 
 	// スタミナ自動回復
-	if (m_stamina <= MAX_SUTAMINA) {
+	if (m_stamina <= MAX_STAMINA) {
 		++m_stamina;
 	}
 	else {
-		m_stamina = MAX_SUTAMINA;
+		m_stamina = MAX_STAMINA;
 	}
 }
 

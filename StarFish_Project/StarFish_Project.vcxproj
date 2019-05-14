@@ -52,6 +52,10 @@
     <ClCompile Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.cpp" />
     <ClCompile Include="SetRenderStateFile\SetRenderStateFile.cpp" />
+    <ClCompile Include="StaminaUI\StaminaUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionObject\CircleCollisionObject.h" />
@@ -90,6 +94,10 @@
     <ClInclude Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.h" />
     <ClInclude Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.h" />
     <ClInclude Include="SetRenderStateFile\SetRenderStateFile.h" />
+    <ClInclude Include="StaminaUI\StaminaUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />
