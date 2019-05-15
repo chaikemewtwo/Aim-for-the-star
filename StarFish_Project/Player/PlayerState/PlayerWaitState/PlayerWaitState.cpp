@@ -1,5 +1,6 @@
 ﻿#include "PlayerWaitState.h"
 #include "../PlayerSwimState/PlayerSwimState.h"
+#include "../PlayerDeathState/PlayerDeathState.h"
 #include "../../Player/Player.h"
 
 
@@ -44,5 +45,10 @@ void PlayerWaitState::Update(Player* p) {
 
 		// 泳ぎ状態へ移行
 		p->ChangeState(PlayerSwimState::GetInstance());		
+	}
+
+	if (p->GetStamina() <= 0) {
+		// 死亡状態へ移行
+		p->ChangeState(PlayerDeathState::GetInstance());
 	}
 }

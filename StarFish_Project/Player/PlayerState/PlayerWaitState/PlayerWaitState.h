@@ -23,5 +23,5 @@ private:
 	const int MAX_ANIMATION_TEX_NUM = 6;
 
 	// 泳ぎ状態へ移行する際に消費するスタミナ
-	const int TO_SWIM_NEEDED_STAMINA = 200;
+	const int TO_SWIM_NEEDED_STAMINA = 300;
 };

@@ -59,7 +59,8 @@ public:
 	// MEMO:自機2も自機1の画像を使用中、自機2の画像が完成次第変更する
 	void Draw()override;
 
-	// 当たり判定で使用する関数	---------------------------
+	//-----------------------------------------------------
+	// 当たり判定で使用する関数
 	// プレイヤー座標ゲッター
 	D3DXVECTOR2 GetPos() {
 		return m_pos;
@@ -79,10 +80,16 @@ public:
 	void SetMovePos(D3DXVECTOR2 move) {
 		m_move = move;
 	}
+
+	// 生存フラグゲッター
+	bool GetIsAlive() {
+		return is_alive;
+	}
 	//-----------------------------------------------------
 
 
-	// 状態遷移（各State）で使用する関数 ------------------
+	//-----------------------------------------------------
+	// 状態遷移（各State）で使用する関数
 	// 状態切り替え
 	void ChangeState(PlayerStateBase* state) {
 		m_state = state;
@@ -93,6 +100,15 @@ public:
 	void ResetAnimationNumber() {
 		m_animation_num = 0;
 	}
+
+	// 重力負荷
+	void AddGravity();
+
+	// X方向向き変更
+	void AngleAdjust(bool is_move_right);
+
+	// 泳ぐ（ジャンプ）、傾いてる向きに移動
+	void SwimUp();
 
 	// 状態画像セッター
 	void SetPlayerTexture(std::string new_player_texture) {
@@ -122,19 +138,15 @@ public:
 		return m_stamina;
 	}
 
-	// スタミナセッター
+	// スタミナ減算
 	void DecStamina(int dec_sutamina_num) {
 		m_stamina -= dec_sutamina_num;
+	}	
+
+	// is_aliveをfalseに変更
+	void DisableIsAlive() {
+		is_alive = false;
 	}
-
-	// 泳ぐ（ジャンプ）、傾いてる向きに移動
-	void SwimUp();
-
-	// 重力負荷
-	void AddGravity();
-
-	// X方向向き変更
-	void AngleAdjust(bool is_move_right);
 	//-----------------------------------------------------
 
 
@@ -146,9 +158,9 @@ public:
 
 	// 自機と敵との当たり判定後の処理(点滅させる)
 	void HitAction(Type type)override;
-	
-protected:
+		
 
+private:
 	//-----------------------------------------------------
 	// ゲーム内パラメータ用定数
 	// 1フレームごとの画面下への移動量、重力負荷に使用
@@ -176,7 +188,7 @@ protected:
 	// 分割画像Y枚数
 	const int TEXTURE_PARTITION_Y_NUMBER = TEXTURE_PARTITION_X_NUMBER;
 	//-----------------------------------------------------
-	
+
 	// 変数 ------------------------------------------------
 	// 画像格納用
 	// HACK:自機が2種類分あるので工夫する必要がある
@@ -189,7 +201,6 @@ protected:
 	float m_character_angle;
 	//-----------------------------------------------------
 
-private:
 	// 状態遷移用タイマー
 	int m_state_change_timer;
 
@@ -198,6 +209,9 @@ private:
 
 	// スタミナ
 	int m_stamina;
+
+	// 生存フラグ（DeathStateで当たり判定を取らないようにするため）
+	bool is_alive;
 
 	// 被弾時点滅用描画切り替え
 	bool m_draw_enable;
