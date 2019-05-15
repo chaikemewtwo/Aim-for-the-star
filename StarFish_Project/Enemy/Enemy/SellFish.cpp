@@ -8,18 +8,11 @@ SellFish::SellFish(D3DXVECTOR2 pos, MapChip* map_chip, bool no_move) {
 	m_pos.y = pos.y;
 	m_no_move = no_move;
 
-	Init();
-}
-//―――――――――――――――――――――――
-
-void SellFish::Init() {
-	m_pstate_base = Wait::GetInstance();
-	
 	m_speed = 5;
 	m_power = 15;			//　攻撃力の値は仮
 	m_max_animation = 2;
 	m_anim_change_time = 20;
-	m_enemy_type = SELLFISH_ID;	
+	m_enemy_type = SELLFISH_ID;
 
 	if (m_pos.x < (WINDOW_W_F / 2)) {
 		m_is_left = true;
@@ -86,10 +79,5 @@ void SellFish::Draw() {
 		AnimationDraw(m_max_animation, m_anim_change_time);
 		break;
 	}
-}
-//―――――――――――――――――――――――
-
-void SellFish::ChangeState(StateBase* state) {
-	m_pstate_base = state;
 }
 //―――――――――――――――――――――――

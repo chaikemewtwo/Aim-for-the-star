@@ -4,7 +4,6 @@
 #include"../../CollisionObject/CircleCollisionObject.h"
 #include"../../Map/MapChip/MapChip.h"
 #include"../State/EnemyStateBase.h"
-#include"../State/EnemyWaitState.h"
 
 
 // 敵の種類
@@ -32,10 +31,7 @@ public:
 	EnemyBase();
 	virtual ~EnemyBase() {}
 
-	// 初期化《変更予定》
-	virtual void Init() = 0;						
-	virtual void ChangeState(StateBase* state) = 0;
-
+	virtual void ChangeState(StateBase* state);
 	// 画面外に出たらm_is_deadをtrueにする関数
 	virtual void  OutScreen();
 	// 敵のインスタンスを返す関数
@@ -49,7 +45,6 @@ public:
 	// 左右どちらにいるか判定フラグのゲッター
 	virtual bool IsLeft();
 	virtual int GetEnemyType();
-	// 現在のStateIdのセッター
 	virtual void SetStateId(StateId state_id);
 
 	Type GetObjectType()const override {
@@ -67,6 +62,7 @@ protected:
 	int m_anim_change_time;		// アニメーションの速度
 	int m_max_animation;		// 使用するアニメーション数
 
+	StateBase* m_pstate_base;	// 状態を保存する変数
 	MapChip* m_pmap;
 
 	const int TEX_PARTITION_NUM2 = 2;	// 画像の分割数　　2分割

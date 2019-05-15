@@ -11,22 +11,11 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, MapChip* map_chip, bool no_move) {
 	// m_no_moveには基本的にデフォルトのfalseが入る
 	m_no_move = no_move;
 
-	Init();
-}
-//――――――――――――――――――――――――――
-
-// 初期化関数
-void SeaUrchin::Init() {
-	// StateをWaitで初期化
-	m_pstate_base = Wait::GetInstance();
-
-	// 変数の初期化
 	m_speed = 2;
 	m_power = 5;			// 攻撃力は仮の数値
 	m_max_animation = 4;
 	m_anim_change_time = 20;
 
-	// 敵の種類を設定
 	m_enemy_type = SEAURCHIN_ID;
 
 	if (m_pos.x < (WINDOW_W_F / 2)) {
@@ -36,7 +25,7 @@ void SeaUrchin::Init() {
 		m_is_left = false;
 	}
 }
-//―――――――――――――――――――――――――――
+//――――――――――――――――――――――――――
 
 // 更新関数
 void SeaUrchin::Update() {
@@ -59,11 +48,5 @@ void SeaUrchin::Draw() {
 		m_animation_num);
 
 	AnimationDraw(m_max_animation, m_anim_change_time);
-}
-//―――――――――――――――――――――――――――
-
-// 遷移関数
-void SeaUrchin::ChangeState(StateBase* state) {
-	m_pstate_base = state;
 }
 //―――――――――――――――――――――――――――
