@@ -9,8 +9,11 @@
 Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	Keybord& kb = Keybord::getInterface();
 
+	// 生存フラグ
+	is_alive = true;
+
 	// 移動速度
-	m_speed = 2.f;
+	m_speed = 3.f;
 
 	// 傾き
 	m_character_angle = 0.f;
@@ -22,7 +25,7 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	m_move.x = 0.f;
 	m_move.y = 0.f;
 
-	// 待機状態初期化
+	// 状態推移初期化
 	m_state->Init(this);
 
 	// スタミナ
@@ -35,8 +38,8 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	// 自機1（ヒくん、オレンジの方）
 	if (id == STAR_1) {
 		// 位置
-		m_pos.x = WINDOW_W / 2 - 200.f;
-		m_pos.y = WINDOW_H / 2;
+		m_pos.x = STAR_1_FIRST_POS_X;
+		m_pos.y = STAR_1_FIRST_POS_Y;
 
 		// 操作
 		imput_button_name[LEFT_KEY][256] = 'A';
@@ -52,12 +55,11 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 		//star_texture_name[PULL_ROPE_TEXTURE][256] = "Resource/de_swim.png";
 		//star_texture_name[DEATH_TEXTURE][256] = "Resource/de_swim.png";
 	}
-
 	// 自機2（デちゃん、ピンクの方）
 	else if (id == STAR_2) {
 		// 位置
-		m_pos.x = WINDOW_W / 2 + 200.f;
-		m_pos.y = WINDOW_H / 2;
+		m_pos.x = STAR_2_FIRST_POS_X;
+		m_pos.y = STAR_2_FIRST_POS_Y;
 
 		// 操作
 		imput_button_name[LEFT_KEY][256] = VK_LEFT;
@@ -73,14 +75,13 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 		//star_texture_name[PULL_ROPE_TEXTURE][256] = "Resource/de_swim.png";
 		//star_texture_name[DEATH_TEXTURE][256] = "Resource/de_swim.png";
 	}
+	// WaitState初回のみ画像の初期化をしてやる（画像の初期化がWaitStateが生成されるタイミングより遅いため）
+	// HACK:もっといい書き方ありそう
+	m_player_texture = star_texture_name[WAIT_TEXTURE][256];
 }
 
 
 void Player::Update() {
-	// ステート更新
-	// 内部の処理は各ステート内で管理しています
-	m_state->Update(this);
-
 	// 移動を加算
 	m_pos += m_move;
 
@@ -95,6 +96,11 @@ void Player::Update() {
 	else {
 		m_stamina = MAX_STAMINA;
 	}
+
+
+	// ステート更新
+	// 内部の処理は各ステート内で管理しています
+	m_state->Update(this);
 }
 
 
@@ -153,7 +159,24 @@ void Player::SwimUp() {
 
 // 自機と敵との当たり判定後の処理(点滅処理へ移行)
 void  Player::HitAction(Type type) {
-	if (type == ENEMY) {
-		
+	if (type == ENEMY && invisible_count < 200) {
+		// 数値は仮実装
+		// 無敵時間
+		invisible_count = 200;
+		m_stamina -= 300;
+		GetDamageTimer();
+	}
+}
+
+
+void Player::GetDamageTimer() {
+	--invisible_count;
+	if (invisible_count % 25 == 0) {
+		if (m_draw_enable == true) {
+			m_draw_enable = false;
+		}
+		else {
+			m_draw_enable = true;
+		}
 	}
 }

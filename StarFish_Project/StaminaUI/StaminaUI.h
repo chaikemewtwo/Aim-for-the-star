@@ -25,6 +25,9 @@ private:
 	// ゲージの量
 	const float ALL_GAGE = GAGE_UNDER_POS - GAGE_MAX_POS;
 
+	// 
+	const float RIGHT_GAGE_POS = WINDOW_W - 132.f;
+
 	// 自機1
 	Player * p1;
 	// 自機2
