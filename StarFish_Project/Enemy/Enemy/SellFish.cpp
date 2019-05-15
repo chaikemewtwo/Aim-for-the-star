@@ -1,8 +1,8 @@
 ﻿#include"SellFish.h"
 
 
-SellFish::SellFish(D3DXVECTOR2 pos, MapTip* map_tip, bool no_move) {
-	m_pmap = map_tip;
+SellFish::SellFish(D3DXVECTOR2 pos, MapChip* map_chip, bool no_move) {
+	m_pmap = map_chip;
 
 	m_pos.x = pos.x;
 	m_pos.y = pos.y;
