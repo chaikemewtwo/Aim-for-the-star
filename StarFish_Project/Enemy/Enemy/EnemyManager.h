@@ -5,8 +5,6 @@
 #include"../../Map/MapChip/MapChip.h"
 #include"EnemyBase.h"
 
-class EnemyBase;
-
 
 class EnemyManager {
 public:
