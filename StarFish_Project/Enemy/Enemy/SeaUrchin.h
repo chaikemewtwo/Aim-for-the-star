@@ -7,7 +7,7 @@
 class SeaUrchin :public EnemyBase {
 public:
 	// コンストラクタの引数に初期位置を入れる
-	SeaUrchin(D3DXVECTOR2 pos, MapTip* map_tip, bool no_move = false);
+	SeaUrchin(D3DXVECTOR2 pos, MapChip* map_chip, bool no_move = false);
 	~SeaUrchin()override {}	
 
 	void Init()override;

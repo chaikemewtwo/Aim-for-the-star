@@ -6,7 +6,7 @@
 #include"../Enemy/Enemy/EnemyManager.h"
 #include"../Player/Player.h"
 #include"../LoadResource/LoadResource.h"
-#include"../Map/MapManager.h"
+#include"../../Map/MapChip/MapChip.h"
 #include"../SetRenderStateFile/SetRenderStateFile.h"
 
 

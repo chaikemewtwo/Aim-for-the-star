@@ -2,7 +2,7 @@
 
 #include<vector>
 #include"../../GameObject/ObjectManager/ObjectManager.h"
-#include"../../Map/MapTip.h"
+#include"../../Map/MapChip/MapChip.h"
 #include"EnemyBase.h"
 
 class EnemyBase;
@@ -15,7 +15,7 @@ public:
 	
 	void Update();	
 	void Draw();
-	void Create(D3DXVECTOR2 pos, MapTip* map_tip);
+	void Create(D3DXVECTOR2 pos, MapChip* map_tip);
 	void Delete();
 
 	// 生成されている敵の総数を返す関数

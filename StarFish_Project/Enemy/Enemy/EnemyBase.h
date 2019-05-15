@@ -2,7 +2,7 @@
 
 #include"../../Lib/Texture/TextureBoad2D.h"
 #include"../../CollisionObject/CircleCollisionObject.h"
-#include"../../Map/MapTip.h"
+#include"../../Map/MapChip/MapChip.h"
 #include"../State/EnemyStateBase.h"
 #include"../State/EnemyWaitState.h"
 
@@ -65,7 +65,7 @@ protected:
 	int m_anim_change_time;	// アニメーションの速度
 	int m_max_animation;	// 使用するアニメーション数
 
-	MapTip* m_pmap;
+	MapChip* m_pmap;
 
 	const int TEX_PARTITION_NUM2 = 2;	// 画像の分割数　　2分割
 	const float TEXTURE_SIZE_X = 0.5f;	// 描画する画像のXサイズ
