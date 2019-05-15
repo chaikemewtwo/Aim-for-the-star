@@ -15,7 +15,8 @@ void Resource::LoadResouce() {
 
 
 	// ゲームメイン----------------------------------------
-	// 自機1(デくん、オレンジ)（全て統合画像）
+	// プレイヤー（全て統合画像）
+	// 自機1(デくん、オレンジ)
 	// 待機状態
 	Texture::Load("Resource/Texture/Player/de_wait.png");
 	// 立ち待機状態
@@ -29,7 +30,7 @@ void Resource::LoadResouce() {
 	// 死亡モーション
 	Texture::Load("Resource/Texture/Player/de_die.png");
 
-	// 自機2(ヒちゃん、ピンク)（全て統合画像）
+	// 自機2(ヒちゃん、ピンク)
 	// 待機状態
 	Texture::Load("Resource/Texture/Player/hi_wait.png");
 	// 立ち待機状態						
@@ -44,9 +45,8 @@ void Resource::LoadResouce() {
 	// 死亡モーション						
 	Texture::Load("Resource/Texture/Player/hi_die.png");
 	
-	// 敵
+	// 敵（全て統合画像）
 	// ウニ
-	Texture::Load("Resource/Texture/Enemy/uni.png");
 	Texture::Load("Resource/Texture/Enemy/uni_move.png");
 
 	// ほら貝
@@ -76,10 +76,17 @@ void Resource::LoadResouce() {
 	Texture::Load("Resource/Texture/Effect/bubbles.png");
 
 	// UI
-	Texture::Load("Resource/Texture/UI/UI 岩.png");
-	Texture::Load("Resource/Texture/UI/UI　黒.png");
-	Texture::Load("Resource/Texture/UI/UI　紫バー.png");
-	Texture::Load("Resource/Texture/UI/UI　橙バー.png");
+	// 岩
+	// 左
+	Texture::Load("Resource/Texture/UI/ui_lef.png");
+	// 右
+	Texture::Load("Resource/Texture/UI/ui_rig.png");
+	// 黒バー
+	Texture::Load("Resource/Texture/UI/ui_bla.png");
+	// 紫バー
+	Texture::Load("Resource/Texture/UI/ui_vio.png");
+	// 橙バー
+	Texture::Load("Resource/Texture/UI/ui_ora.png");
 	//-----------------------------------------------------
 
 

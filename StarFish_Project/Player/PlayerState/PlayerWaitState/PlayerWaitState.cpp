@@ -39,7 +39,7 @@ void PlayerWaitState::Update(Player* p) {
 	}
 
 	// スタミナが泳ぐのに必要なスタミナを満たしている&泳ぐコマンド入力
-	if (p->GetStamina() >= TO_SWIM_NEEDED_STAMINA && kb.press(p->imput_button_name[p->SWIM_KEY][256])) {
+	if (/*p->GetStamina() >= TO_SWIM_NEEDED_STAMINA &&*/ kb.press(p->imput_button_name[p->SWIM_KEY][256])) {
 		// スタミナ減算
 		p->DecStamina(TO_SWIM_NEEDED_STAMINA);
 
