@@ -32,9 +32,7 @@ struct tagMapChip {
 
 // 各オブジェクトの前方参照
 class EnemyManager;
-class Star1;
-class Star2;
-class PlayerBase;
+class Player;
 
 
 // 海マップ
@@ -42,7 +40,7 @@ class MapChip : public Object {
 public:
 
 
-	MapChip(Star1*star1,Star2*star2,EnemyManager*e_mng);
+	MapChip(Player*star1,Player*star2,EnemyManager*e_mng);
 
 	// 更新関数
 	void Update();
@@ -126,7 +124,7 @@ private:
 	float m_scroll_range_down;             // スクロールライン下
 	bool m_is_scroll;
 	/* 各オブジェクトの参照 */	   	       
-	PlayerBase * m_pbase[2];               // 自機2体  
+	Player * m_pbase[2];               // 自機2体  
 	EnemyManager * e_pmng;                 // 敵の状態
 	// ジャンプフラグ
 	bool m_is_jamp;

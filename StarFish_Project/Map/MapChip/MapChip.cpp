@@ -4,10 +4,8 @@
 #include"../../Lib/Texture/TextureBoad2D.h"
 #include"../../Lib/Input/KeyBord.h"
 #include"../MapChip/MapChip.h"
-#include"../../Player/Star1/Star1.h"
-#include"../../Player/Star2/Star2.h"
-#include"../../DebugFont/oxdebugfont.h"
-#include"../../ProtoTypeEnemy/EnemyManager.h"
+#include"../../Player/Player.h"
+#include"../../Enemy/Enemy/EnemyManager.h"
 
 // バグの報告
 
@@ -32,7 +30,7 @@
 
 
 // コンストラクタ
-MapChip::MapChip(Star1*star1,Star2*star2,EnemyManager*e_mng) {
+MapChip::MapChip(Player*star1,Player*star2,EnemyManager*e_mng) {
 
 	// 自機の参照受け取り
 	m_pbase[0] = star1;
@@ -200,7 +198,7 @@ void MapChip::Draw() {
 
 		}
 	}
-
+	/*
 		OX::DebugFont::print(
 			500,
 			480,
@@ -278,7 +276,7 @@ void MapChip::Draw() {
 			"PLAYER_POS_X => %f",
 			m_obj_pos[0].x
 		);
-
+		*/
 }
 
 
