@@ -161,6 +161,8 @@ public:
 		
 
 private:
+	void GetDamageTimer();
+
 	//-----------------------------------------------------
 	// ゲーム内パラメータ用定数
 	// 1フレームごとの画面下への移動量、重力負荷に使用
@@ -171,6 +173,14 @@ private:
 
 	// 向き変更時最大角度（ヒトデの頭の向きの左右の最大角度）
 	const float MAX_ANGLE = 45.f;
+
+	// STAR_1の初期位置
+	const float STAR_1_FIRST_POS_X = (float)WINDOW_W / 2.f - 200.f;
+	const float STAR_1_FIRST_POS_Y = (float)WINDOW_H / 2.f + 200.f;
+
+	// STAR_2の初期位置
+	const float STAR_2_FIRST_POS_X = (float)WINDOW_W / 2.f + 200.f;
+	const float STAR_2_FIRST_POS_Y = (float)WINDOW_H / 2.f + 200.f;
 	//-----------------------------------------------------
 
 	//-----------------------------------------------------
@@ -215,4 +225,7 @@ private:
 
 	// 被弾時点滅用描画切り替え
 	bool m_draw_enable;
+
+	// 無敵時間
+	int invisible_count;
 };

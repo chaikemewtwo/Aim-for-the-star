@@ -39,6 +39,7 @@ void PlayerWaitState::Update(Player* p) {
 	}
 
 	// スタミナが泳ぐのに必要なスタミナを満たしている&泳ぐコマンド入力
+	// マップデバッグ用に無限に泳げる
 	if (/*p->GetStamina() >= TO_SWIM_NEEDED_STAMINA &&*/ kb.press(p->imput_button_name[p->SWIM_KEY][256])) {
 		// スタミナ減算
 		p->DecStamina(TO_SWIM_NEEDED_STAMINA);
@@ -47,8 +48,9 @@ void PlayerWaitState::Update(Player* p) {
 		p->ChangeState(PlayerSwimState::GetInstance());		
 	}
 
-	if (p->GetStamina() <= 0) {
-		// 死亡状態へ移行
-		p->ChangeState(PlayerDeathState::GetInstance());
-	}
+	// 死亡状態に不具合があったのでスタミナ使い切っても死にません
+	//if (p->GetStamina() <= 0) {
+	//	// 死亡状態へ移行
+	//	p->ChangeState(PlayerDeathState::GetInstance());
+	//}
 }

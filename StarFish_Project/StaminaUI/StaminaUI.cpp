@@ -15,16 +15,19 @@ void StaminaUI::Update(){
 
 void StaminaUI::Draw() {
 	// 黒バー
-	Texture::Draw2D("Resource/Texture/UI/UI　黒.png", 0.f, 0.f);
+	Texture::Draw2D("Resource/Texture/UI/ui_bla.png", 0.f, GAGE_MAX_POS);
+	// 黒バー
+	Texture::Draw2D("Resource/Texture/UI/ui_bla.png", RIGHT_GAGE_POS, GAGE_MAX_POS);
 
 	// オレンジバー
-	Texture::Draw2D("Resource/Texture/UI/UI　橙バー.png", 0.f, GagePosYCalc(p1_stamina_parcent));
+	Texture::Draw2D("Resource/Texture/UI/ui_ora.png", 0.f, GagePosYCalc(p1_stamina_parcent));
 	
 	// ピンクバー
-	Texture::Draw2D("Resource/Texture/UI/UI　紫バー.png", 0.f, GagePosYCalc(p2_stamina_parcent));
+	Texture::Draw2D("Resource/Texture/UI/ui_vio.png", RIGHT_GAGE_POS, GagePosYCalc(p2_stamina_parcent));
 	
 	// 岩
-	Texture::Draw2D("Resource/Texture/UI/UI 岩.png", 0.f, 0.f);
+	Texture::Draw2D("Resource/Texture/UI/ui_lef.png", 0.f, 0.f);
+	Texture::Draw2D("Resource/Texture/UI/ui_rig.png", WINDOW_W - 196.f, 0.f);
 }
 
 
