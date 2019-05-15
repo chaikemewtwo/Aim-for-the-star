@@ -94,7 +94,7 @@ int EnemyManager::GetEnemyTotal() {
 }
 //――――――――――――――――――――――――――――
 
-void EnemyManager::GetEnemyInstance(int num) {
-	m_enemy_list[num]->GetInstance();
+EnemyBase* EnemyManager::GetEnemyInstance(int num) {
+	return m_enemy_list[num]->GetInstance();
 }
 //――――――――――――――――――――――――――――

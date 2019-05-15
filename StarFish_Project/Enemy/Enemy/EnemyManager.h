@@ -21,7 +21,7 @@ public:
 	// 生成されている敵の総数を返す関数
 	int GetEnemyTotal();	
 	// 敵の指定された敵の関数を返す関数
-	void GetEnemyInstance(int num);
+	EnemyBase* GetEnemyInstance(int num);
 
 private:
 	// 敵の生成最大数(仮)
