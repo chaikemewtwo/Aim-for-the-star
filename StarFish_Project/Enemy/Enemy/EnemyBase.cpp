@@ -1,20 +1,26 @@
 ﻿#include"../../Lib/Window/Window.h"
+#include"../State/EnemyWaitState.h"
 #include"EnemyBase.h"
+
 
 EnemyBase::EnemyBase() {
 	m_delete_timer = 60;
 	m_max_animation = 0;
 	m_enemy_type = ENEMY_TYPE_MAX;
 	m_stateid = STATEID_MAX;
+	m_pstate_base = Wait::GetInstance();
 }
 //―――――――――――――――――――――
+
+void EnemyBase::ChangeState(StateBase* state) {
+	m_pstate_base = state;
+}
 
 void EnemyBase::OutScreen() {
 	// 画面外に出たら、削除までの時間をカウントダウン
 	if (m_pos.y > WINDOW_H_F || m_pos.x<0 || m_pos.x>WINDOW_W_F) {
 		if (m_delete_timer >= 0) {
 			m_delete_timer--;
-			// 時間が0になったら削除フラグをtrueに
 			if (m_delete_timer <= 0) {
 				m_is_active = false;
 			}

@@ -3,6 +3,7 @@
 #include"SeaUrchin.h"
 #include"SellFish.h"
 
+
 EnemyManager::EnemyManager(ObjectManager* obg_mng) {
 	m_pobj_mng = obg_mng;
 	// ランダム生成のためのシード値設定
@@ -22,13 +23,6 @@ EnemyManager::~EnemyManager() {
 
 // 更新関数
 void EnemyManager::Update() {
-	// 仮の座標生成(まだObjectManagerで渡せないのでここで座標生成)
-	D3DXVECTOR2 pos;
-	pos.x = (float)(rand() % (WINDOW_W_INT - 100));
-	pos.y = (float)(rand() % (WINDOW_H_INT - 100));
-	// Createはマップで呼び出される。第二引数に入れるものがないのでコメントアウト
-	//Create(pos,);
-	
 	Delete();
 }
 //―――――――――――――――――――――――――――
@@ -46,25 +40,21 @@ void EnemyManager::Draw() {
 
 // 敵生成の関数
 void EnemyManager::Create(D3DXVECTOR2 pos, MapChip* map_chip) {
-	// 敵の最大数と配列サイズの差分を保存
-	int diff = Enemy_Max_Num - m_enemy_list.size();
-
-	// 差分だけ配列を回す
-	for (int num = 0; num < diff; num++) {
-			// 一定の確率で敵を生成
-			if (rand() % 100 == 0) {
-				// ランダムに割り出したxyを使用して敵を登録
-				m_enemy_list.emplace_back(new SeaUrchin(pos, map_chip));
-				m_pobj_mng->Entry(m_enemy_list.back());
-			}
-			else if (rand() % 100 == 5) {
-				m_enemy_list.emplace_back(new SeaUrchin(pos, map_chip, true));
-				m_pobj_mng->Entry(m_enemy_list.back());
-			}
-			else if (rand() % 100 == 3) {
-				m_enemy_list.emplace_back(new SellFish(pos, map_chip));
-				m_pobj_mng->Entry(m_enemy_list.back());
-			}
+	if(m_enemy_list.size()<Enemy_Max_Num){
+		// 一定の確率で敵を生成
+		if (rand() % 100 == 0) {
+			// ランダムに割り出したxyを使用して敵を登録
+			m_enemy_list.emplace_back(new SeaUrchin(pos, map_chip));
+			m_pobj_mng->Entry(m_enemy_list.back());
+		}
+		else if (rand() % 100 == 5) {
+			m_enemy_list.emplace_back(new SeaUrchin(pos, map_chip, true));
+			m_pobj_mng->Entry(m_enemy_list.back());
+		}
+		else if (rand() % 100 == 3) {
+			m_enemy_list.emplace_back(new SellFish(pos, map_chip));
+			m_pobj_mng->Entry(m_enemy_list.back());
+		}
 	}
 }
 //―――――――――――――――――――――――――――
@@ -73,8 +63,7 @@ void EnemyManager::Create(D3DXVECTOR2 pos, MapChip* map_chip) {
 void EnemyManager::Delete() {
 	// 削除ループ
 	for (auto it = m_enemy_list.begin(); it != m_enemy_list.end();) {
-		// デッドフラグがtrueであれば、該当の要素を削除
-		if ((*it)->IsActive() == true) {
+		if ((*it)->IsActive() == false) {
 			// 生成時に登録されているIdで、Object配列側の要素を指定
 			m_pobj_mng->Exit((*it)->GetId());
 			delete (*it);
@@ -95,6 +84,9 @@ int EnemyManager::GetEnemyTotal() {
 //――――――――――――――――――――――――――――
 
 EnemyBase* EnemyManager::GetEnemyInstance(int num) {
-	return m_enemy_list[num]->GetInstance();
+	if (m_enemy_list[num] != nullptr) {
+		return m_enemy_list[num]->GetInstance();
+	}
+	return nullptr;
 }
 //――――――――――――――――――――――――――――
