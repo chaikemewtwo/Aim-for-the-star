@@ -5,11 +5,13 @@
 // 死亡状態
 // 初期化
 void PlayerDeathState::Init(Player* p) {
+	p->DisableIsAlive();
+
 	// アニメーション番号
 	p->ResetAnimationNumber();
 
 	// 状態画像変更
-	p->SetPlayerTexture("Resource/de_wait.png");
+	p->SetPlayerTexture(p->star_texture_name[p->DEATH_TEXTURE][256]);
 }
 
 
