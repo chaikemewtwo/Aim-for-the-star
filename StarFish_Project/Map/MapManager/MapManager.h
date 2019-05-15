@@ -12,8 +12,7 @@
 
 // 前方参照
 class EnemyManager;
-class Star1;
-class Star2;
+class Player;
 class MapChip;
 
 // マップ管理
@@ -21,7 +20,7 @@ class MapManager {
 public:
 
 	// EnemyManagerも入れる
-	MapManager(Star1*star1, Star2*star2, EnemyManager*e_mng);
+	MapManager(Player*star1,Player*star2, EnemyManager*e_mng);
 
 	~MapManager();
 
