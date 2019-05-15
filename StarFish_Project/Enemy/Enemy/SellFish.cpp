@@ -46,27 +46,43 @@ void SellFish::Draw() {
 		m_max_animation = 2;
 
 		Texture::Draw2D(
-			"Resource/hora_wait.png",
+			"Resource/Texture/Enemy/hora_wait.png",
 			m_pos.x, m_pos.y,
 			TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
 			m_angle, 0.5, 0.5,
 			true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
-			m_animation_num);
-
+			m_animation_num
+		);
 		AnimationDraw(m_max_animation, m_anim_change_time);
 		break;
+
+	case ATTACK_READY_ID:
+		m_anim_change_time = 10;
+		m_max_animation = 2;
+
+		Texture::Draw2D(
+			"Resource/Texture/Enemy/hora_ready.png",
+			m_pos.x, m_pos.y,
+			TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
+			m_angle, 0.5, 0.5,
+			true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
+			m_animation_num
+		);
+		AnimationDraw(m_max_animation, m_anim_change_time);
+		break;
+
 	case SIDEMOVE_ID:
 		m_anim_change_time = 5;
 		m_max_animation = 4;
 
 		Texture::Draw2D(
-			"Resource/hora_attack.png",
+			"Resource/Texture/Enemy/hora_attack.png",
 			m_pos.x, m_pos.y,
 			TEXTURE_SIZE_X, TEXTURE_SIZE_Y, 
 			m_angle, 0.5, 0.5,
 			true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
-			m_animation_num);
-
+			m_animation_num
+		);
 		AnimationDraw(m_max_animation, m_anim_change_time);
 		break;
 	}

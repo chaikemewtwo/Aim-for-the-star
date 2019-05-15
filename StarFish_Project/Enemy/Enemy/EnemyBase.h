@@ -12,14 +12,16 @@ enum EnemyTypeId {
 	SEAURCHIN_ID,		// ウニ
 	SELLFISH_ID,		// ほら貝
 	NAPOLEONFISH_ID,	// ナポレオンフィッシュ
-	//EnemyTypeMax		// 敵種の最大数
+	ENEMY_TYPE_MAX
 };
 
 // 敵の状態識別Id
 enum StateId {
 	WAIT_ID,			// 待機
 	SIDEMOVE_ID,		// 横線移動
-	VERTICALMOVE_ID		// 縦線移動
+	VERTICALMOVE_ID,	// 縦線移動
+	ATTACK_READY_ID,	// 攻撃準備
+	STATEID_MAX
 };
 
 
@@ -55,15 +57,15 @@ public:
 	}
 
 protected:
-	int m_power;			// 攻撃力
-	int m_delete_timer;		// 削除用タイマー
-	bool m_no_move;			// 移動するかのフラグ
-	bool m_is_left;			// 画面中央から左右どちらにいるかのフラグ
-	int m_enemy_type;		// 敵の種類
-	int m_stateid;			// 現在のStateId
-	float m_angle;			// 描画角度
-	int m_anim_change_time;	// アニメーションの速度
-	int m_max_animation;	// 使用するアニメーション数
+	int m_power;				// 攻撃力
+	int m_delete_timer;			// 削除用タイマー
+	bool m_no_move;				// 移動するかのフラグ
+	bool m_is_left;				// 画面中央から左右どちらにいるかのフラグ
+	EnemyTypeId m_enemy_type;	// 敵の種類
+	StateId m_stateid;			// 現在のStateId
+	float m_angle;				// 描画角度
+	int m_anim_change_time;		// アニメーションの速度
+	int m_max_animation;		// 使用するアニメーション数
 
 	MapChip* m_pmap;
 

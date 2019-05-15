@@ -4,6 +4,8 @@
 EnemyBase::EnemyBase() {
 	m_delete_timer = 60;
 	m_max_animation = 0;
+	m_enemy_type = ENEMY_TYPE_MAX;
+	m_stateid = STATEID_MAX;
 }
 //―――――――――――――――――――――
 

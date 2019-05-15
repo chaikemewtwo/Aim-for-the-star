@@ -51,7 +51,7 @@ void SeaUrchin::Update() {
 void SeaUrchin::Draw() {
 
 	Texture::Draw2D(
-		"Resource/uni_move.png",
+		"Resource/Texture/Enemy/uni_move.png",
 		m_pos.x, m_pos.y,
 		TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
 		0,0.5f, 0.5f,
