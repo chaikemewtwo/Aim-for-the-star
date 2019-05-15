@@ -51,7 +51,9 @@ public:
 
 	// Object生成
 	void ObjectCreate();
-	
+	// Object削除
+	void ObjectDestory();
+
 	// アクセサ
 	D3DXVECTOR2 GetMapPos()const;
 	D3DXVECTOR2 GetMapMovePos()const;
@@ -70,7 +72,9 @@ private:
 
 	/* 描画遷移関係 */
 	// 描画範囲に入っているか入っていないか判断する関数
-	int DrawLineIsActive(float&pos_y, float&move_y, float up_range, float down_range);
+	int DrawLineIsActive(float&pos_y,float&move_y,float up_range,float down_range);
+	// スクロールしてもいいかどうか
+	bool IsRelativeScroll(float pos_y1, float pos_y2,float move_pos_y1,float move_pos_y2);
 	// 地面に着地する点
 	void LandOnTheGround();
 
@@ -112,7 +116,7 @@ private:
 
 	/* マップ座標 */
 	D3DXVECTOR2 m_obj_pos[2];              // 自機の位置
-	D3DXVECTOR2 m_move_pos[2];             // 自機の移動ベクトル
+	D3DXVECTOR2 m_obj_move_pos[2];             // 自機の移動ベクトル
 	tagMapChip m_map[1000][1000] = {};     // 全体マップバッファ
 	/* マップ描画領域 */
 	D3DXVECTOR2 m_map_pos;                 // 描画用マップの位置              
@@ -124,7 +128,7 @@ private:
 	float m_draw_range_down;               // 後ろの描画の範囲
 	float m_scroll_range_up;               // スクロールライン上
 	float m_scroll_range_down;             // スクロールライン下
-	bool m_is_scroll;
+	bool m_is_scroll;                      // スクロールするかしないか
 	/* 各オブジェクトの参照 */	   	       
 	PlayerBase * m_pbase[2];               // 自機2体  
 	EnemyManager * e_pmng;                 // 敵の状態
