@@ -157,7 +157,6 @@ void MapChip::Update() {
 		m_pbase[i]->SetPos(m_obj_pos[i]);
 		// 自機の移動ベクトル変更
 		m_pbase[i]->SetMovePos(m_move_pos[i]);
-
 	}
 
 	// マップ関連
@@ -191,7 +190,7 @@ void MapChip::Draw() {
 			// ブロック
 			if (m_map[(m_height_map_num)-y][x].m_chip_num == 1) {
 
-				Texture::Draw2D("Resource/chip_map_image_64.png",
+				Texture::Draw2D("Resource/Texture/Map/chip_map_image_64.png",
 					(float)(x * CHIP_SIZE),
 					(float)(-y * CHIP_SIZE) + 1080 - m_map_pos.y);
 			}
@@ -294,7 +293,7 @@ int MapChip::DrawLineIsActive(float&pos_y, float&move_y, float up_range, float d
 		m_map_move_pos.y += move_y;// マップ座標を加算
 		return 1;
 	}
-	// 下の遷移基準
+	// 下の遷移基準s
 	else if (pos_y > down_range) {
 		
 		pos_y = down_range;
@@ -488,7 +487,7 @@ void MapChip::NowPosYFixToMapPos(float &pos_y, float &move_y) {
 		// 縮小する時
 		if (SHRINK_Y > 0.f) {
 			// 修正
-			pos_y += (CHIP_SIZE - SHRINK_Y + 0.5f);
+			pos_y += (CHIP_SIZE - SHRINK_Y - move_y);
 		}
 
 		// スクロール範囲に入っていれば

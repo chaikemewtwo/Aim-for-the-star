@@ -20,7 +20,7 @@ ObjectManager::ObjectManager(){
 	// スタミナUI生成
 	Entry(m_pstamina_ui = new StaminaUI(m_pplayer[0], m_pplayer[1]));
 	// マップ管理生成
-	m_pm_mng = new MapManager(m_pplayer[0], m_pplayer[1],m_pe_mng);
+	m_pm_mng = new MapManager(m_pplayer[0],m_pplayer[1],m_pe_mng);
 	// 当たり判定管理を作る
 	m_pcol_mng = new CollisionManager(m_pplayer[0],m_pplayer[1],m_pe_mng);
 }
