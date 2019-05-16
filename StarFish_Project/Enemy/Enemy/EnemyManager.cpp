@@ -42,20 +42,22 @@ void EnemyManager::Draw() {
 // 敵生成の関数
 void EnemyManager::EnemyCreate(D3DXVECTOR2 pos, MapChip* map_chip) {
 	if (m_enemy_list.size() < Enemy_Max_Num) {
+		// 当たり判定の確認のため、不動ウニのみ生成してます。
+
 		// 一定の確率で敵を生成
-		if (rand() % 100 == 0) {
-			// ランダムに割り出したxyを使用して敵を登録
-			m_enemy_list.emplace_back(new SeaUrchin(pos, map_chip));
-			m_pobj_mng->Entry(m_enemy_list.back());
-		}
-		else if (rand() % 100 == 5) {
+		//if (rand() % 100 == 0) {
+		//	// ランダムに割り出したxyを使用して敵を登録
+		//	m_enemy_list.emplace_back(new SeaUrchin(pos, map_chip));
+		//	m_pobj_mng->Entry(m_enemy_list.back());
+		//}
+		//else if (rand() % 100 == 5) {
 			m_enemy_list.emplace_back(new SeaUrchin(pos, map_chip, true));
 			m_pobj_mng->Entry(m_enemy_list.back());
-		}
-		else if (rand() % 100 == 3) {
-			m_enemy_list.emplace_back(new SellFish(pos, map_chip));
-			m_pobj_mng->Entry(m_enemy_list.back());
-		}
+		//}
+		//else if (rand() % 100 == 3) {
+		//	m_enemy_list.emplace_back(new SellFish(pos, map_chip));
+		//	m_pobj_mng->Entry(m_enemy_list.back());
+		//}
 	}
 }
 //―――――――――――――――――――――――――――
