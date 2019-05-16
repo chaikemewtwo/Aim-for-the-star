@@ -51,6 +51,10 @@
     <ClCompile Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.cpp" />
+    <ClCompile Include="Rope\Rope.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SetRenderStateFile\SetRenderStateFile.cpp" />
     <ClCompile Include="StaminaUI\StaminaUI.cpp">
       <SubType>
@@ -93,6 +97,10 @@
     <ClInclude Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.h" />
     <ClInclude Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.h" />
     <ClInclude Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.h" />
+    <ClInclude Include="Rope\Rope.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="SetRenderStateFile\SetRenderStateFile.h" />
     <ClInclude Include="StaminaUI\StaminaUI.h">
       <SubType>

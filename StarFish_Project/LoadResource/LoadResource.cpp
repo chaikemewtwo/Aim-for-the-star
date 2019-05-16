@@ -41,9 +41,11 @@ void Resource::LoadResouce() {
 	Texture::Load("Resource/Texture/Player/hi_hang_wait.png");
 	// 投げるモーション					   
 	Texture::Load("Resource/Texture/Player/hi_throw.png");
-	
 	// 死亡モーション						
 	Texture::Load("Resource/Texture/Player/hi_die.png");
+
+	// ヒモ
+	Texture::Load("Resource/Texture/Player/himo.png");
 	
 	// 敵（全て統合画像）
 	// ウニ

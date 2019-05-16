@@ -25,8 +25,10 @@ private:
 	// ゲージの量
 	const float ALL_GAGE = GAGE_UNDER_POS - GAGE_MAX_POS;
 
-	// 
+	// 右ゲージの位置
 	const float RIGHT_GAGE_POS = WINDOW_W - 132.f;
+	// 右岩の位置
+	const float RIGHT_ROCK_POS = WINDOW_W - 196.f;
 
 	// 自機1
 	Player * p1;
@@ -37,7 +39,4 @@ private:
 	float p1_stamina_parcent;
 	// 自機2のスタミナの割合
 	float p2_stamina_parcent;
-
-	// テスト用
-	float y;
 };

@@ -27,7 +27,7 @@ void StaminaUI::Draw() {
 	
 	// 岩
 	Texture::Draw2D("Resource/Texture/UI/ui_lef.png", 0.f, 0.f);
-	Texture::Draw2D("Resource/Texture/UI/ui_rig.png", WINDOW_W - 196.f, 0.f);
+	Texture::Draw2D("Resource/Texture/UI/ui_rig.png", RIGHT_ROCK_POS, 0.f);
 }
 
 
