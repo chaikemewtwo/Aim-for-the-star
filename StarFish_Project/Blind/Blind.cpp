@@ -57,7 +57,8 @@ void Blind::Draw() {
 	Texture::Draw2D(
 		"Resource/Texture/Blind/blind.png",
 		m_pos.x, m_pos.y,
-		0.5, 0.5, m_angle, 0.5, 0.5,
+		0.5, 0.5, 
+		m_angle, 0, 0,
 		true, TEX_PARTITION_NUM, TEX_PARTITION_NUM,
 		m_animation_num);
 	AnimationDraw(m_max_animation, m_anim_change_time);

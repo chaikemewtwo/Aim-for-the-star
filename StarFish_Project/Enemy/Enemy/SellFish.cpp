@@ -42,7 +42,7 @@ void SellFish::Draw() {
 			"Resource/Texture/Enemy/hora_wait.png",
 			m_pos.x, m_pos.y,
 			TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
-			m_angle, 0.5, 0.5,
+			m_angle, 0, 0,
 			true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
 			m_animation_num
 		);
@@ -57,7 +57,7 @@ void SellFish::Draw() {
 			"Resource/Texture/Enemy/hora_ready.png",
 			m_pos.x, m_pos.y,
 			TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
-			m_angle, 0.5, 0.5,
+			m_angle, 0, 0,
 			true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
 			m_animation_num
 		);
@@ -72,7 +72,7 @@ void SellFish::Draw() {
 			"Resource/Texture/Enemy/hora_attack.png",
 			m_pos.x, m_pos.y,
 			TEXTURE_SIZE_X, TEXTURE_SIZE_Y, 
-			m_angle, 0.5, 0.5,
+			m_angle, 0, 0,
 			true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
 			m_animation_num
 		);

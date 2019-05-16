@@ -43,7 +43,7 @@ void SeaUrchin::Draw() {
 		"Resource/Texture/Enemy/uni_move.png",
 		m_pos.x, m_pos.y,
 		TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
-		0,0.5f, 0.5f,
+		m_angle, 0, 0,
 		true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
 		m_animation_num);
 
