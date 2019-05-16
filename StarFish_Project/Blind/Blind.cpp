@@ -17,7 +17,7 @@ void Blind::Create(D3DXVECTOR2 pos, D3DXVECTOR2 goal) {
 	m_goal_pos = goal;
 
 	// 移動方向に画像が向いているように設定(Draw2D使用のために角度に直す)
-	m_angle = ((GetRadian(m_pos.x, m_pos.y, m_goal_pos.x, m_goal_pos.y) * 180) / PI) + 180;
+	m_angle = ((CalcRadian(m_pos.x, m_pos.y, m_goal_pos.x, m_goal_pos.y) * 180) / PI) + 180;
 }
 //―――――――――――――――――――――――
 

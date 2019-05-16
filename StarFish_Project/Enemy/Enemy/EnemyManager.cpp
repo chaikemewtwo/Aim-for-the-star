@@ -41,7 +41,7 @@ void EnemyManager::Draw() {
 
 // 敵生成の関数
 void EnemyManager::EnemyCreate(D3DXVECTOR2 pos, MapChip* map_chip) {
-	if(m_enemy_list.size()<Enemy_Max_Num){
+	if (m_enemy_list.size() < Enemy_Max_Num) {
 		// 一定の確率で敵を生成
 		if (rand() % 100 == 0) {
 			// ランダムに割り出したxyを使用して敵を登録
@@ -56,6 +56,7 @@ void EnemyManager::EnemyCreate(D3DXVECTOR2 pos, MapChip* map_chip) {
 			m_enemy_list.emplace_back(new SellFish(pos, map_chip));
 			m_pobj_mng->Entry(m_enemy_list.back());
 		}
+	}
 }
 //―――――――――――――――――――――――――――
 
