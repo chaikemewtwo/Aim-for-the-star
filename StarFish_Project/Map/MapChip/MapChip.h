@@ -74,7 +74,7 @@ private:
 	// 描画範囲に入っているか入っていないか判断する関数
 	int DrawLineIsActive(float&pos_y,float&move_y,float up_range,float down_range);
 	// スクロールしてもいいかどうか
-	bool IsRelativeScroll(float pos_y1, float pos_y2,float move_pos_y1,float move_pos_y2);
+	bool IsScroll(float &pos_y1, float &pos_y2);
 	// 地面に着地する点
 	void LandOnTheGround();
 
@@ -111,12 +111,15 @@ private:
 	// 縮小
 	const float SHRINK_X = 6.f;
 	const float SHRINK_Y = 6.f;
+	// チップ生成領域
+	const int CHIP_RANGE_UP = 14;
+	const int CHIP_RANGE_DOWN = 5;
 
 private:
 
 	/* マップ座標 */
-	D3DXVECTOR2 m_obj_pos[2];              // 自機の位置
-	D3DXVECTOR2 m_obj_move_pos[2];             // 自機の移動ベクトル
+	D3DXVECTOR2 m_player_pos[2];           // 自機の位置
+	D3DXVECTOR2 m_player_move_pos[2];      // 自機の移動ベクトル
 	tagMapChip m_map[1000][1000] = {};     // 全体マップバッファ
 	/* マップ描画領域 */
 	D3DXVECTOR2 m_map_pos;                 // 描画用マップの位置              
