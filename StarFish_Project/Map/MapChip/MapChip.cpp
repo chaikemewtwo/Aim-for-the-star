@@ -340,7 +340,7 @@ void MapChip::ObjectCreate() {
 
 				if (m_map[m_height_map_num - y][x].m_is_active == false){
 					// 敵生成
- 					e_pmng->Create(pos,this);
+ 					e_pmng->EnemyCreate(pos,this);
 					// マップチップ記録
 					m_map[m_height_map_num - y][x].m_is_active = true;
 				}
