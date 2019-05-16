@@ -6,8 +6,8 @@
 Blind::Blind() {
 	m_speed = 5;
 	m_angle = 0;
-	m_anim_change_time = 20;
-	m_max_animation = 2;
+	m_anim_change_time = 15;
+	m_max_animation = 3;
 }
 //―――――――――――――――――――――――
 
@@ -25,7 +25,7 @@ void Blind::Update() {
 	DeleteJudg();
 
 	// 現在地と目的地のラジアンを求める
-	float radian = GetRadian(m_pos.x, m_pos.y, m_goal_pos.x, m_goal_pos.y);
+	float radian = CalcRadian(m_pos.x, m_pos.y, m_goal_pos.x, m_goal_pos.y);
 
 	// 受け取ったラジアンで、目的地に向けて移動
 	m_pos.y += sinf(radian)*m_speed;
@@ -34,8 +34,8 @@ void Blind::Update() {
 //―――――――――――――――――――――――
 
 // 引数に求めたい角度の2点を入れる　(第1引数＝現在地、第二引数＝目的地)
-float Blind::GetRadian(float pos_x, float pos_y, float x, float y) {
-	float rad = atan2((y - pos_y), (x - pos_x));
+float Blind::CalcRadian(float from_x, float from_y, float to_x, float to_y) {
+	float rad = atan2((to_y - from_y), (to_x - from_x));
 	return rad;
 }
 //―――――――――――――――――――――――
@@ -55,9 +55,9 @@ void Blind::Draw() {
 
 	// ブラインドの小魚を描画(アニメーションあり)
 	Texture::Draw2D(
-		"Resource/hora_ready.png",
+		"Resource/Texture/Blind/blind.png",
 		m_pos.x, m_pos.y,
-		1, 1, m_angle, 0.5, 0.5,
+		0.5, 0.5, m_angle, 0.5, 0.5,
 		true, TEX_PARTITION_NUM, TEX_PARTITION_NUM,
 		m_animation_num);
 	AnimationDraw(m_max_animation, m_anim_change_time);

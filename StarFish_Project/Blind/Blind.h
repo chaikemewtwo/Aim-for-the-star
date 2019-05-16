@@ -18,7 +18,7 @@ private:
 	// 削除フラグ判定関数
 	void DeleteJudg();
 	// 2点の間の角度(ラジアン)を求める関数
-	float GetRadian(float pos_x, float pos_y, float x, float y);
+	float CalcRadian(float from_x, float from_y, float to_x, float to_y);
 
 // 変数・定数 //
 	float m_speed;				// 移動速度
@@ -32,6 +32,6 @@ private:
 	const int TEX_PARTITION_NUM = 2;
 
 	// 生存範囲のサイズ《現在は仮の数値を代入》
-	const float DELETE_WIDE_MIN = -200;
-	const float DELETE_WIDE_MAX = WINDOW_W_F + 200;
+	const float DELETE_WIDE_MIN = -600;
+	const float DELETE_WIDE_MAX = WINDOW_W_F + 600;
 };
