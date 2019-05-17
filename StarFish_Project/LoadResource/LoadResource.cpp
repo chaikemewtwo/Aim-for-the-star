@@ -58,6 +58,8 @@ void Resource::LoadResouce() {
 	Texture::Load("Resource/Texture/Enemy/megane_attack.png");
 	Texture::Load("Resource/Texture/Enemy/megane_move.png");
 
+	// ブラインド
+	Texture::Load("Resource/Texture/Blind/blind.png");
 
 	// マップ
 	Texture::Load("Resource/Texture/Map/bg_hero_01.png");
