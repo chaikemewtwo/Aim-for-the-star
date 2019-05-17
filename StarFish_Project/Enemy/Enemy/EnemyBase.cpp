@@ -34,6 +34,17 @@ void EnemyBase::OutScreen() {
 }
 //―――――――――――――――――――――
 
+float EnemyBase::CalcDistance() {
+	float player1_y_distance = m_pplayer1->GetPos().y - m_pos.y;
+	float player2_y_distance = m_pplayer2->GetPos().y - m_pos.y;
+
+	if (player1_y_distance < player2_y_distance) {
+		return player1_y_distance;
+	}
+	return player2_y_distance;
+}
+//―――――――――――――――――――――
+
 EnemyBase* EnemyBase::GetInstance() {
 	return this;
 }

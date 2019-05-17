@@ -24,7 +24,9 @@ void Wait::Action(EnemyBase* e) {
 		e->ChangeState(VerticalMove::GetInstance());
 		break;
 	case SELLFISH_ID:
-		e->ChangeState(SideMove::GetInstance());
+		if (128 > e->CalcDistance()) {
+			e->ChangeState(SideMove::GetInstance());
+		}
 		break;
 	case NAPOLEONFISH_ID:
 		// 仮でSideMoveに遷移

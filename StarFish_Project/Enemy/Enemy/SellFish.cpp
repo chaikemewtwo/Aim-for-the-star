@@ -1,8 +1,10 @@
 ﻿#include"SellFish.h"
 
 
-SellFish::SellFish(D3DXVECTOR2 pos, MapChip* map_chip, bool no_move) {
+SellFish::SellFish(D3DXVECTOR2 pos, MapChip* map_chip, Player* p1, Player* p2,bool no_move) {
 	m_pmap = map_chip;
+	m_pplayer1 = p1;
+	m_pplayer2 = p2;
 
 	m_pos.x = pos.x;
 	m_pos.y = pos.y;
@@ -17,17 +19,19 @@ SellFish::SellFish(D3DXVECTOR2 pos, MapChip* map_chip, bool no_move) {
 	if (m_pos.x < (WINDOW_W_F / 2)) {
 		m_is_left = true;
 		m_angle = 180;
+		m_center = 1;
 	}
 	else if (m_pos.x > (WINDOW_W_F / 2)) {
 		m_is_left = false;
 		m_angle = 0;
+		m_center = 0;
 	}
 }
 //―――――――――――――――――――――――
 
 void SellFish::Update() {
 	m_pstate_base->Action(this);
-	m_pos.y += m_pmap->GetMovePos();
+	//m_pos.y += m_pmap->GetMapMovePos().y;
 
 	OutScreen();
 }
@@ -43,7 +47,7 @@ void SellFish::Draw() {
 			"Resource/Texture/Enemy/hora_wait.png",
 			m_pos.x, m_pos.y,
 			TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
-			m_angle, 0, 0,
+			m_angle, m_center, m_center,
 			true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
 			m_animation_num
 		);
@@ -58,7 +62,7 @@ void SellFish::Draw() {
 			"Resource/Texture/Enemy/hora_ready.png",
 			m_pos.x, m_pos.y,
 			TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
-			m_angle, 0, 0,
+			m_angle, m_center, m_center,
 			true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
 			m_animation_num
 		);
@@ -73,7 +77,7 @@ void SellFish::Draw() {
 			"Resource/Texture/Enemy/hora_attack.png",
 			m_pos.x, m_pos.y,
 			TEXTURE_SIZE_X, TEXTURE_SIZE_Y, 
-			m_angle, 0, 0,
+			m_angle, m_center, m_center,
 			true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
 			m_animation_num
 		);

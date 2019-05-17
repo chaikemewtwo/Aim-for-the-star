@@ -3,6 +3,7 @@
 #include"../../Lib/Texture/TextureBoad2D.h"
 #include"../../CollisionObject/CircleCollisionObject.h"
 #include"../../Map/MapChip/MapChip.h"
+#include"../../Player/Player.h"
 #include"../State/EnemyStateBase.h"
 
 
@@ -34,6 +35,7 @@ public:
 	virtual void ChangeState(StateBase* state);
 	// 画面外に出たらm_is_deadをtrueにする関数
 	virtual void  OutScreen();
+	virtual float CalcDistance();
 	// 敵のインスタンスを返す関数
 	virtual EnemyBase* GetInstance();
 
@@ -59,11 +61,14 @@ protected:
 	EnemyTypeId m_enemy_type;	// 敵の種類
 	StateId m_stateid;			// 現在のStateId
 	float m_angle;				// 描画角度
+	float m_center;				// 描画頂点
 	int m_anim_change_time;		// アニメーションの速度
 	int m_max_animation;		// 使用するアニメーション数
 
 	StateBase* m_pstate_base;	// 状態を保存する変数
 	MapChip* m_pmap;
+	Player* m_pplayer1;
+	Player* m_pplayer2;
 
 	const int TEX_PARTITION_NUM2 = 2;	// 画像の分割数　　2分割
 	const float TEXTURE_SIZE_X = 0.5f;	// 描画する画像のXサイズ
