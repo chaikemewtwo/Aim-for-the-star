@@ -3,30 +3,37 @@
 
 
 Rope::Rope(Player* p_1, Player* p_2) {
-	p1 = p_1;
-	p2 = p_2;
+	m_p1 = p_1;
+	m_p2 = p_2;
 }
 
+
 void Rope::Update() {
-	p1_pos_x = p1->GetPosX();
-	p1_pos_y = p1->GetPosY();
-	p2_pos_x = p2->GetPosX();
-	p2_pos_y = p2->GetPosY();
+	m_p1_pos = m_p1->GetPos();
+	m_p2_pos = m_p2->GetPos();
+		
 }
+
 
 void Rope::Draw() {
 	Texture::Draw2D(
 		"Resource/Texture/Player/himo.png",
-		p1_pos_x,
-		p1_pos_y,
-		1.f,
-		1.f/*,
-		RopeAngleCalc()*/
+		m_p1_pos.x,
+		m_p1_pos.y,
+		0.5f,
+		0.5f,
+		AngleCalc()
 	);
 }
 
-float Rope::RopeAngleCalc() {
-	float a = (p1_pos_y - p2_pos_y) / (p1_pos_x - p2_pos_x);
-	float angle = atan(a);
+
+// HACK:自機1と2のX座標の大きさが入れ替わるとリセットされる（-の値が入らない）
+float Rope::AngleCalc() {
+	float angle = atan((m_p2_pos.y - m_p1_pos.y) / (m_p2_pos.x - m_p1_pos.x)) * (180.f / 3.14f);
 	return angle;
 }
+
+
+//float Rope::LengthAdjust(float pos_A, float pos_B) {
+//	pos_A
+//}

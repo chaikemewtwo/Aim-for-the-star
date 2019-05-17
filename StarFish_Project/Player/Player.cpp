@@ -13,7 +13,7 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	is_alive = true;
 
 	// 移動速度
-	m_speed = 3.f;
+	m_speed = 2.f;
 
 	// 傾き
 	m_character_angle = 0.f;
@@ -39,7 +39,7 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	if (id == STAR_1) {
 		// 位置
 		m_pos.x = STAR_1_FIRST_POS_X;
-		m_pos.y = STAR_1_FIRST_POS_Y;
+		m_pos.y = STAR_1_FIRST_POS_Y - 200;
 
 		// 操作
 		imput_button_name[LEFT_KEY][256] = 'A';

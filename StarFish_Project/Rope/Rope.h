@@ -2,6 +2,8 @@
 
 #include "../Player/Player.h"
 
+// ロープは650×16
+
 class Rope:public Object {
 public:
 	Rope(Player* p1,Player* p2);
@@ -10,14 +12,19 @@ public:
 	void Draw()override;
 
 private:
-	Player* p1;
-	Player* p2;
+	Player* m_p1;
+	Player* m_p2;
 
-	float RopeAngleCalc();
+	// ロープの最大の長さ
+	const float MAX_ROPE_LEGTH = 650;
 
-	float p1_pos_x;
-	float p1_pos_y;
-	float p2_pos_x;
-	float p2_pos_y;
+	// 向き計算
+	float AngleCalc();
+
+	// 長さ調節
+	//float LengthAdjust(float pos_A,float pos_B);
+
+	D3DXVECTOR2 m_p1_pos;
+	D3DXVECTOR2 m_p2_pos;
 };
 
