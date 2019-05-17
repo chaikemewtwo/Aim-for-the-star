@@ -146,13 +146,13 @@ void MapChip::Update() {
 	// オブジェクトの生成
 	//ObjectCreate();
 
-	// 初期化
+	// マップの移動ベクトル初期化
 	m_map_move_pos.x = m_map_move_pos.y = 0.f;
 
 	for (int i = 0; i < 2; i++) {
 
 		// 移動位置変更
-		m_move_pos[i] = m_pbase[i]->GetMovePos();
+		m_player_move_pos[i] = m_pbase[i]->GetMovePos();
 
 		// 自機の位置を代入
 		// 当たりポイントを補正
@@ -233,8 +233,8 @@ void MapChip::Draw() {
 	}
 
 
-		//ObjectCreate();
-		//ObjectDestory();
+	ObjectCreate();
+	ObjectDestory();
 }
 
 
@@ -273,15 +273,24 @@ bool MapChip::IsScroll(float &pos_y1, float &pos_y2) {
 	// 自機1が上、自機2が下の場合スクロール停止
 	if (pos_y1 <= m_scroll_range_up + 60 && m_scroll_range_down <= pos_y2){
 		// 位置を補正
-		pos_y1 = m_scroll_range_up;
-		pos_y2 = m_scroll_range_down;
+		if (pos_y1 <= m_scroll_range_up) {
+			pos_y1 = m_scroll_range_up;
+		}
+		else if (pos_y2 >= m_scroll_range_down) {
+			pos_y2 = m_scroll_range_down;
+		}
  		return false;
 	}
 
 	// 自機1が下,自機2が上の場合スクロール停止
 	else if (pos_y2 <= m_scroll_range_up + 60 && m_scroll_range_down <= pos_y1){
-		pos_y2 = m_scroll_range_up;
-		pos_y1 = m_scroll_range_down;
+
+		if (pos_y2 <= m_scroll_range_up) {
+			pos_y2 = m_scroll_range_up;
+		}
+		else if (pos_y1 >= m_scroll_range_down) {
+			pos_y1 = m_scroll_range_down;
+		}
 		return false;
 	}
 
@@ -296,8 +305,8 @@ void MapChip::LandOnTheGround() {
 
 		m_map_pos.y = INIT_MAP_POS_Y;
 
-		m_move_pos[0].y = 0.f;
-		m_move_pos[1].y = 0.f;
+		m_player_move_pos[0].y = 0.f;
+		m_player_move_pos[1].y = 0.f;
 	}
 }
 
@@ -417,7 +426,6 @@ void MapChip::MapCollision(int i) {
 	}
 
 	// y軸変更
-
 	up_left.y = m_player_pos[i].y + RS + SHRINK_Y;
 	up_right.y = m_player_pos[i].y + RS + SHRINK_Y;
 	down_left.y = m_player_pos[i].y + CHIP_SIZE - RS - SHRINK_Y;
@@ -508,8 +516,8 @@ void MapChip::NowPosYFixToMapPos(float &pos_y, float &move_y) {
 	// 入ったマップチップの座標を割り出す
 	float chip_pos_y = 0.f;
 
-	// 上
-	if (move_y < 0.f) {
+	// 上(自機の移動とマップの移動が進んだ時)
+	if (move_y < 0.f || m_map_move_pos.y < 0.f) {
 
 		// チップサイズ割り出し
 		chip_pos_y = (float)GetChipCastByPos((pos_y +(m_map_pos.y)) - (move_y - RETOUCH + SHRINK_Y));// SHRINK_Y関係のバグ
@@ -518,22 +526,21 @@ void MapChip::NowPosYFixToMapPos(float &pos_y, float &move_y) {
 
 		// 縮小する時
 		if (SHRINK_Y > 0.f) {
-			// 修正
-			pos_y += (CHIP_SIZE - SHRINK_Y - move_y);
+			// 修正(自機の移動とマップの移動を加算)
+			pos_y += (CHIP_SIZE - SHRINK_Y) - move_y - m_map_move_pos.y;
 		}
 
 		// スクロール範囲に入っていれば
 		if (pos_y < m_scroll_range_up) {
 			m_map_pos.y += (pos_y - m_scroll_range_up);// バグっている
 		}
-
-		
+	
 		// 移動ベクトルなし
 		move_y = 0.f;
 	}
 
-	// 下
-	else if (move_y > 0.f) {
+	// 下(自機の移動とマップの移動が進んだ時)
+	else if (move_y > 0.f || m_map_move_pos.y > 0.f) {
 		// チップサイズ割り出し
 		chip_pos_y = (float)GetChipCastByPos((pos_y + m_map_pos.y)+ move_y);
 

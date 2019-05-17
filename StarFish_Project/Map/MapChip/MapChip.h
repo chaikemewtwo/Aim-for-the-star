@@ -120,13 +120,14 @@ private:
 private:
 
 	/* マップ座標 */
-	D3DXVECTOR2 m_obj_pos[2];              // 自機の位置
-	D3DXVECTOR2 m_move_pos[2];             // 自機の移動ベクトル
+	//D3DXVECTOR2 m_obj_pos[2];              // 自機の位置
+	//D3DXVECTOR2 m_move_pos[2];             // 自機の移動ベクトル
 	D3DXVECTOR2 m_player_pos[2];           // 自機の位置
 	D3DXVECTOR2 m_player_move_pos[2];      // 自機の移動ベクトル
 	tagMapChip m_map[1000][1000] = {};     // 全体マップバッファ
 	/* マップ描画領域 */
-	D3DXVECTOR2 m_map_pos;                 // 描画用マップの位置              
+	D3DXVECTOR2 m_map_pos;                 // 描画用マップの位置
+	D3DXVECTOR2 m_map_move_pos;            // 描画用マップの位置
 	int m_height_map_num;                  // マップデータの高さ
 	int m_map_chip_id[1000]={};            // 生成されたらマップチップを保存する
 	int m_chip_num;                        // チップの番号
@@ -144,7 +145,6 @@ private:
 	// デバッグ用
 	int m_py;
 	float m_after_pos_y;
-	D3DXVECTOR2 m_map_move_pos;// マップ座標の移動ベクトル
 };
 
 
