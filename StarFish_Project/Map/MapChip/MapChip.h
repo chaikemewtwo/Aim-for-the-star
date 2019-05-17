@@ -33,6 +33,7 @@ struct tagMapChip {
 // 各オブジェクトの前方参照
 class EnemyManager;
 class Player;
+class PlayerBase;
 
 
 // 海マップ
@@ -40,7 +41,9 @@ class MapChip : public Object {
 public:
 
 
-	MapChip(Player*star1,Player*star2,EnemyManager*e_mng);
+
+	MapChip(Player*star1, Player*star2, EnemyManager*e_mng);
+
 
 	// 更新関数
 	void Update();
@@ -49,6 +52,8 @@ public:
 
 	// Object生成
 	void ObjectCreate();
+	// Object削除
+	void ObjectDestory();
 	
 	// アクセサ
 	D3DXVECTOR2 GetMapPos()const;
@@ -68,7 +73,10 @@ private:
 
 	/* 描画遷移関係 */
 	// 描画範囲に入っているか入っていないか判断する関数
-	int DrawLineIsActive(float&pos_y, float&move_y, float up_range, float down_range);
+
+	int DrawLineIsActive(float&pos_y,float&move_y,float up_range,float down_range);
+	// スクロールしてもいいかどうか
+	bool IsScroll(float &pos_y1, float &pos_y2);
 	// 地面に着地する点
 	void LandOnTheGround();
 
@@ -105,12 +113,17 @@ private:
 	// 縮小
 	const float SHRINK_X = 6.f;
 	const float SHRINK_Y = 6.f;
+	// チップ生成領域
+	const int CHIP_RANGE_UP = 14;
+	const int CHIP_RANGE_DOWN = 5;
 
 private:
 
 	/* マップ座標 */
 	D3DXVECTOR2 m_obj_pos[2];              // 自機の位置
 	D3DXVECTOR2 m_move_pos[2];             // 自機の移動ベクトル
+	D3DXVECTOR2 m_player_pos[2];           // 自機の位置
+	D3DXVECTOR2 m_player_move_pos[2];      // 自機の移動ベクトル
 	tagMapChip m_map[1000][1000] = {};     // 全体マップバッファ
 	/* マップ描画領域 */
 	D3DXVECTOR2 m_map_pos;                 // 描画用マップの位置              
@@ -122,9 +135,8 @@ private:
 	float m_draw_range_down;               // 後ろの描画の範囲
 	float m_scroll_range_up;               // スクロールライン上
 	float m_scroll_range_down;             // スクロールライン下
-	bool m_is_scroll;
 	/* 各オブジェクトの参照 */	   	       
-	Player * m_pbase[2];               // 自機2体  
+	Player * m_pbase[2];                   // 自機2体                     
 	EnemyManager * e_pmng;                 // 敵の状態
 	// ジャンプフラグ
 	bool m_is_jamp;
