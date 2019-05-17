@@ -27,6 +27,7 @@ SellFish::SellFish(D3DXVECTOR2 pos, MapChip* map_chip, bool no_move) {
 
 void SellFish::Update() {
 	m_pstate_base->Action(this);
+	m_pos.y += m_pmap->GetMovePos();
 
 	OutScreen();
 }

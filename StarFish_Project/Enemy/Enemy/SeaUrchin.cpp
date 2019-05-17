@@ -31,6 +31,7 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, MapChip* map_chip, bool no_move) {
 void SeaUrchin::Update() {
 	// 現在のState処理を実行
 	m_pstate_base->Action(this);
+	m_pos.y += m_pmap->GetMovePos().y;
 
 	OutScreen();
 }
