@@ -14,15 +14,23 @@ ObjectManager::ObjectManager(){
 	// 敵管理生成
 	m_pe_mng = new EnemyManager(this);
 
+	// プレイヤー生成
+	m_pplayer[0] = new Player(Player::STAR_1);
+	m_pplayer[1] = new Player(Player::STAR_2);
+
+	// ロープ生成
+	//Entry(m_prope = new Rope(m_pplayer[0], m_pplayer[1]));
+
 	// 自機生成＆objectに登録
-	Entry(m_pplayer[0] = new Player(Player::STAR_1));
-	Entry(m_pplayer[1] = new Player(Player::STAR_2));
+	Entry(m_pplayer[0]);
+	Entry(m_pplayer[1]);
+
 	// スタミナUI生成
 	Entry(m_pstamina_ui = new StaminaUI(m_pplayer[0], m_pplayer[1]));
 	// マップ管理生成
-	m_pm_mng = new MapManager(m_pplayer[0],m_pplayer[1],m_pe_mng);
+	m_pm_mng = new MapManager(m_pplayer[0], m_pplayer[1], m_pe_mng);
 	// 当たり判定管理を作る
-	m_pcol_mng = new CollisionManager(m_pplayer[0],m_pplayer[1],m_pe_mng);
+	m_pcol_mng = new CollisionManager(m_pplayer[0], m_pplayer[1], m_pe_mng);
 }
 
 

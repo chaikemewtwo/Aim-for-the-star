@@ -254,7 +254,7 @@ void MapChip::Draw() {
 			// ブロック描画範囲決定
 			if (m_map[(m_height_map_num) - y][x].m_chip_num >= 2 && m_map[(m_height_map_num)-y][x].m_chip_num <= 11) {
 
-				Texture::Draw2D(chip_str[m_map[(m_height_map_num)- y][x].m_chip_num - 1],
+				Texture::Draw2D(chip_str[m_map[(m_height_map_num) - y][x].m_chip_num - 1],
 					(float)(x * CHIP_SIZE),
 					(float)(-y * CHIP_SIZE) + 1080 - m_map_pos.y);
 			}
@@ -380,7 +380,7 @@ void MapChip::ObjectCreate() {
 			}
 
 			// オブジェクト生成、チップ番号が51以上なら
-			if (m_map[m_height_map_num - create_line[y]][x].m_chip_num > 50) {
+			if (m_map[m_height_map_num - create_line[y]][x].m_chip_num == 51) {
 
 				// 位置を代入
  				D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + m_map_pos.y);// マップ座標加算

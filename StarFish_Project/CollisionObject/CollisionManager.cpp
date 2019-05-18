@@ -22,7 +22,7 @@ void CollisionManager::Collision() {
 
 		// 敵と自機の当たり判定
 		for (int i = 0; i < m_pe_mng->GetEnemyTotal(); i++) {
-			//ShapeCollision::ChackHitCircle(m_pe_mng->GetEnemyInstance(i),m_pplayer[i]);
+			ShapeCollision::ChackHitCircle(m_pe_mng->GetEnemyInstance(i),m_pplayer[i]);
 		}
 	}
 }
