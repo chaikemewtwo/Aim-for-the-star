@@ -24,7 +24,10 @@ void Wait::Action(EnemyBase* e) {
 		e->ChangeState(VerticalMove::GetInstance());
 		break;
 	case SELLFISH_ID:
-		if (128 > e->CalcDistance()) {
+		if (e->PosIsTop() == true && 256 > e->CalcDistance()) {
+			e->ChangeState(SideMove::GetInstance());
+		}
+		else if(e->PosIsTop() == false && 128 > e->CalcDistance()) {
 			e->ChangeState(SideMove::GetInstance());
 		}
 		break;
