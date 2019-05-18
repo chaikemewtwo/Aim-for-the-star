@@ -5,6 +5,7 @@
 
 EnemyBase::EnemyBase() {
 	m_angle = 0;
+	m_center = 0;
 	m_delete_timer = 60;
 	m_max_animation = 0;
 	m_enemy_type = ENEMY_TYPE_MAX;
@@ -16,6 +17,7 @@ EnemyBase::EnemyBase() {
 void EnemyBase::ChangeState(StateBase* state) {
 	m_pstate_base = state;
 }
+//―――――――――――――――――――――
 
 void EnemyBase::OutScreen() {
 	// 画面外に出たら、削除までの時間をカウントダウン
@@ -35,9 +37,21 @@ void EnemyBase::OutScreen() {
 //―――――――――――――――――――――
 
 float EnemyBase::CalcDistance() {
-	float player1_y_distance = m_pplayer1->GetPos().y - m_pos.y;
-	float player2_y_distance = m_pplayer2->GetPos().y - m_pos.y;
+	float player1_y_distance = 0;
+	float player2_y_distance = 0;
 
+	// 自身がプレイヤーよりも上にいる場合
+	if (m_pplayer1->GetPos().y > m_pos.y&&m_pplayer2->GetPos().y > m_pos.y) {
+		player1_y_distance = m_pplayer1->GetPos().y - m_pos.y;
+		player2_y_distance = m_pplayer2->GetPos().y - m_pos.y;
+	}
+	// 自身がプレイヤーよりも下にいる場合
+	else if (m_pplayer1->GetPos().y < m_pos.y&&m_pplayer2->GetPos().y < m_pos.y) {
+		player1_y_distance = m_pos.y - m_pplayer1->GetPos().y;
+		player2_y_distance = m_pos.y - m_pplayer2->GetPos().y;
+	}
+
+	// より近いほうの距離を返す
 	if (player1_y_distance < player2_y_distance) {
 		return player1_y_distance;
 	}

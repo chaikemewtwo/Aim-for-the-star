@@ -35,6 +35,7 @@ public:
 	virtual void ChangeState(StateBase* state);
 	// 画面外に出たらm_is_deadをtrueにする関数
 	virtual void  OutScreen();
+	// 2体のプレイヤーの、自身とより近い距離を返す関数
 	virtual float CalcDistance();
 	// 敵のインスタンスを返す関数
 	virtual EnemyBase* GetInstance();
