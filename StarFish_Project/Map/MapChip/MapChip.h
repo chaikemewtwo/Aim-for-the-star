@@ -41,7 +41,6 @@ class MapChip : public Object {
 public:
 
 
-
 	MapChip(Player*star1, Player*star2, EnemyManager*e_mng);
 
 
@@ -119,12 +118,12 @@ private:
 
 private:
 
+	/* マップチップ関係 */
+	tagMapChip m_map[1000][1000] = {};     // 全体マップバッファ
+	const char*chip_str[11];               // チップ文字列
 	/* マップ座標 */
-	//D3DXVECTOR2 m_obj_pos[2];              // 自機の位置
-	//D3DXVECTOR2 m_move_pos[2];             // 自機の移動ベクトル
 	D3DXVECTOR2 m_player_pos[2];           // 自機の位置
 	D3DXVECTOR2 m_player_move_pos[2];      // 自機の移動ベクトル
-	tagMapChip m_map[1000][1000] = {};     // 全体マップバッファ
 	/* マップ描画領域 */
 	D3DXVECTOR2 m_map_pos;                 // 描画用マップの位置
 	D3DXVECTOR2 m_map_move_pos;            // 描画用マップの位置

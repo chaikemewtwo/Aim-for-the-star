@@ -71,6 +71,12 @@ void Resource::LoadResouce() {
 	Texture::Load("Resource/Texture/Map/chip-map_image_02.png");
 	Texture::Load("Resource/Texture/Map/chip-map_image_03.png");
 	Texture::Load("Resource/Texture/Map/chip-map_image_04.png");
+	Texture::Load("Resource/Texture/Map/chip-map_image_05.png");
+	Texture::Load("Resource/Texture/Map/chip-map_image_06.png");
+	Texture::Load("Resource/Texture/Map/chip-map_image_07.png");
+	Texture::Load("Resource/Texture/Map/chip-map_image_08.png");
+	Texture::Load("Resource/Texture/Map/chip-map_image_09.png");
+	Texture::Load("Resource/Texture/Map/chip-map_image_10.png");
 
 	// 泡エフェクト
 	Texture::Load("Resource/Texture/Effect/bubbles.png");
