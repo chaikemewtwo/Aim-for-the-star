@@ -66,6 +66,7 @@ private:
 	void MapCollision(int i);
 	// 床と当たっているかどうか
 	bool IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y);
+	bool IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y, int &col_chip);
 	// 横と縦の衝突後での位置補正
 	void NowPosXFixToMapPos(float &pos_x, float &move_x);
 	void NowPosYFixToMapPos(float &pos_y, float &move_y);

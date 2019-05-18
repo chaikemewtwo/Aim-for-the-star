@@ -389,7 +389,7 @@ void MapChip::ObjectCreate() {
 				// チップが活動していないなら
 				if (m_map[m_height_map_num - create_line[y]][x].m_is_active == false){
 					// 敵生成
-   					e_pmng->EnemyCreate(pos,this);
+   					e_pmng->EnemyCreate(pos,this,m_pbase[0],m_pbase[1]);
 					// マップチップ記録
 					m_map[m_height_map_num - create_line[y]][x].m_is_active = true;
 				}
@@ -443,6 +443,7 @@ void MapChip::MapCollision(int i) {
 	// CHIP_SIZE * 2は128の高さで当たり判定を取っている為
 
 	const float RS = 1.f;            // ResizeのRS.サイズを補正
+	int chip_num = 0;
 
 	// 左上
 	D3DXVECTOR2 up_left(m_player_pos[i].x + RS + SHRINK_X, m_player_pos[i].y + RS + SHRINK_Y);
@@ -455,13 +456,19 @@ void MapChip::MapCollision(int i) {
 
 	{
 		// y軸の衝突判定(四隅)
-		if ( m_is_jamp = IsFloorCollision(up_left.x, up_left.y, 0.f, m_player_move_pos[i].y) == true ||// ジャンプフラグを受け取る
-			IsFloorCollision(up_right.x, up_right.y, 0.f, m_player_move_pos[i].y) == true ||
-			IsFloorCollision(down_left.x, down_left.y + CHIP_SIZE, 0.f, m_player_move_pos[i].y) == true ||// 衝突点を1CHIP下にずらしている
-			IsFloorCollision(down_right.x, down_right.y + CHIP_SIZE, 0.f, m_player_move_pos[i].y) == true) {
+		if ( m_is_jamp = IsFloorCollision(up_left.x, up_left.y, 0.f, m_player_move_pos[i].y,chip_num) == true ||// ジャンプフラグを受け取る
+			IsFloorCollision(up_right.x, up_right.y, 0.f, m_player_move_pos[i].y,chip_num) == true ||
+			IsFloorCollision(down_left.x, down_left.y + CHIP_SIZE, 0.f, m_player_move_pos[i].y,chip_num) == true ||// 衝突点を1CHIP下にずらしている
+			IsFloorCollision(down_right.x, down_right.y + CHIP_SIZE, 0.f, m_player_move_pos[i].y,chip_num) == true) {
 
-			// 縦の衝突判定
-			NowPosYFixToMapPos(m_player_pos[i].y, m_player_move_pos[i].y); // 縦にずらす
+			// くっつく場所
+			if (chip_num == 12) {
+
+			}
+			else {
+				// 縦の衝突判定
+				NowPosYFixToMapPos(m_player_pos[i].y, m_player_move_pos[i].y); // 縦にずらす
+			}
 		}
 	}
 
@@ -475,17 +482,17 @@ void MapChip::MapCollision(int i) {
 		// ここでif文を作って四角形で当たっている場所をマップチップの当たり判定に埋め込んだらいいかも
 		// x軸の衝突判定(四隅)
 
-		if (IsFloorCollision(up_left.x, up_left.y, m_player_move_pos[i].x, 0.f) == true ||
-			IsFloorCollision(up_right.x, up_right.y, m_player_move_pos[i].x, 0.f) == true ||
-			IsFloorCollision(down_left.x, down_left.y + CHIP_SIZE, m_player_move_pos[i].x, 0.f) == true ||// 衝突点を1CHIP下にずらしている
-			IsFloorCollision(down_right.x, down_right.y + CHIP_SIZE, m_player_move_pos[i].x, 0.f) == true) {
+		if (IsFloorCollision(up_left.x, up_left.y, m_player_move_pos[i].x, 0.f,chip_num) == true ||
+			IsFloorCollision(up_right.x, up_right.y, m_player_move_pos[i].x, 0.f,chip_num) == true ||
+			IsFloorCollision(down_left.x, down_left.y + CHIP_SIZE, m_player_move_pos[i].x, 0.f,chip_num) == true ||// 衝突点を1CHIP下にずらしている
+			IsFloorCollision(down_right.x, down_right.y + CHIP_SIZE, m_player_move_pos[i].x, 0.f,chip_num) == true) {
 
 			// 横の衝突後の判定(衝突応答)
 			NowPosXFixToMapPos(m_player_pos[i].x, m_player_move_pos[i].x);// 横にずらす
 		}
 		// x軸の中心衝突判定
-		else if (IsFloorCollision(down_left.x, down_right.y, m_player_move_pos[i].x, 0.f) == true ||// 左下
-			IsFloorCollision(down_right.x, down_right.y, m_player_move_pos[i].x, 0.f) == true) {  // 右下
+		else if (IsFloorCollision(down_left.x, down_right.y, m_player_move_pos[i].x, 0.f,chip_num) == true ||// 左下
+			IsFloorCollision(down_right.x, down_right.y, m_player_move_pos[i].x, 0.f,chip_num) == true) {  // 右下
 
 			NowPosXFixToMapPos(m_player_pos[i].x, m_player_move_pos[i].x);// 横にずらす
 
@@ -509,6 +516,18 @@ bool MapChip::IsFloorCollision(float pos_x, float pos_y,float move_x,float move_
 	
 	// 衝突していない
 	return false;
+}
+
+// オーバーロード
+bool MapChip::IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y, int &col_chip) {
+
+	if (IsFloorCollision(pos_x, pos_y, move_x, move_y) == true) {
+
+		// チップを入れる
+		col_chip = GetChipParam(pos_x + move_x, pos_y + move_y + m_map_pos.y + m_map_move_pos.y);
+
+		return true;
+	}
 }
 
 // 現在位置Xをマップ位置に修正
@@ -596,6 +615,12 @@ void MapChip::NowPosYFixToMapPos(float &pos_y, float &move_y) {
 		// 移動ベクトルなし
 		move_y = 0.f;
 	}
+}
+
+
+// チップの中央におびき寄せる
+void StuckCenterChip() {
+
 }
 
 // セルに変換
