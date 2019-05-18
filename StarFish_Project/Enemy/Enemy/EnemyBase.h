@@ -33,10 +33,10 @@ public:
 	virtual ~EnemyBase() {}
 
 	virtual void ChangeState(StateBase* state);
-	// 画面外に出たらm_is_deadをtrueにする関数
-	virtual void  OutScreen();
 	// 2体のプレイヤーの、自身とより近い距離を返す関数
 	virtual float CalcDistance();
+	// 敵の位置がプレイヤーの上かをboolで返す関数
+	virtual bool PosIsTop();
 	// 敵のインスタンスを返す関数
 	virtual EnemyBase* GetInstance();
 
@@ -55,6 +55,10 @@ public:
 	}
 
 protected:
+	// 画面外に出たらm_is_deadをtrueにする関数
+	virtual void  OutScreen();
+
+	// 変数・定数//
 	int m_power;				// 攻撃力
 	int m_delete_timer;			// 削除用タイマー
 	bool m_no_move;				// 移動するかのフラグ

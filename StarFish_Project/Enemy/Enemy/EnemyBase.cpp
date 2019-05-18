@@ -41,12 +41,12 @@ float EnemyBase::CalcDistance() {
 	float player2_y_distance = 0;
 
 	// 自身がプレイヤーよりも上にいる場合
-	if (m_pplayer1->GetPos().y > m_pos.y&&m_pplayer2->GetPos().y > m_pos.y) {
+	if (PosIsTop()==true) {
 		player1_y_distance = m_pplayer1->GetPos().y - m_pos.y;
 		player2_y_distance = m_pplayer2->GetPos().y - m_pos.y;
 	}
 	// 自身がプレイヤーよりも下にいる場合
-	else if (m_pplayer1->GetPos().y < m_pos.y&&m_pplayer2->GetPos().y < m_pos.y) {
+	else if (PosIsTop()==false) {
 		player1_y_distance = m_pos.y - m_pplayer1->GetPos().y;
 		player2_y_distance = m_pos.y - m_pplayer2->GetPos().y;
 	}
@@ -56,6 +56,16 @@ float EnemyBase::CalcDistance() {
 		return player1_y_distance;
 	}
 	return player2_y_distance;
+}
+//―――――――――――――――――――――
+
+bool EnemyBase::PosIsTop() {
+	if (m_pplayer1->GetPos().y > m_pos.y&&m_pplayer2->GetPos().y > m_pos.y) {
+		return true;
+	}
+	else if (m_pplayer1->GetPos().y < m_pos.y&&m_pplayer2->GetPos().y < m_pos.y) {
+		return false;
+	}
 }
 //―――――――――――――――――――――
 
