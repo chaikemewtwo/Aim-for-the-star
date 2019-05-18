@@ -55,8 +55,8 @@ public:
 	void ObjectDestory();
 	
 	// アクセサ
-	D3DXVECTOR2 GetMapPos()const;
-	D3DXVECTOR2 GetMapMovePos()const;
+	D3DXVECTOR2 GetPos()const;
+	D3DXVECTOR2 GetMovePos()const;
 	// ジャンプしているかどうか
 	bool IsJamp()const;
 

@@ -182,24 +182,32 @@ void MapChip::Update() {
 		// 当たりポイントを補正
 		m_player_pos[i].x = m_pbase[i]->GetPos().x + HIT_POINT_X;
 		m_player_pos[i].y = m_pbase[i]->GetPos().y + HIT_POINT_Y;
+
+		// 移動位置更新
+		m_player_move_pos[i] = m_pbase[i]->GetMovePos();
+
 	}
 
 	// スクロールしてもいいかの判定
-	bool is_scroll = IsScroll(m_player_pos[0].y,m_player_pos[1].y);
+	bool is_scroll = IsScroll(m_player_pos[0].y, m_player_pos[1].y);
 
-	for (int i = 0; i < 2; i++) {// 一旦当たり判定を一つにする
 
-		// 移動位置変更
-		m_player_move_pos[i] = m_pbase[i]->GetMovePos();
-
-		// 当たり判定
-		MapCollision(i);
-
+	for (int i = 0; i < 2; i++) {
 		// スクロールしてもいいかどうか
 		if (is_scroll == true) {
 			// スクロールライン
 			DrawLineIsActive(m_player_pos[i].y, m_player_move_pos[i].y, m_scroll_range_up, m_scroll_range_down);
 		}
+		else {
+			is_scroll = false;
+		}
+	}
+
+
+	for (int i = 0; i < 2; i++) {// 一旦当たり判定を一つにする
+
+		// 当たり判定
+		MapCollision(i);
 
 		// 当たり位置を決める。
 		m_player_pos[i].x -= HIT_POINT_X;
@@ -626,10 +634,10 @@ void MapResat() {
 }
 
 // アクセサ
-D3DXVECTOR2 MapChip::GetMapPos()const{
+D3DXVECTOR2 MapChip::GetPos()const{
 	return -m_map_pos;
 }
-D3DXVECTOR2 MapChip::GetMapMovePos()const {
+D3DXVECTOR2 MapChip::GetMovePos()const {
 	return -m_map_move_pos;
 }
 // 着地しているか

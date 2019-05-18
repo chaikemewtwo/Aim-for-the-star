@@ -155,17 +155,17 @@ void BackGround::MovePosUpdate() {
 
 	// 移動ベクトルを入れる
 	// プレイヤーの4分の１の速度にする
-	m_move_pos = m_pmap->GetMapMovePos() / 4;// 反対方向に行くので-変換
+	m_move_pos = m_pmap->GetMovePos() / 4;// 反対方向に行くので-変換
 }
 
 
 bool BackGround::LandOnTheGround(){
 
 	// 背景のスクロール制限
-	if (m_pmap->GetMapPos().y > 0.f) {
+	if (m_pmap->GetPos().y > 0.f) {
 		return true;
 	}
-	else if (m_pmap->GetMapPos().y <= 0.f) {
+	else if (m_pmap->GetPos().y <= 0.f) {
 		return false;
 	}
 
