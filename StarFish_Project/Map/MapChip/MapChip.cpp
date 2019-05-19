@@ -347,6 +347,8 @@ void MapChip::LandOnTheGround() {
 		
 		// マップの移動を初期化
 		m_map_move_pos.y = 0.f;
+		// マップ座標初期化
+		m_map_pos.y = 0.f;
 	}
 }
 
@@ -389,7 +391,7 @@ void MapChip::ObjectCreate() {
 				// チップが活動していないなら
 				if (m_map[m_height_map_num - create_line[y]][x].m_is_active == false){
 					// 敵生成
-   					e_pmng->EnemyCreate(pos,this,m_pbase[0],m_pbase[1]);
+   					e_pmng->EnemyCreate(pos,this);
 					// マップチップ記録
 					m_map[m_height_map_num - create_line[y]][x].m_is_active = true;
 				}
@@ -444,6 +446,7 @@ void MapChip::MapCollision(int i) {
 
 	const float RS = 1.f;            // ResizeのRS.サイズを補正
 	int chip_num = 0;
+	bool is_inside = false;
 
 	// 左上
 	D3DXVECTOR2 up_left(m_player_pos[i].x + RS + SHRINK_X, m_player_pos[i].y + RS + SHRINK_Y);
@@ -463,12 +466,14 @@ void MapChip::MapCollision(int i) {
 
 			// くっつく場所
 			if (chip_num == 12) {
-
+				is_inside = true;
 			}
 			else {
 				// 縦の衝突判定
 				NowPosYFixToMapPos(m_player_pos[i].y, m_player_move_pos[i].y); // 縦にずらす
 			}
+
+			//ChipAction(m_player_pos[i], m_player_pos[i], chip_num);
 		}
 	}
 
@@ -494,10 +499,40 @@ void MapChip::MapCollision(int i) {
 		else if (IsFloorCollision(down_left.x, down_right.y, m_player_move_pos[i].x, 0.f,chip_num) == true ||// 左下
 			IsFloorCollision(down_right.x, down_right.y, m_player_move_pos[i].x, 0.f,chip_num) == true) {  // 右下
 
-			NowPosXFixToMapPos(m_player_pos[i].x, m_player_move_pos[i].x);// 横にずらす
-
+			// くっつく場所
+			if (chip_num == 12) {
+				is_inside = true;
+			}
+			else {
+				NowPosXFixToMapPos(m_player_pos[i].x, m_player_move_pos[i].x);// 横にずらす
+			}
+			//ChipAction(m_player_pos[i], m_player_pos[i], chip_num);
 		}
 	}
+
+}
+
+
+// これでできない場合は定数にする
+void MapChip::ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos,int chip_num) {
+
+	// もっと当たり後の処理を細分化するべきか
+	// 移動位置を初期化しないと使えないものになる
+
+	// 吸いつきブロック
+	if (chip_num == 12) {
+		StuckCenterChip(pos.x, pos.y, move_pos.x, move_pos.y);
+	}
+	else {
+
+		if (move_pos.y > 0.f || move_pos.y < 0.f) {
+			NowPosYFixToMapPos(pos.y, move_pos.y);
+		}
+		else if (move_pos.x > 0.f || move_pos.x < 0.f) {
+			NowPosXFixToMapPos(pos.x, move_pos.x);
+		}
+	}
+	
 }
 
 
@@ -528,6 +563,7 @@ bool MapChip::IsFloorCollision(float pos_x, float pos_y, float move_x, float mov
 
 		return true;
 	}
+	return false;
 }
 
 // 現在位置Xをマップ位置に修正
@@ -619,8 +655,15 @@ void MapChip::NowPosYFixToMapPos(float &pos_y, float &move_y) {
 
 
 // チップの中央におびき寄せる
-void StuckCenterChip() {
+void MapChip::StuckCenterChip(float &pos_x, float &pos_y, float &move_x, float &move_y) {
 
+	int chip_x = (float)GetChipCastByPos(pos_x - (move_x - 1.f));
+	int chip_y = ((pos_y + (m_map_pos.y)) - (move_y - 1.f + SHRINK_Y));
+
+	// 中心位置にずらす
+	pos_x = chip_x - CHIP_SIZE / 2;
+	pos_y = chip_y - CHIP_SIZE / 2;
+	
 }
 
 // セルに変換

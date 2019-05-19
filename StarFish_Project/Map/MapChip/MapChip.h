@@ -62,6 +62,7 @@ public:
 
 private:
 
+
 	/* 当たり判定 */
 	void MapCollision(int i);
 	// 床と当たっているかどうか
@@ -70,6 +71,10 @@ private:
 	// 横と縦の衝突後での位置補正
 	void NowPosXFixToMapPos(float &pos_x, float &move_x);
 	void NowPosYFixToMapPos(float &pos_y, float &move_y);
+	// 引っ付き判定
+	void StuckCenterChip(float &pos_x,float &pos_y,float &move_x,float &move_y);
+	// チップのアクションを起こす関数(ブロックが壊れる、吸いつくなど)
+	void ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos, int chip_num);
 
 	/* 描画遷移関係 */
 	// 描画範囲に入っているか入っていないか判断する関数
