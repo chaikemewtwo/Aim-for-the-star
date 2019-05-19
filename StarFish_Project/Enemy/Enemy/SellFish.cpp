@@ -16,6 +16,9 @@ SellFish::SellFish(D3DXVECTOR2 pos, MapChip* map_chip, Player* p1, Player* p2,bo
 	m_anim_change_time = 20;
 	m_enemy_type = SELLFISH_ID;
 
+	m_texture_list[WAIT_ID][256] = "Resource/Texture/Enemy/hora_wait.png";
+	m_texture_list[SIDEMOVE_ID][256] = "Resource/Texture/Enemy/hora_attack.png";
+
 	if (m_pos.x < (WINDOW_W_F / 2)) {
 		m_is_left = true;
 		m_angle = 180;
@@ -31,6 +34,9 @@ SellFish::SellFish(D3DXVECTOR2 pos, MapChip* map_chip, Player* p1, Player* p2,bo
 
 void SellFish::Update() {
 	m_pstate_base->Action(this);
+	m_texture = m_texture_list[m_enemy_type][256];
+
+	// 他処理の確認の為にコメントアウト（マージ前に直しておく）
 	//m_pos.y += m_pmap->GetMapMovePos().y;
 
 	OutScreen();
@@ -44,7 +50,7 @@ void SellFish::Draw() {
 		m_max_animation = 2;
 
 		Texture::Draw2D(
-			"Resource/Texture/Enemy/hora_wait.png",
+			m_texture.c_str(),
 			m_pos.x, m_pos.y,
 			TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
 			m_angle, m_center, m_center,
@@ -74,7 +80,7 @@ void SellFish::Draw() {
 		m_max_animation = 4;
 
 		Texture::Draw2D(
-			"Resource/Texture/Enemy/hora_attack.png",
+			m_texture.c_str(),
 			m_pos.x, m_pos.y,
 			TEXTURE_SIZE_X, TEXTURE_SIZE_Y, 
 			m_angle, m_center, m_center,

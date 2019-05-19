@@ -24,7 +24,6 @@ enum StateId {
 	STATEID_MAX
 };
 
-
 // 敵基底クラス
 class EnemyBase :public CircleCollisionObject{
 public:
@@ -55,8 +54,8 @@ public:
 	}
 
 protected:
-	// 画面外に出たらm_is_deadをtrueにする関数
-	virtual void  OutScreen();
+	// 画面外に出たらm_is_activをfalseにする関数　《要/修正》
+	virtual void OutScreen();
 
 	// 変数・定数//
 	int m_power;				// 攻撃力
@@ -69,6 +68,8 @@ protected:
 	float m_center;				// 描画頂点
 	int m_anim_change_time;		// アニメーションの速度
 	int m_max_animation;		// 使用するアニメーション数
+	std::string m_texture_list[STATEID_MAX][256];
+	std::string m_texture;
 
 	StateBase* m_pstate_base;	// 状態を保存する変数
 	MapChip* m_pmap;
