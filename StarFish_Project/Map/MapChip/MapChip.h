@@ -35,6 +35,11 @@ class EnemyManager;
 class Player;
 class PlayerBase;
 
+// 衝突方向を渡す
+enum COL_DIRECTION {
+	COL_X,
+	COL_Y,
+};
 
 // 海マップ
 class MapChip : public Object {
@@ -55,8 +60,8 @@ public:
 	void ObjectDestory();
 	
 	// アクセサ
-	D3DXVECTOR2 GetPos()const;
-	D3DXVECTOR2 GetMovePos()const;
+	D3DXVECTOR2 GetMapPos()const;
+	D3DXVECTOR2 GetMapMovePos()const;
 	// ジャンプしているかどうか
 	bool IsJamp()const;
 
@@ -74,7 +79,7 @@ private:
 	// 引っ付き判定
 	void StuckCenterChip(float &pos_x,float &pos_y,float &move_x,float &move_y);
 	// チップのアクションを起こす関数(ブロックが壊れる、吸いつくなど)
-	void ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos, int chip_num);
+	void ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos, int chip_num, COL_DIRECTION col_d = COL_X);
 
 	/* 描画遷移関係 */
 	// 描画範囲に入っているか入っていないか判断する関数
@@ -119,8 +124,8 @@ private:
 	const float SHRINK_X = 6.f;
 	const float SHRINK_Y = 6.f;
 	// チップ生成領域
-	const int CHIP_RANGE_UP = 14;
-	const int CHIP_RANGE_DOWN = 5;
+	const int CHIP_RANGE_UP = 15;
+	const int CHIP_RANGE_DOWN = 4;
 
 private:
 
