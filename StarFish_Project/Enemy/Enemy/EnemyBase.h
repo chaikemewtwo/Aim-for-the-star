@@ -24,6 +24,14 @@ enum StateId {
 	STATEID_MAX
 };
 
+enum EnemyTexture {
+	SEAURCHIN_MOVE,
+	SELLFISH_WAIT,
+	SELLFISH_READY,
+	SELLFISH_ATTACK,
+	ENEMY_TEXTURE_MAX
+};
+
 // 敵基底クラス
 class EnemyBase :public CircleCollisionObject{
 public:
@@ -37,7 +45,7 @@ public:
 	// 2体のプレイヤーの、自身とより近い距離を返す関数
 	virtual float CalcDistance();//《引数で現在地と目標地をとれるように変更》
 	// 敵の位置がプレイヤーの上かをboolで返す関数
-	virtual bool PosIsTop();			
+	virtual bool IsTopPos();			
 	// 敵のインスタンスを返す関数
 	virtual EnemyBase* GetInstance();	
 
@@ -57,7 +65,7 @@ public:
 
 protected:
 	// 画面外に出たらm_is_activをfalseにする関数　《要/修正》
-	virtual void OutScreen();
+	virtual void OutScreenCheck();
 
 	// 変数・定数//
 	int m_power;				// 攻撃力
@@ -70,7 +78,7 @@ protected:
 	float m_center;				// 描画頂点
 	int m_anim_change_time;		// アニメーションの速度
 	int m_max_animation;		// 使用するアニメーション数
-	std::string m_texture_list[STATEID_MAX][256];
+	std::string m_texture_list[ENEMY_TEXTURE_MAX];
 	std::string m_texture;
 
 	StateBase* m_pstate_base;	// 状態を保存する変数
