@@ -14,7 +14,7 @@ public:
 	
 	void Update();	
 	void Draw();
-	void EnemyCreate(D3DXVECTOR2 pos, MapChip* map_chip);
+	void EnemyCreate(D3DXVECTOR2 pos, MapChip* map_chip, Player* p1, Player* p2);
 	void BlindCreate(D3DXVECTOR2 pos, D3DXVECTOR2 goal);
 	void Delete();
 
