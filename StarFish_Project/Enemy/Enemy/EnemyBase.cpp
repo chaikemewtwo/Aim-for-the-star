@@ -69,9 +69,7 @@ bool EnemyBase::IsTopPos() {
 	if (m_pplayer1->GetPos().y > m_pos.y&&m_pplayer2->GetPos().y > m_pos.y) {
 		return true;
 	}
-	else if (m_pplayer1->GetPos().y < m_pos.y&&m_pplayer2->GetPos().y < m_pos.y) {
-		return false;
-	}
+	return false;
 }
 //―――――――――――――――――――――
 
