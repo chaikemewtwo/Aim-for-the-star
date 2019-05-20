@@ -38,7 +38,6 @@ void SeaUrchin::Update() {
 
 // 描画関数
 void SeaUrchin::Draw() {
-
 	Texture::Draw2D(
 		m_texture.c_str(),
 		m_pos.x, m_pos.y,
@@ -48,5 +47,13 @@ void SeaUrchin::Draw() {
 		m_animation_num);
 
 	AnimationDraw(m_max_animation, m_anim_change_time);
+}
+//―――――――――――――――――――――――――――
+
+StateId SeaUrchin::StateChangeCheck() {
+	if (m_no_move == true) {
+		return WAIT_ID;
+	}
+	return VERTICALMOVE_ID;
 }
 //―――――――――――――――――――――――――――

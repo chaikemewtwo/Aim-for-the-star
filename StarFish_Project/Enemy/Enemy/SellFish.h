@@ -12,5 +12,5 @@ public:
 
 	void Update()override;
 	void Draw()override;
-	StateId IsStateChangeCheck()override;
+	StateId StateChangeCheck()override;
 };

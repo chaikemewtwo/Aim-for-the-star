@@ -31,7 +31,7 @@ public:
 	EnemyBase();
 	virtual ~EnemyBase() {}
 
-	virtual StateId IsStateChangeCheck() = 0;
+	virtual StateId StateChangeCheck() = 0;
 
 	virtual void ChangeState(StateBase* state);
 	// 敵のインスタンスを返す関数
@@ -39,12 +39,9 @@ public:
 
 	// 各種Getter・setter //
 	virtual float GetSpeed();
-	virtual int GetPower();
-	// 移動するかの判定フラグのゲッター
-	virtual bool NoMove();				
+	virtual int GetPower();			
 	// 左右どちらにいるか判定フラグのゲッター
 	virtual bool IsLeft();				
-	virtual void SetStateId(StateId state_id);
 
 	Type GetObjectType()const override {
 		return ENEMY;
@@ -63,7 +60,6 @@ protected:
 	int m_delete_timer;			// 削除用タイマー
 	bool m_no_move;				// 移動するかのフラグ
 	bool m_is_left;				// 画面中央から左右どちらにいるかのフラグ
-	StateId m_stateid;			// 現在のStateId
 	float m_angle;				// 描画角度
 	float m_center;				// 描画頂点
 	int m_anim_change_time;		// アニメーションの速度

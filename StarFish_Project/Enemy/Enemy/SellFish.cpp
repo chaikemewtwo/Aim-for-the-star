@@ -14,7 +14,6 @@ SellFish::SellFish(D3DXVECTOR2 pos, MapChip* map_chip, Player* p1, Player* p2,bo
 	m_power = 15;			
 	m_max_animation = 2;
 	m_anim_change_time = 20;
-	m_enemy_type = SELLFISH_ID;
 	m_texture = m_texture_list[SELLFISH_WAIT];
 
 	if (m_pos.x < (WINDOW_W_F / 2)) {
@@ -51,7 +50,7 @@ void SellFish::Draw() {
 }
 //―――――――――――――――――――――――
 
-StateId SellFish::IsStateChangeCheck() {
+StateId SellFish::StateChangeCheck() {
 	// 自身がプレイヤーの上にいる場合
 	if (IsTopPos() == true) {
 
@@ -67,7 +66,7 @@ StateId SellFish::IsStateChangeCheck() {
 			m_max_animation = 2;
 			m_texture = m_texture_list[SELLFISH_READY];
 
-			return ATTACK_READY_ID;
+			return WAIT_ID;
 		}
 	}
 	// 自身がプレイヤーの下にいる場合

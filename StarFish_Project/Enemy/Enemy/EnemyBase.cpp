@@ -8,7 +8,6 @@ EnemyBase::EnemyBase() {
 	m_center = 0;
 	m_delete_timer = 60;
 	m_max_animation = 0;
-	m_stateid = STATEID_MAX;
 	m_pstate_base = Wait::GetInstance();
 
 	// 敵画像の登録
@@ -85,15 +84,7 @@ int EnemyBase::GetPower() {
 	return m_power;
 }
 
-bool EnemyBase::NoMove() {
-	return m_no_move;
-}
-
 bool EnemyBase::IsLeft() {
 	return m_is_left;
-}
-
-void EnemyBase::SetStateId(StateId state_id) {
-	m_stateid = state_id;
 }
 //―――――――――――――――――――――
