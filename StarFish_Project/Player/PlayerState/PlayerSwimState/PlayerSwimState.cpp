@@ -29,8 +29,8 @@ void PlayerSwimState::Update(Player* p) {
 	// 泳ぐ関数呼び出し
 	p->SwimUp();
 
-	// 重力付与
-	p->AddGravity();
+	//// 重力付与
+	//p->AddGravity();
 
 	// 左右角度変更
 	// 左
