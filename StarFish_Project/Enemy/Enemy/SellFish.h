@@ -3,6 +3,7 @@
 #include"EnemyBase.h"
 #include"../../Lib/Window/Window.h"
 
+
 // ほら貝クラス
 class SellFish :public EnemyBase {
 public:

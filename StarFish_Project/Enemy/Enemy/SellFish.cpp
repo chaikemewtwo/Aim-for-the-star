@@ -32,11 +32,9 @@ SellFish::SellFish(D3DXVECTOR2 pos, MapChip* map_chip, Player* p1, Player* p2,bo
 
 void SellFish::Update() {
 	m_pstate_base->Action(this);
+	m_pos.y += m_pmap->GetMovePos().y;
 
-	// 他処理の確認の為にコメントアウト（マージ前に直しておく）
-	//m_pos.y += m_pmap->GetMapMovePos().y;
-
-	OutScreen();
+	OutScreenCheck();
 }
 //―――――――――――――――――――――――
 
@@ -54,28 +52,45 @@ void SellFish::Draw() {
 //―――――――――――――――――――――――
 
 StateId SellFish::IsStateChangeCheck() {
-	// 今の状態から条件をチェックして遷移するかを判定する
+	// 自身がプレイヤーの上にいる場合
 	if (IsTopPos() == true) {
+
 		if (CalcDistance() < 200) {
+			m_anim_change_time = 5;
+			m_max_animation = 4;
 			m_texture = m_texture_list[SELLFISH_ATTACK];
+
 			return SIDEMOVE_ID;
 		}
 		else if (CalcDistance() < 350) {
+			m_anim_change_time = 10;
+			m_max_animation = 2;
 			m_texture = m_texture_list[SELLFISH_READY];
+
 			return ATTACK_READY_ID;
 		}
 	}
+	// 自身がプレイヤーの下にいる場合
 	else if (IsTopPos() == false) {
+
 		if (CalcDistance() < 100) {
+			m_anim_change_time = 5;
+			m_max_animation = 4;
 			m_texture = m_texture_list[SELLFISH_ATTACK];
+
 			return SIDEMOVE_ID;
 		}
 		else if (CalcDistance() < 250) {
+			m_anim_change_time = 10;
+			m_max_animation = 2;
 			m_texture = m_texture_list[SELLFISH_READY];
+
 			return ATTACK_READY_ID;
 		}
 	}
 
+	m_anim_change_time = 20;
+	m_max_animation = 2;
 	m_texture = m_texture_list[SELLFISH_WAIT];
 	return WAIT_ID;
 }
