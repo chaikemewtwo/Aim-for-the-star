@@ -9,8 +9,8 @@
 #include "../CollisionObject/CircleCollisionObject.h"
 #include "PlayerState\PlayerStateBase.h"
 
-// MEMO:自機1と2の操作が同一になっています（分割する必要あり）
 
+// HACK:m_moveをm_vectorに変更した方がわかりやすい、それに伴いGetMovePos等も変更
 
 class Player : public CircleCollisionObject {
 public:	
@@ -31,7 +31,7 @@ public:
 	// 入力キー文字列保持（操作分割のため）
 	char imput_button_name[MAX_KEY_NUM][256];
 
-	enum STAR_TEXTUE {
+	enum PLAYER_TEXTURE {
 		WAIT_TEXTURE,
 		STANDING_WAIT_TEXTURE,
 		SWIM_TEXTURE,
@@ -43,8 +43,8 @@ public:
 	};
 
 	// テクスチャ文字列保持
+	// HACK:[256]を直す
 	std::string star_texture_name[MAX_TEXTURE_NUM][256];
-
 
 	// コンストラクタ（引数はプレイヤーのID）
 	Player(ID id);
@@ -52,11 +52,9 @@ public:
 	~Player() {}
 
 	// 更新処理
-	// HACK：自機2も自機1の操作方法になっているので操作の分離が必要
 	void Update()override;
 
 	// 描画処理
-	// MEMO:自機2も自機1の画像を使用中、自機2の画像が完成次第変更する
 	void Draw()override;
 
 	//-----------------------------------------------------
@@ -74,6 +72,11 @@ public:
 	// プレイヤー移動量セッター
 	void SetMovePos(D3DXVECTOR2 move) {
 		m_move = move;
+	}
+
+	// ヒモ用（仮）
+	void AddMove(D3DXVECTOR2 move) {
+		m_move += move;
 	}
 
 	// 生存フラグゲッター
@@ -196,7 +199,6 @@ private:
 
 	// 変数 ------------------------------------------------
 	// 画像格納用
-	// HACK:自機が2種類分あるので工夫する必要がある
 	std::string m_player_texture;
 
 	// X、Y方向移動量
