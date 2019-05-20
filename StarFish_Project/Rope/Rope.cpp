@@ -20,20 +20,24 @@ void Rope::Draw() {
 		"Resource/Texture/Player/himo.png",
 		m_p1_pos.x,
 		m_p1_pos.y,
-		0.5f,
+		0.5f / LengthAdjust(),
 		0.5f,
 		AngleCalc()
 	);
 }
 
 
-// HACK:自機1と2のX座標の大きさが入れ替わるとリセットされる（-の値が入らない）
 float Rope::AngleCalc() {
-	float angle = atan((m_p2_pos.y - m_p1_pos.y) / (m_p2_pos.x - m_p1_pos.x)) * (180.f / 3.14f);
+	// 弧度法に変換
+	float angle = atan2((m_p2_pos.y - m_p1_pos.y) , (m_p2_pos.x - m_p1_pos.x)) * (180.f / 3.14f);
 	return angle;
 }
 
 
-//float Rope::LengthAdjust(float pos_A, float pos_B) {
-//	pos_A
-//}
+float Rope::LengthAdjust() {
+	// 2点間の距離を算出
+	float distance = (((m_p2_pos.x - m_p1_pos.x)* (m_p2_pos.x - m_p1_pos.x)) + ((m_p2_pos.y - m_p1_pos.y)*(m_p2_pos.y - m_p1_pos.y)));
+	float percentage = sqrt(distance);
+	// 長さの比率を返す
+	return MAX_ROPE_LEGTH / percentage;
+}

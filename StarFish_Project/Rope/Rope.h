@@ -22,7 +22,7 @@ private:
 	float AngleCalc();
 
 	// 長さ調節
-	//float LengthAdjust(float pos_A,float pos_B);
+	float LengthAdjust();
 
 	D3DXVECTOR2 m_p1_pos;
 	D3DXVECTOR2 m_p2_pos;
