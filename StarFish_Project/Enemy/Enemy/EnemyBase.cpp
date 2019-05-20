@@ -8,7 +8,6 @@ EnemyBase::EnemyBase() {
 	m_center = 0;
 	m_delete_timer = 60;
 	m_max_animation = 0;
-	m_enemy_type = ENEMY_TYPE_MAX;
 	m_stateid = STATEID_MAX;
 	m_pstate_base = Wait::GetInstance();
 
@@ -92,10 +91,6 @@ bool EnemyBase::NoMove() {
 
 bool EnemyBase::IsLeft() {
 	return m_is_left;
-}
-
-int EnemyBase::GetEnemyType() {
-	return m_enemy_type;
 }
 
 void EnemyBase::SetStateId(StateId state_id) {

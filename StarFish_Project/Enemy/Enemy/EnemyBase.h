@@ -7,14 +7,6 @@
 #include"../State/EnemyStateBase.h"
 
 
-// 敵の種類
-enum EnemyTypeId {
-	SEAURCHIN_ID,		// ウニ
-	SELLFISH_ID,		// ほら貝
-	NAPOLEONFISH_ID,	// ナポレオンフィッシュ
-	ENEMY_TYPE_MAX
-};
-
 // 敵の状態識別Id
 enum StateId {
 	WAIT_ID,			// 待機
@@ -52,7 +44,6 @@ public:
 	virtual bool NoMove();				
 	// 左右どちらにいるか判定フラグのゲッター
 	virtual bool IsLeft();				
-	virtual int GetEnemyType();
 	virtual void SetStateId(StateId state_id);
 
 	Type GetObjectType()const override {
@@ -72,7 +63,6 @@ protected:
 	int m_delete_timer;			// 削除用タイマー
 	bool m_no_move;				// 移動するかのフラグ
 	bool m_is_left;				// 画面中央から左右どちらにいるかのフラグ
-	EnemyTypeId m_enemy_type;	// 敵の種類
 	StateId m_stateid;			// 現在のStateId
 	float m_angle;				// 描画角度
 	float m_center;				// 描画頂点

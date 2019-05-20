@@ -18,8 +18,6 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, MapChip* map_chip, bool no_move) {
 
 	m_texture = m_texture_list[SEAURCHIN_MOVE];
 
-	m_enemy_type = SEAURCHIN_ID;
-
 	if (m_pos.x < (WINDOW_W_F / 2)) {
 		m_is_left = true;
 	}
