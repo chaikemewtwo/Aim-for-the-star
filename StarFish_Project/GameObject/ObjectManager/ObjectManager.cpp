@@ -19,8 +19,6 @@ ObjectManager::ObjectManager(){
 	m_pplayer[0] = new Player(Player::STAR_1);
 	m_pplayer[1] = new Player(Player::STAR_2);
 
-	// ロープ生成
-	Entry(m_prope = new Rope(m_pplayer[0], m_pplayer[1]));
 
 	// 自機生成＆objectに登録
 	Entry(m_pplayer[0]);
@@ -32,6 +30,9 @@ ObjectManager::ObjectManager(){
 	m_pm_mng = new MapManager(m_pplayer[0], m_pplayer[1], m_pe_mng);
 	// 当たり判定管理を作る
 	m_pcol_mng = new CollisionManager(m_pplayer[0], m_pplayer[1], m_pe_mng);
+
+	// ロープ生成
+	Entry(m_prope = new Rope(m_pplayer[0], m_pplayer[1]));
 }
 
 

@@ -88,9 +88,9 @@ void Resource::LoadResouce() {
 	// UI
 	// 岩
 	// 左
-	Texture::Load("Resource/Texture/UI/ui_lef.png");
+	Texture::LoadEx("Resource/Texture/UI/ui_lef.png",100,100);
 	// 右
-	Texture::Load("Resource/Texture/UI/ui_rig.png");
+	Texture::LoadEx("Resource/Texture/UI/ui_rig.png",100,100);
 	// 黒バー
 	Texture::Load("Resource/Texture/UI/ui_bla.png");
 	// 紫バー

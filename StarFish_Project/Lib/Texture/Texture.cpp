@@ -23,7 +23,41 @@ namespace Texture {
 		// 最初はサイズ指定をしなければいけない。
 		tex_list[file_name].Width = (float)info.Width;
 		tex_list[file_name].Height = (float)info.Height;
-		
+	}
+
+	// 2の累乗でテクスチャサイズが指定できる
+
+	// HACK
+	void LoadEx(const char *file_name,UINT width,UINT height,DWORD color_key)
+	{
+		D3DXIMAGE_INFO info;
+
+		if (FAILED(D3DXGetImageInfoFromFile(file_name, &info))) {
+			MessageBoxA(0, "ファイル読み込みエラー", NULL, MB_OK);
+			return;
+		}
+
+		// 最初はサイズ指定をしなければいけない。
+		tex_list[file_name].Width = (float)info.Width;
+		tex_list[file_name].Height = (float)info.Height;
+
+
+		// EXバージョンの読み込み
+		D3DXCreateTextureFromFileEx(
+			dev,                     // window_device
+			file_name,               // ファイル名
+			info.Width,                   // 読み込むファイル幅
+			info.Height,                  // 読み込むファイル縦幅
+			1,                    // ミップマップレベル
+			0,        // テクスチャの使い方
+			D3DFMT_UNKNOWN,          // カラーフォーマット
+			D3DPOOL_MANAGED,         // テクスチャのメモリ管理方法
+			D3DX_DEFAULT,                    // フィルタリング方法
+			D3DX_DEFAULT,                    // ミップマップのフィルタリング方法
+			0x0000ff00,
+			NULL,
+			NULL,
+			&tex_list[file_name].Texture);
 	}
 
 	void Release() {

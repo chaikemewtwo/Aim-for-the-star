@@ -13,11 +13,21 @@
 // テクスチャデータを格納する。
 struct TEXTURE_DATA
 {
-	LPDIRECT3DTEXTURE9 Texture = nullptr;
-	float Width = 0;
-	float Height = 0;
+	TEXTURE_DATA() {
+		Texture = nullptr;
+		Width = 0.f;
+		Height = 0.f;
+	}
+
+	LPDIRECT3DTEXTURE9 Texture;
+	float Width;
+	float Height;
 
 	operator LPDIRECT3DTEXTURE9() const {
+		return Texture;
+	}
+
+	LPDIRECT3DTEXTURE9 GetTexture()const {
 		return Texture;
 	}
 };
@@ -30,7 +40,8 @@ namespace Texture {
 
 	// テクスチャのロード
 	void Load(const char*file_name);
-
+	// Exの方のロード
+	void LoadEx(const char * file_name,UINT width = 0.f,UINT height = 0.f, DWORD color_key = NULL);
 	// 解放
 	void Release();
 }

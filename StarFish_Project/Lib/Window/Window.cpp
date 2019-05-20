@@ -40,7 +40,7 @@ HWND MakeWindow(int w, int h) {// 他にも入るものがあるかも
 		hi,
 		LoadIcon(NULL,MAKEINTRESOURCE(IDI_APPLICATION)),
 		LoadCursor(NULL,IDC_ARROW),
-		NULL,// 背景色
+		NULL,// 背景色かは分からない
 		NULL,
 		TEXT("DirectX9"),
 		NULL,

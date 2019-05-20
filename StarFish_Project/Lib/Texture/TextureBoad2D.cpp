@@ -30,6 +30,7 @@ namespace Texture {
 		const float y1 = -cy;
 		const float y2 = 1.f - cy;
 
+		
 		// UVの分割
 		UV uv(u_axis, v_axis);
 
@@ -52,6 +53,10 @@ namespace Texture {
 		{ x2,y2,0.0f,1.0f,down_right->x,down_right->y }, // 右下
 		{ x1,y2,0.0f,1.0f,down_left->x,down_left->y },   // 左下
 		};
+
+		// サンプラーステート
+		dev->SetSamplerState(D3DSAMP_ADDRESSU, D3DSAMP_ADDRESSV,
+			D3DTADDRESS_CLAMP);
 
 		// ワールド座標変換系
 		D3DXMATRIX mat_world, mat_trans, mat_scale;

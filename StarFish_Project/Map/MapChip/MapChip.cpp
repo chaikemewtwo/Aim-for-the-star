@@ -73,7 +73,7 @@ MapChip::MapChip(Player*star1,Player*star2,EnemyManager*e_mng) {
 	m_py = 0;
 	m_chip_num = 0;
 	// ジャンプフラグ初期化
-	m_is_jamp = false;
+	m_is_stand = false;
 
 	// 初期化時回りのオブジェクトを生成させる
 	{
@@ -367,11 +367,11 @@ void MapChip::ObjectCreate() {
 			// 練習用にチップ描画
 			if (m_map[m_height_map_num - create_line[y]][x].m_chip_num == 1) {
 				Texture::Draw2D("Resource/Texture/Enemy/hora_ready.png",(float)(CHIP_SIZE * x),((float)(CHIP_SIZE * -create_line[y]) + 
-					WINDOW_H_F - m_pos.y));// -create_line
+					WINDOW_H_F - m_pos.y));
 			}
 
 			// オブジェクト生成、チップ番号が51以上なら
-			if (m_map[m_height_map_num - create_line[y]][x].m_chip_num == 51) {
+			if (m_map[m_height_map_num - create_line[y]][x].m_chip_num >= 100) {
 
 				// 位置を代入
  				D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -create_line[y]) + WINDOW_H_F - m_pos.y);// マップ座標加算
@@ -450,7 +450,7 @@ void MapChip::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 
 	{
 		// y軸の衝突判定(四隅)
-		if ( m_is_jamp = IsFloorCollision(up_left.x, up_left.y, 0.f, move.y,chip_num) == true ||// ジャンプフラグを受け取る
+		if ( m_is_stand = IsFloorCollision(up_left.x, up_left.y, 0.f, move.y,chip_num) == true ||// ジャンプフラグを受け取る
 			IsFloorCollision(up_right.x, up_right.y, 0.f, move.y,chip_num) == true ||
 			IsFloorCollision(down_left.x, down_left.y + CHIP_SIZE, 0.f, move.y,chip_num) == true ||// 衝突点を1CHIP下にずらしている
 			IsFloorCollision(down_right.x, down_right.y + CHIP_SIZE, 0.f, move.y,chip_num) == true) {
@@ -714,8 +714,8 @@ D3DXVECTOR2 MapChip::GetMovePos()const {// 元はmap
 	return -m_move_pos;
 }
 // 着地しているか
-bool MapChip::IsJamp()const {
-	return m_is_jamp;
+bool MapChip::IsStand()const {
+	return m_is_stand;
 }
 
 

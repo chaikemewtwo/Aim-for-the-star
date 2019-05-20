@@ -62,8 +62,8 @@ public:
 	// アクセサ
 	//D3DXVECTOR2 GetMapPos()const;
 	D3DXVECTOR2 GetMovePos()const;
-	// ジャンプしているかどうか
-	bool IsJamp()const;
+	// 立っているかどうか
+	bool IsStand()const;
 
 	void MapResat(float map_y);
 
@@ -152,7 +152,7 @@ private:
 	Player * m_pbase[2];                   // 自機2体                     
 	EnemyManager * e_pmng;                 // 敵の状態
 	// ジャンプフラグ
-	bool m_is_jamp;
+	bool m_is_stand;
 
 	// デバッグ用
 	int m_py;
