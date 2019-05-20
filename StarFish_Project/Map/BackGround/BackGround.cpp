@@ -162,10 +162,10 @@ void BackGround::MovePosUpdate() {
 bool BackGround::LandOnTheGround(){
 
 	// 背景のスクロール制限
-	if (m_pmap->GetPos().y > 0.f) {
+	if (-m_pmap->GetPos().y > 0.f) {
 		return true;
 	}
-	else if (m_pmap->GetPos().y <= 0.f) {
+	else if (-m_pmap->GetPos().y <= 0.f) {
 		return false;
 	}
 

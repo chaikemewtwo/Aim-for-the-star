@@ -19,7 +19,7 @@ ObjectManager::ObjectManager(){
 	m_pplayer[1] = new Player(Player::STAR_2);
 
 	// ロープ生成
-	//Entry(m_prope = new Rope(m_pplayer[0], m_pplayer[1]));
+	Entry(m_prope = new Rope(m_pplayer[0], m_pplayer[1]));
 
 	// 自機生成＆objectに登録
 	Entry(m_pplayer[0]);
@@ -50,7 +50,6 @@ void ObjectManager::Update() {
 
 	// 当たり判定
 	m_pcol_mng->Collision();
-
 }
 
 

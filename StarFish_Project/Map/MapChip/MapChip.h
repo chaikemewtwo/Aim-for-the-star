@@ -35,6 +35,11 @@ class EnemyManager;
 class Player;
 class PlayerBase;
 
+// 衝突方向を渡す
+enum COL_DIRECTION {
+	COL_X,
+	COL_Y,
+};
 
 // 海マップ
 class MapChip : public Object {
@@ -55,21 +60,28 @@ public:
 	void ObjectDestory();
 	
 	// アクセサ
-	D3DXVECTOR2 GetPos()const;
+	//D3DXVECTOR2 GetMapPos()const;
 	D3DXVECTOR2 GetMovePos()const;
 	// ジャンプしているかどうか
 	bool IsJamp()const;
 
+	void MapResat(float map_y);
+
 private:
 
+
 	/* 当たり判定 */
-	void MapCollision(int i);
+	void MapCollision(D3DXVECTOR2&pos, D3DXVECTOR2&move);
 	// 床と当たっているかどうか
 	bool IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y);
 	bool IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y, int &col_chip);
 	// 横と縦の衝突後での位置補正
 	void NowPosXFixToMapPos(float &pos_x, float &move_x);
 	void NowPosYFixToMapPos(float &pos_y, float &move_y);
+	// 引っ付き判定
+	void StuckCenterChip(float &pos_x,float &pos_y,float &move_x,float &move_y);
+	// チップのアクションを起こす関数(ブロックが壊れる、吸いつくなど)
+	void ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos, int chip_num, COL_DIRECTION col_d = COL_X);
 
 	/* 描画遷移関係 */
 	// 描画範囲に入っているか入っていないか判断する関数
@@ -114,8 +126,8 @@ private:
 	const float SHRINK_X = 6.f;
 	const float SHRINK_Y = 6.f;
 	// チップ生成領域
-	const int CHIP_RANGE_UP = 14;
-	const int CHIP_RANGE_DOWN = 5;
+	const int CHIP_RANGE_UP = 19;
+	const int CHIP_RANGE_DOWN = 1;
 
 private:
 
@@ -126,8 +138,8 @@ private:
 	D3DXVECTOR2 m_player_pos[2];           // 自機の位置
 	D3DXVECTOR2 m_player_move_pos[2];      // 自機の移動ベクトル
 	/* マップ描画領域 */
-	D3DXVECTOR2 m_map_pos;                 // 描画用マップの位置
-	D3DXVECTOR2 m_map_move_pos;            // 描画用マップの位置
+	//D3DXVECTOR2 m_pos;                 // 描画用マップの位置
+	D3DXVECTOR2 m_move_pos;            // 描画用マップの位置
 	int m_height_map_num;                  // マップデータの高さ
 	int m_map_chip_id[1000]={};            // 生成されたらマップチップを保存する
 	int m_chip_num;                        // チップの番号
