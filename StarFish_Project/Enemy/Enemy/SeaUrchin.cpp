@@ -16,6 +16,8 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, MapChip* map_chip, bool no_move) {
 	m_max_animation = 4;
 	m_anim_change_time = 20;
 
+	m_texture = m_texture_list[SEAURCHIN_MOVE];
+
 	m_enemy_type = SEAURCHIN_ID;
 
 	if (m_pos.x < (WINDOW_W_F / 2)) {
@@ -29,11 +31,10 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, MapChip* map_chip, bool no_move) {
 
 // 更新関数
 void SeaUrchin::Update() {
-	// 現在のState処理を実行
 	m_pstate_base->Action(this);
 	m_pos.y += m_pmap->GetMovePos().y;
 
-	OutScreen();
+	OutScreenCheck();
 }
 //―――――――――――――――――――――――――――
 
@@ -41,7 +42,7 @@ void SeaUrchin::Update() {
 void SeaUrchin::Draw() {
 
 	Texture::Draw2D(
-		"Resource/Texture/Enemy/uni_move.png",
+		m_texture.c_str(),
 		m_pos.x, m_pos.y,
 		TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
 		m_angle, 0, 0,

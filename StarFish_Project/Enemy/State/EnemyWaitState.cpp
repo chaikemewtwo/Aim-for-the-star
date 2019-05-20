@@ -11,25 +11,19 @@ Wait *Wait::GetInstance() {
 
 // 待機　　基本はここから各Stateに遷移
 void Wait::Action(EnemyBase* e) {
-	e->SetStateId(WAIT_ID);
-
+	/*
 	// NoMoveがtrueならStateは遷移させない
 	if (e->NoMove() == true) {
 		return;
-	}
+	}*/
 
-	// EnemyTypeで遷移先を変更
-	switch (e->GetEnemyType()) {
-	case SEAURCHIN_ID:
-		e->ChangeState(VerticalMove::GetInstance());
-		break;
-	case SELLFISH_ID:
+	e->SetStateId(WAIT_ID);
+	 if (e->IsStateChangeCheck() == ATTACK_READY_ID) {
+		e->SetStateId(ATTACK_READY_ID);
+	}
+	else if (e->IsStateChangeCheck() == SIDEMOVE_ID) {
+		 e->SetStateId(SIDEMOVE_ID);
 		e->ChangeState(SideMove::GetInstance());
-		break;
-	case NAPOLEONFISH_ID:
-		// 仮でSideMoveに遷移
-		e->ChangeState(SideMove::GetInstance());
-		break;
 	}
 }
 //―――――――――――――――――――――
