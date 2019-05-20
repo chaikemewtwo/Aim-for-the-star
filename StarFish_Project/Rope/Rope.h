@@ -28,7 +28,7 @@ private:
 	float LengthAdjust();
 
 	// プレイヤー2体を一定以上離れなくする
-	float PlayersDistanceAdjust();
+	void PlayersDistanceAdjust();
 
 	D3DXVECTOR2 m_p1_pos;
 	D3DXVECTOR2 m_p2_pos;

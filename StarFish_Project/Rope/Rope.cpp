@@ -53,13 +53,29 @@ float Rope::LengthAdjust() {
 
 
 // テストコード
-float Rope::PlayersDistanceAdjust() {
-	if (MAX_ROPE_LEGTH <= PlayersLadiusCalc()) {
-		if (m_p1->GetMovePos() >= (0,0)) {
-			m_p2->AddMove(m_p1->GetMovePos());
+void Rope::PlayersDistanceAdjust() {
+	if (MAX_ROPE_LEGTH < PlayersLadiusCalc()) {
+		if (m_p1->GetMovePos() >= D3DXVECTOR2(0.f, 0.f)) {
+			m_p2->SetMovePos(m_p2->GetMovePos() + m_p1->GetMovePos());
 		}
-		if (m_p2->GetMovePos() >= (0, 0)) {
-			m_p1->AddMove(m_p2->GetMovePos());
+
+		if (m_p2->GetMovePos() >= D3DXVECTOR2(1.f, 1.f)) {
+			m_p1->SetMovePos(m_p1->GetMovePos() + m_p2->GetMovePos());
 		}
 	}
+
+	////縄と距離の差分を算出
+	//float dis =PlayersLadiusCalc()- MAX_ROPE_LEGTH;
+	//auto distance = std::fabs(dis);
+	//D3DXVECTOR2 new_pos = { 0,0 };
+	//if (m_p1->GetPos().y < m_p2->GetPos().y) {
+	//	new_pos.x = m_p1->GetPos().x - distance;
+	//	new_pos.y = m_p1->GetPos().y - distance;
+	//	m_p1->SetPos(new_pos);
+	//}
+	//else {
+	//	new_pos.x = m_p2->GetPos().x - distance;
+	//	new_pos.y = m_p2->GetPos().y - distance;
+	//	m_p2->SetPos(new_pos);
+	//}
 }
