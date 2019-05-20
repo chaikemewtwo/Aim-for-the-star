@@ -10,7 +10,9 @@ Rope::Rope(Player* p_1, Player* p_2) {
 
 void Rope::Update() {
 	m_p1_pos = m_p1->GetPos();
-	m_p2_pos = m_p2->GetPos();	
+	m_p2_pos = m_p2->GetPos();
+
+	PlayersDistanceAdjust();
 }
 
 
@@ -49,11 +51,15 @@ float Rope::LengthAdjust() {
 	return MAX_ROPE_LEGTH / PlayersLadiusCalc();
 }
 
-//
-//float Rope::PlayersDistanceAdjust() {
-//	if (MAX_ROPE_LEGTH <= PlayersLadiusCalc()) {
-//		if (m_p1->GetMovePos() >= (0,0)) {
-//
-//		}
-//	}
-//}
+
+// テストコード
+float Rope::PlayersDistanceAdjust() {
+	if (MAX_ROPE_LEGTH <= PlayersLadiusCalc()) {
+		if (m_p1->GetMovePos() >= (0,0)) {
+			m_p2->AddMove(m_p1->GetMovePos());
+		}
+		if (m_p2->GetMovePos() >= (0, 0)) {
+			m_p1->AddMove(m_p2->GetMovePos());
+		}
+	}
+}

@@ -74,6 +74,11 @@ public:
 		m_move = move;
 	}
 
+	// ヒモ用（仮）
+	void AddMove(D3DXVECTOR2 move) {
+		m_move += move;
+	}
+
 	// 生存フラグゲッター
 	bool GetIsAlive() {
 		return is_alive;
