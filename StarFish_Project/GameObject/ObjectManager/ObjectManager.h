@@ -65,12 +65,13 @@
 
 */
 
-
-class EnemyManager;     // 敵管理の前方参照
-class MapManager;       // マップ管理の前方参照
-class Player;           // 自機の前方参照
-class CollisionManager; // 衝突管理の前方参照 
-class StaminaUI;        // スタミナUIの前方参照
+/* 前方参照 */
+class EnemyManager;     // 敵管理
+class MapManager;       // マップ管理
+class Player;           // 自機
+class CollisionManager; // 衝突管理
+class StaminaUI;        // スタミナUI
+class Rope;             // ロープ
 
 
 // オブジェクト管理クラス
@@ -104,6 +105,7 @@ private:
 	MapManager * m_pm_mng;       // マップ管理クラス
 	Player * m_pplayer[2];       // 自機1,2
 	StaminaUI * m_pstamina_ui;   // スタミナUI
+	Rope * m_prope;              // ロープ
 
 	// 敵管理クラス
 	EnemyManager *m_pe_mng;

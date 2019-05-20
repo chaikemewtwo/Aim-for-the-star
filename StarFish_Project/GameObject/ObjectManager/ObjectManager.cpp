@@ -6,6 +6,7 @@
 #include<algorithm>
 #include"../../StaminaUI/StaminaUI.h"
 #include"../../Map/MapManager/MapManager.h"
+#include"../../Rope/Rope.h"
 
 
 
@@ -24,7 +25,7 @@ ObjectManager::ObjectManager(){
 	// 自機生成＆objectに登録
 	Entry(m_pplayer[0]);
 	Entry(m_pplayer[1]);
-
+	
 	// スタミナUI生成
 	Entry(m_pstamina_ui = new StaminaUI(m_pplayer[0], m_pplayer[1]));
 	// マップ管理生成
