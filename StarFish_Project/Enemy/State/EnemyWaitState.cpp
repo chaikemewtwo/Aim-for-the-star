@@ -13,6 +13,7 @@ Wait *Wait::GetInstance() {
 void Wait::Action(EnemyBase* e) {
 	e->SetStateId(WAIT_ID);
 
+	/*
 	// NoMoveがtrueならStateは遷移させない
 	if (e->NoMove() == true) {
 		return;
@@ -20,6 +21,8 @@ void Wait::Action(EnemyBase* e) {
 
 	// EnemyTypeで遷移先を変更
 	switch (e->GetEnemyType()) {
+
+		// ChangeStateはそのままで、遷移処理を敵の内部で行う
 	case SEAURCHIN_ID:
 		e->ChangeState(VerticalMove::GetInstance());
 		break;
@@ -35,6 +38,13 @@ void Wait::Action(EnemyBase* e) {
 		// 仮でSideMoveに遷移
 		e->ChangeState(SideMove::GetInstance());
 		break;
+	}*/
+	
+	if (e->IsStateChangeCheck() == WAIT_ID) {
+		return;
+	}
+	else if (e->IsStateChangeCheck() == SIDEMOVE_ID) {
+		e->ChangeState(SideMove::GetInstance());
 	}
 }
 //―――――――――――――――――――――

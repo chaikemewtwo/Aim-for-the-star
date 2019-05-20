@@ -31,21 +31,23 @@ public:
 	EnemyBase();
 	virtual ~EnemyBase() {}
 
+	virtual StateId IsStateChangeCheck() = 0;
+
 	virtual void ChangeState(StateBase* state);
 	// 2体のプレイヤーの、自身とより近い距離を返す関数
-	virtual float CalcDistance();
+	virtual float CalcDistance();//《引数で現在地と目標地をとれるように変更》
 	// 敵の位置がプレイヤーの上かをboolで返す関数
-	virtual bool PosIsTop();
+	virtual bool PosIsTop();			
 	// 敵のインスタンスを返す関数
-	virtual EnemyBase* GetInstance();
+	virtual EnemyBase* GetInstance();	
 
-	// 各種ゲッター、セッター
+	// 各種Getter・setter //
 	virtual float GetSpeed();
 	virtual int GetPower();
 	// 移動するかの判定フラグのゲッター
-	virtual bool NoMove();
+	virtual bool NoMove();				
 	// 左右どちらにいるか判定フラグのゲッター
-	virtual bool IsLeft();
+	virtual bool IsLeft();				
 	virtual int GetEnemyType();
 	virtual void SetStateId(StateId state_id);
 
