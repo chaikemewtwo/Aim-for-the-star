@@ -105,7 +105,7 @@ void Player::Update() {
 
 
 void Player::Draw() {
-	// 自機2にも自機1のものを使用中
+
 	// 第7、8引数が0.5fずつで中心座標から描画	
 	// 被弾状態は描画する、しないを切り替えて表現する
 	if (m_draw_enable == true) {
