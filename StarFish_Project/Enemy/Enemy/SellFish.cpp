@@ -14,18 +14,15 @@ SellFish::SellFish(D3DXVECTOR2 pos, MapChip* map_chip, Player* p1, Player* p2,bo
 	m_power = 15;			
 	m_max_animation = 2;
 	m_anim_change_time = 20;
-	m_enemy_type = SELLFISH_ID;
-	m_texture = m_texture_list[SELLFISH_WAIT];
+	m_enemy_texture = m_texture_list[SELLFISH_WAIT];
 
 	if (m_pos.x < (WINDOW_W_F / 2)) {
 		m_is_left = true;
 		m_angle = 180;
-		m_center = 1;
 	}
 	else if (m_pos.x > (WINDOW_W_F / 2)) {
 		m_is_left = false;
 		m_angle = 0;
-		m_center = 0;
 	}
 }
 //―――――――――――――――――――――――
@@ -40,7 +37,7 @@ void SellFish::Update() {
 
 void SellFish::Draw() {
 	Texture::Draw2D(
-		m_texture.c_str(),
+		m_enemy_texture.c_str(),
 		m_pos.x, m_pos.y,
 		TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
 		m_angle, m_center, m_center,
@@ -51,23 +48,23 @@ void SellFish::Draw() {
 }
 //―――――――――――――――――――――――
 
-StateId SellFish::IsStateChangeCheck() {
+StateId SellFish::StateChangeCheck() {
 	// 自身がプレイヤーの上にいる場合
 	if (IsTopPos() == true) {
 
 		if (CalcDistance() < 200) {
 			m_anim_change_time = 5;
 			m_max_animation = 4;
-			m_texture = m_texture_list[SELLFISH_ATTACK];
+			m_enemy_texture = m_texture_list[SELLFISH_ATTACK];
 
 			return SIDEMOVE_ID;
 		}
 		else if (CalcDistance() < 350) {
 			m_anim_change_time = 10;
 			m_max_animation = 2;
-			m_texture = m_texture_list[SELLFISH_READY];
+			m_enemy_texture = m_texture_list[SELLFISH_READY];
 
-			return ATTACK_READY_ID;
+			return WAIT_ID;
 		}
 	}
 	// 自身がプレイヤーの下にいる場合
@@ -76,14 +73,14 @@ StateId SellFish::IsStateChangeCheck() {
 		if (CalcDistance() < 100) {
 			m_anim_change_time = 5;
 			m_max_animation = 4;
-			m_texture = m_texture_list[SELLFISH_ATTACK];
+			m_enemy_texture = m_texture_list[SELLFISH_ATTACK];
 
 			return SIDEMOVE_ID;
 		}
 		else if (CalcDistance() < 250) {
 			m_anim_change_time = 10;
 			m_max_animation = 2;
-			m_texture = m_texture_list[SELLFISH_READY];
+			m_enemy_texture = m_texture_list[SELLFISH_READY];
 
 			return ATTACK_READY_ID;
 		}
@@ -91,7 +88,8 @@ StateId SellFish::IsStateChangeCheck() {
 
 	m_anim_change_time = 20;
 	m_max_animation = 2;
-	m_texture = m_texture_list[SELLFISH_WAIT];
+	m_enemy_texture = m_texture_list[SELLFISH_WAIT];
+
 	return WAIT_ID;
 }
 //―――――――――――――――――――――――

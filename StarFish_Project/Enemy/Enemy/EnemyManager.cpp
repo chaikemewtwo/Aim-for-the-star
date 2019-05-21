@@ -32,7 +32,6 @@ void EnemyManager::Update() {
 void EnemyManager::Draw() {
 	for (auto i : m_enemy_list) {
 		if (i != nullptr) {
-			// 各要素の描画処理
 			i->Draw();
 		}
 	}
@@ -41,21 +40,27 @@ void EnemyManager::Draw() {
 
 // 敵生成の関数
 void EnemyManager::EnemyCreate(D3DXVECTOR2 pos, MapChip* map_chip, Player* p1, Player* p2) {
-	if (m_enemy_list.size() < (unsigned int)Enemy_Max_Num) {
-		// 一定の確率で敵を生成
-		//if (rand() % 100 == 0) {
-		//	// ランダムに割り出したxyを使用して敵を登録
-		//	m_enemy_list.emplace_back(new SeaUrchin(pos, map_chip));
-		//	m_pobj_mng->Entry(m_enemy_list.back());
-		//}
-		//else if (rand() % 100 == 5) {
-		//	m_enemy_list.emplace_back(new SeaUrchin(pos, map_chip, true));
-		//	m_pobj_mng->Entry(m_enemy_list.back());
-		//}
-		//else if (rand() % 100 == 3) {
+	// 1～3の数値をランダムに選出《処理を変更予定》
+	/*
+	マップチップを受け取って、その数値によって生成する敵の種類を変更する。
+	例）if(mapchip_num > 100) { ほら貝生成; }
+	    else if(mapchip_num >50 && mapchip_num <100) { ウニ生成; }
+	*/
+	int random_num = 1 + (int)(rand()*(3 - 1 + 1.0) / (1.0 + RAND_MAX));
+
+	switch (random_num) {
+	case SEAURCHIN:
+		m_enemy_list.emplace_back(new SeaUrchin(pos, map_chip));
+		m_pobj_mng->Entry(m_enemy_list.back());
+		break;
+	case NO_MOVE_SEAURCHIN:
+		m_enemy_list.emplace_back(new SeaUrchin(pos, map_chip, true));
+		m_pobj_mng->Entry(m_enemy_list.back());
+		break;
+	case SELLFISH:
 		m_enemy_list.emplace_back(new SellFish(pos, map_chip, p1, p2));
-			m_pobj_mng->Entry(m_enemy_list.back());
-		//}
+		m_pobj_mng->Entry(m_enemy_list.back());
+		break;
 	}
 }
 //―――――――――――――――――――――――――――
@@ -90,7 +95,6 @@ void EnemyManager::Delete() {
 }
 //――――――――――――――――――――――――――――
 
-// 生成している敵の総数を返す関数
 int EnemyManager::GetEnemyTotal() {
 	return m_enemy_list.size();
 }

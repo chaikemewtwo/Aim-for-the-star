@@ -5,11 +5,11 @@
 
 EnemyBase::EnemyBase() {
 	m_angle = 0;
-	m_center = 0;
+	m_center = 0.5;
+	// 当たり判定の変形を設定
+	m_radius = 64;
 	m_delete_timer = 60;
 	m_max_animation = 0;
-	m_enemy_type = ENEMY_TYPE_MAX;
-	m_stateid = STATEID_MAX;
 	m_pstate_base = Wait::GetInstance();
 
 	// 敵画像の登録
@@ -86,19 +86,7 @@ int EnemyBase::GetPower() {
 	return m_power;
 }
 
-bool EnemyBase::NoMove() {
-	return m_no_move;
-}
-
 bool EnemyBase::IsLeft() {
 	return m_is_left;
-}
-
-int EnemyBase::GetEnemyType() {
-	return m_enemy_type;
-}
-
-void EnemyBase::SetStateId(StateId state_id) {
-	m_stateid = state_id;
 }
 //―――――――――――――――――――――

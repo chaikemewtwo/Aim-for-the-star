@@ -15,8 +15,7 @@ public:
 	void Draw()override;
 
 private:
-	// 削除フラグ判定関数
-	void DeleteJudg();
+	void DeleteCheck();
 	// 2点の間の角度(ラジアン)を求める関数
 	float CalcRadian(float from_x, float from_y, float to_x, float to_y);
 
@@ -26,12 +25,13 @@ private:
 	D3DXVECTOR2 m_goal_pos;		// 目的地の座標
 	int m_anim_change_time;		// 1コマのアニメーションの時間
 	int m_max_animation;		// 描画するアニメーションの数
-
-	ObjectManager* m_pobj_mng;	
+	std::string m_blind_texture;
 
 	const int TEX_PARTITION_NUM = 2;
 
 	// 生存範囲のサイズ《現在は仮の数値を代入》
 	const float DELETE_WIDE_MIN = -600;
 	const float DELETE_WIDE_MAX = WINDOW_W_F + 600;
+
+	ObjectManager* m_pobj_mng;
 };

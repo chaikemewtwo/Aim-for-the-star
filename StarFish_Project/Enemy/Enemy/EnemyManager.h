@@ -24,9 +24,16 @@ public:
 	EnemyBase* GetEnemyInstance(int num);
 
 private:
-	ObjectManager* m_pobj_mng;				// オブジェクトの格納変数
-	Blind* m_pblind;						// ブラインドクラス格納変数
+	// 敵生成時の指定用定数
+	enum EnemyType {
+		SEAURCHIN = 1,
+		NO_MOVE_SEAURCHIN,
+		SELLFISH,
+		ENEMYTYPE_MAX
+	};
+
 	std::vector<EnemyBase*> m_enemy_list;	// 生成した敵の配列
 
-	const int Enemy_Max_Num = 10;			// 敵の生成最大数(仮)
+	ObjectManager* m_pobj_mng;				
+	Blind* m_pblind;						
 };
