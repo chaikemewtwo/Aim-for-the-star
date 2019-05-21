@@ -9,6 +9,7 @@ Object::Object() {
 	m_id = 0;
 	m_animation_timer = 0;
 	m_animation_num = 0;
+	m_sort_num = 0;
 }
 
 
@@ -33,6 +34,10 @@ D3DXVECTOR2 Object::GetPos()const {
 
 int Object::GetId()const {
 	return m_id;
+}
+
+int Object::GetSortNum()const {
+	return m_sort_num;
 }
 
 bool Object::IsActive()const {

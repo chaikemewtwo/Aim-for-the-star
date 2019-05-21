@@ -61,7 +61,7 @@ HWND MakeWindow(int w, int h) {// 他にも入るものがあるかも
 		NULL,
 		TEXT("DirectX9"),
 		TEXT("DirectX9"),
-		/*(WS_OVERLAPPEDWINDOW^WS_THICKFRAME) | WS_VISIBLE ,*/WS_POPUP, 
+		(WS_OVERLAPPEDWINDOW^WS_THICKFRAME) | WS_VISIBLE/*WS_POPUP*/, 
 		0,// 引数を無視する。
 		0,//CW_USEDDEFAULTにしないと描画してくれない。
 		rect.right - rect.left,

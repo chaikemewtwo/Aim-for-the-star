@@ -2,7 +2,7 @@
 #include"../Object/Object.h"
 #include"../../CollisionObject/CollisionManager.h"
 #include<unordered_map>
-
+#include<queue>
 
 
 
@@ -90,13 +90,17 @@ public:
 	// 配列の削除(メモリの削除ではない)
 	void Exit(unsigned int id);
 
+	void Sort();
+
 private:
 
 	// オブジェクト管理クラス(更新時にアドレスを入れる)
-	std::unordered_map<unsigned int,Object*>m_obj_lists;
-
+	std::unordered_map<unsigned int,Object*>m_obj_list;
 	// 使い終わったidを再利用するための配列
-	std::vector<unsigned int>m_used_id_lists;
+	std::vector<unsigned int>m_used_id_list;
+	// ソートする描画用のコンテナ
+	std::vector<Object*>m_draw_obj_list;
+
 	// 現在最大のid
 	unsigned int m_current_max_id;
 

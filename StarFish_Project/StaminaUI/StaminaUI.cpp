@@ -14,6 +14,7 @@ void StaminaUI::Update(){
 
 
 void StaminaUI::Draw() {
+
 	// 黒バー
 	Texture::Draw2D("Resource/Texture/UI/ui_bla.png", 0.f, GAGE_MAX_POS);
 	// 黒バー
@@ -26,7 +27,7 @@ void StaminaUI::Draw() {
 	Texture::Draw2D("Resource/Texture/UI/ui_vio.png", RIGHT_GAGE_POS, GagePosYCalc(p2_stamina_parcent));
 	
 	// 岩
-	Texture::Draw2D("Resource/Texture/UI/ui_lef.png", 0.f, 0.f);
+	Texture::Draw2DUVShift("Resource/Texture/UI/ui_lef.png", 0.f, 0.f,-0.01f,0.f);
 	Texture::Draw2D("Resource/Texture/UI/ui_rig.png", RIGHT_ROCK_POS, 0.f);
 }
 

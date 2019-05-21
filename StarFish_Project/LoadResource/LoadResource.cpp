@@ -67,6 +67,7 @@ void Resource::LoadResouce() {
 	Texture::Load("Resource/Texture/Map/bg_hero_01.png");
 	Texture::Load("Resource/Texture/Map/bg_hero_02.png");
 	Texture::Load("Resource/Texture/Map/bg_hero_03.png");
+	Texture::Load("Resource/Texture/Map/bg_hero_04.png");
 
 	// 岩（仮）
 	Texture::Load("Resource/Texture/Map/chip_map_image_64.png");
