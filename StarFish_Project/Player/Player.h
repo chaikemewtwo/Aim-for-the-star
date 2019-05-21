@@ -46,6 +46,7 @@ public:
 	// HACK:[256]を直す
 	std::string star_texture_name[MAX_TEXTURE_NUM][256];
 
+
 	// コンストラクタ（引数はプレイヤーのID）
 	Player(ID id);
 	// デストラクタ（まだ触れていない、ゲームメインの2周目に不具合が出る可能性あり）
@@ -67,6 +68,10 @@ public:
 	// プレイヤー座標セッター
 	void SetPos(D3DXVECTOR2 pos) {
 		m_pos = pos;
+	}
+
+	void DecMoveY() {
+		m_move.y -= GRAVITY;
 	}
 
 	// プレイヤー移動量セッター
