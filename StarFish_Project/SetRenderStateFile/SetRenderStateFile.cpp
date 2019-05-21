@@ -5,17 +5,17 @@
 void SetRenderStateConfig() {
 	
 	// シェードモード:グラデーション
-	dev->SetRenderState(D3DRS_SHADEMODE,D3DSHADE_GOURAUD);
+	//dev->SetRenderState(D3DRS_SHADEMODE,D3DSHADE_GOURAUD);
 	// カリングモード無し
-	dev->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE);
+	//dev->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE);
 	// Zバッファオフ
 	dev->SetRenderState(D3DRS_ZENABLE, FALSE);
 	dev->SetRenderState(D3DRS_ZWRITEENABLE,TRUE);
 	dev->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
 	// ライトoff
-	dev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//dev->SetRenderState(D3DRS_LIGHTING, FALSE);
 	// スぺきゅら光オン
-	dev->SetRenderState(D3DRS_SPECULARENABLE, TRUE);
+	//dev->SetRenderState(D3DRS_SPECULARENABLE, TRUE);
 	// アルファチャンネルオン
 	dev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	// 通常ブレンディング

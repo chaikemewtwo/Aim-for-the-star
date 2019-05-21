@@ -21,7 +21,7 @@ struct CUSTOM_VERTEX
 
 namespace Texture {
 
-	void Draw2D(const char*file_name,float x,float y, float scale_w,float scale_h,float angle,float cx,float cy,bool uv_cut,int u_axis,int v_axis,int graph_num) {
+	void Draw2D(const char*file_name,float x,float y, float scale_w,float scale_h,float angle,float cx,float cy,bool uv_cut,int u_axis,int v_axis,int graph_num,float u,float v) {
 		
 		TEXTURE_DATA *tex_d = &tex_list[file_name];
 
@@ -30,7 +30,6 @@ namespace Texture {
 		const float y1 = -cy;
 		const float y2 = 1.f - cy;
 
-		
 		// UVの分割
 		UV uv(u_axis, v_axis);
 
@@ -48,10 +47,10 @@ namespace Texture {
 		// VERTEX3Dの初期化
 		CUSTOM_VERTEX cv[] =
 		{
-		{ x1,y1,0.0f,1.0f,up_left->x,up_left->y },       // 左上
-		{ x2,y1,0.0f,1.0f,up_right->x,up_right->y },     // 右上
-		{ x2,y2,0.0f,1.0f,down_right->x,down_right->y }, // 右下
-		{ x1,y2,0.0f,1.0f,down_left->x,down_left->y },   // 左下
+		{ x1,y1,0.0f,1.0f,up_left->x,up_left->y },              // 左上
+		{ x2,y1,0.0f,1.0f,up_right->x,up_right->y + v},         // 右上
+		{ x2,y2,0.0f,1.0f,down_right->x + u,down_right->y + v}, // 右下
+		{ x1,y2,0.0f,1.0f,down_left->x + u,down_left->y},       // 左下
 		};
 
 		// サンプラーステート

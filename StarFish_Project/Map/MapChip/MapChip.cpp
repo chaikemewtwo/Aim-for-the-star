@@ -183,17 +183,17 @@ void MapChip::Update() {
 	}
 
 	// スクロールしてもいいかの判定
-	bool is_scroll = IsScroll(m_player_pos[0].y, m_player_pos[1].y);
+	//bool is_scroll = IsScroll(m_player_pos[0].y, m_player_pos[1].y);
 
 	for (int i = 0; i < 2; i++) {
 		// スクロールしてもいいかどうか
-		if (is_scroll == true) {
+		//if (is_scroll == true) {
 			// スクロールライン
 			DrawLineIsActive(m_player_pos[i].y, m_player_move_pos[i].y, m_scroll_range_up, m_scroll_range_down);
-		}
-		else {
-			is_scroll = false;
-		}
+		//}
+		//else {
+		//	is_scroll = false;
+		//}
 	}
 
 
@@ -595,12 +595,15 @@ void MapChip::NowPosYFixToMapPos(float &pos_y, float &move_y) {
 		// チップサイズ割り出し
 		chip_pos_y = (float)GetChipCastByPos((pos_y +(m_pos.y)) - (move_y - RETOUCH + SHRINK_Y));// SHRINK_Y関係のバグ
 
-		pos_y = (chip_pos_y * CHIP_SIZE) + (-m_pos.y);
+		pos_y = (chip_pos_y * CHIP_SIZE) + (-m_pos.y) - m_move_pos.y;// -move_y
 
 		// 縮小する時
 		if (SHRINK_Y > 0.f) {
 			// 修正(自機の移動とマップの移動を加算)
-			pos_y += (CHIP_SIZE - SHRINK_Y) - move_y - m_move_pos.y;
+			pos_y += (CHIP_SIZE - SHRINK_Y);
+		}
+		if (move_y != 0.f) {
+
 		}
 
 		// スクロール範囲に入っていれば
@@ -625,6 +628,7 @@ void MapChip::NowPosYFixToMapPos(float &pos_y, float &move_y) {
 		if (SHRINK_Y > 0.f) {
 			pos_y += SHRINK_Y;
 		}
+
 
 		// スクロール範囲に入っていれば
 		if (pos_y > m_scroll_range_down) {
