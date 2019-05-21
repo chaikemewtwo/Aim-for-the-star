@@ -5,7 +5,9 @@
 
 EnemyBase::EnemyBase() {
 	m_angle = 0;
-	m_center = 0;
+	m_center = 0.5;
+	// 当たり判定の変形を設定
+	m_radius = 64;
 	m_delete_timer = 60;
 	m_max_animation = 0;
 	m_pstate_base = Wait::GetInstance();

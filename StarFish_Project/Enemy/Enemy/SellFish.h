@@ -8,7 +8,7 @@
 class SellFish :public EnemyBase {
 public:
 	SellFish(D3DXVECTOR2 pos, MapChip* map_chip, Player*p1, Player* p2, bool no_move = false);
-	~SellFish() {}
+	~SellFish()override {}
 
 	void Update()override;
 	void Draw()override;
