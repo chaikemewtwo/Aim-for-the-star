@@ -21,7 +21,7 @@ void Rope::Draw() {
 		"Resource/Texture/Player/himo.png",
 		m_p1_pos.x,
 		m_p1_pos.y,
-		0.5f / LengthAdjust(),
+		0.5f ,
 		0.5f,
 		AngleCalc()
 	);
@@ -57,10 +57,12 @@ void Rope::PlayersDistanceAdjust() {
 	if (MAX_ROPE_LEGTH < PlayersLadiusCalc()) {
 		if (m_p1->GetMovePos() >= D3DXVECTOR2(0.f, 0.f)) {
 			m_p2->SetMovePos(m_p2->GetMovePos() + m_p1->GetMovePos());
+			m_p2->DecMoveY();
 		}
 
-		if (m_p2->GetMovePos() >= D3DXVECTOR2(1.f, 1.f)) {
+		if (m_p2->GetMovePos() >= D3DXVECTOR2(0.f, 0.f)) {
 			m_p1->SetMovePos(m_p1->GetMovePos() + m_p2->GetMovePos());
+			m_p1->DecMoveY();
 		}
 	}
 
