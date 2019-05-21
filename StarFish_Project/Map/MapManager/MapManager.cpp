@@ -47,3 +47,12 @@ void MapManager::Draw() {
 	m_pbg->Draw();
 	m_pmap_tip->Draw();
 }
+
+// 奥行バージョン
+void MapManager::AfterUpdate() {
+	m_pbg2->Update();
+}
+
+void MapManager::AfterDraw() {
+	m_pbg2->Draw();
+}

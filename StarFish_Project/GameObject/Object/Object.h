@@ -22,6 +22,7 @@ public:
 	/* ゲッター */
 	D3DXVECTOR2 GetPos()const;
 	int GetId()const;
+	int GetSortNum()const;
 	bool IsActive()const;
 
 	/* セッター */
@@ -34,6 +35,7 @@ protected:
 	bool m_is_active;      // Objectが活動しているかの状態変数(活動中true 活動停止false)
 	int m_animation_timer; // アニメーションの時間 
 	int m_animation_num;   // 現在のアニメーションの数
+	int m_sort_num;          // ソート番号
 	
 private:
 	int m_id;              // 生成id

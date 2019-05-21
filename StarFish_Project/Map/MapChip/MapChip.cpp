@@ -14,10 +14,8 @@
 
 // スクロールのバグ
 // 上下ヒトデが行ったらバグった
-
 // スクロールで下と上に強制的に言ったらバグった
 // スクロールすると当たり判定の戻す位置がずれる。
-// チップをでかくする
 
 // structでチップに情報を持たせた方がいい
 
@@ -31,6 +29,7 @@
 // 2枚の背景でいける
 // 当たり判定はずらした分だけ戻ってもいい
 
+// ChipInfo
 
 // コンストラクタ
 MapChip::MapChip(Player*star1,Player*star2,EnemyManager*e_mng) {
@@ -57,23 +56,24 @@ MapChip::MapChip(Player*star1,Player*star2,EnemyManager*e_mng) {
 	Load("Map/MapData/MapData.csv");
 
 	// とりあえずべた書き
-	chip_str[0] = "Resource/Texture/Map/chip_map_image_64.png";
-	chip_str[1] = "Resource/Texture/Map/chip-map_image_01.png";
-	chip_str[2] = "Resource/Texture/Map/chip-map_image_02.png";
-	chip_str[3] = "Resource/Texture/Map/chip-map_image_03.png";
-	chip_str[4] = "Resource/Texture/Map/chip-map_image_04.png";
-	chip_str[5] = "Resource/Texture/Map/chip-map_image_05.png";
-	chip_str[6] = "Resource/Texture/Map/chip-map_image_06.png";
-	chip_str[7] = "Resource/Texture/Map/chip-map_image_07.png";
-	chip_str[8] = "Resource/Texture/Map/chip-map_image_08.png";
-	chip_str[9] = "Resource/Texture/Map/chip-map_image_09.png";
-	chip_str[10] = "Resource/Texture/Map/chip-map_image_10.png";
+	chip_str[0] = "Resource/Texture/Map/chip-map_image_01.png";
+	chip_str[1] = "Resource/Texture/Map/chip-map_image_02.png";
+	chip_str[2] = "Resource/Texture/Map/chip-map_image_03.png";
+	chip_str[3] = "Resource/Texture/Map/chip-map_image_04.png";
+	chip_str[4] = "Resource/Texture/Map/chip-map_image_05.png";
+	chip_str[5] = "Resource/Texture/Map/chip-map_image_06.png";
+	chip_str[6] = "Resource/Texture/Map/chip-map_image_07.png";
+	chip_str[7] = "Resource/Texture/Map/chip-map_image_08.png";
+	chip_str[8] = "Resource/Texture/Map/chip-map_image_09.png";
+	chip_str[9] = "Resource/Texture/Map/chip-map_image_10.png";
 	
 	// デバッグ初期化
 	m_py = 0;
 	m_chip_num = 0;
 	// ジャンプフラグ初期化
 	m_is_stand = false;
+	// 壁の衝突フラグ
+	m_is_wall_col = false;
 
 	// 初期化時回りのオブジェクトを生成させる
 	{
@@ -186,14 +186,8 @@ void MapChip::Update() {
 	//bool is_scroll = IsScroll(m_player_pos[0].y, m_player_pos[1].y);
 
 	for (int i = 0; i < 2; i++) {
-		// スクロールしてもいいかどうか
-		//if (is_scroll == true) {
-			// スクロールライン
-			DrawLineIsActive(m_player_pos[i].y, m_player_move_pos[i].y, m_scroll_range_up, m_scroll_range_down);
-		//}
-		//else {
-		//	is_scroll = false;
-		//}
+		
+		DrawLineIsActive(m_player_pos[i].y, m_player_move_pos[i].y, m_scroll_range_up, m_scroll_range_down);
 	}
 
 
@@ -244,11 +238,13 @@ void MapChip::Draw() {
 			}
 
 			// ブロック描画範囲決定
-			if (m_map[(m_height_map_num) - y][x].m_chip_num >= 2 && m_map[(m_height_map_num)-y][x].m_chip_num <= 11) {
+			if (m_map[(m_height_map_num) - y][x].m_chip_num >= 1 && 
+				m_map[(m_height_map_num)-y][x].m_chip_num <=MAX_BEDROCK_CHIP) {
 
-				Texture::Draw2D(chip_str[m_map[(m_height_map_num) - y][x].m_chip_num - 1],
+				Texture::Draw2DUVShift(chip_str[m_map[(m_height_map_num) - y][x].m_chip_num - 1],
 					(float)(x * CHIP_SIZE),
-					(float)(-y * CHIP_SIZE) + 1080 - m_pos.y);
+					(float)(-y * CHIP_SIZE) + 1080 - m_pos.y,
+					0.f,0.f);
 			}
 			// 0番目の文字列描画
 			else if (m_map[(m_height_map_num) - y][x].m_chip_num == 1) {
@@ -328,7 +324,7 @@ void MapChip::LandOnTheGround() {
 	// 着地点に着地したら
 	if (m_pos.y > INIT_MAP_POS_Y) {
 
-		m_pos.y = INIT_MAP_POS_Y;
+		m_pos.y = 800.f;
 
 		m_player_move_pos[0].y = 0.f;
 		m_player_move_pos[1].y = 0.f;
@@ -365,10 +361,10 @@ void MapChip::ObjectCreate() {
 			}
 
 			// 練習用にチップ描画
-			if (m_map[m_height_map_num - create_line[y]][x].m_chip_num == 1) {
-				Texture::Draw2D("Resource/Texture/Enemy/hora_ready.png",(float)(CHIP_SIZE * x),((float)(CHIP_SIZE * -create_line[y]) + 
-					WINDOW_H_F - m_pos.y));
-			}
+			//if (m_map[m_height_map_num - create_line[y]][x].m_chip_num == 1) {
+			//	Texture::Draw2D("Resource/Texture/Enemy/hora_ready.png",(float)(CHIP_SIZE * x),((float)(CHIP_SIZE * -create_line[y]) + 
+			//		WINDOW_H_F - m_pos.y));
+			//}
 
 			// オブジェクト生成、チップ番号が51以上なら
 			if (m_map[m_height_map_num - create_line[y]][x].m_chip_num >= 100) {
@@ -411,10 +407,10 @@ void MapChip::ObjectDestory() {
 			}
 
 			// 練習用にチップ描画
-			if (m_map[m_height_map_num - destory_line[y]][x].m_chip_num == 1){
-				Texture::Draw2D("Resource/Texture/Map/chip-map_image_05.png",(float)(CHIP_SIZE * x),(float)(CHIP_SIZE * -destory_line[y])
-					+ WINDOW_H_F - m_pos.y);
-			}
+			//if (m_map[m_height_map_num - destory_line[y]][x].m_chip_num == 1){
+			//	Texture::Draw2D("Resource/Texture/Map/chip-map_image_05.png",(float)(CHIP_SIZE * x),(float)(CHIP_SIZE * -destory_line[y])
+			//		+ WINDOW_H_F - m_pos.y);
+			//}
 			// チップを消すタイミング、チップを生成するタイミングが必要
 			// チップが活動しているなら
 			if (m_map[(m_height_map_num - destory_line[y])][x].m_is_active == true){
@@ -458,6 +454,9 @@ void MapChip::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 			// 縦の衝突判定とアクション
 			ChipAction(pos, move, chip_num,COL_Y);
 		}
+		else {
+			m_is_wall_col = false;
+		}
 	}
 
 	// y軸変更
@@ -485,6 +484,9 @@ void MapChip::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 			// 横の衝突判定
 			ChipAction(pos, move, chip_num,COL_X);
 		}
+		else {
+			m_is_wall_col = false;
+		}
 	}
 
 }
@@ -504,9 +506,11 @@ void MapChip::ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos,int chip_num, CO
 	else if (col_d == COL_Y) {
 
 		NowPosYFixToMapPos(pos.y, move_pos.y);
+		m_is_wall_col = true;
 	}
 	else if (col_d == COL_X) {
 		NowPosXFixToMapPos(pos.x, move_pos.x);
+		m_is_wall_col = true;
 	}
 	
 }
@@ -707,21 +711,32 @@ float MapChip::GetChipPosCastByChip(const float &chip_pos, const float &chip_y)c
 
 // マップのリセット
 void MapChip::MapResat(float map_y) {
-	m_pos.y =map_y;
+	m_pos.y = map_y;
 }
 
 // アクセサ
 //D3DXVECTOR2 MapChip::GetMapPos()const{
 //	return -m_pos;
 //}
+
 D3DXVECTOR2 MapChip::GetMovePos()const {// 元はmap
 	return -m_move_pos;
 }
+
 // 着地しているか
 bool MapChip::IsStand()const {
 	return m_is_stand;
 }
 
+// 壁衝突しているか
+bool MapChip::IsWallCollision()const {
+	return m_is_wall_col;
+}
+
+// 文字列読み込み
+void StringLoad(const std::string) {
+
+}
 
 
 

@@ -45,9 +45,7 @@ enum COL_DIRECTION {
 class MapChip : public Object {
 public:
 
-
 	MapChip(Player*star1, Player*star2, EnemyManager*e_mng);
-
 
 	// 更新関数
 	void Update();
@@ -64,11 +62,14 @@ public:
 	D3DXVECTOR2 GetMovePos()const;
 	// 立っているかどうか
 	bool IsStand()const;
+	// 壁に衝突しているかどうか
+	bool IsWallCollision()const;
 
 	void MapResat(float map_y);
 
 private:
-
+	// オブジェクト化する欠点は必要のないオブジェクト
+	// 描画を行うチップはオブジェクト化する理由はある。
 
 	/* 当たり判定 */
 	void MapCollision(D3DXVECTOR2&pos, D3DXVECTOR2&move);
@@ -128,12 +129,14 @@ private:
 	// チップ生成領域
 	const int CHIP_RANGE_UP = 19;
 	const int CHIP_RANGE_DOWN = 1;
+	// 岩盤の最大チップ数
+	static const int MAX_BEDROCK_CHIP = 10;
 
 private:
 
 	/* マップチップ関係 */
 	tagMapChip m_map[1000][1000] = {};     // 全体マップバッファ
-	const char*chip_str[11];               // チップ文字列
+	const char*chip_str[MAX_BEDROCK_CHIP];               // チップ文字列
 	/* マップ座標 */
 	D3DXVECTOR2 m_player_pos[2];           // 自機の位置
 	D3DXVECTOR2 m_player_move_pos[2];      // 自機の移動ベクトル
@@ -152,7 +155,8 @@ private:
 	Player * m_pbase[2];                   // 自機2体                     
 	EnemyManager * e_pmng;                 // 敵の状態
 	// ジャンプフラグ
-	bool m_is_stand;
+	bool m_is_stand;                       // 立つフラグ
+	bool m_is_wall_col;                    // 壁衝突フラグ
 
 	// デバッグ用
 	int m_py;

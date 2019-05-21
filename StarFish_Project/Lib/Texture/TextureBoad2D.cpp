@@ -53,9 +53,8 @@ namespace Texture {
 		{ x1,y2,0.0f,1.0f,down_left->x + u,down_left->y},       // 左下
 		};
 
-		// サンプラーステート
-		dev->SetSamplerState(D3DSAMP_ADDRESSU, D3DSAMP_ADDRESSV,
-			D3DTADDRESS_CLAMP);
+		// サンプラーステート(描画外は描画しない)
+		dev->SetSamplerState(D3DSAMP_ADDRESSU, D3DSAMP_ADDRESSV,D3DTADDRESS_CLAMP);
 
 		// ワールド座標変換系
 		D3DXMATRIX mat_world, mat_trans, mat_scale;
@@ -110,5 +109,9 @@ namespace Texture {
 
 	void Draw2DRotaAnimation(const char*file_name, const float&pos_x, const float&pos_y, const float &angle, const int &u_cut_num, const int&v_cut_num, const int&anim_num) {
 		Draw2D(file_name, pos_x, pos_y, 1.f, 1.f, angle, 0.f, 0.f, true, u_cut_num, v_cut_num, anim_num);
+	}
+
+	void Draw2DUVShift(const char*file_name, const float &pos_x, const float &pos_y, const float&shift_u, const float&shift_v) {
+		Draw2D(file_name, pos_x, pos_y, 1.f, 1.f, 0.f, 0.f, 0.f, false,0,0,0,shift_u,shift_v);
 	}
 }

@@ -57,4 +57,6 @@ namespace Texture {
 	void Draw2DTransGraph(const char*file_name, const float&pos_x, const float&pos_y, const float &scale_x, const float&scale_y, const float&angle);
 	void Draw2DRotaGraph(const char*file_name, const float&pos_x, const float &pos_y, const float&angle);
 	void Draw2DAnimationGraph(const char*file_name, const float&pos_x, const float&pos_y, const int&u_cut_num, const int&v_cut_num, const int&anim_num);
+	// UVをずらす関数
+	void Draw2DUVShift(const char*file_name, const float &pos_x, const float &pos_y, const float&shift_u, const float&shift_v);
 }

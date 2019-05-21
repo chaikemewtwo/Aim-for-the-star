@@ -28,11 +28,9 @@ public:
 	void Update();
 	void Draw();
 
-	// 奥行バージョン
-	void AfterUpdate() {
-		m_pbg2->Update();
-		m_pbg2->Draw();
-	}
+	// 後の更新と描画
+	void AfterUpdate();
+	void AfterDraw();
 
 private:
 
