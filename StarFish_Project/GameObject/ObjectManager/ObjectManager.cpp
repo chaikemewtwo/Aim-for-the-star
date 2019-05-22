@@ -1,37 +1,40 @@
 ﻿#include"ObjectManager.h"
-#include"../../CollisionObject/CollisionManager.h"
 #include"../../Enemy/Enemy/EnemyManager.h"
 #include"../../Player/Player.h"
 #include"../../Map/MapChip/MapChip.h"
-#include<algorithm>
 #include"../../StaminaUI/StaminaUI.h"
 #include"../../Map/MapManager/MapManager.h"
 #include"../../Rope/Rope.h"
+#include"../Object/Object.h"
+
+#include<algorithm>
+#include<iostream>
 
 
 
 ObjectManager::ObjectManager(){
 
-	// 敵管理生成
-	m_pe_mng = new EnemyManager(this);
-
 	// プレイヤー生成
 	m_pplayer[0] = new Player(Player::STAR_1);
 	m_pplayer[1] = new Player(Player::STAR_2);
-
+	// 敵管理生成
+	m_pe_mng = new EnemyManager(this);
 	// ロープ生成
-	Entry(m_prope = new Rope(m_pplayer[0], m_pplayer[1]));
+	m_prope = new Rope(m_pplayer[0], m_pplayer[1]);
+	// スタミナUI生成
+	m_pstamina_ui = new StaminaUI(m_pplayer[0], m_pplayer[1]);
+	// マップ管理生成
+	m_pm_mng = new MapManager(m_pplayer[0], m_pplayer[1], m_pe_mng, this);
+	// 当たり判定管理生成
+	m_pcol_mng = new CollisionManager(m_pplayer[0], m_pplayer[1], m_pe_mng);
 
-	// 自機生成＆objectに登録
+
+	// オブジェクト登録
+	Entry(m_prope);
 	Entry(m_pplayer[0]);
 	Entry(m_pplayer[1]);
+	Entry(m_pstamina_ui);
 	
-	// スタミナUI生成
-	Entry(m_pstamina_ui = new StaminaUI(m_pplayer[0], m_pplayer[1]));
-	// マップ管理生成
-	m_pm_mng = new MapManager(m_pplayer[0], m_pplayer[1], m_pe_mng);
-	// 当たり判定管理を作る
-	m_pcol_mng = new CollisionManager(m_pplayer[0], m_pplayer[1], m_pe_mng);
 }
 
 
@@ -40,11 +43,8 @@ void ObjectManager::Update() {
 	// 敵管理クラス更新
 	m_pe_mng->Update();
 
-	// マップ管理クラス更新
-	m_pm_mng->Update();
-
 	// 描画用オブジェクトをソートする
-	//Sort();
+	DrawObjSort();
 
 	// 更新
 	for (auto&itr : m_obj_list) {
@@ -52,62 +52,41 @@ void ObjectManager::Update() {
 		itr.second->Update();
 	}
 
-	// 後の描画
-	m_pm_mng->AfterUpdate();
-
 	// 当たり判定
 	m_pcol_mng->Collision();
+
 }
 
 
 void ObjectManager::Draw() {
 
-	// マップ管理クラス描画
-	m_pm_mng->Draw();
-
-	// 描画
-	for (auto &itr : m_obj_list){
-
-		(itr).second->Draw();
+	// 描画用オブジェクト描画
+	for (auto &itr : m_draw_obj_list) {
+		(*itr).Draw();
 	}
-
-	m_pm_mng->AfterDraw();
 }
 
 
-void ObjectManager::Sort(){
+void ObjectManager::DrawObjSort(){
 
 	// 一旦他のコンテナに入れ替えないといけない
 	// 描画用の配列を作る
-
-	std::vector<Object*>::iterator swap;
-
-	// 削除
-	std::vector<Object*>(m_draw_obj_list).swap(m_draw_obj_list);
+	
+	// 前のを削除
 	m_draw_obj_list.clear();
-
-	//for (int i = 0; i < m_draw_obj_list.size(); ++i) {
-	//	if (m_draw_obj_list[i] != nullptr) {
-	//		delete m_draw_obj_list[i];
-	//	}
-	//}
-
+	std::vector<Object*>().swap(m_draw_obj_list);
+	
 	// 要素を全て入れる。
 	for (auto itr = m_obj_list.begin(); itr != m_obj_list.end();++itr) {
-		m_draw_obj_list.emplace_back((itr)->second);
-	}
-	// ソートを行う
-	for (auto itr = m_draw_obj_list.begin(); itr != m_draw_obj_list.end(); ++itr) {
-		
-		// 後の値より大きい場合(昇順)
-		if ((*itr)->GetSortNum() > (*itr++)->GetSortNum()) {
 
-			// 入れ替え
-			swap = itr;
-			itr = itr++;
-			itr++ = swap;
-		}
+		m_draw_obj_list.push_back(itr->second);
 	}
+
+	// 昇順ソートを行う
+	std::sort(m_draw_obj_list.begin(), m_draw_obj_list.end(),
+		[](const Object*x, const Object*y) {
+		return x->GetSortNum() < y->GetSortNum();
+	});
 }
 
 

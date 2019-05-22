@@ -2,6 +2,8 @@
 #include"../GameObject/Object/Object.h"
 #include"../Player/Player.h"
 #include"../Enemy/Enemy/EnemyManager.h"
+#include"CollisionObject.h"
+#include"../CollisionObject/CircleCollisionObject.h"
 
 
 CollisionManager::CollisionManager(Player*p1,Player*p2, EnemyManager*e_mng) {

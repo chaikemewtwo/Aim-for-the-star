@@ -31,7 +31,7 @@ public:
 	static constexpr float BG_CHANGE_LINE = 10.f;
 
 	// ファイル名とスクロールする位置の参照をいれる。
-	BackGround(const std::string&file_name,MapChip*map);
+	BackGround(const std::string&file_name,MapChip*map,SortObject sort_num);
 
 	void Update();
 	void Draw();

@@ -2,9 +2,11 @@
 #include <cmath>
 
 
-Rope::Rope(Player* p_1, Player* p_2) {
+Rope::Rope(Player* p_1,Player* p_2) {
 	m_p1 = p_1;
 	m_p2 = p_2;
+	
+	m_sort_object = ROPE;
 }
 
 

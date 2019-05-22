@@ -4,12 +4,14 @@
 
 
 
-BackGround::BackGround(const std::string&file_name,MapChip*map) {
+BackGround::BackGround(const std::string&file_name,MapChip*map,SortObject sort_num) {
+
+	// ソート番号代入
+	m_sort_object = sort_num;
 
 	m_pos.x = m_pos.y = 0.f;
 	
-	// デバッグの背景読み込み
-
+	// 文字列初期化
 	for (int i = 0; i < GRAPH_NUM; i++) {
 		m_pback_str[i] = '\0';
 	}

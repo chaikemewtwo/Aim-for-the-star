@@ -1,16 +1,14 @@
 ﻿#pragma once
-#include"CollisionObject.h"
-#include"../CollisionObject/CircleCollisionObject.h"
 #include<vector>
 
 
-// enumで形状を返してもいい
-
 const int PLAYER_NUM = 2;
 
-
-class EnemyManager; // 敵管理の前方参照
-class Player;       // 自機の前方参照
+// 前方参照
+class CollisionObject;      // 衝突オブジェクト
+class CircleCollisionObject;// 円衝突オブジェクト
+class EnemyManager;         // 敵管理
+class Player;               // 自機
 
 
 // 当たり判定を行う場所

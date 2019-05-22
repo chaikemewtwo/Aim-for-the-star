@@ -12,6 +12,9 @@ EnemyBase::EnemyBase() {
 	m_max_animation = 0;
 	m_pstate_base = Wait::GetInstance();
 
+	// ソートオブジェクトに敵追加
+	m_sort_object = SortObject::ENEMY;
+
 	// 敵画像の登録
 	m_texture_list[SEAURCHIN_MOVE] = "Resource/Texture/Enemy/uni_move.png";
 	m_texture_list[SELLFISH_WAIT] = "Resource/Texture/Enemy/hora_wait.png";

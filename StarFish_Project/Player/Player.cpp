@@ -34,6 +34,7 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	// 描画フラグ
 	m_draw_enable = true;
 
+	m_sort_object = SortObject::PLAYER;
 
 	// 自機1（ヒくん、オレンジの方）
 	if (id == STAR_1) {
