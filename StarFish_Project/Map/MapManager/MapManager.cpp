@@ -1,16 +1,20 @@
 ﻿#include"MapManager.h"
 #include"../../Player/Player.h"
 #include"../MapChip/MapChip.h"
+#include"../../GameObject/ObjectManager/ObjectManager.h"
 
 
-MapManager::MapManager(Player*star1,Player*star2,EnemyManager*e_mng) {
+
+MapManager::MapManager(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 	
+	// オブジェクト管理
+	m_pobj_mng = obj_mng;
 	// マップチップ
-	m_pmap_tip = new MapChip(star1,star2,e_mng);
-	// 背景1
-	m_pbg = new BackGround("Map/BGData/BG1.csv", m_pmap_tip);
-	// 背景2
-	m_pbg2 = new BackGround("Map/BGData/BG2.csv",m_pmap_tip);
+	obj_mng->Entry(m_pmap_tip = new MapChip(star1,star2,e_mng));
+	// 背景1オブジェクト登録
+	obj_mng->Entry(m_pbg = new BackGround("Map/BGData/BG1.csv", m_pmap_tip,BG_BEFORE));
+	// 背景2s
+	obj_mng->Entry(m_pbg2 = new BackGround("Map/BGData/BG2.csv",m_pmap_tip,BG_AFTER));
 }
 
 

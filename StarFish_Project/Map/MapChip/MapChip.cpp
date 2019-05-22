@@ -34,6 +34,8 @@
 // コンストラクタ
 MapChip::MapChip(Player*star1,Player*star2,EnemyManager*e_mng) {
 
+	m_sort_object = MAP;
+
 	// 自機の参照受け取り
 	m_pbase[0] = star1;
 	m_pbase[1] = star2;
@@ -321,18 +323,21 @@ bool MapChip::IsScroll(float &pos_y1, float &pos_y2) {
 // 注意!ここで色々初期化している
 void MapChip::LandOnTheGround() {
 
+	// 変更した
 	// 着地点に着地したら
-	if (m_pos.y > INIT_MAP_POS_Y) {
+	if (m_pos.y >= INIT_MAP_POS_Y) {
 
-		m_pos.y = 800.f;
-
+		m_draw_range_down = 800.f;
 		m_player_move_pos[0].y = 0.f;
 		m_player_move_pos[1].y = 0.f;
 		
-		// マップの移動を初期化
+		// マップの移動を初期化して移動させないようにする
 		m_move_pos.y = 0.f;
-		// マップ座標初期化
-		//m_map_pos.y = 0.f;
+		// マップ座標を初期化して移動させないようにする
+		m_pos.y = 0.f;
+	}
+	else {
+		m_draw_range_down = SCROLL_RANGE_DOWN;
 	}
 }
 

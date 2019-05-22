@@ -4,6 +4,7 @@
 StaminaUI::StaminaUI(Player* p_1, Player* p_2) {
 	p1 = p_1;
 	p2 = p_2;
+	m_sort_object = UI;
 };
 
 

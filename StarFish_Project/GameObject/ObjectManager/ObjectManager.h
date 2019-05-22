@@ -1,9 +1,8 @@
 ﻿#pragma once
-#include"../Object/Object.h"
 #include"../../CollisionObject/CollisionManager.h"
 #include<unordered_map>
 #include<queue>
-
+#include<memory>
 
 
 /* 説明書
@@ -66,6 +65,7 @@
 */
 
 /* 前方参照 */
+class Object;           // オブジェクトクラス
 class EnemyManager;     // 敵管理
 class MapManager;       // マップ管理
 class Player;           // 自機
@@ -73,6 +73,17 @@ class CollisionManager; // 衝突管理
 class StaminaUI;        // スタミナUI
 class Rope;             // ロープ
 
+// 定数の登録順にソート
+enum SortObject {
+	BG_BEFORE,
+	MAP,
+	ROPE,
+	PLAYER,
+	ENEMY,
+	BG_AFTER,
+	UI,
+	MAX,
+};
 
 // オブジェクト管理クラス
 class ObjectManager {
@@ -90,29 +101,23 @@ public:
 	// 配列の削除(メモリの削除ではない)
 	void Exit(unsigned int id);
 
-	void Sort();
-
 private:
 
-	// オブジェクト管理クラス(更新時にアドレスを入れる)
-	std::unordered_map<unsigned int,Object*>m_obj_list;
-	// 使い終わったidを再利用するための配列
-	std::vector<unsigned int>m_used_id_list;
-	// ソートする描画用のコンテナ
-	std::vector<Object*>m_draw_obj_list;
+	// 描画用オブジェクトのソート
+	void DrawObjSort();
 
-	// 現在最大のid
-	unsigned int m_current_max_id;
+	/* 管理用の配列など */
+	std::unordered_map<unsigned int,Object*>m_obj_list;// オブジェクト管理クラス(更新時にアドレスを入れる)
+	std::vector<unsigned int>m_used_id_list;           // 使い終わったidを再利用するための配列
+	std::vector<Object*>m_draw_obj_list;               // 描画用オブジェクトリスト
 
-	/* ここにオブジェクトインスタンスを持つ */
+	unsigned int m_current_max_id;// 現在最大のid
 
-	MapManager * m_pm_mng;       // マップ管理クラス
-	Player * m_pplayer[2];       // 自機1,2
-	StaminaUI * m_pstamina_ui;   // スタミナUI
-	Rope * m_prope;              // ロープ
-
-	// 敵管理クラス
-	EnemyManager *m_pe_mng;
-	// 衝突管理クラス
-	CollisionManager *m_pcol_mng;
+	/* object参照 */
+	MapManager * m_pm_mng;        // マップ管理クラス
+	Player * m_pplayer[2];        // 自機1,2
+	StaminaUI * m_pstamina_ui;    // スタミナUI
+	Rope * m_prope;               // ロープ
+	EnemyManager *m_pe_mng;       // 敵管理クラス
+	CollisionManager *m_pcol_mng; // 衝突管理クラス
 };
