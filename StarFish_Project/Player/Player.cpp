@@ -34,6 +34,7 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	// 描画フラグ
 	m_draw_enable = true;
 
+	swim_enable = false;
 
 	// 自機1（ヒくん、オレンジの方）
 	if (id == STAR_1) {
@@ -151,6 +152,7 @@ void Player::AngleAdjust(bool is_move_right) {
 
 
 void Player::SwimUp() {
+	swim_enable = true;
 	// 上方向への移動量(ベクトルの長さ)を割り出す
 	m_move.x += sin(m_character_angle * PI / (float)180.f) * m_speed;
 	m_move.y -= cos(m_character_angle * PI / (float)180.f) * m_speed;

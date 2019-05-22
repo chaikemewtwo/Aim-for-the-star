@@ -22,6 +22,8 @@ void PlayerWaitState::Init(Player* p) {
 void PlayerWaitState::Update(Player* p) {
 	Keybord& kb = Keybord::getInterface();
 
+	p->swim_enable = false;
+
 	// アニメーション
 	p->AnimationDraw(MAX_ANIMATION_TEX_NUM, ONE_ANIMATION_SPEED);
 

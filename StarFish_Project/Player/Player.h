@@ -42,10 +42,11 @@ public:
 		MAX_TEXTURE_NUM
 	};
 
+	bool swim_enable;
+
 	// テクスチャ文字列保持
 	// HACK:[256]を直す
 	std::string star_texture_name[MAX_TEXTURE_NUM][256];
-
 
 	// コンストラクタ（引数はプレイヤーのID）
 	Player(ID id);
@@ -71,7 +72,7 @@ public:
 	}
 
 	void DecMoveY() {
-		m_move.y -= GRAVITY;
+		m_move.y += GRAVITY;
 	}
 
 	// プレイヤー移動量セッター
