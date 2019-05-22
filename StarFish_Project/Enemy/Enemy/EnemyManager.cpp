@@ -39,7 +39,7 @@ void EnemyManager::Draw() {
 //―――――――――――――――――――――――――――
 
 // 敵生成の関数
-void EnemyManager::EnemyCreate(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, int enemy_num) {
+void EnemyManager::EnemyCreate(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, EnemyType type_num) {
 	// 1～3の数値をランダムに選出《処理を変更予定》
 	/*
 	マップチップを受け取って、その数値によって生成する敵の種類を変更する。
@@ -47,7 +47,7 @@ void EnemyManager::EnemyCreate(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2
 	    else if(mapchip_num >50 && mapchip_num <100) { ウニ生成; }
 	*/
 
-	switch (enemy_num) {
+	switch (type_num) {
 	case SEAURCHIN:
 		m_enemy_list.emplace_back(new SeaUrchin(pos, map));
 		m_pobj_mng->Entry(m_enemy_list.back());
