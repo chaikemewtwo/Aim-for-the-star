@@ -9,7 +9,6 @@
 #include "../CollisionObject/CircleCollisionObject.h"
 #include "PlayerState\PlayerStateBase.h"
 
-class MapChip;
 
 // HACK:m_moveをm_vectorに変更した方がわかりやすい、それに伴いGetMovePos等も変更
 
@@ -50,7 +49,7 @@ public:
 	std::string star_texture_name[MAX_TEXTURE_NUM][256];
 
 	// コンストラクタ（引数はプレイヤーのID）
-	Player(ID id,MapChip *map_chip);
+	Player(ID id);
 	// デストラクタ（まだ触れていない、ゲームメインの2周目に不具合が出る可能性あり）
 	~Player() {}
 
@@ -232,6 +231,4 @@ private:
 
 	// 無敵時間
 	int invisible_count;
-
-	MapManager* m_map_manager;
 };
