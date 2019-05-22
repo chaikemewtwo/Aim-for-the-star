@@ -2,9 +2,9 @@
 #include "../Player/Player.h"
 
 
-class StaminaUI:public Object {
+class GameUI:public Object {
 public:
-	StaminaUI(Player* p1, Player* p2);
+	GameUI(Player* p1, Player* p2);
 
 	void Update()override;
 	void Draw()override;
