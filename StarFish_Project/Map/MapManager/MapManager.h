@@ -4,7 +4,7 @@
 // 前方参照
 class EnemyManager;
 class Player;
-class MapChip;
+class Map;
 class BackGround;
 class ObjectManager;
 
@@ -23,12 +23,12 @@ public:
 	void Draw();
 
 	// 後の更新と描画
-	MapChip GetMapInstance()const;
+	Map GetMapInstance()const;
 
 private:
 
 	// 参照
-	MapChip *m_pmap_tip; // マップの選択
+	Map *m_pmap_tip; // マップの選択
 	BackGround*m_pbg;     // 背景
 	BackGround *m_pbg2;   // 奥行用の背景
 	ObjectManager*m_pobj_mng;// オブジェクト管理

@@ -40,10 +40,10 @@ enum COL_DIRECTION {
 };
 
 // 海マップ
-class MapChip : public Object {
+class Map : public Object {
 public:
 
-	MapChip(Player*star1, Player*star2, EnemyManager*e_mng);
+	Map(Player*star1, Player*star2, EnemyManager*e_mng);
 
 	// 更新関数
 	void Update();
@@ -54,14 +54,18 @@ public:
 	void ObjectCreate();
 	// Object削除
 	void ObjectDestory();
+	// マップとの当たり判定
+	void MapCollision(D3DXVECTOR2&pos, D3DXVECTOR2&move);
 	
 	// アクセサ
 	//D3DXVECTOR2 GetMapPos()const;
 	D3DXVECTOR2 GetMovePos()const;
 	// 立っているかどうか
 	bool IsStand()const;
-	// 壁に衝突しているかどうか
+	// 壁に衝突しているかどうかの活動
 	bool IsWallCollision()const;
+	bool IsWallVerticalCollision()const;
+	bool IsWallSideCollision()const;
 
 	void MapResat(float map_y);
 
@@ -70,7 +74,6 @@ private:
 	// 描画を行うチップはオブジェクト化する理由はある。
 
 	/* 当たり判定 */
-	void MapCollision(D3DXVECTOR2&pos, D3DXVECTOR2&move);
 	// 床と当たっているかどうか
 	bool IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y);
 	bool IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y, int &col_chip);
@@ -139,8 +142,8 @@ private:
 	D3DXVECTOR2 m_player_pos[2];           // 自機の位置
 	D3DXVECTOR2 m_player_move_pos[2];      // 自機の移動ベクトル
 	/* マップ描画領域 */
-	//D3DXVECTOR2 m_pos;                 // 描画用マップの位置
-	D3DXVECTOR2 m_move_pos;            // 描画用マップの位置
+	//D3DXVECTOR2 m_pos;                   // 描画用マップの位置
+	D3DXVECTOR2 m_move_pos;                // 描画用マップの位置
 	int m_height_map_num;                  // マップデータの高さ
 	int m_map_chip_id[1000]={};            // 生成されたらマップチップを保存する
 	int m_chip_num;                        // チップの番号
@@ -155,10 +158,9 @@ private:
 	// ジャンプフラグ
 	bool m_is_stand;                       // 立つフラグ
 	bool m_is_wall_col;                    // 壁衝突フラグ
+	bool m_is_wall_col_side;               // 横に衝突
+	bool m_is_wall_col_vertical;           // 縦に衝突
 
-	// デバッグ用
-	int m_py;
-	float m_after_pos_y;
 };
 
 
