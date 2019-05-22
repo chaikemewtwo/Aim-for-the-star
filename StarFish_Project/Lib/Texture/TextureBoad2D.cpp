@@ -44,6 +44,7 @@ namespace Texture {
 		D3DXVECTOR2 *down_left = &uv.GetUvDownLeftBuffer();
 		D3DXVECTOR2 *down_right = &uv.GetUvDownRightBuffer();
 		
+		
 		// VERTEX3Dの初期化
 		CUSTOM_VERTEX cv[] =
 		{
@@ -54,8 +55,10 @@ namespace Texture {
 		};
 
 		// サンプラーステート(描画外は描画しない)
-		dev->SetSamplerState(D3DSAMP_ADDRESSU, D3DSAMP_ADDRESSV,D3DTADDRESS_CLAMP);
-
+		dev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+		dev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+	
+		
 		// ワールド座標変換系
 		D3DXMATRIX mat_world, mat_trans, mat_scale;
 		// ワールド変換回転。

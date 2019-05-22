@@ -14,24 +14,26 @@ class Map; //マップの前方参照
 class BackGround : public Object{
 public:
 
-	// constexprはコンパイル時定数になる
-	static constexpr int GRAPH_NUM = 5;
 	// 背景の大きさ
-	static constexpr int GRAPH_SCALE_H = 1180;
-	static constexpr int GRAPH_SCALE_W = 1920;
-	// 背景の端数
-	static constexpr int GRAPH_DIFFERENCE = 50;
-	// 背景が入れ替わる範囲
-	static constexpr float BG_CHANGE_LINE = 10.f;
+	static const int GRAPH_SCALE_H = 1180;
+	static const int GRAPH_SCALE_W = 1920;
 
 	// ファイル名とスクロールする位置の参照をいれる。
-	BackGround(const std::string&file_name,Map*map,SortObject sort_num,float x = -50.f, float y = 0.f);
+	BackGround(const std::string&file_name,Map*map,SortObject sort_num,float x = -50.f, float y = 0.f, int difference = 50);
 
 	void Update();
 	void Draw();
 
 private:
 
+	// constexprはコンパイル時定数になる
+	static const int GRAPH_NUM = 8;
+	// 背景の端数
+	static const int GRAPH_DIFFERENCE = 50;
+	// 背景が入れ替わる範囲
+	static constexpr float BG_CHANGE_LINE = 10.f;
+
+private:
 	// 自機を取り入れる
 	void MovePosUpdate();
 
@@ -47,15 +49,17 @@ private:
 	// 地面に着地
 	bool LandOnTheGround();
 
+
 	const char* m_pback_str[GRAPH_NUM]; // 背景文字列
 	char str_load[GRAPH_NUM][500];      // 読み込み専用のもの
 
 	// 背景
-	D3DXVECTOR2 m_pos;      // 背景遷移判定上
-	D3DXVECTOR2 m_move_pos; // 移動ベクトル
-	int m_current_pos;      // 今いる位置
-	int m_connect1_graph;   // 連結画像1 
-	int m_connect2_graph;   // 連結画像2
+	D3DXVECTOR2 m_pos;                      // 背景遷移判定上
+	D3DXVECTOR2 m_move_pos;                 // 移動ベクトル
+	int m_current_pos;                      // 今いる位置
+	int m_connect1_graph;                   // 連結画像1 
+	int m_connect2_graph;                   // 連結画像2
+	int m_graph_difference;                 // 背景の端数
 
 	// 遷移位置
 	Map *m_pmap;
