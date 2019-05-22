@@ -22,7 +22,7 @@ public:
 	
 	void Update();	
 	void Draw();
-	void EnemyCreate(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, int enemy_num);
+	void EnemyCreate(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, EnemyType enemy_num);
 	void BlindCreate(D3DXVECTOR2 pos, D3DXVECTOR2 goal);
 	void Delete();
 
