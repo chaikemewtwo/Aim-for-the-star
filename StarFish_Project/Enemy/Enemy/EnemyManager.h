@@ -7,6 +7,14 @@
 #include"EnemyBase.h"
 
 
+// 敵生成時の指定用定数
+enum EnemyType {
+	SEAURCHIN = 1,
+	NO_MOVE_SEAURCHIN,
+	SELLFISH,
+	ENEMYTYPE_MAX
+};
+
 class EnemyManager {
 public:
 	EnemyManager(ObjectManager* obj_mng);
@@ -14,7 +22,7 @@ public:
 	
 	void Update();	
 	void Draw();
-	void EnemyCreate(D3DXVECTOR2 pos, MapChip* map_chip, Player* p1, Player* p2);
+	void EnemyCreate(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, int enemy_num);
 	void BlindCreate(D3DXVECTOR2 pos, D3DXVECTOR2 goal);
 	void Delete();
 
@@ -24,14 +32,6 @@ public:
 	EnemyBase* GetEnemyInstance(int num);
 
 private:
-	// 敵生成時の指定用定数
-	enum EnemyType {
-		SEAURCHIN = 1,
-		NO_MOVE_SEAURCHIN,
-		SELLFISH,
-		ENEMYTYPE_MAX
-	};
-
 	std::vector<EnemyBase*> m_enemy_list;	// 生成した敵の配列
 
 	ObjectManager* m_pobj_mng;				

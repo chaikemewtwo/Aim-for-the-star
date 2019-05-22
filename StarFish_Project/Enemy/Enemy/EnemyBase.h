@@ -71,7 +71,7 @@ protected:
 	const float TEXTURE_SIZE_Y = 0.5f;	// 描画する画像のYサイズ
 
 	StateBase* m_pstate_base;	// 状態を保存する変数
-	MapChip* m_pmap;
+	Map* m_pmap;
 	Player* m_pplayer1;
 	Player* m_pplayer2;
 };

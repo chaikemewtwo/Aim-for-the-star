@@ -1,8 +1,8 @@
 ﻿#include"SellFish.h"
 
 
-SellFish::SellFish(D3DXVECTOR2 pos, MapChip* map_chip, Player* p1, Player* p2,bool no_move) {
-	m_pmap = map_chip;
+SellFish::SellFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2,bool no_move) {
+	m_pmap = map;
 	m_pplayer1 = p1;
 	m_pplayer2 = p2;
 

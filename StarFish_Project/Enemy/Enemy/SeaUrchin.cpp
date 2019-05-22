@@ -2,8 +2,8 @@
 
 
 //コンストラクタ
-SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, MapChip* map_chip, bool no_move) {
-	m_pmap = map_chip;
+SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* map, bool no_move) {
+	m_pmap = map;
 
 	m_pos.x = pos.x;
 	m_pos.y = pos.y;
