@@ -4,9 +4,10 @@
 #include "PlayerState/PlayerStandingWaitState/PlayerStandingWaitState.h"
 #include <cmath>
 #include <time.h>
+#include "../Map/MapManager/MapManager.h"
 
 
-Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
+Player::Player(ID id, MapChip *map_chip) :m_state(PlayerWaitState::GetInstance()) {
 	Keybord& kb = Keybord::getInterface();
 
 	// 生存フラグ
@@ -34,6 +35,7 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	// 描画フラグ
 	m_draw_enable = true;
 
+	// ソート
 	m_sort_object = SortObject::PLAYER;
 
 	// 自機1（ヒくん、オレンジの方）
@@ -79,6 +81,9 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	// WaitState初回のみ画像の初期化をしてやる（画像の初期化がWaitStateが生成されるタイミングより遅いため）
 	// HACK:もっといい書き方ありそう
 	m_player_texture = star_texture_name[WAIT_TEXTURE][256];
+
+
+	m_map_manager = map_manage;
 }
 
 
@@ -155,6 +160,10 @@ void Player::SwimUp() {
 	// 上方向への移動量(ベクトルの長さ)を割り出す
 	m_move.x += sin(m_character_angle * PI / (float)180.f) * m_speed;
 	m_move.y -= cos(m_character_angle * PI / (float)180.f) * m_speed;
+
+	if (m_map_manager->) {
+		m_move.y = 0.f;
+	}
 }
 
 
