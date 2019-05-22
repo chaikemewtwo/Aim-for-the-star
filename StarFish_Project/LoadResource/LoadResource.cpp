@@ -86,7 +86,7 @@ void Resource::LoadResouce() {
 	// 泡エフェクト
 	Texture::Load("Resource/Texture/Effect/bubbles.png");
 
-	// UI
+	// GameUI
 	// 岩
 	// 左
 	Texture::LoadEx("Resource/Texture/UI/ui_lef.png");
@@ -98,6 +98,9 @@ void Resource::LoadResouce() {
 	Texture::Load("Resource/Texture/UI/ui_vio.png");
 	// 橙バー
 	Texture::Load("Resource/Texture/UI/ui_ora.png");
+
+	// しっぱいロゴ
+	Texture::Load("Resource/Texture/UI/over_logo.png");
 	//-----------------------------------------------------
 
 

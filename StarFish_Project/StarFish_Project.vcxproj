@@ -60,7 +60,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="SetRenderStateFile\SetRenderStateFile.cpp" />
-    <ClCompile Include="StaminaUI\StaminaUI.cpp">
+    <ClCompile Include="GameUI\GameUI.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -110,7 +110,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="SetRenderStateFile\SetRenderStateFile.h" />
-    <ClInclude Include="StaminaUI\StaminaUI.h">
+    <ClInclude Include="GameUI\GameUI.h">
       <SubType>
       </SubType>
     </ClInclude>

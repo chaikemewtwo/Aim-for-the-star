@@ -68,7 +68,7 @@ class EnemyManager;     // 敵管理
 class MapManager;       // マップ管理
 class Player;           // 自機
 class CollisionManager; // 衝突管理
-class StaminaUI;        // スタミナUI
+class GameUI;        // ゲームメインUI
 class Rope;             // ロープ
 
 // 定数の登録順に昇順ソート
@@ -79,7 +79,7 @@ enum SortObject {
 	PLAYER,
 	ENEMY,
 	BG_AFTER,
-	UI,
+	GAME_UI,
 	MAX,
 };
 
@@ -114,7 +114,7 @@ private:
 	/* object参照 */
 	MapManager * m_pm_mng;        // マップ管理クラス
 	Player * m_pplayer[2];        // 自機1,2
-	StaminaUI * m_pstamina_ui;    // スタミナUI
+	GameUI * m_pui;    // スタミナGameUI
 	Rope * m_prope;               // ロープ
 	EnemyManager *m_pe_mng;       // 敵管理クラス
 	CollisionManager *m_pcol_mng; // 衝突管理クラス

@@ -2,7 +2,7 @@
 #include"../../Enemy/Enemy/EnemyManager.h"
 #include"../../Player/Player.h"
 #include"../../Map/MapChip/MapChip.h"
-#include"../../StaminaUI/StaminaUI.h"
+#include"../../GameUI/GameUI.h"
 #include"../../Map/MapManager/MapManager.h"
 #include"../../Rope/Rope.h"
 #include"../Object/Object.h"
@@ -22,8 +22,8 @@ ObjectManager::ObjectManager(){
 	m_pe_mng = new EnemyManager(this);
 	// ロープ生成
 	m_prope = new Rope(m_pplayer[0], m_pplayer[1]);
-	// スタミナUI生成
-	m_pstamina_ui = new StaminaUI(m_pplayer[0], m_pplayer[1]);
+	// スタミナGameUI生成
+	m_pui = new GameUI(m_pplayer[0], m_pplayer[1]);
 	// マップ管理生成
 	m_pm_mng = new MapManager(m_pplayer[0], m_pplayer[1], m_pe_mng, this);
 	// 当たり判定管理生成
@@ -34,7 +34,7 @@ ObjectManager::ObjectManager(){
 	Entry(m_prope);
 	Entry(m_pplayer[0]);
 	Entry(m_pplayer[1]);
-	Entry(m_pstamina_ui);
+	Entry(m_pui);
 	
 }
 
