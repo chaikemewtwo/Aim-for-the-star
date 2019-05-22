@@ -30,7 +30,7 @@ void PlayerSwimState::Update(Player* p) {
 	p->SwimUp();
 
 	//// 重力付与
-	//p->AddGravity();
+	/*p->AddGravity();*/
 
 	// 左右角度変更
 	// 左

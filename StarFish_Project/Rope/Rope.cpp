@@ -23,7 +23,7 @@ void Rope::Draw() {
 		"Resource/Texture/Player/himo.png",
 		m_p1_pos.x,
 		m_p1_pos.y,
-		0.5f ,
+		0.5f / LengthAdjust(),
 		0.5f,
 		AngleCalc()
 	);
@@ -44,6 +44,7 @@ float Rope::PlayersLadiusCalc() {
 		((m_p2_pos.y - m_p1_pos.y)*(m_p2_pos.y - m_p1_pos.y)));
 	// 2点間の距離から半径算出
 	float radius = sqrt(distance);
+
 	return radius;
 }
 
@@ -56,15 +57,14 @@ float Rope::LengthAdjust() {
 
 // テストコード
 void Rope::PlayersDistanceAdjust() {
-	if (MAX_ROPE_LEGTH < PlayersLadiusCalc()) {
-		if (m_p1->GetMovePos() >= D3DXVECTOR2(0.f, 0.f)) {
+	if (MAX_ROPE_LEGTH <= PlayersLadiusCalc()) {
+		// HACK:PlayersLadiusCalc()にMAX_ROPE_LEGTHより大きい値が入り続ける
+		if (m_p1->swim_enable == true || m_p2->swim_enable == false) {
 			m_p2->SetMovePos(m_p2->GetMovePos() + m_p1->GetMovePos());
-			m_p2->DecMoveY();
 		}
 
-		if (m_p2->GetMovePos() >= D3DXVECTOR2(0.f, 0.f)) {
+		if (m_p2->swim_enable == true || m_p1->swim_enable == false) {
 			m_p1->SetMovePos(m_p1->GetMovePos() + m_p2->GetMovePos());
-			m_p1->DecMoveY();
 		}
 	}
 
