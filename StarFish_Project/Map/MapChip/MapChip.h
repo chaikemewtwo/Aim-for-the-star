@@ -1,7 +1,5 @@
 ﻿#pragma once
 #include"../BackGround/BackGround.h"
-#include"../../Lib/Window/Window.h"
-#include"../../GameObject/Object/Object.h"
 
 
 /*

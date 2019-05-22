@@ -1,7 +1,5 @@
 ﻿#pragma once
-#include"../../CollisionObject/CollisionManager.h"
 #include<unordered_map>
-#include<queue>
 #include<memory>
 
 
@@ -73,7 +71,7 @@ class CollisionManager; // 衝突管理
 class StaminaUI;        // スタミナUI
 class Rope;             // ロープ
 
-// 定数の登録順にソート
+// 定数の登録順に昇順ソート
 enum SortObject {
 	BG_BEFORE,
 	MAP,

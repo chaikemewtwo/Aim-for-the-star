@@ -1,10 +1,4 @@
 ﻿#pragma once
-//#include"Object.h"
-
-#include"../../Lib/D3D/D3D9.h"
-#include"../../Lib/Texture/Texture.h"
-#include"../../Lib/Texture/TextureBoad2D.h"
-#include"../../Lib/Input/KeyBord.h"
 #include"../../GameObject/Object/Object.h"
 
 /*

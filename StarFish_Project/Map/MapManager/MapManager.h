@@ -1,17 +1,13 @@
 ﻿#pragma once
-#include"../MapChip/MapChip.h"
-#include"../BackGround/BackGround.h"
-#include<vector>
-#include<memory>
-
-
 
 
 // 前方参照
 class EnemyManager;
 class Player;
 class MapChip;
+class BackGround;
 class ObjectManager;
+
 
 // マップ管理
 class MapManager {
@@ -27,8 +23,7 @@ public:
 	void Draw();
 
 	// 後の更新と描画
-	void AfterUpdate();
-	void AfterDraw();
+	MapChip GetMapInstance()const;
 
 private:
 
