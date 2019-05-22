@@ -6,6 +6,7 @@
 #include"../../Map/MapManager/MapManager.h"
 #include"../../Rope/Rope.h"
 #include"../Object/Object.h"
+#include"../../CollisionObject/CollisionManager.h"
 
 #include<algorithm>
 #include<iostream>

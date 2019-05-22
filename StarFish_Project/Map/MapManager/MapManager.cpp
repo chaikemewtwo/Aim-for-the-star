@@ -2,6 +2,8 @@
 #include"../../Player/Player.h"
 #include"../MapChip/MapChip.h"
 #include"../../GameObject/ObjectManager/ObjectManager.h"
+#include"../MapChip/MapChip.h"
+#include"../BackGround/BackGround.h"
 
 
 
@@ -52,11 +54,7 @@ void MapManager::Draw() {
 	m_pmap_tip->Draw();
 }
 
-// 奥行バージョン
-void MapManager::AfterUpdate() {
-	m_pbg2->Update();
-}
 
-void MapManager::AfterDraw() {
-	m_pbg2->Draw();
+MapChip MapManager::GetMapInstance()const {
+	return *m_pmap_tip;
 }
