@@ -34,6 +34,7 @@
 // コンストラクタ
 MapChip::MapChip(Player*star1,Player*star2,EnemyManager*e_mng) {
 
+	// ソートオブジェクト代入
 	m_sort_object = MAP;
 
 	// 自機の参照受け取り
@@ -69,13 +70,16 @@ MapChip::MapChip(Player*star1,Player*star2,EnemyManager*e_mng) {
 	chip_str[8] = "Resource/Texture/Map/chip-map_image_09.png";
 	chip_str[9] = "Resource/Texture/Map/chip-map_image_10.png";
 	
-	// デバッグ初期化
-	m_py = 0;
+	// 初期化集
 	m_chip_num = 0;
-	// ジャンプフラグ初期化
+	// ジャンプしているか
 	m_is_stand = false;
-	// 壁の衝突フラグ
+	// 壁の衝突
 	m_is_wall_col = false;
+	// 壁の横衝突
+	m_is_wall_col_side = false;
+	// 壁の縦衝突
+	m_is_wall_col_vertical = false;
 
 	// 初期化時回りのオブジェクトを生成させる
 	{
@@ -458,9 +462,11 @@ void MapChip::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 
 			// 縦の衝突判定とアクション
 			ChipAction(pos, move, chip_num,COL_Y);
+			m_is_wall_col_vertical = true;
 		}
 		else {
 			m_is_wall_col = false;
+			m_is_wall_col_vertical = false;
 		}
 	}
 
@@ -481,6 +487,7 @@ void MapChip::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 
 			// 横の衝突判定
 			ChipAction(pos, move, chip_num,COL_X);
+			m_is_wall_col_side = true;
 		}
 		// x軸の中心衝突判定
 		else if (IsFloorCollision(down_left.x, down_right.y, move.x, 0.f,chip_num) == true ||// 左下
@@ -488,9 +495,11 @@ void MapChip::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 
 			// 横の衝突判定
 			ChipAction(pos, move, chip_num,COL_X);
+			m_is_wall_col_side = true;
 		}
 		else {
 			m_is_wall_col = false;
+			m_is_wall_col_side = false;
 		}
 	}
 
@@ -579,7 +588,7 @@ void MapChip::NowPosXFixToMapPos(float &pos_x, float &move_x) {
 
 	// 右
 	else if (move_x > 0.f) {
-
+		
  		chip_pos_x = (float)GetChipCastByPos(pos_x + move_x);
 		// 位置を戻す
 		pos_x = (chip_pos_x * CHIP_SIZE) + SHRINK_X;
@@ -604,17 +613,14 @@ void MapChip::NowPosYFixToMapPos(float &pos_y, float &move_y) {
 		// チップサイズ割り出し
 		chip_pos_y = (float)GetChipCastByPos((pos_y +(m_pos.y)) - (move_y - RETOUCH + SHRINK_Y));// SHRINK_Y関係のバグ
 
-		pos_y = (chip_pos_y * CHIP_SIZE) + (-m_pos.y) - m_move_pos.y;// -move_y
+		pos_y = (chip_pos_y * CHIP_SIZE) + (-m_pos.y) - m_move_pos.y;
 
 		// 縮小する時
 		if (SHRINK_Y > 0.f) {
 			// 修正(自機の移動とマップの移動を加算)
 			pos_y += (CHIP_SIZE - SHRINK_Y);
 		}
-		if (move_y != 0.f) {
-
-		}
-
+		
 		// スクロール範囲に入っていれば
 		if (pos_y < m_scroll_range_up) {
 			m_pos.y += (pos_y - m_scroll_range_up);// バグっている
@@ -637,7 +643,6 @@ void MapChip::NowPosYFixToMapPos(float &pos_y, float &move_y) {
 		if (SHRINK_Y > 0.f) {
 			pos_y += SHRINK_Y;
 		}
-
 
 		// スクロール範囲に入っていれば
 		if (pos_y > m_scroll_range_down) {
@@ -720,10 +725,6 @@ void MapChip::MapResat(float map_y) {
 }
 
 // アクセサ
-//D3DXVECTOR2 MapChip::GetMapPos()const{
-//	return -m_pos;
-//}
-
 D3DXVECTOR2 MapChip::GetMovePos()const {// 元はmap
 	return -m_move_pos;
 }
@@ -738,9 +739,14 @@ bool MapChip::IsWallCollision()const {
 	return m_is_wall_col;
 }
 
-// 文字列読み込み
-void StringLoad(const std::string) {
+// 縦の壁に衝突しているか
+bool MapChip::IsWallVerticalCollision()const {
+	return m_is_wall_col_vertical;
+}
 
+// 横の壁に衝突しているか
+bool MapChip::IsWallSideCollision()const {
+	return m_is_wall_col_side;
 }
 
 

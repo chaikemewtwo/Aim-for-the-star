@@ -25,7 +25,7 @@ public:
 	static constexpr float BG_CHANGE_LINE = 10.f;
 
 	// ファイル名とスクロールする位置の参照をいれる。
-	BackGround(const std::string&file_name,MapChip*map,SortObject sort_num);
+	BackGround(const std::string&file_name,MapChip*map,SortObject sort_num,float x = -50.f, float y = 0.f);
 
 	void Update();
 	void Draw();
@@ -47,21 +47,15 @@ private:
 	// 地面に着地
 	bool LandOnTheGround();
 
-	// 背景文字列
-	const char* m_pback_str[GRAPH_NUM];
-	// 読み込み専用のもの
-	char str_load[GRAPH_NUM][500];
+	const char* m_pback_str[GRAPH_NUM]; // 背景文字列
+	char str_load[GRAPH_NUM][500];      // 読み込み専用のもの
 
 	// 背景
-	D3DXVECTOR2 m_pos;// 背景遷移判定上
-	D3DXVECTOR2 m_move_pos;// 移動ベクトル
-
-	// 今いる位置
-	int m_now_pos;
-
-	// 今の画像
-	int m_now_graph;
-	int m_next_graph;
+	D3DXVECTOR2 m_pos;      // 背景遷移判定上
+	D3DXVECTOR2 m_move_pos; // 移動ベクトル
+	int m_current_pos;      // 今いる位置
+	int m_connect1_graph;   // 連結画像1 
+	int m_connect2_graph;   // 連結画像2
 
 	// 遷移位置
 	MapChip *m_pmap;
