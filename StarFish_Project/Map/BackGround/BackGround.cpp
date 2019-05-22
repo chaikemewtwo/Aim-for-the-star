@@ -9,7 +9,7 @@
 
 
 
-BackGround::BackGround(const std::string&file_name,Map*map,SortObject sort_num,float x,float y) {
+BackGround::BackGround(const std::string&file_name,Map*map,SortObject sort_num,float x,float y,int difference) {
 
 	// ソート番号代入
 	m_sort_object = sort_num;
@@ -23,10 +23,13 @@ BackGround::BackGround(const std::string&file_name,Map*map,SortObject sort_num,f
 
 	// ファイルの読み込み
 	BGLoad(file_name);
-
+	
 	// 最初の背景の位置
 	m_pos.x = x;
 	m_pos.y = y;
+
+	// 端数初期化
+	m_graph_difference = difference;
 
 	// 今自機がいる場所
 	m_current_pos = 0;
@@ -54,13 +57,29 @@ void BackGround::Draw() {
 
 	// 端数分GRAPH_DIFFERENCEでずらす
 
+	// UVをずらす処理を書く
+	D3DXVECTOR2 uv_shift(0.f,0.f);
+
+	if (m_connect1_graph >= GRAPH_NUM - 3 || m_connect2_graph >= GRAPH_NUM - 3) {
+		uv_shift.y = -0.01f;
+	}
+	else if (m_connect1_graph == 0 || m_connect2_graph == 0) {
+		uv_shift.y = 0.01f;
+	}
+
 	// 1枚目描画
 	if (m_pback_str[m_connect1_graph] != '\0') {
-		Texture::Draw2D(m_pback_str[m_connect1_graph % GRAPH_NUM], -GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_connect1_graph));
+
+		Texture::Draw2DUVShift(m_pback_str[m_connect1_graph % GRAPH_NUM],
+			(float)-m_graph_difference,
+			m_pos.y - (float)m_graph_difference + (float)((-GRAPH_SCALE_H) * m_connect1_graph)
+		,0.00f,uv_shift.y);
 	}
-	// 2枚目描画
+	// 2枚目描画s
 	if (m_pback_str[m_connect2_graph] != '\0') {
-		Texture::Draw2D(m_pback_str[m_connect2_graph % GRAPH_NUM], -GRAPH_DIFFERENCE, m_pos.y - (float)GRAPH_DIFFERENCE + (-GRAPH_SCALE_H * m_connect2_graph));
+		Texture::Draw2D(m_pback_str[m_connect2_graph % GRAPH_NUM],
+			(float)-m_graph_difference,
+			m_pos.y - (float)m_graph_difference + (float)((-GRAPH_SCALE_H) * m_connect2_graph));
 	}
 }
 
@@ -68,7 +87,7 @@ void BackGround::Draw() {
 void BackGround::BGLoad(const std::string&file_name) {
 
 	// fgets行の終端の改行文字まで読み込み
-	FILE*fp;                                  // ストリーム
+	FILE*fp;                                   // ストリーム
 	//char str_buf[500];                       // 文字列バッファ 
 
 	// ファイルオープン
@@ -151,8 +170,15 @@ void BackGround::Scroll() {
 
 void BackGround::PosUpdate() {
 
+	bool is_scroll = true;
+
+	// 最深部まで来たらスクロールを止める
+	if (((float)(Map::CHIP_SIZE * 18)*GRAPH_NUM) - 1080.f < m_pos.y) {
+		is_scroll = false;
+	}
+
 	// 上下だけ加算
-	if (LandOnTheGround() == true) {
+	if (LandOnTheGround() == true || is_scroll == false) {
 		m_pos.y += m_move_pos.y;
 	}
 }
@@ -162,7 +188,7 @@ void BackGround::MovePosUpdate() {
 
 	// 移動ベクトルを入れる
 	// プレイヤーの4分の１の速度にする
-	m_move_pos = m_pmap->GetMovePos() / 4;// 反対方向に行くので-変換
+	m_move_pos = m_pmap->GetMovePos() / 3;// 反対方向に行くので-変換
 }
 
 

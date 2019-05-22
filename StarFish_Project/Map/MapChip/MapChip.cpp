@@ -69,6 +69,38 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 	chip_str[7] = "Resource/Texture/Map/chip-map_image_08.png";
 	chip_str[8] = "Resource/Texture/Map/chip-map_image_09.png";
 	chip_str[9] = "Resource/Texture/Map/chip-map_image_10.png";
+
+	// u縦
+	// v横
+	// UVずらし配列初期化
+	for (int i = 0; i < 10; i++) {
+		chip_u[i] = 0.f;
+		chip_v[i] = 0.f;
+	}
+
+	chip_u[0] = 0.01f;
+	chip_v[1] = -0.001f;
+	chip_v[6] = -0.01f;
+	chip_v[5] = -0.01f;
+	chip_v[8] = -0.001f;
+	chip_v[3] = -0.001f;
+	chip_v[7] = -0.01f;
+	chip_v[9] = -0.01f;
+
+	chip_u[8] = -0.01f;
+	chip_u[7] = -0.01f;
+	chip_u[9] = -0.01f;
+
+	bedrock_chip[0].x = 2.f; bedrock_chip[0].y = 0.f;
+	bedrock_chip[1].x = 2.f; bedrock_chip[1].y = 1.f;
+	bedrock_chip[2].x = 1.f; bedrock_chip[2].y = 0.f;
+	bedrock_chip[3].x = 0.f; bedrock_chip[3].y = 1.f;
+	bedrock_chip[4].x = 0.f; bedrock_chip[4].y = 0.f;
+	bedrock_chip[5].x = 2.f; bedrock_chip[5].y = -1.f;
+	bedrock_chip[6].x = 0.f; bedrock_chip[6].y = -1.f;
+	bedrock_chip[7].x = 0.f; bedrock_chip[7].y = 0.f;
+	bedrock_chip[8].x = -1.f; bedrock_chip[8].y = 1.f;
+	bedrock_chip[9].x = -1.f; bedrock_chip[9].y = -1.f;
 	
 	// 初期化集
 	m_chip_num = 0;
@@ -166,7 +198,6 @@ void Map::Load(const std::string&file_name) {
 
 void Map::Update() {
 
-
 	// オブジェクトの生成
 	ObjectCreate();
 
@@ -247,10 +278,13 @@ void Map::Draw() {
 			if (m_map[(m_height_map_num) - y][x].m_chip_num >= 1 && 
 				m_map[(m_height_map_num)-y][x].m_chip_num <=MAX_BEDROCK_CHIP) {
 
+				int current_num = m_map[(m_height_map_num)-y][x].m_chip_num - 1;
+
 				Texture::Draw2DUVShift(chip_str[m_map[(m_height_map_num) - y][x].m_chip_num - 1],
-					(float)(x * CHIP_SIZE),
-					(float)(-y * CHIP_SIZE) + 1080 - m_pos.y,
-					0.f,0.f);
+					(float)(x * CHIP_SIZE) + bedrock_chip[current_num].x,
+					(float)(-y * CHIP_SIZE) + 1080 - m_pos.y + bedrock_chip[current_num].y,
+					chip_u[current_num],
+					chip_v[current_num]);
 			}
 			// 0番目の文字列描画
 			else if (m_map[(m_height_map_num) - y][x].m_chip_num == 1) {

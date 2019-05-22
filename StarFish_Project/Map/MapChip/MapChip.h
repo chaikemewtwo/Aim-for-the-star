@@ -43,6 +43,9 @@ enum COL_DIRECTION {
 class Map : public Object {
 public:
 
+	// 画像、全てのセルの大きさ
+	static const int CHIP_SIZE = 64;
+
 	Map(Player*star1, Player*star2, EnemyManager*e_mng);
 
 	// 更新関数
@@ -110,7 +113,6 @@ private:
 private:
 
 	/* 各定数 */
-	const int CHIP_SIZE = 64;                                         // 画像、全てのセルの大きさ
 	const int HEIGHT_INTERVAL = 60;                                   // 縦間隔をあけて遷移などをする
 	const int MAX_CHIP_NUM_W = BackGround::GRAPH_SCALE_W / CHIP_SIZE; // 画面マップチップの大きさ
 	const int MAX_CHIP_NUM_H = BackGround::GRAPH_SCALE_H / CHIP_SIZE; // 画面マップチップの大きさ
@@ -137,7 +139,10 @@ private:
 
 	/* マップチップ関係 */
 	tagMapChip m_map[1000][1000] = {};     // 全体マップバッファ
-	const char*chip_str[MAX_BEDROCK_CHIP];               // チップ文字列
+	const char*chip_str[MAX_BEDROCK_CHIP]; // 岩盤のチップ文字列
+	float chip_u[MAX_BEDROCK_CHIP];        // 線を直す為にずらすUV用配列U
+	float chip_v[MAX_BEDROCK_CHIP];        // 線を直す為にずらすUV用配列V
+	D3DXVECTOR2 bedrock_chip[MAX_BEDROCK_CHIP];// 岩盤チップをずらす座標
 	/* マップ座標 */
 	D3DXVECTOR2 m_player_pos[2];           // 自機の位置
 	D3DXVECTOR2 m_player_move_pos[2];      // 自機の移動ベクトル
