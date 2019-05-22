@@ -8,7 +8,7 @@ Objectを変更するセッターを作るべき
 
 */
 
-class MapChip; //マップの前方参照
+class Map; //マップの前方参照
 
 // 背景クラス
 class BackGround : public Object{
@@ -25,7 +25,7 @@ public:
 	static constexpr float BG_CHANGE_LINE = 10.f;
 
 	// ファイル名とスクロールする位置の参照をいれる。
-	BackGround(const std::string&file_name,MapChip*map,SortObject sort_num,float x = -50.f, float y = 0.f);
+	BackGround(const std::string&file_name,Map*map,SortObject sort_num,float x = -50.f, float y = 0.f);
 
 	void Update();
 	void Draw();
@@ -58,5 +58,5 @@ private:
 	int m_connect2_graph;   // 連結画像2
 
 	// 遷移位置
-	MapChip *m_pmap;
+	Map *m_pmap;
 };

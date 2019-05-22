@@ -9,7 +9,7 @@
 
 
 
-BackGround::BackGround(const std::string&file_name,MapChip*map,SortObject sort_num,float x,float y) {
+BackGround::BackGround(const std::string&file_name,Map*map,SortObject sort_num,float x,float y) {
 
 	// ソート番号代入
 	m_sort_object = sort_num;

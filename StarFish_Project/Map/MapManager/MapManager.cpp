@@ -12,7 +12,7 @@ MapManager::MapManager(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManage
 	// オブジェクト管理
 	m_pobj_mng = obj_mng;
 	// マップチップ
-	obj_mng->Entry(m_pmap_tip = new MapChip(star1,star2,e_mng));
+	obj_mng->Entry(m_pmap_tip = new Map(star1,star2,e_mng));
 	// 背景1オブジェクト登録
 	obj_mng->Entry(m_pbg = new BackGround("Map/BGData/BG1.csv", m_pmap_tip,BG_BEFORE));
 	// 背景2s
@@ -55,6 +55,6 @@ void MapManager::Draw() {
 }
 
 
-MapChip MapManager::GetMapInstance()const {
+Map MapManager::GetMapInstance()const {
 	return *m_pmap_tip;
 }

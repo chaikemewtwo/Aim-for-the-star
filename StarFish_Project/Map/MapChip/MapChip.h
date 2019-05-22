@@ -40,10 +40,10 @@ enum COL_DIRECTION {
 };
 
 // 海マップ
-class MapChip : public Object {
+class Map : public Object {
 public:
 
-	MapChip(Player*star1, Player*star2, EnemyManager*e_mng);
+	Map(Player*star1, Player*star2, EnemyManager*e_mng);
 
 	// 更新関数
 	void Update();
