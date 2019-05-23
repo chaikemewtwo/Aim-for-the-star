@@ -129,7 +129,7 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 				}
 
 				// 敵生成集め
-				EnemyCreateGather(x, y);
+				EnemyCreateGather(x, y, m_map[m_height_map_num - y][x].m_chip_num);
 			}
 		}
 	}
@@ -415,7 +415,7 @@ void Map::ObjectCreate() {
 				// チップが活動していないなら
 				if (m_map[m_height_map_num - create_line[y]][x].m_is_active == false){
 					// 敵生成
-					EnemyCreateGather(x, y);
+					EnemyCreateGather(x, create_line[y], m_map[m_height_map_num - create_line[y]][x].m_chip_num);
 					// マップチップ記録
 					m_map[m_height_map_num - create_line[y]][x].m_is_active = true;
 				}
@@ -772,10 +772,10 @@ bool Map::IsScroll()const {
 }
 
 
-void Map::EnemyCreateGather(int x, int y) {
+void Map::EnemyCreateGather(int x, int y, int chip_num) {
 
 	// ウニ生成
-	if (m_map[(m_height_map_num)-y][x].m_chip_num == 100) {
+	if (chip_num == 100) {
 		// 位置を代入
 		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
 		// 敵生成
@@ -784,7 +784,7 @@ void Map::EnemyCreateGather(int x, int y) {
 		m_map[m_height_map_num - y][x].m_is_active = true;
 	}
 	// 落ちていくウニ生成
-	else if (m_map[(m_height_map_num)-y][x].m_chip_num == 101) {
+	else if (chip_num == 101) {
 		// 位置を代入
 		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
 		// 敵生成
@@ -793,7 +793,7 @@ void Map::EnemyCreateGather(int x, int y) {
 		m_map[m_height_map_num - y][x].m_is_active = true;
 	}
 	// 貝生成
-	else if (m_map[(m_height_map_num)-y][x].m_chip_num == 102) {
+	else if (chip_num == 102) {
 		// 位置を代入
 		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
 		// 敵生成
