@@ -34,7 +34,7 @@ void GameUI::Draw() {
 
 	// しっぱいロゴ
 	if (p1->GetIsAlive() == false || p2->GetIsAlive() == false) {
-		Texture::Draw2D("Resource/Texture/UI/over_logo.png", 300, 0+ FailedCount());
+		Texture::Draw2D("Resource/Texture/UI/over_logo.png", 300, -450 + FailedCount());
 	}
 }
 
@@ -52,8 +52,8 @@ float GameUI::GagePosYCalc(float stamina_parcent) {
 
 
 int GameUI::FailedCount() {
-	if (count <= 100) {
-		++count;
+	if (count <= 550) {
+		count += 3.f;
 	}
 	return count;
 }
