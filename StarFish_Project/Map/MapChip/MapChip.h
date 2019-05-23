@@ -99,7 +99,7 @@ private:
 	void Load(const std::string&file_name);
 
 	// 敵生成群
-	void EnemyCreateGather(int x, int y);
+	void EnemyCreateGather(int x, int y, int chip_num);
 
 
 	/* マップチップの便利機能 */
