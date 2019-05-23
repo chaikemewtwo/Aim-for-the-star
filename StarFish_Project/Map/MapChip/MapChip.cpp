@@ -131,7 +131,7 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 					// 位置を代入
 					D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
 					// 敵生成
-					e_pmng->EnemyCreate(pos, this,m_pbase[0],m_pbase[1]);
+					e_pmng->EnemyCreate(pos, this,m_pbase[0],m_pbase[1], SEAURCHIN);
 					// マップチップ記録
 					m_map[m_height_map_num - y][x].m_is_active = true;
 				}
@@ -419,7 +419,7 @@ void Map::ObjectCreate() {
 				// チップが活動していないなら
 				if (m_map[m_height_map_num - create_line[y]][x].m_is_active == false){
 					// 敵生成
-   					e_pmng->EnemyCreate(pos,this,m_pbase[0],m_pbase[1]);
+   					e_pmng->EnemyCreate(pos,this,m_pbase[0],m_pbase[1], SEAURCHIN);
 					// マップチップ記録
 					m_map[m_height_map_num - create_line[y]][x].m_is_active = true;
 				}

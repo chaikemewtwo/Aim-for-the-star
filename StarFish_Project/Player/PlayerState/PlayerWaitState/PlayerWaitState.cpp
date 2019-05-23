@@ -14,7 +14,7 @@ void PlayerWaitState::Init(Player* p) {
 	p->ResetAnimationNumber();
 
 	// 状態画像変更
-	p->SetPlayerTexture(p->star_texture_name[p->WAIT_TEXTURE][256]);
+	p->SetPlayerTexture(p->star_texture_name[p->WAIT_TEXTURE]);
 }
 
 
@@ -51,8 +51,8 @@ void PlayerWaitState::Update(Player* p) {
 	}
 
 	// 死亡状態に不具合があったのでスタミナ使い切っても死にません
-	//if (p->GetStamina() <= 0) {
-	//	// 死亡状態へ移行
-	//	p->ChangeState(PlayerDeathState::GetInstance());
-	//}
+	if (p->GetStamina() <= 0) {
+		// 死亡状態へ移行
+		p->ChangeState(PlayerDeathState::GetInstance());
+	}
 }
