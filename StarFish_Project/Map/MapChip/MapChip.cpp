@@ -112,6 +112,8 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 	m_is_wall_col_side = false;
 	// 壁の縦衝突
 	m_is_wall_col_vertical = false;
+	// スクロールしているか
+	m_is_scroll = true;
 
 	// 初期化時回りのオブジェクトを生成させる
 	{
