@@ -17,6 +17,6 @@ private:
 	SceneManager() {}
 
 	std::unordered_map<SceneId, SceneBase*> m_scene_list;
-	SceneBase* m_scene;
-	SceneId m_scene_id;
+	SceneBase* m_scene;		// シーン
+	SceneId m_scene_id;		// シーン指定用の定数
 };

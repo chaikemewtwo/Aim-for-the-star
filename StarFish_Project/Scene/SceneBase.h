@@ -36,11 +36,11 @@ public:
 		switch (m_scene_step) {
 		case INIT:
 			Init();
-			return m_scene_id;
+			break;
 		case UPDATE:
 			Update();
 			Draw();
-			return m_scene_id;
+			break;
 		case END:
 			return End();
 		}
@@ -49,8 +49,8 @@ public:
 	}
 
 protected:
-	SceneStep m_scene_step;
-	SceneId m_scene_id;
+	SceneStep m_scene_step;		// シーン内のステップ
+	SceneId m_scene_id;			// シーンの種類
 
 	Keybord& m_pkey_bord = Keybord::getInterface();
 };

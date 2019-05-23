@@ -1,20 +1,27 @@
 ﻿#include"TitleScene.h"
 #include"../../Lib/Texture/TextureBoad2D.h"
-//#include"../../Lib/Input/KeyBord.h"
 
+
+Title::Title() {
+	m_scene_step = INIT;
+}
+//―――――――――――――――――――
 
 void Title::Init() {
-	//m_pkey_bord = Keybord::getInterface();
 	m_scene_id = TITLE;
 	m_scene_step = UPDATE;
 }
+//―――――――――――――――――――
 
 void Title::Update() {
-	if(m_pkey_bord.on(VK_SPACE)) {
+
+	// デバック用　タイトル→ゲームメイン
+	if(m_pkey_bord.press(VK_SPACE)) {
 		m_scene_step = END;
 		m_scene_id = GAME_MAIN;
 	}
 }
+//―――――――――――――――――――
 
 void Title::Draw() {
 	Texture::Draw2D(
@@ -27,4 +34,4 @@ void Title::Draw() {
 		1, 1, 0, 0.5, 0.5
 	);
 }
-
+//―――――――――――――――――――

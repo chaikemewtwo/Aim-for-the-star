@@ -8,7 +8,7 @@ SceneManager* SceneManager::GetInstance() {
 	static SceneManager s_sm;
 	return &s_sm;
 }
-
+//――――――――――――――――――――――――
 
 SceneManager::~SceneManager() {
 	for (auto i : m_scene_list) {
@@ -17,7 +17,7 @@ SceneManager::~SceneManager() {
 		}
 	}
 }
-
+//――――――――――――――――――――――――
 
 void SceneManager::Init() {
 	// シーンの登録
@@ -26,17 +26,17 @@ void SceneManager::Init() {
 	m_scene_list.emplace(CLEAR, new Clear());
 
 	// タイトルで初期化
-	m_scene_id = TITLE;
+	m_scene_id = SceneId::TITLE;
 	m_scene = m_scene_list[m_scene_id];
 }
-
+//―――――――――――――――――――――――――
 
 void SceneManager::Update() {
 	SceneId scene_id;
 	scene_id = m_scene->Control();
 	ChangeScene(scene_id);
 }
-
+//―――――――――――――――――――――――――
 
 void SceneManager::ChangeScene(SceneId scene_id) {
 	if (scene_id == m_scene_id) {
@@ -47,3 +47,4 @@ void SceneManager::ChangeScene(SceneId scene_id) {
 	m_scene_id = scene_id;
 	m_scene = m_scene_list.find(m_scene_id)->second;
 }
+//―――――――――――――――――――――――――

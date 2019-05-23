@@ -6,10 +6,10 @@
 
 class GameMain :public SceneBase {
 public:
-
-private:
+	GameMain();
 	~GameMain() {}
 
+private:
 	void Init()override;
 	void Update()override;
 	void Draw()override;

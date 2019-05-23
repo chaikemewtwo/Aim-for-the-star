@@ -7,19 +7,18 @@
 
 class Title :public SceneBase {
 public:
-
-private:
+	Title();
 	~Title() {}
 
+private:
 	void Init()override;
 	void Update()override;
 	void Draw()override;
 
-	//const float TEX_POS_X = WINDOW_W_F / 2;
-	//const float TEX_POS_Y = WINDOW_H_F / 2;
 	const float TITLE_LOGO_POS_X = WINDOW_W / 2;
 	const float TITLE_LOGO_POS_Y = WINDOW_H / 2;
 
+	// ロゴと背景の画像を登録
 	const std::string TITLE_TEXTURE = "Resource/Texture/Title/タイトル　背景.png";
 	const std::string TITLE_LOGO = "Resource/Texture/Title/タイトル　ロゴ.png";
 };
