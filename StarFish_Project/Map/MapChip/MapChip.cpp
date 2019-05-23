@@ -86,11 +86,11 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 	chip_v[3] = -0.001f;
 	chip_v[7] = -0.01f;
 	chip_v[9] = -0.01f;
-
+	
 	chip_u[8] = -0.01f;
 	chip_u[7] = -0.01f;
 	chip_u[9] = -0.01f;
-
+	
 	bedrock_chip[0].x = 2.f; bedrock_chip[0].y = 0.f;
 	bedrock_chip[1].x = 2.f; bedrock_chip[1].y = 1.f;
 	bedrock_chip[2].x = 1.f; bedrock_chip[2].y = 0.f;
@@ -134,38 +134,6 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 		}
 	}
 }
-
-void Map::EnemyCreateGather(int x,int y) {
-
-	// ウニ生成
-	if (m_map[(m_height_map_num)-y][x].m_chip_num == 100) {
-		// 位置を代入
-		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
-		// 敵生成
-		e_pmng->EnemyCreate(pos, this, m_pbase[0], m_pbase[1], SEAURCHIN);
-		// マップチップ記録
-		m_map[m_height_map_num - y][x].m_is_active = true;
-	}
-	// 落ちていくウニ生成
-	else if (m_map[(m_height_map_num)-y][x].m_chip_num == 101) {
-		// 位置を代入
-		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
-		// 敵生成
-		e_pmng->EnemyCreate(pos, this, m_pbase[0], m_pbase[1], NO_MOVE_SEAURCHIN);
-		// マップチップ記録
-		m_map[m_height_map_num - y][x].m_is_active = true;
-	}
-	// 貝生成
-	else if (m_map[(m_height_map_num)-y][x].m_chip_num == 102) {
-		// 位置を代入
-		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
-		// 敵生成
-		e_pmng->EnemyCreate(pos, this, m_pbase[0], m_pbase[1], SELLFISH);
-		// マップチップ記録
-		m_map[m_height_map_num - y][x].m_is_active = true;
-	}
-}
-
 
 void Map::Load(const std::string&file_name) {
 
@@ -802,6 +770,39 @@ bool Map::IsWallSideCollision()const {
 bool Map::IsScroll()const {
 	return m_is_scroll;
 }
+
+
+void Map::EnemyCreateGather(int x, int y) {
+
+	// ウニ生成
+	if (m_map[(m_height_map_num)-y][x].m_chip_num == 100) {
+		// 位置を代入
+		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
+		// 敵生成
+		e_pmng->EnemyCreate(pos, this, m_pbase[0], m_pbase[1], SEAURCHIN);
+		// マップチップ記録
+		m_map[m_height_map_num - y][x].m_is_active = true;
+	}
+	// 落ちていくウニ生成
+	else if (m_map[(m_height_map_num)-y][x].m_chip_num == 101) {
+		// 位置を代入
+		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
+		// 敵生成
+		e_pmng->EnemyCreate(pos, this, m_pbase[0], m_pbase[1], NO_MOVE_SEAURCHIN);
+		// マップチップ記録
+		m_map[m_height_map_num - y][x].m_is_active = true;
+	}
+	// 貝生成
+	else if (m_map[(m_height_map_num)-y][x].m_chip_num == 102) {
+		// 位置を代入
+		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
+		// 敵生成
+		e_pmng->EnemyCreate(pos, this, m_pbase[0], m_pbase[1], SELLFISH);
+		// マップチップ記録
+		m_map[m_height_map_num - y][x].m_is_active = true;
+	}
+}
+
 
 
 

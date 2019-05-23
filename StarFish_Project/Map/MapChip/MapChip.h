@@ -121,8 +121,8 @@ private:
 	const float INIT_MAP_POS_X = 0.f;
 	const float INIT_MAP_POS_Y = 0.f;
 	// マップのスクロール遷移ライン定数
-	const float SCROLL_RANGE_UP = 100.f;
-	const float SCROLL_RANGE_DOWN = 900.f;
+	const float SCROLL_RANGE_UP = 200.f;
+	const float SCROLL_RANGE_DOWN = 800.f;
 	// マップ当たり判定の頂点
 	const float HIT_POINT_X = -32.f;
 	const float HIT_POINT_Y = -56.f;
