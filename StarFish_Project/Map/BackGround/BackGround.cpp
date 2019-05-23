@@ -61,7 +61,7 @@ void BackGround::Draw() {
 	D3DXVECTOR2 uv_shift(0.f,0.f);
 
 	if (m_connect1_graph >= GRAPH_NUM - 3 || m_connect2_graph >= GRAPH_NUM - 3) {
-		uv_shift.y = -0.01f;
+		uv_shift.y = 0.02f;
 	}
 	else if (m_connect1_graph == 0 || m_connect2_graph == 0) {
 		uv_shift.y = 0.01f;
@@ -173,7 +173,7 @@ void BackGround::PosUpdate() {
 	bool is_scroll = true;
 
 	// 最深部まで来たらスクロールを止める
-	if (((float)(Map::CHIP_SIZE * 18)*GRAPH_NUM) - 1080.f < m_pos.y) {
+	if (((float)(Map::CHIP_SIZE * 18) * GRAPH_NUM) - 1080.f <= m_pos.y) {
 		is_scroll = false;
 	}
 
