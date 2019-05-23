@@ -42,5 +42,8 @@ private:
 	// 自機2のスタミナの割合
 	float p2_stamina_parcent;
 
+	bool p1_alive;
+	bool p2_alive;
+
 	int count;
 };

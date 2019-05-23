@@ -30,6 +30,7 @@ ObjectManager::ObjectManager(){
 	m_pcol_mng = new CollisionManager(m_pplayer[0], m_pplayer[1], m_pe_mng);
 
 
+
 	// オブジェクト登録
 	Entry(m_prope);
 	Entry(m_pplayer[0]);

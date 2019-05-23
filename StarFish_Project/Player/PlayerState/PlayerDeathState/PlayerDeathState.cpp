@@ -10,8 +10,6 @@ void PlayerDeathState::Init(Player* p) {
 
 	// 状態画像変更
 	p->SetPlayerTexture(p->star_texture_name[p->DEATH_TEXTURE]);
-
-	p->DisableIsAlive();
 }
 
 
