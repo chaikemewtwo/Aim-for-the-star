@@ -36,7 +36,7 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	// 描画フラグ
 	m_draw_enable = true;
 
-	m_radius = 128.f;
+	m_radius = 60.f;
 
 	// ソート
 	m_sort_object = SortObject::PLAYER;
@@ -65,7 +65,7 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	else if (id == STAR_2) {
 		// 位置
 		m_pos.x = STAR_2_FIRST_POS_X;
-		m_pos.y = STAR_2_FIRST_POS_Y;
+		m_pos.y = STAR_2_FIRST_POS_Y - 200;
 
 		// 操作
 		imput_button_name[LEFT_KEY][256] = VK_LEFT;

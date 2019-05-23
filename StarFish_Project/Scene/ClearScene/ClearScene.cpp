@@ -34,7 +34,10 @@ void Clear::Init() {
 //――――――――――――――――――――――――――――――――
 
 void Clear::Update() {
-	
+	if (m_pkey_bord.press(VK_SPACE)) {
+		m_scene_step = END;
+		m_scene_id = TITLE;
+	}
 }
 //――――――――――――――――――――――――――――――――
 

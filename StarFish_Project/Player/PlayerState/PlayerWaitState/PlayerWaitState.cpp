@@ -40,7 +40,7 @@ void PlayerWaitState::Update(Player* p) {
 		p->AngleAdjust(true);
 	}
 
-	if (p->GetStamina() >= TO_SWIM_NEEDED_STAMINA && kb.press(p->imput_button_name[p->SWIM_KEY][256])) {
+	if (kb.press(p->imput_button_name[p->SWIM_KEY][256])) {
 		// スタミナ減算
 		p->DecStamina(TO_SWIM_NEEDED_STAMINA);
 
