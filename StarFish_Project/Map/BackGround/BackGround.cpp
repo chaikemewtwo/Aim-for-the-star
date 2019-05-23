@@ -15,11 +15,13 @@ BackGround::BackGround(const std::string&file_name,Map*map,SortObject sort_num,f
 	m_sort_object = sort_num;
 
 	m_pos.x = m_pos.y = 0.f;
+
+	max_graph_num = 0;
 	
 	// 文字列初期化
-	for (int i = 0; i < GRAPH_NUM; i++) {
-		m_pback_str[i] = '\0';
-	}
+	//for (int i = 0; i < GRAPH_NUM; i++) {
+	//	m_pback_str[i] = '\0';
+	//}
 
 	// ファイルの読み込み
 	BGLoad(file_name);
@@ -60,7 +62,7 @@ void BackGround::Draw() {
 	// UVをずらす処理を書く
 	D3DXVECTOR2 uv_shift(0.f,0.f);
 
-	if (m_connect1_graph >= GRAPH_NUM - 3 || m_connect2_graph >= GRAPH_NUM - 3) {
+	if (m_connect1_graph >= max_graph_num - 3 || m_connect2_graph >= max_graph_num - 3) {
 		uv_shift.y = 0.02f;
 	}
 	else if (m_connect1_graph == 0 || m_connect2_graph == 0) {
@@ -68,19 +70,19 @@ void BackGround::Draw() {
 	}
 
 	// 1枚目描画
-	if (m_pback_str[m_connect1_graph] != '\0') {
+	//if (m_pback_str[m_connect1_graph] != '\0') {
 
-		Texture::Draw2DUVShift(m_pback_str[m_connect1_graph % GRAPH_NUM],
+		Texture::Draw2DUVShift(m_pback_str[m_connect1_graph % max_graph_num],
 			(float)-m_graph_difference,
 			m_pos.y - (float)m_graph_difference + (float)((-GRAPH_SCALE_H) * m_connect1_graph)
 		,0.00f,uv_shift.y);
-	}
-	// 2枚目描画s
-	if (m_pback_str[m_connect2_graph] != '\0') {
-		Texture::Draw2D(m_pback_str[m_connect2_graph % GRAPH_NUM],
+	//}
+	// 2枚目描画
+	//if (m_pback_str[m_connect2_graph] != '\0') {
+		Texture::Draw2D(m_pback_str[m_connect2_graph % max_graph_num],
 			(float)-m_graph_difference,
 			m_pos.y - (float)m_graph_difference + (float)((-GRAPH_SCALE_H) * m_connect2_graph));
-	}
+	//}
 }
 
 
@@ -89,7 +91,7 @@ void BackGround::BGLoad(const std::string&file_name) {
 	// fgets行の終端の改行文字まで読み込み
 	FILE*fp;                                   // ストリーム
 	//char str_buf[500];                       // 文字列バッファ 
-
+	//char str_load_buf[1000][500];
 	// ファイルオープン
 	fopen_s(&fp,file_name.c_str(), "r");
 
@@ -102,16 +104,19 @@ void BackGround::BGLoad(const std::string&file_name) {
 	int h = 0;
 
 	// 文字列読み込み、改行まで
-	while (fgets(str_load[h], 256, fp) != NULL) {
+	while (fgets(str_load_buf[h], 256, fp) != NULL) {
 
-		if (str_load[h][strlen(str_load[h]) - 1] == '\n') {
-			str_load[h][strlen(str_load[h]) - 1] = NULL;
+		if (str_load_buf[h][strlen(str_load_buf[h]) - 1] == '\n') {
+			str_load_buf[h][strlen(str_load_buf[h]) - 1] = NULL;
 		}
 
 		// 文字列を入れる
-		m_pback_str[h] = str_load[h];
+		//m_pback_str[h] = str_load[h];
+		m_pback_str.push_back(str_load_buf[h]);
 			
 		h++;
+		// 画像数加算
+		max_graph_num++;
 	}
 
 	// ファイルを閉じる
@@ -173,7 +178,7 @@ void BackGround::PosUpdate() {
 	bool is_scroll = true;
 
 	// 最深部まで来たらスクロールを止める
-	if (((float)(Map::CHIP_SIZE * 18) * GRAPH_NUM) - 1080.f <= m_pos.y) {
+	if (((float)(Map::CHIP_SIZE * 18) * max_graph_num) - 1080.f <= m_pos.y) {
 		is_scroll = false;
 	}
 

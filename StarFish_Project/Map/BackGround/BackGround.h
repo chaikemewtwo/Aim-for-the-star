@@ -27,7 +27,7 @@ public:
 private:
 
 	// constexprはコンパイル時定数になる
-	static const int GRAPH_NUM = 8;
+	//static const int GRAPH_NUM = 10;
 	// 背景の端数
 	static const int GRAPH_DIFFERENCE = 50;
 	// 背景が入れ替わる範囲
@@ -50,12 +50,15 @@ private:
 	bool LandOnTheGround();
 
 
-	const char* m_pback_str[GRAPH_NUM]; // 背景文字列
-	char str_load[GRAPH_NUM][500];      // 読み込み専用のもの
+	std::vector<const char*>m_pback_str;// 真背景文字列
+	//const char* m_pback_str[GRAPH_NUM]; // 背景文字列
+	char str_load_buf[1000][500];      // 読み込み専用のもの
+	//std::vector<char>str_load;
 
 	// 背景
 	D3DXVECTOR2 m_pos;                      // 背景遷移判定上
 	D3DXVECTOR2 m_move_pos;                 // 移動ベクトル
+	int max_graph_num;
 	int m_current_pos;                      // 今いる位置
 	int m_connect1_graph;                   // 連結画像1 
 	int m_connect2_graph;                   // 連結画像2
