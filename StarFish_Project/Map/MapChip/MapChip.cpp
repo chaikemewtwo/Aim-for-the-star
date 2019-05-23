@@ -126,17 +126,41 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 					return;
 				}
 
-				// ブロック
-				if (m_map[(m_height_map_num)-y][x].m_chip_num > 50) {
-					// 位置を代入
-					D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
-					// 敵生成
-					e_pmng->EnemyCreate(pos, this,m_pbase[0],m_pbase[1], SEAURCHIN);
-					// マップチップ記録
-					m_map[m_height_map_num - y][x].m_is_active = true;
-				}
+				// 敵生成集め
+				EnemyCreateGather(x, y);
 			}
 		}
+	}
+}
+
+void Map::EnemyCreateGather(int x,int y) {
+
+	// ウニ生成
+	if (m_map[(m_height_map_num)-y][x].m_chip_num == 100) {
+		// 位置を代入
+		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
+		// 敵生成
+		e_pmng->EnemyCreate(pos, this, m_pbase[0], m_pbase[1], SEAURCHIN);
+		// マップチップ記録
+		m_map[m_height_map_num - y][x].m_is_active = true;
+	}
+	// 落ちていくウニ生成
+	else if (m_map[(m_height_map_num)-y][x].m_chip_num == 101) {
+		// 位置を代入
+		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
+		// 敵生成
+		e_pmng->EnemyCreate(pos, this, m_pbase[0], m_pbase[1], NO_MOVE_SEAURCHIN);
+		// マップチップ記録
+		m_map[m_height_map_num - y][x].m_is_active = true;
+	}
+	// 貝生成
+	else if (m_map[(m_height_map_num)-y][x].m_chip_num == 102) {
+		// 位置を代入
+		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
+		// 敵生成
+		e_pmng->EnemyCreate(pos, this, m_pbase[0], m_pbase[1], SELLFISH);
+		// マップチップ記録
+		m_map[m_height_map_num - y][x].m_is_active = true;
 	}
 }
 
@@ -220,11 +244,14 @@ void Map::Update() {
 	}
 
 	// スクロールしてもいいかの判定
-	//bool is_scroll = IsScroll(m_player_pos[0].y, m_player_pos[1].y);
+	//bool is_scroll = IsScrollLimit(m_player_pos[0].y, m_player_pos[1].y);
 
 	for (int i = 0; i < 2; i++) {
-		
-		DrawLineIsActive(m_player_pos[i].y, m_player_move_pos[i].y, m_scroll_range_up, m_scroll_range_down);
+
+		// スクロールしてもいいかどうか
+		if (IsScroll() == true) {
+			DrawLineIsActive(m_player_pos[i].y, m_player_move_pos[i].y, m_scroll_range_up, m_scroll_range_down);
+		}
 	}
 
 
@@ -300,7 +327,6 @@ void Map::Draw() {
 }
 
 
-
 // 遷移はy軸だけ
 int Map::DrawLineIsActive(float&pos_y, float&move_y, float up_range, float down_range) {
 
@@ -329,7 +355,7 @@ int Map::DrawLineIsActive(float&pos_y, float&move_y, float up_range, float down_
 
 
 // スクロールが上下行われているなら
-bool Map::IsScroll(float &pos_y1, float &pos_y2) {
+bool Map::IsScrollLimit(float &pos_y1, float &pos_y2) {
 
 	// 自機1が上、自機2が下の場合スクロール停止
 	if (pos_y1 <= m_scroll_range_up + 60 && m_scroll_range_down <= pos_y2){
@@ -419,7 +445,7 @@ void Map::ObjectCreate() {
 				// チップが活動していないなら
 				if (m_map[m_height_map_num - create_line[y]][x].m_is_active == false){
 					// 敵生成
-   					e_pmng->EnemyCreate(pos,this,m_pbase[0],m_pbase[1], SEAURCHIN);
+					EnemyCreateGather(x, y);
 					// マップチップ記録
 					m_map[m_height_map_num - create_line[y]][x].m_is_active = true;
 				}
@@ -449,34 +475,26 @@ void Map::ObjectDestory() {
 				return;
 			}
 
-			// 練習用にチップ描画
-			//if (m_map[m_height_map_num - destory_line[y]][x].m_chip_num == 1){
-			//	Texture::Draw2D("Resource/Texture/Map/chip-map_image_05.png",(float)(CHIP_SIZE * x),(float)(CHIP_SIZE * -destory_line[y])
-			//		+ WINDOW_H_F - m_pos.y);
-			//}
-			// チップを消すタイミング、チップを生成するタイミングが必要
 			// チップが活動しているなら
 			if (m_map[(m_height_map_num - destory_line[y])][x].m_is_active == true){
-				// マップチップ記録
+				// マップチップ活動中にする
 				m_map[(m_height_map_num - destory_line[y])][x].m_is_active = false;
 			}
 		}
 	}
 }
 
-// 先にx次にyを調べるようにさせる
-// 衝突した後に移動方向を調べるか逆か
-// 当たった後に移動方向を調べればはじける
 
-// 敵も当たり判定を取れるようにする
 void Map::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 
-	// 当たり判定
-	// 4隅を調べている、当たり判定後の処理に移動方向で戻すのを決める。
-	// CHIP_SIZE * 2は128の高さで当たり判定を取っている為
+	// 当たり判定を取っているサイズ
+	/* 
+	縦128
+	横64
+	*/
 
-	const float RS = 1.f;// ResizeのRS.サイズを補正
-	int chip_num = 0;
+	const float RS = 1.f; // ResizeのRS.サイズを補正
+	int chip_num = 0;     // チップ番号を記録する用
 
 	// 左上
 	D3DXVECTOR2 up_left(pos.x + RS + SHRINK_X, pos.y + RS + SHRINK_Y);
@@ -494,24 +512,26 @@ void Map::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 			IsFloorCollision(down_left.x, down_left.y + CHIP_SIZE, 0.f, move.y,chip_num) == true ||// 衝突点を1CHIP下にずらしている
 			IsFloorCollision(down_right.x, down_right.y + CHIP_SIZE, 0.f, move.y,chip_num) == true) {
 
+			// 衝突している
+
 			// 縦の衝突判定とアクション
 			ChipAction(pos, move, chip_num,COL_Y);
 			m_is_wall_col_vertical = true;
 		}
 		else {
+			// 衝突していない
 			m_is_wall_col = false;
 			m_is_wall_col_vertical = false;
 		}
 	}
 
-	// y軸変更
+	// y軸更新
 	up_left.y = pos.y + RS + SHRINK_Y;
 	up_right.y = pos.y + RS + SHRINK_Y;
 	down_left.y = pos.y + CHIP_SIZE - RS - SHRINK_Y;
 	down_right.y = pos.y + CHIP_SIZE - RS - SHRINK_Y;
 
 	{
-		// ここでif文を作って四角形で当たっている場所をマップチップの当たり判定に埋め込んだらいいかも
 		// x軸の衝突判定(四隅)
 
 		if (IsFloorCollision(up_left.x, up_left.y, move.x, 0.f,chip_num) == true ||
@@ -532,19 +552,16 @@ void Map::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 			m_is_wall_col_side = true;
 		}
 		else {
+			// 衝突していない
 			m_is_wall_col = false;
 			m_is_wall_col_side = false;
 		}
 	}
-
 }
 
 
 // これでできない場合は定数にする
 void Map::ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos,int chip_num, COL_DIRECTION col_d) {
-
-	// もっと当たり後の処理を細分化するべきか
-	// 移動位置を初期化しないと使えないものになる
 
 	// 吸いつきブロック
 	if (chip_num == 12) {
@@ -560,7 +577,6 @@ void Map::ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos,int chip_num, COL_DI
 		NowPosXFixToMapPos(pos.x, move_pos.x);
 		m_is_wall_col = true;
 	}
-	
 }
 
 
@@ -569,7 +585,6 @@ bool Map::IsFloorCollision(float pos_x, float pos_y,float move_x,float move_y) {
 	// 現在のスクリーン座標にマップ座標を加算する
 	D3DXVECTOR2 after_pos(pos_x + move_x,pos_y + move_y + (m_pos.y) + m_move_pos.y);
 
-	// 何もない所は数字すらいれない方がいいかも
 	// 床と衝突しているか(障害物は50番号まで),0番号は何もなし
 	if (GetChipParam(after_pos.x, after_pos.y) <= 50 && GetChipParam(after_pos.x, after_pos.y) >= 1) {
 
@@ -594,8 +609,7 @@ bool Map::IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y,
 	return false;
 }
 
-// 現在位置Xをマップ位置に修正
-//Correct current position X to map position
+
 // 横マップの位置に修正
 void Map::NowPosXFixToMapPos(float &pos_x, float &move_x) {
 
@@ -640,7 +654,6 @@ void Map::NowPosYFixToMapPos(float &pos_y, float &move_y) {
 	// 入ったマップチップの座標を割り出す
 	float chip_pos_y = 0.f;
 
-	// 黄色のやつができていない
 	// 上(自機の移動とマップの移動が進んだ時)
 	if (move_y < 0.f || m_move_pos.y < 0.f) {
 
@@ -657,7 +670,7 @@ void Map::NowPosYFixToMapPos(float &pos_y, float &move_y) {
 		
 		// スクロール範囲に入っていれば
 		if (pos_y < m_scroll_range_up) {
-			m_pos.y += (pos_y - m_scroll_range_up);// バグっている
+			m_pos.y += (pos_y - m_scroll_range_up);
 		}
 	
 		// 移動ベクトルなし
@@ -689,7 +702,7 @@ void Map::NowPosYFixToMapPos(float &pos_y, float &move_y) {
 }
 
 
-// チップの中央におびき寄せる、引っ付かせる
+// 引っ付き処理
 void Map::StuckCenterChip(float &pos_x, float &pos_y, float &move_x, float &move_y) {
 
 	// チップ位置を作る
@@ -758,7 +771,7 @@ void Map::MapResat(float map_y) {
 	m_pos.y = map_y;
 }
 
-// アクセサ
+/* アクセサ */
 D3DXVECTOR2 Map::GetMovePos()const {// 元はmap
 	return -m_move_pos;
 }
@@ -783,6 +796,11 @@ bool Map::IsWallSideCollision()const {
 	return m_is_wall_col_side;
 }
 
+// スクロールしているか
+bool Map::IsScroll()const {
+	return m_is_scroll;
+}
+
 
 
 // MEMO
@@ -801,3 +819,8 @@ X軸の4隅を調べる
 // あとマップの移動値を位置に足さないといけない
 // マップ最大値まで来たらその分上がるようにする
 // 原因はスクロール座標で逃げられないようになっている。→マップ座標をずらす。
+
+// もっと当たり後の処理を細分化するべきか
+// 移動位置を初期化しないと使えないものになる
+
+// 何もない所は数字すらいれない方がいいかも

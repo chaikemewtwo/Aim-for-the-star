@@ -48,19 +48,15 @@ public:
 
 	Map(Player*star1, Player*star2, EnemyManager*e_mng);
 
-	// 更新関数
+	// 更新と描画
 	void Update();
-	// マップのオブジェクトを生成して描画
 	void Draw();
-
-	// Object生成
-	void ObjectCreate();
-	// Object削除
-	void ObjectDestory();
+	void ObjectCreate();    // Object生成
+	void ObjectDestory();   // Object削除
 	// マップとの当たり判定
 	void MapCollision(D3DXVECTOR2&pos, D3DXVECTOR2&move);
 	
-	// アクセサ
+	/* アクセサ */
 	//D3DXVECTOR2 GetMapPos()const;
 	D3DXVECTOR2 GetMovePos()const;
 	// 立っているかどうか
@@ -69,7 +65,8 @@ public:
 	bool IsWallCollision()const;
 	bool IsWallVerticalCollision()const;
 	bool IsWallSideCollision()const;
-
+	bool IsScroll()const;
+	// マップの初期化
 	void MapResat(float map_y);
 
 private:
@@ -93,13 +90,16 @@ private:
 
 	int DrawLineIsActive(float&pos_y,float&move_y,float up_range,float down_range);
 	// スクロールしてもいいかどうか
-	bool IsScroll(float &pos_y1, float &pos_y2);
+	bool IsScrollLimit(float &pos_y1, float &pos_y2);
 	// 地面に着地する点
 	void LandOnTheGround();
 
 	/* マップ操作 */
 	// マップ読み込み
 	void Load(const std::string&file_name);
+
+	// 敵生成群
+	void EnemyCreateGather(int x, int y);
 
 
 	/* マップチップの便利機能 */
@@ -161,10 +161,11 @@ private:
 	Player * m_pbase[2];                   // 自機2体                     
 	EnemyManager * e_pmng;                 // 敵の状態
 	// ジャンプフラグ
-	bool m_is_stand;                       // 立つフラグ
-	bool m_is_wall_col;                    // 壁衝突フラグ
-	bool m_is_wall_col_side;               // 横に衝突
-	bool m_is_wall_col_vertical;           // 縦に衝突
+	bool m_is_stand;                       // 立っているか
+	bool m_is_wall_col;                    // 方向関係なく壁衝突しているか
+	bool m_is_wall_col_side;               // 横に衝突しているか
+	bool m_is_wall_col_vertical;           // 縦に衝突しているか
+	bool m_is_scroll;                      // スクロールしているか
 
 };
 
