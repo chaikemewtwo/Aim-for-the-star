@@ -12,7 +12,7 @@ void PlayerSwimState::Init(Player* p) {
 	p->ResetAnimationNumber();
 
 	// 状態画像変更
-	p->SetPlayerTexture(p->star_texture_name[p->SWIM_TEXTURE][256]);
+	p->SetPlayerTexture(p->star_texture_name[p->SWIM_TEXTURE]);
 }
 
 
@@ -29,7 +29,7 @@ void PlayerSwimState::Update(Player* p) {
 	// 泳ぐ関数呼び出し
 	p->SwimUp();
 
-	//// 重力付与
+	// 重力付与
 	/*p->AddGravity();*/
 
 	// 左右角度変更

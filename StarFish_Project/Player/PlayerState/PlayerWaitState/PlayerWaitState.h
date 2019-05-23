@@ -24,5 +24,5 @@ private:
 
 	// 泳ぎ状態へ移行する際に消費するスタミナ
 	// HACK:プレイヤーが持ってた方がいい
-	const int TO_SWIM_NEEDED_STAMINA = 200;
+	const int TO_SWIM_NEEDED_STAMINA = 1000;
 };

@@ -2,6 +2,7 @@
 #include "PlayerState/PlayerWaitState/PlayerWaitState.h"
 #include "PlayerState/PlayerSwimState/PlayerSwimState.h"
 #include "PlayerState/PlayerStandingWaitState/PlayerStandingWaitState.h"
+#include "PlayerState/PlayerDeathState/PlayerDeathState.h"
 #include <cmath>
 #include <time.h>
 #include "../Map/MapChip/MapChip.h"
@@ -11,7 +12,7 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	Keybord& kb = Keybord::getInterface();
 
 	// 生存フラグ
-	is_alive = true;
+	m_is_alive = true;
 
 	// 移動速度
 	m_speed = 2.f;
@@ -51,12 +52,12 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 		imput_button_name[PULL_ROPE_KEY][256] = 'Q';
 	
 		// 画像
-		star_texture_name[WAIT_TEXTURE][256] = "Resource/Texture/Player/de_wait.png";
-		star_texture_name[STANDING_WAIT_TEXTURE][256] = "Resource/Texture/Player/de_standing_wait.png";
-		star_texture_name[SWIM_TEXTURE][256] = "Resource/Texture/Player/de_swim.png";
-		//star_texture_name[GRAB_TEXTURE][256] = "Resource/de_swim.png";
-		//star_texture_name[PULL_ROPE_TEXTURE][256] = "Resource/de_swim.png";
-		//star_texture_name[DEATH_TEXTURE][256] = "Resource/de_swim.png";
+		star_texture_name[WAIT_TEXTURE] = "Resource/Texture/Player/de_wait.png";
+		star_texture_name[STANDING_WAIT_TEXTURE] = "Resource/Texture/Player/de_standing_wait.png";
+		star_texture_name[SWIM_TEXTURE] = "Resource/Texture/Player/de_swim.png";
+		//star_texture_name[GRAB_TEXTURE] = "Resource/de_swim.png";
+		//star_texture_name[PULL_ROPE_TEXTURE] = "Resource/de_swim.png";
+		star_texture_name[DEATH_TEXTURE] = "Resource/Texture/Player/de_die.png";
 	}
 	// 自機2（デちゃん、ピンクの方）
 	else if (id == STAR_2) {
@@ -71,16 +72,16 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 		imput_button_name[PULL_ROPE_KEY][256] = 'M';
 
 		// 画像
-		star_texture_name[WAIT_TEXTURE][256] = "Resource/Texture/Player/hi_wait.png";
-		star_texture_name[STANDING_WAIT_TEXTURE][256] = "Resource/Texture/Player/hi_standing_wait.png";
-		star_texture_name[SWIM_TEXTURE][256] = "Resource/Texture/Player/hi_swim.png";
-		//star_texture_name[GRAB_TEXTURE][256] = "Resource/de_swim.png";
-		//star_texture_name[PULL_ROPE_TEXTURE][256] = "Resource/de_swim.png";
-		//star_texture_name[DEATH_TEXTURE][256] = "Resource/de_swim.png";
+		star_texture_name[WAIT_TEXTURE] = "Resource/Texture/Player/hi_wait.png";
+		star_texture_name[STANDING_WAIT_TEXTURE] = "Resource/Texture/Player/hi_standing_wait.png";
+		star_texture_name[SWIM_TEXTURE] = "Resource/Texture/Player/hi_swim.png";
+		//star_texture_name[GRAB_TEXTURE] = "Resource/de_swim.png";
+		//star_texture_name[PULL_ROPE_TEXTURE] = "Resource/de_swim.png";
+		star_texture_name[DEATH_TEXTURE] = "Resource/Texture/Player/hi_die.png";
 	}
 	// WaitState初回のみ画像の初期化をしてやる（画像の初期化がWaitStateが生成されるタイミングより遅いため）
 	// HACK:もっといい書き方ありそう
-	m_player_texture = star_texture_name[WAIT_TEXTURE][256];
+	m_player_texture = star_texture_name[WAIT_TEXTURE];
 }
 
 
@@ -93,13 +94,9 @@ void Player::Update() {
 	m_move.y = 0.f;
 
 	// スタミナ自動回復
-	if (m_stamina < MAX_STAMINA) {
+	if (m_stamina < MAX_STAMINA && m_is_alive == true) {
 		++m_stamina;
 	}
-	else {
-		m_stamina = MAX_STAMINA;
-	}
-
 
 	// ステート更新
 	// 内部の処理は各ステート内で管理しています

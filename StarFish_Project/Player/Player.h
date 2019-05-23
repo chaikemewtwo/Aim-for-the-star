@@ -35,8 +35,6 @@ public:
 		WAIT_TEXTURE,
 		STANDING_WAIT_TEXTURE,
 		SWIM_TEXTURE,
-		GRAB_TEXTURE,
-		PULL_ROPE_TEXTURE,
 		DEATH_TEXTURE,
 
 		MAX_TEXTURE_NUM
@@ -46,7 +44,7 @@ public:
 
 	// テクスチャ文字列保持
 	// HACK:[256]を直す
-	std::string star_texture_name[MAX_TEXTURE_NUM][256];
+	std::string star_texture_name[MAX_TEXTURE_NUM];
 
 	// コンストラクタ（引数はプレイヤーのID）
 	Player(ID id);
@@ -87,7 +85,7 @@ public:
 
 	// 生存フラグゲッター
 	bool GetIsAlive() {
-		return is_alive;
+		return m_is_alive;
 	}
 	//-----------------------------------------------------
 
@@ -146,9 +144,9 @@ public:
 		m_stamina -= dec_sutamina_num;
 	}	
 
-	// is_aliveをfalseに変更
+	// m_is_aliveをfalseに変更
 	void DisableIsAlive() {
-		is_alive = false;
+		m_is_alive = false;
 	}
 	//-----------------------------------------------------
 
@@ -224,7 +222,7 @@ private:
 	int m_stamina;
 
 	// 生存フラグ（DeathStateで当たり判定を取らないようにするため）
-	bool is_alive;
+	bool m_is_alive;
 
 	// 被弾時点滅用描画切り替え
 	bool m_draw_enable;

@@ -4,7 +4,6 @@
 #include"../Lib/Texture/TextureBoad2D.h"
 #include"../Lib/Input/KeyBord.h"
 #include"../Enemy/Enemy/EnemyManager.h"
-#include"../Player/Player.h"
 #include"../LoadResource/LoadResource.h"
 #include"../../Map/MapChip/MapChip.h"
 #include"../SetRenderStateFile/SetRenderStateFile.h"

@@ -5,6 +5,7 @@ GameUI::GameUI(Player* p_1, Player* p_2) {
 	p1 = p_1;
 	p2 = p_2;
 	m_sort_object = SortObject::GAME_UI;
+	count = 0;
 };
 
 
@@ -32,8 +33,8 @@ void GameUI::Draw() {
 	Texture::Draw2D("Resource/Texture/UI/ui_rig.png", RIGHT_ROCK_POS, 0.f);
 
 	// しっぱいロゴ
-	if (p1->GetStamina <= 0 || p2->GetStamina) {
-		Texture::Draw2D("Resource/Texture/UI/over_logo.png", WINDOW_W / 2, WINDOW_H / 2 - 300);
+	if (p1->GetIsAlive() == false || p2->GetIsAlive() == false) {
+		Texture::Draw2D("Resource/Texture/UI/over_logo.png", 300, 0+ FailedCount());
 	}
 }
 
@@ -47,4 +48,12 @@ float GameUI::StaminaParcentage(Player* p) {
 float GameUI::GagePosYCalc(float stamina_parcent) {
 	float gage_pos_y = GAGE_UNDER_POS - (ALL_GAGE * stamina_parcent);
 	return gage_pos_y;
+}
+
+
+int GameUI::FailedCount() {
+	if (count <= 100) {
+		++count;
+	}
+	return count;
 }
