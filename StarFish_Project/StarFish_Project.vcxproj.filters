@@ -31,6 +31,10 @@
     <ClCompile Include="Blind\Blind.cpp" />
     <ClCompile Include="Rope\Rope.cpp" />
     <ClCompile Include="GameUI\GameUI.cpp" />
+    <ClCompile Include="Scene\SceneManager.cpp" />
+    <ClCompile Include="Scene\TitleScene\TitleScene.cpp" />
+    <ClCompile Include="Scene\GameScene\GameScene.cpp" />
+    <ClCompile Include="Scene\ClearScene\ClearScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -69,6 +73,11 @@
     <ClInclude Include="Blind\Blind.h" />
     <ClInclude Include="Rope\Rope.h" />
     <ClInclude Include="GameUI\GameUI.h" />
+    <ClInclude Include="Scene\SceneManager.h" />
+    <ClInclude Include="Scene\SceneBase.h" />
+    <ClInclude Include="Scene\TitleScene\TitleScene.h" />
+    <ClInclude Include="Scene\ClearScene\ClearScene.h" />
+    <ClInclude Include="Scene\GameScene\GameScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />

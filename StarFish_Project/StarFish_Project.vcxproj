@@ -59,6 +59,22 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Scene\ClearScene\ClearScene.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Scene\GameScene\GameScene.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Scene\TitleScene\TitleScene.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SetRenderStateFile\SetRenderStateFile.cpp" />
     <ClCompile Include="GameUI\GameUI.cpp">
       <SubType>
@@ -106,6 +122,26 @@
     <ClInclude Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.h" />
     <ClInclude Include="Player\PlayerState\PlayerWaitState\PlayerWaitState.h" />
     <ClInclude Include="Rope\Rope.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Scene\ClearScene\ClearScene.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Scene\GameScene\GameScene.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Scene\TitleScene\TitleScene.h">
       <SubType>
       </SubType>
     </ClInclude>

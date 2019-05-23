@@ -3,10 +3,9 @@
 #include"../Lib/Texture/Texture.h"
 #include"../Lib/Texture/TextureBoad2D.h"
 #include"../Lib/Input/KeyBord.h"
-#include"../Enemy/Enemy/EnemyManager.h"
 #include"../LoadResource/LoadResource.h"
-#include"../../Map/MapChip/MapChip.h"
 #include"../SetRenderStateFile/SetRenderStateFile.h"
+#include"../Scene/SceneManager.h"
 
 
 
@@ -25,7 +24,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 	// DirectX描画状態の設定
 	SetRenderStateConfig();
 
-	ObjectManager * m_pobj_mng = new ObjectManager;// object管理者
+	SceneManager* sm = SceneManager::GetInstance();
+	sm->Init();
+	
 
 	while (ProcessMessage() == true) {
 		// キー入力情報更新
@@ -36,14 +37,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 			break;
 		}
 
-		// 更新
-		m_pobj_mng->Update();
+		
 
 		// 描画開始
 		if (DrawStart() == true) {
 
-			// 描画
-			m_pobj_mng->Draw();
+			sm->Update();
 
 		}
 		DrawEnd();
