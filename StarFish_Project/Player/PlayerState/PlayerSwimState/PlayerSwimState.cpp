@@ -1,4 +1,5 @@
 ﻿#include "PlayerSwimState.h"
+#include "../PlayerDeathState/PlayerDeathState.h"
 #include "../../Player/Player.h"
 
 
@@ -29,9 +30,6 @@ void PlayerSwimState::Update(Player* p) {
 	// 泳ぐ関数呼び出し
 	p->SwimUp();
 
-	// 重力付与
-	/*p->AddGravity();*/
-
 	// 左右角度変更
 	// 左
 	if ((kb.on(p->imput_button_name[p->LEFT_KEY][256]))) {
@@ -42,8 +40,12 @@ void PlayerSwimState::Update(Player* p) {
 		p->AngleAdjust(true);
 	}
 
-	// 待機状態が1回終わるごとに状態遷移タイマーリセット
 	if (p->GetStateChangeTimer() >= MAX_COUNT) {
 		p->ChangeState(PlayerWaitState::GetInstance());
+	}
+
+	if (p->GetIsAlive() == false) {
+		// 死亡状態へ移行
+		p->ChangeState(PlayerDeathState::GetInstance());
 	}
 }

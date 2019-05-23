@@ -36,6 +36,8 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	// 描画フラグ
 	m_draw_enable = true;
 
+	m_radius = 128.f;
+
 	// ソート
 	m_sort_object = SortObject::PLAYER;
 
@@ -96,6 +98,9 @@ void Player::Update() {
 	// スタミナ自動回復
 	if (m_stamina < MAX_STAMINA && m_is_alive == true) {
 		++m_stamina;
+	}
+	if(m_is_alive == true && m_stamina <= 0){
+		DisableIsAlive();
 	}
 
 	// ステート更新

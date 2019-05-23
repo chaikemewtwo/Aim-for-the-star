@@ -1,4 +1,5 @@
 ﻿#include "GameUI.h"
+#include "../Player/Player.h"
 
 
 GameUI::GameUI(Player* p_1, Player* p_2) {
@@ -10,6 +11,17 @@ GameUI::GameUI(Player* p_1, Player* p_2) {
 
 
 void GameUI::Update(){
+	p1_alive = p1->GetIsAlive();
+	p2_alive = p2->GetIsAlive();
+
+	// 片方死んだら片方も死ぬ
+	if (p1_alive == false) {
+		p2->DisableIsAlive();
+	}
+	else if (p2_alive == false) {
+		p1->DisableIsAlive();
+	}
+
 	p1_stamina_parcent = StaminaParcentage(p1);
 	p2_stamina_parcent = StaminaParcentage(p2);
 }
@@ -22,11 +34,15 @@ void GameUI::Draw() {
 	// 黒バー
 	Texture::Draw2D("Resource/Texture/UI/ui_bla.png", RIGHT_GAGE_POS, GAGE_MAX_POS);
 
-	// オレンジバー
-	Texture::Draw2D("Resource/Texture/UI/ui_ora.png", 0.f, GagePosYCalc(p1_stamina_parcent));
+
+	if (p1_alive == true&& p2_alive == true) {
+		// オレンジバー
+		Texture::Draw2D("Resource/Texture/UI/ui_ora.png", 0.f, GagePosYCalc(p1_stamina_parcent));
+
+		// ピンクバー
+		Texture::Draw2D("Resource/Texture/UI/ui_vio.png", RIGHT_GAGE_POS, GagePosYCalc(p2_stamina_parcent));
+	}
 	
-	// ピンクバー
-	Texture::Draw2D("Resource/Texture/UI/ui_vio.png", RIGHT_GAGE_POS, GagePosYCalc(p2_stamina_parcent));
 	
 	// 岩
 	Texture::Draw2DUVShift("Resource/Texture/UI/ui_lef.png", 0.f, 0.f,-0.01f,0.f);

@@ -2,6 +2,7 @@
 
 #include"../SceneBase.h"
 #include"../../GameObject/ObjectManager/ObjectManager.h"
+#include"../../Player/Player.h"
 
 
 class GameMain :public SceneBase {

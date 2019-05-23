@@ -15,13 +15,14 @@ void GameMain::Init() {
 //―――――――――――――――――――
 
 void GameMain::Update() {
-	m_pobj_mng->Update();
+	m_pobj_mng->Update();	
 
 	// デバック用　ゲームシーン→クリア
 	if (m_pkey_bord.press(VK_SPACE)) {
 		m_scene_step = END;
 		m_scene_id = CLEAR;
 	}
+
 }
 //―――――――――――――――――――
 
