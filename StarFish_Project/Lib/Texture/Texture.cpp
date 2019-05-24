@@ -46,15 +46,15 @@ namespace Texture {
 		D3DXCreateTextureFromFileEx(
 			dev,                     // window_device
 			file_name,               // ファイル名
-			info.Width,                   // 読み込むファイル幅
-			info.Height,                  // 読み込むファイル縦幅
+			info.Width + width,                   // 読み込むファイル幅
+			info.Height + height,                  // 読み込むファイル縦幅
 			1,                    // ミップマップレベル
 			0,        // テクスチャの使い方
 			D3DFMT_UNKNOWN,          // カラーフォーマット
 			D3DPOOL_MANAGED,         // テクスチャのメモリ管理方法
 			D3DX_DEFAULT,                    // フィルタリング方法
 			D3DX_DEFAULT,                    // ミップマップのフィルタリング方法
-			0x0000ff00,
+			NULL,// 0x0000ff00 
 			NULL,
 			NULL,
 			&tex_list[file_name].Texture);

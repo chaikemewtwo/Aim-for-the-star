@@ -35,6 +35,7 @@
     <ClCompile Include="Scene\TitleScene\TitleScene.cpp" />
     <ClCompile Include="Scene\GameScene\GameScene.cpp" />
     <ClCompile Include="Scene\ClearScene\ClearScene.cpp" />
+    <ClCompile Include="CollisionObject\CollisionObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
