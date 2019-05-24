@@ -29,9 +29,7 @@ public:
 	virtual void HitAction(Type type) {};
 
 	// 新しい点を再定義
-	D3DXVECTOR2 GetRePoint()const {
-		return m_re_point;
-	}
+	D3DXVECTOR2 GetRePoint()const;
 
 protected:
 

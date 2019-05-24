@@ -24,6 +24,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="CollisionObject\CollisionManager.cpp" />
+    <ClCompile Include="CollisionObject\CollisionObject.cpp" />
     <ClCompile Include="Enemy\Enemy\EnemyBase.cpp">
       <SubType>
       </SubType>
