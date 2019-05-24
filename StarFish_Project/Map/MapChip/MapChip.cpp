@@ -801,6 +801,15 @@ void Map::EnemyCreateGather(int x, int y, int chip_num) {
 		// マップチップ記録
 		m_map[m_height_map_num - y][x].m_is_active = true;
 	}
+	// 右下に行くブラインド生成
+	else if (chip_num == 103) {
+		// 位置を代入
+		D3DXVECTOR2 pos((float)(CHIP_SIZE * x) + CHIP_SIZE, (CHIP_SIZE * -y) + CHIP_SIZE + 1080 - m_pos.y);
+		// ブラインド生成
+		e_pmng->BlindCreate(pos, D3DXVECTOR2(-100, WINDOW_H_F));
+		// マップチップ記録
+		m_map[m_height_map_num - y][x].m_is_active = true;
+	}
 }
 
 
