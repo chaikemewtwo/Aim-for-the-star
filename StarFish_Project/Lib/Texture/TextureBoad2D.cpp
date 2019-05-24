@@ -21,8 +21,55 @@ struct CUSTOM_VERTEX
 
 namespace Texture {
 
-	void Draw2D(const char*file_name,float x,float y, float scale_w,float scale_h,float angle,float cx,float cy,bool uv_cut,int u_axis,int v_axis,int graph_num,float u,float v) {
+
+	// 描画関係
+	void Draw2DGraph(const char*file_name, const float&pos_x, const float&pos_y) {
+		Draw2D(file_name, pos_x, pos_y);
+	}
+
+	void Draw2DTransGraph(const char*file_name, const float&pos_x, const float&pos_y,const float &scale_x,const float&scale_y,const float&angle) {
+		Draw2D(file_name, pos_x, pos_x, pos_y, scale_x, scale_y, angle);
+	}
+
+	void Draw2DRotaGraph(const char*file_name, const float&pos_x, const float &pos_y, const float&angle) {
+		Draw2D(file_name, pos_x, pos_y, 1.f, 1.f, angle, 0.5f, 0.5f);
+	}
+
+	void Draw2DAnimationGraph(const char*file_name, const float&pos_x, const float&pos_y, const int &u_cut_num, const int&v_cut_num,const int&anim_num) {
+		Draw2D(file_name, pos_x, pos_y, 1.f, 1.f, 0.f, 0.f, 0.f, true, u_cut_num, v_cut_num, anim_num);
+	}
+
+	void Draw2DRotaAnimation(const char*file_name, const float&pos_x, const float&pos_y, const float &angle, const int &u_cut_num, const int&v_cut_num, const int&anim_num) {
+		Draw2D(file_name, pos_x, pos_y, 1.f, 1.f, angle, 0.f, 0.f, true, u_cut_num, v_cut_num, anim_num);
+	}
+
+	void Draw2DUVShift(const char*file_name, const float &pos_x, const float &pos_y, const float&shift_u, const float&shift_v) {
+		Draw2D(file_name, pos_x, pos_y, 1.f, 1.f, 0.f, 0.f, 0.f, false,0,0,0,shift_u,shift_v);
+	}
+
+	// サイズ取得関数
+	float GetGraphSizeX(const char*file_name) {
+		TEXTURE_DATA *tex_d = &tex_list[file_name];
+		return tex_d->Width;
+	}
+	float GetGraphSizeY(const char*file_name) {
+		TEXTURE_DATA *tex_d = &tex_list[file_name];
+		return tex_d->Height;
+	}
+
+	float GetDivGraphSizeX(const char*file_name, float div_num) {
 		
+	}
+
+	D3DXVECTOR2 GetGraphSizeVec2(const char*file_name) {
+		return D3DXVECTOR2(
+			GetGraphSizeX(file_name),
+			GetGraphSizeY(file_name));
+	}
+
+
+	void Draw2D(const char*file_name, float x, float y, float scale_w, float scale_h, float angle, float cx, float cy, bool uv_cut, int u_axis, int v_axis, int graph_num, float u, float v) {
+
 		TEXTURE_DATA *tex_d = &tex_list[file_name];
 
 		const float x1 = -cx;
@@ -37,28 +84,27 @@ namespace Texture {
 		if (uv_cut == true) {
 			uv.ToTheRightDivGraph(graph_num);
 		}
-		
+
 		// 頂点バッファを参照で受け取り
 		D3DXVECTOR2 *up_left = &uv.GetUvUpLeftBuffer();
 		D3DXVECTOR2 *up_right = &uv.GetUvUpRightBuffer();
 		D3DXVECTOR2 *down_left = &uv.GetUvDownLeftBuffer();
 		D3DXVECTOR2 *down_right = &uv.GetUvDownRightBuffer();
-		
-		
+
+
 		// VERTEX3Dの初期化
 		CUSTOM_VERTEX cv[] =
 		{
-		{ x1,y1,0.0f,1.0f,up_left->x,up_left->y },              // 左上
-		{ x2,y1,0.0f,1.0f,up_right->x,up_right->y + v},         // 右上
-		{ x2,y2,0.0f,1.0f,down_right->x + u,down_right->y + v}, // 右下
-		{ x1,y2,0.0f,1.0f,down_left->x + u,down_left->y},       // 左下
+			{ x1,y1,0.0f,1.0f,up_left->x,up_left->y },              // 左上
+		{ x2,y1,0.0f,1.0f,up_right->x + u,up_right->y },         // 右上
+		{ x2,y2,0.0f,1.0f,down_right->x + u,down_right->y + v }, // 右下
+		{ x1,y2,0.0f,1.0f,down_left->x,down_left->y + v },       // 左下
 		};
 
-		// サンプラーステート(描画外は描画しない)
+		// サンプラーステート(描画外は描画しないようにするため)
 		dev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
 		dev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-	
-		
+
 		// ワールド座標変換系
 		D3DXMATRIX mat_world, mat_trans, mat_scale;
 		// ワールド変換回転。
@@ -84,37 +130,12 @@ namespace Texture {
 		// デバイスにそのまま渡すことができる。
 		dev->SetTexture(0, tex_list[file_name]);// これはテクスチャの指定、ポインタを渡して確認する。
 												// 元はtex_list[file_name]	// 0はテクスチャステージ番号
-		
+
 		dev->DrawPrimitiveUP(
 			D3DPT_TRIANGLEFAN,
 			2,
 			cv,// cv カスタムバーテックスのポインタ
 			sizeof(CUSTOM_VERTEX)
 		);
-	}
-
-	// 描画関係
-	void Draw2DGraph(const char*file_name, const float&pos_x, const float&pos_y) {
-		Draw2D(file_name, pos_x, pos_y);
-	}
-
-	void Draw2DTransGraph(const char*file_name, const float&pos_x, const float&pos_y,const float &scale_x,const float&scale_y,const float&angle) {
-		Draw2D(file_name, pos_x, pos_x, pos_y, scale_x, scale_y, angle);
-	}
-
-	void Draw2DRotaGraph(const char*file_name, const float&pos_x, const float &pos_y, const float&angle) {
-		Draw2D(file_name, pos_x, pos_y, 1.f, 1.f, angle, 0.5f, 0.5f);
-	}
-
-	void Draw2DAnimationGraph(const char*file_name, const float&pos_x, const float&pos_y, const int &u_cut_num, const int&v_cut_num,const int&anim_num) {
-		Draw2D(file_name, pos_x, pos_y, 1.f, 1.f, 0.f, 0.f, 0.f, true, u_cut_num, v_cut_num, anim_num);
-	}
-
-	void Draw2DRotaAnimation(const char*file_name, const float&pos_x, const float&pos_y, const float &angle, const int &u_cut_num, const int&v_cut_num, const int&anim_num) {
-		Draw2D(file_name, pos_x, pos_y, 1.f, 1.f, angle, 0.f, 0.f, true, u_cut_num, v_cut_num, anim_num);
-	}
-
-	void Draw2DUVShift(const char*file_name, const float &pos_x, const float &pos_y, const float&shift_u, const float&shift_v) {
-		Draw2D(file_name, pos_x, pos_y, 1.f, 1.f, 0.f, 0.f, 0.f, false,0,0,0,shift_u,shift_v);
 	}
 }

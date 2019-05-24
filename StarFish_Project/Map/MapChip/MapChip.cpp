@@ -795,7 +795,7 @@ void Map::EnemyCreateGather(int x, int y, int chip_num) {
 	// 貝生成
 	else if (chip_num == 102) {
 		// 位置を代入
-		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
+		D3DXVECTOR2 pos((float)(CHIP_SIZE * x) + CHIP_SIZE, (CHIP_SIZE * -y) + CHIP_SIZE + 1080 - m_pos.y);
 		// 敵生成
 		e_pmng->EnemyCreate(pos, this, m_pbase[0], m_pbase[1], SELLFISH);
 		// マップチップ記録

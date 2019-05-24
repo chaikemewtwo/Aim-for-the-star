@@ -85,6 +85,7 @@ void Resource::LoadResouce() {
 	Texture::Load("Resource/Texture/Map/chip-map_image_08.png");
 	Texture::Load("Resource/Texture/Map/chip-map_image_09.png");
 	Texture::Load("Resource/Texture/Map/chip-map_image_10.png");
+	Texture::Load("Resource/Texture/Map/sample.png");
 
 	// 泡エフェクト
 	Texture::Load("Resource/Texture/Effect/bubbles.png");

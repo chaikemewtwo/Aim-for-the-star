@@ -52,15 +52,15 @@ namespace ShapeCollision {
 		}
 
 		// 位置を受け取る
-		D3DXVECTOR2 pos1 = obj1->GetPos();
-		D3DXVECTOR2 pos2 = obj2->GetPos();
+		D3DXVECTOR2 pos1 = obj1->GetPos() + obj1->GetRePoint();
+		D3DXVECTOR2 pos2 = obj2->GetPos() + obj2->GetRePoint();
 
 		// obj1とobj2までの距離を出す
 		float a = pos1.x - pos2.x;
 		float b = pos1.y - pos2.y;
 
 		// 円の当たり判定
-		if (a * a + b * b < obj1->GetRadius() * obj2->GetRadius()) {
+		if (a * a + b * b < obj1->GetRadius() * (obj2->GetRadius())) {
 
 			// 当たっていた時の判定
 			obj1->HitAction(obj2->GetObjectType());

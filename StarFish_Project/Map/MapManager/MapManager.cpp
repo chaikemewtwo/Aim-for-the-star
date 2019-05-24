@@ -15,8 +15,8 @@ MapManager::MapManager(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManage
 	obj_mng->Entry(m_pmap_tip = new Map(star1,star2,e_mng));
 	// 背景1オブジェクト登録
 	obj_mng->Entry(m_pbg = new BackGround("Map/BGData/BG1.csv", m_pmap_tip,BG_BEFORE));
-	// 背景2s
-	obj_mng->Entry(m_pbg2 = new BackGround("Map/BGData/BG2.csv",m_pmap_tip,BG_AFTER));
+	// 背景2
+	//obj_mng->Entry(m_pbg2 = new BackGround("Map/BGData/BG2.csv",m_pmap_tip,BG_AFTER));// バグった理由
 }
 
 
