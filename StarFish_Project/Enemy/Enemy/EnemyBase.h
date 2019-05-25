@@ -52,8 +52,9 @@ protected:
 	// 敵の位置がプレイヤーの上かをboolで返す関数
 	virtual bool IsTopPos();
 	// 2体のプレイヤーの、自身とより近い距離を返す関数
-	virtual float CalcDistance();
+	virtual D3DXVECTOR2 CalcDistance();
 
+protected:
 	// 変数・定数//
 	int m_power;				// 攻撃力
 	int m_delete_timer;			// 削除用タイマー

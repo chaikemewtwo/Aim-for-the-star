@@ -45,26 +45,37 @@ void EnemyBase::OutScreenCheck() {
 }
 //―――――――――――――――――――――
 
-float EnemyBase::CalcDistance() {
-	float player1_y_distance = 0;
-	float player2_y_distance = 0;
+D3DXVECTOR2 EnemyBase::CalcDistance() {
+	D3DXVECTOR2 player1_distance;
+	D3DXVECTOR2 player2_distance;
 
 	// 自身がプレイヤーよりも上にいる場合
 	if (IsTopPos()==true) {
-		player1_y_distance = m_pplayer1->GetPos().y - m_pos.y;
-		player2_y_distance = m_pplayer2->GetPos().y - m_pos.y;
+		player1_distance.y = m_pplayer1->GetPos().y - m_pos.y;
+		player2_distance.y = m_pplayer2->GetPos().y - m_pos.y;
 	}
 	// 自身がプレイヤーよりも下にいる場合
 	else if (IsTopPos()==false) {
-		player1_y_distance = m_pos.y - m_pplayer1->GetPos().y;
-		player2_y_distance = m_pos.y - m_pplayer2->GetPos().y;
+		player1_distance.y = m_pos.y - m_pplayer1->GetPos().y;
+		player2_distance.y = m_pos.y - m_pplayer2->GetPos().y;
+	}
+
+	// 自身が画面左側にいるとき
+	if (m_is_left == true) {
+		player1_distance.x = m_pplayer1->GetPos().x - m_pos.x;
+		player2_distance.x = m_pplayer2->GetPos().x - m_pos.x;
+	}
+	// 自身が画面右側にいるとき
+	else if (m_is_left == false) {
+		player1_distance.x = m_pos.x - m_pplayer1->GetPos().x;
+		player2_distance.x = m_pos.x - m_pplayer2->GetPos().x;
 	}
 
 	// より近いほうの距離を返す
-	if (player1_y_distance < player2_y_distance) {
-		return player1_y_distance;
+	if (player1_distance.y < player2_distance.y) {
+		return player1_distance;
 	}
-	return player2_y_distance;
+	return player2_distance;
 }
 //―――――――――――――――――――――
 
