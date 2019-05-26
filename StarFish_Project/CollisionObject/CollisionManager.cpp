@@ -52,8 +52,8 @@ namespace ShapeCollision {
 		}
 
 		// 位置を受け取る
-		D3DXVECTOR2 pos1 = obj1->GetPos() + obj1->GetRePoint();
-		D3DXVECTOR2 pos2 = obj2->GetPos() + obj2->GetRePoint();
+		D3DXVECTOR2 pos1 = obj1->GetPos() + obj1->GetHitVertexShift();
+		D3DXVECTOR2 pos2 = obj2->GetPos() + obj2->GetHitVertexShift();
 
 		// obj1とobj2までの距離を出す
 		float a = pos1.x - pos2.x;

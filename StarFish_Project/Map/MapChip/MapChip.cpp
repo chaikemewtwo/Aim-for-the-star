@@ -42,7 +42,6 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 	m_pbase[1] = star2;
 	// 敵の参照受け取り
 	e_pmng = e_mng;
-
 	// マップ座標初期化
 	// m_pos = マップ座標として作る
 	m_pos.x = INIT_MAP_POS_X;
@@ -166,6 +165,7 @@ void Map::Load(const std::string&file_name) {
 
 		// 文字列をバッファにいれる
 		char *str2 = str_buf;
+		tagMapChip map_chip;
 
 		// 次の列へ
 		while(*str2 != '\0'&& *str2 != '\n') {

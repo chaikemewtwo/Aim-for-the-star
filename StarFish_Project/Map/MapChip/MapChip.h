@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include"../BackGround/BackGround.h"
-
+#include<vector>
 
 /*
 
@@ -121,7 +121,7 @@ private:
 	const float INIT_MAP_POS_X = 0.f;
 	const float INIT_MAP_POS_Y = 0.f;
 	// マップのスクロール遷移ライン定数
-	const float SCROLL_RANGE_UP = 200.f;
+	const float SCROLL_RANGE_UP = 400.f;
 	const float SCROLL_RANGE_DOWN = 800.f;
 	// マップ当たり判定の頂点
 	const float HIT_POINT_X = -32.f;
@@ -136,36 +136,36 @@ private:
 	static const int MAX_BEDROCK_CHIP = 10;
 
 private:
-
+	
 	/* マップチップ関係 */
-	tagMapChip m_map[1000][1000] = {};     // 全体マップバッファ
-	const char*chip_str[MAX_BEDROCK_CHIP]; // 岩盤のチップ文字列
-	float chip_u[MAX_BEDROCK_CHIP];        // 線を直す為にずらすUV用配列U
-	float chip_v[MAX_BEDROCK_CHIP];        // 線を直す為にずらすUV用配列V
+	tagMapChip m_map[5000][200] = {};          // 全体マップバッファ
+	const char*chip_str[MAX_BEDROCK_CHIP];     // 岩盤のチップ文字列
+	float chip_u[MAX_BEDROCK_CHIP];            // 線を直す為にずらすUV用配列U
+	float chip_v[MAX_BEDROCK_CHIP];            // 線を直す為にずらすUV用配列V
 	D3DXVECTOR2 bedrock_chip[MAX_BEDROCK_CHIP];// 岩盤チップをずらす座標
 	/* マップ座標 */
-	D3DXVECTOR2 m_player_pos[2];           // 自機の位置
-	D3DXVECTOR2 m_player_move_pos[2];      // 自機の移動ベクトル
-	/* マップ描画領域 */
-	//D3DXVECTOR2 m_pos;                   // 描画用マップの位置
-	D3DXVECTOR2 m_move_pos;                // 描画用マップの位置
-	int m_height_map_num;                  // マップデータの高さ
-	int m_map_chip_id[1000]={};            // 生成されたらマップチップを保存する
-	int m_chip_num;                        // チップの番号
-	/* マップ遷移 */
-	float m_draw_range_up;                 // 上の描画の範囲
-	float m_draw_range_down;               // 後ろの描画の範囲
-	float m_scroll_range_up;               // スクロールライン上
-	float m_scroll_range_down;             // スクロールライン下
-	/* 各オブジェクトの参照 */	   	       
-	Player * m_pbase[2];                   // 自機2体                     
-	EnemyManager * e_pmng;                 // 敵の状態
-	// ジャンプフラグ
-	bool m_is_stand;                       // 立っているか
-	bool m_is_wall_col;                    // 方向関係なく壁衝突しているか
-	bool m_is_wall_col_side;               // 横に衝突しているか
-	bool m_is_wall_col_vertical;           // 縦に衝突しているか
-	bool m_is_scroll;                      // スクロールしているか
+	D3DXVECTOR2 m_player_pos[2];               // 自機の位置
+	D3DXVECTOR2 m_player_move_pos[2];          // 自機の移動ベクトル
+	/* マップ描画領域 */					    
+	//D3DXVECTOR2 m_pos;                       // 描画用マップの位置
+	D3DXVECTOR2 m_move_pos;                    // 描画用マップの位置
+	int m_height_map_num;                      // マップデータの高さ
+	int m_map_chip_id[1000]={};                // 生成されたらマップチップを保存する
+	int m_chip_num;                            // チップの番号
+	/* マップ遷移 */						      
+	float m_draw_range_up;                     // 上の描画の範囲
+	float m_draw_range_down;                   // 後ろの描画の範囲
+	float m_scroll_range_up;                   // スクロールライン上
+	float m_scroll_range_down;                 // スクロールライン下
+	/* 各オブジェクトの参照 */	   	           
+	Player * m_pbase[2];                       // 自機2体                     
+	EnemyManager * e_pmng;                     // 敵の状態
+	// ジャンプフラグ						    
+	bool m_is_stand;                           // 立っているか
+	bool m_is_wall_col;                        // 方向関係なく壁衝突しているか
+	bool m_is_wall_col_side;                   // 横に衝突しているか
+	bool m_is_wall_col_vertical;               // 縦に衝突しているか
+	bool m_is_scroll;                          // スクロールしているか
 
 };
 

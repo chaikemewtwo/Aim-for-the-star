@@ -67,8 +67,8 @@ void BackGround::Draw() {
 	if (m_pback_str[m_connect1_graph % max_graph_num] == "Resource/Texture/Map/bg_hero_03.png") {
 		uv_shift[1].y = -0.01f;
 	}
-	else if (m_connect1_graph == 0 || m_connect2_graph == 0) {
-		uv_shift[0].y = 0.01f;
+	else if (m_pback_str[m_connect1_graph % max_graph_num] == "Resource/Texture/Map/bg_hero_01.png") {
+		uv_shift[0].y = -0.01f;
 	}
 	else {
 		uv_shift[0].x = uv_shift[0].y = 0.f;

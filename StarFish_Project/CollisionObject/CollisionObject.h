@@ -28,11 +28,11 @@ public:
 	// 当たり判定の結果を返す,引数は当たった相手の定数を入れる
 	virtual void HitAction(Type type) {};
 
-	// 新しい点を再定義
-	D3DXVECTOR2 GetRePoint()const;
+	// 当たり判定頂点をずらす
+	D3DXVECTOR2 GetHitVertexShift()const;
 
 protected:
 
-	float m_speed;    // 移動速度
-	D3DXVECTOR2 m_re_point; // 新しい点 
+	float m_speed;                  // 移動速度
+	D3DXVECTOR2 m_hit_vertex_shift; // 当たり頂点をずらす 
 };

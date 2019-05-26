@@ -2,11 +2,11 @@
 
 
 CollisionObject::CollisionObject() {
-	m_re_point.x = 0.f;
-	m_re_point.y = 0.f;
+	m_hit_vertex_shift.x = 0.f;
+	m_hit_vertex_shift.y = 0.f;
 }
 
 // 新しい点を再定義
-D3DXVECTOR2 CollisionObject::GetRePoint()const {
-	return m_re_point;
+D3DXVECTOR2 CollisionObject::GetHitVertexShift()const {
+	return m_hit_vertex_shift;
 }
