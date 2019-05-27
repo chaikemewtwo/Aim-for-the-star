@@ -24,6 +24,7 @@ enum EnemyTexture {
 	ENEMY_TEXTURE_MAX	
 };
 
+
 // 敵基底クラス
 class EnemyBase :public CircleCollisionObject{
 public:
@@ -31,6 +32,7 @@ public:
 	EnemyBase();
 	virtual ~EnemyBase() {}
 
+	// 各遷移条件をチェックし、遷移先のStateIdを返す
 	virtual StateId StateChangeCheck() = 0;
 
 	virtual void ChangeState(StateBase* state);
@@ -39,27 +41,28 @@ public:
 
 	virtual float GetSpeed();
 	virtual int GetPower();			
-	// 左右どちらにいるか判定フラグのゲッター
 	virtual bool IsLeft();				
 
 	Type GetObjectType()const override {
 		return ENEMY;
 	}
 
+
 protected:
 	// 画面外に出たらm_is_activをfalseにする関数
 	virtual void OutScreenCheck();
-	// 敵の位置がプレイヤーの上かをboolで返す関数
+	// 自身の位置がプレイヤーの上下どちらかを判定
 	virtual bool IsTopPos();
-	// 2体のプレイヤーの、自身とより近い距離を返す関数
+	// 2体のプレイヤーの、自身とより近い距離を返す
 	virtual D3DXVECTOR2 CalcDistance();
 
+
 protected:
-	// 変数・定数//
 	int m_power;				// 攻撃力
 	int m_delete_timer;			// 削除用タイマー
 	bool m_no_move;				// 移動するかのフラグ
 	bool m_is_left;				// 画面中央から左右どちらにいるかのフラグ
+
 	float m_angle;				// 描画角度
 	float m_center;				// 描画頂点
 	int m_anim_change_time;		// 1コマ分の画像の時間

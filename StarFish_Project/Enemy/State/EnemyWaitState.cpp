@@ -1,16 +1,19 @@
 ﻿#include"EnemyWaitState.h"
 #include"EnemySideMoveState.h"
 #include"EnemyVerticalMoveState.h"
-#include"../Enemy/SeaUrchin.h"
+#include"../Enemy/EnemyBase.h"
+
 
 Wait *Wait::GetInstance() {
+
 	static Wait s_wait;
 	return &s_wait;
 }
 //―――――――――――――――――――――
 
-// 待機　　基本はここから各Stateに遷移
 void Wait::Action(EnemyBase* e) {
+
+	// 返ってきたStateIdによって遷移先を変える
 	if (e->StateChangeCheck() == WAIT_ID) {
 		return;
 	}

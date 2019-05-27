@@ -4,9 +4,9 @@
 
 
 EnemyBase::EnemyBase() {
+
 	m_angle = 0;
 	m_center = 0.5;
-	// 当たり判定の変形を設定
 	m_radius = 64;
 	m_delete_timer = 60;
 	m_max_animation = 0;
@@ -29,9 +29,12 @@ void EnemyBase::ChangeState(StateBase* state) {
 //―――――――――――――――――――――
 
 void EnemyBase::OutScreenCheck() {
+
 	// 画面外に出たら、削除までの時間をカウントダウン
 	if (m_pos.y > WINDOW_H_F || m_pos.x<0 || m_pos.x>WINDOW_W_F) {
+
 		if (m_delete_timer >= 0) {
+
 			m_delete_timer--;
 			if (m_delete_timer <= 0) {
 				m_is_active = false;
@@ -46,43 +49,53 @@ void EnemyBase::OutScreenCheck() {
 //―――――――――――――――――――――
 
 D3DXVECTOR2 EnemyBase::CalcDistance() {
+
 	D3DXVECTOR2 player1_distance;
 	D3DXVECTOR2 player2_distance;
 
 	// 自身がプレイヤーよりも上にいる場合
 	if (IsTopPos()==true) {
+
 		player1_distance.y = m_pplayer1->GetPos().y - m_pos.y;
 		player2_distance.y = m_pplayer2->GetPos().y - m_pos.y;
 	}
 	// 自身がプレイヤーよりも下にいる場合
 	else if (IsTopPos()==false) {
+
 		player1_distance.y = m_pos.y - m_pplayer1->GetPos().y;
 		player2_distance.y = m_pos.y - m_pplayer2->GetPos().y;
 	}
 
+
 	// 自身が画面左側にいるとき
 	if (m_is_left == true) {
+
 		player1_distance.x = m_pplayer1->GetPos().x - m_pos.x;
 		player2_distance.x = m_pplayer2->GetPos().x - m_pos.x;
 	}
 	// 自身が画面右側にいるとき
 	else if (m_is_left == false) {
+
 		player1_distance.x = m_pos.x - m_pplayer1->GetPos().x;
 		player2_distance.x = m_pos.x - m_pplayer2->GetPos().x;
 	}
+
 
 	// より近いほうの距離を返す
 	if (player1_distance.y < player2_distance.y) {
 		return player1_distance;
 	}
+
 	return player2_distance;
 }
 //―――――――――――――――――――――
 
 bool EnemyBase::IsTopPos() {
+
 	if (m_pplayer1->GetPos().y > m_pos.y&&m_pplayer2->GetPos().y > m_pos.y) {
 		return true;
 	}
+
 	return false;
 }
 //―――――――――――――――――――――
