@@ -7,7 +7,8 @@
 enum SceneId {
 	TITLE,
 	GAME_MAIN,
-	CLEAR
+	CLEAR,
+	SCENE_QUIT
 };
 
 // シーン内処理のステップ
