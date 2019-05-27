@@ -39,6 +39,7 @@ BackGround::BackGround(const std::string&file_name,Map*map,SortObject sort_num,f
 	// 画像の位置
 	m_connect1_graph = 0;
 	m_connect2_graph = 1;
+
 	// 自機の移動初期化
 	m_move_pos.x = m_move_pos.y = 0.f;
 
@@ -60,32 +61,32 @@ void BackGround::Draw() {
 	// 端数分GRAPH_DIFFERENCEでずらす
 
 	// UVをずらす処理を書く
-	D3DXVECTOR2 uv_shift[2];
-	uv_shift[0].x = uv_shift[0].y = 0.f;
-	uv_shift[1].x = uv_shift[1].y = 0.f;
+	float uv_shift[2];
 
-	if (m_pback_str[m_connect1_graph % max_graph_num] == "Resource/Texture/Map/bg_hero_03.png") {
-		uv_shift[1].y = -0.01f;
-	}
-	else if (m_pback_str[m_connect1_graph % max_graph_num] == "Resource/Texture/Map/bg_hero_01.png") {
-		uv_shift[0].y = -0.01f;
-	}
-	else {
-		uv_shift[0].x = uv_shift[0].y = 0.f;
-		uv_shift[1].x = uv_shift[1].y = 0.f;
-	}
+	// 奇数か偶数で処理を変える
+	//if (m_connect1_graph % 1 || m_connect2_graph % 1) {
+	//	uv_shift[0] = -0.01f;
+	//}
+	//if (m_connect1_graph % 2 || m_connect2_graph % 2) {
+	//	uv_shift[1] = -0.01f;
+	//}
+	//else {
+	//	uv_shift[0] = 0.f;
+	//	uv_shift[1] = 0.f;
+	//}
+	
 
 	// 1枚目描画
 		Texture::Draw2DUVShift(m_pback_str[m_connect1_graph % max_graph_num],
 			(float)-m_graph_difference,
 			(m_pos.y + (float)((-GRAPH_SCALE_H) * m_connect1_graph) - (float)m_graph_difference)// - (float)m_graph_difference
-		,0.f,uv_shift[0].y);
+		,0.f,-0.01f);
 		
 	// 2枚目描画
 		Texture::Draw2DUVShift(m_pback_str[m_connect2_graph % max_graph_num],
 			(float)-m_graph_difference,
-			(m_pos.y + (float)((-GRAPH_SCALE_H) * m_connect2_graph) - (float)m_graph_difference)
-		,0.f,uv_shift[1].y);
+			(m_pos.y + (float)((-GRAPH_SCALE_H) * m_connect2_graph) - (float)m_graph_difference)// +10.f
+		,0.f,-0.01f);
 }
 
 
