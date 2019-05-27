@@ -110,13 +110,13 @@ void Resource::LoadResouce() {
 	// 勝利シーン------------------------------------------
 	// 自機1
 	// 勝利モーション（1モーションで計2枚）
-	Texture::Load("Resource/Texture/Player/de_crear_01.png");
-	Texture::Load("Resource/Texture/Player/de_crear_02.png");
+	Texture::Load("Resource/Texture/Player/hi_clear_01.png");
+	Texture::Load("Resource/Texture/Player/hi_clear_02.png");
 
 	// 自機2
 	// 勝利モーション（1モーションで計2枚）
-	Texture::Load("Resource/Texture/Player/hi_crear_01.png");
-	Texture::Load("Resource/Texture/Player/hi_crear_02.png");
+	Texture::Load("Resource/Texture/Player/de_clear_01.png");
+	Texture::Load("Resource/Texture/Player/de_clear_02.png");
 
 	// 自機エフェクト
 	Texture::Load("Resource/Texture/Effect/crear_eff.png");

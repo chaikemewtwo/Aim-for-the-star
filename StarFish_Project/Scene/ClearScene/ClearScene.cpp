@@ -4,6 +4,7 @@
 
 
 Clear::Clear() {
+
 	m_scene_step = INIT;
 
 	// プレイヤー1の画像登録
@@ -22,18 +23,22 @@ Clear::Clear() {
 //――――――――――――――――――――――――――――――――
 
 void Clear::Init() {
+
 	SceneBase::m_scene_id = CLEAR;
 	m_scene_step = UPDATE;
+
 
 	// 画像の初期化
 	m_player1_texture = m_player1_texture_list[FLIGHT_TEXTURE];
 	m_player2_texture = m_player2_texture_list[FLIGHT_TEXTURE];
+
 	m_background_texture1 = m_background_texture_list[SEA_TEXTURE];
 	m_background_texture2 = m_background_texture_list[SKY_TEXTURE];
 	
 	// 座標の初期化
 	m_player1_pos = D3DXVECTOR2((WINDOW_W_F/2)-256, 1000);
 	m_player2_pos = D3DXVECTOR2((WINDOW_W_F/2)+256, 1000);
+
 	m_background1_pos = D3DXVECTOR2(0, (WINDOW_H_F-BACKGROUND_TEXTURE_SIZE_Y));
 	m_background2_pos = D3DXVECTOR2(0,m_background1_pos.y-BACKGROUND_TEXTURE_SIZE_Y);
 
@@ -48,16 +53,27 @@ void Clear::Init() {
 	// 背景の変数初期化
 	m_is_background_move = false;
 	m_background_move_speed = 10;
+
+	// エフェクトの変数初期化
+	m_effect_animation_num = 0;
+	m_effect_animation_max = 13;
+	m_effect_animation_timer = 0;
+	m_effect_animation_change_time = 5;
+	m_effect_lag_time = 15;
+	m_effect_lag_count = 0;
 }
 //――――――――――――――――――――――――――――――――
 
 void Clear::Update() {
+
 	// プレイヤーの移動
 	if (m_player1_pos.y >= 600 && m_player2_pos.y >= 600) {
+
 		m_player1_pos.y -= m_player_move_speed;
 		m_player2_pos.y -= m_player_move_speed;
 
 		if (m_player1_pos.y <= 850 && m_player2_pos.y <= 850) {
+
 			m_is_background_move = true;
 			m_player_move_speed -= 0.01f;
 		}
@@ -65,11 +81,13 @@ void Clear::Update() {
 	
 	// 背景の移動
 	if (m_is_background_move) {
+
 		m_background1_pos.y += m_background_move_speed;
 		m_background2_pos.y += m_background_move_speed;
 
 		// 1枚目が描画し終わったら、3枚目の画像を入れる
 		if (m_background1_pos.y >= BACKGROUND_TEXTURE_SIZE_Y) {
+
 			m_background_texture1 = m_background_texture_list[MOON_TEXTURE];
 			m_background1_pos.y = m_background2_pos.y-BACKGROUND_TEXTURE_SIZE_Y;
 		}
@@ -79,6 +97,7 @@ void Clear::Update() {
 		}
 	}
 
+
 	if (m_pkey_bord.press(VK_SPACE)) {
 		m_scene_step = END;
 		m_scene_id = TITLE;
@@ -87,6 +106,7 @@ void Clear::Update() {
 //――――――――――――――――――――――――――――――――
 
 void Clear::Draw() {
+
 	// 背景の描画
 	Texture::Draw2D(
 		m_background_texture1.c_str(),
@@ -113,6 +133,23 @@ void Clear::Draw() {
 		m_player_animation_num
 	);
 	PlayerAnimation();
+
+	// エフェクトの描画
+	if (m_player_animation_num >= 6 && m_player_animation_finish == true) {
+		Texture::Draw2D(
+			m_clear_effect.c_str(),
+			m_player1_pos.x, m_player1_pos.y,
+			0.25, 0.25, 0, 0.5, 0.5,
+			true, 4, 4, m_effect_animation_num
+		);
+		Texture::Draw2D(
+			m_clear_effect.c_str(),
+			m_player2_pos.x, m_player2_pos.y,
+			0.25, 0.25, 0, 0.5, 0.5,
+			true, 4, 4, m_effect_animation_num
+		);
+		EffectAnimation();
+	}
 }
 //―――――――――――――――――――――――――――――――――
 
@@ -145,6 +182,24 @@ void Clear::PlayerAnimation() {
 		else {
 			m_player_animation_timer++;
 		}
+	}
+}
+//―――――――――――――――――――――――――――――――――
+
+void Clear::EffectAnimation() {
+
+	if (m_effect_animation_timer >= m_effect_animation_change_time) {
+		m_effect_animation_timer = 0;
+		m_effect_animation_num++;
+	}
+	// ☆が見えるように、遷移を遅れさせる
+	else if (m_effect_animation_num == 3 && m_effect_lag_time >= m_effect_lag_count) {
+
+		m_effect_lag_count++;
+		m_effect_animation_num = 3;
+	}
+	else {
+		m_effect_animation_timer++;
 	}
 }
 //―――――――――――――――――――――――――――――――――
