@@ -28,7 +28,7 @@ namespace Texture {
 	// 2の累乗でテクスチャサイズが指定できる
 
 	// HACK
-	void LoadEx(const char *file_name,UINT width,UINT height,DWORD color_key)
+	void LoadEx(const char *file_name,UINT width,UINT height,DWORD color_key,float u,float v)
 	{
 		D3DXIMAGE_INFO info;
 
@@ -40,7 +40,8 @@ namespace Texture {
 		// 最初はサイズ指定をしなければいけない。
 		tex_list[file_name].Width = (float)info.Width;
 		tex_list[file_name].Height = (float)info.Height;
-
+		tex_list[file_name].Uv.x = u;
+		tex_list[file_name].Uv.y = v;
 
 		// EXバージョンの読み込み
 		D3DXCreateTextureFromFileEx(

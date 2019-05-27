@@ -86,6 +86,10 @@ namespace Texture {
 		const float y1 = -cy;
 		const float y2 = 1.f - cy;
 
+		// ロードで読み込んだUVを加算
+		u += tex_d->Uv.x;
+		v += tex_d->Uv.y;
+
 		// UVの分割
 		UV uv(u_axis, v_axis);
 

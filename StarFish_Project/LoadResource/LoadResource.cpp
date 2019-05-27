@@ -2,8 +2,11 @@
 #include "../Lib/Sound/DirectSound.h"
 
 
-void Resource::LoadResource() {
+
+void Resource::LoadResouce() {
+
 	Audio& audio = Audio::getInterface();
+
 	// HACK:もっと簡潔にまとめる
 
 	// テクスチャ読み込み
@@ -66,13 +69,21 @@ void Resource::LoadResource() {
 	Texture::Load("Resource/Texture/Blind/blind.png");
 
 	// マップ
-	Texture::Load("Resource/Texture/Map/bg_hero_01.png");
-	Texture::Load("Resource/Texture/Map/bg_hero_02.png");
-	Texture::Load("Resource/Texture/Map/bg_hero_03.png");
 	Texture::Load("Resource/Texture/Map/bg_hero_04.png");
 	Texture::Load("Resource/Texture/Map/bg_clear_01.png");
 	Texture::Load("Resource/Texture/Map/bg_clear_02.png");
 	Texture::Load("Resource/Texture/Map/bg_clear_03.png");
+
+	// 引数付きのロード
+	Texture::LoadEx("Resource/Texture/Map/bg_hero_01.png"
+		, 0, 0, NULL, 0.f, -0.01f);
+	Texture::LoadEx("Resource/Texture/Map/bg_hero_02.png"
+		, 0, 0, NULL, 0.f, 0.f);
+	Texture::LoadEx("Resource/Texture/Map/bg_hero_03.png"
+		, 0, 0, NULL, 0.f, -0.01f);
+
+	// サンプルのロード
+	Texture::LoadEx("Resource/sample3.png");
 
 	// 岩（仮）
 	Texture::Load("Resource/Texture/Map/chip_map_image_64.png");

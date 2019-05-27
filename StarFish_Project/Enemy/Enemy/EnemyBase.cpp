@@ -7,7 +7,13 @@ EnemyBase::EnemyBase() {
 
 	m_angle = 0;
 	m_center = 0.5;
-	m_radius = 64;
+
+	// 当たり判定の変形を設定
+	m_radius = 64.f;
+	// 当たり位置の頂点を画像の中心にずらす
+	m_hit_vertex_shift.x = 64.f;
+	m_hit_vertex_shift.y = 64.f;
+
 	m_delete_timer = 60;
 	m_max_animation = 0;
 	m_pstate_base = Wait::GetInstance();

@@ -8,8 +8,16 @@
 #include "../Map/MapChip/MapChip.h"
 
 
+
 Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	Keybord& kb = Keybord::getInterface();
+
+
+	// 半径
+	m_radius = 64.f;
+	// 当たり位置の頂点を画像の中心にずらす
+	m_hit_vertex_shift.x = 64.f;
+	m_hit_vertex_shift.y = 64.f;
 
 	// 生存フラグ
 	m_is_alive = true;
@@ -35,8 +43,6 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 
 	// 描画フラグ
 	m_draw_enable = true;
-
-	m_radius = 60.f;
 
 	// ソート
 	m_sort_object = SortObject::PLAYER;

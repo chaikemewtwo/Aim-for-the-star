@@ -70,8 +70,7 @@ public:
 	void MapResat(float map_y);
 
 private:
-	// オブジェクト化する欠点は必要のないオブジェクト
-	// 描画を行うチップはオブジェクト化する理由はある。
+	
 
 	/* 当たり判定 */
 	// 床と当たっているかどうか
@@ -101,39 +100,32 @@ private:
 	// 敵生成群
 	void EnemyCreateGather(int x, int y, int chip_num);
 
-
-	/* マップチップの便利機能 */
-	// 位置をマップ座標に変換
-	int GetChipCastByPos(const float&pos)const;
-	// マップ座標を位置に変換
-	float GetChipPosCastByChip(const float &chip_x, const float &chip_y)const;
-	// 位置をマップ座標に変換
-	int GetChipParam(const float &pos_x, const float&pos_y);
+	/* マップチップの位置変換機能 */
+	int GetChipCastByPos(const float&pos)const;								   // 位置をマップ座標に変換
+	float GetChipPosCastByChip(const float &chip_x, const float &chip_y)const; // マップ座標を位置に変換
+	int GetChipParam(const float &pos_x, const float&pos_y);				   // 位置をマップ座標に変換
 
 private:
 
 	/* 各定数 */
-	const int HEIGHT_INTERVAL = 60;                                   // 縦間隔をあけて遷移などをする
-	const int MAX_CHIP_NUM_W = BackGround::GRAPH_SCALE_W / CHIP_SIZE; // 画面マップチップの大きさ
-	const int MAX_CHIP_NUM_H = BackGround::GRAPH_SCALE_H / CHIP_SIZE; // 画面マップチップの大きさ
-	const int MAP_SAET_NUM = 5;                                       // マップシートの数
-	// マップ座標に関する定数
-	const float INIT_MAP_POS_X = 0.f;
-	const float INIT_MAP_POS_Y = 0.f;
-	// マップのスクロール遷移ライン定数
-	const float SCROLL_RANGE_UP = 400.f;
-	const float SCROLL_RANGE_DOWN = 800.f;
-	// マップ当たり判定の頂点
-	const float HIT_POINT_X = -32.f;
-	const float HIT_POINT_Y = -56.f;
-	// 縮小
-	const float SHRINK_X = 6.f;
-	const float SHRINK_Y = 6.f;
-	// チップ生成領域
-	const int CHIP_RANGE_UP = 19;
-	const int CHIP_RANGE_DOWN = 1;
-	// 岩盤の最大チップ数
-	static const int MAX_BEDROCK_CHIP = 10;
+	const int HEIGHT_INTERVAL = 60;                            // 縦間隔をあけて遷移などをする
+	const int MAX_CHIP_NUM_W = ((WINDOW_W_INT)/ CHIP_SIZE);    // 画面マップチップの大きさ
+	const int MAX_CHIP_NUM_H = ((WINDOW_H_INT)/ CHIP_SIZE);    // 画面マップチップの大きさ
+	const int MAP_SAET_NUM = 5;								   // マップシートの数
+	// マップのスクロール遷移ライン定数						   
+	const float SCROLL_RANGE_UP = 400.f;					   // スクロール範囲上
+	const float SCROLL_RANGE_DOWN = 800.f;					   // スクロール範囲下
+	// オブジェクトとマップ当たり判定の頂点位置				   
+	const float HIT_POINT_X = -32.f;						   // 当たり位置の大きさ
+	const float HIT_POINT_Y = -56.f;						   // 当たり位置の大きさ
+	// 縮小												   	   
+	const float SHRINK_X = 6.f;								   // 当たり位置の縮小横
+	const float SHRINK_Y = 6.f;								   // 当たり位置の縮小縦
+	// チップ生成領域										    
+	const int CHIP_RANGE_UP = 19;							   // 生成領域上
+	const int CHIP_RANGE_DOWN = 1;							   // 生成領域下
+	// 岩盤の最大チップ数								       
+	static const int MAX_BEDROCK_CHIP = 10;					   // 岩盤チップ数
 
 private:
 	
