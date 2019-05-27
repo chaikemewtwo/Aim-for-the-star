@@ -59,15 +59,17 @@ public:
 	/* アクセサ */
 	//D3DXVECTOR2 GetMapPos()const;
 	D3DXVECTOR2 GetMovePos()const;
-	// 立っているかどうか
-	bool IsStand()const;
+
+	bool IsStand()const;			 // 立っているかどうか
 	// 壁に衝突しているかどうかの活動
-	bool IsWallCollision()const;
-	bool IsWallVerticalCollision()const;
-	bool IsWallSideCollision()const;
-	bool IsScroll()const;
+	bool IsWallCollision()const;     // 方向関係なく壁に当たっているか
+	bool IsWallColUp()const;         // 上の壁に当たっているか
+	bool IsWallColDown()const;       // 下の壁に当たっているか
+	bool IsWallColLeft()const;	     // 左の壁に当たっているか
+	bool IsWallColRight()const;	     // 右の壁に当たっているか
+	bool IsScroll()const;			 // スクロールしているか
 	// マップの初期化
-	void MapResat(float map_y);
+	void SetMapResat(float map_y);
 
 private:
 	
@@ -83,11 +85,13 @@ private:
 	void StuckCenterChip(float &pos_x,float &pos_y,float &move_x,float &move_y);
 	// チップのアクションを起こす関数(ブロックが壊れる、吸いつくなど)
 	void ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos, int chip_num, COL_DIRECTION col_d = COL_X);
+	// 壁の衝突判定を初期化
+	void InitWallCollision();
 
 	/* 描画遷移関係 */
 	// 描画範囲に入っているか入っていないか判断する関数
 
-	int DrawLineIsActive(float&pos_y,float&move_y,float up_range,float down_range);
+	int Scroll(float&pos_y,float&move_y,float up_range,float down_range);
 	// スクロールしてもいいかどうか
 	bool IsScrollLimit(float &pos_y1, float &pos_y2);
 	// 地面に着地する点
@@ -152,11 +156,13 @@ private:
 	/* 各オブジェクトの参照 */	   	           
 	Player * m_pbase[2];                       // 自機2体                     
 	EnemyManager * e_pmng;                     // 敵の状態
-	// ジャンプフラグ						    
+	// 各フラグ
 	bool m_is_stand;                           // 立っているか
 	bool m_is_wall_col;                        // 方向関係なく壁衝突しているか
-	bool m_is_wall_col_side;                   // 横に衝突しているか
-	bool m_is_wall_col_vertical;               // 縦に衝突しているか
+	bool m_is_wall_col_left;                   // 左に衝突しているか
+	bool m_is_wall_col_right;                  // 右に衝突しているか
+	bool m_is_wall_col_up;                     // 上に衝突しているか
+	bool m_is_wall_col_down;				   // 下に衝突しているか
 	bool m_is_scroll;                          // スクロールしているか
 
 };

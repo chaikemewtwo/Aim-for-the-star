@@ -84,9 +84,6 @@ void Resource::LoadResouce() {
 	Texture::LoadEx("Resource/Texture/Map/bg_hero_03.png"
 		, 0, 0, NULL, 0.f, -0.01f);
 
-	// サンプルのロード
-	Texture::LoadEx("Resource/sample3.png");
-
 	// 岩（仮）
 	Texture::Load("Resource/Texture/Map/chip_map_image_64.png");
 	// 岩清書
