@@ -1,11 +1,15 @@
 ﻿#pragma once
 #pragma comment(lib, "dsound.lib")
 #pragma comment(lib, "winmm.lib")
+#pragma comment(lib,"dxguid.lib")
 #include <dsound.h>
 #include <mmsystem.h>
 #include <string>
 #include <unordered_map>
 #include <initializer_list>
+#include <mutex>
+#include <thread>
+#include <atomic>
 
 
 /*
@@ -142,11 +146,14 @@ struct Audio {
 	}
 
 	// 単一音源多重再生用（解放処理を自前で行う必要あり）
-	IDirectSoundBuffer8* getCloneBuffer(std::string file_path) const {
+	IDirectSoundBuffer8* getCloneBuffer(std::string file_path) {
 		auto itr = list.find(file_path);
 		if (itr != list.end()) {
 			IDirectSoundBuffer8* sb;
 			ds8->DuplicateSoundBuffer(itr->second, (IDirectSoundBuffer**)&sb);
+			mux.lock();
+			clone.push_back(sb);
+			mux.unlock();
 			return sb;
 		}
 		return NULL;
@@ -155,6 +162,11 @@ struct Audio {
 
 private:
 	std::unordered_map<std::string, IDirectSoundBuffer8*> list;
+
+	std::mutex mux;
+	std::vector<IDirectSoundBuffer8*> clone;
+
+	std::atomic_int loop;
 
 	Audio(HWND hWnd) {
 		DirectSoundCreate8(NULL, &ds8, NULL);
@@ -169,15 +181,44 @@ private:
 			GUID_NULL
 		};
 		ds8->CreateSoundBuffer(&desc, &primary_buf, NULL);
+
+		loop = 1;
+		std::thread([&] {
+			while (loop == 1) {
+				if (mux.try_lock()) {
+					for (auto itr = clone.begin(); itr != clone.end();) {
+						DWORD status;
+						if ((*itr)->GetStatus(&status) == DS_OK) {
+							if ((status & DSBSTATUS_PLAYING) == 0) {
+								(*itr)->Release();
+								itr = clone.erase(itr);
+							}
+							else {
+								++itr;
+							}
+						}
+					}
+					mux.unlock();
+				}
+
+				Sleep(1);
+			}
+			loop = 0;
+		}).detach();
 	}
 
 	~Audio() {
 		for (auto& it : list) {
 			while (it.second->Release() != 0);
 		}
+
+		loop = 2;
+		do {
+			Sleep(10);
+		} while (loop == 2);
+
 		ds8->Release();
 	}
 
 	Audio(const Audio&) = delete;
 };
-

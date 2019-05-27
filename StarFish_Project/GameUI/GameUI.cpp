@@ -1,26 +1,33 @@
 ﻿#include "GameUI.h"
 #include "../Player/Player.h"
+#include "../Lib/Sound/DirectSound.h"
 
 
 GameUI::GameUI(Player* p_1, Player* p_2) {
 	p1 = p_1;
 	p2 = p_2;
 	m_sort_object = SortObject::GAME_UI;
-	count = 0;
+	count = 0.f;
 };
 
 
 void GameUI::Update(){
+	Audio& audio = Audio::getInterface();
 	p1_alive = p1->GetIsAlive();
 	p2_alive = p2->GetIsAlive();
-
+	
 	// 片方死んだら片方も死ぬ
-	if (p1_alive == false) {
+	
+	if (p1_alive == false|| p2_alive == false) {
+	    p1->DisableIsAlive();
 		p2->DisableIsAlive();
+		
+		if (p1_alive == false && p2_alive == false) {
+			auto sound = audio.getBuffer("Resource/Sound/Player/ko1.wav");
+			sound->Play(0, 0, 0);
+		}
 	}
-	else if (p2_alive == false) {
-		p1->DisableIsAlive();
-	}
+	
 
 	p1_stamina_parcent = StaminaParcentage(p1);
 	p2_stamina_parcent = StaminaParcentage(p2);
@@ -36,8 +43,14 @@ void GameUI::Draw() {
 
 
 	if (p1_alive == true&& p2_alive == true) {
+		// バーの色変更テストコード
 		// オレンジバー
-		Texture::Draw2D("Resource/Texture/UI/ui_ora.png", 0.f, GagePosYCalc(p1_stamina_parcent));
+		if (p1_stamina_parcent <= 0.2f) {
+			Texture::Draw2D("Resource/Texture/UI/ui_vio.png", 0.f, GagePosYCalc(p1_stamina_parcent));
+		}
+		else {
+			Texture::Draw2D("Resource/Texture/UI/ui_ora.png", 0.f, GagePosYCalc(p1_stamina_parcent));
+		}
 
 		// ピンクバー
 		Texture::Draw2D("Resource/Texture/UI/ui_vio.png", RIGHT_GAGE_POS, GagePosYCalc(p2_stamina_parcent));
@@ -50,7 +63,7 @@ void GameUI::Draw() {
 
 	// しっぱいロゴ
 	if (p1->GetIsAlive() == false || p2->GetIsAlive() == false) {
-		Texture::Draw2D("Resource/Texture/UI/over_logo.png", 300, -450 + FailedCount());
+		Texture::Draw2D("Resource/Texture/UI/over_logo.png", 300.f, -450.f + FailedCount());
 	}
 }
 
@@ -67,8 +80,8 @@ float GameUI::GagePosYCalc(float stamina_parcent) {
 }
 
 
-int GameUI::FailedCount() {
-	if (count <= 550) {
+float GameUI::FailedCount() {
+	if (count <= 550.f) {
 		count += 3.f;
 	}
 	return count;

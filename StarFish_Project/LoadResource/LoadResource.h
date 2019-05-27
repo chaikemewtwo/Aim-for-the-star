@@ -3,5 +3,5 @@
 
 namespace  Resource {
 	// リソース読み込み
-	void LoadResouce();
+	void LoadResource();
 }

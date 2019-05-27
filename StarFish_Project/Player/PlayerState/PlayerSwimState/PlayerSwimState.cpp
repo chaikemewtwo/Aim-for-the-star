@@ -3,9 +3,12 @@
 #include "../../Player/Player.h"
 
 
+
 // 泳ぎ状態
 // 初期化
 void PlayerSwimState::Init(Player* p) {
+	
+	
 	// 状態遷移タイマー
 	p->ResetStateChangeTimer();
 
