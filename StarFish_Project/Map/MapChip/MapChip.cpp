@@ -110,10 +110,13 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 	m_is_stand = false;
 	// 壁の衝突
 	m_is_wall_col = false;
-	// 壁の横衝突
-	m_is_wall_col_side = false;
-	// 壁の縦衝突
-	m_is_wall_col_vertical = false;
+
+	// 各壁の衝突判定
+	bool m_is_wall_col_left = false;    // 左に衝突しているか
+	bool m_is_wall_col_right = false;   // 右に衝突しているか
+	bool m_is_wall_col_up = false;      // 上に衝突しているか
+	bool m_is_wall_col_down = false;	// 下に衝突しているか
+
 	// スクロールしているか
 	m_is_scroll = true;
 
@@ -223,7 +226,7 @@ void Map::Update() {
 
 		// スクロールしてもいいかどうか
 		if (IsScroll() == true) {
-			DrawLineIsActive(m_player_pos[i].y, m_player_move_pos[i].y, m_scroll_range_up, m_scroll_range_down);
+			Scroll(m_player_pos[i].y, m_player_move_pos[i].y, m_scroll_range_up, m_scroll_range_down);
 		}
 	}
 
@@ -296,12 +299,11 @@ void Map::Draw() {
 
 		}
 	}
-
 }
 
 
 // 遷移はy軸だけ
-int Map::DrawLineIsActive(float&pos_y, float&move_y, float up_range, float down_range) {
+int Map::Scroll(float&pos_y, float&move_y, float up_range, float down_range) {
 
 	// 描画遷移範囲 = 現在のマップ座標(本来はスクリーン座標の方がいい) + 遷移範囲(スクリーンから見て)
 
@@ -480,7 +482,7 @@ void Map::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 
 	{
 		// y軸の衝突判定(四隅)
-		if ( m_is_stand = IsFloorCollision(up_left.x, up_left.y, 0.f, move.y,chip_num) == true ||// ジャンプフラグを受け取る
+		if ( m_is_stand = IsFloorCollision(up_left.x, up_left.y, 0.f, move.y,chip_num) == true ||// 立ちフラグを受け取る
 			IsFloorCollision(up_right.x, up_right.y, 0.f, move.y,chip_num) == true ||
 			IsFloorCollision(down_left.x, down_left.y + CHIP_SIZE, 0.f, move.y,chip_num) == true ||// 衝突点を1CHIP下にずらしている
 			IsFloorCollision(down_right.x, down_right.y + CHIP_SIZE, 0.f, move.y,chip_num) == true) {
@@ -489,12 +491,9 @@ void Map::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 
 			// 縦の衝突判定とアクション
 			ChipAction(pos, move, chip_num,COL_Y);
-			m_is_wall_col_vertical = true;
 		}
 		else {
-			// 衝突していない
-			m_is_wall_col = false;
-			m_is_wall_col_vertical = false;
+			InitWallCollision();
 		}
 	}
 
@@ -514,7 +513,6 @@ void Map::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 
 			// 横の衝突判定
 			ChipAction(pos, move, chip_num,COL_X);
-			m_is_wall_col_side = true;
 		}
 		// x軸の中心衝突判定
 		else if (IsFloorCollision(down_left.x, down_right.y, move.x, 0.f,chip_num) == true ||// 左下
@@ -522,14 +520,22 @@ void Map::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 
 			// 横の衝突判定
 			ChipAction(pos, move, chip_num,COL_X);
-			m_is_wall_col_side = true;
 		}
 		else {
-			// 衝突していない
-			m_is_wall_col = false;
-			m_is_wall_col_side = false;
+			InitWallCollision();
 		}
 	}
+
+}
+
+void Map::InitWallCollision() {
+
+	// 衝突していない
+	m_is_wall_col = false;
+	m_is_wall_col_up = false;
+	m_is_wall_col_down = false;
+	m_is_wall_col_right = false;
+	m_is_wall_col_left = false;
 }
 
 
@@ -605,6 +611,9 @@ void Map::NowPosXFixToMapPos(float &pos_x, float &move_x) {
 
 		// 移動ベクトルなし
 		move_x = 0.f;
+
+		// 左に衝突
+		m_is_wall_col_left = true;
 	}
 
 	// 右
@@ -616,6 +625,9 @@ void Map::NowPosXFixToMapPos(float &pos_x, float &move_x) {
 
 		// 移動ベクトルなし
 		move_x = 0.f;
+
+		// 右に衝突
+		m_is_wall_col_right = true;
 	}
 }
 
@@ -648,6 +660,9 @@ void Map::NowPosYFixToMapPos(float &pos_y, float &move_y) {
 	
 		// 移動ベクトルなし
 		move_y = 0.f;
+
+		// 上に衝突
+		m_is_wall_col_up = true;
 	}
 
 	// 下(自機の移動とマップの移動が進んだ時)
@@ -671,6 +686,9 @@ void Map::NowPosYFixToMapPos(float &pos_y, float &move_y) {
 
 		// 移動ベクトルなし
 		move_y = 0.f;
+
+		// 下に衝突
+		m_is_wall_col_down = true;
 	}
 }
 
@@ -732,7 +750,6 @@ int Map::GetChipParam(const float &pos_x, const float&pos_y) {
 	return m_map[(m_height_map_num + 1) + (py - MAX_CHIP_NUM_H)][px].m_chip_num;// 前 (py)
 }
 
-
 // 所定位置にブロックを置く
 float Map::GetChipPosCastByChip(const float &chip_pos, const float &chip_y)const{
 	
@@ -740,7 +757,7 @@ float Map::GetChipPosCastByChip(const float &chip_pos, const float &chip_y)const
 }
 
 // マップのリセット
-void Map::MapResat(float map_y) {
+void Map::SetMapResat(float map_y) {
 	m_pos.y = map_y;
 }
 
@@ -759,14 +776,24 @@ bool Map::IsWallCollision()const {
 	return m_is_wall_col;
 }
 
-// 縦の壁に衝突しているか
-bool Map::IsWallVerticalCollision()const {
-	return m_is_wall_col_vertical;
+// 上の壁に衝突しているか
+bool Map::IsWallColUp()const {
+	return m_is_wall_col_up;
 }
 
-// 横の壁に衝突しているか
-bool Map::IsWallSideCollision()const {
-	return m_is_wall_col_side;
+// 下の壁に衝突しているか
+bool Map::IsWallColDown()const {
+	return m_is_wall_col_down;
+}
+
+// 左の壁に衝突しているか
+bool Map::IsWallColLeft()const {
+	return m_is_wall_col_left;
+}
+
+// 右の壁に衝突しているか
+bool Map::IsWallColRight()const {
+	return m_is_wall_col_right;
 }
 
 // スクロールしているか
