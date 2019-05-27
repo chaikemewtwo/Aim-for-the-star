@@ -22,17 +22,20 @@
 // マップチップオブジェクト配置
 
 // MEMO
+// オブジェクト化する欠点は必要のないオブジェクト
+// 描画を行うチップはオブジェクト化する理由はある。
+
+// MEMO
 // 64ピクセル /* 横30 縦16 *//* 1088*/
 // 128ピクセル/* 横15 縦8 *//*1024*/
 
 
-// 2枚の背景でいける
-// 当たり判定はずらした分だけ戻ってもいい
-
-// ChipInfo
-
 // コンストラクタ
 Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
+
+	// マップ座標に関する定数
+	const float INIT_MAP_POS_X = 0.f;                      // マップ初期化位置X
+	const float INIT_MAP_POS_Y = 0.f;					   // マップ初期化位置Y
 
 	// ソートオブジェクト代入
 	m_sort_object = MAP;
@@ -258,8 +261,8 @@ void Map::Update() {
 void Map::Draw() {
 
 	// どこから描画するかを初期化
-	int draw_range_begin = GetChipCastByPos(-m_pos.y);                      // 描画のし始め 
-	int draw_range_end = GetChipCastByPos(-m_pos.y) + (MAX_CHIP_NUM_H + 1); // 描画の終わり
+	int draw_range_begin = GetChipCastByPos(-m_pos.y) - 1;                     // 描画のし始め 
+	int draw_range_end = GetChipCastByPos(-m_pos.y) + (MAX_CHIP_NUM_H) + 1;    // 描画の終わり
 
 	// MEMO マップチップ番号の敵が生成されている場合は生成しない感じにしたらいい
 
@@ -267,7 +270,7 @@ void Map::Draw() {
 		for (int x = 0; x < MAX_CHIP_NUM_W; x++) {
 
 			// 配列外アクセスは許させない
-			if ((m_height_map_num)-y < 0 || x < 0) {
+			if ((m_height_map_num) - y < 0 || x < 0) {
 				return;
 			}
 
@@ -279,7 +282,7 @@ void Map::Draw() {
 
 				Texture::Draw2DUVShift(chip_str[m_map[(m_height_map_num) - y][x].m_chip_num - 1],
 					(float)(x * CHIP_SIZE) + bedrock_chip[current_num].x,
-					(float)(-y * CHIP_SIZE) + 1080 - m_pos.y + bedrock_chip[current_num].y,
+					(float)(-y * CHIP_SIZE) + 1080 - m_pos.y + bedrock_chip[current_num].y - 128.f,// -128.fはズレた分を戻す処理
 					chip_u[current_num],
 					chip_v[current_num]);
 			}
@@ -359,7 +362,7 @@ void Map::LandOnTheGround() {
 
 	// 変更した
 	// 着地点に着地したら
-	if (m_pos.y >= INIT_MAP_POS_Y) {
+	if (m_pos.y >= 0.f) {
 
 		m_draw_range_down = 800.f;
 		m_player_move_pos[0].y = 0.f;

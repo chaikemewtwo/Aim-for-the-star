@@ -8,6 +8,9 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* map, bool no_move) {
 	m_pos.x = pos.x;
 	m_pos.y = pos.y;
 	m_no_move = no_move;
+	
+	m_hit_vertex_shift.x = 128.f;
+	m_hit_vertex_shift.y = 128.f;
 
 	m_speed = 2;
 	m_power = 5;			

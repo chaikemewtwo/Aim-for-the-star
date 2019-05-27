@@ -17,11 +17,14 @@ struct TEXTURE_DATA
 		Texture = nullptr;
 		Width = 0.f;
 		Height = 0.f;
+		Uv.x = 0.f;
+		Uv.y = 0.f;
 	}
 
 	LPDIRECT3DTEXTURE9 Texture;
 	float Width;
 	float Height;
+	D3DXVECTOR2 Uv;
 
 	operator LPDIRECT3DTEXTURE9() const {
 		return Texture;
@@ -35,13 +38,12 @@ struct TEXTURE_DATA
 // テクスチャを保存するテクスチャリスト
 extern std::unordered_map < std::string, TEXTURE_DATA > tex_list;
 
-
 namespace Texture {
 
 	// テクスチャのロード
 	void Load(const char*file_name);
 	// Exの方のロード
-	void LoadEx(const char * file_name,UINT width = 0.f,UINT height = 0.f, DWORD color_key = NULL);
+	void LoadEx(const char * file_name, UINT width = 0.f, UINT height = 0.f, DWORD color_key = NULL, float u = 0.f, float v = 0.f);
 	// 解放
 	void Release();
 }
