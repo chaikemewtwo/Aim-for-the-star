@@ -16,7 +16,7 @@ private:
 	// ゲージのY座標算出
 	float GagePosYCalc(float stamina_parcent);
 
-	int FailedCount();
+	float FailedCount();
 
 	// ゲージ満タン時の座標
 	const float GAGE_MAX_POS = 380.f;
@@ -45,5 +45,5 @@ private:
 	bool p1_alive;
 	bool p2_alive;
 
-	int count;
+	float count;
 };

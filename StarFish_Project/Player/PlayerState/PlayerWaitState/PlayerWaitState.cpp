@@ -2,6 +2,8 @@
 #include "../PlayerSwimState/PlayerSwimState.h"
 #include "../PlayerDeathState/PlayerDeathState.h"
 #include "../../Player/Player.h"
+#include "../../../Lib/Sound/DirectSound.h"
+#include "../../../LoadResource/LoadResource.h"
 
 
 // 待機状態（オブジェクト上以外、オブジェクト上での待機状態はStandingWaitStateクラス）
@@ -21,6 +23,7 @@ void PlayerWaitState::Init(Player* p) {
 // 更新
 void PlayerWaitState::Update(Player* p) {
 	Keybord& kb = Keybord::getInterface();
+	Audio& audio = Audio::getInterface();
 
 	p->swim_enable = false;
 
@@ -41,8 +44,13 @@ void PlayerWaitState::Update(Player* p) {
 	}
 
 	if (kb.press(p->imput_button_name[p->SWIM_KEY][256])) {
+		// HACK:泳ぎ状態のコンストラクタでやったほうが良い、この書き方だと泳ぎ状態をコメントアウトしてもスタミナが減るため
+
 		// スタミナ減算
 		p->DecStamina(TO_SWIM_NEEDED_STAMINA);
+		
+		auto sound = audio.getCloneBuffer("Resource/Sound/Player/swim1.wav");
+		sound->Play(0, 0, 0);
 
 		// 泳ぎ状態へ移行
 		p->ChangeState(PlayerSwimState::GetInstance());		

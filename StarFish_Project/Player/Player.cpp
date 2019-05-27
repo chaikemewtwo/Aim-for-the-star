@@ -15,7 +15,7 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	m_is_alive = true;
 
 	// 移動速度
-	m_speed = 2.f;
+	m_speed = 3.f;
 
 	// 傾き
 	m_character_angle = 0.f;

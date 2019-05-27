@@ -2,11 +2,11 @@
 #include"../Lib/Window/Window.h"
 #include"../Lib/Texture/Texture.h"
 #include"../Lib/Texture/TextureBoad2D.h"
+#include"../Lib/Sound/DirectSound.h"
 #include"../Lib/Input/KeyBord.h"
 #include"../LoadResource/LoadResource.h"
 #include"../SetRenderStateFile/SetRenderStateFile.h"
 #include"../Scene/SceneManager.h"
-
 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
@@ -16,10 +16,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 		return -1;
 	}
 
+	Audio& audio = Audio::getInterface(GetWindowHandle());
 	Keybord& kb = Keybord::getInterface();
 
 	// リソース読み込み
-	Resource::LoadResouce();
+	Resource::LoadResource();
 
 	// DirectX描画状態の設定
 	SetRenderStateConfig();

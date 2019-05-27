@@ -1,7 +1,9 @@
-﻿#include "../LoadResource/LoadResource.h"
+﻿#include "LoadResource.h"
+#include "../Lib/Sound/DirectSound.h"
 
 
-void Resource::LoadResouce() {
+void Resource::LoadResource() {
+	Audio& audio = Audio::getInterface();
 	// HACK:もっと簡潔にまとめる
 
 	// テクスチャ読み込み
@@ -126,4 +128,8 @@ void Resource::LoadResouce() {
 	Texture::Load("Resource/Texture/Map/bg_clear_02.png");
 	Texture::Load("Resource/Texture/Map/bg_clear_03.png");
 	//-----------------------------------------------------
+
+	// SE
+	audio.load({ "Resource/Sound/Player/swim1.wav",
+		"Resource/Sound/Player/ko1.wav" });
 }
