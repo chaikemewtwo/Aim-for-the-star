@@ -15,6 +15,7 @@ private:
 	void Update()override;
 	void Draw()override;
 
+private:
 	const float TITLE_LOGO_POS_X = WINDOW_W / 2;
 	const float TITLE_LOGO_POS_Y = WINDOW_H / 2;
 
