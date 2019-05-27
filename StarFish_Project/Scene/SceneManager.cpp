@@ -5,13 +5,16 @@
 
 
 SceneManager* SceneManager::GetInstance() {
+
 	static SceneManager s_sm;
 	return &s_sm;
 }
 //――――――――――――――――――――――――
 
 SceneManager::~SceneManager() {
+
 	for (auto i : m_scene_list) {
+
 		if (&i != nullptr) {
 			delete i.second;
 		}
@@ -20,6 +23,7 @@ SceneManager::~SceneManager() {
 //――――――――――――――――――――――――
 
 void SceneManager::Init() {
+
 	// シーンの登録
 	m_scene_list.emplace(TITLE, new Title());
 	m_scene_list.emplace(GAME_MAIN, new GameMain());
@@ -32,6 +36,7 @@ void SceneManager::Init() {
 //―――――――――――――――――――――――――
 
 void SceneManager::Update() {
+
 	SceneId scene_id;
 	scene_id = m_scene->Control();
 	ChangeScene(scene_id);
@@ -39,12 +44,26 @@ void SceneManager::Update() {
 //―――――――――――――――――――――――――
 
 void SceneManager::ChangeScene(SceneId scene_id) {
+
 	if (scene_id == m_scene_id) {
+		return;
+	}
+	else if (scene_id == SCENE_QUIT) {
+		m_is_quit = true;
 		return;
 	}
 
 	// 次のシーンを代入
 	m_scene_id = scene_id;
 	m_scene = m_scene_list.find(m_scene_id)->second;
+}
+//―――――――――――――――――――――――――
+
+bool SceneManager::IsQuit() {
+	if (m_is_quit == true) {
+		return true;
+	}
+	
+	return false;
 }
 //―――――――――――――――――――――――――

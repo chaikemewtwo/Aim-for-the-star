@@ -14,9 +14,9 @@ void Resource::LoadResource() {
 	// ロゴ
 	Texture::Load("Resource/Texture/Title/タイトル　ロゴ.png");
 	// ボタン
-	Texture::Load("Resource/Texture/Ui/title_button01.png");
-	Texture::Load("Resource/Texture/Ui/title_button02.png");
-	Texture::Load("Resource/Texture/Ui/title_button03.png");
+	Texture::Load("Resource/Texture/UI/title_button01.png");
+	Texture::Load("Resource/Texture/UI/title_button02.png");
+	Texture::Load("Resource/Texture/UI/title_button03.png");
 	//-----------------------------------------------------
 
 
