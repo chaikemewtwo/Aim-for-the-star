@@ -44,13 +44,15 @@ void Clear::Init() {
 	m_scene_change_time = 150;
 	m_scene_change_count_timer = 0;
 	m_clear_ui_size = 0;
+	m_clear_ui_size_chnage_speed = 0.025f;
+	m_is_clear_ui_size_max = false;
 
 	// プレイヤーの変数初期化
 	m_player_animation_finish = false;
 	m_player_move_speed = 5;
 	m_player_animation_max = 16;
 	m_player_animation_num = 0;
-	m_player_animation_change_time = 8;
+	m_player_animation_change_time = 5;
 	m_player_animation_timer = 0;
 
 	// 背景の変数初期化
@@ -64,7 +66,6 @@ void Clear::Init() {
 	m_effect_animation_change_time = 7;
 	m_effect_lag_time = 40;
 	m_effect_lag_count = 0;
-	m_effect_finish = false;
 }
 //――――――――――――――――――――――――――――――――
 
@@ -113,9 +114,20 @@ void Clear::Update() {
 	//}
 
 	// エフェクトのラグが終われば、UIを描画サイズまで徐々に大きくする 
-	if (m_player_animation_finish == true && m_player_animation_num >= 6 && m_clear_ui_size <= 1) {
-		m_clear_ui_size += 0.025f;
+	if (m_player_animation_finish == true && m_is_clear_ui_size_max == false && m_player_animation_num >= 6 && m_clear_ui_size <= 1) {
+		m_clear_ui_size += m_clear_ui_size_chnage_speed;
+		if (m_clear_ui_size >= 1) {
+			m_is_clear_ui_size_max = true;
+			m_clear_ui_size_chnage_speed = 0.001f;
+		}
 	}
+	else if (m_is_clear_ui_size_max == true) {
+		m_clear_ui_size -= m_clear_ui_size_chnage_speed;
+		if (m_clear_ui_size <= 0.9) {
+			m_is_clear_ui_size_max = false;
+		}
+	}
+
 
 	// デバック用　クリア→タイトル
 	if (m_pkey_bord.press(VK_SPACE)) {
@@ -216,27 +228,15 @@ void Clear::PlayerAnimation() {
 
 void Clear::EffectAnimation() {
 
-	if (m_effect_animation_timer >= m_effect_animation_change_time && m_effect_finish == false) {
+	if (m_effect_animation_timer >= m_effect_animation_change_time) {
 		m_effect_animation_timer = 0;
 		m_effect_animation_num++;
 		if (m_effect_animation_num >= m_effect_animation_max) {
-			//m_effect_finish = true;
 			m_effect_animation_num = 0;
 		}
 	}
 	else {
 		m_effect_animation_timer++;
 	}
-	//if (m_effect_finish == true && m_effect_animation_num == 13 && //m_effect_lag_count >= m_effect_lag_time) {
-	//	m_effect_animation_num = 2;
-	//	m_effect_lag_count = 0;
-	//}
-	//else if (m_effect_finish == true && m_effect_animation_num == 2 && //m_effect_lag_count >= m_effect_lag_time) {
-	//	m_effect_animation_num = 13;
-	//	m_effect_lag_count = 0;
-	//}
-	//else {
-	//	m_effect_lag_count++;
-	//}
 }
 //―――――――――――――――――――――――――――――――――

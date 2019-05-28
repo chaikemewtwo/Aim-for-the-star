@@ -77,7 +77,6 @@ private:
 	float m_effect_animation_change_time;// アニメーションの遷移時間
 	float m_effect_lag_time;			// アニメーションのラグタイム
 	float m_effect_lag_count;			// アニメーションのラグカウント用
-	bool m_effect_finish;
 
 	const int EFFECT_TEXTURE_PARTITION_NUM = 4;		// エフェクトの画像分割数
 
@@ -85,7 +84,8 @@ private:
 	const std::string m_clear_effect = "Resource/Texture/Effect/crear_eff.png";
 
 	//　成功UI　//
-	D3DXVECTOR2 m_clear_ui_pos;
 	float m_clear_ui_size;
+	float m_clear_ui_size_chnage_speed;
+	bool m_is_clear_ui_size_max;
 	const std::string m_clear_ui_texture = "Resource/Texture/UI/clear_logo.png";
 };
