@@ -42,6 +42,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 		if (DrawStart() == true) {
 
 			sm->Update();
+
 			if (sm->IsQuit() == true) {
 				return WM_QUIT;
 			}

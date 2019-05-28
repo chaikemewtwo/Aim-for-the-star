@@ -25,6 +25,7 @@ private:
 
 	void ButtonChange();
 
+
 private:
 	int m_button_check_num;
 	std::string m_button_texture;

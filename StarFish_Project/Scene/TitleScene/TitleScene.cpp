@@ -18,6 +18,7 @@ void Title::Init() {
 	m_scene_id = TITLE;
 	m_scene_step = UPDATE;
 
+
 	// ボタンの初期化
 	m_button_texture = m_button_texture_list[START_BUTTON];
 	m_button_check_num = 1;
@@ -27,12 +28,16 @@ void Title::Init() {
 void Title::Update() {
 
 	ButtonChange();
+
 	if (m_pkey_bord.press(VK_RETURN)) {
+
 		if (m_button_check_num == START_BUTTON) {
+			
 			m_scene_step = END;
 			m_scene_id = GAME_MAIN;
 		}
 		else if (m_button_check_num == RETURN_BUTTON) {
+
 			m_scene_step = END;
 			m_scene_id = SCENE_QUIT;
 		}
