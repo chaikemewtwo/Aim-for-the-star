@@ -36,6 +36,9 @@ private:
 
 
 private:
+	int m_scene_change_count_timer;		// 遷移までの時間カウント用
+	int m_scene_change_time;			// 遷移用の時間
+
 	//　プレイヤー　//
 	D3DXVECTOR2 m_player1_pos;			// 位置１
 	D3DXVECTOR2 m_player2_pos;			// 位置２
@@ -77,6 +80,8 @@ private:
 	float m_effect_animation_change_time;// アニメーションの遷移時間
 	float m_effect_lag_time;			// アニメーションのラグタイム
 	float m_effect_lag_count;			// アニメーションのラグカウント用
+
+	const int EFFECT_TEXTURE_PARTITION_NUM = 4;		// エフェクトの画像分割数
 
 	// エフェクトの登録
 	const std::string m_clear_effect = "Resource/Texture/Effect/crear_eff.png";

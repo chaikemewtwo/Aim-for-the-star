@@ -7,6 +7,7 @@ Clear::Clear() {
 
 	m_scene_step = INIT;
 
+
 	// プレイヤー1の画像登録
 	m_player1_texture_list[FLIGHT_TEXTURE] = "Resource/Texture/Player/hi_clear_01.png";
 	m_player1_texture_list[CLEAR_POSE_TEXTURE] = "Resource/Texture/Player/hi_clear_02.png";
@@ -41,6 +42,9 @@ void Clear::Init() {
 
 	m_background1_pos = D3DXVECTOR2(0, (WINDOW_H_F-BACKGROUND_TEXTURE_SIZE_Y));
 	m_background2_pos = D3DXVECTOR2(0,m_background1_pos.y-BACKGROUND_TEXTURE_SIZE_Y);
+
+	m_scene_change_time = 120;
+	m_scene_change_count_timer = 0;
 
 	// プレイヤーの変数初期化
 	m_player_animation_finish = false;
@@ -97,7 +101,18 @@ void Clear::Update() {
 		}
 	}
 
+	// エフェクトの再生後、時間経過でタイトルに遷移
+	if (m_effect_animation_num >= m_effect_animation_max) {
+		if (m_scene_change_time <= m_scene_change_count_timer) {
+			m_scene_step = END;
+			m_scene_id = TITLE;
+		}
+		else {
+			m_scene_change_count_timer++;
+		}
+	}
 
+	// デバック用　クリア→タイトル
 	if (m_pkey_bord.press(VK_SPACE)) {
 		m_scene_step = END;
 		m_scene_id = TITLE;
@@ -140,13 +155,15 @@ void Clear::Draw() {
 			m_clear_effect.c_str(),
 			m_player1_pos.x, m_player1_pos.y,
 			0.25, 0.25, 0, 0.5, 0.5,
-			true, 4, 4, m_effect_animation_num
+			true, EFFECT_TEXTURE_PARTITION_NUM, EFFECT_TEXTURE_PARTITION_NUM,
+			m_effect_animation_num
 		);
 		Texture::Draw2D(
 			m_clear_effect.c_str(),
 			m_player2_pos.x, m_player2_pos.y,
 			0.25, 0.25, 0, 0.5, 0.5,
-			true, 4, 4, m_effect_animation_num
+			true,EFFECT_TEXTURE_PARTITION_NUM, EFFECT_TEXTURE_PARTITION_NUM,
+			m_effect_animation_num
 		);
 		EffectAnimation();
 	}
