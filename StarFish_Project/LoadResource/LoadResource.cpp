@@ -3,7 +3,7 @@
 
 
 
-void Resource::LoadResouce() {
+void Resource::LoadResource() {
 
 	Audio& audio = Audio::getInterface();
 
