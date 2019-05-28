@@ -139,6 +139,9 @@ void Resource::LoadResource() {
 	Texture::Load("Resource/Texture/Map/bg_clear_01.png");
 	Texture::Load("Resource/Texture/Map/bg_clear_02.png");
 	Texture::Load("Resource/Texture/Map/bg_clear_03.png");
+
+	// 勝利UI
+	Texture::Load("Resource/Texture/UI/clear_logo.png");
 	//-----------------------------------------------------
 
 	// SE

@@ -7,7 +7,6 @@ Clear::Clear() {
 
 	m_scene_step = INIT;
 
-
 	// プレイヤー1の画像登録
 	m_player1_texture_list[FLIGHT_TEXTURE] = "Resource/Texture/Player/hi_clear_01.png";
 	m_player1_texture_list[CLEAR_POSE_TEXTURE] = "Resource/Texture/Player/hi_clear_02.png";
@@ -28,7 +27,6 @@ void Clear::Init() {
 	SceneBase::m_scene_id = CLEAR;
 	m_scene_step = UPDATE;
 
-
 	// 画像の初期化
 	m_player1_texture = m_player1_texture_list[FLIGHT_TEXTURE];
 	m_player2_texture = m_player2_texture_list[FLIGHT_TEXTURE];
@@ -43,40 +41,42 @@ void Clear::Init() {
 	m_background1_pos = D3DXVECTOR2(0, (WINDOW_H_F-BACKGROUND_TEXTURE_SIZE_Y));
 	m_background2_pos = D3DXVECTOR2(0,m_background1_pos.y-BACKGROUND_TEXTURE_SIZE_Y);
 
-	m_scene_change_time = 120;
+	m_scene_change_time = 150;
 	m_scene_change_count_timer = 0;
+	m_clear_ui_size = 0;
 
 	// プレイヤーの変数初期化
 	m_player_animation_finish = false;
 	m_player_move_speed = 5;
 	m_player_animation_max = 16;
 	m_player_animation_num = 0;
-	m_player_animation_change_time = 5;
+	m_player_animation_change_time = 8;
 	m_player_animation_timer = 0;
 
 	// 背景の変数初期化
 	m_is_background_move = false;
-	m_background_move_speed = 10;
+	m_background_move_speed = 15;
 
 	// エフェクトの変数初期化
 	m_effect_animation_num = 0;
 	m_effect_animation_max = 13;
 	m_effect_animation_timer = 0;
-	m_effect_animation_change_time = 5;
-	m_effect_lag_time = 15;
+	m_effect_animation_change_time = 7;
+	m_effect_lag_time = 40;
 	m_effect_lag_count = 0;
+	m_effect_finish = false;
 }
 //――――――――――――――――――――――――――――――――
 
 void Clear::Update() {
 
 	// プレイヤーの移動
-	if (m_player1_pos.y >= 600 && m_player2_pos.y >= 600) {
+	if (m_player1_pos.y >= 750 && m_player2_pos.y >= 750) {
 
 		m_player1_pos.y -= m_player_move_speed;
 		m_player2_pos.y -= m_player_move_speed;
 
-		if (m_player1_pos.y <= 850 && m_player2_pos.y <= 850) {
+		if (m_player1_pos.y <= 950 && m_player2_pos.y <= 950) {
 
 			m_is_background_move = true;
 			m_player_move_speed -= 0.01f;
@@ -102,14 +102,19 @@ void Clear::Update() {
 	}
 
 	// エフェクトの再生後、時間経過でタイトルに遷移
-	if (m_effect_animation_num >= m_effect_animation_max) {
-		if (m_scene_change_time <= m_scene_change_count_timer) {
-			m_scene_step = END;
-			m_scene_id = TITLE;
-		}
-		else {
-			m_scene_change_count_timer++;
-		}
+	//if (m_effect_animation_num >= m_effect_animation_max) {
+	//	if (m_scene_change_time <= m_scene_change_count_timer) {
+	//		m_scene_step = END;
+	//		m_scene_id = TITLE;
+	//	}
+	//	else {
+	//		m_scene_change_count_timer++;
+	//	}
+	//}
+
+	// エフェクトのラグが終われば、UIを描画サイズまで徐々に大きくする 
+	if (m_player_animation_finish == true && m_player_animation_num >= 6 && m_clear_ui_size <= 1) {
+		m_clear_ui_size += 0.025f;
 	}
 
 	// デバック用　クリア→タイトル
@@ -132,6 +137,31 @@ void Clear::Draw() {
 		m_background2_pos.x, m_background2_pos.y
 	);
 
+	// エフェクトの描画
+	if (m_player_animation_num >= 6 && m_player_animation_finish == true) {
+		Texture::Draw2D(
+			m_clear_effect.c_str(),
+			m_player1_pos.x, m_player1_pos.y,
+			0.25, 0.25, 0, 0.5, 0.5,
+			true, EFFECT_TEXTURE_PARTITION_NUM, EFFECT_TEXTURE_PARTITION_NUM,
+			m_effect_animation_num
+		);
+		Texture::Draw2D(
+			m_clear_effect.c_str(),
+			m_player2_pos.x, m_player2_pos.y,
+			0.25, 0.25, 0, 0.5, 0.5,
+			true, EFFECT_TEXTURE_PARTITION_NUM, EFFECT_TEXTURE_PARTITION_NUM,
+			m_effect_animation_num
+		);
+		EffectAnimation();
+
+		Texture::Draw2D(
+			m_clear_ui_texture.c_str(),
+			WINDOW_W_F / 2, m_player1_pos.y - 500,
+			m_clear_ui_size, m_clear_ui_size, 0, 0.5, 0.5
+		);
+	}
+
 	// プレイヤーの描画
 	Texture::Draw2D(
 		m_player1_texture.c_str(),
@@ -148,25 +178,6 @@ void Clear::Draw() {
 		m_player_animation_num
 	);
 	PlayerAnimation();
-
-	// エフェクトの描画
-	if (m_player_animation_num >= 6 && m_player_animation_finish == true) {
-		Texture::Draw2D(
-			m_clear_effect.c_str(),
-			m_player1_pos.x, m_player1_pos.y,
-			0.25, 0.25, 0, 0.5, 0.5,
-			true, EFFECT_TEXTURE_PARTITION_NUM, EFFECT_TEXTURE_PARTITION_NUM,
-			m_effect_animation_num
-		);
-		Texture::Draw2D(
-			m_clear_effect.c_str(),
-			m_player2_pos.x, m_player2_pos.y,
-			0.25, 0.25, 0, 0.5, 0.5,
-			true,EFFECT_TEXTURE_PARTITION_NUM, EFFECT_TEXTURE_PARTITION_NUM,
-			m_effect_animation_num
-		);
-		EffectAnimation();
-	}
 }
 //―――――――――――――――――――――――――――――――――
 
@@ -205,18 +216,27 @@ void Clear::PlayerAnimation() {
 
 void Clear::EffectAnimation() {
 
-	if (m_effect_animation_timer >= m_effect_animation_change_time) {
+	if (m_effect_animation_timer >= m_effect_animation_change_time && m_effect_finish == false) {
 		m_effect_animation_timer = 0;
 		m_effect_animation_num++;
-	}
-	// ☆が見えるように、遷移を遅れさせる
-	else if (m_effect_animation_num == 3 && m_effect_lag_time >= m_effect_lag_count) {
-
-		m_effect_lag_count++;
-		m_effect_animation_num = 3;
+		if (m_effect_animation_num >= m_effect_animation_max) {
+			//m_effect_finish = true;
+			m_effect_animation_num = 0;
+		}
 	}
 	else {
 		m_effect_animation_timer++;
 	}
+	//if (m_effect_finish == true && m_effect_animation_num == 13 && //m_effect_lag_count >= m_effect_lag_time) {
+	//	m_effect_animation_num = 2;
+	//	m_effect_lag_count = 0;
+	//}
+	//else if (m_effect_finish == true && m_effect_animation_num == 2 && //m_effect_lag_count >= m_effect_lag_time) {
+	//	m_effect_animation_num = 13;
+	//	m_effect_lag_count = 0;
+	//}
+	//else {
+	//	m_effect_lag_count++;
+	//}
 }
 //―――――――――――――――――――――――――――――――――
