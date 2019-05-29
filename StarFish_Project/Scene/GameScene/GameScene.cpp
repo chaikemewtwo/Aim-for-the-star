@@ -33,11 +33,13 @@ void GameMain::Update() {
 	}
 	
 	if (m_pobj_mng->ClearEnable() == true) {
+
 		m_main_bgm->Stop();
 		m_scene_step = END;
 		m_scene_id = CLEAR;
 	}
 	else if (m_pobj_mng->GameOverEnable() == true) {
+
 		m_main_bgm->Stop();
 		m_scene_step = END;
 		m_scene_id = TITLE;
@@ -45,6 +47,7 @@ void GameMain::Update() {
 
 	// デバック用　ゲームシーン→クリア
 	if (m_pkey_bord.press(VK_SPACE)) {
+
 		m_main_bgm->Stop();
 		m_scene_step = END;
 		m_scene_id = CLEAR;

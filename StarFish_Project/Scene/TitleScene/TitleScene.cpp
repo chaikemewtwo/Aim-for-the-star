@@ -6,10 +6,11 @@ Title::Title() {
 
 	m_scene_step = INIT;
 
-
 	m_button_texture_list[DESCRIPTION_BUTTON] = "Resource/Texture/UI/title_button03.png";
 	m_button_texture_list[START_BUTTON] = "Resource/Texture/UI/title_button01.png";
 	m_button_texture_list[RETURN_BUTTON] = "Resource/Texture/UI/title_button02.png";
+
+	m_title_bgm = m_paudio.getBuffer("Resource/Sound/BGM/title_bgm.wav");
 }
 //―――――――――――――――――――
 
@@ -22,10 +23,14 @@ void Title::Init() {
 	// ボタンの初期化
 	m_button_texture = m_button_texture_list[START_BUTTON];
 	m_button_check_num = 1;
+	m_title_bgm->SetCurrentPosition(0);
 }
 //―――――――――――――――――――
 
 void Title::Update() {
+	if (m_title_bgm != nullptr) {
+		m_title_bgm->Play(0, 0, DSBPLAY_LOOPING);
+	}
 
 	ButtonChange();
 
@@ -33,11 +38,13 @@ void Title::Update() {
 
 		if (m_button_check_num == START_BUTTON) {
 			
+			m_title_bgm->Stop();
 			m_scene_step = END;
 			m_scene_id = GAME_MAIN;
 		}
 		else if (m_button_check_num == RETURN_BUTTON) {
 
+			m_title_bgm->Stop();
 			m_scene_step = END;
 			m_scene_id = SCENE_QUIT;
 		}
@@ -46,6 +53,7 @@ void Title::Update() {
 	// デバック用　タイトル→ゲームメイン
 	if(m_pkey_bord.press(VK_SPACE)) {
 
+		m_title_bgm->Stop();
 		m_scene_step = END;
 		m_scene_id = GAME_MAIN;
 	}

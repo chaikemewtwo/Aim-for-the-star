@@ -25,7 +25,6 @@ private:
 
 	void ButtonChange();
 
-
 private:
 	int m_button_check_num;
 	std::string m_button_texture;
@@ -39,4 +38,6 @@ private:
 	// ロゴと背景の画像を登録
 	const std::string TITLE_TEXTURE = "Resource/Texture/Title/タイトル　背景.png";
 	const std::string TITLE_LOGO = "Resource/Texture/Title/タイトル　ロゴ.png";
+
+	IDirectSoundBuffer8* m_title_bgm;
 };

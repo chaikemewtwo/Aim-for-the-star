@@ -146,5 +146,7 @@ void Resource::LoadResource() {
 		"Resource/Sound/Player/ko1.wav" });
 
 	// BGM
-	audio.load("Resource/Sound/BGM/main_bgm.wav");
+	audio.load({ "Resource/Sound/BGM/main_bgm.wav",
+		"Resource/Sound/BGM/title_bgm.wav" });
+
 }
