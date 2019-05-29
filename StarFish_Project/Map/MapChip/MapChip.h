@@ -44,7 +44,10 @@ class Map : public Object {
 public:
 
 	// 画像、全てのセルの大きさ
-	static const int CHIP_SIZE = 64;
+	static constexpr int CHIP_SIZE = 64;
+	// マップのスクロール遷移ライン定数						   
+	static constexpr float SCROLL_RANGE_UP = 400.f;			// スクロール範囲上
+	static constexpr float SCROLL_RANGE_DOWN = 800.f;		// スクロール範囲下
 
 	Map(Player*star1, Player*star2, EnemyManager*e_mng);
 
@@ -69,7 +72,11 @@ public:
 	bool IsWallColRight()const;	     // 右の壁に当たっているか
 	bool IsScroll()const;			 // スクロールしているか
 	// マップの初期化
-	void SetMapResat(float map_y);
+	void SetMapReset(float map_y);
+	void SetIsScroll(bool is_scroll);
+	// スクロールを変更
+	void SetScrollRangeUp(float range);
+	void SetScrollRangeDown(float range);
 
 private:
 	
@@ -116,9 +123,6 @@ private:
 	const int MAX_CHIP_NUM_W = ((WINDOW_W_INT)/ CHIP_SIZE);    // 画面マップチップの大きさ
 	const int MAX_CHIP_NUM_H = ((WINDOW_H_INT)/ CHIP_SIZE);    // 画面マップチップの大きさ
 	const int MAP_SAET_NUM = 5;								   // マップシートの数
-	// マップのスクロール遷移ライン定数						   
-	const float SCROLL_RANGE_UP = 400.f;					   // スクロール範囲上
-	const float SCROLL_RANGE_DOWN = 800.f;					   // スクロール範囲下
 	// オブジェクトとマップ当たり判定の頂点位置				   
 	const float HIT_POINT_X = -32.f;						   // 当たり位置の大きさ
 	const float HIT_POINT_Y = -56.f;						   // 当たり位置の大きさ
@@ -139,24 +143,29 @@ private:
 	float chip_u[MAX_BEDROCK_CHIP];            // 線を直す為にずらすUV用配列U
 	float chip_v[MAX_BEDROCK_CHIP];            // 線を直す為にずらすUV用配列V
 	D3DXVECTOR2 bedrock_chip[MAX_BEDROCK_CHIP];// 岩盤チップをずらす座標
+
 	/* マップ座標 */
 	D3DXVECTOR2 m_player_pos[2];               // 自機の位置
 	D3DXVECTOR2 m_player_move_pos[2];          // 自機の移動ベクトル
+
 	/* マップ描画領域 */					    
 	//D3DXVECTOR2 m_pos;                       // 描画用マップの位置
 	D3DXVECTOR2 m_move_pos;                    // 描画用マップの位置
 	int m_height_map_num;                      // マップデータの高さ
 	int m_map_chip_id[1000]={};                // 生成されたらマップチップを保存する
 	int m_chip_num;                            // チップの番号
+
 	/* マップ遷移 */						      
 	float m_draw_range_up;                     // 上の描画の範囲
 	float m_draw_range_down;                   // 後ろの描画の範囲
 	float m_scroll_range_up;                   // スクロールライン上
 	float m_scroll_range_down;                 // スクロールライン下
+
 	/* 各オブジェクトの参照 */	   	           
 	Player * m_pbase[2];                       // 自機2体                     
 	EnemyManager * e_pmng;                     // 敵の状態
-	// 各フラグ
+
+	/* 各フラグ */
 	bool m_is_stand;                           // 立っているか
 	bool m_is_wall_col;                        // 方向関係なく壁衝突しているか
 	bool m_is_wall_col_left;                   // 左に衝突しているか

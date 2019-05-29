@@ -98,6 +98,8 @@ public:
 	void Entry(Object*obj);
 	// 配列の削除(メモリの削除ではない)
 	void Exit(unsigned int id);
+	// クリアフラグを返す
+	bool IsClear()const;
 
 private:
 
@@ -114,7 +116,7 @@ private:
 	/* object参照 */
 	MapManager * m_pm_mng;        // マップ管理クラス
 	Player * m_pplayer[2];        // 自機1,2
-	GameUI * m_pui;    // スタミナGameUI
+	GameUI * m_pui;               // スタミナGameUI
 	Rope * m_prope;               // ロープ
 	EnemyManager *m_pe_mng;       // 敵管理クラス
 	CollisionManager *m_pcol_mng; // 衝突管理クラス
