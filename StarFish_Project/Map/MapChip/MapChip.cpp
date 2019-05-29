@@ -601,7 +601,7 @@ void Map::NowPosXFixToMapPos(float &pos_x, float &move_x) {
 
 		chip_pos_x = (float)GetChipCastByPos(pos_x - (move_x - RETOUCH));
 
-		pos_x = (chip_pos_x * CHIP_SIZE);
+		pos_x = (chip_pos_x * CHIP_SIZE) - move_x;
 
 		// 縮小する時
 		if (SHRINK_Y > 0.f) {
@@ -620,7 +620,7 @@ void Map::NowPosXFixToMapPos(float &pos_x, float &move_x) {
 		
  		chip_pos_x = (float)GetChipCastByPos(pos_x + move_x);
 		// 位置を戻す
-		pos_x = (chip_pos_x * CHIP_SIZE) + SHRINK_X;
+		pos_x = (chip_pos_x * CHIP_SIZE) + SHRINK_X - move_x;
 
 		// 移動ベクトルなし
 		move_x = 0.f;
