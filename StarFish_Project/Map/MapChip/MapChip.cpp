@@ -230,7 +230,6 @@ void Map::Update() {
 		}
 	}
 
-
 	for (int i = 0; i < 2; i++) {// 一旦当たり判定を一つにする
 
 		// 当たり判定
@@ -757,7 +756,7 @@ float Map::GetChipPosCastByChip(const float &chip_pos, const float &chip_y)const
 }
 
 // マップのリセット
-void Map::SetMapResat(float map_y) {
+void Map::SetMapReset(float map_y) {
 	m_pos.y = map_y;
 }
 
@@ -799,6 +798,19 @@ bool Map::IsWallColRight()const {
 // スクロールしているか
 bool Map::IsScroll()const {
 	return m_is_scroll;
+}
+
+void Map::SetIsScroll(bool is_scroll) {
+	m_is_scroll = is_scroll;
+}
+
+// スクロールの範囲
+void Map::SetScrollRangeUp(float range) {
+	m_scroll_range_up = range;
+}
+
+void Map::SetScrollRangeDown(float range) {
+	m_scroll_range_down = range;
 }
 
 

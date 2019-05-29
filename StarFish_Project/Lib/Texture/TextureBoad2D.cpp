@@ -77,7 +77,22 @@ namespace Texture {
 	}
 
 
-	void Draw2D(const char*file_name, float x, float y, float scale_w, float scale_h, float angle, float cx, float cy, bool uv_cut, int u_axis, int v_axis, int graph_num, float u, float v) {
+	void Draw2D(
+		const char*file_name,         // ファイル名
+		float x,                      // x座標
+		float y,					  // y座標
+		float scale_w,				  // 横の拡縮
+		float scale_h,				  // 縦の拡縮
+		float angle,				  // 角度
+		float cx,					  // オフセットx(描画頂点をずらす)
+		float cy,					  // オフセットy
+		bool is_graph_uv_cut,		  // 画像をカットするか
+		int u_cut_num,				  // u軸のカット数
+		int v_cut_num,				  // v軸のカット数
+		int graph_num,				  // カットした画像のどこを使うか
+		float u,					  // テクスチャ座標のu軸をずらす
+		float v)					  // テクスチャ座標のv軸をずらす 
+	{ 
 
 		TEXTURE_DATA *tex_d = &tex_list[file_name];
 
@@ -91,10 +106,10 @@ namespace Texture {
 		v += tex_d->Uv.y;
 
 		// UVの分割
-		UV uv(u_axis, v_axis);
+		UV uv(u_cut_num, v_cut_num);
 
 		// uvカットがオンならば
-		if (uv_cut == true) {
+		if (is_graph_uv_cut == true) {
 			uv.ToTheRightDivGraph(graph_num);
 		}
 
@@ -114,7 +129,7 @@ namespace Texture {
 		{ x1,y2,0.0f,1.0f,down_left->x,down_left->y + v },       // 左下
 		};
 
-		// サンプラーステート(描画外は描画しないようにするため)
+		// サンプラーステート(描画外は描画しないようにするため,デフォルト)
 		dev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
 		dev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
@@ -151,4 +166,13 @@ namespace Texture {
 			sizeof(CUSTOM_VERTEX)
 		);
 	}
+
+}
+
+// HACK リファクタ中
+void SamplerStateConfig(D3DSAMPLERSTATETYPE state_type) {
+
+	// サンプラーステート(描画外は描画しないようにするため,デフォルト)
+	dev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+	dev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 }
