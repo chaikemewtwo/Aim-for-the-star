@@ -12,7 +12,7 @@ void PlayerStandingWaitState::Init(Player* p) {
 	p->ResetAnimationNumber();
 
 	// 状態画像変更
-	/*p->SetPlayerTexture("Resource/de_standing_wait.png");*/
+	p->SetPlayerTexture(p->star_texture_name[p->STANDING_WAIT_TEXTURE]);
 }
 
 

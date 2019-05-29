@@ -3,7 +3,6 @@
 #include "../PlayerDeathState/PlayerDeathState.h"
 #include "../../Player/Player.h"
 #include "../../../Lib/Sound/DirectSound.h"
-#include "../../../LoadResource/LoadResource.h"
 
 
 // 待機状態（オブジェクト上以外、オブジェクト上での待機状態はStandingWaitStateクラス）
@@ -49,6 +48,8 @@ void PlayerWaitState::Update(Player* p) {
 		// スタミナ減算
 		p->DecStamina(TO_SWIM_NEEDED_STAMINA);
 		
+		// SE
+		// HACK:泳ぎ状態内で行った方がよい
 		auto sound = audio.getCloneBuffer("Resource/Sound/Player/swim1.wav");
 		sound->Play(0, 0, 0);
 

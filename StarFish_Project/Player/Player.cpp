@@ -12,7 +12,6 @@
 Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	Keybord& kb = Keybord::getInterface();
 
-
 	// 半径
 	m_radius = 64.f;
 	// 当たり位置の頂点を画像の中心にずらす
@@ -94,9 +93,6 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 
 
 void Player::Update() {
-	// 移動を加算
-	m_pos += m_move;
-
 	// 移動量を初期化（マップの当たり判定で必要）
 	m_move.x = 0.f;
 	m_move.y = 0.f;
@@ -112,11 +108,25 @@ void Player::Update() {
 	// ステート更新
 	// 内部の処理は各ステート内で管理しています
 	m_state->Update(this);
+
+	// 移動を正式に仮移動量にする(テストコード)
+	if (m_map->IsWallColUp() == true || m_map->IsWallColDown() == true) {
+		m_move.x = m_proto_move.x;
+		m_move.y = 0.f;
+	}
+	if (m_map->IsWallColLeft() == true || m_map->IsWallColRight() == true) {
+		m_move.x = 0.f;
+		m_move.y = m_proto_move.y;
+	}
+	if (m_map->IsWallColUp() == false && m_map->IsWallColDown() == false &&
+		m_map->IsWallColLeft() == false && m_map->IsWallColRight() == false) {
+		m_move = m_proto_move;
+	}
+	m_pos += m_move;
 }
 
 
 void Player::Draw() {
-
 	// 第7、8引数が0.5fずつで中心座標から描画	
 	// 被弾状態は描画する、しないを切り替えて表現する
 	if (m_draw_enable == true) {
@@ -140,7 +150,7 @@ void Player::Draw() {
 
 void Player::AddGravity() {
 	// 常時下方向へ負荷がかかる
-	m_move.y -= GRAVITY;
+	m_proto_move.y -= GRAVITY;
 }
 
 
@@ -163,13 +173,8 @@ void Player::AngleAdjust(bool is_move_right) {
 
 void Player::SwimUp() {
 	// 上方向への移動量(ベクトルの長さ)を割り出す
-	m_move.x += sin(m_character_angle * PI / (float)180.f) * m_speed;
-	m_move.y -= cos(m_character_angle * PI / (float)180.f) * m_speed;
-
-	// 岩に接触してたら移動量を0に
-	//if (m_map_chip->IsWallCollision()) {
-	//	m_move.y = 0.f;
-	//}
+	m_proto_move.x += sin(m_character_angle * PI / (float)180.f) * m_speed;
+	m_proto_move.y -= cos(m_character_angle * PI / (float)180.f) * m_speed;
 }
 
 

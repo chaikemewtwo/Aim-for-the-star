@@ -3,12 +3,9 @@
 #include "../../Player/Player.h"
 
 
-
 // 泳ぎ状態
 // 初期化
 void PlayerSwimState::Init(Player* p) {
-	
-	
 	// 状態遷移タイマー
 	p->ResetStateChangeTimer();
 
@@ -43,12 +40,13 @@ void PlayerSwimState::Update(Player* p) {
 		p->AngleAdjust(true);
 	}
 
+	// 待機状態に戻る
 	if (p->GetStateChangeTimer() >= MAX_COUNT) {
 		p->ChangeState(PlayerWaitState::GetInstance());
 	}
 
+	// 死亡状態へ移行
 	if (p->GetIsAlive() == false) {
-		// 死亡状態へ移行
 		p->ChangeState(PlayerDeathState::GetInstance());
 	}
 }

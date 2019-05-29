@@ -10,6 +10,7 @@
 #include "PlayerState\PlayerStateBase.h"
 
 
+class Map;
 // HACK:m_moveをm_vectorに変更した方がわかりやすい、それに伴いGetMovePos等も変更
 
 class Player : public CircleCollisionObject {
@@ -40,6 +41,7 @@ public:
 		MAX_TEXTURE_NUM
 	};
 
+	// 泳いでるフラグ(泳ぎ状態のときtrue)
 	bool swim_enable;
 
 	// テクスチャ文字列保持
@@ -60,7 +62,7 @@ public:
 	//-----------------------------------------------------
 	// 当たり判定で使用する関数
 	// プレイヤー移動量ゲッター
-	D3DXVECTOR2 GetMovePos() {
+	D3DXVECTOR2 GetMovePos()const {
 		return m_move;
 	}
 
@@ -78,13 +80,18 @@ public:
 		m_move = move;
 	}
 
-	// ヒモ用（仮）
-	void AddMove(D3DXVECTOR2 move) {
-		m_move += move;
+	// プレイヤー移動量の加算関数（ヒモ用、仮）
+	void AddMove(D3DXVECTOR2 add_move) {
+		m_move += add_move;
+	}
+
+	// プレイヤー仮移動量の加算関数
+	void AddProtoMove(D3DXVECTOR2 add_move) {
+		m_proto_move += add_move;
 	}
 
 	// 生存フラグゲッター
-	bool GetIsAlive() {
+	bool GetIsAlive() const{
 		return m_is_alive;
 	}
 	//-----------------------------------------------------
@@ -212,6 +219,9 @@ private:
 	float m_character_angle;
 	//-----------------------------------------------------
 
+	// 生存フラグ（DeathStateで当たり判定を取らないようにするため）
+	bool m_is_alive;
+
 	// 状態遷移用タイマー
 	int m_state_change_timer;
 
@@ -221,12 +231,14 @@ private:
 	// スタミナ
 	int m_stamina;
 
-	// 生存フラグ（DeathStateで当たり判定を取らないようにするため）
-	bool m_is_alive;
-
 	// 被弾時点滅用描画切り替え
 	bool m_draw_enable;
 
 	// 無敵時間
 	int invisible_count;
+
+	// 仮の移動量（動く前のシュミレーション用）
+	D3DXVECTOR2 m_proto_move;
+
+	Map* m_map;
 };

@@ -13,6 +13,8 @@ Rope::Rope(Player* p_1,Player* p_2) {
 void Rope::Update() {
 	m_p1_pos = m_p1->GetPos();
 	m_p2_pos = m_p2->GetPos();
+	m_p1_move = m_p1->GetMovePos();
+	m_p2_move = m_p2->GetMovePos();
 
 	PlayersDistanceAdjust();
 }
@@ -62,7 +64,6 @@ void Rope::PlayersDistanceAdjust() {
 		if (m_p1->swim_enable == true || m_p2->swim_enable == false) {
 			m_p2->SetMovePos(m_p2->GetMovePos() + m_p1->GetMovePos());
 		}
-
 		if (m_p2->swim_enable == true || m_p1->swim_enable == false) {
 			m_p1->SetMovePos(m_p1->GetMovePos() + m_p2->GetMovePos());
 		}
