@@ -37,6 +37,9 @@ ObjectManager::ObjectManager(){
 	Entry(m_pplayer[1]);
 	Entry(m_pui);
 	
+	// 《追加：福本》
+	m_is_clear = false;
+	m_is_game_over = false;
 }
 
 
@@ -151,3 +154,19 @@ void ObjectManager::Exit(unsigned int id) {
 	m_obj_list.erase(id);
 }
 
+// 《追加：福本　初期化部分も含めて書き換えあればお願いします》
+bool ObjectManager::ClearEnable(){
+	return m_is_clear;
+}
+
+void ObjectManager::IsClear(bool clear){
+	m_is_clear = clear;
+}
+
+bool ObjectManager::GameOverEnable(){
+	return m_is_game_over;
+}
+
+void ObjectManager::IsGameover(bool gameover){
+	m_is_game_over = gameover;
+}

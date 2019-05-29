@@ -99,6 +99,12 @@ public:
 	// 配列の削除(メモリの削除ではない)
 	void Exit(unsigned int id);
 
+	// フラグのアクセサ《追加：福本　場所変えておいてください》
+	bool ClearEnable();
+	void IsClear(bool clear);
+	bool GameOverEnable();
+	void IsGameover(bool gameover);
+
 private:
 
 	// 描画用オブジェクトのソート
@@ -118,4 +124,8 @@ private:
 	Rope * m_prope;               // ロープ
 	EnemyManager *m_pe_mng;       // 敵管理クラス
 	CollisionManager *m_pcol_mng; // 衝突管理クラス
+
+	// クリアとゲームオーバーを判定するフラグ《追加：福本　場所変えておいてください》
+	bool m_is_clear;
+	bool m_is_game_over;
 };
