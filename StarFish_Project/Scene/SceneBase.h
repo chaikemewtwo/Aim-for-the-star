@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include"../Lib/Input/KeyBord.h"
+#include"../Lib/Sound/DirectSound.h"
 
 
 // シーンID
@@ -17,6 +18,7 @@ enum SceneStep {
 	UPDATE,
 	END
 };
+
 
 class SceneBase {
 public:
@@ -54,4 +56,5 @@ protected:
 	SceneId m_scene_id;			// シーンの種類
 
 	Keybord& m_pkey_bord = Keybord::getInterface();
+	Audio& m_paudio = Audio::getInterface();
 };

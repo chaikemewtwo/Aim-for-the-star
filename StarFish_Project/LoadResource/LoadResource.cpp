@@ -144,4 +144,7 @@ void Resource::LoadResource() {
 	// SE
 	audio.load({ "Resource/Sound/Player/swim1.wav",
 		"Resource/Sound/Player/ko1.wav" });
+
+	// BGM
+	audio.load("Resource/Sound/BGM/main_bgm.wav");
 }
