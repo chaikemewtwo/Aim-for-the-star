@@ -61,16 +61,16 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 	Load("Map/MapData/MapData.csv");
 
 	// とりあえずべた書き
-	chip_str[0] = "Resource/Texture/Map/chip-map_image_01.png";
-	chip_str[1] = "Resource/Texture/Map/chip-map_image_02.png";
-	chip_str[2] = "Resource/Texture/Map/chip-map_image_03.png";
-	chip_str[3] = "Resource/Texture/Map/chip-map_image_04.png";
-	chip_str[4] = "Resource/Texture/Map/chip-map_image_05.png";
-	chip_str[5] = "Resource/Texture/Map/chip-map_image_06.png";
-	chip_str[6] = "Resource/Texture/Map/chip-map_image_07.png";
-	chip_str[7] = "Resource/Texture/Map/chip-map_image_08.png";
-	chip_str[8] = "Resource/Texture/Map/chip-map_image_09.png";
-	chip_str[9] = "Resource/Texture/Map/chip-map_image_10.png";
+	chip_str[0] = "Resource/Texture/Map/chip-map_image_02.png";// 左上ブロック
+	chip_str[1] = "Resource/Texture/Map/chip-map_image_09.png";// 右上ブロック
+	chip_str[2] = "Resource/Texture/Map/chip-map_image_06.png";// 左下ブロック
+	chip_str[3] = "Resource/Texture/Map/chip-map_image_10.png";// 右下ブロック
+	chip_str[4] = "Resource/Texture/Map/chip-map_image_01.png";// 左側ブロック
+	chip_str[5] = "Resource/Texture/Map/chip-map_image_08.png";// 右側ブロック
+	chip_str[6] = "Resource/Texture/Map/chip-map_image_04.png";// 上ブロック
+	chip_str[7] = "Resource/Texture/Map/chip-map_image_07.png";
+	chip_str[8] = "Resource/Texture/Map/chip-map_image_03.png";
+	chip_str[9] = "Resource/Texture/Map/chip-map_image_05.png";
 
 	// u縦
 	// v横
@@ -80,29 +80,29 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 		chip_v[i] = 0.f;
 	}
 
-	chip_u[0] = 0.01f;
-	chip_v[1] = -0.001f;
-	chip_v[6] = -0.01f;
-	chip_v[5] = -0.01f;
-	chip_v[8] = -0.001f;
-	chip_v[3] = -0.001f;
+	chip_u[0] = -0.001f;
+	chip_v[1] = -0.01f;
+	chip_u[1] = -0.01f;
+	chip_v[2] = -0.01f;
 	chip_v[7] = -0.01f;
-	chip_v[9] = -0.01f;
+	chip_v[4] = -0.001f;
+	chip_v[3] = 0.01f;
+	chip_v[5] = -0.01f;
+	chip_v[6] =   - 0.001f;
 	
-	chip_u[8] = -0.01f;
-	chip_u[7] = -0.01f;
-	chip_u[9] = -0.01f;
+	chip_u[4] = -0.01f;
+	chip_u[5] = -0.01f;
 	
-	bedrock_chip[0].x = 2.f; bedrock_chip[0].y = 0.f;
-	bedrock_chip[1].x = 2.f; bedrock_chip[1].y = 1.f;
-	bedrock_chip[2].x = 1.f; bedrock_chip[2].y = 0.f;
-	bedrock_chip[3].x = 0.f; bedrock_chip[3].y = 1.f;
-	bedrock_chip[4].x = 0.f; bedrock_chip[4].y = 0.f;
-	bedrock_chip[5].x = 2.f; bedrock_chip[5].y = -1.f;
-	bedrock_chip[6].x = 0.f; bedrock_chip[6].y = -1.f;
-	bedrock_chip[7].x = 0.f; bedrock_chip[7].y = 0.f;
-	bedrock_chip[8].x = -1.f; bedrock_chip[8].y = 1.f;
-	bedrock_chip[9].x = -1.f; bedrock_chip[9].y = -1.f;
+	bedrock_chip[0].x = 0.f; bedrock_chip[0].y = 1.f;
+	bedrock_chip[1].x = 0.f; bedrock_chip[1].y = 1.f;
+	bedrock_chip[2].x = 2.f; bedrock_chip[2].y = -1.f;
+	bedrock_chip[3].x = 0.f; bedrock_chip[3].y = 0.f;
+	bedrock_chip[4].x = 1.f; bedrock_chip[4].y = 1.f;
+	bedrock_chip[5].x = 0.f; bedrock_chip[5].y = 0.f;
+	bedrock_chip[6].x = 0.f; bedrock_chip[6].y = 1.f;
+	bedrock_chip[7].x = 1.f; bedrock_chip[7].y = -1.f;
+	bedrock_chip[8].x = 0.f; bedrock_chip[8].y = 0.f;
+	bedrock_chip[9].x = 0.f; bedrock_chip[9].y = 0.f;
 	
 	// 初期化集
 	m_chip_num = 0;
