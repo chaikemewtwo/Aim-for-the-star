@@ -80,6 +80,7 @@ enum SortObject {
 	ENEMY,
 	BG_AFTER,
 	GAME_UI,
+	BLIND,
 	MAX,
 };
 
@@ -111,6 +112,8 @@ private:
 	std::vector<unsigned int>m_used_id_list;           // 使い終わったidを再利用するための配列
 	std::vector<Object*>m_draw_obj_list;               // 描画用オブジェクトリスト
 
+	bool m_is_gameover;			
+
 	unsigned int m_current_max_id;// 現在最大のid
 
 	/* object参照 */
@@ -120,5 +123,4 @@ private:
 	Rope * m_prope;               // ロープ
 	EnemyManager *m_pe_mng;       // 敵管理クラス
 	CollisionManager *m_pcol_mng; // 衝突管理クラス
-
 };

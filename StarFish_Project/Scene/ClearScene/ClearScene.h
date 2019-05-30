@@ -93,4 +93,8 @@ private:
 
 	// UIの登録
 	const std::string m_clear_ui_texture = "Resource/Texture/UI/clear_logo.png";
+
+	// クリア時のサウンド
+	IDirectSoundBuffer8* m_fly_sound;
+	IDirectSoundBuffer8* m_effect_sound;
 };

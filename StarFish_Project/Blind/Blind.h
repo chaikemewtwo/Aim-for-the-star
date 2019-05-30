@@ -19,7 +19,7 @@ private:
 	// 2点の間の角度(ラジアン)を求める関数
 	float CalcRadian(float from_x, float from_y, float to_x, float to_y);
 
-// 変数・定数 //
+private:
 	float m_speed;				// 移動速度
 	float m_angle;				// 角度
 	D3DXVECTOR2 m_goal_pos;		// 目的地の座標
