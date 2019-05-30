@@ -16,5 +16,5 @@ private:
 
 private:
 	ObjectManager * m_pobj_mng;
-	IDirectSoundBuffer8* m_main_bgm;// = m_paudio.getBuffer("Resource/Sound/BGM/main_bgm.wav");
+	IDirectSoundBuffer8* m_main_bgm;
 };

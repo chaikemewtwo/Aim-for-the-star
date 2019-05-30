@@ -13,6 +13,7 @@ void GameMain::Init() {
 	m_scene_step = UPDATE;
 
 	m_pobj_mng = new ObjectManager;
+
 	m_main_bgm->SetCurrentPosition(0);
 	if (m_main_bgm != nullptr) {
 		m_main_bgm->Play(0, 0, DSBPLAY_LOOPING);
