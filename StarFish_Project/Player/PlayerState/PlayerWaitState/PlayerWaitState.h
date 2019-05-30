@@ -17,7 +17,7 @@ public:
 
 private:
 	// アニメーション1枚を何Fやるか
-	const int ONE_ANIMATION_SPEED = 6;
+	const int ONE_ANIMATION_SPEED = 10;
 
 	// アニメーションの画像枚数
 	const int MAX_ANIMATION_TEX_NUM = 6;

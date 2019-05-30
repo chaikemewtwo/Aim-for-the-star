@@ -14,6 +14,8 @@ void PlayerSwimState::Init(Player* p) {
 
 	// 状態画像変更
 	p->SetPlayerTexture(p->star_texture_name[p->SWIM_TEXTURE]);
+
+	p->swim_enable = true;
 }
 
 

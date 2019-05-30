@@ -32,6 +32,9 @@ private:
 	// 右岩の位置
 	const float RIGHT_ROCK_POS = WINDOW_W - 196.f;
 
+	// 失敗ロゴの位置
+	const D3DXVECTOR2 GAMEOVER_LOGO_POS = D3DXVECTOR2(300.f, -450.f);
+
 	// 自機1
 	Player * p1;
 	// 自機2
@@ -45,5 +48,7 @@ private:
 	bool p1_alive;
 	bool p2_alive;
 
-	float count;
+	bool both_death_enable;
+
+	float failed_count;
 };

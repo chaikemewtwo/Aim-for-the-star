@@ -240,5 +240,7 @@ private:
 	// 仮の移動量（動く前のシュミレーション用）
 	D3DXVECTOR2 m_proto_move;
 
+	bool m_get_damage;
+
 	Map* m_map;
 };
