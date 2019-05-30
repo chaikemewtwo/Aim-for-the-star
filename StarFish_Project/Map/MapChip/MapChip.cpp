@@ -358,6 +358,7 @@ bool Map::IsScrollLimit(float &pos_y1, float &pos_y2) {
 	return true;
 }
 
+
 // 注意!ここで色々初期化している
 void Map::LandOnTheGround() {
 
@@ -390,9 +391,9 @@ void Map::ObjectCreate() {
 	int create_line[2];
 
 	// 上
-	create_line[0] = GetChipCastByPos(-m_pos.y) + CHIP_RANGE_UP;// 18
+	create_line[0] = GetChipCastByPos(-m_pos.y) + CHIP_RANGE_UP + 3;// 18
 	// 下
-	create_line[1] = GetChipCastByPos(-m_pos.y) + CHIP_RANGE_DOWN;// 1
+	create_line[1] = GetChipCastByPos(-m_pos.y) + CHIP_RANGE_DOWN - 3;// 1
 
 	// 生成部分(下から生成していく)
 	for (int y = 0; y < 2; y++) {
@@ -816,12 +817,14 @@ void Map::SetScrollRangeDown(float range) {
 
 void Map::EnemyCreateGather(int x, int y, int chip_num) {
 
+	D3DXVECTOR2 fix_pos(0.f,-148.f);
+
 	// ウニ生成
 	if (chip_num == 100) {
 		// 位置を代入
 		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
 		// 敵生成
-		e_pmng->EnemyCreate(pos, this, m_pbase[0], m_pbase[1], SEAURCHIN);
+		e_pmng->EnemyCreate(pos + fix_pos, this, m_pbase[0], m_pbase[1], SEAURCHIN);
 		// マップチップ記録
 		m_map[m_height_map_num - y][x].m_is_active = true;
 	}
@@ -830,25 +833,25 @@ void Map::EnemyCreateGather(int x, int y, int chip_num) {
 		// 位置を代入
 		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
 		// 敵生成
-		e_pmng->EnemyCreate(pos, this, m_pbase[0], m_pbase[1], NO_MOVE_SEAURCHIN);
+		e_pmng->EnemyCreate(pos + fix_pos, this, m_pbase[0], m_pbase[1], NO_MOVE_SEAURCHIN);
 		// マップチップ記録
 		m_map[m_height_map_num - y][x].m_is_active = true;
 	}
 	// 貝生成
 	else if (chip_num == 102) {
-		// 位置を代入
-		D3DXVECTOR2 pos((float)(CHIP_SIZE * x) + CHIP_SIZE, (CHIP_SIZE * -y) + CHIP_SIZE + 1080 - m_pos.y);
+		// 位置を代入(-12はリセット位置)
+		D3DXVECTOR2 pos((float)(CHIP_SIZE * x) + CHIP_SIZE - 12.f, (CHIP_SIZE * -y) + CHIP_SIZE + 1080 - m_pos.y);
 		// 敵生成
-		e_pmng->EnemyCreate(pos, this, m_pbase[0], m_pbase[1], SELLFISH);
+		e_pmng->EnemyCreate(pos + fix_pos, this, m_pbase[0], m_pbase[1], SELLFISH);
 		// マップチップ記録
 		m_map[m_height_map_num - y][x].m_is_active = true;
 	}
 	// 右下に行くブラインド生成
 	else if (chip_num == 103) {
 		// 位置を代入
-		D3DXVECTOR2 pos((float)(CHIP_SIZE * x) + CHIP_SIZE, (CHIP_SIZE * -y) + CHIP_SIZE + 1080 - m_pos.y);
+		D3DXVECTOR2 pos((float)(CHIP_SIZE * x) + CHIP_SIZE + 600.f, (CHIP_SIZE * -y) + CHIP_SIZE + 1080 - m_pos.y);
 		// ブラインド生成
-		e_pmng->BlindCreate(pos, D3DXVECTOR2(-100, WINDOW_H_F));
+		e_pmng->BlindCreate(pos + fix_pos, D3DXVECTOR2(-100.f,1000.f));
 		// マップチップ記録
 		m_map[m_height_map_num - y][x].m_is_active = true;
 	}

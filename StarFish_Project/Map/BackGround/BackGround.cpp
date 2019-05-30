@@ -163,36 +163,44 @@ void BackGround::Scroll() {
 
 bool BackGround::IsScrollLimit(){
 
+	bool is_scroll = false;
+
 	// 最深部まで来たらスクロールを止める
 	if ((float)((Map::CHIP_SIZE * 18) * m_max_graph_num - 1170) <= m_pos.y) {
 
 		// 位置を戻す
-		m_pmap->SetMapReset(-((float)Map::CHIP_SIZE * 18) * m_max_graph_num - 1170);
+		m_pmap->SetMapReset(-(((float)Map::CHIP_SIZE * 18) * m_max_graph_num - 1170) * m_max_graph_num);
 		// スクロール領域を0にする
-		m_pmap->SetScrollRangeUp(0.f);
+		m_pmap->SetScrollRangeUp(-1000.f);
 		m_pos.y -= 1.f;
 
 		m_is_max_scroll = true; // スクロール最大
 
-		return true;
+		is_scroll = true;
 	}
 	else {
+		// 元の状態に戻す
+		is_scroll = false;
+	}
+
+	if ((float)((Map::CHIP_SIZE * 18) * m_max_graph_num - 900.f) <= m_pos.y) {
+		m_pmap->SetScrollRangeUp(Map::SCROLL_RANGE_UP);
 		m_pmap->SetIsScroll(true);
-		return false;
+		is_scroll = false;
 	}
 
 	// 背景のスクロール制限
 	// 上
 	if (-m_pmap->GetPos().y > 0.f) {
-		return false;
+		is_scroll = false;
 	}
 	// 下
 	else if (-m_pmap->GetPos().y <= 0.f) {
-		return true;
+		is_scroll = true;
 	}
 
 	// スクロール制限しない
-	return false;
+	return is_scroll;
 }
 
 
