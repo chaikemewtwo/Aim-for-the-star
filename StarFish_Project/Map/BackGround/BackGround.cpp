@@ -13,7 +13,8 @@ BackGround::BackGround(
 	Map*map,
 	SortObject sort_num,
 	float graph_scale_x,
-	float graph_scale_y) {
+	float graph_scale_y,
+	bool scroll_limit) {
 
 
 	m_sort_object = sort_num;		                 // ソート番号代入
@@ -35,6 +36,7 @@ BackGround::BackGround(
 
 	m_move.x = m_move.y = 0.f;		                 // 自機の移動初期化
 	m_is_max_scroll = false;                           // スクロール最大
+	m_is_scroll_limit = scroll_limit;
 
 	// 遷移スクロール位置のポインタを入れる。
 	m_pmap = map;
@@ -161,7 +163,26 @@ void BackGround::Scroll() {
 }
 
 
-bool BackGround::IsScrollLimit(){
+bool BackGround::IsDownScrollLimit(){
+
+	bool is_scroll = false;
+
+	// 背景のスクロール制限
+	// 上
+	if (-m_pmap->GetPos().y > 0.f) {
+		is_scroll = false;
+	}
+	// 下
+	else if (-m_pmap->GetPos().y <= 0.f) {
+		is_scroll = true;
+	}
+
+	// スクロール制限しない
+	return is_scroll;
+}
+
+
+bool BackGround::IsUpScrollLimit() {
 
 	bool is_scroll = false;
 
@@ -171,7 +192,7 @@ bool BackGround::IsScrollLimit(){
 		// 位置を戻す
 		m_pmap->SetMapReset(-(((float)Map::CHIP_SIZE * 18) * m_max_graph_num - 1170) * m_max_graph_num);
 		// スクロール領域を0にする
-		m_pmap->SetScrollRangeUp(-1000.f);
+		m_pmap->SetScrollRangeUp(0.f);
 		m_pos.y -= 1.f;
 
 		m_is_max_scroll = true; // スクロール最大
@@ -189,25 +210,18 @@ bool BackGround::IsScrollLimit(){
 		is_scroll = false;
 	}
 
-	// 背景のスクロール制限
-	// 上
-	if (-m_pmap->GetPos().y > 0.f) {
-		is_scroll = false;
-	}
-	// 下
-	else if (-m_pmap->GetPos().y <= 0.f) {
-		is_scroll = true;
-	}
-
-	// スクロール制限しない
 	return is_scroll;
 }
 
 
 void BackGround::PosAdd() {
 
+	bool is_limit = false;
+
+	is_limit = IsUpScrollLimit();
+
 	// 上下だけ加算
-	if (IsScrollLimit() == false) {
+	if (IsDownScrollLimit() == false && is_limit == false) {
 		m_pos.y += m_move.y;
 	}
 }
@@ -216,9 +230,8 @@ void BackGround::PosAdd() {
 void BackGround::MoveAdd() {
 
 	// プレイヤーの4分の１の速度にする
-	if (IsScrollLimit() == false) {
-		m_move = m_pmap->GetMovePos() / 3;// 反対方向に行くので-変換
-	}
+	m_move = m_pmap->GetMovePos() / 3;// 反対方向に行くので-変換
+	
 }
 
 

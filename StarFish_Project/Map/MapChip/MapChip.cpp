@@ -436,9 +436,9 @@ void Map::ObjectDestory() {
 	int destory_line[2];
 
 	// 上
-	destory_line[0] = GetChipCastByPos(-m_pos.y) + CHIP_RANGE_UP + 1;
+	destory_line[0] = GetChipCastByPos(-m_pos.y) + CHIP_RANGE_UP + 4;
 	// 下
-	destory_line[1] = GetChipCastByPos(-m_pos.y) + CHIP_RANGE_DOWN - 2;
+	destory_line[1] = GetChipCastByPos(-m_pos.y) + CHIP_RANGE_DOWN - 4;
 
 	
 	// 生成部分(下から生成していく)
