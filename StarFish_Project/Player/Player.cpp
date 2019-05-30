@@ -171,12 +171,12 @@ void Player::SwimUp() {
 
 // 自機と敵との当たり判定後の処理(点滅処理へ移行)
 void  Player::HitAction(Type type) {
-	// HACK:HitActionは毎フレーム実行されるので注意
+	// HACK:HitActionは毎フレーム実行されるので注意、無敵できてない
 	if (type == ENEMY && invisible_count < 200) {
 		// 数値は仮実装
 		// 無敵時間
 		invisible_count = 200;
-		m_stamina -= 300;
+		m_stamina -= 25;
 		GetDamageTimer();
 	}
 }
