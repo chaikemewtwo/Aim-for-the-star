@@ -18,7 +18,8 @@ public:
 		const std::string&file_name,
 		Map*map,SortObject sort_num,
 		float graph_scale_x = -50.f,
-		float graph_scale_y = 0.f);
+		float graph_scale_y = 0.f,
+	bool scroll_limit = true);
 
 	void Update();
 	void Draw();
@@ -38,7 +39,8 @@ private:
 	void BGLoad(const std::string&file_name); // 背景の読み込み
 	void Scroll();                            // 背景スクロール
 	void PosAdd();                            // 位置更新
-	bool IsScrollLimit();                     // スクロール制限
+	bool IsDownScrollLimit();                 // スクロール制限下
+	bool IsUpScrollLimit();                   // スクロール制限上
 
 private:
 
@@ -58,6 +60,7 @@ private:
 	float m_h_graph_difference;               // 高さの背景画像の端数
 	float m_w_graph_difference;				  // 横の背景画像の端数
 	bool m_is_max_scroll;                       // スクロール位置の最大値
+	bool m_is_scroll_limit;
 
 	/* マップインスタンス */
 	Map *m_pmap;
