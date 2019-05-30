@@ -34,6 +34,9 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	m_move.x = 0.f;
 	m_move.y = 0.f;
 
+	m_proto_move.x = 0.f;
+	m_proto_move.y = 0.f;
+
 	// 状態推移初期化
 	m_state->Init(this);
 
@@ -93,12 +96,13 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 
 
 void Player::Update() {
+
 	// 移動量を初期化（マップの当たり判定で必要）
 	m_move.x = 0.f;
 	m_move.y = 0.f;
 
 	// スタミナ自動回復
-	if (m_stamina < MAX_STAMINA && m_is_alive == true) {
+	if (m_stamina < MAX_STAMINA && m_is_alive == true && swim_enable == false){
 		++m_stamina;
 	}
 	if(m_is_alive == true && m_stamina <= 0){
@@ -167,6 +171,7 @@ void Player::SwimUp() {
 
 // 自機と敵との当たり判定後の処理(点滅処理へ移行)
 void  Player::HitAction(Type type) {
+	// HACK:HitActionは毎フレーム実行されるので注意
 	if (type == ENEMY && invisible_count < 200) {
 		// 数値は仮実装
 		// 無敵時間

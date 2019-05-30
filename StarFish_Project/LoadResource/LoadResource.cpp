@@ -116,6 +116,8 @@ void Resource::LoadResource() {
 	Texture::Load("Resource/Texture/UI/ui_vio.png");
 	// 橙バー
 	Texture::Load("Resource/Texture/UI/ui_ora.png");
+	// 赤バー
+	Texture::Load("Resource/Texture/UI/ui_red.png");
 
 	// しっぱいロゴ
 	Texture::Load("Resource/Texture/UI/over_logo.png");
