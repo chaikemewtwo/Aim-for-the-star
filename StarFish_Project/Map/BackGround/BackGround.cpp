@@ -192,7 +192,7 @@ bool BackGround::IsUpScrollLimit() {
 		// 位置を戻す
 		m_pmap->SetMapReset(-(((float)Map::CHIP_SIZE * 18) * m_max_graph_num - 1170) * m_max_graph_num);
 		// スクロール領域を0にする
-		m_pmap->SetScrollRangeUp(-1000.f);
+		m_pmap->SetScrollRangeUp(0.f);
 		m_pos.y -= 1.f;
 
 		m_is_max_scroll = true; // スクロール最大
