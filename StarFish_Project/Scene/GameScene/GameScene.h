@@ -2,7 +2,6 @@
 
 #include"../SceneBase.h"
 #include"../../GameObject/ObjectManager/ObjectManager.h"
-#include"../../Player/Player.h"
 
 
 class GameMain :public SceneBase {
@@ -17,4 +16,5 @@ private:
 
 private:
 	ObjectManager * m_pobj_mng;
+	IDirectSoundBuffer8* m_main_bgm;
 };

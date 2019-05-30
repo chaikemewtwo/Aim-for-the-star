@@ -120,4 +120,5 @@ private:
 	Rope * m_prope;               // ロープ
 	EnemyManager *m_pe_mng;       // 敵管理クラス
 	CollisionManager *m_pcol_mng; // 衝突管理クラス
+
 };

@@ -34,6 +34,7 @@ ObjectManager::ObjectManager(){
 	Entry(m_pplayer[0]);
 	Entry(m_pplayer[1]);
 	Entry(m_pui);
+	
 }
 
 
