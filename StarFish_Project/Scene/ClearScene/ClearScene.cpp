@@ -19,6 +19,10 @@ Clear::Clear() {
 	m_background_texture_list[SEA_TEXTURE] = "Resource/Texture/Map/bg_clear_01.png";
 	m_background_texture_list[SKY_TEXTURE] = "Resource/Texture/Map/bg_clear_02.png";
 	m_background_texture_list[MOON_TEXTURE] = "Resource/Texture/Map/bg_clear_03.png";
+
+	// サウンドの登録
+	m_fly_sound = m_paudio.getBuffer("Resource/Sound/Clear/player_fly.wav");
+	m_effect_sound = m_paudio.getBuffer("Resource/Sound/Clear/clear_effect.wav");
 }
 //――――――――――――――――――――――――――――――――
 
@@ -73,14 +77,23 @@ void Clear::Init() {
 
 void Clear::Update() {
 
-	// プレイヤーの移動
 	if (m_player1_pos.y >= 750 && m_player2_pos.y >= 750) {
+		// プレイヤーの移動
 		PlayerMove();
 	}
 
-	// 背景の移動
 	if (m_is_background_move == true) {
+
+		// 移動時のサウンド再生
+		m_fly_sound->Play(0, 0, 0);
+
+		// 背景の移動
 		BackGroundMove();
+	}
+
+	// エフェクトが始まるタイミングでSE再生
+	if (m_player_animation_num == 6 && m_player_animation_finish == true) {
+		m_effect_sound->Play(0, 0, 0);
 	}
 
 	// UIを描画サイズまで徐々に大きくする 

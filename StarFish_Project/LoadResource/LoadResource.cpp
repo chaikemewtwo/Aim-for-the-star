@@ -149,6 +149,10 @@ void Resource::LoadResource() {
 	audio.load({ "Resource/Sound/Player/swim1.wav",
 		"Resource/Sound/Player/ko1.wav" });
 
+	// クリアシーンのSE
+	audio.load({ "Resource/Sound/Clear/clear_effect.wav",
+		"Resource/Sound/Clear/player_fly.wav" });
+
 	// BGM
 	audio.load({ "Resource/Sound/BGM/main_bgm.wav",
 		"Resource/Sound/BGM/title_bgm.wav" });
