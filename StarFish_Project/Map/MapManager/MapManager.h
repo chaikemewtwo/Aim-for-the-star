@@ -24,6 +24,8 @@ public:
 
 	// 後の更新と描画
 	Map GetMapInstance()const;
+	float GetMaxMapPos()const;
+	bool IsMaxMapRange()const;// マップが最大値になったら返す
 
 private:
 

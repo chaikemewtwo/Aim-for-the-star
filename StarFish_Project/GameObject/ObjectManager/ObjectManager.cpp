@@ -29,14 +29,11 @@ ObjectManager::ObjectManager(){
 	// 当たり判定管理生成
 	m_pcol_mng = new CollisionManager(m_pplayer[0], m_pplayer[1], m_pe_mng);
 
-
-
 	// オブジェクト登録
 	Entry(m_prope);
 	Entry(m_pplayer[0]);
 	Entry(m_pplayer[1]);
 	Entry(m_pui);
-	
 }
 
 
@@ -56,7 +53,6 @@ void ObjectManager::Update() {
 
 	// 当たり判定
 	m_pcol_mng->Collision();
-
 }
 
 
@@ -86,8 +82,8 @@ void ObjectManager::DrawObjSort(){
 
 	// 昇順ソートを行う
 	std::sort(m_draw_obj_list.begin(), m_draw_obj_list.end(),
-		[](const Object*x, const Object*y) {
-		return x->GetSortNum() < y->GetSortNum();
+		[](const Object*obj1, const Object*obj2) {
+		return obj1->GetSortNum() < obj2->GetSortNum();
 	});
 }
 
@@ -139,8 +135,8 @@ void ObjectManager::Entry(Object*obj) {
 
 	// Objectの最新のidをセット
 	m_obj_list.at(create_id)->SetId(create_id);
-
 }
+
 
 void ObjectManager::Exit(unsigned int id) {
 
@@ -151,3 +147,15 @@ void ObjectManager::Exit(unsigned int id) {
 	m_obj_list.erase(id);
 }
 
+
+bool ObjectManager::IsClear()const{
+	
+	// マップの背景とチップが最大で、かつ自機の位置が200.fよりも少ない(上)のとき
+	if (m_pm_mng->IsMaxMapRange() == true && m_pplayer[0]->GetPos().y <= 200.f ||
+		m_pm_mng->IsMaxMapRange() == true && m_pplayer[1]->GetPos().y <= 200.f) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}

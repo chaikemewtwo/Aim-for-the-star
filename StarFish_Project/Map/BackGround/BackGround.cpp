@@ -15,9 +15,10 @@ BackGround::BackGround(
 	float graph_scale_x,
 	float graph_scale_y) {
 
+
 	m_sort_object = sort_num;		                 // ソート番号代入
 	m_pos.x = m_pos.y = 0.f;		                 // 位置初期化
-	max_graph_num = 0;				                 // 画像数初期化
+	m_max_graph_num = 0;				             // 画像数初期化
 	m_h_difference = 
 		(int)(WINDOW_H_F - graph_scale_y) / 2;       // 画像の縦端数初期化
 	m_w_difference =
@@ -33,6 +34,7 @@ BackGround::BackGround(
 	m_pos.y = ((WINDOW_H_F + m_h_graph_difference) - graph_scale_y) / 2;		 // 最初の背景の位置y
 
 	m_move.x = m_move.y = 0.f;		                 // 自機の移動初期化
+	m_is_max_scroll = false;                           // スクロール最大
 
 	// 遷移スクロール位置のポインタを入れる。
 	m_pmap = map;
@@ -56,13 +58,13 @@ void BackGround::Draw(){
 	// m_graph_differenceで端数分横の位置をずらして描画している
 
 	// 1枚目描画
-		Texture::Draw2D(m_pback_str[m_connect1_graph % max_graph_num],
+		Texture::Draw2D(m_pback_str[m_connect1_graph % m_max_graph_num],
 			(float)m_w_difference,
 			(m_pos.y + (float)((-WINDOW_H_F - m_h_graph_difference) * m_connect1_graph) + (float)m_h_difference)
 		);
 		
 	// 2枚目描画
-		Texture::Draw2D(m_pback_str[m_connect2_graph % max_graph_num],
+		Texture::Draw2D(m_pback_str[m_connect2_graph % m_max_graph_num],
 			(float)m_w_difference,
 			(m_pos.y + (float)((-WINDOW_H_F - m_h_graph_difference) * m_connect2_graph) + (float)m_h_difference)// +10.f
 		);
@@ -88,7 +90,7 @@ void BackGround::BGLoad(const std::string&file_name) {
 	// 文字列読み込み、改行まで
 	while (fgets(str_load_buf[h], 256, fp) != NULL) {
 
-		if (str_load_buf[h][strlen(str_load_buf[h]) - 1] == '\n') {
+		if (str_load_buf[h][strlen(str_load_buf[h]) - 1] == '\n'){
 			str_load_buf[h][strlen(str_load_buf[h]) - 1] = NULL;
 		}
 
@@ -99,7 +101,7 @@ void BackGround::BGLoad(const std::string&file_name) {
 		h++;
 
 		// 画像数加算
-		max_graph_num++;
+		m_max_graph_num++;
 	}
 
 	// ファイルを閉じる
@@ -113,7 +115,6 @@ void BackGround::Scroll() {
 
 
 	// 画面遷移基準
-
 	const int GRAPH_SIZE_H =      static_cast<int>(WINDOW_H_INT + m_h_graph_difference);
 	const int CHANGE_RANGE_UP =   static_cast<int>(-m_pos.y - BG_CHANGE_LINE);
 	const int CHANGE_RANGE_DOWN = static_cast<int>(-m_pos.y + GRAPH_SIZE_H - GRAPH_DIFFERENCE + BG_CHANGE_LINE);
@@ -163,18 +164,31 @@ void BackGround::Scroll() {
 bool BackGround::IsScrollLimit(){
 
 	// 最深部まで来たらスクロールを止める
-	if (((float)(Map::CHIP_SIZE * 18) * max_graph_num) - 1080.f <= m_pos.y) {
+	if ((float)((Map::CHIP_SIZE * 18) * m_max_graph_num - 1170) <= m_pos.y) {
+
+		// 位置を戻す
+		m_pmap->SetMapReset(-((float)Map::CHIP_SIZE * 18) * m_max_graph_num - 1170);
+		// スクロール領域を0にする
+		m_pmap->SetScrollRangeUp(0.f);
+		m_pos.y -= 1.f;
+
+		m_is_max_scroll = true; // スクロール最大
+
 		return true;
+	}
+	else {
+		m_pmap->SetIsScroll(true);
+		return false;
 	}
 
 	// 背景のスクロール制限
 	// 上
 	if (-m_pmap->GetPos().y > 0.f) {
-		return true;
+		return false;
 	}
 	// 下
 	else if (-m_pmap->GetPos().y <= 0.f) {
-		return false;
+		return true;
 	}
 
 	// スクロール制限しない
@@ -185,7 +199,7 @@ bool BackGround::IsScrollLimit(){
 void BackGround::PosAdd() {
 
 	// 上下だけ加算
-	if (IsScrollLimit() == true) {
+	if (IsScrollLimit() == false) {
 		m_pos.y += m_move.y;
 	}
 }
@@ -194,10 +208,21 @@ void BackGround::PosAdd() {
 void BackGround::MoveAdd() {
 
 	// プレイヤーの4分の１の速度にする
-	m_move = m_pmap->GetMovePos() / 3;// 反対方向に行くので-変換
+	if (IsScrollLimit() == false) {
+		m_move = m_pmap->GetMovePos() / 3;// 反対方向に行くので-変換
+	}
 }
 
 
+float BackGround::GetMaxMapPos()const{
+	// 背景サイズを一つ足す
+	return (((Map::CHIP_SIZE * 18.f) + 1180.f) * m_max_graph_num);
+}
+
+
+bool BackGround::IsMaxScroll()const{
+	return m_is_max_scroll;
+}
 
 
 // 端数分GRAPH_DIFFERENCEでずらす
