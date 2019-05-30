@@ -61,9 +61,11 @@ void EnemyManager::EnemyCreate(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2
 
 void EnemyManager::BlindCreate(D3DXVECTOR2 pos, D3DXVECTOR2 goal) {
 
-		// Objectに登録時にブラインド用変数に代入、その後にブラインドを生成
-		m_pobj_mng->Entry(m_pblind = new Blind);
-		m_pblind->Create(pos, goal);
+	// Objectに登録時にブラインド用変数に代入、その後にブラインドを生成
+	m_pobj_mng->Entry(m_pblind = new Blind);
+	m_pblind->Create(pos, goal);
+	//m_pblind = new Blind(pos, goal);
+	//m_pobj_mng->Entry(m_pblind);
 }
 //―――――――――――――――――――――――――――
 

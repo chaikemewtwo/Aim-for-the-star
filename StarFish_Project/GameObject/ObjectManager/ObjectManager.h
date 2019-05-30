@@ -80,6 +80,7 @@ enum SortObject {
 	ENEMY,
 	BG_AFTER,
 	GAME_UI,
+	BLIND,
 	MAX,
 };
 

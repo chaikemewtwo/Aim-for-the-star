@@ -56,7 +56,6 @@ protected:
 	// 2体のプレイヤーの、自身とより近い距離を返す
 	virtual D3DXVECTOR2 CalcDistance();
 
-
 protected:
 	int m_power;				// 攻撃力
 	int m_delete_timer;			// 削除用タイマー
