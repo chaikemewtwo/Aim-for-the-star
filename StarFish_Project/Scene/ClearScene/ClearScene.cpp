@@ -41,11 +41,9 @@ void Clear::Init() {
 	m_background1_pos = D3DXVECTOR2(0, (WINDOW_H_F-BACKGROUND_TEXTURE_SIZE_Y));
 	m_background2_pos = D3DXVECTOR2(0,m_background1_pos.y-BACKGROUND_TEXTURE_SIZE_Y);
 
-	m_scene_change_time = 150;
+	// 遷移用の変数初期化
+	m_scene_change_time = 200;
 	m_scene_change_count_timer = 0;
-	m_clear_ui_size = 0;
-	m_clear_ui_size_chnage_speed = 0.025f;
-	m_is_clear_ui_size_max = false;
 
 	// プレイヤーの変数初期化
 	m_player_animation_finish = false;
@@ -64,8 +62,12 @@ void Clear::Init() {
 	m_effect_animation_max = 13;
 	m_effect_animation_timer = 0;
 	m_effect_animation_change_time = 7;
-	m_effect_lag_time = 40;
-	m_effect_lag_count = 0;
+
+	// UIの変数初期化
+	m_clear_ui_pos = D3DXVECTOR2((WINDOW_W_F / 2), (m_player1_pos.y - 500));
+	m_clear_ui_size = 0;
+	m_clear_ui_size_chnage_speed = 0.025f;
+	m_is_clear_ui_size_max = false;
 }
 //――――――――――――――――――――――――――――――――
 
@@ -73,64 +75,34 @@ void Clear::Update() {
 
 	// プレイヤーの移動
 	if (m_player1_pos.y >= 750 && m_player2_pos.y >= 750) {
-
-		m_player1_pos.y -= m_player_move_speed;
-		m_player2_pos.y -= m_player_move_speed;
-
-		if (m_player1_pos.y <= 950 && m_player2_pos.y <= 950) {
-
-			m_is_background_move = true;
-			m_player_move_speed -= 0.01f;
-		}
+		PlayerMove();
 	}
-	
+
 	// 背景の移動
-	if (m_is_background_move) {
-
-		m_background1_pos.y += m_background_move_speed;
-		m_background2_pos.y += m_background_move_speed;
-
-		// 1枚目が描画し終わったら、3枚目の画像を入れる
-		if (m_background1_pos.y >= BACKGROUND_TEXTURE_SIZE_Y) {
-
-			m_background_texture1 = m_background_texture_list[MOON_TEXTURE];
-			m_background1_pos.y = m_background2_pos.y-BACKGROUND_TEXTURE_SIZE_Y;
-		}
-		// 2枚目を描画し終わったら移動を止める
-		else if (m_background2_pos.y >= BACKGROUND_TEXTURE_SIZE_Y) {
-			m_is_background_move = false;
-		}
+	if (m_is_background_move == true) {
+		BackGroundMove();
 	}
 
-	// エフェクトの再生後、時間経過でタイトルに遷移
-	//if (m_effect_animation_num >= m_effect_animation_max) {
-	//	if (m_scene_change_time <= m_scene_change_count_timer) {
-	//		m_scene_step = END;
-	//		m_scene_id = TITLE;
-	//	}
-	//	else {
-	//		m_scene_change_count_timer++;
-	//	}
-	//}
+	// UIを描画サイズまで徐々に大きくする 
+	ClearUiSizeChange();
 
-	// エフェクトのラグが終われば、UIを描画サイズまで徐々に大きくする 
-	if (m_player_animation_finish == true && m_is_clear_ui_size_max == false && m_player_animation_num >= 6 && m_clear_ui_size <= 1) {
-		m_clear_ui_size += m_clear_ui_size_chnage_speed;
-		if (m_clear_ui_size >= 1) {
-			m_is_clear_ui_size_max = true;
-			m_clear_ui_size_chnage_speed = 0.001f;
+	// 時間経過でタイトルに遷移
+	if (m_player_animation_num >= (m_player_animation_max - 1)) {
+
+		if (m_scene_change_time <= m_scene_change_count_timer) {
+
+			m_scene_step = END;
+			m_scene_id = TITLE;
 		}
-	}
-	else if (m_is_clear_ui_size_max == true) {
-		m_clear_ui_size -= m_clear_ui_size_chnage_speed;
-		if (m_clear_ui_size <= 0.9) {
-			m_is_clear_ui_size_max = false;
+		else {
+			m_scene_change_count_timer++;
 		}
 	}
 
 
 	// デバック用　クリア→タイトル
 	if (m_pkey_bord.press(VK_SPACE)) {
+
 		m_scene_step = END;
 		m_scene_id = TITLE;
 	}
@@ -149,8 +121,10 @@ void Clear::Draw() {
 		m_background2_pos.x, m_background2_pos.y
 	);
 
-	// エフェクトの描画
+	
 	if (m_player_animation_num >= 6 && m_player_animation_finish == true) {
+
+		// エフェクトの描画
 		Texture::Draw2D(
 			m_clear_effect.c_str(),
 			m_player1_pos.x, m_player1_pos.y,
@@ -167,6 +141,7 @@ void Clear::Draw() {
 		);
 		EffectAnimation();
 
+		// せいこうUIの描画
 		Texture::Draw2D(
 			m_clear_ui_texture.c_str(),
 			WINDOW_W_F / 2, m_player1_pos.y - 500,
@@ -193,10 +168,64 @@ void Clear::Draw() {
 }
 //―――――――――――――――――――――――――――――――――
 
+void Clear::PlayerMove() {
+
+		m_player1_pos.y -= m_player_move_speed;
+		m_player2_pos.y -= m_player_move_speed;
+
+		// 一定の位置で背景を動かす、プレイヤーの移動速度を減少
+		if (m_player1_pos.y <= 950 && m_player2_pos.y <= 950) {
+
+			m_is_background_move = true;
+			m_player_move_speed -= 0.01f;
+		}
+}
+//―――――――――――――――――――――――――――――――――
+
+void Clear::BackGroundMove() {
+
+	m_background1_pos.y += m_background_move_speed;
+	m_background2_pos.y += m_background_move_speed;
+
+	// 1枚目が描画し終わったら、3枚目の画像を入れる
+	if (m_background1_pos.y >= BACKGROUND_TEXTURE_SIZE_Y) {
+
+		m_background_texture1 = m_background_texture_list[MOON_TEXTURE];
+		m_background1_pos.y = m_background2_pos.y - BACKGROUND_TEXTURE_SIZE_Y;
+	}
+	// 2枚目を描画し終わったら移動を止める
+	else if (m_background2_pos.y >= BACKGROUND_TEXTURE_SIZE_Y) {
+		m_is_background_move = false;
+	}
+}
+//―――――――――――――――――――――――――――――――――
+
+void Clear::ClearUiSizeChange() {
+
+	if (m_player_animation_finish == true && m_player_animation_num >= 6 && m_is_clear_ui_size_max == false && m_clear_ui_size <= 1) {
+
+		m_clear_ui_size += m_clear_ui_size_chnage_speed;
+		// 描画サイズまで達したら、サイズ変更の値を小さくする
+		if (m_clear_ui_size >= 1) {
+
+			m_is_clear_ui_size_max = true;
+			m_clear_ui_size_chnage_speed = 0.001f;
+		}
+	}
+	else if (m_is_clear_ui_size_max == true) {
+
+		m_clear_ui_size -= m_clear_ui_size_chnage_speed;
+		if (m_clear_ui_size <= 0.9) {
+			m_is_clear_ui_size_max = false;
+		}
+	}
+}
+//―――――――――――――――――――――――――――――――――
+
 void Clear::PlayerAnimation() {
 
-	// アニメーションが回り切っていたら
-	if (m_player_animation_finish == true && m_player_animation_num == 15) {
+	// アニメーションが回り切っていたら最後の画像で固定
+	if (m_player_animation_finish == true && m_player_animation_num == (m_player_animation_max - 1)) {
 		m_player_animation_num = 15;
 	}
 	// 回り切っていなければアニメーションする
@@ -227,8 +256,10 @@ void Clear::PlayerAnimation() {
 //―――――――――――――――――――――――――――――――――
 
 void Clear::EffectAnimation() {
-
+	
+	// エフェクトのアニメーションを繰り返す処理
 	if (m_effect_animation_timer >= m_effect_animation_change_time) {
+
 		m_effect_animation_timer = 0;
 		m_effect_animation_num++;
 		if (m_effect_animation_num >= m_effect_animation_max) {

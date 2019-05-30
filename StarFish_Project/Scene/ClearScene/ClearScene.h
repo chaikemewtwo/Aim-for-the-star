@@ -15,7 +15,7 @@ private:
 		SEA_TEXTURE,
 		SKY_TEXTURE,
 		MOON_TEXTURE,
-		BG_TEXTURE_MAX
+		BACKGROUND_TEXTURE_MAX
 	};
 
 	enum PlayerClearTex {
@@ -35,6 +35,10 @@ private:
 	void EffectAnimation();
 
 private:
+	void PlayerMove();
+	void BackGroundMove();
+	void ClearUiSizeChange();
+	
 	int m_scene_change_count_timer;		// 遷移までの時間カウント用
 	int m_scene_change_time;			// 遷移用の時間
 
@@ -66,7 +70,7 @@ private:
 	// 画像用変数と画像リスト
 	std::string m_background_texture1;
 	std::string m_background_texture2;
-	std::string m_background_texture_list[BG_TEXTURE_MAX];
+	std::string m_background_texture_list[BACKGROUND_TEXTURE_MAX];
 
 	const float BACKGROUND_TEXTURE_SIZE_Y = 1180;	// 背景画像のｙ軸のサイズ
 
@@ -75,8 +79,6 @@ private:
 	int m_effect_animation_max;			// アニメション数
 	float m_effect_animation_timer;		// アニメーションの時間カウント用
 	float m_effect_animation_change_time;// アニメーションの遷移時間
-	float m_effect_lag_time;			// アニメーションのラグタイム
-	float m_effect_lag_count;			// アニメーションのラグカウント用
 
 	const int EFFECT_TEXTURE_PARTITION_NUM = 4;		// エフェクトの画像分割数
 
@@ -84,8 +86,11 @@ private:
 	const std::string m_clear_effect = "Resource/Texture/Effect/crear_eff.png";
 
 	//　成功UI　//
-	float m_clear_ui_size;
-	float m_clear_ui_size_chnage_speed;
-	bool m_is_clear_ui_size_max;
+	D3DXVECTOR2 m_clear_ui_pos;			// 座標
+	float m_clear_ui_size;				// サイズ
+	float m_clear_ui_size_chnage_speed;	// サイズ変更の速度
+	bool m_is_clear_ui_size_max;		// 描画サイズが本来のサイズかどうか
+
+	// UIの登録
 	const std::string m_clear_ui_texture = "Resource/Texture/UI/clear_logo.png";
 };
