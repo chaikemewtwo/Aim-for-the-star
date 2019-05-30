@@ -114,7 +114,7 @@ void Clear::Update() {
 
 
 	// デバック用　クリア→タイトル
-	if (m_pkey_bord.press(VK_SPACE)) {
+	if (m_pkey_bord.press(VK_F1)) {
 
 		m_scene_step = END;
 		m_scene_id = TITLE;

@@ -26,20 +26,21 @@ void GameMain::Update() {
 	m_pobj_mng->Update();	
 
 	// デバック用のクリア・ゲームオーバー確認コマンド
-	//if (m_pkey_bord.press(VK_F1)) {
+	//if (m_pkey_bord.press(VK_F2)) {
 	//	m_pobj_mng->IsGameover(true);
 	//}
-	//else if (m_pkey_bord.press(VK_F2)) {
+	//else if (m_pkey_bord.press(VK_F3)) {
 	//	m_pobj_mng->IsClear(true);
 	//}
-	//
-	//if (m_pobj_mng->ClearEnable() == true) {
-	//
-	//	m_main_bgm->Stop();
-	//	m_scene_step = END;
-	//	m_scene_id = CLEAR;
-	//}
-	//else if (m_pobj_mng->GameOverEnable() == true) {
+	
+
+	if (m_pobj_mng->IsClear() == true) {
+	
+		m_main_bgm->Stop();
+		m_scene_step = END;
+		m_scene_id = CLEAR;
+	}
+	//else if () {
 	//
 	//	m_main_bgm->Stop();
 	//	m_scene_step = END;
@@ -47,7 +48,7 @@ void GameMain::Update() {
 	//}
 
 	// デバック用　ゲームシーン→クリア
-	if (m_pkey_bord.press(VK_SPACE)) {
+	if (m_pkey_bord.press(VK_F1)) {
 
 		m_main_bgm->Stop();
 		m_scene_step = END;

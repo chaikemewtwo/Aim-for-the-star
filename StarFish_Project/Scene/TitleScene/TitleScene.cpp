@@ -51,7 +51,7 @@ void Title::Update() {
 	}
 	
 	// デバック用　タイトル→ゲームメイン
-	if(m_pkey_bord.press(VK_SPACE)) {
+	if(m_pkey_bord.press(VK_F1)) {
 
 		m_title_bgm->Stop();
 		m_scene_step = END;
