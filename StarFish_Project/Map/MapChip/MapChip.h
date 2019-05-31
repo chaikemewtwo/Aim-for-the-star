@@ -100,7 +100,7 @@ private:
 
 	int Scroll(float&pos_y,float&move_y,float up_range,float down_range);
 	// スクロールしてもいいかどうか
-	bool IsScrollLimit(float &pos_y1, float &pos_y2);
+	bool IsScrollLimit(float &pos_y1, float &pos_y2,D3DXVECTOR2&move1, D3DXVECTOR2&move2);
 	// 地面に着地する点
 	void LandOnTheGround();
 

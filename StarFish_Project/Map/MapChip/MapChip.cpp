@@ -43,12 +43,16 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 	// 自機の参照受け取り
 	m_pbase[0] = star1;
 	m_pbase[1] = star2;
+
 	// 敵の参照受け取り
 	e_pmng = e_mng;
+
 	// マップ座標初期化
+
 	// m_pos = マップ座標として作る
 	m_pos.x = INIT_MAP_POS_X;
 	m_pos.y = INIT_MAP_POS_Y;// 画面上まで
+
 	// マップ座標移動座標初期化
 	m_move_pos.x = 0.f;
 	m_move_pos.y = 0.f;
@@ -140,6 +144,7 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 	}
 }
 
+
 void Map::Load(const std::string&file_name) {
 
 	// fgets行の終端の改行文字まで読み込み
@@ -220,12 +225,12 @@ void Map::Update() {
 	}
 
 	// スクロールしてもいいかの判定
-	//bool is_scroll = IsScrollLimit(m_player_pos[0].y, m_player_pos[1].y);
+	bool is_scroll = IsScrollLimit(m_player_pos[0].y, m_player_pos[1].y,m_player_move_pos[0],m_player_move_pos[1]);
 
 	for (int i = 0; i < 2; i++) {
 
 		// スクロールしてもいいかどうか
-		if (IsScroll() == true) {
+		if (IsScroll() == true && is_scroll == true) {
 			Scroll(m_player_pos[i].y, m_player_move_pos[i].y, m_scroll_range_up, m_scroll_range_down);
 		}
 	}
@@ -329,10 +334,11 @@ int Map::Scroll(float&pos_y, float&move_y, float up_range, float down_range) {
 
 
 // スクロールが上下行われているなら
-bool Map::IsScrollLimit(float &pos_y1, float &pos_y2) {
+bool Map::IsScrollLimit(float &pos_y1, float &pos_y2,D3DXVECTOR2&move1,D3DXVECTOR2&move2) {
 
 	// 自機1が上、自機2が下の場合スクロール停止
-	if (pos_y1 <= m_scroll_range_up + 60 && m_scroll_range_down <= pos_y2){
+	if (pos_y1 <= m_scroll_range_up && m_scroll_range_down <= pos_y2
+		&& m_is_wall_col == true){// 60
 		// 位置を補正
 		if (pos_y1 <= m_scroll_range_up){
 			pos_y1 = m_scroll_range_up;
@@ -340,11 +346,15 @@ bool Map::IsScrollLimit(float &pos_y1, float &pos_y2) {
 		if (pos_y2 >= m_scroll_range_down){
 			pos_y2 = m_scroll_range_down;
 		}
+		move1.x = move1.y = 0.f;
+		move2.x = move2.y = 0.f;
+
  		return false;
 	}
 
 	// 自機1が下,自機2が上の場合スクロール停止
-	else if (pos_y2 <= m_scroll_range_up + 60 && m_scroll_range_down <= pos_y1){
+	else if (pos_y2 <= m_scroll_range_up + 60 && m_scroll_range_down <= pos_y1 &&
+		m_is_wall_col == true){
 
 		if (pos_y2 <= m_scroll_range_up){
 			pos_y2 = m_scroll_range_up;
