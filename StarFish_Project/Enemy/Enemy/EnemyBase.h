@@ -47,7 +47,6 @@ public:
 		return ENEMY;
 	}
 
-
 protected:
 	// 画面外に出たらm_is_activをfalseにする関数
 	virtual void OutScreenCheck();

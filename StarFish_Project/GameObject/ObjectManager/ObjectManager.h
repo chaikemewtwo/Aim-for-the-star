@@ -101,6 +101,7 @@ public:
 	void Exit(unsigned int id);
 	// クリアフラグを返す
 	bool IsClear()const;
+	bool IsGameOver()const;
 
 private:
 
@@ -111,8 +112,7 @@ private:
 	std::unordered_map<unsigned int,Object*>m_obj_list;// オブジェクト管理クラス(更新時にアドレスを入れる)
 	std::vector<unsigned int>m_used_id_list;           // 使い終わったidを再利用するための配列
 	std::vector<Object*>m_draw_obj_list;               // 描画用オブジェクトリスト
-
-	bool m_is_gameover;			
+		
 
 	unsigned int m_current_max_id;// 現在最大のid
 

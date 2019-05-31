@@ -49,6 +49,7 @@ void SceneManager::ChangeScene(SceneId scene_id) {
 		return;
 	}
 	else if (scene_id == SCENE_QUIT) {
+
 		m_is_quit = true;
 		return;
 	}
@@ -60,6 +61,7 @@ void SceneManager::ChangeScene(SceneId scene_id) {
 //―――――――――――――――――――――――――
 
 bool SceneManager::IsQuit() {
+
 	if (m_is_quit == true) {
 		return true;
 	}

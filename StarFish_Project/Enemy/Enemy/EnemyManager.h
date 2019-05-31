@@ -33,7 +33,6 @@ public:
 	// 敵の指定された敵の関数を返す関数
 	EnemyBase* GetEnemyInstance(int num);
 
-
 private:
 	std::vector<EnemyBase*> m_enemy_list;	// 生成した敵の配列
 
