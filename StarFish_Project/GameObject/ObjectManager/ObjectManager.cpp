@@ -159,3 +159,10 @@ bool ObjectManager::IsClear()const{
 		return false;
 	}
 }
+
+bool ObjectManager::IsGameOver()const {
+	if (m_pplayer[0]->GetIsAlive() == false && m_pplayer[1]->GetIsAlive() == false) {
+		return true;
+	}
+	return false;
+}

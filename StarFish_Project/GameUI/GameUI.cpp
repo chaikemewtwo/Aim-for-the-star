@@ -7,7 +7,6 @@ GameUI::GameUI(Player* p_1, Player* p_2) {
 	p1 = p_1;
 	p2 = p_2;
 	m_sort_object = SortObject::GAME_UI;
-	failed_count = 0.f;
 	both_death_enable = false;
 };
 
@@ -61,11 +60,6 @@ void GameUI::Draw() {
 	// 岩
 	Texture::Draw2DUVShift("Resource/Texture/UI/ui_lef.png", 0.f, 0.f,0.f,0.f);
 	Texture::Draw2D("Resource/Texture/UI/ui_rig.png", RIGHT_ROCK_POS, 0.f);
-
-	// しっぱいロゴ
-	if (p1->GetIsAlive() == false || p2->GetIsAlive() == false) {
-		Texture::Draw2D("Resource/Texture/UI/over_logo.png", GAMEOVER_LOGO_POS.x, GAMEOVER_LOGO_POS.y + FailedCount());
-	}
 }
 
 
@@ -78,14 +72,4 @@ float GameUI::StaminaParcentage(Player* p) {
 float GameUI::GagePosYCalc(float stamina_parcent) {
 	float gage_pos_y = GAGE_UNDER_POS - (ALL_GAGE * stamina_parcent);
 	return gage_pos_y;
-}
-
-
-float GameUI::FailedCount() {
-	const float MAX_FAILED_COUNT = 560;
-	const float ADD_COUNT = 4.f;
-	if (failed_count <= MAX_FAILED_COUNT) {
-		failed_count += ADD_COUNT;
-	}
-	return failed_count;
 }

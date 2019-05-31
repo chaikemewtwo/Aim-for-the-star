@@ -14,7 +14,7 @@ EnemyBase::EnemyBase() {
 	m_hit_vertex_shift.x = 64.f;
 	m_hit_vertex_shift.y = 64.f;
 
-	m_delete_timer = 60;
+	m_delete_timer = 100;
 	m_max_animation = 0;
 	m_pstate_base = Wait::GetInstance();
 
