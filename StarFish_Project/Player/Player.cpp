@@ -6,6 +6,7 @@
 #include <cmath>
 #include <time.h>
 #include "../Map/MapChip/MapChip.h"
+#include "../Lib/Sound/DirectSound.h"
 
 
 
@@ -171,25 +172,28 @@ void Player::SwimUp() {
 
 // 自機と敵との当たり判定後の処理(点滅処理へ移行)
 void  Player::HitAction(Type type) {
+	Audio& audio = Audio::getInterface();
 	// HACK:HitActionは毎フレーム実行されるので注意、無敵できてない
-	if (type == ENEMY && invisible_count < 200) {
+	if (type == ENEMY&&m_is_alive == true) {
 		// 数値は仮実装
 		// 無敵時間
-		invisible_count = 200;
-		m_stamina -= 25;
-		GetDamageTimer();
+		m_stamina -= 10;
+		auto sound = audio.getBuffer("Resource/Sound/Player/damage.wav");
+		sound->Play(0, 0, 0);
+
+		/*GetDamageTimer();*/
 	}
 }
 
-
-void Player::GetDamageTimer() {
-	--invisible_count;
-	if (invisible_count % 25 == 0) {
-		if (m_draw_enable == true) {
-			m_draw_enable = false;
-		}
-		else {
-			m_draw_enable = true;
-		}
-	}
-}
+// 未実装
+//void Player::GetDamageTimer() {
+//	--invisible_count;
+//	if (invisible_count % 25 == 0) {
+//		if (m_draw_enable == true) {
+//			m_draw_enable = false;
+//		}
+//		else {
+//			m_draw_enable = true;
+//		}
+//	}
+//}

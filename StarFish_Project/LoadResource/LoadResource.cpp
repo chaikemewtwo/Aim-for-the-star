@@ -149,7 +149,7 @@ void Resource::LoadResource() {
 
 	// SE
 	audio.load({ "Resource/Sound/Player/swim1.wav",
-		"Resource/Sound/Player/ko1.wav" });
+		"Resource/Sound/Player/damage.wav" });
 
 	// クリアシーンのSE
 	audio.load({ "Resource/Sound/Clear/clear_effect.wav",
