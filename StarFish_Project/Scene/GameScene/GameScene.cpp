@@ -6,6 +6,8 @@ GameMain::GameMain() {
 	m_scene_step = INIT;	
 	
 	m_main_bgm = m_paudio.getBuffer("Resource/Sound/BGM/main_bgm.wav");
+
+	m_gameover_jingle = m_paudio.getBuffer("Resource/Sound/Failed/game_over.wav");
 }
 //―――――――――――――――――――
 
@@ -19,9 +21,10 @@ void GameMain::Init() {
 	m_gameover_ui_pos = D3DXVECTOR2((WINDOW_W_F / 2), 0);
 	m_gameover_ui_posy_max = 300;
 	m_scene_change_count_timer = 0;
-	m_gameover_scene_change_time = 200;
+	m_gameover_scene_change_time = 360;
 
 	m_main_bgm->SetCurrentPosition(0);
+	m_gameover_jingle->SetCurrentPosition(0);
 	if (m_main_bgm != nullptr) {
 		m_main_bgm->Play(0, 0, DSBPLAY_LOOPING);
 	}
@@ -32,6 +35,14 @@ void GameMain::Update() {
 
 	m_pobj_mng->Update();	
 
+	if (m_pobj_mng->IsGameOver() == true) {
+
+		m_main_bgm->Stop();
+		if (m_gameover_jingle != nullptr) {
+			m_gameover_jingle->Play(0, 0, 0);
+		}
+	}
+
 	if (m_pobj_mng->IsClear() == true) {
 	
 		m_main_bgm->Stop();
@@ -40,7 +51,7 @@ void GameMain::Update() {
 	}
 	else if (m_pobj_mng->IsGameOver() == true && SceneChangeChack() == true) {
 
-		m_main_bgm->Stop();
+		m_gameover_jingle->Stop();
 		m_scene_step = END;
 		m_scene_id = TITLE;
 	}

@@ -147,9 +147,12 @@ void Resource::LoadResource() {
 	Texture::Load("Resource/Texture/UI/clear_logo.png");
 	//-----------------------------------------------------
 
-	// SE
+	// プレイヤーSE
 	audio.load({ "Resource/Sound/Player/swim1.wav",
 		"Resource/Sound/Player/damage.wav" });
+
+	// ゲームオーバージングル
+	audio.load("Resource/Sound/Failed/game_over.wav");
 
 	// クリアシーンのSE
 	audio.load({ "Resource/Sound/Clear/clear_effect.wav",

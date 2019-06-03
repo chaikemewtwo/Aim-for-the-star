@@ -29,7 +29,8 @@ private:
 	// ゲームオーバーロゴの登録
 	const std::string m_gameover_ui = "Resource/Texture/UI/over_logo.png";
 	
-	IDirectSoundBuffer8* m_main_bgm;	
+	IDirectSoundBuffer8* m_main_bgm;
+	IDirectSoundBuffer8* m_gameover_jingle;
 
 	ObjectManager* m_pobj_mng;
 };
