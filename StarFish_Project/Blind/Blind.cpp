@@ -13,7 +13,7 @@ Blind::Blind() {
 	m_max_animation = 3;
 	m_anim_change_time = 15;
 	m_sort_object = SortObject::BLIND;
-	m_blind_texture = "Resource/Texture/Blind/blind/png";
+	m_blind_texture = "Resource/Texture/Blind/blind.png";
 }
 //―――――――――――――――――――――――
 

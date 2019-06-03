@@ -15,7 +15,6 @@ private:
 	void Update()override;
 	void Draw()override;
 
-private:
 	// ゲームオーバー時の処理
 	bool SceneChangeChack();
 	
