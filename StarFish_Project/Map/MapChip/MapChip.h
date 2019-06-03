@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include"../BackGround/BackGround.h"
+#include"../../BedRockChip.h"
 #include<vector>
 
 /*
@@ -32,6 +33,8 @@ struct tagMapChip {
 class EnemyManager;
 class Player;
 class PlayerBase;
+class ObjectManager;
+
 
 // 衝突方向を渡す
 enum COL_DIRECTION {
@@ -39,17 +42,19 @@ enum COL_DIRECTION {
 	COL_Y,
 };
 
+
 // 海マップ
 class Map : public Object {
 public:
 
+	/* 各定数 */
 	// 画像、全てのセルの大きさ
 	static constexpr int CHIP_SIZE = 64;
 	// マップのスクロール遷移ライン定数						   
 	static constexpr float SCROLL_RANGE_UP = 400.f;			// スクロール範囲上
 	static constexpr float SCROLL_RANGE_DOWN = 800.f;		// スクロール範囲下
 
-	Map(Player*star1, Player*star2, EnemyManager*e_mng);
+	Map(Player*star1, Player*star2, EnemyManager*e_mng,ObjectManager*obj_mng);
 
 	// 更新と描画
 	void Update();
@@ -57,7 +62,7 @@ public:
 	void ObjectCreate();    // Object生成
 	void ObjectDestory();   // Object削除
 	// マップとの当たり判定
-	void MapCollision(D3DXVECTOR2&pos, D3DXVECTOR2&move);
+	bool MapCollision(D3DXVECTOR2&pos, D3DXVECTOR2&move);
 	
 	/* アクセサ */
 	//D3DXVECTOR2 GetMapPos()const;
@@ -82,12 +87,13 @@ private:
 	
 
 	/* 当たり判定 */
+
 	// 床と当たっているかどうか
 	bool IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y);
 	bool IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y, int &col_chip);
 	// 横と縦の衝突後での位置補正
-	void NowPosXFixToMapPos(float &pos_x, float &move_x);
-	void NowPosYFixToMapPos(float &pos_y, float &move_y);
+	void SidePosFixToMapPos(float &pos_x, float &move_x);
+	void VerticalPosFixToMapPos(float &pos_y, float &move_y);
 	// 引っ付き判定
 	void StuckCenterChip(float &pos_x,float &pos_y,float &move_x,float &move_y);
 	// チップのアクションを起こす関数(ブロックが壊れる、吸いつくなど)
@@ -96,13 +102,13 @@ private:
 	void InitWallCollision();
 
 	/* 描画遷移関係 */
-	// 描画範囲に入っているか入っていないか判断する関数
 
+	// 描画範囲に入っているか入っていないか判断する関数
 	int Scroll(float&pos_y,float&move_y,float up_range,float down_range);
 	// スクロールしてもいいかどうか
 	bool IsScrollLimit(float &pos_y1, float &pos_y2,D3DXVECTOR2&move1, D3DXVECTOR2&move2);
 	// 地面に着地する点
-	void LandOnTheGround();
+	void MaxScrollDown();
 
 	/* マップ操作 */
 	// マップ読み込み
@@ -164,10 +170,11 @@ private:
 	/* 各オブジェクトの参照 */	   	           
 	Player * m_pbase[2];                       // 自機2体                     
 	EnemyManager * e_pmng;                     // 敵の状態
+	ObjectManager * m_pobj_mng;				   // オブジェクト管理
 
 	/* 各フラグ */
 	bool m_is_stand;                           // 立っているか
-	bool m_is_wall_col;                        // 方向関係なく壁衝突しているか
+	bool m_is_wall_col[2];                        // 方向関係なく壁衝突しているか
 	bool m_is_wall_col_left;                   // 左に衝突しているか
 	bool m_is_wall_col_right;                  // 右に衝突しているか
 	bool m_is_wall_col_up;                     // 上に衝突しているか

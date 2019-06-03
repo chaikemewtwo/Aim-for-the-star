@@ -47,35 +47,36 @@ namespace Texture {
 		Draw2D(file_name, pos_x, pos_y, 1.f, 1.f, 0.f, 0.f, 0.f, false,0,0,0,shift_u,shift_v);
 	}
 
-	// サイズ取得関数
-	float GetGraphSizeX(const char*file_name) {
-		TEXTURE_DATA *tex_d = &tex_list[file_name];
-		return tex_d->Width;
-	}
-	float GetGraphSizeY(const char*file_name) {
-		TEXTURE_DATA *tex_d = &tex_list[file_name];
-		return tex_d->Height;
-	}
-	D3DXVECTOR2 GetGraphSizeVec2(const char*file_name) {
-		return D3DXVECTOR2(
-			GetGraphSizeX(file_name),
-			GetGraphSizeY(file_name));
-	}
+	namespace Size {
+		// サイズ取得関数
+		float GetGraphSizeX(const char*file_name) {
+			TEXTURE_DATA *tex_d = &tex_list[file_name];
+			return tex_d->Width;
+		}
+		float GetGraphSizeY(const char*file_name) {
+			TEXTURE_DATA *tex_d = &tex_list[file_name];
+			return tex_d->Height;
+		}
+		D3DXVECTOR2 GetGraphSizeVec2(const char*file_name) {
+			return D3DXVECTOR2(
+				GetGraphSizeX(file_name),
+				GetGraphSizeY(file_name));
+		}
 
-	// 分割画像サイズの一つ分を取得
-	// div_numはXかYの分割数を入れる
-	float GetDivGraphSizeXByCutSize(const char*file_name, int div_num_x) {
-		return (GetGraphSizeX(file_name) / div_num_x);
+		// 分割画像サイズの一つ分を取得
+		// div_numはXかYの分割数を入れる
+		float GetDivGraphSizeXByCutSize(const char*file_name, int div_num_x) {
+			return (GetGraphSizeX(file_name) / div_num_x);
+		}
+		float GetDivGraphSizeYByCutSize(const char*file_name, int div_num_y) {
+			return (GetGraphSizeY(file_name) / div_num_y);
+		}
+		D3DXVECTOR2 GetGraphSizeVec2ByCutSize(const char*file_name, int div_num_x, int div_num_y) {
+			return D3DXVECTOR2(
+				GetDivGraphSizeXByCutSize(file_name, div_num_x),
+				GetDivGraphSizeYByCutSize(file_name, div_num_y));
+		}
 	}
-	float GetDivGraphSizeYByCutSize(const char*file_name, int div_num_y) {
-		return (GetGraphSizeY(file_name) / div_num_y);
-	}
-	D3DXVECTOR2 GetGraphSizeVec2ByCutSize(const char*file_name, int div_num_x, int div_num_y) {
-		return D3DXVECTOR2(
-			GetDivGraphSizeXByCutSize(file_name,div_num_x),
-		    GetDivGraphSizeYByCutSize(file_name,div_num_y));
-	}
-
 
 	void Draw2D(
 		const char*file_name,         // ファイル名

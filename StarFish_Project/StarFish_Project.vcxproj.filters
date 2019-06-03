@@ -35,6 +35,7 @@
     <ClCompile Include="Scene\GameScene\GameScene.cpp" />
     <ClCompile Include="Scene\ClearScene\ClearScene.cpp" />
     <ClCompile Include="CollisionObject\CollisionObject.cpp" />
+    <ClCompile Include="BedRockChip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -77,6 +78,7 @@
     <ClInclude Include="Scene\TitleScene\TitleScene.h" />
     <ClInclude Include="Scene\ClearScene\ClearScene.h" />
     <ClInclude Include="Scene\GameScene\GameScene.h" />
+    <ClInclude Include="BedRockChip.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />

@@ -115,17 +115,11 @@ void BackGround::BGLoad(const std::string&file_name) {
 // 背景スクロール
 void BackGround::Scroll() {
 
-
 	// 画面遷移基準
 	const int GRAPH_SIZE_H =      static_cast<int>(WINDOW_H_INT + m_h_graph_difference);
 	const int CHANGE_RANGE_UP =   static_cast<int>(-m_pos.y - BG_CHANGE_LINE);
 	const int CHANGE_RANGE_DOWN = static_cast<int>(-m_pos.y + GRAPH_SIZE_H - GRAPH_DIFFERENCE + BG_CHANGE_LINE);
 
-	// 前にずれているか後ろにずれているかを判断して画像をずらす
-
-	//if (m_connect1_graph == 3) {
-	//	m_connect1_graph = 3;
-	//}
 
 	// MEMO 背景は-50 * -50を頂点に描画するので前は50piずらす必要はない
 	// 前

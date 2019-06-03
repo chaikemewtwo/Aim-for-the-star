@@ -12,15 +12,16 @@ namespace Texture {
 	void Draw2DRotaGraph(const char*file_name, const float&pos_x, const float &pos_y, const float&angle);
 	void Draw2DAnimationGraph(const char*file_name, const float&pos_x, const float&pos_y, const int&u_cut_num, const int&v_cut_num, const int&anim_num);
 
-	// 画像サイズを取得する関数
-	float GetGraphSizeX(const char*file_name);
-	float GetGraphSizeY(const char*file_name);
-	D3DXVECTOR2 GetGraphSizeVec2(const char*file_name);
+	namespace Size {
+		// 画像サイズを取得する関数
+		float GetGraphSizeX(const char*file_name);
+		float GetGraphSizeY(const char*file_name);
+		D3DXVECTOR2 GetGraphSizeVec2(const char*file_name);
 
-	float GetDivGraphSizeXByCutSize(const char*file_name, int div_num_x);
-	float GetDivGraphSizeYByCutSize(const char*file_name, int div_num_y);
-	D3DXVECTOR2 GetGraphSizeVec2ByCutSize(const char*file_name, int div_num_x, int div_num_y);
-
+		float GetDivGraphSizeXByCutSize(const char*file_name, int div_num_x);
+		float GetDivGraphSizeYByCutSize(const char*file_name, int div_num_y);
+		D3DXVECTOR2 GetGraphSizeVec2ByCutSize(const char*file_name, int div_num_x, int div_num_y);
+	}
 	// UVをずらす関数
 	void Draw2DUVShift(const char*file_name, const float &pos_x, const float &pos_y, const float&shift_u, const float&shift_v);
 

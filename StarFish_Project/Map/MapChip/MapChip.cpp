@@ -10,48 +10,16 @@
 #include<string>
 
 
-// バグの報告
-
-// スクロールのバグ
-// 上下ヒトデが行ったらバグった
-// スクロールで下と上に強制的に言ったらバグった
-// スクロールすると当たり判定の戻す位置がずれる。
-
-// structでチップに情報を持たせた方がいい
-
-// マップチップオブジェクト配置
-
-// MEMO
-// オブジェクト化する欠点は必要のないオブジェクト
-// 描画を行うチップはオブジェクト化する理由はある。
-
-// MEMO
-// 64ピクセル /* 横30 縦16 *//* 1088*/
-// 128ピクセル/* 横15 縦8 *//*1024*/
-
 
 // コンストラクタ
-Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
+Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 
-	// マップ座標に関する定数
-	const float INIT_MAP_POS_X = 0.f;                      // マップ初期化位置X
-	const float INIT_MAP_POS_Y = 0.f;					   // マップ初期化位置Y
 
-	// ソートオブジェクト代入
-	m_sort_object = MAP;
-
-	// 自機の参照受け取り
-	m_pbase[0] = star1;
-	m_pbase[1] = star2;
-
-	// 敵の参照受け取り
-	e_pmng = e_mng;
-
-	// マップ座標初期化
-
-	// m_pos = マップ座標として作る
-	m_pos.x = INIT_MAP_POS_X;
-	m_pos.y = INIT_MAP_POS_Y;// 画面上まで
+	const float INIT_MAP_POS_X = 0.f; // マップ初期化位置X
+	const float INIT_MAP_POS_Y = 0.f; // マップ初期化位置Y
+	m_sort_object = MAP;              // ソートオブジェクト代入
+	m_pos.x = INIT_MAP_POS_X;		  // マップ座標の初期化X
+	m_pos.y = INIT_MAP_POS_Y;		  // マップ座標の初期化Y
 
 	// マップ座標移動座標初期化
 	m_move_pos.x = 0.f;
@@ -60,6 +28,16 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 	// スクロールする範囲初期化
 	m_scroll_range_up = SCROLL_RANGE_UP;
 	m_scroll_range_down = SCROLL_RANGE_DOWN;
+
+	// 自機の参照受け取り
+	m_pbase[0] = star1;
+	m_pbase[1] = star2;
+
+	// 敵の参照受け取り
+	e_pmng = e_mng;
+
+	// オブジェクト管理受け取り
+	m_pobj_mng = obj_mng;
 
 	// ファイル読み込み
 	Load("Map/MapData/MapData.csv");
@@ -76,26 +54,26 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 	chip_str[8] = "Resource/Texture/Map/chip-map_image_03.png";
 	chip_str[9] = "Resource/Texture/Map/chip-map_image_05.png";
 
-	// u縦
-	// v横
+
 	// UVずらし配列初期化
 	for (int i = 0; i < 10; i++) {
 		chip_u[i] = 0.f;
 		chip_v[i] = 0.f;
 	}
 
-	chip_u[0] = -0.001f;
-	chip_v[1] = -0.01f;
-	chip_u[1] = -0.01f;
-	chip_v[2] = -0.01f;
-	chip_v[7] = -0.01f;
-	chip_v[4] = -0.001f;
-	chip_v[3] = 0.01f;
-	chip_v[5] = -0.01f;
-	chip_v[6] =   - 0.001f;
-	
-	chip_u[4] = -0.01f;
-	chip_u[5] = -0.01f;
+	//
+	//chip_u[0] = -0.001f;
+	//chip_v[1] = -0.01f;
+	//chip_u[1] = -0.01f;
+	//chip_v[2] = -0.01f;
+	//chip_v[7] = -0.01f;
+	//chip_v[4] = -0.001f;
+	//chip_v[3] = 0.01f;
+	//chip_v[5] = -0.01f;
+	//chip_v[6] =   - 0.001f;
+	//
+	//chip_u[4] = -0.01f;
+	//chip_u[5] = -0.01f;
 	
 	bedrock_chip[0].x = 0.f; bedrock_chip[0].y = 1.f;
 	bedrock_chip[1].x = 0.f; bedrock_chip[1].y = 1.f;
@@ -113,7 +91,8 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 	// ジャンプしているか
 	m_is_stand = false;
 	// 壁の衝突
-	m_is_wall_col = false;
+	m_is_wall_col[0] = false;
+	m_is_wall_col[1] = false;
 
 	// 各壁の衝突判定
 	bool m_is_wall_col_left = false;    // 左に衝突しているか
@@ -145,60 +124,6 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng) {
 }
 
 
-void Map::Load(const std::string&file_name) {
-
-	// fgets行の終端の改行文字まで読み込み
-	FILE*fp;                                  // ストリーム
-	const char *fname = file_name.c_str();    // ファイル名
-	char str_buf[256];                        // 文字列バッファ
-
-	// ファイルオープン
-	fopen_s(&fp, fname, "r");
-
-	// ファイルが読み込まれてない場合
-	if (fp == NULL) {
-		return;
-	}
-
-	// 縦 
-	int h = 0;
-	// 横
-	int w = 0;
-
-	// 文字列読み込み、改行まで
-	while (fgets(str_buf, 256, fp) != NULL) {
-
-		// 最初が改行と空白なら戻す
-		if (str_buf[0] == '\n' || str_buf[0] == '\0') {
-			//h++;
-			continue;
-		}
-
-		// 文字列をバッファにいれる
-		char *str2 = str_buf;
-		tagMapChip map_chip;
-
-		// 次の列へ
-		while(*str2 != '\0'&& *str2 != '\n') {
-
-			// 整数値変換
-			m_map[h][w++].m_chip_num = strtol(str2,&str2,10);// str2に変換できない文字列を入れる。
-
-		   // 文字列加算
-		   str2++;
-		}
-
-		w = 0;
-		// 次の行へ
-		h++;
-	}
-	// 高さを記録
-	m_height_map_num = h;
-
-	// ファイルを閉じる
-	fclose(fp);
-	return;
-}
 
 
 void Map::Update() {
@@ -235,7 +160,8 @@ void Map::Update() {
 		}
 	}
 
-	for (int i = 0; i < 2; i++) {// 一旦当たり判定を一つにする
+	// 当たり判定
+	for (int i = 0; i < 2; i++) {
 
 		// 当たり判定
 		MapCollision(m_player_pos[i],m_player_move_pos[i]);
@@ -256,7 +182,7 @@ void Map::Update() {
 		m_pos.y += m_move_pos.y;
 		
 		// 着地点
-		LandOnTheGround();
+		MaxScrollDown();
 	}
 
 	// オブジェクトの削除
@@ -283,7 +209,7 @@ void Map::Draw() {
 
 			// ブロック描画範囲決定
 			if (m_map[(m_height_map_num) - y][x].m_chip_num >= 1 && 
-				m_map[(m_height_map_num)-y][x].m_chip_num <=MAX_BEDROCK_CHIP) {
+				m_map[(m_height_map_num)-y][x].m_chip_num <= MAX_BEDROCK_CHIP) {
 
 				int current_num = m_map[(m_height_map_num)-y][x].m_chip_num - 1;
 
@@ -324,7 +250,6 @@ int Map::Scroll(float&pos_y, float&move_y, float up_range, float down_range) {
 	else if (pos_y >= down_range) {
 
 		pos_y = down_range;
-
 		m_move_pos.y += move_y;// マップ座標を加算
 		return 2;
 	}
@@ -336,9 +261,11 @@ int Map::Scroll(float&pos_y, float&move_y, float up_range, float down_range) {
 // スクロールが上下行われているなら
 bool Map::IsScrollLimit(float &pos_y1, float &pos_y2,D3DXVECTOR2&move1,D3DXVECTOR2&move2) {
 
+
 	// 自機1が上、自機2が下の場合スクロール停止
-	if (pos_y1 <= m_scroll_range_up && m_scroll_range_down <= pos_y2
-		&& m_is_wall_col == true){// 60
+	if (pos_y1 <= m_scroll_range_up && m_scroll_range_down <= pos_y2 &&
+		IsWallCollision() == true){// 60
+
 		// 位置を補正
 		if (pos_y1 <= m_scroll_range_up){
 			pos_y1 = m_scroll_range_up;
@@ -346,15 +273,17 @@ bool Map::IsScrollLimit(float &pos_y1, float &pos_y2,D3DXVECTOR2&move1,D3DXVECTO
 		if (pos_y2 >= m_scroll_range_down){
 			pos_y2 = m_scroll_range_down;
 		}
-		move1.x = move1.y = 0.f;
-		move2.x = move2.y = 0.f;
+		// マップ位置変換
+		m_pos.y += move2.y;
+
+		move1.y = 0.f;
+		move2.y = 0.f;
 
  		return false;
 	}
 
 	// 自機1が下,自機2が上の場合スクロール停止
-	else if (pos_y2 <= m_scroll_range_up + 60 && m_scroll_range_down <= pos_y1 &&
-		m_is_wall_col == true){
+	if (pos_y2 <= m_scroll_range_up && m_scroll_range_down <= pos_y1){
 
 		if (pos_y2 <= m_scroll_range_up){
 			pos_y2 = m_scroll_range_up;
@@ -362,6 +291,9 @@ bool Map::IsScrollLimit(float &pos_y1, float &pos_y2,D3DXVECTOR2&move1,D3DXVECTO
 		if (pos_y1 >= m_scroll_range_down){
 			pos_y1 = m_scroll_range_down;
 		}
+		move2.y = 0.f;
+		move1.y = 0.f;
+
 		return false;
 	}
 
@@ -370,7 +302,7 @@ bool Map::IsScrollLimit(float &pos_y1, float &pos_y2,D3DXVECTOR2&move1,D3DXVECTO
 
 
 // 注意!ここで色々初期化している
-void Map::LandOnTheGround() {
+void Map::MaxScrollDown() {
 
 	// 変更した
 	// 着地点に着地したら
@@ -414,12 +346,6 @@ void Map::ObjectCreate() {
 				return;
 			}
 
-			// 練習用にチップ描画
-			//if (m_map[m_height_map_num - create_line[y]][x].m_chip_num == 1) {
-			//	Texture::Draw2D("Resource/Texture/Enemy/hora_ready.png",(float)(CHIP_SIZE * x),((float)(CHIP_SIZE * -create_line[y]) + 
-			//		WINDOW_H_F - m_pos.y));
-			//}
-
 			// オブジェクト生成、チップ番号が51以上なら
 			if (m_map[m_height_map_num - create_line[y]][x].m_chip_num >= 100) {
 
@@ -450,7 +376,7 @@ void Map::ObjectDestory() {
 	// 下
 	destory_line[1] = GetChipCastByPos(-m_pos.y) + CHIP_RANGE_DOWN - 4;
 
-	
+
 	// 生成部分(下から生成していく)
 	for (int y = 0; y < 2; y++) {
 		for (int x = 0; x < MAX_CHIP_NUM_W; x++) {
@@ -469,17 +395,17 @@ void Map::ObjectDestory() {
 	}
 }
 
+// 当たり判定を取っているサイズ
+/*
+縦128
+横64
+*/
 
-void Map::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
-
-	// 当たり判定を取っているサイズ
-	/* 
-	縦128
-	横64
-	*/
+bool Map::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 
 	const float RS = 1.f; // ResizeのRS.サイズを補正
 	int chip_num = 0;     // チップ番号を記録する用
+	bool is_col = false;
 
 	// 左上
 	D3DXVECTOR2 up_left(pos.x + RS + SHRINK_X, pos.y + RS + SHRINK_Y);
@@ -498,7 +424,7 @@ void Map::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 			IsFloorCollision(down_right.x, down_right.y + CHIP_SIZE, 0.f, move.y,chip_num) == true) {
 
 			// 衝突している
-
+			is_col = true;
 			// 縦の衝突判定とアクション
 			ChipAction(pos, move, chip_num,COL_Y);
 		}
@@ -521,6 +447,7 @@ void Map::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 			IsFloorCollision(down_left.x, down_left.y + CHIP_SIZE, move.x, 0.f,chip_num) == true ||// 衝突点を1CHIP下にずらしている
 			IsFloorCollision(down_right.x, down_right.y + CHIP_SIZE, move.x, 0.f,chip_num) == true) {
 
+			is_col = true;
 			// 横の衝突判定
 			ChipAction(pos, move, chip_num,COL_X);
 		}
@@ -535,13 +462,14 @@ void Map::MapCollision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 			InitWallCollision();
 		}
 	}
-
+	return is_col;
 }
 
 void Map::InitWallCollision() {
 
 	// 衝突していない
-	m_is_wall_col = false;
+	//m_is_wall_col[0] = false;
+	//m_is_wall_col[1] = false;
 	m_is_wall_col_up = false;
 	m_is_wall_col_down = false;
 	m_is_wall_col_right = false;
@@ -549,7 +477,7 @@ void Map::InitWallCollision() {
 }
 
 
-// これでできない場合は定数にする
+
 void Map::ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos,int chip_num, COL_DIRECTION col_d) {
 
 	// 吸いつきブロック
@@ -559,12 +487,10 @@ void Map::ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos,int chip_num, COL_DI
 	// 衝突ブロックなら
 	else if (col_d == COL_Y) {
 
-		NowPosYFixToMapPos(pos.y, move_pos.y);
-		m_is_wall_col = true;
+		VerticalPosFixToMapPos(pos.y, move_pos.y);
 	}
 	else if (col_d == COL_X) {
-		NowPosXFixToMapPos(pos.x, move_pos.x);
-		m_is_wall_col = true;
+		SidePosFixToMapPos(pos.x, move_pos.x);
 	}
 }
 
@@ -585,6 +511,7 @@ bool Map::IsFloorCollision(float pos_x, float pos_y,float move_x,float move_y) {
 	return false;
 }
 
+
 // オーバーロード
 bool Map::IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y, int &col_chip) {
 
@@ -600,7 +527,7 @@ bool Map::IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y,
 
 
 // 横マップの位置に修正
-void Map::NowPosXFixToMapPos(float &pos_x, float &move_x) {
+void Map::SidePosFixToMapPos(float &pos_x, float &move_x) {
 
 	// 修正定数
 	const int RETOUCH = 1;
@@ -642,7 +569,7 @@ void Map::NowPosXFixToMapPos(float &pos_x, float &move_x) {
 }
 
 
-void Map::NowPosYFixToMapPos(float &pos_y, float &move_y) {
+void Map::VerticalPosFixToMapPos(float &pos_y, float &move_y) {
 
 	// 修正定数
 	const int RETOUCH = 1;
@@ -868,6 +795,60 @@ void Map::EnemyCreateGather(int x, int y, int chip_num) {
 }
 
 
+void Map::Load(const std::string&file_name) {
+
+	// fgets行の終端の改行文字まで読み込み
+	FILE*fp;                                  // ストリーム
+	const char *fname = file_name.c_str();    // ファイル名
+	char str_buf[256];                        // 文字列バッファ
+
+											  // ファイルオープン
+	fopen_s(&fp, fname, "r");
+
+	// ファイルが読み込まれてない場合
+	if (fp == NULL) {
+		return;
+	}
+
+	// 縦 
+	int h = 0;
+	// 横
+	int w = 0;
+
+	// 文字列読み込み、改行まで
+	while (fgets(str_buf, 256, fp) != NULL) {
+
+		// 最初が改行と空白なら戻す
+		if (str_buf[0] == '\n' || str_buf[0] == '\0') {
+			//h++;
+			continue;
+		}
+
+		// 文字列をバッファにいれる
+		char *str2 = str_buf;
+		tagMapChip map_chip;
+
+		// 次の列へ
+		while (*str2 != '\0'&& *str2 != '\n') {
+
+			// 整数値変換
+			m_map[h][w++].m_chip_num = strtol(str2, &str2, 10);// str2に変換できない文字列を入れる。
+
+															   // 文字列加算
+			str2++;
+		}
+
+		w = 0;
+		// 次の行へ
+		h++;
+	}
+	// 高さを記録
+	m_height_map_num = h;
+
+	// ファイルを閉じる
+	fclose(fp);
+	return;
+}
 
 
 // MEMO
