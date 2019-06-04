@@ -15,9 +15,8 @@ private:
 	void Update()override;
 	void Draw()override;
 
-private:
 	// ゲームオーバー時の処理
-	bool SceneChangeChack();
+	bool SceneChangeCheck();
 	
 private:
 	D3DXVECTOR2 m_gameover_ui_pos;		// UIの位置

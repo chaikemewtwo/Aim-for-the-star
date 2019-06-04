@@ -49,7 +49,7 @@ void GameMain::Update() {
 		m_scene_step = END;
 		m_scene_id = CLEAR;
 	}
-	else if (m_pobj_mng->IsGameOver() == true && SceneChangeChack() == true) {
+	else if (m_pobj_mng->IsGameOver() == true && SceneChangeCheck() == true) {
 
 		m_gameover_jingle->Stop();
 		m_scene_step = END;
@@ -72,7 +72,7 @@ void GameMain::Draw() {
 }
 //―――――――――――――――――――
 
-bool GameMain::SceneChangeChack() {
+bool GameMain::SceneChangeCheck() {
 
 	if (m_gameover_ui_pos.y <= m_gameover_ui_posy_max) {
 		m_gameover_ui_pos.y += 3.f;

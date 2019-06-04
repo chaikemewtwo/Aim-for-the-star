@@ -33,12 +33,11 @@ private:
 	void PlayerAnimation();
 	// エフェクトのアニメーション処理
 	void EffectAnimation();
-
-private:
 	void PlayerMove();
 	void BackGroundMove();
 	void ClearUiSizeChange();
 	
+private:
 	int m_scene_change_count_timer;		// 遷移までの時間カウント用
 	int m_scene_change_time;			// 遷移用の時間
 

@@ -23,7 +23,6 @@ private:
 	void Update()override;
 	void Draw()override;
 
-private:
 	void ButtonChange();
 
 private:
