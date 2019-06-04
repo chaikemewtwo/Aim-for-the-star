@@ -15,11 +15,13 @@ class Map;
 
 class Player : public CircleCollisionObject {
 public:	
+	// 自機1か2かの判断（主にコンストラクタで使用）
 	enum ID {
 		STAR_1,
 		STAR_2
 	};
 
+	// 入力キー（後々操作入力をまとめたクラスを作成する）
 	enum IMPUT_KEY {
 		LEFT_KEY,		// 左キー
 		RIGHT_KEY,		// 右キー
@@ -29,10 +31,8 @@ public:
 		MAX_KEY_NUM		// 最大値
 	};
 
-	// 入力キー文字列保持（操作分割のため）
-	char imput_button_name[MAX_KEY_NUM][256];
-
-	enum PLAYER_TEXTURE {
+	// 状態画像切り替え定数
+	enum PLAYER_STATE_TEXTURE {
 		WAIT_TEXTURE,
 		STANDING_WAIT_TEXTURE,
 		SWIM_TEXTURE,
@@ -41,8 +41,14 @@ public:
 		MAX_TEXTURE_NUM
 	};
 
+	// スタミナ最大値
+	const int MAX_STAMINA = 1000;
+
 	// 泳いでるフラグ(泳ぎ状態のときtrue)
 	bool swim_enable;
+
+	// 入力キー文字列保持（操作分割のため）
+	char imput_button_name[MAX_KEY_NUM][256];
 
 	// テクスチャ文字列保持
 	// HACK:[256]を直す
@@ -69,10 +75,6 @@ public:
 	// プレイヤー座標セッター
 	void SetPos(D3DXVECTOR2 pos) {
 		m_pos = pos;
-	}
-
-	void DecMoveY() {
-		m_move.y += GRAVITY;
 	}
 
 	// プレイヤー移動量セッター
@@ -138,9 +140,6 @@ public:
 		++m_state_change_timer;
 	}
 
-	// スタミナ最大値
-	const int MAX_STAMINA = 1000;
-
 	// スタミナゲッター
 	int GetStamina() {
 		return m_stamina;
@@ -157,7 +156,6 @@ public:
 	}
 	//-----------------------------------------------------
 
-
 	// MEMO:CollisionObjectで必要なので追加
 	// 自機を返す設定をする
 	Type GetObjectType()const override { 
@@ -170,7 +168,7 @@ public:
 
 private:
 	// 無敵時間タイマー、未実装
-	/*void GetDamageTimer();*/
+	//void GetDamageTimer();
 
 	//-----------------------------------------------------
 	// ゲーム内パラメータ用定数
@@ -182,33 +180,8 @@ private:
 
 	// 向き変更時最大角度（ヒトデの頭の向きの左右の最大角度）
 	const float MAX_ANGLE = 45.f;
-
-	// STAR_1の初期位置
-	const float STAR_1_FIRST_POS_X = (float)WINDOW_W / 2.f - 200.f;
-	const float STAR_1_FIRST_POS_Y = (float)WINDOW_H / 2.f + 200.f;
-
-	// STAR_2の初期位置
-	const float STAR_2_FIRST_POS_X = (float)WINDOW_W / 2.f + 200.f;
-	const float STAR_2_FIRST_POS_Y = (float)WINDOW_H / 2.f + 200.f;
 	//-----------------------------------------------------
 
-	//-----------------------------------------------------
-	// 描画調整用定数
-	// キャラのサイズは128×128ピクセル
-	// テクスチャサイズ調整X座標用
-	const float TEXTURE_SIZE_X = 0.25f;
-
-	// テクスチャサイズ調整Y座標用
-	const float TEXTURE_SIZE_Y = TEXTURE_SIZE_X;
-
-	// 分割画像X枚数
-	const int TEXTURE_PARTITION_X_NUMBER = 4;
-
-	// 分割画像Y枚数
-	const int TEXTURE_PARTITION_Y_NUMBER = TEXTURE_PARTITION_X_NUMBER;
-	//-----------------------------------------------------
-
-	// 変数 ------------------------------------------------
 	// 画像格納用
 	std::string m_player_texture;
 
@@ -216,8 +189,7 @@ private:
 	D3DXVECTOR2 m_move;
 
 	// 自機画像角度（MAX_ANGLEから-MAX_ANGLE度まで）
-	float m_character_angle;
-	//-----------------------------------------------------
+	float m_angle;
 
 	// 生存フラグ（DeathStateで当たり判定を取らないようにするため）
 	bool m_is_alive;
@@ -231,16 +203,15 @@ private:
 	// スタミナ
 	int m_stamina;
 
+	// 敵被弾後無敵時間
+	int invisible_count;
+
 	// 被弾時点滅用描画切り替え
 	bool m_draw_enable;
-
-	// 無敵時間
-	int invisible_count;
 
 	// 仮の移動量（動く前のシュミレーション用）
 	D3DXVECTOR2 m_proto_move;
 
+	// 被弾フラグ（まだ未使用）
 	bool m_get_damage;
-
-	Map* m_map;
 };
