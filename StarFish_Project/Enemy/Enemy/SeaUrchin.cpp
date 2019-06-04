@@ -8,10 +8,7 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* map, bool no_move) {
 	m_pmap = map;
 
 	// 所得した座標の登録
-	m_pos.x = pos.x;
-	m_pos.y = pos.y;
-	// no_moveがtrueの場合は動かないウニの生成
-	m_no_move = no_move;
+	m_pos = pos;
 	
 	m_hit_vertex_shift.x = 128.f;
 	m_hit_vertex_shift.y = 128.f;
@@ -21,6 +18,8 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* map, bool no_move) {
 	m_power = 5;			
 	m_max_animation = 4;
 	m_anim_change_time = 20;
+	// no_moveがtrueの場合は動かないウニの生成
+	m_no_move = no_move;
 
 	m_enemy_texture = m_texture_list[SEAURCHIN_MOVE];
 

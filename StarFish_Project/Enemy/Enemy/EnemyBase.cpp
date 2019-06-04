@@ -26,6 +26,8 @@ EnemyBase::EnemyBase() {
 	m_texture_list[SELLFISH_WAIT] = "Resource/Texture/Enemy/hora_wait.png";
 	m_texture_list[SELLFISH_READY] = "Resource/Texture/Enemy/hora_ready.png";
 	m_texture_list[SELLFISH_ATTACK] = "Resource/Texture/Enemy/hora_attack.png";
+	m_texture_list[NAPOREONFISH_MOVE] = "Resource/Texture/Enemy/megane_move.png";
+	m_texture_list[NAPOREONFISH_ATTACK] = "Resource/Texture/Enemy/megane_attack.png";
 }
 //―――――――――――――――――――――
 

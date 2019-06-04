@@ -30,6 +30,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Enemy\Enemy\EnemyManager.cpp" />
+    <ClCompile Include="Enemy\Enemy\NaporeonFish.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Enemy\Enemy\SeaUrchin.cpp" />
     <ClCompile Include="Enemy\Enemy\SellFish.cpp">
       <SubType>
@@ -91,6 +95,10 @@
     <ClInclude Include="CollisionObject\CollisionObject.h" />
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
     <ClInclude Include="Enemy\Enemy\EnemyManager.h" />
+    <ClInclude Include="Enemy\Enemy\NaporeonFish.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Enemy\Enemy\SeaUrchin.h" />
     <ClInclude Include="Enemy\Enemy\SellFish.h">
       <SubType>

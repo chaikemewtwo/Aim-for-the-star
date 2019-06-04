@@ -21,6 +21,8 @@ enum EnemyTexture {
 	SELLFISH_WAIT,		// ほら貝の待機画像
 	SELLFISH_READY,		// ほら貝の攻撃前画像
 	SELLFISH_ATTACK,	// ほら貝の攻撃画像
+	NAPOREONFISH_MOVE,	// メガネモチノウオの移動画像
+	NAPOREONFISH_ATTACK,	// メガネモチノウオの攻撃画像
 	ENEMY_TEXTURE_MAX	
 };
 
