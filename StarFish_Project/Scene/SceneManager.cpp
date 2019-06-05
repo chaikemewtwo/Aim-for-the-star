@@ -37,25 +37,29 @@ void SceneManager::Init() {
 
 void SceneManager::Update() {
 
-	SceneId scene_id;
-	scene_id = m_scene->Control();
-	ChangeScene(scene_id);
+	ChangeScene(m_new_scene_id);
+	m_new_scene_id = m_scene->Control();
 }
 //―――――――――――――――――――――――――
 
-void SceneManager::ChangeScene(SceneId scene_id) {
+void SceneManager::Draw() {
+	m_scene->Draw();
+}
+//―――――――――――――――――――――――――
 
-	if (scene_id == m_scene_id) {
+void SceneManager::ChangeScene(SceneId new_scene_id) {
+
+	if (new_scene_id == m_scene_id) {
 		return;
 	}
-	else if (scene_id == SCENE_QUIT) {
+	else if (new_scene_id == SCENE_QUIT) {
 
 		m_is_quit = true;
 		return;
 	}
 
 	// 次のシーンを代入
-	m_scene_id = scene_id;
+	m_scene_id = new_scene_id;
 	m_scene = m_scene_list.find(m_scene_id)->second;
 }
 //―――――――――――――――――――――――――

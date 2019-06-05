@@ -105,11 +105,20 @@ void Clear::Update() {
 		if (m_scene_change_time <= m_scene_change_count_timer) {
 
 			m_scene_step = END;
-			m_scene_id = TITLE;
+			m_new_scene_id = TITLE;
 		}
 		else {
 			m_scene_change_count_timer++;
 		}
+	}
+
+	// デバック用
+	if (m_pkey_bord.press(VK_F1)) {
+
+		m_effect_sound->Stop();
+		m_fly_sound->Stop();
+		m_scene_step = END;
+		m_new_scene_id = TITLE;
 	}
 }
 //――――――――――――――――――――――――――――――――

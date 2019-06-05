@@ -38,14 +38,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 			break;
 		}
 
+		sm->Update();
+
+		if (sm->IsQuit() == true) {
+			break;
+		}
+
 		// 描画開始
 		if (DrawStart() == true) {
-
-			sm->Update();
-
-			if (sm->IsQuit() == true) {
-				return WM_QUIT;
-			}
+			sm->Draw();
 		}
 		DrawEnd();
 	}
