@@ -9,7 +9,7 @@ Object::Object() {
 	m_id = 0;
 	m_animation_timer = 0;
 	m_animation_num = 0;
-	m_sort_object = MAX;
+	m_sort_object_type = MAX;
 }
 
 
@@ -37,7 +37,7 @@ int Object::GetId()const {
 }
 
 SortObject Object::GetSortNum()const {
-	return m_sort_object;
+	return m_sort_object_type;
 }
 
 bool Object::IsActive()const {

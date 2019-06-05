@@ -29,7 +29,7 @@ public:
 
 private:
 
-	static const int GRAPH_DIFFERENCE = 50;       // 背景の端数
+	static constexpr int GRAPH_DIFFERENCE = 50;       // 背景の端数
 	static constexpr float BG_CHANGE_LINE = 10.f; // 背景が入れ替わる範囲
 
 private:
@@ -49,7 +49,7 @@ private:
 	char str_load_buf[1000][500];             // 読み込み専用のもの
 											  
 	/* 背景	*/							   	  
-	D3DXVECTOR2 m_pos;                        // 背景遷移判定上
+	//D3DXVECTOR2 m_pos;                        // 背景遷移判定上
 	D3DXVECTOR2 m_move;                       // 移動ベクトル
 	int m_max_graph_num;				      // 画像の最大数  
 	int m_current_pos;                        // 今いる位置

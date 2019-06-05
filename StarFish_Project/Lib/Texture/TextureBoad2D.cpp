@@ -1,8 +1,10 @@
-﻿#include"../D3D/D3D9.h"
-#include"../Texture/TextureBoad2D.h"
-#include"./Texture.h"
+﻿#include"../Texture/TextureBoad2D.h"
+#include"Texture.h"
 #include"../UV/UV.h"
 
+// 既存
+#include<d3dx9.h>
+#include<unordered_map>
 
 struct CUSTOM_VERTEX
 {
@@ -50,12 +52,14 @@ namespace Texture {
 	namespace Size {
 		// サイズ取得関数
 		float GetGraphSizeX(const char*file_name) {
-			TEXTURE_DATA *tex_d = &tex_list[file_name];
+			TEXTURE_DATA *tex_d = &Texture::GetData(file_name);
 			return tex_d->Width;
+			return 0.f;
 		}
 		float GetGraphSizeY(const char*file_name) {
-			TEXTURE_DATA *tex_d = &tex_list[file_name];
+			TEXTURE_DATA *tex_d = &Texture::GetData(file_name);
 			return tex_d->Height;
+			return 0.f;
 		}
 		D3DXVECTOR2 GetGraphSizeVec2(const char*file_name) {
 			return D3DXVECTOR2(
@@ -95,7 +99,8 @@ namespace Texture {
 		float v)					  // テクスチャ座標のv軸をずらす 
 	{ 
 
-		TEXTURE_DATA *tex_d = &tex_list[file_name];
+		TEXTURE_DATA *tex_d = &Texture::GetData(file_name);
+		//TEXTURE_DATA *tex_d = &tex_list[file_name];
 
 		const float x1 = -cx;
 		const float x2 = 1.f - cx;
@@ -131,8 +136,8 @@ namespace Texture {
 		};
 
 		// サンプラーステート(描画外は描画しないようにするため,デフォルト)
-		dev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-		dev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+		Graphics::GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+		Graphics::GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
 		// ワールド座標変換系
 		D3DXMATRIX mat_world, mat_trans, mat_scale;
@@ -154,13 +159,13 @@ namespace Texture {
 		D3DXVec3TransformCoordArray((D3DXVECTOR3*)cv, sizeof(CUSTOM_VERTEX), (D3DXVECTOR3*)cv, sizeof(CUSTOM_VERTEX), &mat_world, std::size(cv));
 
 		// VERTEX3Dの構造情報をDirectXへ通知。										  
-		dev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1);
+		Graphics::GetLpDirect3DDevice9()->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1);
 
 		// デバイスにそのまま渡すことができる。
-		dev->SetTexture(0, tex_list[file_name]);// これはテクスチャの指定、ポインタを渡して確認する。
+		Graphics::GetLpDirect3DDevice9()->SetTexture(0,Texture::GetData(file_name));// これはテクスチャの指定、ポインタを渡して確認する。
 												// 元はtex_list[file_name]	// 0はテクスチャステージ番号
 
-		dev->DrawPrimitiveUP(
+		Graphics::GetLpDirect3DDevice9()->DrawPrimitiveUP(
 			D3DPT_TRIANGLEFAN,
 			2,
 			cv,// cv カスタムバーテックスのポインタ
@@ -174,6 +179,6 @@ namespace Texture {
 void SamplerStateConfig(D3DSAMPLERSTATETYPE state_type) {
 
 	// サンプラーステート(描画外は描画しないようにするため,デフォルト)
-	dev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-	dev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+	Graphics::GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+	Graphics::GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 }

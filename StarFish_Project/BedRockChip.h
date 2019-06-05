@@ -2,7 +2,7 @@
 #include"../StarFish_Project/GameObject/Object/Object.h"
 #include<string>
 
-
+/* HACK まだできていません */
 
 // 岩盤チップの型
 enum BedRockChipType {

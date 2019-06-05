@@ -59,8 +59,8 @@ public:
 	// 更新と描画
 	void Update();
 	void Draw();
-	void ObjectCreate();    // Object生成
-	void ObjectDestory();   // Object削除
+	void MapObjectCreate();    // Object生成
+	void MapObjectDestory();   // Object削除
 	// マップとの当たり判定
 	bool MapCollision(D3DXVECTOR2&pos, D3DXVECTOR2&move);
 	
@@ -95,7 +95,7 @@ private:
 	void SidePosFixToMapPos(float &pos_x, float &move_x);
 	void VerticalPosFixToMapPos(float &pos_y, float &move_y);
 	// 引っ付き判定
-	void StuckCenterChip(float &pos_x,float &pos_y,float &move_x,float &move_y);
+	void CenterStuckChip(float &pos_x,float &pos_y,float &move_x,float &move_y);
 	// チップのアクションを起こす関数(ブロックが壊れる、吸いつくなど)
 	void ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos, int chip_num, COL_DIRECTION col_d = COL_X);
 	// 壁の衝突判定を初期化
@@ -121,13 +121,13 @@ private:
 	int GetChipCastByPos(const float&pos)const;								   // 位置をマップ座標に変換
 	float GetChipPosCastByChip(const float &chip_x, const float &chip_y)const; // マップ座標を位置に変換
 	int GetChipParam(const float &pos_x, const float&pos_y);				   // 位置をマップ座標に変換
-
+	
 private:
 
 	/* 各定数 */
 	const int HEIGHT_INTERVAL = 60;                            // 縦間隔をあけて遷移などをする
-	const int MAX_CHIP_NUM_W = ((WINDOW_W_INT)/ CHIP_SIZE);    // 画面マップチップの大きさ
-	const int MAX_CHIP_NUM_H = ((WINDOW_H_INT)/ CHIP_SIZE);    // 画面マップチップの大きさ
+	const int MAX_CHIP_NUM_W = ((int)(Window::WIDTH)/ CHIP_SIZE);    // 画面マップチップの大きさ
+	const int MAX_CHIP_NUM_H = ((int)(Window::HEIGHT)/ CHIP_SIZE);    // 画面マップチップの大きさ
 	const int MAP_SAET_NUM = 5;								   // マップシートの数
 	// オブジェクトとマップ当たり判定の頂点位置				   
 	const float HIT_POINT_X = -32.f;						   // 当たり位置の大きさ
@@ -138,7 +138,7 @@ private:
 	// チップ生成領域										    
 	const int CHIP_RANGE_UP = 19;							   // 生成領域上
 	const int CHIP_RANGE_DOWN = 1;							   // 生成領域下
-	// 岩盤の最大チップ数								       
+	// 岩盤の最大チップ数							       
 	static const int MAX_BEDROCK_CHIP = 10;					   // 岩盤チップ数
 
 private:
@@ -156,7 +156,7 @@ private:
 
 	/* マップ描画領域 */					    
 	//D3DXVECTOR2 m_pos;                       // 描画用マップの位置
-	D3DXVECTOR2 m_move_pos;                    // 描画用マップの位置
+	D3DXVECTOR2 m_move;                    // 描画用マップの位置
 	int m_height_map_num;                      // マップデータの高さ
 	int m_map_chip_id[1000]={};                // 生成されたらマップチップを保存する
 	int m_chip_num;                            // チップの番号

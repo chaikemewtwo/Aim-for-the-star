@@ -17,25 +17,44 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 
 	const float INIT_MAP_POS_X = 0.f; // マップ初期化位置X
 	const float INIT_MAP_POS_Y = 0.f; // マップ初期化位置Y
-	m_sort_object = MAP;              // ソートオブジェクト代入
+
+	m_sort_object_type = MAP;         // ソートオブジェクト代入
+
 	m_pos.x = INIT_MAP_POS_X;		  // マップ座標の初期化X
 	m_pos.y = INIT_MAP_POS_Y;		  // マップ座標の初期化Y
 
 	// マップ座標移動座標初期化
-	m_move_pos.x = 0.f;
-	m_move_pos.y = 0.f;
+	m_move.x = 0.f;
+	m_move.y = 0.f;
 	
 	// スクロールする範囲初期化
 	m_scroll_range_up = SCROLL_RANGE_UP;
 	m_scroll_range_down = SCROLL_RANGE_DOWN;
 
+	// Mapの持っている実体をnull初期化
+	m_pbase[0] = nullptr;
+	m_pbase[1] = nullptr;
+	m_pobj_mng = nullptr;
+
+	// nullチェック
+	if (e_mng == nullptr) {
+		return;
+	}
+	if (star1 == nullptr) {
+		return;
+	}
+	if (star2 == nullptr) {
+		return;
+	}
+	if (obj_mng == nullptr) {
+		return;
+	}
+
 	// 自機の参照受け取り
 	m_pbase[0] = star1;
 	m_pbase[1] = star2;
-
 	// 敵の参照受け取り
 	e_pmng = e_mng;
-
 	// オブジェクト管理受け取り
 	m_pobj_mng = obj_mng;
 
@@ -95,10 +114,10 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 	m_is_wall_col[1] = false;
 
 	// 各壁の衝突判定
-	bool m_is_wall_col_left = false;    // 左に衝突しているか
-	bool m_is_wall_col_right = false;   // 右に衝突しているか
-	bool m_is_wall_col_up = false;      // 上に衝突しているか
-	bool m_is_wall_col_down = false;	// 下に衝突しているか
+	m_is_wall_col_left = false;    // 左に衝突しているか
+	m_is_wall_col_right = false;   // 右に衝突しているか
+	m_is_wall_col_up = false;      // 上に衝突しているか
+	m_is_wall_col_down = false;	// 下に衝突しているか
 
 	// スクロールしているか
 	m_is_scroll = true;
@@ -129,10 +148,10 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 void Map::Update() {
 
 	// オブジェクトの生成
-	ObjectCreate();
+	MapObjectCreate();
 
 	// マップの移動ベクトル初期化
-	m_move_pos.x = m_move_pos.y = 0.f;
+	m_move.x = m_move.y = 0.f;
 
 	for (int i = 0; i < 2; i++) {
 
@@ -179,14 +198,14 @@ void Map::Update() {
 	// マップ関連
 	{
 		// マップ座標にマップの移動ベクトルを加算
-		m_pos.y += m_move_pos.y;
+		m_pos.y += m_move.y;
 		
 		// 着地点
 		MaxScrollDown();
 	}
 
 	// オブジェクトの削除
-	ObjectDestory();
+	MapObjectDestory();
 }
 
 
@@ -242,7 +261,7 @@ int Map::Scroll(float&pos_y, float&move_y, float up_range, float down_range) {
 		// スクリーン座標を戻す
 		pos_y = up_range;// 移動分減算
 		// ここでバグが起こっている
-		m_move_pos.y += move_y;// マップ座標を加算
+		m_move.y += move_y;// マップ座標を加算
 		return 1;
 	}
 
@@ -250,7 +269,7 @@ int Map::Scroll(float&pos_y, float&move_y, float up_range, float down_range) {
 	else if (pos_y >= down_range) {
 
 		pos_y = down_range;
-		m_move_pos.y += move_y;// マップ座標を加算
+		m_move.y += move_y;// マップ座標を加算
 		return 2;
 	}
 
@@ -313,7 +332,7 @@ void Map::MaxScrollDown() {
 		m_player_move_pos[1].y = 0.f;
 		
 		// マップの移動を初期化して移動させないようにする
-		m_move_pos.y = 0.f;
+		m_move.y = 0.f;
 		// マップ座標を初期化して移動させないようにする
 		m_pos.y = 0.f;
 	}
@@ -327,7 +346,7 @@ void Map::MaxScrollDown() {
 // 生成は上と下のラインを作り、作成する。
 // それぞれ範囲外にでたら、アクティブをfalseにする。
 
-void Map::ObjectCreate() {
+void Map::MapObjectCreate() {
 
 	// 生成ライン
 	int create_line[2];
@@ -350,7 +369,7 @@ void Map::ObjectCreate() {
 			if (m_map[m_height_map_num - create_line[y]][x].m_chip_num >= 100) {
 
 				// 位置を代入
- 				D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -create_line[y]) + WINDOW_H_F - m_pos.y);// マップ座標加算
+ 				D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -create_line[y]) + Window::HEIGHT - m_pos.y);// マップ座標加算
 
 				// チップを消すタイミング、チップを生成するタイミングが必要
 				// チップが活動していないなら
@@ -366,7 +385,7 @@ void Map::ObjectCreate() {
 }
 
 
-void Map::ObjectDestory() {
+void Map::MapObjectDestory() {
 
 	// 削除ライン
 	int destory_line[2];
@@ -482,7 +501,7 @@ void Map::ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos,int chip_num, COL_DI
 
 	// 吸いつきブロック
 	if (chip_num == 12) {
-		StuckCenterChip(pos.x, pos.y, move_pos.x, move_pos.y);
+		CenterStuckChip(pos.x, pos.y, move_pos.x, move_pos.y);
 	}
 	// 衝突ブロックなら
 	else if (col_d == COL_Y) {
@@ -498,7 +517,7 @@ void Map::ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos,int chip_num, COL_DI
 bool Map::IsFloorCollision(float pos_x, float pos_y,float move_x,float move_y) {
 
 	// 現在のスクリーン座標にマップ座標を加算する
-	D3DXVECTOR2 after_pos(pos_x + move_x,pos_y + move_y + (m_pos.y) + m_move_pos.y);
+	D3DXVECTOR2 after_pos(pos_x + move_x,pos_y + move_y + (m_pos.y) + m_move.y);
 
 	// 床と衝突しているか(障害物は50番号まで),0番号は何もなし
 	if (GetChipParam(after_pos.x, after_pos.y) <= 50 && GetChipParam(after_pos.x, after_pos.y) >= 1) {
@@ -518,7 +537,7 @@ bool Map::IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y,
 	if (IsFloorCollision(pos_x, pos_y, move_x, move_y) == true) {
 
 		// チップを入れる
-		col_chip = GetChipParam(pos_x + move_x, pos_y + move_y + m_pos.y + m_move_pos.y);
+		col_chip = GetChipParam(pos_x + move_x, pos_y + move_y + m_pos.y + m_move.y);
 
 		return true;
 	}
@@ -577,12 +596,12 @@ void Map::VerticalPosFixToMapPos(float &pos_y, float &move_y) {
 	float chip_pos_y = 0.f;
 
 	// 上(自機の移動とマップの移動が進んだ時)
-	if (move_y < 0.f || m_move_pos.y < 0.f) {
+	if (move_y < 0.f || m_move.y < 0.f) {
 
 		// チップサイズ割り出し
 		chip_pos_y = (float)GetChipCastByPos((pos_y +(m_pos.y)) - (move_y - RETOUCH + SHRINK_Y));// SHRINK_Y関係のバグ
 
-		pos_y = (chip_pos_y * CHIP_SIZE) + (-m_pos.y) - m_move_pos.y;
+		pos_y = (chip_pos_y * CHIP_SIZE) + (-m_pos.y) - m_move.y;
 
 		// 縮小する時
 		if (SHRINK_Y > 0.f) {
@@ -603,14 +622,14 @@ void Map::VerticalPosFixToMapPos(float &pos_y, float &move_y) {
 	}
 
 	// 下(自機の移動とマップの移動が進んだ時)
-	else if (move_y > 0.f || m_move_pos.y > 0.f) {
+	else if (move_y > 0.f || m_move.y > 0.f) {
 
 		// チップサイズ割り出し
 		chip_pos_y = (float)GetChipCastByPos((pos_y + m_pos.y) + move_y);
 
 		pos_y = (chip_pos_y * CHIP_SIZE) + (-m_pos.y);
 
-		pos_y += -move_y - m_move_pos.y;
+		pos_y += -move_y - m_move.y;
 
 		if (SHRINK_Y > 0.f) {
 			pos_y += SHRINK_Y;
@@ -631,7 +650,7 @@ void Map::VerticalPosFixToMapPos(float &pos_y, float &move_y) {
 
 
 // 引っ付き処理
-void Map::StuckCenterChip(float &pos_x, float &pos_y, float &move_x, float &move_y) {
+void Map::CenterStuckChip(float &pos_x, float &pos_y, float &move_x, float &move_y) {
 
 	// チップ位置を作る
 	int chip_x_r = GetChipCastByPos(pos_x) + 1;
@@ -700,7 +719,7 @@ void Map::SetMapReset(float map_y) {
 
 /* アクセサ */
 D3DXVECTOR2 Map::GetMovePos()const {// 元はmap
-	return -m_move_pos;
+	return -m_move;
 }
 
 // 着地しているか

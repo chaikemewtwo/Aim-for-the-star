@@ -68,7 +68,7 @@ class EnemyManager;     // 敵管理
 class MapManager;       // マップ管理
 class Player;           // 自機
 class CollisionManager; // 衝突管理
-class GameUI;        // ゲームメインUI
+class GameUI;           // ゲームメインUI
 class Rope;             // ロープ
 
 // 定数の登録順に昇順ソート
@@ -88,6 +88,7 @@ class ObjectManager {
 public:
 
 	ObjectManager();
+	~ObjectManager();
 
 	// 更新
 	void Update();
@@ -104,7 +105,7 @@ public:
 private:
 
 	// 描画用オブジェクトのソート
-	void DrawObjSort();
+	void SortDrawObject();
 
 	/* 管理用の配列など */
 	std::unordered_map<unsigned int,Object*>m_obj_list;// オブジェクト管理クラス(更新時にアドレスを入れる)
@@ -114,10 +115,10 @@ private:
 	unsigned int m_current_max_id;// 現在最大のid
 
 	/* object参照 */
-	MapManager * m_pm_mng;        // マップ管理クラス
-	Player * m_pplayer[2];        // 自機1,2
-	GameUI * m_pui;               // スタミナGameUI
-	Rope * m_prope;               // ロープ
-	EnemyManager *m_pe_mng;       // 敵管理クラス
-	CollisionManager *m_pcol_mng; // 衝突管理クラス
+	MapManager * m_p_map_mng;        // マップ管理クラス
+	Player * m_p_player[2];        // 自機1,2
+	GameUI * m_p_ui;               // スタミナGameUI
+	Rope * m_p_rope;               // ロープ
+	EnemyManager *m_p_enemy_mng;       // 敵管理クラス
+	CollisionManager *m_p_collision_mng; // 衝突管理クラス
 };

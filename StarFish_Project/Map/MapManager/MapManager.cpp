@@ -13,7 +13,7 @@ MapManager::MapManager(Player*star1, Player*star2, EnemyManager*e_mng, ObjectMan
 	m_pobj_mng = obj_mng;
 
 	// マップチップ
-	obj_mng->Entry(m_pmap_tip = new Map(star1, star2, e_mng));
+	obj_mng->Entry(m_pmap_tip = new Map(star1, star2, e_mng,obj_mng));
 
 	// 背景1オブジェクト登録(こちらをメインにする)
 	obj_mng->Entry(m_pbg = new

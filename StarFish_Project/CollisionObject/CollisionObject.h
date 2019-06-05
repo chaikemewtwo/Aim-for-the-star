@@ -12,7 +12,7 @@ public:
 	CollisionObject();
 
 	// 当たった相手を識別する定数
-	enum Type {
+	enum Type {// ここ
 		PLAYER,
 		ENEMY,
 		MAX,
@@ -29,10 +29,10 @@ public:
 	virtual void HitAction(Type type) {};
 
 	// 当たり判定頂点をずらす
-	D3DXVECTOR2 GetHitVertexShift()const;
+	D3DXVECTOR2 GetOfset()const;
 
 protected:
 
-	float m_speed;                  // 移動速度
-	D3DXVECTOR2 m_hit_vertex_shift; // 当たり頂点をずらす 
+	float m_speed;       // 移動速度
+	D3DXVECTOR2 m_ofset; // 当たり頂点をずらす 
 };

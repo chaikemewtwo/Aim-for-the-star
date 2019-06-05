@@ -1,7 +1,7 @@
 ﻿#pragma once
+#include"../D3D/D3D9.h"
 #include"../Window/Window.h"
 
-// 引数は4~5が目安
 
 namespace Texture {
 

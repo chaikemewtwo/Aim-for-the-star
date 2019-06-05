@@ -36,7 +36,7 @@ protected:
 	bool m_is_active;      // Objectが活動しているかの状態変数(活動中true 活動停止false)
 	int m_animation_timer; // アニメーションの時間 
 	int m_animation_num;   // 現在のアニメーションの数
-	SortObject m_sort_object;          // ソート番号
+	SortObject m_sort_object_type;          // ソート番号
 	
 private:
 	int m_id;              // 生成id

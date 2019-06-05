@@ -3,12 +3,16 @@
 
 
 
-std::unordered_map < std::string, TEXTURE_DATA >tex_list;
-
 
 namespace Texture {
 
-	// scale_x scale_y
+	// テクスチャリスト
+	std::unordered_map < std::string, TEXTURE_DATA >tex_list;
+
+	/*
+	テクスチャの読み込みは2の累乗でなければいけない
+	*/
+	
 	void Load(const char*file_name)// int型にしてDrawGraphにしてもいいかも。その場合はvector型を使う。
 	{
 		D3DXIMAGE_INFO info;
@@ -18,16 +22,14 @@ namespace Texture {
 			return;
 		}
 
-		D3DXCreateTextureFromFile(dev, file_name, &tex_list[file_name].Texture);
+		D3DXCreateTextureFromFile(Graphics::GetLpDirect3DDevice9(), file_name, &tex_list[file_name].Texture);
 
 		// 最初はサイズ指定をしなければいけない。
 		tex_list[file_name].Width = (float)info.Width;
 		tex_list[file_name].Height = (float)info.Height;
 	}
 
-	// 2の累乗でテクスチャサイズが指定できる
 
-	// HACK
 	void LoadEx(const char *file_name,UINT width,UINT height,DWORD color_key,float u,float v)
 	{
 		D3DXIMAGE_INFO info;
@@ -45,30 +47,36 @@ namespace Texture {
 
 		// EXバージョンの読み込み
 		D3DXCreateTextureFromFileEx(
-			dev,                     // window_device
-			file_name,               // ファイル名
-			info.Width + width,                   // 読み込むファイル幅
-			info.Height + height,                  // 読み込むファイル縦幅
-			1,                    // ミップマップレベル
-			0,        // テクスチャの使い方
-			D3DFMT_UNKNOWN,          // カラーフォーマット
-			D3DPOOL_MANAGED,         // テクスチャのメモリ管理方法
-			D3DX_DEFAULT,                    // フィルタリング方法
-			D3DX_DEFAULT,                    // ミップマップのフィルタリング方法
-			NULL,// 0x0000ff00 
+			Graphics::GetLpDirect3DDevice9(), // window_device
+			file_name,                    // ファイル名
+			info.Width + width,           // 読み込むファイル幅
+			info.Height + height,         // 読み込むファイル縦幅
+			1,                            // ミップマップレベル
+			0,                            // テクスチャの使い方
+			D3DFMT_UNKNOWN,               // カラーフォーマット
+			D3DPOOL_MANAGED,              // テクスチャのメモリ管理方法
+			D3DX_DEFAULT,                 // フィルタリング方法
+			D3DX_DEFAULT,                 // ミップマップのフィルタリング方法
+			NULL,                         // カラー
 			NULL,
 			NULL,
 			&tex_list[file_name].Texture);
 	}
 
+	// テクスチャの解放
 	void Release() {
 
-		for (const auto& it : tex_list) {
-			if (it.second.Texture != nullptr) {
-				it.second.Texture->Release();
+		for (const auto& texture : tex_list) {
+			if (texture.second.Texture != nullptr) {
+				texture.second.Texture->Release();
 			}
 		}
 
+	}
+
+	// テクスチャデータのゲッター
+	TEXTURE_DATA GetData(const std::string&texture_file_name){
+		return tex_list[texture_file_name];
 	}
 
 }

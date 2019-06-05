@@ -4,215 +4,232 @@
 
 
 
+namespace Window {
 
-// ウィンドウプロシージャ(メッセージをどう解釈するか。)
-LRESULT CALLBACK WndProc(
-	HWND hWnd,
-	UINT uMsg,
-	WPARAM wParam,
-	LPARAM lParam) {
+	// ウィンドウハンドル
+	HWND window_handle;
 
-	switch (uMsg) {// ウィンドウプロシージャはswitch文で切り分けている。
+	// PeekMessageから送られてきたメッセージを処理する
+	LRESULT CALLBACK WndProc(
+		HWND h_wnd,
+		UINT u_msg,
+		WPARAM w_param,
+		LPARAM l_param);
 
-	case WM_DESTROY:// 一応デストロイする。
 
-		PostQuitMessage(0);
-		break;
+	HWND MakeWindow(int w, int h) {
+
+		// インスタンスハンドルを代入
+		HINSTANCE h_instance = GetModuleHandle(NULL);
+
+	    // ウィンドウクラスを作成
+		WNDCLASSEX wnd_class_ex = {
+			// WNDCLASSEX構造体のサイズ
+			sizeof(WNDCLASSEX),        
+			// ウィンドウスタイル
+			CS_HREDRAW | CS_VREDRAW,   
+			// ウィンドウプロシージャ(メッセージ処理)のアドレス
+			WndProc,				   
+			// 予備メモリ
+			0,						   
+			// ウィンドウオブジェクト作成時に作られるメモリサイズ
+			0,						   
+			// インスタンスハンドル
+			h_instance,			       
+			// アプリのショートカットなどで使用されるアイコン(いらない場合はNULL) 
+			NULL,                      
+			// ウィンドウのクライアント上のマウスカーソル
+			LoadCursor(NULL,IDC_ARROW),
+			// ウィンドウのクライアント領域の背景色 
+			NULL,                     
+			// メニュー名(メニューがない場合はNULL)
+			NULL,					  
+			// Windowクラスの名前
+			TEXT("DirectX9"),		  
+			// タイトルバーで使用されるアイコン
+			NULL,
+		};
+
+		// ウィンドウクラス構造体を登録
+		if (RegisterClassEx(&wnd_class_ex) == 0) {
+
+			MessageBox(0, "ウィンドウクラスの登録に失敗しました。", NULL, MB_OK);
+			return 0;
+		}
+
+		/* ウィンドウのサイズ変更 */
+
+		// リサイズ
+		RECT rect = { 0,0,w,h };
+
+		// ウィンドウ作成
+		HWND h_wnd = CreateWindow(
+			// 登録されているウィンドウクラスの文字列
+			TEXT("DirectX9"),			
+			// ウィンドウ名
+			TEXT("DirectX9"),			
+			// ウィンドウスタイルの設定
+			(WS_OVERLAPPEDWINDOW^WS_THICKFRAME) | WS_VISIBLE,
+			// ウィンドウの表示位置X軸
+			0,                          
+			// ウィンドウの表示位置Y軸
+			0,                          
+			// ウィンドウの横幅
+			rect.right - rect.left,     
+			// ウィンドウの縦幅
+			rect.bottom - rect.top,     
+			// 親のウィンドウハンドル(なければNULL)
+			NULL,                       
+			// メニューハンドル(なければNULL)
+			NULL,                       
+			// インスタンスハンドル
+			h_instance,               
+			// CREATESTRUCT構造体のポインタ(NULLでいい)
+			NULL);                    
+
+		// ウィンドウハンドルのnullチェック
+		if (h_wnd == NULL)
+		{
+			MessageBoxA(0, "ウィンドウの生成に失敗しました。", NULL, MB_OK);
+			return 0;
+		}
+
+		// ウィンドウを表示
+		ShowWindow(h_wnd, SW_SHOW);
+		// クライアント領域更新
+		UpdateWindow(window_handle);
+
+		return h_wnd;
 	}
-	// もしかしたらDefWindowProc
-	return DefWindowProc(hWnd, uMsg, wParam, lParam);
+
+
+	bool ProcessMessage() {
+
+		// メッセージ受け取り用構造体
+		MSG msg;
+		
+		while (PeekMessage(
+			&msg,           // 取得メッセージ
+			window_handle,  // ウィンドウハンドル
+			0,              // 取得メッセージの最大値
+			0,			    // 取得メッセージの最小値
+			PM_REMOVE		// 取得メッセージの削除オプション
+		)) 
+		{
+			// 文字列入力系を受け取る
+			TranslateMessage(&msg);
+			// ウィンドウプロシージャを呼ぶ(重要)
+			DispatchMessage(&msg);
+
+			// 終了メッセージの時falseを返す
+			if (msg.message == WM_QUIT) {
+				return false;
+			}
+
+			break;
+		}
+
+		// メッセージ送信終了
+		return true;
+	}
+
+	
+	LRESULT CALLBACK WndProc(
+		HWND h_wnd,
+		UINT u_msg,
+		WPARAM w_param,
+		LPARAM l_param) {
+
+		switch (u_msg) {
+			
+		// ウィンドウが破棄される時
+		case WM_DESTROY:
+
+			// 終了処理
+			PostQuitMessage(0);
+			break;
+		}
+
+		// 戻り値を返す
+		return DefWindowProc(h_wnd, u_msg, w_param, l_param);
+	}
+
+	
+	bool InitWindow(const int window_w, const int window_h) {
+
+		// ウィンドウの生成が最初
+		window_handle = MakeWindow(window_w, window_h);
+
+		if (window_handle == NULL) {
+
+			MessageBoxA(0, "window_handle取得に失敗しました。", NULL, MB_OK);
+			return false;
+		}
+		return true;
+	}
+
+
+	// ウィンドウサイズを変更
+	void SetWindowSize(const UINT&cx, const UINT&cy) {
+
+		SetWindowPos(window_handle, NULL, 0, 0, cx, cy, SWP_NOMOVE | SWP_NOZORDER);
+	}
+
+
+	// ウィンドウを中央に移動
+	void SetWindowCenterMove() {
+
+		RECT rc1;  // デスクトップ領域
+		RECT rc2;  // ウィンドウ領域
+		INT cx, cy;// ウィンドウ位置
+		INT sx, sy;// ウィンドウサイズ
+
+		/* サイズの取得 */
+
+		//デスクトップのサイズ
+		SystemParametersInfo(SPI_GETWORKAREA, 0, &rc1, 0);
+		// ウィンドウのサイズ
+		GetWindowRect(window_handle, &rc2);
+
+		sx = (rc2.right - rc2.left);// ウィンドウの横幅
+		sy = (rc2.bottom - rc2.top);// ウィンドウの高さ
+
+		cx = (((rc1.right - rc1.left) - sx) / 2 + rc1.left);
+		cy = (((rc1.bottom - rc1.top) - sy) / 2 + rc1.top);
+
+		SetWindowPos(window_handle, NULL, cx, cy, 0, 0,
+			SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
+	}
+
+	// ウィンドウハンドルを返す
+	HWND GetWindowHandle() {
+		return window_handle;
+	}
 }
 
-// ウィンドウの生成
 
-HWND MakeWindow(int w, int h) {// 他にも入るものがあるかも
+/*
+CreateWindow関数
+WS_POPUP,// ウィンドウスタイルの設定
+*/
+
+/* MEMO
+MessageBoxはマルチバイト文字列でしか使えないので注意
+unicodeの場合,MessageBoxAを使う
+*/
+
+// MEMO :
+// ウィンドウのメッセージを受け取ったり、投げ返したりする方法。
+// MSG等に情報を入れて投げたりする。ゲームではほとんど投げない。ウィンドウのサイズを変える時ぐらい。
+// PM_REMOVEはちゃんともう一回回す。
+// 昔はもっとcaseが多かった。
+// PostQuitMassage関数を呼び出すと一応メッセージを終了してくれる。
 
 
-	HINSTANCE hi = GetModuleHandle(NULL);// これでインスタンスハンドルを代入できる。
-
-										 // ①ウィンドウクラスを作る。
-	WNDCLASSEX wc = {
-		sizeof(WNDCLASSEX),
-		CS_HREDRAW | CS_VREDRAW,
-		WndProc,
-		0,
-		0,
-		hi,
-		LoadIcon(NULL,MAKEINTRESOURCE(IDI_APPLICATION)),
-		LoadCursor(NULL,IDC_ARROW),
-		NULL,// 背景色かは分からない
-		NULL,
-		TEXT("DirectX9"),
-		NULL,
-	};// wcで略す。WNDCLASSEX構造体
-
-	  // ②ウィンドウクラスを登録する。
-	if (RegisterClassEx(&wc) == 0) {
-		MessageBoxA(0, "ウィンドウクラスの登録に失敗しました。", NULL, MB_OK);
-		return 0;
-	}
-
-	// ウィンドウのサイズ変更
-	// リサイズ
-	RECT rect = { 0,0,w,h };
-
-	// ③ウィンドウクラスを設定する。
-	HWND hWnd = CreateWindowEx(
-		NULL,
-		TEXT("DirectX9"),
-		TEXT("DirectX9"),
-		/*(WS_OVERLAPPEDWINDOW^WS_THICKFRAME) | WS_VISIBLE*/WS_POPUP, 
-		0,// 引数を無視する。
-		0,//CW_USEDDEFAULTにしないと描画してくれない。
-		rect.right - rect.left,
-		rect.bottom - rect.top,
-		NULL,
-		NULL,
-		hi,
-		NULL);
-
-	if (hWnd == NULL)
-	{
-
-		MessageBoxA(0, "ウィンドウの生成に失敗しました。", NULL, MB_OK);
-		return 0;// ここ変更
-	}
-
-	ShowWindow(hWnd, SW_SHOW);// ウィンドウを必ず表示させるようにする。
-
-	return hWnd;// ここ変更
-}
-
-// メモ:
+// MEMO:
 //WNDCLASSEXはどういうウィンドウにするかを設定する物。
 // ハンドルは操作する為のもの。
 
 // ウィンドウメッセージの処理]
 
 // 解像度の変更も行いたい
-
-
-bool ProcessMessage() {
-
-	MSG msg;
-
-	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-
-		TranslateMessage(&msg);// 文字列入力系を受け取る関数
-		DispatchMessage(&msg);// ウィンドウプロシージャを呼ぶための関数。重要な関数
-
-		if (msg.message == WM_QUIT) {// メッセージがあれば渡す。
-			return false;//falseの時はbraekする。終了処理の時に呼ばれる。
-		}
-
-		break;
-	}
-	return true;// メッセージがなかったらtrueを返す。
-
-}
-
-
-// メモ :
-// ウィンドウのメッセージを受け取ったり、投げ返したりする方法。
-// MSG等に情報を入れて投げたりする。ゲームではほとんど投げない。ウィンドウのサイズを変える時ぐらい。
-// PM_REMOVEはちゃんともう一回回す。
-// 昔はもっとcaseが多かった。
-// PostQuitMassage関数を呼び出すと一応メッセージを終了してくれる。
-// 
-
-bool DrawStart()
-{
-	// シーンのクリア
-	//dev->Clear(0, NULL, D3DCLEAR_TARGET, 0xffffffff, 0.0f, 0);
-	dev->Clear(
-		0, NULL,
-		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
-		NULL,// ここで背景色を変える。
-		1.0f, 0
-	);
-
-	if (D3D_OK == dev->BeginScene())
-	{
-		return true;
-	}
-	return false;
-}
-
-// ビューポートの設定は大体ウィンドウのクライアント領域は変えなくて良い
-// ので、変える必要はない。
-
-
-void DrawEnd()
-{
-	// シーン描画終了
-	dev->EndScene();
-	// バッファ転送
-	dev->Present(NULL, NULL, NULL, NULL);
-}
-
-
-
-// ウィンドウハンドル(グローバル)
-HWND window_handle;
-
-// DirectX関係の初期化。
-bool DirectXInit(const int window_w,const int window_h) {
-
-	// ウィンドウの生成が最初
-	window_handle = MakeWindow(window_w, window_h);
-
-	if (window_handle == NULL) {
-
-		MessageBoxA(0, "window_handle取得に失敗しました。", NULL, MB_OK);
-		return false;
-	}
-
-	// D3Dの初期化(ウィンドウ)
-	InitD3D(window_handle);
-
-	
-	//ShowWindow(window_handle, SW_SHOW);// 追加
-	UpdateWindow(window_handle);
-
-
-	return true;
-}
-
-// ウィンドウサイズを変更
-void SetWindowSize(const UINT&cx,const UINT&cy) {
-
-	SetWindowPos(window_handle, NULL, 0, 0, cx, cy, SWP_NOMOVE | SWP_NOZORDER);
-}
-
-// ウィンドウを中央に移動
-void SetWindowCenterMove() {
-
-#define GetMonitorRect(rc) SystemParametersInfo(SPI_GETWORKAREA,0,rc,0)
-
-	RECT rc1;// デスクトップ領域
-	RECT rc2;// ウィンドウ領域
-	INT cx, cy;// ウィンドウ位置
-	INT sx, sy;// ウィンドウサイズ
-
-	// サイズの取得
-	GetMonitorRect(&rc1);//デスクトップのサイズ
-	GetWindowRect(window_handle, &rc2);// ウィンドウのサイズ
-
-	sx = (rc2.right - rc2.left);// ウィンドウの横幅
-	sy = (rc2.bottom - rc2.top);// ウィンドウの高さ
-
-	cx = (((rc1.right - rc1.left) - sx) / 2 + rc1.left);
-	cy = (((rc1.bottom - rc1.top) - sy) / 2 + rc1.top);
-
-	SetWindowPos(window_handle, NULL, cx, cy, 0, 0,
-		SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
-}
-
-// ウィンドウハンドルを返す
-HWND GetWindowHandle() {
-	return window_handle;
-}
-
-
-
-
