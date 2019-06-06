@@ -18,7 +18,7 @@ void GameMain::Init() {
 
 	m_pobj_mng = new ObjectManager;
 
-	m_gameover_ui_pos = D3DXVECTOR2((WINDOW_W_F / 2), 0);
+	m_gameover_ui_pos = D3DXVECTOR2((Window::WIDTH / 2), 0);
 	m_gameover_ui_posy_max = 300;
 	m_scene_change_count_timer = 0;
 	m_gameover_scene_change_time = 360;

@@ -52,7 +52,7 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	// 自機1（ヒくん、オレンジの方）の初期化情報
 	if (id == STAR_1) {
 		// 初期位置
-		const D3DXVECTOR2 STAR_1_FIRST_POS = D3DXVECTOR2((float)WINDOW_W / 2.f - 200.f, (float)WINDOW_H / 2.f + 200.f);
+		const D3DXVECTOR2 STAR_1_FIRST_POS = D3DXVECTOR2((float)Window::WIDTH / 2.f - 200.f, (float)Window::HEIGHT / 2.f + 200.f);
 
 		m_pos = STAR_1_FIRST_POS;
 
@@ -73,7 +73,7 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	// 自機2（デちゃん、ピンクの方）の初期化情報
 	else if (id == STAR_2) {
 		// 初期位置
-		const D3DXVECTOR2 STAR_2_FIRST_POS = D3DXVECTOR2((float)WINDOW_W / 2.f + 200.f, (float)WINDOW_H / 2.f + 200.f);
+		const D3DXVECTOR2 STAR_2_FIRST_POS = D3DXVECTOR2((float)Window::WIDTH / 2.f + 200.f, (float)Window::HEIGHT / 2.f + 200.f);
 
 		m_pos = STAR_2_FIRST_POS;
 
