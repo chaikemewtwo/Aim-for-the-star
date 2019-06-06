@@ -180,8 +180,7 @@ private:
 
 	// 向き変更時最大角度（ヒトデの頭の向きの左右の最大角度）
 	const float MAX_ANGLE = 45.f;
-<<<<<<< HEAD
-=======
+
 
 	// STAR_1の初期位置
 	const float STAR_1_FIRST_POS_X = (float)Window::WIDTH / 2.f - 200.f;
@@ -206,7 +205,6 @@ private:
 
 	// 分割画像Y枚数
 	const int TEXTURE_PARTITION_Y_NUMBER = TEXTURE_PARTITION_X_NUMBER;
->>>>>>> Lib(Refactoring)
 	//-----------------------------------------------------
 
 	// 画像格納用

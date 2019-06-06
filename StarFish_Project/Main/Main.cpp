@@ -28,7 +28,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 
 	SceneManager* sm = SceneManager::GetInstance();
 	sm->Init();
-	
 
 	while (Window::ProcessMessage() == true) {
 		// キー入力情報更新

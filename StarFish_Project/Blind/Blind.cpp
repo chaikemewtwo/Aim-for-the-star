@@ -9,10 +9,10 @@ Blind::Blind() {
 	m_goal_pos = D3DXVECTOR2(0, 0);
 	m_speed = 3;
 	m_angle = 0;
-	m_animation_num = 0;
+	m_animation_count = 0;
 	m_max_animation = 3;
 	m_anim_change_time = 15;
-	m_sort_object = SortObject::BLIND;
+	m_sort_object_type = SortObject::BLIND;
 	m_blind_texture = "Resource/Texture/Blind/blind.png";
 }
 //―――――――――――――――――――――――
