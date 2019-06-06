@@ -13,8 +13,8 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* map, bool no_move) {
 	// no_moveがtrueの場合は動かないウニの生成
 	m_no_move = no_move;
 	
-	m_ofset.x = 128.f;
-	m_ofset.y = 128.f;
+	m_offset.x = 128.f;
+	m_offset.y = 128.f;
 
 	// その他変数の初期化
 	m_speed = 2;

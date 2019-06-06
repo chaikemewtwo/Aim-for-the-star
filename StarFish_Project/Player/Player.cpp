@@ -20,7 +20,7 @@ Player::Player(ID_TYPE id) :m_state(PlayerWaitState::GetInstance()) {
 	m_radius = PLAYER_COLLSION_RADIUS;
 
 	// 当たり判定位置調整（左上から中央に）
-	m_ofset = { PLAYER_COLLSION_RADIUS, PLAYER_COLLSION_RADIUS };
+	m_offset = { PLAYER_COLLSION_RADIUS, PLAYER_COLLSION_RADIUS };
 
 	m_is_active = true;
 

@@ -34,5 +34,5 @@ public:
 protected:
 
 	float m_speed;       // 移動速度
-	D3DXVECTOR2 m_ofset; // 当たり頂点をずらす 
+	D3DXVECTOR2 m_offset; // 当たり頂点をずらす 
 };
