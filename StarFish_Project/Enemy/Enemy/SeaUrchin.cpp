@@ -39,7 +39,7 @@ void SeaUrchin::Update() {
 
 	m_pstate_base->Action(this);
 	// マップスクロールに合わせた移動処理
-	m_pos.y += m_pmap->GetMovePos().y;
+	m_pos.y += m_pmap->GetMove().y;
 
 	OutScreenCheck();
 }

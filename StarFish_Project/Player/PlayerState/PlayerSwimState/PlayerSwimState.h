@@ -13,13 +13,18 @@ public:
 		return &instance;
 	}
 
+	// 初期化
 	void Init(Player* p) override;
+	// 更新
 	void Update(Player* p) override;
 
 private:
+	// 1アニメーションの速さ
 	const int ONE_ANIMATION_SPEED = 6;
 
+	// 統合画像内の画像枚数
 	const int MAX_ANIMATION_TEX_NUM = 16;
 
-	const int MAX_COUNT = ONE_ANIMATION_SPEED * MAX_ANIMATION_TEX_NUM;
+	// 状態切り替えカウント
+	const int CHANGE_STATE_COUNT = ONE_ANIMATION_SPEED * MAX_ANIMATION_TEX_NUM;
 };

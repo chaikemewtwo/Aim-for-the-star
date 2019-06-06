@@ -2,7 +2,6 @@
 
 class Player;
 
-
 // 状態基底クラス
 class PlayerStateBase {
 public:

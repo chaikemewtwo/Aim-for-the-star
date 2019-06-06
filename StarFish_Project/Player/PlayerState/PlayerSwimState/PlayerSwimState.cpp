@@ -3,8 +3,6 @@
 #include "../../Player/Player.h"
 
 
-// 泳ぎ状態
-// 初期化
 void PlayerSwimState::Init(Player* p) {
 	// 状態遷移タイマー
 	p->ResetStateChangeTimer();
@@ -19,7 +17,6 @@ void PlayerSwimState::Init(Player* p) {
 }
 
 
-// 更新
 void PlayerSwimState::Update(Player* p) {
 	Keybord& kb = Keybord::getInterface();
 
@@ -34,21 +31,21 @@ void PlayerSwimState::Update(Player* p) {
 
 	// 左右角度変更
 	// 左
-	if ((kb.on(p->imput_button_name[p->LEFT_KEY][256]))) {
+	if ((kb.on(p->imput_button_name[p->LEFT_KEY]))) {
 		p->AngleAdjust(false);
 	}
 	// 右
-	if ((kb.on(p->imput_button_name[p->RIGHT_KEY][256]))) {
+	if ((kb.on(p->imput_button_name[p->RIGHT_KEY]))) {
 		p->AngleAdjust(true);
 	}
 
 	// 待機状態に戻る
-	if (p->GetStateChangeTimer() >= MAX_COUNT) {
+	if (p->GetStateChangeTimer() >= CHANGE_STATE_COUNT) {
 		p->ChangeState(PlayerWaitState::GetInstance());
 	}
 
 	// 死亡状態へ移行
-	if (p->GetIsAlive() == false) {
+	if (p->IsActive() == false) {
 		p->ChangeState(PlayerDeathState::GetInstance());
 	}
 }
