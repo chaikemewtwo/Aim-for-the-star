@@ -37,10 +37,10 @@ void Clear::Init() {
 	m_background_texture2 = m_background_texture_list[SKY_TEXTURE];
 	
 	// 座標の初期化
-	m_player1_pos = D3DXVECTOR2((WINDOW_W_F/2)-256, 1000);
-	m_player2_pos = D3DXVECTOR2((WINDOW_W_F/2)+256, 1000);
+	m_player1_pos = D3DXVECTOR2((Window::WIDTH/2)-256, 1000);
+	m_player2_pos = D3DXVECTOR2((Window::WIDTH/2)+256, 1000);
 
-	m_background1_pos = D3DXVECTOR2(0, (WINDOW_H_F-BACKGROUND_TEXTURE_SIZE_Y));
+	m_background1_pos = D3DXVECTOR2(0, (Window::HEIGHT-BACKGROUND_TEXTURE_SIZE_Y));
 	m_background2_pos = D3DXVECTOR2(0,m_background1_pos.y-BACKGROUND_TEXTURE_SIZE_Y);
 
 	m_scene_change_time = 120;
@@ -184,7 +184,7 @@ void Clear::PlayerAnimation() {
 			m_player_animation_num++;
 
 			// 背景が途中の場合、アニメーションをループさせる
-			if (m_background2_pos.y <= WINDOW_H_F && m_player_animation_num == 13) {
+			if (m_background2_pos.y <= Window::HEIGHT && m_player_animation_num == 13) {
 				m_player_animation_num = 5;
 			}
 			// 背景スクロール後、アニメーションを次に遷移させる

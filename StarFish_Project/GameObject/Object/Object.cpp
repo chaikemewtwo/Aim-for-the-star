@@ -8,7 +8,7 @@ Object::Object() {
 	m_is_active = true;
 	m_id = 0;
 	m_animation_timer = 0;
-	m_animation_num = 0;
+	m_animation_count = 0;
 	m_sort_object_type = MAX;
 }
 
@@ -16,10 +16,10 @@ Object::Object() {
 void Object::AnimationDraw(int max_animation, int anim_cange_time, int init_anim_num) {
 	if (m_animation_timer >= anim_cange_time) {
 		m_animation_timer = 0;
-		m_animation_num++;
+		m_animation_count++;
 		// 描画する画像番号が分割後の使用枚数を超えたら、番号を初期化
-		if (m_animation_num >= max_animation) {
-			m_animation_num = init_anim_num;
+		if (m_animation_count >= max_animation) {
+			m_animation_count = init_anim_num;
 		}
 	}
 	else {

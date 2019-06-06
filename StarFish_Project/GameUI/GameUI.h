@@ -28,9 +28,9 @@ private:
 	const float ALL_GAGE = GAGE_UNDER_POS - GAGE_MAX_POS;
 
 	// 右ゲージの位置
-	const float RIGHT_GAGE_POS = WINDOW_W - 132.f;
+	const float RIGHT_GAGE_POS = Window::WIDTH - 132.f;
 	// 右岩の位置
-	const float RIGHT_ROCK_POS = WINDOW_W - 196.f;
+	const float RIGHT_ROCK_POS = Window::WIDTH - 196.f;
 
 	// 自機1
 	Player * p1;

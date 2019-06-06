@@ -1,8 +1,4 @@
-﻿
-#include"D3D9.h"
-
-
-
+﻿#include"D3D9.h"
 
 
 
@@ -41,7 +37,7 @@ namespace Graphics {
 		d3d_pp.MultiSampleQuality = 0;						   // マルチサンプルの品質レベル
 		d3d_pp.SwapEffect = D3DSWAPEFFECT_DISCARD;			   // フロントバッファとバックバッファの切り替え方法
 		d3d_pp.hDeviceWindow = hWnd;					       // 画面を描画するウィンドウハンドル
-		d3d_pp.Windowed = TRUE;								   // スクリーンモード
+		d3d_pp.Windowed = FALSE;							   // スクリーンモード
 		d3d_pp.EnableAutoDepthStencil = TRUE;				   // 深度ステンシルバッファがあるかどうか
 		d3d_pp.AutoDepthStencilFormat = D3DFMT_D24S8;		   // ステンシルバッファのフォーマット
 		d3d_pp.Flags = D3DPRESENTFLAG_DISCARD_DEPTHSTENCIL;    // バックバッファからフロントバッファへ転送時のオプション
@@ -50,12 +46,12 @@ namespace Graphics {
 
 		// デバイスの作成
 		direct3d9->CreateDevice(
-			D3DADAPTER_DEFAULT,                  // ディスプレイアダプターの種類
-			D3DDEVTYPE_HAL,                      // デバイスの種類を設定
-			hWnd,								 // デバイスが割り当てられるウィンドウハンドル
-			D3DCREATE_HARDWARE_VERTEXPROCESSING, // デバイス制御の組み合わせ
-			&d3d_pp,							 // デバイスを設定するためのD3DPRESENT_PARAMETERS構造体
-			&d3d_device9						 // LPDIRECT3DDEVICE9のポインタのアドレスに格納する
+			D3DADAPTER_DEFAULT,                                // ディスプレイアダプターの種類
+			D3DDEVTYPE_HAL,                                    // デバイスの種類を設定
+			hWnd,								               // デバイスが割り当てられるウィンドウハンドル
+			D3DCREATE_HARDWARE_VERTEXPROCESSING,               // デバイス制御の組み合わせ
+			&d3d_pp,							               // デバイスを設定するためのD3DPRESENT_PARAMETERS構造体
+			&d3d_device9						               // LPDIRECT3DDEVICE9のポインタのアドレスに格納する
 		);
 
 		// D3Dデバイスのnullチェック

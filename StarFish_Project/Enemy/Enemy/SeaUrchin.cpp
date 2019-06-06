@@ -13,8 +13,8 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* map, bool no_move) {
 	// no_moveがtrueの場合は動かないウニの生成
 	m_no_move = no_move;
 	
-	m_hit_vertex_shift.x = 128.f;
-	m_hit_vertex_shift.y = 128.f;
+	m_ofset.x = 128.f;
+	m_ofset.y = 128.f;
 
 	// その他変数の初期化
 	m_speed = 2;
@@ -25,10 +25,10 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* map, bool no_move) {
 	m_enemy_texture = m_texture_list[SEAURCHIN_MOVE];
 
 	// 画面の左右どちらにいるかを判定
-	if (m_pos.x < (WINDOW_W_F / 2)) {
+	if (m_pos.x < (Window::WIDTH / 2)) {
 		m_is_left = true;
 	}
-	else if (m_pos.x > (WINDOW_W_F / 2)) {
+	else if (m_pos.x > (Window::WIDTH / 2)) {
 		m_is_left = false;
 	}
 }
@@ -54,7 +54,7 @@ void SeaUrchin::Draw() {
 		TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
 		m_angle, 0, 0,
 		true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
-		m_animation_num
+		m_animation_count
 	);
 	AnimationDraw(m_max_animation, m_anim_change_time);
 }

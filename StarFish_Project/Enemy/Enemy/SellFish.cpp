@@ -23,12 +23,12 @@ SellFish::SellFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2,bool no_mov
 
 
 	// 画面の左右どちらにいるかを判定
-	if (m_pos.x < (WINDOW_W_F / 2)) {
+	if (m_pos.x < (Window::WIDTH / 2)) {
 
 		m_is_left = true;
 		m_angle = 180;
 	}
-	else if (m_pos.x > (WINDOW_W_F / 2)) {
+	else if (m_pos.x > (Window::WIDTH / 2)) {
 
 		m_is_left = false;
 		m_angle = 0;
@@ -54,7 +54,7 @@ void SellFish::Draw() {
 		TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
 		m_angle, m_center, m_center,
 		true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
-		m_animation_num
+		m_animation_count
 	);
 	AnimationDraw(m_max_animation, m_anim_change_time);
 }

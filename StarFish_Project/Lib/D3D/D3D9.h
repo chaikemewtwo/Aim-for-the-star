@@ -6,7 +6,6 @@
 
 namespace Graphics {
 
-
 	// D3Dの初期化、ウィンドウモード
 	LPDIRECT3DDEVICE9 InitD3D(HWND hWnd);
 	// D3Dの初期化、フルスクリーンモード
@@ -22,5 +21,6 @@ namespace Graphics {
 	// グラフィックスの解放
 	void Release();
 
+	/* デバイスのアクセサ */
 	LPDIRECT3DDEVICE9 GetLpDirect3DDevice9();
 }

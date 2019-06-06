@@ -12,11 +12,12 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 
 	// 初期化
-	if (DirectXInit() == false) {
+	if (Window::InitWindow() == false) {
 		return -1;
 	}
+	Graphics::InitD3D(Window::GetWindowHandle());
 
-	Audio& audio = Audio::getInterface(GetWindowHandle());
+	Audio& audio = Audio::getInterface(Window::GetWindowHandle());
 	Keybord& kb = Keybord::getInterface();
 
 	// リソース読み込み
@@ -29,7 +30,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 	sm->Init();
 	
 
-	while (ProcessMessage() == true) {
+	while (Window::ProcessMessage() == true) {
 		// キー入力情報更新
 		kb.update();
 
@@ -38,20 +39,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 			break;
 		}
 
-		// 描画開始
-		if (DrawStart() == true) {
+		sm->Update();
 
-			sm->Update();
+		// 描画開始
+		if (Graphics::DrawStart() == true) {
 
 			if (sm->IsQuit() == true) {
 				return WM_QUIT;
 			}
 		}
-		DrawEnd();
+		Graphics::DrawEnd();
 	}
 
 	Texture::Release();
-	GraphicsRelease();
+	Graphics::Release();
 
 	return 0;
 }

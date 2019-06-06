@@ -106,7 +106,7 @@ public:
 
 	// アニメーション番号0初期化
 	void ResetAnimationNumber() {
-		m_animation_num = 0;
+		m_animation_count = 0;
 	}
 
 	// 重力負荷
@@ -184,12 +184,12 @@ private:
 	const float MAX_ANGLE = 45.f;
 
 	// STAR_1の初期位置
-	const float STAR_1_FIRST_POS_X = (float)WINDOW_W / 2.f - 200.f;
-	const float STAR_1_FIRST_POS_Y = (float)WINDOW_H / 2.f + 200.f;
+	const float STAR_1_FIRST_POS_X = (float)Window::WIDTH / 2.f - 200.f;
+	const float STAR_1_FIRST_POS_Y = (float)Window::HEIGHT / 2.f + 200.f;
 
 	// STAR_2の初期位置
-	const float STAR_2_FIRST_POS_X = (float)WINDOW_W / 2.f + 200.f;
-	const float STAR_2_FIRST_POS_Y = (float)WINDOW_H / 2.f + 200.f;
+	const float STAR_2_FIRST_POS_X = (float)Window::WIDTH / 2.f + 200.f;
+	const float STAR_2_FIRST_POS_Y = (float)Window::HEIGHT / 2.f + 200.f;
 	//-----------------------------------------------------
 
 	//-----------------------------------------------------

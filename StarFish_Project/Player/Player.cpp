@@ -15,8 +15,8 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	// 半径
 	m_radius = 64.f;
 	// 当たり位置の頂点を画像の中心にずらす
-	m_hit_vertex_shift.x = 64.f;
-	m_hit_vertex_shift.y = 64.f;
+	m_ofset.x = 64.f;
+	m_ofset.y = 64.f;
 
 	// 生存フラグ
 	m_is_alive = true;
@@ -28,7 +28,7 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	m_character_angle = 0.f;
 
 	// アニメーション番号
-	m_animation_num = 0;
+	m_animation_count = 0;
 
 	// 移動量
 	m_move.x = 0.f;
@@ -44,7 +44,7 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	m_draw_enable = true;
 
 	// ソート
-	m_sort_object = SortObject::PLAYER;
+	m_sort_object_type = SortObject::PLAYER;
 
 	// 自機1（ヒくん、オレンジの方）
 	if (id == STAR_1) {
@@ -129,7 +129,7 @@ void Player::Draw() {
 			true,
 			TEXTURE_PARTITION_X_NUMBER,
 			TEXTURE_PARTITION_Y_NUMBER,
-			m_animation_num
+			m_animation_count
 		);
 	}
 }
