@@ -10,29 +10,29 @@
 
 BackGround::BackGround(
 	const std::string&file_name,
-	Map*map,
+	Map * map,
 	SortObject sort_num,
 	float graph_scale_x,
 	float graph_scale_y,
 	bool scroll_limit) {
 
 
-	m_sort_object = sort_num;		                 // ソート番号代入
+	m_sort_object_type = sort_num;		                 // ソート番号代入
 	m_pos.x = m_pos.y = 0.f;		                 // 位置初期化
 	m_max_graph_num = 0;				             // 画像数初期化
 	m_h_difference = 
-		(int)(WINDOW_H_F - graph_scale_y) / 2;       // 画像の縦端数初期化
+		(int)(Window::HEIGHT - graph_scale_y) / 2;       // 画像の縦端数初期化
 	m_w_difference =
-		(int)(WINDOW_W_F - graph_scale_x) / 2;       // 画像の横端数初期化
+		(int)(Window::WIDTH - graph_scale_x) / 2;       // 画像の横端数初期化
 	m_current_pos = 0;				                 // 画像の現在位置初期化
 	m_connect1_graph = 0;			                 // 連結画像1初期化
 	m_connect2_graph = 1;			                 // 連結画像2初期化
 
-	m_h_graph_difference = graph_scale_y - WINDOW_H_F;
+	m_h_graph_difference = graph_scale_y - Window::HEIGHT;
 
 	// 端数から中心位置に画像を配置できるようにする
-	m_pos.x = (WINDOW_W_F - graph_scale_x) / 2;		 // 最初の背景の位置x
-	m_pos.y = ((WINDOW_H_F + m_h_graph_difference) - graph_scale_y) / 2;		 // 最初の背景の位置y
+	m_pos.x = (Window::WIDTH - graph_scale_x) / 2;		 // 最初の背景の位置x
+	m_pos.y = ((Window::HEIGHT + m_h_graph_difference) - graph_scale_y) / 2;		 // 最初の背景の位置y
 
 	m_move.x = m_move.y = 0.f;		                 // 自機の移動初期化
 	m_is_max_scroll = false;                           // スクロール最大
@@ -62,13 +62,13 @@ void BackGround::Draw(){
 	// 1枚目描画
 		Texture::Draw2D(m_pback_str[m_connect1_graph % m_max_graph_num],
 			(float)m_w_difference,
-			(m_pos.y + (float)((-WINDOW_H_F - m_h_graph_difference) * m_connect1_graph) + (float)m_h_difference)
+			(m_pos.y + (float)((-Window::HEIGHT - m_h_graph_difference) * m_connect1_graph) + (float)m_h_difference)
 		);
 		
 	// 2枚目描画
 		Texture::Draw2D(m_pback_str[m_connect2_graph % m_max_graph_num],
 			(float)m_w_difference,
-			(m_pos.y + (float)((-WINDOW_H_F - m_h_graph_difference) * m_connect2_graph) + (float)m_h_difference)// +10.f
+			(m_pos.y + (float)((-Window::HEIGHT - m_h_graph_difference) * m_connect2_graph) + (float)m_h_difference)// +10.f
 		);
 }
 
@@ -115,17 +115,11 @@ void BackGround::BGLoad(const std::string&file_name) {
 // 背景スクロール
 void BackGround::Scroll() {
 
-
 	// 画面遷移基準
-	const int GRAPH_SIZE_H =      static_cast<int>(WINDOW_H_INT + m_h_graph_difference);
+	const int GRAPH_SIZE_H =      static_cast<int>(Window::HEIGHT + m_h_graph_difference);
 	const int CHANGE_RANGE_UP =   static_cast<int>(-m_pos.y - BG_CHANGE_LINE);
 	const int CHANGE_RANGE_DOWN = static_cast<int>(-m_pos.y + GRAPH_SIZE_H - GRAPH_DIFFERENCE + BG_CHANGE_LINE);
 
-	// 前にずれているか後ろにずれているかを判断して画像をずらす
-
-	//if (m_connect1_graph == 3) {
-	//	m_connect1_graph = 3;
-	//}
 
 	// MEMO 背景は-50 * -50を頂点に描画するので前は50piずらす必要はない
 	// 前

@@ -11,15 +11,15 @@ EnemyBase::EnemyBase() {
 	// 当たり判定の変形を設定
 	m_radius = 64.f;
 	// 当たり位置の頂点を画像の中心にずらす
-	m_hit_vertex_shift.x = 64.f;
-	m_hit_vertex_shift.y = 64.f;
+	m_ofset.x = 64.f;
+	m_ofset.y = 64.f;
 
 	m_delete_timer = 100;
 	m_max_animation = 0;
 	m_pstate_base = Wait::GetInstance();
 
 	// ソートオブジェクトに敵追加
-	m_sort_object = SortObject::ENEMY;
+	m_sort_object_type = SortObject::ENEMY;
 
 	// 敵画像の登録
 	m_texture_list[SEAURCHIN_MOVE] = "Resource/Texture/Enemy/uni_move.png";
@@ -37,7 +37,7 @@ void EnemyBase::ChangeState(StateBase* state) {
 void EnemyBase::OutScreenCheck() {
 
 	// 画面外に出たら、削除までの時間をカウントダウン
-	if (m_pos.y > WINDOW_H_F || m_pos.x<0 || m_pos.x>WINDOW_W_F) {
+	if (m_pos.y > Window::HEIGHT || m_pos.x<0 || m_pos.x>Window::WIDTH) {
 
 		if (m_delete_timer >= 0) {
 
@@ -48,7 +48,7 @@ void EnemyBase::OutScreenCheck() {
 		}
 	}
 	// 画面内に戻ったら時間を戻す
-	else if (m_pos.y < WINDOW_H_F || m_pos.x>0 || m_pos.x < WINDOW_W_F) {
+	else if (m_pos.y < Window::HEIGHT || m_pos.x>0 || m_pos.x < Window::WIDTH) {
 		m_delete_timer = 60;
 	}
 }

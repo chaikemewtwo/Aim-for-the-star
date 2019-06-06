@@ -21,6 +21,9 @@ public:
 	// 当たり判定を行う所
 	void Collision();
 
+	// 円の当たり判定
+	void ChackHitCircle(CircleCollisionObject*obj1, CircleCollisionObject*obj2);
+
 private:
 
 	// オブジェクトを置く場所
@@ -28,7 +31,3 @@ private:
 	EnemyManager*m_pe_mng;
 };
 
-namespace ShapeCollision {
-	// 円の当たり判定
-	void ChackHitCircle(CircleCollisionObject*obj1, CircleCollisionObject*obj2);
-}

@@ -13,22 +13,22 @@ MapManager::MapManager(Player*star1, Player*star2, EnemyManager*e_mng, ObjectMan
 	m_pobj_mng = obj_mng;
 
 	// マップチップ
-	obj_mng->Entry(m_pmap_tip = new Map(star1, star2, e_mng));
+	obj_mng->Entry(m_pmap_tip = new Map(star1, star2, e_mng,obj_mng));
 
 	// 背景1オブジェクト登録(こちらをメインにする)
 	obj_mng->Entry(m_pbg = new
 		BackGround("Map/BGData/BG1.csv",
 			m_pmap_tip,
 			BG_BEFORE,
-			(Texture::GetGraphSizeX("Resource/Texture/Map/bg_hero_01.png")),
-			(Texture::GetGraphSizeY("Resource/Texture/Map/bg_hero_01.png")),
+			(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_01.png")),
+			(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_01.png")),
 			true
 		));
 
 	// 背景2
 	obj_mng->Entry(m_pbg2 = new BackGround("Map/BGData/BG2.csv", m_pmap_tip, BG_AFTER,
-		(Texture::GetGraphSizeX("Resource/Texture/Map/bg_hero_01.png")),// バグった理由
-		(Texture::GetGraphSizeY("Resource/Texture/Map/bg_hero_01.png")),
+		(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_01.png")),// バグった理由
+		(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_01.png")),
 		false
 	));
 }

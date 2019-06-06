@@ -13,7 +13,7 @@ public:
 	// 仮想デストラクタ
 	virtual ~Object() {};
 
-	// 仮想関数
+	// 純粋仮想関数
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 
@@ -32,14 +32,14 @@ public:
 
 protected:
 
-	D3DXVECTOR2 m_pos;     // 位置
-	bool m_is_active;      // Objectが活動しているかの状態変数(活動中true 活動停止false)
-	int m_animation_timer; // アニメーションの時間 
-	int m_animation_num;   // 現在のアニメーションの数
-	SortObject m_sort_object;          // ソート番号
+	D3DXVECTOR2 m_pos;             // 位置
+	bool m_is_active;              // Objectが活動しているかの状態変数(活動中true 活動停止false)
+	int m_animation_timer;         // アニメーションの時間 
+	int m_animation_count;         // 現在のアニメーションの数
+	SortObject m_sort_object_type; // ソート番号
 	
 private:
-	int m_id;              // 生成id
+	int m_id;                      // 生成id
 };
 
 

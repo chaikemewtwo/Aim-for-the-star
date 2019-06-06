@@ -69,7 +69,7 @@ void Blind::Draw() {
 		0.5, 0.5, 
 		m_angle, 0.5, 0.5,
 		true, TEX_PARTITION_NUM, TEX_PARTITION_NUM,
-		m_animation_num
+		m_animation_count
 	);
 	AnimationDraw(m_max_animation, m_anim_change_time);
 }

@@ -6,8 +6,8 @@
 GameUI::GameUI(Player* p_1, Player* p_2) {
 	p1 = p_1;
 	p2 = p_2;
-	m_sort_object = SortObject::GAME_UI;
-	both_death_enable = false;
+
+	m_sort_object_type = SortObject::GAME_UI;
 };
 
 

@@ -31,7 +31,7 @@ private:
 
 	// 生存範囲のサイズ《現在は仮の数値を代入》
 	const float DELETE_WIDE_MIN = -600;
-	const float DELETE_WIDE_MAX = WINDOW_W_F + 600;
+	const float DELETE_WIDE_MAX = Window::WIDTH + 600;
 
 	ObjectManager* m_pobj_mng;
 };

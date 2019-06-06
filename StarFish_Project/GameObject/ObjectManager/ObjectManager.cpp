@@ -7,7 +7,6 @@
 #include"../../Rope/Rope.h"
 #include"../Object/Object.h"
 #include"../../CollisionObject/CollisionManager.h"
-
 #include<algorithm>
 #include<iostream>
 
@@ -16,34 +15,36 @@
 ObjectManager::ObjectManager(){
 
 	// プレイヤー生成
-	m_pplayer[0] = new Player(Player::STAR_1);
-	m_pplayer[1] = new Player(Player::STAR_2);
+	m_p_player[0] = new Player(Player::STAR_1);
+	m_p_player[1] = new Player(Player::STAR_2);
 	// 敵管理生成
-	m_pe_mng = new EnemyManager(this);
+	m_p_enemy_mng = new EnemyManager(this);
 	// ロープ生成
-	m_prope = new Rope(m_pplayer[0], m_pplayer[1]);
+	m_p_rope = new Rope(m_p_player[0], m_p_player[1]);
 	// スタミナGameUI生成
-	m_pui = new GameUI(m_pplayer[0], m_pplayer[1]);
+	m_p_ui = new GameUI(m_p_player[0], m_p_player[1]);
 	// マップ管理生成
-	m_pm_mng = new MapManager(m_pplayer[0], m_pplayer[1], m_pe_mng, this);
+	m_p_map_mng = new MapManager(m_p_player[0], m_p_player[1], m_p_enemy_mng, this);
 	// 当たり判定管理生成
-	m_pcol_mng = new CollisionManager(m_pplayer[0], m_pplayer[1], m_pe_mng);
+	m_p_collision_mng = new CollisionManager(m_p_player[0], m_p_player[1], m_p_enemy_mng);
 
 	// オブジェクト登録
-	Entry(m_prope);
-	Entry(m_pplayer[0]);
-	Entry(m_pplayer[1]);
-	Entry(m_pui);
+	Entry(m_p_rope);
+	Entry(m_p_player[0]);
+	Entry(m_p_player[1]);
+	Entry(m_p_ui);
 }
+
+ObjectManager::~ObjectManager() {}
 
 
 void ObjectManager::Update() {
 
 	// 敵管理クラス更新
-	m_pe_mng->Update();
+	m_p_enemy_mng->Update();
 
 	// 描画用オブジェクトをソートする
-	DrawObjSort();
+	SortDrawObject();
 
 	// 更新
 	for (auto&itr : m_obj_list) {
@@ -52,7 +53,7 @@ void ObjectManager::Update() {
 	}
 
 	// 当たり判定
-	m_pcol_mng->Collision();
+	m_p_collision_mng->Collision();
 }
 
 
@@ -65,7 +66,7 @@ void ObjectManager::Draw() {
 }
 
 
-void ObjectManager::DrawObjSort(){
+void ObjectManager::SortDrawObject(){
 
 	// 一旦他のコンテナに入れ替えないといけない
 	// 描画用の配列を作る
@@ -151,13 +152,12 @@ void ObjectManager::Exit(unsigned int id) {
 bool ObjectManager::IsClear()const{
 	
 	// マップの背景とチップが最大で、かつ自機の位置が200.fよりも少ない(上)のとき
-	if (m_pm_mng->IsMaxMapRange() == true && m_pplayer[0]->GetPos().y <= 200.f ||
-		m_pm_mng->IsMaxMapRange() == true && m_pplayer[1]->GetPos().y <= 200.f) {
+	if (m_p_map_mng->IsMaxMapRange() == true && m_p_player[0]->GetPos().y <= 200.f ||
+		m_p_map_mng->IsMaxMapRange() == true && m_p_player[1]->GetPos().y <= 200.f) {
 		return true;
 	}
-	else {
+
 		return false;
-	}
 }
 
 bool ObjectManager::IsGameOver()const {

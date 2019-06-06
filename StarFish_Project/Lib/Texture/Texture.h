@@ -29,14 +29,8 @@ struct TEXTURE_DATA
 	operator LPDIRECT3DTEXTURE9() const {
 		return Texture;
 	}
-
-	LPDIRECT3DTEXTURE9 GetTexture()const {
-		return Texture;
-	}
 };
 
-// テクスチャを保存するテクスチャリスト
-extern std::unordered_map < std::string, TEXTURE_DATA > tex_list;
 
 namespace Texture {
 
@@ -46,4 +40,6 @@ namespace Texture {
 	void LoadEx(const char * file_name, UINT width = 0.f, UINT height = 0.f, DWORD color_key = NULL, float u = 0.f, float v = 0.f);
 	// 解放
 	void Release();
+	// テクスチャデータのゲッター
+	TEXTURE_DATA GetData(const std::string&texture_file_name);
 }

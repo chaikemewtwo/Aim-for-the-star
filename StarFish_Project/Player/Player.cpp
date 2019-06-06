@@ -13,7 +13,7 @@
 Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	Keybord& kb = Keybord::getInterface();
 
-	// 各パラメータ
+    // 各パラメータ
 	// 当たり判定の半径
 	const float PLAYER_COLLSION_RADIUS = 64.f;
 	// 移動速度
@@ -22,8 +22,11 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	// 自機2種類の共通部分初期化
 	m_radius = PLAYER_COLLSION_RADIUS;
 
-	// 当たり判定位置調整（左上から中央に）
-	m_hit_vertex_shift = D3DXVECTOR2(PLAYER_COLLSION_RADIUS, PLAYER_COLLSION_RADIUS);
+	// 半径
+	m_radius = 64.f;
+	// 当たり位置の頂点を画像の中心にずらす
+	m_ofset.x = 64.f;
+	m_ofset.y = 64.f;
 
 	m_is_alive = true;
 
@@ -31,7 +34,8 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 
 	m_angle = 0.f;
 
-	m_animation_num = 0;
+	// アニメーション番号
+	m_animation_count = 0;
 
 	m_move = D3DXVECTOR2(0.f, 0.f);
 
@@ -42,7 +46,8 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 
 	m_draw_enable = true;
 
-	m_sort_object = SortObject::PLAYER;
+	// ソート
+	m_sort_object_type = SortObject::PLAYER;
 
 	// 自機1（ヒくん、オレンジの方）の初期化情報
 	if (id == STAR_1) {
@@ -143,7 +148,7 @@ void Player::Draw() {
 			true,
 			TEXTURE_PARTITION_X_NUMBER,
 			TEXTURE_PARTITION_Y_NUMBER,
-			m_animation_num
+			m_animation_count
 		);
 	}
 }
