@@ -5,17 +5,16 @@ SellFish::SellFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2,bool no_mov
 
 	// マップとプレイヤーを受け取る
 	m_pmap = map;
-	m_pplayer1 = p1;
-	m_pplayer2 = p2;
+	m_pplayer[0] = p1;
+	m_pplayer[1] = p2;
 
 	// 取得した座標の登録
-	m_pos.x = pos.x;
-	m_pos.y = pos.y;
+	m_pos = pos;
 	m_no_move = no_move;
 
 	// その他変数の初期化
-	m_speed = 5;
-	m_power = 15;			
+	m_speed = 5.f;
+	//m_power = 15;			
 	m_max_animation = 2;
 	m_anim_change_time = 20;
 

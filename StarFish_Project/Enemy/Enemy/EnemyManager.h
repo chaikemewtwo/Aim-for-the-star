@@ -32,6 +32,8 @@ public:
 
 private:
 	void DeleteCheck();
+
+private:
 	std::vector<EnemyBase*> m_enemy_list;	// 生成した敵の配列
 
 	ObjectManager* m_pobj_mng;				

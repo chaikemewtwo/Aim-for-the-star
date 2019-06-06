@@ -35,13 +35,13 @@ public:
 	// 各遷移条件をチェックし、遷移先のStateIdを返す
 	virtual StateId StateChangeCheck() = 0;
 
-	virtual void ChangeState(StateBase* state);
 	// 敵のインスタンスを返す関数
 	virtual EnemyBase* GetInstance();	
 
-	virtual float GetSpeed();
-	virtual int GetPower();			
-	virtual bool IsLeft();				
+	void ChangeState(StateBase* state);
+	float GetSpeed();
+	//int GetPower();			
+	bool IsLeft();				
 
 	Type GetObjectType()const override {
 		return ENEMY;
@@ -74,6 +74,5 @@ protected:
 
 	StateBase* m_pstate_base;	// 状態を保存する変数
 	Map* m_pmap;
-	Player* m_pplayer1;
-	Player* m_pplayer2;
+	Player* m_pplayer[2];
 };
