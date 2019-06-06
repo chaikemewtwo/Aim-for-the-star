@@ -718,13 +718,8 @@ void Map::SetMapReset(float map_y) {
 }
 
 /* アクセサ */
-<<<<<<< HEAD
-D3DXVECTOR2 Map::GetMovePos()const {// 元はmap
-	return -m_move;
-=======
 D3DXVECTOR2 Map::GetMove()const {// 元はmap
-	return -m_move_pos;
->>>>>>> player(リファクタリング)
+	return -m_move;// -をなくす
 }
 
 // 着地しているか
