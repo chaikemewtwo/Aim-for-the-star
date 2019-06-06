@@ -1,8 +1,6 @@
 ﻿#pragma once
 
-#include<vector>
 #include"../../GameObject/ObjectManager/ObjectManager.h"
-#include"../../Map/MapChip/MapChip.h"
 #include"../../Blind/Blind.h"
 #include"EnemyBase.h"
 
@@ -23,17 +21,17 @@ public:
 	
 	void Update();	
 	void Draw();
-	void Delete();
 	// 敵生成関数
-	void EnemyCreate(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, EnemyType enemy_num);
+	void CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, EnemyType enemy_num);
 	// ブラインド生成関数
-	void BlindCreate(D3DXVECTOR2 pos, D3DXVECTOR2 goal);
+	void CreateBlind(D3DXVECTOR2 pos, D3DXVECTOR2 goal);
 	// 生成されている敵の総数を返す関数
 	int GetEnemyTotal();	
 	// 敵の指定された敵の関数を返す関数
 	EnemyBase* GetEnemyInstance(int num);
 
 private:
+	void DeleteCheck();
 	std::vector<EnemyBase*> m_enemy_list;	// 生成した敵の配列
 
 	ObjectManager* m_pobj_mng;				

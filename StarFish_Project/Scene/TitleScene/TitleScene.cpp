@@ -32,7 +32,7 @@ void Title::Update() {
 		m_title_bgm->Play(0, 0, DSBPLAY_LOOPING);
 	}
 
-	ButtonChange();
+	ButtonChangeCheck();
 
 	if (m_pkey_bord.press(VK_RETURN)) {
 
@@ -83,7 +83,7 @@ void Title::Draw() {
 }
 //―――――――――――――――――――
 
-void Title::ButtonChange() {
+void Title::ButtonChangeCheck() {
 	
 	if (m_pkey_bord.press(VK_LEFT) && m_button_check_num > DESCRIPTION_BUTTON) {
 
