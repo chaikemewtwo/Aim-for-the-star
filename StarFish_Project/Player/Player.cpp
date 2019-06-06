@@ -69,6 +69,7 @@ Player::Player(ID_TYPE id) :m_state(PlayerWaitState::GetInstance()) {
 		// 初期位置
 		static const D3DXVECTOR2 STAR_2_FIRST_POS = { Window::WIDTH / 2.f + 200.f, Window::HEIGHT / 2.f + 200.f };
 
+
 		m_pos = STAR_2_FIRST_POS;
 
 		// 操作、キー入力

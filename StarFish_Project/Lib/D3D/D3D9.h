@@ -6,21 +6,32 @@
 
 namespace Graphics {
 
-	// D3Dの初期化、ウィンドウモード
+	/* D3Dの初期化 */
 	LPDIRECT3DDEVICE9 InitD3D(HWND hWnd);
-	// D3Dの初期化、フルスクリーンモード
-	LPDIRECT3DDEVICE9 InitD3DFullScreenMode(HWND h_wnd);
+	
+	/* ---スクリーンモードの変更---
 
-	// 描画開始
-	bool DrawStart();
-	// 描画終了
-	void DrawEnd(); 
+	true = スクリーンモード
+	false = フルスクリーンモード
 
-	// バックバッファ(解像度)の変更
-	void BackBufferReSize(const int&size_x, const int&size_y);
-	// グラフィックスの解放
-	void Release();
+	*/
+	void SetScreenMode(bool is_mode);
+
+	/* ---解像度の変更--- 
+
+	size_w = 解像度横
+	size_h = 解像度縦
+
+	*/
+	void BackBufferReSize(const int&size_w, const int&size_h);
 
 	/* デバイスのアクセサ */
 	LPDIRECT3DDEVICE9 GetLpDirect3DDevice9();
+
+	/* 描画の開始と終了 */
+	bool DrawStart();
+	void DrawEnd();
+
+	// グラフィックスの解放
+	void Release();
 }

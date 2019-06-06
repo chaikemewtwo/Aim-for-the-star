@@ -37,7 +37,7 @@ namespace Graphics {
 		d3d_pp.MultiSampleQuality = 0;						   // マルチサンプルの品質レベル
 		d3d_pp.SwapEffect = D3DSWAPEFFECT_DISCARD;			   // フロントバッファとバックバッファの切り替え方法
 		d3d_pp.hDeviceWindow = hWnd;					       // 画面を描画するウィンドウハンドル
-		d3d_pp.Windowed = FALSE;							   // スクリーンモード
+		d3d_pp.Windowed = TRUE;							       // スクリーンモード
 		d3d_pp.EnableAutoDepthStencil = TRUE;				   // 深度ステンシルバッファがあるかどうか
 		d3d_pp.AutoDepthStencilFormat = D3DFMT_D24S8;		   // ステンシルバッファのフォーマット
 		d3d_pp.Flags = D3DPRESENTFLAG_DISCARD_DEPTHSTENCIL;    // バックバッファからフロントバッファへ転送時のオプション
@@ -70,49 +70,21 @@ namespace Graphics {
 		*/
 	}
 
+	void SetScreenMode(bool is_screen_mode) {
 
-	LPDIRECT3DDEVICE9 InitD3DFullScreenMode(HWND h_wnd) {
+		// スクリーンモード
+		if (is_screen_mode == true) {
 
-		// LPDIRECT3D9は生成した後ほとんど使用しない
-		direct3d9 = Direct3DCreate9(D3D_SDK_VERSION);
-
-		// LPDIRECT3D9のnullチェック
-		if (direct3d9 == NULL) {
-
-			MessageBox(0, "IDirect3D9の作成に失敗しました", NULL, MB_OK);
+			d3d_pp.Windowed = TRUE;
+		}
+		// フルスクリーンモード
+		else if(is_screen_mode == false){
+			d3d_pp.Windowed = FALSE;
 		}
 
-		ZeroMemory(&d3d_pp, sizeof(D3DPRESENT_PARAMETERS));
-		d3d_pp.BackBufferWidth = 1920;
-		d3d_pp.BackBufferHeight = 1080;
-		d3d_pp.BackBufferFormat = D3DFMT_X8R8G8B8;// 32bit color
-		d3d_pp.BackBufferCount = 1;
-		d3d_pp.Windowed = FALSE;
-		d3d_pp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-		d3d_pp.EnableAutoDepthStencil = TRUE;
-		d3d_pp.FullScreen_RefreshRateInHz = 75;// リフレッシュレート
-		d3d_pp.AutoDepthStencilFormat = D3DFMT_D16;// 16Bit Zバッファ作成
-		
-		direct3d9->CreateDevice(
-			D3DADAPTER_DEFAULT,
-			D3DDEVTYPE_HAL,
-			h_wnd,
-			D3DCREATE_SOFTWARE_VERTEXPROCESSING,
-			&d3d_pp,
-			&d3d_device9
-		);
-
-		// D3Dデバイスのnullチェック
-		if (d3d_device9 == NULL) {
-
-			MessageBox(0, "デバイスの生成に失敗しました。", NULL, MB_OK);
-			return NULL;// 0ではなくNULLを返す
-		}
-
-		// 正常終了
-		return d3d_device9;
+		// デバイスの変更
+		d3d_device9->Reset(&d3d_pp);
 	}
-
 
 	// 解像度の変更(今は起動していないので注意)
 	void BackBufferReSize(const int&size_x, const int&size_y) {

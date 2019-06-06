@@ -53,7 +53,7 @@ namespace Window {
 		// ウィンドウクラス構造体を登録
 		if (RegisterClassEx(&wnd_class_ex) == 0) {
 
-			MessageBox(0, "ウィンドウクラスの登録に失敗しました。", NULL, MB_OK);
+			MessageBox(0, "WindowClassRegistr...Error", NULL, MB_OK);
 			return 0;
 		}
 
@@ -90,7 +90,7 @@ namespace Window {
 		// ウィンドウハンドルのnullチェック
 		if (h_wnd == NULL)
 		{
-			MessageBoxA(0, "ウィンドウの生成に失敗しました。", NULL, MB_OK);
+			MessageBoxA(0, "CreateWindow...Error", NULL, MB_OK);
 			return 0;
 		}
 
@@ -162,7 +162,8 @@ namespace Window {
 
 		if (window_handle == NULL) {
 
-			MessageBoxA(0, "window_handle取得に失敗しました。", NULL, MB_OK);
+			// エラーメッセージ
+			MessageBoxA(0, "GetCreateWindowHandle...Error", NULL, MB_OK);
 			return false;
 		}
 		return true;

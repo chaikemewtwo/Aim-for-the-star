@@ -69,7 +69,7 @@ void Clear::Init() {
 	m_effect_animation_change_time = 7;
 
 	// UIの変数初期化
-	m_clear_ui_pos = D3DXVECTOR2((WINDOW_W_F / 2), (m_player1_pos.y - 500));
+	m_clear_ui_pos = D3DXVECTOR2((Window::WIDTH / 2), (m_player1_pos.y - 500));
 	m_clear_ui_size = 0;
 	m_clear_ui_size_chnage_speed = 0.025f;
 	m_is_clear_ui_size_max = false;
@@ -150,7 +150,7 @@ void Clear::Draw() {
 		// せいこうUIの描画
 		Texture::Draw2D(
 			m_clear_ui_texture.c_str(),
-			WINDOW_W_F / 2, m_player1_pos.y - 500,
+			Window::WIDTH / 2, m_player1_pos.y - 500,
 			m_clear_ui_size, m_clear_ui_size, 0, 0.5, 0.5
 		);
 	}
