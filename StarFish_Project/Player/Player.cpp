@@ -19,12 +19,8 @@ Player::Player(ID_TYPE id) :m_state(PlayerWaitState::GetInstance()) {
 	// 自機2種類の共通部分初期化
 	m_radius = PLAYER_COLLSION_RADIUS;
 
-	// 当たり位置の頂点を画像の中心にずらす
-	m_ofset.x = 64.f;
-	m_ofset.y = 64.f;
-
 	// 当たり判定位置調整（左上から中央に）
-	m_hit_vertex_shift = { PLAYER_COLLSION_RADIUS, PLAYER_COLLSION_RADIUS };
+	m_ofset = { PLAYER_COLLSION_RADIUS, PLAYER_COLLSION_RADIUS };
 
 	m_is_active = true;
 
@@ -50,7 +46,7 @@ Player::Player(ID_TYPE id) :m_state(PlayerWaitState::GetInstance()) {
 	// 自機1（ヒくん、オレンジの方）の初期化情報
 	if (id == STAR_1) {
 		// 初期位置
-		static const D3DXVECTOR2 STAR_1_FIRST_POS = { (float)WINDOW_W / 2.f - 200.f, (float)WINDOW_H / 2.f + 200.f };
+		static const D3DXVECTOR2 STAR_1_FIRST_POS = { Window::WIDTH / 2.f - 200.f, Window::HEIGHT / 2.f + 200.f };
 
 		m_pos = STAR_1_FIRST_POS;
 
@@ -71,7 +67,7 @@ Player::Player(ID_TYPE id) :m_state(PlayerWaitState::GetInstance()) {
 	// 自機2（デちゃん、ピンクの方）の初期化情報
 	else if (id == STAR_2) {
 		// 初期位置
-		static const D3DXVECTOR2 STAR_2_FIRST_POS = { (float)WINDOW_W / 2.f + 200.f, (float)WINDOW_H / 2.f + 200.f };
+		static const D3DXVECTOR2 STAR_2_FIRST_POS = { Window::WIDTH / 2.f + 200.f, Window::HEIGHT / 2.f + 200.f };
 
 		m_pos = STAR_2_FIRST_POS;
 
@@ -238,7 +234,7 @@ void Player::ChangeState(PlayerStateBase* state) {
 
 
 void Player::ResetAnimationNumber() {
-	m_animation_num = 0;
+	m_animation_count = 0;
 }
 
 
