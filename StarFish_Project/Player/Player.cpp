@@ -1,16 +1,13 @@
 ﻿#include "Player.h"
 #include "PlayerState/PlayerWaitState/PlayerWaitState.h"
-#include "PlayerState/PlayerSwimState/PlayerSwimState.h"
-#include "PlayerState/PlayerStandingWaitState/PlayerStandingWaitState.h"
-#include "PlayerState/PlayerDeathState/PlayerDeathState.h"
 #include <cmath>
-#include <time.h>
 #include "../Map/MapChip/MapChip.h"
 #include "../Lib/Sound/DirectSound.h"
 
 
 
-Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
+Player::Player(ID_TYPE id) :m_state(PlayerWaitState::GetInstance()) {
+	// HACK:メンバイニシャライザを使用しスッキリさせる
 	Keybord& kb = Keybord::getInterface();
 
 	// 各パラメータ
@@ -23,9 +20,9 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	m_radius = PLAYER_COLLSION_RADIUS;
 
 	// 当たり判定位置調整（左上から中央に）
-	m_hit_vertex_shift = D3DXVECTOR2(PLAYER_COLLSION_RADIUS, PLAYER_COLLSION_RADIUS);
+	m_hit_vertex_shift = { PLAYER_COLLSION_RADIUS, PLAYER_COLLSION_RADIUS };
 
-	m_is_alive = true;
+	m_is_active = true;
 
 	m_speed = PLAYER_SPEED;
 
@@ -33,10 +30,10 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 
 	m_animation_num = 0;
 
-	m_move = D3DXVECTOR2(0.f, 0.f);
+	m_move = { 0.f, 0.f };
 
 	// 仮移動量（未実装）
-	//m_proto_move = D3DXVECTOR2(0.f, 0.f);
+	//m_proto_move = {0.f, 0.f};
 
 	m_stamina = MAX_STAMINA;
 
@@ -47,15 +44,15 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	// 自機1（ヒくん、オレンジの方）の初期化情報
 	if (id == STAR_1) {
 		// 初期位置
-		const D3DXVECTOR2 STAR_1_FIRST_POS = D3DXVECTOR2((float)WINDOW_W / 2.f - 200.f, (float)WINDOW_H / 2.f + 200.f);
+		static const D3DXVECTOR2 STAR_1_FIRST_POS = { (float)WINDOW_W / 2.f - 200.f, (float)WINDOW_H / 2.f + 200.f };
 
 		m_pos = STAR_1_FIRST_POS;
 
 		// 操作、キー入力
-		imput_button_name[LEFT_KEY][256] = 'A';
-		imput_button_name[RIGHT_KEY][256] = 'D';
-		imput_button_name[SWIM_KEY][256] = 'W';
-		imput_button_name[PULL_ROPE_KEY][256] = 'Q';
+		imput_button_name[LEFT_KEY] = 'A';
+		imput_button_name[RIGHT_KEY] = 'D';
+		imput_button_name[SWIM_KEY] = 'W';
+		imput_button_name[PULL_ROPE_KEY] = 'Q';
 	
 		// 状態画像
 		star_texture_name[WAIT_TEXTURE] = "Resource/Texture/Player/de_wait.png";
@@ -68,15 +65,15 @@ Player::Player(ID id) :m_state(PlayerWaitState::GetInstance()) {
 	// 自機2（デちゃん、ピンクの方）の初期化情報
 	else if (id == STAR_2) {
 		// 初期位置
-		const D3DXVECTOR2 STAR_2_FIRST_POS = D3DXVECTOR2((float)WINDOW_W / 2.f + 200.f, (float)WINDOW_H / 2.f + 200.f);
+		static const D3DXVECTOR2 STAR_2_FIRST_POS = { (float)WINDOW_W / 2.f + 200.f, (float)WINDOW_H / 2.f + 200.f };
 
 		m_pos = STAR_2_FIRST_POS;
 
 		// 操作、キー入力
-		imput_button_name[LEFT_KEY][256] = VK_LEFT;
-		imput_button_name[RIGHT_KEY][256] = VK_RIGHT;
-		imput_button_name[SWIM_KEY][256] = VK_UP;
-		imput_button_name[PULL_ROPE_KEY][256] = 'M';
+		imput_button_name[LEFT_KEY] = VK_LEFT;
+		imput_button_name[RIGHT_KEY] = VK_RIGHT;
+		imput_button_name[SWIM_KEY] = VK_UP;
+		imput_button_name[PULL_ROPE_KEY] = 'M';
 
 		// 状態画像
 		star_texture_name[WAIT_TEXTURE] = "Resource/Texture/Player/hi_wait.png";
@@ -99,11 +96,11 @@ void Player::Update() {
 	m_move = D3DXVECTOR2(0.f,0.f);
 
 	// スタミナ自動回復
-	if (m_stamina < MAX_STAMINA && m_is_alive == true && swim_enable == false){
+	if (m_stamina < MAX_STAMINA && m_is_active == true && swim_enable == false){
 		++m_stamina;
 	}
-	if(m_is_alive == true && m_stamina <= 0){
-		DisableIsAlive();
+	if(m_is_active == true && m_stamina <= 0){
+		EnableDead();
 	}
 
 	// ステート更新（内部の処理は各ステート内で管理しています）
@@ -182,7 +179,7 @@ void Player::SwimUp() {
 // 自機と敵との当たり判定後の処理(点滅処理へ移行)
 void  Player::HitAction(Type type) {
 	// HACK:HitActionは毎フレーム実行されるので注意、無敵はフラグ等を立てて実装する
-	if (type == ENEMY&&m_is_alive == true) {
+	if (type == ENEMY&&m_is_active == true) {
 		const int DECREASE_STAMINA = 10;
 		DecStamina(DECREASE_STAMINA);
 		Audio& audio = Audio::getInterface();
@@ -206,3 +203,69 @@ void  Player::HitAction(Type type) {
 //		}
 //	}
 //}
+
+
+D3DXVECTOR2 Player::GetMove()const {
+	return m_move;
+}
+
+
+void Player::SetPos(D3DXVECTOR2 pos) {
+	m_pos = pos;
+}
+
+
+void Player::SetMove(D3DXVECTOR2 move) {
+	m_move = move;
+}
+
+
+void Player::AddMove(D3DXVECTOR2 add_move) {
+	m_move += add_move;
+}
+
+
+void Player::ChangeState(PlayerStateBase* state) {
+	m_state = state;
+	m_state->Init(this);
+}
+
+
+void Player::ResetAnimationNumber() {
+	m_animation_num = 0;
+}
+
+
+void Player::SetPlayerTexture(std::string new_player_texture) {
+	m_player_texture = new_player_texture;
+}
+
+
+int Player::GetStateChangeTimer() {
+	return m_state_change_timer;
+}
+
+
+void Player::ResetStateChangeTimer() {
+	m_state_change_timer = 0;
+}
+
+
+void Player::AddStateChangeTimer() {
+	++m_state_change_timer;
+}
+
+
+int Player::GetStamina() {
+	return m_stamina;
+}
+
+
+void Player::DecStamina(int dec_sutamina_num) {
+	m_stamina -= dec_sutamina_num;
+}
+
+
+void Player::EnableDead() {
+	m_is_active = false;
+}

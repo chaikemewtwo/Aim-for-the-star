@@ -207,7 +207,7 @@ void Map::Update() {
 	for (int i = 0; i < 2; i++) {
 
 		// 移動位置変更
-		m_player_move_pos[i] = m_pbase[i]->GetMovePos();
+		m_player_move_pos[i] = m_pbase[i]->GetMove();
 
 		// 自機の位置を代入
 		// 当たりポイントを補正
@@ -215,7 +215,7 @@ void Map::Update() {
 		m_player_pos[i].y = m_pbase[i]->GetPos().y + HIT_POINT_Y;
 
 		// 移動位置更新
-		m_player_move_pos[i] = m_pbase[i]->GetMovePos();
+		m_player_move_pos[i] = m_pbase[i]->GetMove();
 
 	}
 
@@ -242,7 +242,7 @@ void Map::Update() {
 		// 自機(obj)の位置変更
 		m_pbase[i]->SetPos(m_player_pos[i]);
 		// 自機の移動ベクトル変更
-		m_pbase[i]->SetMovePos(m_player_move_pos[i]);
+		m_pbase[i]->SetMove(m_player_move_pos[i]);
 	}
 
 	// マップ関連
@@ -762,7 +762,7 @@ void Map::SetMapReset(float map_y) {
 }
 
 /* アクセサ */
-D3DXVECTOR2 Map::GetMovePos()const {// 元はmap
+D3DXVECTOR2 Map::GetMove()const {// 元はmap
 	return -m_move_pos;
 }
 

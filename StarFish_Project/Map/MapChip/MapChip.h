@@ -61,7 +61,7 @@ public:
 	
 	/* アクセサ */
 	//D3DXVECTOR2 GetMapPos()const;
-	D3DXVECTOR2 GetMovePos()const;
+	D3DXVECTOR2 GetMove()const;
 
 	bool IsStand()const;			 // 立っているかどうか
 	// 壁に衝突しているかどうかの活動

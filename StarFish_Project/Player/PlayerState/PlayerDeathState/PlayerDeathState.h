@@ -16,7 +16,7 @@ public:
 	void Update(Player* p) override;
 
 private:
-	// 数値は仮のもの
+	// 1アニメーションの速さ
 	const int ONE_ANIMATION_SPEED = 10;
 
 	// 数値は仮のもの、統合画像が完成次第変更する

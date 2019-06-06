@@ -230,7 +230,7 @@ void BackGround::PosAdd() {
 void BackGround::MoveAdd() {
 
 	// プレイヤーの4分の１の速度にする
-	m_move = m_pmap->GetMovePos() / 3;// 反対方向に行くので-変換
+	m_move = m_pmap->GetMove() / 3;// 反対方向に行くので-変換
 	
 }
 

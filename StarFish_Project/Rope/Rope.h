@@ -18,26 +18,15 @@ private:
 	// ロープの最大の長さ
 	const float MAX_ROPE_LEGTH = 650.f;
 
-	const float ROPE_LEGTH_ADJUST = 0.5f;
-
 	// 向き計算
 	float AngleCalc();
 
 	// プレイヤー2体から半径算出
-	float PlayersLadiusCalc();
+	float PlayersRadiusCalc();
 
 	// 長さ調節
-	float LengthAdjust();
+	float LengthPercentage();
 
 	// プレイヤー2体を一定以上離れなくする
 	void PlayersDistanceAdjust();
-
-	// プレイヤーの座標
-	D3DXVECTOR2 m_p1_pos;
-	D3DXVECTOR2 m_p2_pos;
-
-	// プレイヤーの移動量
-	D3DXVECTOR2 m_p1_move;
-	D3DXVECTOR2 m_p2_move;
 };
-

@@ -7,55 +7,46 @@ GameUI::GameUI(Player* p_1, Player* p_2) {
 	p1 = p_1;
 	p2 = p_2;
 	m_sort_object = SortObject::GAME_UI;
-	both_death_enable = false;
 };
 
 
-void GameUI::Update(){
-	Audio& audio = Audio::getInterface();
-	p1_alive = p1->GetIsAlive();
-	p2_alive = p2->GetIsAlive();
-	
+void GameUI::Update(){	
 	// 片方死んだら片方も死ぬ
-	if (p1_alive == false|| p2_alive == false) {
-	    p1->DisableIsAlive();
-		p2->DisableIsAlive();
-		if (p1_alive == false && p2_alive == false) {
-			both_death_enable = true;
-		}
+	if (p1->IsActive() == false|| p2->IsActive() == false) {
+	    p1->EnableDead();
+		p2->EnableDead();
 	}
-
-	p1_stamina_parcent = StaminaParcentage(p1);
-	p2_stamina_parcent = StaminaParcentage(p2);
 }
 
 
 void GameUI::Draw() {
 
 	// 黒バー
+	// 右
 	Texture::Draw2D("Resource/Texture/UI/ui_bla.png", 0.f, GAGE_MAX_POS);
-	// 黒バー
+	// 左
 	Texture::Draw2D("Resource/Texture/UI/ui_bla.png", RIGHT_GAGE_POS, GAGE_MAX_POS);
 
+	// HACK:Update内でやる
+	if (p1->IsActive() == true&& p2->IsActive() == true) {
 
-	if (p1_alive == true&& p2_alive == true) {
+		static const float DANGER_LINE = 0.3f;
 		// バーの色変更テストコード
 		// オレンジバー
-		if (p1_stamina_parcent <= 0.3f) {
-			Texture::Draw2D("Resource/Texture/UI/ui_red.png", 0.f, GagePosYCalc(p1_stamina_parcent));
+		if (StaminaParcentage(p1) <= DANGER_LINE) {
+			Texture::Draw2D("Resource/Texture/UI/ui_red.png", 0.f, GagePosYCalc(StaminaParcentage(p1)));
 		}
 		else {
-			Texture::Draw2D("Resource/Texture/UI/ui_ora.png", 0.f, GagePosYCalc(p1_stamina_parcent));
+			Texture::Draw2D("Resource/Texture/UI/ui_ora.png", 0.f, GagePosYCalc(StaminaParcentage(p1)));
 		}
 		// ピンクバー
-		if (p2_stamina_parcent <= 0.3f) {
-			Texture::Draw2D("Resource/Texture/UI/ui_red.png", RIGHT_GAGE_POS, GagePosYCalc(p2_stamina_parcent));
+		if (StaminaParcentage(p2) <= DANGER_LINE) {
+			Texture::Draw2D("Resource/Texture/UI/ui_red.png", RIGHT_GAGE_POS, GagePosYCalc(StaminaParcentage(p2)));
 		}
 		else {
-			Texture::Draw2D("Resource/Texture/UI/ui_vio.png", RIGHT_GAGE_POS, GagePosYCalc(p2_stamina_parcent));
+			Texture::Draw2D("Resource/Texture/UI/ui_vio.png", RIGHT_GAGE_POS, GagePosYCalc(StaminaParcentage(p2)));
 		}		
 	}
-	
 	
 	// 岩
 	Texture::Draw2DUVShift("Resource/Texture/UI/ui_lef.png", 0.f, 0.f,0.f,0.f);

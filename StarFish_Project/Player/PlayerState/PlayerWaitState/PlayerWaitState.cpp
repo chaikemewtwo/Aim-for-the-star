@@ -34,15 +34,15 @@ void PlayerWaitState::Update(Player* p) {
 
 	// 左右角度変更
 	// 左
-	if ((kb.on(p->imput_button_name[p->LEFT_KEY][256]))) {
+	if ((kb.on(p->imput_button_name[p->LEFT_KEY]))) {
 		p->AngleAdjust(false);
 	}
 	// 右
-	if ((kb.on(p->imput_button_name[p->RIGHT_KEY][256]))) {
+	if ((kb.on(p->imput_button_name[p->RIGHT_KEY]))) {
 		p->AngleAdjust(true);
 	}
 
-	if (kb.press(p->imput_button_name[p->SWIM_KEY][256])) {
+	if (kb.press(p->imput_button_name[p->SWIM_KEY])) {
 		// HACK:泳ぎ状態のコンストラクタでやったほうが良い、この書き方だと泳ぎ状態をコメントアウトしてもスタミナが減るため
 
 		// スタミナ減算
@@ -57,7 +57,7 @@ void PlayerWaitState::Update(Player* p) {
 		p->ChangeState(PlayerSwimState::GetInstance());		
 	}
 
-	if (p->GetIsAlive() == false) {
+	if (p->IsActive() == false) {
 		// 死亡状態へ移行
 		p->ChangeState(PlayerDeathState::GetInstance());
 	}

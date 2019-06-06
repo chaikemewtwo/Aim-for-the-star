@@ -34,14 +34,4 @@ private:
 	Player * p1;
 	// 自機2
 	Player * p2;
-
-	// 自機1のスタミナの割合
-	float p1_stamina_parcent;
-	// 自機2のスタミナの割合
-	float p2_stamina_parcent;
-
-	bool p1_alive;
-	bool p2_alive;
-
-	bool both_death_enable;
 };

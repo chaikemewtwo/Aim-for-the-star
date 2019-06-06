@@ -1,22 +1,18 @@
 ﻿#pragma once
 
-#include "../Lib/D3D/D3D9.h"
-#include "../Lib/Window/Window.h"
-#include "../Lib/Texture/Texture.h"
-#include "../Lib/Texture/TextureBoad2D.h"
-#include "../Lib/Input/KeyBord.h"
-#include "../Lib/Input/GamePad.h"
-#include "../CollisionObject/CircleCollisionObject.h"
-#include "PlayerState\PlayerStateBase.h"
+#include"../Lib/Texture/TextureBoad2D.h"
+#include"../Lib/Input/KeyBord.h"
+#include"../Lib/Input/GamePad.h"
+#include"../CollisionObject/CircleCollisionObject.h"
+#include"PlayerState\PlayerStateBase.h"
 
 
 class Map;
-// HACK:m_moveをm_vectorに変更した方がわかりやすい、それに伴いGetMovePos等も変更
 
 class Player : public CircleCollisionObject {
 public:	
 	// 自機1か2かの判断（主にコンストラクタで使用）
-	enum ID {
+	enum ID_TYPE {
 		STAR_1,
 		STAR_2
 	};
@@ -48,15 +44,14 @@ public:
 	bool swim_enable;
 
 	// 入力キー文字列保持（操作分割のため）
-	char imput_button_name[MAX_KEY_NUM][256];
+	char imput_button_name[MAX_KEY_NUM];
 
 	// テクスチャ文字列保持
-	// HACK:[256]を直す
 	std::string star_texture_name[MAX_TEXTURE_NUM];
 
-	// コンストラクタ（引数はプレイヤーのID）
-	Player(ID id);
-	// デストラクタ（まだ触れていない、ゲームメインの2周目に不具合が出る可能性あり）
+	// コンストラクタ（引数でオレンジくんとピンクちゃんを判別）
+	Player(ID_TYPE id);
+	// デストラクタ
 	~Player() {}
 
 	// 更新処理
@@ -68,48 +63,25 @@ public:
 	//-----------------------------------------------------
 	// 当たり判定で使用する関数
 	// プレイヤー移動量ゲッター
-	D3DXVECTOR2 GetMovePos()const {
-		return m_move;
-	}
+	D3DXVECTOR2 GetMove()const;
 
 	// プレイヤー座標セッター
-	void SetPos(D3DXVECTOR2 pos) {
-		m_pos = pos;
-	}
+	void SetPos(D3DXVECTOR2 pos);
 
 	// プレイヤー移動量セッター
-	void SetMovePos(D3DXVECTOR2 move) {
-		m_move = move;
-	}
+	void SetMove(D3DXVECTOR2 move);
 
 	// プレイヤー移動量の加算関数（ヒモ用、仮）
-	void AddMove(D3DXVECTOR2 add_move) {
-		m_move += add_move;
-	}
-
-	// プレイヤー仮移動量の加算関数
-	void AddProtoMove(D3DXVECTOR2 add_move) {
-		m_proto_move += add_move;
-	}
-
-	// 生存フラグゲッター
-	bool GetIsAlive() const{
-		return m_is_alive;
-	}
+	void AddMove(D3DXVECTOR2 add_move);
 	//-----------------------------------------------------
 
 	//-----------------------------------------------------
 	// 状態遷移（各State）で使用する関数
 	// 状態切り替え
-	void ChangeState(PlayerStateBase* state) {
-		m_state = state;
-		m_state->Init(this);
-	}
+	void ChangeState(PlayerStateBase* state);
 
 	// アニメーション番号0初期化
-	void ResetAnimationNumber() {
-		m_animation_num = 0;
-	}
+	void ResetAnimationNumber();
 
 	// 重力負荷
 	void AddGravity();
@@ -121,39 +93,25 @@ public:
 	void SwimUp();
 
 	// 状態画像セッター
-	void SetPlayerTexture(std::string new_player_texture) {
-		m_player_texture = new_player_texture;
-	}
+	void SetPlayerTexture(std::string new_player_texture);
 
 	// 状態遷移タイマーゲッター
-	int GetStateChangeTimer() {
-		return m_state_change_timer;
-	}
+	int GetStateChangeTimer();
 
 	// 状態遷移タイマー0初期化
-	void ResetStateChangeTimer() {
-		m_state_change_timer = 0;
-	}
+	void ResetStateChangeTimer();
 
 	// 状態遷移タイマーインクリメント
-	void AddStateChangeTimer(){
-		++m_state_change_timer;
-	}
+	void AddStateChangeTimer();
 
 	// スタミナゲッター
-	int GetStamina() {
-		return m_stamina;
-	}
+	int GetStamina();
 
 	// スタミナ減算
-	void DecStamina(int dec_sutamina_num) {
-		m_stamina -= dec_sutamina_num;
-	}	
+	void DecStamina(int dec_sutamina_num);
 
-	// m_is_aliveをfalseに変更
-	void DisableIsAlive() {
-		m_is_alive = false;
-	}
+	// 死亡フラグ立てる
+	void EnableDead();
 	//-----------------------------------------------------
 
 	// MEMO:CollisionObjectで必要なので追加
@@ -161,15 +119,9 @@ public:
 	Type GetObjectType()const override { 
 		return PLAYER;
 	}
-
-	// 自機と敵との当たり判定後の処理(点滅させる)
-	void HitAction(Type type)override;
 		
 
 private:
-	// 無敵時間タイマー、未実装
-	//void GetDamageTimer();
-
 	//-----------------------------------------------------
 	// ゲーム内パラメータ用定数
 	// 1フレームごとの画面下への移動量、重力負荷に使用
@@ -182,6 +134,12 @@ private:
 	const float MAX_ANGLE = 45.f;
 	//-----------------------------------------------------
 
+	// 無敵時間タイマー、未実装
+	//void GetDamageTimer();
+
+	// 自機と敵との当たり判定後の処理(点滅させる)
+	void HitAction(Type type)override;
+
 	// 画像格納用
 	std::string m_player_texture;
 
@@ -190,9 +148,6 @@ private:
 
 	// 自機画像角度（MAX_ANGLEから-MAX_ANGLE度まで）
 	float m_angle;
-
-	// 生存フラグ（DeathStateで当たり判定を取らないようにするため）
-	bool m_is_alive;
 
 	// 状態遷移用タイマー
 	int m_state_change_timer;
@@ -213,5 +168,5 @@ private:
 	D3DXVECTOR2 m_proto_move;
 
 	// 被弾フラグ（まだ未使用）
-	bool m_get_damage;
+	bool m_is_hit;
 };
