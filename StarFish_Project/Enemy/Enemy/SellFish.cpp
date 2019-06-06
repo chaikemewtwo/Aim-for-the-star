@@ -1,7 +1,7 @@
 ﻿#include"SellFish.h"
 
 
-SellFish::SellFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2,bool no_move) {
+SellFish::SellFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2,bool can_move) {
 
 	// マップとプレイヤーを受け取る
 	m_pmap = map;
@@ -10,7 +10,7 @@ SellFish::SellFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2,bool no_mov
 
 	// 取得した座標の登録
 	m_pos = pos;
-	m_no_move = no_move;
+	m_can_move = can_move;
 
 	// その他変数の初期化
 	m_speed = 5.f;

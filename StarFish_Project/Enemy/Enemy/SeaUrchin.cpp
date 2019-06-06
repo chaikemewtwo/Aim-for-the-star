@@ -2,7 +2,7 @@
 
 
 //コンストラクタ
-SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* map, bool no_move) {
+SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* map, bool can_move) {
 
 	// マップを受け取る
 	m_pmap = map;
@@ -10,7 +10,7 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* map, bool no_move) {
 	// 所得した座標の登録
 	m_pos = pos;
 	// no_moveがtrueの場合は動かないウニの生成
-	m_no_move = no_move;
+	m_can_move = can_move;
 	
 	m_hit_vertex_shift.x = 128.f;
 	m_hit_vertex_shift.y = 128.f;
@@ -62,7 +62,7 @@ void SeaUrchin::Draw() {
 StateId SeaUrchin::StateChangeCheck() {
 
 	// 動かないウニならばWaitのまま
-	if (m_no_move == true) {
+	if (m_can_move == false) {
 		return WAIT_ID;
 	}
 

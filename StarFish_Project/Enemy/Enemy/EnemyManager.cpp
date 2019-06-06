@@ -45,7 +45,7 @@ void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2
 		break;
 
 	case NO_MOVE_SEAURCHIN:
-		m_enemy_list.emplace_back(new SeaUrchin(pos, map, true));
+		m_enemy_list.emplace_back(new SeaUrchin(pos, map, false));
 		break;
 
 	case SELLFISH:
