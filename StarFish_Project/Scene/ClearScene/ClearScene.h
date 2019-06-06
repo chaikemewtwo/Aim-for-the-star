@@ -12,14 +12,14 @@ public:
 
 private:
 	enum BackGroundTex {
-		SEA_TEXTURE,
-		SKY_TEXTURE,
-		MOON_TEXTURE,
+		TEXTURE_1,
+		TEXTURE_2,
+		TEXTURE_3,
 		BACKGROUND_TEXTURE_MAX
 	};
 
 	enum PlayerClearTex {
-		FLIGHT_TEXTURE,
+		FLY_TEXTURE,
 		CLEAR_POSE_TEXTURE,
 		CLEAR_TEXTURE_MAX
 	};
@@ -76,8 +76,8 @@ private:
 	//　エフェクト用　//
 	int m_effect_animation_num;			// アニメーション番号
 	int m_effect_animation_max;			// アニメション数
-	float m_effect_animation_timer;		// アニメーションの時間カウント用
-	float m_effect_animation_change_time;// アニメーションの遷移時間
+	int m_effect_animation_timer;		// アニメーションの時間カウント用
+	int m_effect_animation_change_time;// アニメーションの遷移時間
 
 	const int EFFECT_TEXTURE_PARTITION_NUM = 4;		// エフェクトの画像分割数
 
@@ -87,7 +87,7 @@ private:
 	//　成功UI　//
 	D3DXVECTOR2 m_clear_ui_pos;			// 座標
 	float m_clear_ui_size;				// サイズ
-	float m_clear_ui_size_chnage_speed;	// サイズ変更の速度
+	float m_clear_ui_size_change_speed;	// サイズ変更の速度
 	bool m_is_clear_ui_size_max;		// 描画サイズが本来のサイズかどうか
 
 	// UIの登録
