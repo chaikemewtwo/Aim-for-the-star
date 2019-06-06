@@ -30,6 +30,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 	
 
 	while (ProcessMessage() == true) {
+
 		// キー入力情報更新
 		kb.update();
 
@@ -48,6 +49,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 		if (DrawStart() == true) {
 			sm->Draw();
 		}
+
 		DrawEnd();
 	}
 
