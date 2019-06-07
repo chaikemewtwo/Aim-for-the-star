@@ -5,8 +5,8 @@
 
 EnemyBase::EnemyBase() {
 
-	m_angle = 0;
-	m_center = 0.5;
+	m_angle = 0.f;
+	m_center = 0.5f;
 
 	// 当たり判定の変形を設定
 	m_radius = 64.f;
@@ -62,28 +62,28 @@ D3DXVECTOR2 EnemyBase::CalcDistance() {
 	// 自身がプレイヤーよりも上にいる場合
 	if (IsTopPos()==true) {
 
-		player1_distance.y = m_pplayer1->GetPos().y - m_pos.y;
-		player2_distance.y = m_pplayer2->GetPos().y - m_pos.y;
+		player1_distance.y = m_pplayer[0]->GetPos().y - m_pos.y;
+		player2_distance.y = m_pplayer[1]->GetPos().y - m_pos.y;
 	}
 	// 自身がプレイヤーよりも下にいる場合
 	else if (IsTopPos()==false) {
 
-		player1_distance.y = m_pos.y - m_pplayer1->GetPos().y;
-		player2_distance.y = m_pos.y - m_pplayer2->GetPos().y;
+		player1_distance.y = m_pos.y - m_pplayer[0]->GetPos().y;
+		player2_distance.y = m_pos.y - m_pplayer[1]->GetPos().y;
 	}
 
 
 	// 自身が画面左側にいるとき
 	if (m_is_left == true) {
 
-		player1_distance.x = m_pplayer1->GetPos().x - m_pos.x;
-		player2_distance.x = m_pplayer2->GetPos().x - m_pos.x;
+		player1_distance.x = m_pplayer[0]->GetPos().x - m_pos.x;
+		player2_distance.x = m_pplayer[1]->GetPos().x - m_pos.x;
 	}
 	// 自身が画面右側にいるとき
 	else if (m_is_left == false) {
 
-		player1_distance.x = m_pos.x - m_pplayer1->GetPos().x;
-		player2_distance.x = m_pos.x - m_pplayer2->GetPos().x;
+		player1_distance.x = m_pos.x - m_pplayer[0]->GetPos().x;
+		player2_distance.x = m_pos.x - m_pplayer[1]->GetPos().x;
 	}
 
 
@@ -98,7 +98,7 @@ D3DXVECTOR2 EnemyBase::CalcDistance() {
 
 bool EnemyBase::IsTopPos() {
 
-	if (m_pplayer1->GetPos().y > m_pos.y&&m_pplayer2->GetPos().y > m_pos.y) {
+	if (m_pplayer[0]->GetPos().y > m_pos.y&&m_pplayer[1]->GetPos().y > m_pos.y) {
 		return true;
 	}
 
@@ -115,9 +115,9 @@ float EnemyBase::GetSpeed() {
 	return m_speed;
 }
 
-int EnemyBase::GetPower() {
-	return m_power;
-}
+//int EnemyBase::GetPower() {
+//	return m_power;
+//}
 
 bool EnemyBase::IsLeft() {
 	return m_is_left;

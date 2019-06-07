@@ -8,17 +8,17 @@ Clear::Clear() {
 	m_scene_step = INIT;
 
 	// プレイヤー1の画像登録
-	m_player1_texture_list[FLIGHT_TEXTURE] = "Resource/Texture/Player/hi_clear_01.png";
+	m_player1_texture_list[FLY_TEXTURE] = "Resource/Texture/Player/hi_clear_01.png";
 	m_player1_texture_list[CLEAR_POSE_TEXTURE] = "Resource/Texture/Player/hi_clear_02.png";
 
 	// プレイヤー2の画像登録
-	m_player2_texture_list[FLIGHT_TEXTURE] = "Resource/Texture/Player/de_clear_01.png";
+	m_player2_texture_list[FLY_TEXTURE] = "Resource/Texture/Player/de_clear_01.png";
 	m_player2_texture_list[CLEAR_POSE_TEXTURE] = "Resource/Texture/Player/de_clear_02.png";
 
 	// 背景の画像登録
-	m_background_texture_list[SEA_TEXTURE] = "Resource/Texture/Map/bg_clear_01.png";
-	m_background_texture_list[SKY_TEXTURE] = "Resource/Texture/Map/bg_clear_02.png";
-	m_background_texture_list[MOON_TEXTURE] = "Resource/Texture/Map/bg_clear_03.png";
+	m_background_texture_list[TEXTURE_1] = "Resource/Texture/Map/bg_clear_01.png";
+	m_background_texture_list[TEXTURE_2] = "Resource/Texture/Map/bg_clear_02.png";
+	m_background_texture_list[TEXTURE_3] = "Resource/Texture/Map/bg_clear_03.png";
 
 	// サウンドの登録
 	m_fly_sound = m_paudio.getBuffer("Resource/Sound/Clear/player_fly.wav");
@@ -32,19 +32,18 @@ void Clear::Init() {
 	m_scene_step = UPDATE;
 
 	// 画像の初期化
-	m_player1_texture = m_player1_texture_list[FLIGHT_TEXTURE];
-	m_player2_texture = m_player2_texture_list[FLIGHT_TEXTURE];
+	m_player1_texture = m_player1_texture_list[FLY_TEXTURE];
+	m_player2_texture = m_player2_texture_list[FLY_TEXTURE];
 
-	m_background_texture1 = m_background_texture_list[SEA_TEXTURE];
-	m_background_texture2 = m_background_texture_list[SKY_TEXTURE];
+	m_background_texture1 = m_background_texture_list[TEXTURE_1];
+	m_background_texture2 = m_background_texture_list[TEXTURE_2];
 	
+	// 座標の初期化
+	m_player1_pos = { (Window::WIDTH / 2) - 256, 1000 };
+	m_player2_pos = { (Window::WIDTH / 2) + 256, 1000 };
 
-	m_player1_pos = D3DXVECTOR2((Window::WIDTH/2)-256, 1000);
-	m_player2_pos = D3DXVECTOR2((Window::WIDTH/2)+256, 1000);
-
-
-	m_background1_pos = D3DXVECTOR2(0, (Window::HEIGHT-BACKGROUND_TEXTURE_SIZE_Y));
-	m_background2_pos = D3DXVECTOR2(0,m_background1_pos.y-BACKGROUND_TEXTURE_SIZE_Y);
+	m_background1_pos = { 0, (Window::HEIGHT - BACKGROUND_TEXTURE_SIZE_Y) };
+	m_background2_pos = { 0, (m_background1_pos.y - BACKGROUND_TEXTURE_SIZE_Y) };
 
 	// 遷移用の変数初期化
 	m_scene_change_time = 200;
@@ -52,7 +51,7 @@ void Clear::Init() {
 
 	// プレイヤーの変数初期化
 	m_player_animation_finish = false;
-	m_player_move_speed = 5;
+	m_player_move_speed = 5.f;
 	m_player_animation_max = 16;
 	m_player_animation_num = 0;
 	m_player_animation_change_time = 5;
@@ -60,7 +59,7 @@ void Clear::Init() {
 
 	// 背景の変数初期化
 	m_is_background_move = false;
-	m_background_move_speed = 15;
+	m_background_move_speed = 15.f;
 
 	// エフェクトの変数初期化
 	m_effect_animation_num = 0;
@@ -69,9 +68,9 @@ void Clear::Init() {
 	m_effect_animation_change_time = 7;
 
 	// UIの変数初期化
-	m_clear_ui_pos = D3DXVECTOR2((Window::WIDTH / 2), (m_player1_pos.y - 500));
+	m_clear_ui_pos = { (Window::WIDTH / 2), (m_player1_pos.y - 500) };
 	m_clear_ui_size = 0;
-	m_clear_ui_size_chnage_speed = 0.025f;
+	m_clear_ui_size_change_speed = 0.025f;
 	m_is_clear_ui_size_max = false;
 }
 //――――――――――――――――――――――――――――――――
@@ -106,11 +105,20 @@ void Clear::Update() {
 		if (m_scene_change_time <= m_scene_change_count_timer) {
 
 			m_scene_step = END;
-			m_scene_id = TITLE;
+			m_new_scene_id = TITLE;
 		}
 		else {
 			m_scene_change_count_timer++;
 		}
+	}
+
+	// デバック用
+	if (m_pkey_bord.press(VK_F1)) {
+
+		m_effect_sound->Stop();
+		m_fly_sound->Stop();
+		m_scene_step = END;
+		m_new_scene_id = TITLE;
 	}
 }
 //――――――――――――――――――――――――――――――――
@@ -196,7 +204,7 @@ void Clear::BackGroundMove() {
 	// 1枚目が描画し終わったら、3枚目の画像を入れる
 	if (m_background1_pos.y >= BACKGROUND_TEXTURE_SIZE_Y) {
 
-		m_background_texture1 = m_background_texture_list[MOON_TEXTURE];
+		m_background_texture1 = m_background_texture_list[TEXTURE_3];
 		m_background1_pos.y = m_background2_pos.y - BACKGROUND_TEXTURE_SIZE_Y;
 	}
 	// 2枚目を描画し終わったら移動を止める
@@ -210,17 +218,17 @@ void Clear::ClearUiSizeChange() {
 
 	if (m_player_animation_finish == true && m_player_animation_num >= 6 && m_is_clear_ui_size_max == false && m_clear_ui_size <= 1) {
 
-		m_clear_ui_size += m_clear_ui_size_chnage_speed;
+		m_clear_ui_size += m_clear_ui_size_change_speed;
 		// 描画サイズまで達したら、サイズ変更の値を小さくする
 		if (m_clear_ui_size >= 1) {
 
 			m_is_clear_ui_size_max = true;
-			m_clear_ui_size_chnage_speed = 0.001f;
+			m_clear_ui_size_change_speed = 0.001f;
 		}
 	}
 	else if (m_is_clear_ui_size_max == true) {
 
-		m_clear_ui_size -= m_clear_ui_size_chnage_speed;
+		m_clear_ui_size -= m_clear_ui_size_change_speed;
 		if (m_clear_ui_size <= 0.9) {
 			m_is_clear_ui_size_max = false;
 		}

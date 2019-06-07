@@ -16,14 +16,6 @@ enum StateId {
 	STATEID_MAX
 };
 
-enum EnemyTexture {
-	SEAURCHIN_MOVE,		// ウニ画像
-	SELLFISH_WAIT,		// ほら貝の待機画像
-	SELLFISH_READY,		// ほら貝の攻撃前画像
-	SELLFISH_ATTACK,	// ほら貝の攻撃画像
-	ENEMY_TEXTURE_MAX	
-};
-
 
 // 敵基底クラス
 class EnemyBase :public CircleCollisionObject{
@@ -35,19 +27,28 @@ public:
 	// 各遷移条件をチェックし、遷移先のStateIdを返す
 	virtual StateId StateChangeCheck() = 0;
 
-	virtual void ChangeState(StateBase* state);
 	// 敵のインスタンスを返す関数
 	virtual EnemyBase* GetInstance();	
 
-	virtual float GetSpeed();
-	virtual int GetPower();			
-	virtual bool IsLeft();				
+	void ChangeState(StateBase* state);
+	float GetSpeed();
+	//int GetPower();			
+	bool IsLeft();				
 
 	Type GetObjectType()const override {
 		return ENEMY;
 	}
 
 protected:
+	enum EnemyTexture {
+		SEAURCHIN_MOVE,		// ウニ画像
+		SELLFISH_WAIT,		// ほら貝の待機画像
+		SELLFISH_READY,		// ほら貝の攻撃前画像
+		SELLFISH_ATTACK,	// ほら貝の攻撃画像
+		ENEMY_TEXTURE_MAX
+	};
+
+
 	// 画面外に出たらm_is_activをfalseにする関数
 	virtual void OutScreenCheck();
 	// 自身の位置がプレイヤーの上下どちらかを判定
@@ -58,7 +59,7 @@ protected:
 protected:
 	int m_power;				// 攻撃力
 	int m_delete_timer;			// 削除用タイマー
-	bool m_no_move;				// 移動するかのフラグ
+	bool m_can_move;			// 移動するかのフラグ
 	bool m_is_left;				// 画面中央から左右どちらにいるかのフラグ
 
 	float m_angle;				// 描画角度
@@ -74,6 +75,5 @@ protected:
 
 	StateBase* m_pstate_base;	// 状態を保存する変数
 	Map* m_pmap;
-	Player* m_pplayer1;
-	Player* m_pplayer2;
+	Player* m_pplayer[2];
 };

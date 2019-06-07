@@ -30,6 +30,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 	sm->Init();
 
 	while (Window::ProcessMessage() == true) {
+
 		// キー入力情報更新
 		kb.update();
 
@@ -40,12 +41,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 
 		sm->Update();
 
+		if (sm->IsQuit() == true) {
+			break;
+		}
+
 		// 描画開始
 		if (Graphics::DrawStart() == true) {
-
-			if (sm->IsQuit() == true) {
-				return WM_QUIT;
-			}
+			sm->Draw();
 		}
 		Graphics::DrawEnd();
 	}

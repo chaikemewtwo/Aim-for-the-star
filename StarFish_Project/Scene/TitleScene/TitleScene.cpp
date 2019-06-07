@@ -32,7 +32,7 @@ void Title::Update() {
 		m_title_bgm->Play(0, 0, DSBPLAY_LOOPING);
 	}
 
-	ButtonChange();
+	ButtonChangeCheck();
 
 	if (m_pkey_bord.press(VK_RETURN)) {
 
@@ -40,13 +40,13 @@ void Title::Update() {
 			
 			m_title_bgm->Stop();
 			m_scene_step = END;
-			m_scene_id = GAME_MAIN;
+			m_new_scene_id = GAME_MAIN;
 		}
 		else if (m_button_check_num == RETURN_BUTTON) {
 
 			m_title_bgm->Stop();
 			m_scene_step = END;
-			m_scene_id = SCENE_QUIT;
+			m_new_scene_id = SCENE_QUIT;
 		}
 	}
 	
@@ -55,7 +55,7 @@ void Title::Update() {
 
 		m_title_bgm->Stop();
 		m_scene_step = END;
-		m_scene_id = GAME_MAIN;
+		m_new_scene_id = GAME_MAIN;
 	}
 }
 //―――――――――――――――――――
@@ -83,7 +83,7 @@ void Title::Draw() {
 }
 //―――――――――――――――――――
 
-void Title::ButtonChange() {
+void Title::ButtonChangeCheck() {
 	
 	if (m_pkey_bord.press(VK_LEFT) && m_button_check_num > DESCRIPTION_BUTTON) {
 

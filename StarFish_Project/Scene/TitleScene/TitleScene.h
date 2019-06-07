@@ -23,7 +23,7 @@ private:
 	void Update()override;
 	void Draw()override;
 
-	void ButtonChange();
+	void ButtonChangeCheck();
 
 private:
 	int m_button_check_num;

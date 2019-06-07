@@ -6,7 +6,6 @@ GameMain::GameMain() {
 	m_scene_step = INIT;	
 	
 	m_main_bgm = m_paudio.getBuffer("Resource/Sound/BGM/main_bgm.wav");
-
 	m_gameover_jingle = m_paudio.getBuffer("Resource/Sound/Failed/game_over.wav");
 }
 //―――――――――――――――――――
@@ -47,13 +46,25 @@ void GameMain::Update() {
 	
 		m_main_bgm->Stop();
 		m_scene_step = END;
-		m_scene_id = CLEAR;
+		m_new_scene_id = CLEAR;
 	}
 	else if (m_pobj_mng->IsGameOver() == true && SceneChangeCheck() == true) {
 
 		m_gameover_jingle->Stop();
 		m_scene_step = END;
-		m_scene_id = TITLE;
+		m_new_scene_id = TITLE;
+	}
+
+	// デバック用
+	if (m_pkey_bord.press(VK_F1)) {
+
+		m_scene_step = END;
+		m_new_scene_id = CLEAR;
+	}
+	else if (m_pkey_bord.press(VK_F2)) {
+
+		m_scene_step = END;
+		m_new_scene_id = TITLE;
 	}
 }
 //―――――――――――――――――――
@@ -63,6 +74,7 @@ void GameMain::Draw() {
 	m_pobj_mng->Draw();
 
 	if (m_pobj_mng->IsGameOver() == true) {
+
 		Texture::Draw2D(
 			m_gameover_ui.c_str(),
 			m_gameover_ui_pos.x, m_gameover_ui_pos.y,

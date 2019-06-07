@@ -780,7 +780,7 @@ void Map::EnemyCreateGather(int x, int y, int chip_num) {
 		// 位置を代入
 		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
 		// 敵生成
-		e_pmng->EnemyCreate(pos + fix_pos, this, m_pbase[0], m_pbase[1], SEAURCHIN);
+		e_pmng->CreateEnemy(pos + fix_pos, this, m_pbase[0], m_pbase[1], SEAURCHIN);
 		// マップチップ記録
 		m_map[m_height_map_num - y][x].m_is_active = true;
 	}
@@ -789,7 +789,7 @@ void Map::EnemyCreateGather(int x, int y, int chip_num) {
 		// 位置を代入
 		D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -y) + 1080 - m_pos.y);
 		// 敵生成
-		e_pmng->EnemyCreate(pos + fix_pos, this, m_pbase[0], m_pbase[1], NO_MOVE_SEAURCHIN);
+		e_pmng->CreateEnemy(pos + fix_pos, this, m_pbase[0], m_pbase[1], NO_MOVE_SEAURCHIN);
 		// マップチップ記録
 		m_map[m_height_map_num - y][x].m_is_active = true;
 	}
@@ -798,7 +798,7 @@ void Map::EnemyCreateGather(int x, int y, int chip_num) {
 		// 位置を代入(-12はリセット位置)
 		D3DXVECTOR2 pos((float)(CHIP_SIZE * x) + CHIP_SIZE - 12.f, (CHIP_SIZE * -y) + CHIP_SIZE + 1080 - m_pos.y);
 		// 敵生成
-		e_pmng->EnemyCreate(pos + fix_pos, this, m_pbase[0], m_pbase[1], SELLFISH);
+		e_pmng->CreateEnemy(pos + fix_pos, this, m_pbase[0], m_pbase[1], SELLFISH);
 		// マップチップ記録
 		m_map[m_height_map_num - y][x].m_is_active = true;
 	}
@@ -807,7 +807,7 @@ void Map::EnemyCreateGather(int x, int y, int chip_num) {
 		// 位置を代入
 		D3DXVECTOR2 pos((float)(CHIP_SIZE * x) + CHIP_SIZE + 600.f, (CHIP_SIZE * -y) + CHIP_SIZE + 1080 - m_pos.y);
 		// ブラインド生成
-		e_pmng->BlindCreate(pos + fix_pos, D3DXVECTOR2(-100.f,1000.f));
+		e_pmng->CreateBlind(pos + fix_pos, D3DXVECTOR2(-100.f,1000.f));
 		// マップチップ記録
 		m_map[m_height_map_num - y][x].m_is_active = true;
 	}
