@@ -6,20 +6,22 @@
 #include<d3dx9.h>
 #include<unordered_map>
 
-struct CUSTOM_VERTEX
+
+// 頂点を設定する構造体
+struct CustomVertex
 {
 	// 頂点座標
-	float x;
-	float y;
-	float z;
+	D3DXVECTOR3 vtx;
 	// 除算数
-	float rhw;
+	FLOAT rhw;
+	// カラー
+	DWORD color;
 	// テクスチャ座標
-	float tu;
-	float tv;
+	D3DXVECTOR2 tex_pos;
 };
 
-
+// テンプレート2DFVF
+#define FVF_2D (D3DFVF_XYZRHW | D3DFVF_TEX1 | D3DFVF_DIFFUSE)
 
 namespace Texture {
 
@@ -52,12 +54,12 @@ namespace Texture {
 	namespace Size {
 		// サイズ取得関数
 		float GetGraphSizeX(const char*file_name) {
-			TEXTURE_DATA *tex_d = &Texture::GetData(file_name);
+			tagTextureData *tex_d = &Texture::GetData(file_name);
 			return tex_d->Width;
 			return 0.f;
 		}
 		float GetGraphSizeY(const char*file_name) {
-			TEXTURE_DATA *tex_d = &Texture::GetData(file_name);
+			tagTextureData *tex_d = &Texture::GetData(file_name);
 			return tex_d->Height;
 			return 0.f;
 		}
@@ -82,6 +84,9 @@ namespace Texture {
 		}
 	}
 
+	// 拡縮回転移動を行列計算する
+	D3DXMATRIX GetMatrixTransformCalc(float x, float y, float width_scale, float height_scale, float angle);
+
 	void Draw2D(
 		const char*file_name,         // ファイル名
 		float x,                      // x座標
@@ -99,8 +104,14 @@ namespace Texture {
 		float v)					  // テクスチャ座標のv軸をずらす 
 	{ 
 
-		TEXTURE_DATA *tex_d = &Texture::GetData(file_name);
-		//TEXTURE_DATA *tex_d = &tex_list[file_name];
+		// テクスチャデータの参照受け取り
+		tagTextureData *tex_d = &Texture::GetData(file_name);
+
+		// テクスチャ描画エラー
+		//if (Texture::IsTextureRedistr(file_name) == false) {
+		//	MessageBoxA(0, "Draw2D...Error/Place...TextureBord2D>Draw2D", TEXT("MessageBoxA"), MB_OK);
+		//	return;
+		//}
 
 		const float x1 = -cx;
 		const float x2 = 1.f - cx;
@@ -115,65 +126,67 @@ namespace Texture {
 		UV uv(u_cut_num, v_cut_num);
 
 		// uvカットがオンならば
-		if (is_graph_uv_cut == true) {
+		if (u_cut_num > 0 || v_cut_num > 0) {
 			uv.ToTheRightDivGraph(graph_num);
 		}
 
-		// 頂点バッファを参照で受け取り
-		D3DXVECTOR2 *up_left = &uv.GetUvUpLeftBuffer();
-		D3DXVECTOR2 *up_right = &uv.GetUvUpRightBuffer();
-		D3DXVECTOR2 *down_left = &uv.GetUvDownLeftBuffer();
-		D3DXVECTOR2 *down_right = &uv.GetUvDownRightBuffer();
-
-
-		// VERTEX3Dの初期化
-		CUSTOM_VERTEX cv[] =
+		// VERTEX3Dの初期化,UV.hからUVをずらして受け取り
+		CustomVertex cv[] = 
 		{
-			{ x1,y1,0.0f,1.0f,up_left->x,up_left->y },              // 左上
-		{ x2,y1,0.0f,1.0f,up_right->x + u,up_right->y },         // 右上
-		{ x2,y2,0.0f,1.0f,down_right->x + u,down_right->y + v }, // 右下
-		{ x1,y2,0.0f,1.0f,down_left->x,down_left->y + v },       // 左下
+		// 左上
+		{ {x1,y1,0.0f},1.0f,D3DCOLOR(0xfffffff),{ uv.GetUvUpLeftPos().x,uv.GetUvUpLeftPos().y} },              
+		// 右上
+		{ {x2,y1,0.0f},1.0f,D3DCOLOR(0xfffffff),{ uv.GetUvUpRightPos().x + u,uv.GetUvUpRightPos().y} },        
+		// 右下
+		{ {x2,y2,0.0f},1.0f,D3DCOLOR(0xfffffff),{ uv.GetUvDownRightPos().x + u,uv.GetUvDownRightPos().y + v} },  
+		// 左下
+		{ {x1,y2,0.0f},1.0f,D3DCOLOR(0xfffffff),{ uv.GetUvDownLeftPos().x,uv.GetUvDownLeftPos().y + v} },    
 		};
 
 		// サンプラーステート(描画外は描画しないようにするため,デフォルト)
 		D3D9::GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
 		D3D9::GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
-		// ワールド座標変換系
-		D3DXMATRIX mat_world, mat_trans, mat_scale;
-		// ワールド変換回転。
-		D3DXMATRIX mat_rotz;
+		// 行列計算
+		D3DXMATRIX mat_world = GetMatrixTransformCalc(x, y,tex_d->Width * scale_w,tex_d->Height * scale_h, angle);
 
-		D3DXMatrixIdentity(&mat_world);
-		D3DXMatrixIdentity(&mat_rotz);
-		D3DXMatrixIdentity(&mat_trans);
-		D3DXMatrixIdentity(&mat_scale);
-
-		D3DXMatrixTranslation(&mat_trans, x, y, 0.f);
-		D3DXMatrixScaling(&mat_scale, tex_d->Width * scale_w, tex_d->Height * scale_h, 0.0f);
-		D3DXMatrixRotationZ(&mat_rotz, D3DXToRadian(angle));
-
-		// 拡縮 * 回転 * 移動
-		mat_world = mat_scale * mat_rotz * mat_trans;
-
-		D3DXVec3TransformCoordArray((D3DXVECTOR3*)cv, sizeof(CUSTOM_VERTEX), (D3DXVECTOR3*)cv, sizeof(CUSTOM_VERTEX), &mat_world, std::size(cv));
+		D3DXVec3TransformCoordArray((D3DXVECTOR3*)cv, sizeof(CustomVertex), (D3DXVECTOR3*)cv, sizeof(CustomVertex), &mat_world, std::size(cv));
 
 		// VERTEX3Dの構造情報をDirectXへ通知。										  
-		D3D9::GetLpDirect3DDevice9()->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1);
+		D3D9::GetLpDirect3DDevice9()->SetFVF(FVF_2D);
 
 		// デバイスにそのまま渡すことができる。
 		D3D9::GetLpDirect3DDevice9()->SetTexture(0,Texture::GetData(file_name));// これはテクスチャの指定、ポインタを渡して確認する。
-												// 元はtex_list[file_name]	// 0はテクスチャステージ番号
+		
 
 		D3D9::GetLpDirect3DDevice9()->DrawPrimitiveUP(
 			D3DPT_TRIANGLEFAN,
 			2,
 			cv,// cv カスタムバーテックスのポインタ
-			sizeof(CUSTOM_VERTEX)
+			sizeof(CustomVertex)
 		);
 	}
 
+
+	// HACK まだできていない
+	D3DXMATRIX GetMatrixTransformCalc(float x, float y, float width_scale, float height_scale, float angle) {
+
+		// ワールド座標変換系
+		D3DXMATRIX mat_trans, mat_scale , mat_rotz;
+
+		D3DXMatrixIdentity(&mat_rotz);
+		D3DXMatrixIdentity(&mat_trans);
+		D3DXMatrixIdentity(&mat_scale);
+
+		D3DXMatrixTranslation(&mat_trans, x, y, 0.f);
+		D3DXMatrixScaling(&mat_scale, width_scale, height_scale, 0.0f);
+		D3DXMatrixRotationZ(&mat_rotz, D3DXToRadian(angle));
+
+		// 拡縮 * 回転 * 移動
+		return (mat_scale * mat_rotz * mat_trans);
+	}
 }
+
 
 // HACK リファクタ中
 void SamplerStateConfig(D3DSAMPLERSTATETYPE state_type) {

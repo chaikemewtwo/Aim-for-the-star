@@ -52,8 +52,8 @@ public:
 	// 右から画像を分割する
 	void ToTheRightDivGraph(int divsion_num);
 
-	// UV指定して特定の位置の画像を取り出す
-	void UAxisVAxisSelectionDivGraph(int u, int v);
+	// HACK　まだ完成していません
+	//void UAxisVAxisSelectionDivGraph(int u, int v);
 
 	// 拡縮させながらテクスチャ座標指定する
 	/*
@@ -63,19 +63,19 @@ public:
 	void UVGauge(const float &scale_x, const float &scale_y,const float&whole_scale_x,const float&whole_scale_y);
 
 	// 左上頂点
-	D3DXVECTOR2 GetUvUpLeftBuffer(){
+	D3DXVECTOR2 GetUvUpLeftPos(){
 		return uv_up_left_pos;
 	}
 	// 右上頂点
-	D3DXVECTOR2 GetUvUpRightBuffer() {
+	D3DXVECTOR2 GetUvUpRightPos() {
 		return uv_up_right_pos;
 	}
 	// 左下頂点
-	D3DXVECTOR2 GetUvDownLeftBuffer() {
+	D3DXVECTOR2 GetUvDownLeftPos() {
 		return uv_down_left_pos;
 	}
 	// 右下頂点
-	D3DXVECTOR2 GetUvDownRightBuffer() {
+	D3DXVECTOR2 GetUvDownRightPos() {
 		return uv_down_right_pos;
 	}
 private:

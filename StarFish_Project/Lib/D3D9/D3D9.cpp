@@ -22,7 +22,7 @@ namespace D3D9 {
 		if (Window::GetWindowHandle() == NULL){
 
 			// ウィンドウハンドルの取得に失敗
-			MessageBox(0, "GetWindowHandle...Error/Place...D3D9_Init", NULL, MB_OK);
+			MessageBoxA(0, "GetWindowHandle...Error/Place...D3D9>Init", TEXT("MessageBoxA"), MB_OK);
 
 			// エラーを返す
 			return false;
@@ -38,7 +38,7 @@ namespace D3D9 {
 		if (direct3d9 == NULL) {
 
 			// IDirect3D9の生成に失敗
-			MessageBox(0, "IDirect3D9Create...Error/Place...D3D9_Init", NULL, MB_OK);
+			MessageBoxA(0, "IDirect3D9Create...Error/Place...D3D9>Init", TEXT("MessageBoxA"), MB_OK);
 
 			// エラーを返す
 			return false;
@@ -100,7 +100,7 @@ namespace D3D9 {
 		if (d3d_device9 == NULL) {
 
 			// デバイスの生成に失敗 
-			MessageBox(0, "d3d_device9Create...Error/Place...D3D9_Init", NULL, MB_OK);
+			MessageBoxA(0, "d3d_device9Create...Error/Place...D3D9>Init", TEXT("MessageBoxA"), MB_OK);
 
 			// エラーを返す
 			return false;
@@ -210,7 +210,7 @@ namespace D3D9 {
 
 		// ビューポートをデバイスにセットできなかったとき
 		if (d3d_device9->SetViewport(view_port) != D3D_OK) {
-			MessageBox(0, "SetViewPort...Error", NULL, MB_OK);
+			MessageBoxA(0, "SetViewPort...Error/Place...D3D9>SetViewPort", TEXT("MessageBoxA"), MB_OK);
 		}
 	}
 
@@ -222,7 +222,7 @@ namespace D3D9 {
 
 		// 受け取れなかった場合
 		if (view_port_parameter != D3D_OK) {
-			MessageBox(0, "GetViewPort...Error", NULL, MB_OK);
+			MessageBoxA(0, "GetViewPort...Error/Place...D3D9>GetViewPort", TEXT("MessageBoxA"), MB_OK);
 			return NULL;
 		}
 		// 正常終了

@@ -73,9 +73,9 @@ void UV::UVGauge(const float &scale_x, const float &scale_y, const float&whole_s
 
 
 // 特定の位置の分割画像を取り出す
-void UV::UAxisVAxisSelectionDivGraph(int u, int v) {
-
-}
+//void UV::UAxisVAxisSelectionDivGraph(int u, int v) {
+//
+//}
 
 
 

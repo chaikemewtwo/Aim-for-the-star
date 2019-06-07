@@ -6,7 +6,7 @@
 #pragma comment(lib,"d3dx9.lib")
 
 /* ウィンドウ関連 */
-
+constexpr float PI = 1.f;
 namespace Window {
 
 	// ウィンドウデフォルトサイズ
@@ -31,5 +31,5 @@ namespace Window {
 
 	// HACK　まだ使えません
 	// フルスクリーンに対応したウィンドウにする
-	void FullScreenWindowStyleChange();
+	//void FullScreenWindowStyleChange();
 }

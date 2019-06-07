@@ -79,13 +79,13 @@ void Resource::LoadResource() {
 
 	// 引数付きのロード(UVをずらしている)
 	Texture::LoadEx("Resource/Texture/Map/bg_hero_01.png"
-		, 0, 0, NULL, 0.f, -0.001f);
+		, 0, 0, 0.f, -0.001f);
 	Texture::LoadEx("Resource/Texture/Map/bg_hero_02.png"
-		, 0, 0, NULL, 0.f, 0.f);
+		, 0, 0, 0.f, 0.f);
 	Texture::LoadEx("Resource/Texture/Map/bg_hero_03.png"
-		, 0, 0, NULL, 0.f, -0.001f);
+		, 0, 0, 0.f, -0.001f);
 	Texture::LoadEx("Resource/Texture/Map/bg_hero_04.png"
-		, 0, 0, NULL, 0.f, -0.001f);
+		, 0, 0, 0.f, -0.001f);
 
 	// 岩（仮）
 	Texture::Load("Resource/Texture/Map/chip_map_image_64.png");

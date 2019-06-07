@@ -3,25 +3,41 @@
 
 
 
+tagTextureData::tagTextureData() {
+	Texture = nullptr;
+	Width = 0.f;
+	Height = 0.f;
+	Uv.x = 0.f;
+	Uv.y = 0.f;
+}
+
+// tagTextureDataのオペレーター
+tagTextureData::operator LPDIRECT3DTEXTURE9() const {
+	return Texture;
+}
+
 
 namespace Texture {
 
-	// テクスチャリスト
-	std::unordered_map < std::string, TEXTURE_DATA >tex_list;
 
-	/*
-	テクスチャの読み込みは2の累乗でなければいけない
-	*/
+	// テクスチャリスト
+	std::unordered_map < std::string, tagTextureData >tex_list;
 	
-	void Load(const char*file_name)// int型にしてDrawGraphにしてもいいかも。その場合はvector型を使う。
+
+	void Load(const char*file_name)
 	{
+		// 画像サイズを保存するパラメーター
 		D3DXIMAGE_INFO info;
 
+		// ファイルの読み込み
 		if (FAILED(D3DXGetImageInfoFromFile(file_name, &info))) {
-			MessageBoxA(0, "ファイル読み込みエラー", NULL, MB_OK);
+
+			// 読み込みエラー
+			MessageBox(0, "LoadTextureFile...Error/Place...Texture>Load",TEXT("MessageBox"), MB_OK);
 			return;
 		}
 
+		// テクスチャの生成
 		D3DXCreateTextureFromFile(D3D9::GetLpDirect3DDevice9(), file_name, &tex_list[file_name].Texture);
 
 		// 最初はサイズ指定をしなければいけない。
@@ -30,12 +46,16 @@ namespace Texture {
 	}
 
 
-	void LoadEx(const char *file_name,UINT width,UINT height,DWORD color_key,float u,float v)
+	void LoadEx(const char *file_name,UINT width,UINT height,float u,float v)
 	{
+		// 画像サイズを保存するパラメーター
 		D3DXIMAGE_INFO info;
 
+		// ファイルの読み込み
 		if (FAILED(D3DXGetImageInfoFromFile(file_name, &info))) {
-			MessageBoxA(0, "ファイル読み込みエラー", NULL, MB_OK);
+
+			// 読み込みエラー
+			MessageBoxA(0, "LoadTextureFile...Error/Place...Texture>LoadEx", TEXT("MessageBox"), MB_OK);
 			return;
 		}
 
@@ -63,9 +83,10 @@ namespace Texture {
 			&tex_list[file_name].Texture);
 	}
 
-	// テクスチャの解放
+
 	void Release() {
 
+		// テクスチャの解放
 		for (const auto& texture : tex_list) {
 			if (texture.second.Texture != nullptr) {
 				texture.second.Texture->Release();
@@ -75,8 +96,26 @@ namespace Texture {
 	}
 
 	// テクスチャデータのゲッター
-	TEXTURE_DATA GetData(const std::string&texture_file_name){
+	tagTextureData GetData(const std::string&texture_file_name){
 		return tex_list[texture_file_name];
+	}
+
+	bool IsTextureRedistr(const std::string&texture_file_name) {
+
+		std::unordered_map < std::string, tagTextureData >::iterator texture_data;
+
+		// テクスチャが登録されているか
+		auto itr = tex_list.find(texture_file_name);
+
+
+		if (itr != tex_list.end()) {
+			// 登録されている
+			return true;
+		}
+		else {
+			// 登録されていない
+			return false;
+		}
 	}
 
 }

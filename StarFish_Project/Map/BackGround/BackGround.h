@@ -49,7 +49,7 @@ private:
 	char str_load_buf[1000][500];             // 読み込み専用のもの
 											  
 	/* 背景	*/							   	  
-	//D3DXVECTOR2 m_pos;                        // 背景遷移判定上
+	//D3DXVECTOR2 m_pos;                      // 背景遷移判定上
 	D3DXVECTOR2 m_move;                       // 移動ベクトル
 	int m_max_graph_num;				      // 画像の最大数  
 	int m_current_pos;                        // 今いる位置
@@ -59,7 +59,7 @@ private:
 	int m_w_difference;                       // 横の画像の端数
 	float m_h_graph_difference;               // 高さの背景画像の端数
 	float m_w_graph_difference;				  // 横の背景画像の端数
-	bool m_is_max_scroll;                       // スクロール位置の最大値
+	bool m_is_max_scroll;                     // スクロール位置の最大値
 	bool m_is_scroll_limit;
 
 	/* マップインスタンス */
