@@ -30,8 +30,6 @@ private:
 	const int TEX_PARTITION_NUM = 2;
 
 	// 生存範囲のサイズ《現在は仮の数値を代入》
-	const float DELETE_WIDE_MIN = -600;
-	const float DELETE_WIDE_MAX = WINDOW_W_F + 600;
-
-	ObjectManager* m_pobj_mng;
+	const float DELETE_WIDE_MIN = -700;
+	const float DELETE_WIDE_MAX = WINDOW_W_F + 700;
 };
