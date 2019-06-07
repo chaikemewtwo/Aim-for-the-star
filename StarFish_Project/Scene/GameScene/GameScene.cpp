@@ -58,11 +58,13 @@ void GameMain::Update() {
 	// デバック用
 	if (m_pkey_bord.press(VK_F1)) {
 
+		m_main_bgm->Stop();
 		m_scene_step = END;
 		m_new_scene_id = CLEAR;
 	}
 	else if (m_pkey_bord.press(VK_F2)) {
 
+		m_main_bgm->Stop();
 		m_scene_step = END;
 		m_new_scene_id = TITLE;
 	}
