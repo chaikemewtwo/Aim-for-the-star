@@ -13,10 +13,10 @@ SceneManager* SceneManager::GetInstance() {
 
 SceneManager::~SceneManager() {
 
-	for (auto i : m_scene_list) {
+	for (auto scene : m_scene_list) {
 
-		if (&i != nullptr) {
-			delete i.second;
+		if (&scene != nullptr) {
+			delete scene.second;
 		}
 	}
 }
@@ -30,7 +30,7 @@ void SceneManager::Init() {
 	m_scene_list.emplace(CLEAR, new Clear());
 
 	// タイトルで初期化
-	m_scene_id = SceneId::TITLE;
+	m_scene_id = TITLE;
 	m_scene = m_scene_list[m_scene_id];
 }
 //―――――――――――――――――――――――――
