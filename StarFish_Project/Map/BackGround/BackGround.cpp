@@ -1,7 +1,7 @@
 ﻿#include"BackGround.h"
 #include<stdlib.h>
 #include"../MapChip/MapChip.h"
-#include"../../Lib/D3D/D3D9.h"
+#include"../../Lib/D3D9/D3D9.h"
 #include"../../Lib/Texture/Texture.h"
 #include"../../Lib/Texture/TextureBoad2D.h"
 #include"../../Lib/Input/KeyBord.h"

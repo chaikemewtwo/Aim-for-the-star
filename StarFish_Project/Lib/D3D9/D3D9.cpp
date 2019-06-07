@@ -5,7 +5,7 @@
 namespace D3D9 {
 	
 
-	// D3Dパラメータ変数
+	// D3D9パラメータ変数
 	LPDIRECT3DDEVICE9 d3d_device9;      // グラフィック関連のデバイスを管理
 	LPDIRECT3D9 direct3d9;	            // 環境を設定するためのインターフェース
 	D3DPRESENT_PARAMETERS d3d_pp = {};  // グラフィックス設定用 

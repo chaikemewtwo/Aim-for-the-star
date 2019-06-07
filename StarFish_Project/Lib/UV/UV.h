@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"../D3D/D3D9.h"
+#include"../D3D9/D3D9.h"
 
 // 何をすれば何をできるかを書く
 
@@ -64,19 +64,19 @@ public:
 
 	// 左上頂点
 	D3DXVECTOR2 GetUvUpLeftBuffer(){
-		return uv_up_left_buffer;
+		return uv_up_left_pos;
 	}
 	// 右上頂点
 	D3DXVECTOR2 GetUvUpRightBuffer() {
-		return uv_up_right_buffer;
+		return uv_up_right_pos;
 	}
 	// 左下頂点
 	D3DXVECTOR2 GetUvDownLeftBuffer() {
-		return uv_down_left_buffer;
+		return uv_down_left_pos;
 	}
 	// 右下頂点
 	D3DXVECTOR2 GetUvDownRightBuffer() {
-		return uv_down_right_buffer;
+		return uv_down_right_pos;
 	}
 private:
 
@@ -93,10 +93,10 @@ private:
 	int width_div_num;
 
 	// テクスチャ頂点座標
-	D3DXVECTOR2 uv_up_left_buffer;
-	D3DXVECTOR2 uv_up_right_buffer;
-	D3DXVECTOR2 uv_down_left_buffer;
-	D3DXVECTOR2 uv_down_right_buffer;
+	D3DXVECTOR2 uv_up_left_pos;
+	D3DXVECTOR2 uv_up_right_pos;
+	D3DXVECTOR2 uv_down_left_pos;
+	D3DXVECTOR2 uv_down_right_pos;
 };
 
 /*

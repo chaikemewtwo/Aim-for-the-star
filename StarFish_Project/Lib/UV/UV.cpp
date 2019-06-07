@@ -11,14 +11,14 @@ UV::UV(int div_w,int div_h) {
 	total_div_num = width_div_num * height_div_num;
 
 	// テクスチャ座標の初期化(頂点は全体に設定)
-	uv_up_left_buffer.x = 0.f;
-	uv_up_left_buffer.y = 0.f;
-	uv_up_right_buffer.x = MAX_UV_BUFFER;
-	uv_up_right_buffer.y = 0.f;
-	uv_down_left_buffer.x = 0.f;
-	uv_down_left_buffer.y = MAX_UV_BUFFER;
-	uv_down_right_buffer.x = MAX_UV_BUFFER;
-	uv_down_right_buffer.y = MAX_UV_BUFFER;
+	uv_up_left_pos.x = 0.f;
+	uv_up_left_pos.y = 0.f;
+	uv_up_right_pos.x = MAX_UV_BUFFER;
+	uv_up_right_pos.y = 0.f;
+	uv_down_left_pos.x = 0.f;
+	uv_down_left_pos.y = MAX_UV_BUFFER;
+	uv_down_right_pos.x = MAX_UV_BUFFER;
+	uv_down_right_pos.y = MAX_UV_BUFFER;
 }
 
 // 右方向に切り取っていく関数
@@ -49,17 +49,17 @@ void UV::ToTheRightDivGraph(int div_num) {
 	// 小さな画像を掛け算でずらしていく
 	
 	// 左上
-	uv_up_left_buffer.x =    (MAX_UV_BUFFER / width_div_num) * div_x;
-	uv_up_left_buffer.y =    (MAX_UV_BUFFER / height_div_num)* div_y;
+	uv_up_left_pos.x =    (MAX_UV_BUFFER / width_div_num) * div_x;
+	uv_up_left_pos.y =    (MAX_UV_BUFFER / height_div_num)* div_y;
 	// 右上
-	uv_up_right_buffer.x =   (MAX_UV_BUFFER / width_div_num) * (div_x + NEXT_GO_GRAPH);
-	uv_up_right_buffer.y =   (MAX_UV_BUFFER / height_div_num)* div_y;
+	uv_up_right_pos.x =   (MAX_UV_BUFFER / width_div_num) * (div_x + NEXT_GO_GRAPH);
+	uv_up_right_pos.y =   (MAX_UV_BUFFER / height_div_num)* div_y;
 	// 左下
-	uv_down_left_buffer.x =  (MAX_UV_BUFFER / width_div_num) * div_x;
-	uv_down_left_buffer.y =  (MAX_UV_BUFFER / height_div_num)* (div_y + NEXT_GO_GRAPH);
+	uv_down_left_pos.x =  (MAX_UV_BUFFER / width_div_num) * div_x;
+	uv_down_left_pos.y =  (MAX_UV_BUFFER / height_div_num)* (div_y + NEXT_GO_GRAPH);
 	// 右下
-	uv_down_right_buffer.x = (MAX_UV_BUFFER / width_div_num) * (div_x + NEXT_GO_GRAPH);
-	uv_down_right_buffer.y = (MAX_UV_BUFFER / height_div_num)* (div_y + NEXT_GO_GRAPH);
+	uv_down_right_pos.x = (MAX_UV_BUFFER / width_div_num) * (div_x + NEXT_GO_GRAPH);
+	uv_down_right_pos.y = (MAX_UV_BUFFER / height_div_num)* (div_y + NEXT_GO_GRAPH);
 }
 
 

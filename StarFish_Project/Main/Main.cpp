@@ -1,7 +1,4 @@
-﻿#include"../Lib/D3D/D3D9.h"
-#include"../Lib/Window/Window.h"
-#include"../Lib/Texture/Texture.h"
-#include"../Lib/Texture/TextureBoad2D.h"
+﻿#include"../Lib/Texture/TextureBoad2D.h"
 #include"../Lib/Sound/DirectSound.h"
 #include"../Lib/Input/KeyBord.h"
 #include"../LoadResource/LoadResource.h"

@@ -9,7 +9,6 @@
     <ClCompile Include="Enemy\State\EnemyVerticalMoveState.cpp" />
     <ClCompile Include="Enemy\State\EnemyWaitState.cpp" />
     <ClCompile Include="GameObject\ObjectManager\ObjectManager.cpp" />
-    <ClCompile Include="Lib\D3D\D3D9.cpp" />
     <ClCompile Include="Lib\Texture\Texture.cpp" />
     <ClCompile Include="Lib\Texture\TextureBoad2D.cpp" />
     <ClCompile Include="Lib\UV\UV.cpp" />
@@ -36,6 +35,7 @@
     <ClCompile Include="Scene\ClearScene\ClearScene.cpp" />
     <ClCompile Include="CollisionObject\CollisionObject.cpp" />
     <ClCompile Include="Map\BedRockChip\BedRockChip.cpp" />
+    <ClCompile Include="Lib\D3D9\D3D9.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -48,7 +48,6 @@
     <ClInclude Include="Enemy\State\EnemyWaitState.h" />
     <ClInclude Include="GameObject\ObjectManager\ObjectManager.h" />
     <ClInclude Include="GameObject\Object\Object.h" />
-    <ClInclude Include="Lib\D3D\D3D9.h" />
     <ClInclude Include="Lib\Input\GamePad.h" />
     <ClInclude Include="Lib\Input\KeyBord.h" />
     <ClInclude Include="Lib\Sound\DirectSound.h" />
@@ -79,6 +78,7 @@
     <ClInclude Include="Scene\ClearScene\ClearScene.h" />
     <ClInclude Include="Scene\GameScene\GameScene.h" />
     <ClInclude Include="Map\BedRockChip\BedRockChip.h" />
+    <ClInclude Include="Lib\D3D9\D3D9.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />
