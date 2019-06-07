@@ -1,32 +1,32 @@
-#include"SetRenderStateFile.h"
+ï»¿#include"SetRenderStateFile.h"
 
 
 
 void SetRenderStateConfig() {
 	
-	// ƒVƒF[ƒhƒ‚[ƒh:ƒOƒ‰ƒf[ƒVƒ‡ƒ“
+	// ã‚·ã‚§ãƒ¼ãƒ‰ãƒ¢ãƒ¼ãƒ‰:ã‚°ãƒ©ãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³
 	//Graphics::GetLpDirect3DDevice9()->SetRenderState(D3DRS_SHADEMODE,D3DSHADE_GOURAUD);
-	// ƒJƒŠƒ“ƒOƒ‚[ƒh–³‚µ
+	// ã‚«ãƒªãƒ³ã‚°ãƒ¢ãƒ¼ãƒ‰ç„¡ã—
 	//Graphics::GetLpDirect3DDevice9()->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE);
-	// Zƒoƒbƒtƒ@ƒIƒt
-	Graphics::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ZENABLE, FALSE);
-	Graphics::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ZWRITEENABLE,TRUE);
-	Graphics::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
-	// ƒ‰ƒCƒgoff
+	// Zãƒãƒƒãƒ•ã‚¡ã‚ªãƒ•
+	D3D9::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ZENABLE, FALSE);
+	D3D9::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ZWRITEENABLE,TRUE);
+	D3D9::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
+	// ãƒ©ã‚¤ãƒˆoff
 	//Graphics::GetLpDirect3DDevice9()->SetRenderState(D3DRS_LIGHTING, FALSE);
-	// ƒX‚Ø‚«‚ã‚çŒõƒIƒ“
+	// ã‚¹ãºãã‚…ã‚‰å…‰ã‚ªãƒ³
 	//Graphics::GetLpDirect3DDevice9()->SetRenderState(D3DRS_SPECULARENABLE, TRUE);
-	// ƒAƒ‹ƒtƒ@ƒ`ƒƒƒ“ƒlƒ‹ƒIƒ“
-	Graphics::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	// ’ÊíƒuƒŒƒ“ƒfƒBƒ“ƒO
-	Graphics::GetLpDirect3DDevice9()->SetRenderState(D3DRS_SRCBLEND,D3DBLEND_SRCALPHA);
-	Graphics::GetLpDirect3DDevice9()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	// ã‚¢ãƒ«ãƒ•ã‚¡ãƒãƒ£ãƒ³ãƒãƒ«ã‚ªãƒ³
+	D3D9::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	// é€šå¸¸ãƒ–ãƒ¬ãƒ³ãƒ‡ã‚£ãƒ³ã‚°
+	D3D9::GetLpDirect3DDevice9()->SetRenderState(D3DRS_SRCBLEND,D3DBLEND_SRCALPHA);
+	D3D9::GetLpDirect3DDevice9()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	//Graphics::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ALPHAFUNC,D3DCMP_GREATER);
-	// ƒAƒ‹ƒtƒ@ƒeƒXƒg
-	Graphics::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	Graphics::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ALPHAREF, 0x0000000);
-	Graphics::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	//// ƒeƒNƒXƒ`ƒƒƒ¿ƒuƒŒƒ“ƒh
+	// ã‚¢ãƒ«ãƒ•ã‚¡ãƒ†ã‚¹ãƒˆ
+	D3D9::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	D3D9::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ALPHAREF, 0x0000000);
+	D3D9::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	//// ãƒ†ã‚¯ã‚¹ãƒãƒ£Î±ãƒ–ãƒ¬ãƒ³ãƒ‰
 	//Graphics::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
 	//Graphics::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 	//Graphics::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
@@ -34,6 +34,6 @@ void SetRenderStateConfig() {
 	//Graphics::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	//Graphics::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
 	
-	// tu tv‚ª’´‚¦‚Ä‚¢‚é‚©‚à‚µ‚ê‚È‚¢
-	// ƒ[ƒv‚ðƒNƒ‰ƒ“ƒv‚É•Ï‚¦‚é
+	// tu tvãŒè¶…ãˆã¦ã„ã‚‹ã‹ã‚‚ã—ã‚Œãªã„
+	// ãƒ¯ãƒ¼ãƒ—ã‚’ã‚¯ãƒ©ãƒ³ãƒ—ã«å¤‰ãˆã‚‹
 }

@@ -2,7 +2,7 @@
 
 
 
-namespace Graphics {
+namespace D3D9 {
 	
 
 	// D3Dパラメータ変数
@@ -11,16 +11,37 @@ namespace Graphics {
 	D3DPRESENT_PARAMETERS d3d_pp = {};  // グラフィックス設定用 
 
 
-	// ウィンドウモード
-	LPDIRECT3DDEVICE9 InitD3D(HWND hWnd) {// デバイス
+	bool Init(
+		UINT width_size,
+		UINT height_size,
+		BOOL windowed,
+		UINT back_buffer_count) {
+
+
+		// ウィンドウハンドルのnullチェック
+		if (Window::GetWindowHandle() == NULL){
+
+			// ウィンドウハンドルの取得に失敗
+			MessageBox(0, "GetWindowHandle...Error/Place...D3D9_Init", NULL, MB_OK);
+
+			// エラーを返す
+			return false;
+		}
+
+		// ウィンドウハンドル取得
+		HWND h_wnd = Window::GetWindowHandle();
 
 		// LPDIRECT3D9は生成した後ほとんど使用しない
 		direct3d9 = Direct3DCreate9(D3D_SDK_VERSION);
 
-		// LPDIRECT3D9のnullチェック
+		// DIRECT3D9のnullチェック
 		if (direct3d9 == NULL) {
 
-			MessageBox(0, "IDirect3D9の作成に失敗しました", NULL, MB_OK);
+			// IDirect3D9の生成に失敗
+			MessageBox(0, "IDirect3D9Create...Error/Place...D3D9_Init", NULL, MB_OK);
+
+			// エラーを返す
+			return false;
 		}
 
 		// パーセントパラメーターズのサイズを0にする
@@ -28,41 +49,65 @@ namespace Graphics {
 
 		/* 描画設定 */
 		
-		// パラメーターズは全部設定
-		d3d_pp.BackBufferWidth = 1920;                         // 横の解像度
-		d3d_pp.BackBufferHeight = 1080;						   // 縦の解像度
-		d3d_pp.BackBufferFormat = D3DFMT_X8R8G8B8;             // ディスプレイモード
-		d3d_pp.BackBufferCount = 1;							   // バックバッファの数
-		d3d_pp.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;	   // マルチサンプルの数
-		d3d_pp.MultiSampleQuality = 0;						   // マルチサンプルの品質レベル
-		d3d_pp.SwapEffect = D3DSWAPEFFECT_DISCARD;			   // フロントバッファとバックバッファの切り替え方法
-		d3d_pp.hDeviceWindow = hWnd;					       // 画面を描画するウィンドウハンドル
-		d3d_pp.Windowed = TRUE;							       // スクリーンモード
-		d3d_pp.EnableAutoDepthStencil = TRUE;				   // 深度ステンシルバッファがあるかどうか
-		d3d_pp.AutoDepthStencilFormat = D3DFMT_D24S8;		   // ステンシルバッファのフォーマット
-		d3d_pp.Flags = D3DPRESENTFLAG_DISCARD_DEPTHSTENCIL;    // バックバッファからフロントバッファへ転送時のオプション
-		d3d_pp.FullScreen_RefreshRateInHz = 0;				   // フルスクリーンでのリフレッシュレート
-		d3d_pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE; // スワップエフェクトの書き換えタイミング
+		// 横の解像度
+		d3d_pp.BackBufferWidth = width_size;                         
+		// 縦の解像度
+		d3d_pp.BackBufferHeight = height_size;						   
+		// ディスプレイモード
+		d3d_pp.BackBufferFormat = D3DFMT_X8R8G8B8;             
+		// バックバッファの数
+		d3d_pp.BackBufferCount = back_buffer_count;							  
+		// マルチサンプルの数
+		d3d_pp.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;	  
+		// マルチサンプルの品質レベル
+		d3d_pp.MultiSampleQuality = 0;						   
+		// フロントバッファとバックバッファの切り替え方法
+		d3d_pp.SwapEffect = D3DSWAPEFFECT_DISCARD;			   
+		// 画面を描画するウィンドウハンドル
+		d3d_pp.hDeviceWindow = h_wnd;					       
+		// スクリーンモード
+		d3d_pp.Windowed = windowed;							       
+		// 深度ステンシルバッファがあるかどうか
+		d3d_pp.EnableAutoDepthStencil = TRUE;				   
+		// ステンシルバッファのフォーマット
+		d3d_pp.AutoDepthStencilFormat = D3DFMT_D24S8;		   
+		// バックバッファからフロントバッファへ転送時のオプション
+		d3d_pp.Flags = D3DPRESENTFLAG_DISCARD_DEPTHSTENCIL;    
+		// フルスクリーンでのリフレッシュレート
+		d3d_pp.FullScreen_RefreshRateInHz = 0;				   
+		// スワップエフェクトの書き換えタイミング
+		d3d_pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE; 
+
 
 		// デバイスの作成
 		direct3d9->CreateDevice(
-			D3DADAPTER_DEFAULT,                                // ディスプレイアダプターの種類
-			D3DDEVTYPE_HAL,                                    // デバイスの種類を設定
-			hWnd,								               // デバイスが割り当てられるウィンドウハンドル
-			D3DCREATE_HARDWARE_VERTEXPROCESSING,               // デバイス制御の組み合わせ
-			&d3d_pp,							               // デバイスを設定するためのD3DPRESENT_PARAMETERS構造体
-			&d3d_device9						               // LPDIRECT3DDEVICE9のポインタのアドレスに格納する
+			// ディスプレイアダプターの種類
+			D3DADAPTER_DEFAULT,                               
+			// デバイスの種類を設定
+			D3DDEVTYPE_HAL,                                    
+			// デバイスが割り当てられるウィンドウハンドル
+			h_wnd,								               
+			// デバイス制御の組み合わせ
+			D3DCREATE_HARDWARE_VERTEXPROCESSING,               
+			// デバイスを設定するためのD3DPRESENT_PARAMETERS構造体のアドレスを渡す
+			&d3d_pp,							               
+			// LPDIRECT3DDEVICE9のアドレスを渡す
+			&d3d_device9						               
 		);
+
 
 		// D3Dデバイスのnullチェック
 		if (d3d_device9 == NULL) {
 
-			MessageBox(0, "デバイスの生成に失敗しました。", NULL, MB_OK);
-			return NULL;// 0ではなくNULLを返す
+			// デバイスの生成に失敗 
+			MessageBox(0, "d3d_device9Create...Error/Place...D3D9_Init", NULL, MB_OK);
+
+			// エラーを返す
+			return false;
 		}
 
 		// 正常終了
-		return d3d_device9;
+		return true;
 
 		/* MEMO
 		デバイスの作成に失敗した場合
@@ -70,31 +115,25 @@ namespace Graphics {
 		*/
 	}
 
-	void SetScreenMode(bool is_screen_mode) {
 
-		// スクリーンモード
-		if (is_screen_mode == true) {
+	void SetScreenMode(BOOL is_screen_mode) {
 
-			d3d_pp.Windowed = TRUE;
-		}
-		// フルスクリーンモード
-		else if(is_screen_mode == false){
-			d3d_pp.Windowed = FALSE;
-		}
+		// スクリーンモードの変更
+		d3d_pp.Windowed = is_screen_mode;
 
-		// デバイスの変更
+		// デバイスの設定を変更する
 		d3d_device9->Reset(&d3d_pp);
 	}
 
-	// 解像度の変更(今は起動していないので注意)
-	void BackBufferReSize(const int&size_x, const int&size_y) {
 
-		d3d_pp.BackBufferWidth = size_x;
-		d3d_pp.BackBufferHeight = size_y;
+	void BackBufferReSize(const int&width_size, const int&height_size) {
 
-		// リセットメソッド(デバイスの設定を変更する)
+		// 解像度変更
+		d3d_pp.BackBufferWidth = width_size;
+		d3d_pp.BackBufferHeight = height_size;
+
+		// デバイスの設定を変更する
 		d3d_device9->Reset(&d3d_pp);
-		// テクスチャZバッファなど新しいメソッドに作り替えられる
 	}
 
 
@@ -102,18 +141,24 @@ namespace Graphics {
 	{
 		// シーンのクリア
 		d3d_device9->Clear(
-			0,	  // D3DRECT*の矩形の数
-			NULL, // ビューポート全体をクリア
-		          // Zバッファとステンシルをクリア 
+			// D3DRECT*の矩形の数
+			0,	  
+			// ビューポート全体をクリア
+			NULL, 
+			// Zバッファとステンシルをクリア       
 			D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
-			NULL, // クリアする色情報(背景色)
-			1.0f, // 深度バッファで使用(未使用なら0,f)
-			0     // ステンシルバッファで使用する値(未使用なら0)
+			// クリアする色情報(背景色)
+			NULL, 
+			// 深度バッファで使用(未使用なら0,f)
+			1.0f, 
+			// ステンシルバッファで使用する値(未使用なら0)
+			0     
 		);
 
 		// シーン描画を開始する
 		if (D3D_OK == d3d_device9->BeginScene())
 		{
+			// 正常終了
 			return true;
 		}
 
@@ -135,7 +180,6 @@ namespace Graphics {
 	}
 
 
-	// D3D9の解放
 	void Release() {
 
 		// 生成した時と逆の順番で解放
@@ -143,19 +187,49 @@ namespace Graphics {
 		direct3d9->Release();
 	}
 
+	/* GetViewPortやSetViewPortなどもある*/
+	
+	void ViewPortConfig(D3DVIEWPORT9*d3d_view_port9,DWORD x, DWORD y,DWORD width,DWORD height,FLOAT min_z,FLOAT max_z) {
 
-	// 描画領域の設定
-	void InitViewPort(DWORD x, DWORD y, D3DVIEWPORT9 &d3d_viewport9) {
+		// ビューポートのnullチェック
+		if (d3d_view_port9 == NULL) {
+			return;
+		}
 
-		d3d_viewport9.X = x;  // X座標
-		d3d_viewport9.Y = y;  // Y座標
-		d3d_viewport9.Width;  // 幅
-		d3d_viewport9.Height; // 高さ
-		d3d_viewport9.MinZ;	  // Z深度 : 最小
-		d3d_viewport9.MaxZ;	  // Z深度 : 最大
+		// ビューポートの設定
+		d3d_view_port9->X = x;           // X座標
+		d3d_view_port9->Y = y;           // Y座標
+		d3d_view_port9->Width = width;   // 幅
+		d3d_view_port9->Height = height; // 高さ
+		d3d_view_port9->MinZ = 0.f;	     // Z深度 : 最小
+		d3d_view_port9->MaxZ = 1.f;	     // Z深度 : 最大
 	}
 
-	// デバイスのゲッター
+
+	void SetViewPort(D3DVIEWPORT9*view_port) {
+
+		// ビューポートをデバイスにセットできなかったとき
+		if (d3d_device9->SetViewport(view_port) != D3D_OK) {
+			MessageBox(0, "SetViewPort...Error", NULL, MB_OK);
+		}
+	}
+
+
+	HRESULT GetViewPort(D3DVIEWPORT9 d3d_view_port9) {
+
+		// ビューポートのパラメータを受け取る
+		HRESULT view_port_parameter = d3d_device9->GetViewport(&d3d_view_port9);
+
+		// 受け取れなかった場合
+		if (view_port_parameter != D3D_OK) {
+			MessageBox(0, "GetViewPort...Error", NULL, MB_OK);
+			return NULL;
+		}
+		// 正常終了
+		return view_port_parameter;
+	}
+
+
 	LPDIRECT3DDEVICE9 GetLpDirect3DDevice9() {
 		return d3d_device9;
 	}

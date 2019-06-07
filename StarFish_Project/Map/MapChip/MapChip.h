@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include"../BackGround/BackGround.h"
-#include"../../BedRockChip.h"
+#include"../../Map/BedRockChip/BedRockChip.h"
 #include<vector>
 
 /*

@@ -9,6 +9,8 @@ namespace Window {
 	// ウィンドウハンドル
 	HWND window_handle;
 
+	/* ---内部関数--- */
+
 	// PeekMessageから送られてきたメッセージを処理する
 	LRESULT CALLBACK WndProc(
 		HWND h_wnd,
@@ -16,8 +18,11 @@ namespace Window {
 		WPARAM w_param,
 		LPARAM l_param);
 
+	// ウィンドウ生成
+	HWND MakeWindow(int width, int height);
 
-	HWND MakeWindow(int w, int h) {
+	
+	HWND MakeWindow(int width, int height) {
 
 		// インスタンスハンドルを代入
 		HINSTANCE h_instance = GetModuleHandle(NULL);
@@ -60,7 +65,7 @@ namespace Window {
 		/* ウィンドウのサイズ変更 */
 
 		// リサイズ
-		RECT rect = { 0,0,w,h };
+		RECT rect = { 0,0,width,height };
 
 		// ウィンドウ作成
 		HWND h_wnd = CreateWindow(
@@ -86,7 +91,7 @@ namespace Window {
 			h_instance,               
 			// CREATESTRUCT構造体のポインタ(NULLでいい)
 			NULL);                    
-
+		
 		// ウィンドウハンドルのnullチェック
 		if (h_wnd == NULL)
 		{
@@ -155,10 +160,10 @@ namespace Window {
 	}
 
 	
-	bool InitWindow(const int window_w, const int window_h) {
+	bool Init(const int width, const int height) {
 
 		// ウィンドウの生成が最初
-		window_handle = MakeWindow(window_w, window_h);
+		window_handle = MakeWindow(width, height);
 
 		if (window_handle == NULL) {
 
@@ -170,15 +175,7 @@ namespace Window {
 	}
 
 
-	// ウィンドウサイズを変更
-	void SetWindowSize(const UINT&cx, const UINT&cy) {
-
-		SetWindowPos(window_handle, NULL, 0, 0, cx, cy, SWP_NOMOVE | SWP_NOZORDER);
-	}
-
-
-	// ウィンドウを中央に移動
-	void SetWindowCenterMove() {
+	void SetCenterMove() {
 
 		RECT rc1;  // デスクトップ領域
 		RECT rc2;  // ウィンドウ領域
@@ -202,35 +199,21 @@ namespace Window {
 			SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
 	}
 
-	// ウィンドウハンドルを返す
+	void SetSize(const UINT&width, const UINT&height) {
+
+		// ウィンドウサイズ変更
+		SetWindowPos(window_handle, NULL, 0, 0, width, height, SWP_NOMOVE | SWP_NOZORDER);
+	}
+
 	HWND GetWindowHandle() {
 		return window_handle;
 	}
+
+	void FullScreenWindowStyleChange() {
+
+		// フルスクリーンモード対応のウィンドウスタイル変更
+		SetWindowLong(window_handle, GWL_STYLE, WS_VISIBLE | WS_POPUP);
+		// ウィンドウ全体を再描画
+		ShowWindow(window_handle, SW_SHOW);
+	}
 }
-
-
-/*
-CreateWindow関数
-WS_POPUP,// ウィンドウスタイルの設定
-*/
-
-/* MEMO
-MessageBoxはマルチバイト文字列でしか使えないので注意
-unicodeの場合,MessageBoxAを使う
-*/
-
-// MEMO :
-// ウィンドウのメッセージを受け取ったり、投げ返したりする方法。
-// MSG等に情報を入れて投げたりする。ゲームではほとんど投げない。ウィンドウのサイズを変える時ぐらい。
-// PM_REMOVEはちゃんともう一回回す。
-// 昔はもっとcaseが多かった。
-// PostQuitMassage関数を呼び出すと一応メッセージを終了してくれる。
-
-
-// MEMO:
-//WNDCLASSEXはどういうウィンドウにするかを設定する物。
-// ハンドルは操作する為のもの。
-
-// ウィンドウメッセージの処理]
-
-// 解像度の変更も行いたい

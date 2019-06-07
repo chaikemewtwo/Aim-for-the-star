@@ -7,6 +7,6 @@ CollisionObject::CollisionObject() {
 }
 
 // 新しい点を再定義
-D3DXVECTOR2 CollisionObject::GetOfset()const {
+D3DXVECTOR2 CollisionObject::GetOffset()const {
 	return m_offset;
 }

@@ -19,10 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BedRockChip.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Blind\Blind.cpp">
       <SubType>
       </SubType>
@@ -52,6 +48,7 @@
     <ClCompile Include="LoadResource\LoadResource.cpp" />
     <ClCompile Include="Main\Main.cpp" />
     <ClCompile Include="Map\BackGround\BackGround.cpp" />
+    <ClCompile Include="Map\BedRockChip\BedRockChip.cpp" />
     <ClCompile Include="Map\MapChip\MapChip.cpp" />
     <ClCompile Include="Map\MapManager\MapManager.cpp" />
     <ClCompile Include="Player\Player.cpp" />
@@ -86,10 +83,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BedRockChip.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Blind\Blind.h">
       <SubType>
       </SubType>
@@ -120,6 +113,7 @@
     <ClInclude Include="Lib\Window\Window.h" />
     <ClInclude Include="LoadResource\LoadResource.h" />
     <ClInclude Include="Map\BackGround\BackGround.h" />
+    <ClInclude Include="Map\BedRockChip\BedRockChip.h" />
     <ClInclude Include="Map\MapChip\MapChip.h" />
     <ClInclude Include="Map\MapManager\MapManager.h" />
     <ClInclude Include="Player\Player.h" />

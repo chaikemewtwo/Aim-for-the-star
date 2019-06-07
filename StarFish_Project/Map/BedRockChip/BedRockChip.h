@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"../StarFish_Project/GameObject/Object/Object.h"
+#include"../../GameObject/Object/Object.h"
 #include<string>
 
 /* HACK まだできていません */

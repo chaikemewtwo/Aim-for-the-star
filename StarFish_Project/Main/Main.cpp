@@ -11,11 +11,14 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 
+
 	// 初期化
-	if (Window::InitWindow() == false) {
+	if (Window::Init() == false) {
 		return -1;
 	}
-	Graphics::InitD3D(Window::GetWindowHandle());
+	if (D3D9::Init() == false) {
+		return -1;
+	}
 
 	Audio& audio = Audio::getInterface(Window::GetWindowHandle());
 	Keybord& kb = Keybord::getInterface();
@@ -46,14 +49,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 		}
 
 		// 描画開始
-		if (Graphics::DrawStart() == true) {
+		if (D3D9::DrawStart() == true) {
 			sm->Draw();
 		}
-		Graphics::DrawEnd();
+		D3D9::DrawEnd();
 	}
 
 	Texture::Release();
-	Graphics::Release();
+	D3D9::Release();
 
 	return 0;
 }

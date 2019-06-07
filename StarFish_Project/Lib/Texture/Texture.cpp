@@ -22,7 +22,7 @@ namespace Texture {
 			return;
 		}
 
-		D3DXCreateTextureFromFile(Graphics::GetLpDirect3DDevice9(), file_name, &tex_list[file_name].Texture);
+		D3DXCreateTextureFromFile(D3D9::GetLpDirect3DDevice9(), file_name, &tex_list[file_name].Texture);
 
 		// 最初はサイズ指定をしなければいけない。
 		tex_list[file_name].Width = (float)info.Width;
@@ -47,7 +47,7 @@ namespace Texture {
 
 		// EXバージョンの読み込み
 		D3DXCreateTextureFromFileEx(
-			Graphics::GetLpDirect3DDevice9(), // window_device
+			D3D9::GetLpDirect3DDevice9(), // window_device
 			file_name,                    // ファイル名
 			info.Width + width,           // 読み込むファイル幅
 			info.Height + height,         // 読み込むファイル縦幅
