@@ -77,7 +77,7 @@ void Clear::Init() {
 
 void Clear::Update() {
 
-	if (m_player1_pos.y >= 750 && m_player2_pos.y >= 750) {
+	if (m_player1_pos.y >= PLAYER_FINISH_POS_Y && m_player2_pos.y >= PLAYER_FINISH_POS_Y) {
 		// プレイヤーの移動
 		PlayerMove();
 	}
@@ -92,7 +92,7 @@ void Clear::Update() {
 	}
 
 	// エフェクトが始まるタイミングでSE再生
-	if (m_player_animation_num == 6 && m_player_animation_finish == true) {
+	if (m_player_animation_num == PLAYER_CLEARPOSE_START_NUM && m_player_animation_finish == true) {
 		m_effect_sound->Play(0, 0, 0);
 	}
 
@@ -136,7 +136,7 @@ void Clear::Draw() {
 	);
 
 	
-	if (m_player_animation_num >= 6 && m_player_animation_finish == true) {
+	if (m_player_animation_num >= PLAYER_CLEARPOSE_START_NUM && m_player_animation_finish == true) {
 
 		// エフェクトの描画
 		Texture::Draw2D(
@@ -153,7 +153,7 @@ void Clear::Draw() {
 			true, EFFECT_TEXTURE_PARTITION_NUM, EFFECT_TEXTURE_PARTITION_NUM,
 			m_effect_animation_num
 		);
-		EffectAnimation();
+		ChangeEffectAnimation();
 
 		// せいこうUIの描画
 		Texture::Draw2D(
@@ -178,7 +178,7 @@ void Clear::Draw() {
 		true, PLAYER_TEXTURE_PARTITION_NUM, PLAYER_TEXTURE_PARTITION_NUM, 
 		m_player_animation_num
 	);
-	PlayerAnimation();
+	ChangePlayerAnimation();
 }
 //―――――――――――――――――――――――――――――――――
 
@@ -216,7 +216,7 @@ void Clear::BackGroundMove() {
 
 void Clear::ClearUiSizeChange() {
 
-	if (m_player_animation_finish == true && m_player_animation_num >= 6 && m_is_clear_ui_size_max == false && m_clear_ui_size <= 1) {
+	if (m_player_animation_finish == true && m_player_animation_num >= PLAYER_CLEARPOSE_START_NUM && m_is_clear_ui_size_max == false && m_clear_ui_size <= 1) {
 
 		m_clear_ui_size += m_clear_ui_size_change_speed;
 		// 描画サイズまで達したら、サイズ変更の値を小さくする
@@ -229,18 +229,19 @@ void Clear::ClearUiSizeChange() {
 	else if (m_is_clear_ui_size_max == true) {
 
 		m_clear_ui_size -= m_clear_ui_size_change_speed;
-		if (m_clear_ui_size <= 0.9) {
+
+		if (m_clear_ui_size <= CLEAR_UI_MIN_SIZE) {
 			m_is_clear_ui_size_max = false;
 		}
 	}
 }
 //―――――――――――――――――――――――――――――――――
 
-void Clear::PlayerAnimation() {
+void Clear::ChangePlayerAnimation() {
 
 	// アニメーションが回り切っていたら最後の画像で固定
 	if (m_player_animation_finish == true && m_player_animation_num == (m_player_animation_max - 1)) {
-		m_player_animation_num = 15;
+		m_player_animation_num = m_player_animation_max - 1;
 	}
 	// 回り切っていなければアニメーションする
 	else{
@@ -250,8 +251,8 @@ void Clear::PlayerAnimation() {
 			m_player_animation_num++;
 
 			// 背景が途中の場合、アニメーションをループさせる
-			if (m_background2_pos.y <= Window::HEIGHT && m_player_animation_num == 13) {
-				m_player_animation_num = 5;
+			if (m_background2_pos.y <= Window::HEIGHT && m_player_animation_num == PLAYER_REPEAT_ANIMATION_LAST_NUM) {
+				m_player_animation_num = PLAYER_REPEAT_ANIMATION_START_NUM;
 			}
 			// 背景スクロール後、アニメーションを次に遷移させる
 			else if (m_player_animation_num >= m_player_animation_max && m_player_animation_finish == false) {
@@ -269,7 +270,7 @@ void Clear::PlayerAnimation() {
 }
 //―――――――――――――――――――――――――――――――――
 
-void Clear::EffectAnimation() {
+void Clear::ChangeEffectAnimation() {
 	
 	// エフェクトのアニメーションを繰り返す処理
 	if (m_effect_animation_timer >= m_effect_animation_change_time) {

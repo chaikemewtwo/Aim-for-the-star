@@ -70,14 +70,14 @@ void Title::Draw() {
 	// タイトルロゴの描画
 	Texture::Draw2D(
 		TITLE_LOGO.c_str(),
-		TITLE_LOGO_POS_X, TITLE_LOGO_POS_Y,
+		TITLE_LOGO_POS.x, TITLE_LOGO_POS.y,
 		1, 1, 0, 0.5, 0.5
 	);
 
 	// UIのボタン描画
 	Texture::Draw2D(
 		m_button_texture.c_str(),
-		TITLE_BUTTON_POS_X, TITLE_BUTTON_POS_Y,
+		TITLE_BUTTON_POS.x, TITLE_BUTTON_POS.y,
 		1, 1, 0, 0.5, 0.5
 	);
 }

@@ -1,8 +1,8 @@
 ﻿#pragma once
 
 #include<string>
-#include"../SceneBase.h"
 #include"../../Lib/Window/Window.h"
+#include"../SceneBase.h"
 
 
 class Title :public SceneBase {
@@ -26,14 +26,13 @@ private:
 	void ButtonChangeCheck();
 
 private:
-	int m_button_check_num;
-	std::string m_button_texture;
+	int m_button_check_num;			// 選択ボタンの数値用
+
+	std::string m_button_texture;	
 	std::string m_button_texture_list[TITLE_BUTTON_MAX];
 
-	const float TITLE_LOGO_POS_X = Window::WIDTH / 2;
-	const float TITLE_LOGO_POS_Y = (Window::HEIGHT / 2) - 70;
-	const float TITLE_BUTTON_POS_X = Window::WIDTH / 2;
-	const float TITLE_BUTTON_POS_Y = Window::HEIGHT-100;
+	const D3DXVECTOR2 TITLE_LOGO_POS = { (Window::WIDTH / 2),(Window::HEIGHT / 2) - 70 };   // タイトルロゴの位置
+	const D3DXVECTOR2 TITLE_BUTTON_POS = { (Window::WIDTH / 2),(Window::HEIGHT - 100) };	// 選択ボタンの位置
 
 	// ロゴと背景の画像を登録
 	const std::string TITLE_TEXTURE = "Resource/Texture/Title/タイトル　背景.png";
