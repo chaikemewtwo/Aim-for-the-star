@@ -14,6 +14,7 @@ namespace Texture {
 
 	// サイズ系の関数が多くなってきたのでnamespaceでまとめる
 	namespace Size {
+
 		// 画像サイズを取得する関数
 		float GetGraphSizeX(const char*file_name);
 		float GetGraphSizeY(const char*file_name);
