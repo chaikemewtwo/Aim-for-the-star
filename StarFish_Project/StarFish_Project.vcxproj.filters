@@ -24,7 +24,6 @@
     <ClCompile Include="SetRenderStateFile\SetRenderStateFile.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Map\BackGround\BackGround.cpp" />
-    <ClCompile Include="Map\MapChip\MapChip.cpp" />
     <ClCompile Include="Map\MapManager\MapManager.cpp" />
     <ClCompile Include="Blind\Blind.cpp" />
     <ClCompile Include="Rope\Rope.cpp" />
@@ -36,6 +35,7 @@
     <ClCompile Include="CollisionObject\CollisionObject.cpp" />
     <ClCompile Include="Map\BedRockChip\BedRockChip.cpp" />
     <ClCompile Include="Lib\D3D9\D3D9.cpp" />
+    <ClCompile Include="Map\MapChip\MapChip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -67,7 +67,6 @@
     <ClInclude Include="SetRenderStateFile\SetRenderStateFile.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Map\BackGround\BackGround.h" />
-    <ClInclude Include="Map\MapChip\MapChip.h" />
     <ClInclude Include="Map\MapManager\MapManager.h" />
     <ClInclude Include="Blind\Blind.h" />
     <ClInclude Include="Rope\Rope.h" />
@@ -79,6 +78,7 @@
     <ClInclude Include="Scene\GameScene\GameScene.h" />
     <ClInclude Include="Map\BedRockChip\BedRockChip.h" />
     <ClInclude Include="Lib\D3D9\D3D9.h" />
+    <ClInclude Include="Map\MapChip\MapChip.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />

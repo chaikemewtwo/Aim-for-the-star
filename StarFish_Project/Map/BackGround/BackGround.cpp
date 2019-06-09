@@ -1,6 +1,5 @@
 ﻿#include"BackGround.h"
 #include<stdlib.h>
-#include"../MapChip/MapChip.h"
 #include"../../Lib/D3D9/D3D9.h"
 #include"../../Lib/Texture/Texture.h"
 #include"../../Lib/Texture/TextureBoad2D.h"
@@ -47,7 +46,7 @@ BackGround::BackGround(
 
 void BackGround::Update() {
 
-	MoveAdd();
+	MoveInit();
 	PosAdd();
 	Scroll();
 }
@@ -144,31 +143,27 @@ void BackGround::Scroll() {
 		m_connect1_graph = m_connect2_graph - 1;
 	}
 
-	// デバッグエリア
-	{
+	// 配列外アクセスを起こさせないようにする
+	if (m_connect1_graph == 0 && -m_pos.y >= 0) {
 
-		// 最後の画像なら下まで行かせないようにする
-		if (m_connect1_graph == 0 && -m_pos.y >= 0) {
-
-			m_connect1_graph = 0;
-			m_connect2_graph = 1;
-		}
+		m_connect1_graph = 0;
+		m_connect2_graph = 1;
 	}
 }
 
 
-bool BackGround::IsDownScrollLimit(){
+bool BackGround::IsScroll(){
 
-	bool is_scroll = false;
+	bool is_scroll = true;
 
 	// 背景のスクロール制限
 	// 上
-	if (-m_pmap->GetPos().y > 0.f) {
+	if (-m_pmap->GetPos().y >= MAX_UP_SCROLL) {
 		is_scroll = false;
 	}
 	// 下
 	else if (-m_pmap->GetPos().y <= 0.f) {
-		is_scroll = true;
+		is_scroll = false;
 	}
 
 	// スクロール制限しない
@@ -176,56 +171,55 @@ bool BackGround::IsDownScrollLimit(){
 }
 
 
-bool BackGround::IsUpScrollLimit() {
-
-	bool is_scroll = false;
-
-	// 最深部まで来たらスクロールを止める
-	if ((float)((Map::CHIP_SIZE * 18) * m_max_graph_num - 1170) <= m_pos.y) {
-
-		// 位置を戻す
-		m_pmap->SetMapReset(-(((float)Map::CHIP_SIZE * 18) * m_max_graph_num - 1170) * m_max_graph_num);
-		// スクロール領域を0にする
-		m_pmap->SetScrollRangeUp(0.f);
-		m_pos.y -= 1.f;
-
-		m_is_max_scroll = true; // スクロール最大
-
-		is_scroll = true;
-	}
-	else {
-		// 元の状態に戻す
-		is_scroll = false;
-	}
-
-	if ((float)((Map::CHIP_SIZE * 18) * m_max_graph_num - 900.f) <= m_pos.y) {
-		m_pmap->SetScrollRangeUp(Map::SCROLL_RANGE_UP);
-		m_pmap->SetIsScroll(true);
-		is_scroll = false;
-	}
-
-	return is_scroll;
-}
+//bool BackGround::IsUpScrollLimit() {
+//
+//	bool is_scroll = false;
+//
+//	// 最深部まで来たらスクロールを止める
+//	if ((float)((Map::CHIP_SIZE * 18) * m_max_graph_num - 1170) <= m_pos.y) {
+//
+//		// 位置を戻す
+//		m_pmap->SetMapReset(-(((float)Map::CHIP_SIZE * 18) * m_max_graph_num - 1170) * m_max_graph_num);
+//		// スクロール領域を0にする
+//		m_pmap->SetScrollRangeUp(0.f);
+//		m_pos.y -= 1.f;
+//
+//		m_is_max_scroll = true; // スクロール最大
+//
+//		is_scroll = true;
+//	}
+//	else {
+//		// 元の状態に戻す
+//		is_scroll = false;
+//	}
+//
+//	if ((float)((Map::CHIP_SIZE * 18) * m_max_graph_num - 900.f) <= m_pos.y) {
+//		m_pmap->SetScrollRangeUp(Map::SCROLL_RANGE_UP);
+//		m_pmap->SetIsScroll(true);
+//		is_scroll = false;
+//	}
+//
+//	return is_scroll;
+//}
 
 
 void BackGround::PosAdd() {
 
-	bool is_limit = false;
+	//bool is_limit = false;
 
-	is_limit = IsUpScrollLimit();
+	//is_limit = IsUpScrollLimit();
 
 	// 上下だけ加算
-	if (IsDownScrollLimit() == false && is_limit == false) {
+	if (IsScroll() == true/* && is_limit == false*/) {
 		m_pos.y += m_move.y;
 	}
 }
 
 
-void BackGround::MoveAdd() {
+void BackGround::MoveInit() {
 
 	// プレイヤーの4分の１の速度にする
 	m_move = m_pmap->GetMove() / 3;// 反対方向に行くので-変換
-	
 }
 
 

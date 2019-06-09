@@ -96,10 +96,14 @@ public:
 	// 描画
 	void Draw();
 
+	void ObjectListInit();
+
 	// 要素の追加
 	void Entry(Object*obj);
 	// 配列の削除(メモリの削除ではない)
 	void Exit(unsigned int id);
+	// メモリの削除
+	void Delete(unsigned int id);
 	// クリアフラグを返す
 	bool IsClear()const;
 	bool IsGameOver()const;
@@ -113,15 +117,13 @@ private:
 	std::unordered_map<unsigned int,Object*>m_obj_list;// オブジェクト管理クラス(更新時にアドレスを入れる)
 	std::vector<unsigned int>m_used_id_list;           // 使い終わったidを再利用するための配列
 	std::vector<Object*>m_draw_obj_list;               // 描画用オブジェクトリスト
-		
-
-	unsigned int m_current_max_id;// 現在最大のid
+	unsigned int m_current_max_id;                     // 現在最大のid
 
 	/* object参照 */
-	MapManager * m_p_map_mng;        // マップ管理クラス
-	Player * m_p_player[2];        // 自機1,2
-	GameUI * m_p_ui;               // スタミナGameUI
-	Rope * m_p_rope;               // ロープ
-	EnemyManager *m_p_enemy_mng;       // 敵管理クラス
+	MapManager * m_p_map_mng;            // マップ管理クラス
+	Player * m_p_player[2];              // 自機1,2
+	GameUI * m_p_ui;                     // スタミナGameUI
+	Rope * m_p_rope;                     // ロープ
+	EnemyManager *m_p_enemy_mng;         // 敵管理クラス
 	CollisionManager *m_p_collision_mng; // 衝突管理クラス
 };

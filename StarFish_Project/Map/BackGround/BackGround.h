@@ -1,13 +1,12 @@
 ﻿#pragma once
 #include"../../GameObject/Object/Object.h"
 #include"../../Lib/Window/Window.h"
-
+#include"../MapChip/MapChip.h"
 
 // MEMO
 // MapManagerでBackGroundの変更を加えた
 
 
-class Map; //マップの前方参照
 
 // 背景クラス
 class BackGround : public Object{
@@ -28,19 +27,21 @@ public:
 	bool IsMaxScroll()const;
 
 private:
-
+	
 	static constexpr int GRAPH_DIFFERENCE = 50;       // 背景の端数
-	static constexpr float BG_CHANGE_LINE = 10.f; // 背景が入れ替わる範囲
+	static constexpr float BG_CHANGE_LINE = 10.f;     // 背景が入れ替わる範囲
+	static constexpr int MAX_BACKGROUND_GRAPH = 5;    // 背景の最大画像数
+	static constexpr float MAX_UP_SCROLL = (Map::CHIP_SIZE * 18) * MAX_BACKGROUND_GRAPH + 1170;
 
 private:
 	
 	/* private関数 */
-	void MoveAdd();                           // 自機を取り入れる
+	void MoveInit();                          // 自機を取り入れる
 	void BGLoad(const std::string&file_name); // 背景の読み込み
 	void Scroll();                            // 背景スクロール
 	void PosAdd();                            // 位置更新
-	bool IsDownScrollLimit();                 // スクロール制限下
-	bool IsUpScrollLimit();                   // スクロール制限上
+	bool IsScroll();                          // スクロール制限下
+	//bool IsUpScrollLimit();                 // スクロール制限上
 
 private:
 

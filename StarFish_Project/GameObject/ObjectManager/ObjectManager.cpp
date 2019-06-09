@@ -69,7 +69,6 @@ void ObjectManager::Draw() {
 void ObjectManager::SortDrawObject(){
 
 	// 一旦他のコンテナに入れ替えないといけない
-	// 描画用の配列を作る
 	
 	// 前のを削除
 	m_draw_obj_list.clear();
@@ -139,6 +138,14 @@ void ObjectManager::Entry(Object*obj) {
 }
 
 
+void ObjectManager::ObjectListInit() {
+
+	// 前のを削除
+	m_draw_obj_list.clear();
+	std::vector<Object*>().swap(m_draw_obj_list);
+}
+
+
 void ObjectManager::Exit(unsigned int id) {
 
 	// 使い終わったidを保存
@@ -149,6 +156,11 @@ void ObjectManager::Exit(unsigned int id) {
 }
 
 
+void ObjectManager::Delete(unsigned int id) {
+	delete m_obj_list.at(id);
+}
+
+
 bool ObjectManager::IsClear()const{
 	
 	// マップの背景とチップが最大で、かつ自機の位置が200.fよりも少ない(上)のとき
@@ -156,9 +168,9 @@ bool ObjectManager::IsClear()const{
 		m_p_map_mng->IsMaxMapRange() == true && m_p_player[1]->GetPos().y <= 200.f) {
 		return true;
 	}
-
 		return false;
 }
+
 
 bool ObjectManager::IsGameOver()const {
 	if (m_p_player[0]->IsActive() == false && m_p_player[1]->IsActive() == false) {

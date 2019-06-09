@@ -33,5 +33,4 @@ private:
 	Map *m_pmap_tip; // マップの選択
 	BackGround*m_pbg;     // 背景
 	BackGround *m_pbg2;   // 奥行用の背景
-	ObjectManager*m_pobj_mng;// オブジェクト管理
 };
