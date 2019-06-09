@@ -173,7 +173,7 @@ void Map::Update() {
 	
 		// スクロールしてもいいかどうか
 		if (IsScroll() == true) {
-			Scroll(player_pos[i].y, player_move[i].y, m_scroll_range_up, m_scroll_range_down);
+			Scroll(player_pos[i].y, player_move[i].y);
 		}
 	
 		// マップの当たり判定
@@ -240,23 +240,23 @@ void Map::Draw() {
 
 
 // 遷移はy軸だけ
-int Map::Scroll(float&pos_y, float&move_y, float up_range, float down_range) {
+int Map::Scroll(float&pos_y, float&move_y) {
 
 	// 描画遷移範囲 = 現在のマップ座標(本来はスクリーン座標の方がいい) + 遷移範囲(スクリーンから見て)
 
 	// 上の遷移基準
-	if (pos_y <= up_range) {
+	if (pos_y <= m_scroll_range_up) {
 		// スクリーン座標を戻す
-		pos_y = up_range;// 移動分減算
+		pos_y = m_scroll_range_up;// 移動分減算
 
 		m_move.y += move_y;// マップ座標を加算
 		return 1;
 	}
 
 	// 下の遷移基準
-	else if (pos_y >= down_range) {
+	else if (pos_y >= m_scroll_range_down) {
 
-		pos_y = down_range;
+		pos_y = m_scroll_range_down;
 		m_move.y += move_y;// マップ座標を加算
 		return 2;
 	}
@@ -268,10 +268,24 @@ int Map::Scroll(float&pos_y, float&move_y, float up_range, float down_range) {
 // スクロールの最大移動
 void Map::ScrollMaxMove() {
 
-	// 下のスクロール制限
+	// 上の最大スクロール
+	if (m_pos.y <= -BackGround::MAX_UP_SCROLL) {
+
+		m_scroll_range_up = 0.f;
+		// スクロール移動初期化
+		m_move.y = 0.f;
+		// マップ座標初期化
+		m_pos.y = -BackGround::MAX_UP_SCROLL - 1.f;
+	}
+
+	if(m_pos.y <= -BackGround::MAX_UP_SCROLL - 50.f){
+		m_draw_range_up = SCROLL_RANGE_UP;
+	}
+	
+	// 下の最大スクロール
 	if (m_pos.y >= 0.f) {
 
-		m_draw_range_down = 800.f;
+		m_scroll_range_down = 800.f;
 
 		// スクロール移動初期化
 		m_move.y = 0.f;
@@ -279,6 +293,7 @@ void Map::ScrollMaxMove() {
 		m_pos.y = 0.f;
 	}
 	else {
+		// スクロールを最初に戻す
 		m_draw_range_down = SCROLL_RANGE_DOWN;
 	}
 }
@@ -697,6 +712,10 @@ bool Map::IsWallColRight()const {
 // スクロールしているか
 bool Map::IsScroll()const {
 	return m_is_scroll;
+}
+
+bool Map::IsMaxScroll()const {
+	return m_is_max_scroll;
 }
 
 void Map::SetIsScroll(bool is_scroll) {

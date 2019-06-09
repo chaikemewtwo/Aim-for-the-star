@@ -77,6 +77,7 @@ public:
 	bool IsWallColLeft()const;	     // 左の壁に当たっているか
 	bool IsWallColRight()const;	     // 右の壁に当たっているか
 	bool IsScroll()const;			 // スクロールしているか
+	bool IsMaxScroll()const;         // 最大スクロールかどうか
 	// マップの初期化
 	void SetMapReset(float map_y);
 	void SetIsScroll(bool is_scroll);
@@ -106,7 +107,7 @@ private:
 	/* 描画遷移関係 */
 
 	// 描画範囲に入っているか入っていないか判断する関数
-	int Scroll(float&pos_y,float&move_y,float up_range,float down_range);
+	int Scroll(float&pos_y,float&move_y);
 	// 地面に着地する点
 	void ScrollMaxMove();
 
@@ -178,6 +179,7 @@ private:
 	bool m_is_wall_col_up;       // 上に衝突しているか
 	bool m_is_wall_col_down;     // 下に衝突しているか
 	bool m_is_scroll;            // スクロールしているか
+	bool m_is_max_scroll;        // 最大スクロールか 
 
 };
 

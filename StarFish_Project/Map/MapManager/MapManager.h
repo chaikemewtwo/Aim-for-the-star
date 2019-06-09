@@ -30,7 +30,7 @@ public:
 private:
 
 	// 参照
-	Map *m_pmap_tip; // マップの選択
-	BackGround*m_pbg;     // 背景
-	BackGround *m_pbg2;   // 奥行用の背景
+	Map *m_p_map; // マップの選択
+	BackGround*m_p_bg1;     // 背景
+	BackGround *m_p_bg2;   // 奥行用の背景
 };
