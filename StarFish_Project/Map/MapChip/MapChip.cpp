@@ -117,7 +117,7 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 	m_is_wall_col_left = false;    // 左に衝突しているか
 	m_is_wall_col_right = false;   // 右に衝突しているか
 	m_is_wall_col_up = false;      // 上に衝突しているか
-	m_is_wall_col_down = false;	// 下に衝突しているか
+	m_is_wall_col_down = false;	   // 下に衝突しているか
 
 	// スクロールしているか
 	m_is_scroll = true;
@@ -670,7 +670,7 @@ float Map::GetChipPosCastByChip(const float &chip_pos, const float &chip_y)const
 }
 
 // マップのリセット
-void Map::SetMapReset(float map_y) {
+void Map::SetMapResetY(float map_y) {
 	m_pos.y = map_y;
 }
 
@@ -806,7 +806,8 @@ void Map::Load(const std::string&file_name) {
 
 		// 文字列をバッファにいれる
 		char *str2 = str_buf;
-		tagMapChip map_chip;
+
+		m_map.reserve(0);
 
 		// 次の列へ
 		while (*str2 != '\0'&& *str2 != '\n') {

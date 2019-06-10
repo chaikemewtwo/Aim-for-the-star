@@ -86,9 +86,10 @@ void BackGround::BGLoad(const std::string&file_name) {
 	// ファイルオープン
 	fopen_s(&fp,file_name.c_str(), "r");
 
-	char str_load_buf[10][100];
+	char str_load_buf[1000][100];
 	//std::vector<std::string>string_load_buffer;
-	std::string string_load_buffer;
+	//std::string string_load_buffer;
+
 	// ファイルが読み込まれてない場合
 	if (fp == NULL) {
 		return;
@@ -97,18 +98,18 @@ void BackGround::BGLoad(const std::string&file_name) {
 	// 縦 
 	int h = 0;
 
-	// 要素確保
-	string_load_buffer.reserve(h);
-	// 数字確保
-	string_load_buffer[h] = h;
-	// 
-	string_load_buffer.push_back.push_back(h);
+	//// 要素確保
+	//string_load_buffer.reserve(h);
+	//// 数字確保
+	//string_load_buffer[h] = h;
+	//// 
+	//string_load_buffer.push_back.push_back(h);
 	
 	// 文字列読み込み、改行まで
-	while (fgets(&string_load_buffer[h], 256, fp) != NULL) {// str_load_buf[h]
+	while (fgets(str_load_buf[h], 256, fp) != NULL) {// str_load_buf[h]
 
 		//if(string_load_buffer[h][strlen(string_load_buffer.c_str())])
-		if(str_load_buf[h][strlen(str_load_buf[h])])
+		//if(str_load_buf[h][strlen(str_load_buf[h])])
 
 		if (str_load_buf[h][strlen(str_load_buf[h]) - 1] == '\n'){
 			str_load_buf[h][strlen(str_load_buf[h]) - 1] = NULL;

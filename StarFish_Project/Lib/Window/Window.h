@@ -6,7 +6,7 @@
 #pragma comment(lib,"d3dx9.lib")
 
 /* ウィンドウ関連 */
-
+const float PI = 3.14f;
 namespace Window {
 
 	// ウィンドウデフォルトサイズ

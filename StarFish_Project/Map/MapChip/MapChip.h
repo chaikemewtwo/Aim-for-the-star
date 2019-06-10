@@ -60,8 +60,11 @@ public:
 	// 更新と描画
 	void Update();
 	void Draw();
-	void MapObjectCreate();    // Object生成
-	void MapObjectDestory();   // Object削除
+
+	// マップオブジェクトの生成と削除
+	void MapObjectCreate();
+	void MapObjectDestory();
+
 	// マップとの当たり判定
 	bool Collision(D3DXVECTOR2&pos, D3DXVECTOR2&move);
 	
@@ -78,9 +81,11 @@ public:
 	bool IsWallColRight()const;	     // 右の壁に当たっているか
 	bool IsScroll()const;			 // スクロールしているか
 	bool IsMaxScroll()const;         // 最大スクロールかどうか
+
 	// マップの初期化
-	void SetMapReset(float map_y);
+	void SetMapResetY(float map_y);
 	void SetIsScroll(bool is_scroll);
+
 	// スクロールを変更
 	void SetScrollRangeUp(float range);
 	void SetScrollRangeDown(float range);
@@ -102,7 +107,6 @@ private:
 	// 壁の衝突判定を初期化
 	void InitWallCollision();
 
-	/* ---当たり判定end---*/
 
 	/* 描画遷移関係 */
 
@@ -112,6 +116,7 @@ private:
 	void ScrollMaxMove();
 
 	/* マップ操作 */
+
 	// マップ読み込み
 	void Load(const std::string&file_name);
 	// 敵生成群
@@ -145,7 +150,8 @@ private:
 private:
 	
 	/* マップチップ関係 */
-	tagMapChip m_map[5000][200] = {};           // 全体マップバッファ
+	//tagMapChip m_map[500][200] = {};           // 全体マップバッファ
+	std::vector<std::vector<tagMapChip>>m_map;
 	const char*chip_str[MAX_BEDROCK_CHIP];      // 岩盤のチップ文字列
 	float chip_u[MAX_BEDROCK_CHIP];             // 線を直す為にずらすUV用配列U
 	float chip_v[MAX_BEDROCK_CHIP];             // 線を直す為にずらすUV用配列V
