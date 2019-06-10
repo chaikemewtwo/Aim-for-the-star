@@ -13,6 +13,7 @@ enum StateId {
 	SIDEMOVE_ID,		// 横線移動
 	VERTICALMOVE_ID,	// 縦線移動
 	ATTACK_READY_ID,	// 攻撃準備
+	CHASE_ID,			// 追跡処理
 	STATEID_MAX
 };
 
@@ -22,7 +23,7 @@ enum EnemyTexture {
 	SELLFISH_READY,		// ほら貝の攻撃前画像
 	SELLFISH_ATTACK,	// ほら貝の攻撃画像
 	NAPOREONFISH_MOVE,	// メガネモチノウオの移動画像
-	NAPOREONFISH_ATTACK,	// メガネモチノウオの攻撃画像
+	NAPOREONFISH_ATTACK,// メガネモチノウオの攻撃画像
 	ENEMY_TEXTURE_MAX	
 };
 

@@ -1,7 +1,7 @@
 ﻿#include"NaporeonFish.h"
 
 
-NaporeonFish::NaporeonFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2,bool no_move) {
+NaporeonFish::NaporeonFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2,bool can_move) {
 
 	// マップとプレイヤーを受け取る
 	m_pmap = map;
@@ -12,11 +12,11 @@ NaporeonFish::NaporeonFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2,boo
 	m_pos = pos;
 
 	// その他変数の初期化
-	m_speed = 5;
+	m_speed = 10;
 	m_power = 15;
 	m_max_animation = 4;
 	m_anim_change_time = 20;
-	m_no_move = no_move;
+	m_no_move = can_move;
 
 	m_enemy_texture = m_texture_list[NAPOREONFISH_MOVE];
 
@@ -41,6 +41,7 @@ void NaporeonFish::Update() {
 //―――――――――――――――――――――――――
 
 void NaporeonFish::Draw() {
+
 	Texture::Draw2D(
 		m_enemy_texture.c_str(),
 		m_pos.x, m_pos.y,
@@ -49,4 +50,18 @@ void NaporeonFish::Draw() {
 		true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
 		m_animation_num
 	);
+	AnimationDraw(m_max_animation, m_anim_change_time);
 }
+//―――――――――――――――――――――――――
+
+StateId NaporeonFish::StateChangeCheck() {
+
+	if (CalcDistance().y < 200 && CalcDistance().x>0 && CalcDistance().x < 200) {
+
+		m_anim_change_time = 10;
+		m_speed = 5;
+
+		return CHASE_ID;
+	}
+}
+//―――――――――――――――――――――――――

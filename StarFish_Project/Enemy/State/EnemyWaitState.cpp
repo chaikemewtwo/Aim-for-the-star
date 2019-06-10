@@ -23,5 +23,8 @@ void Wait::Action(EnemyBase* e) {
 	else if (e->StateChangeCheck() == VERTICALMOVE_ID) {
 		e->ChangeState(VerticalMove::GetInstance());
 	}
+	else if (e->StateChangeCheck() == CHASE_ID) {
+		
+	}
 }
 //―――――――――――――――――――――
