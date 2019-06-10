@@ -15,7 +15,7 @@ void GameMain::Init() {
 	m_scene_id = GAME_MAIN;
 	m_scene_step = UPDATE;
 
-	m_pobj_mng = new ObjectManager;
+	m_p_obj_mng = new ObjectManager;
 
 	m_gameover_ui_pos = D3DXVECTOR2((Window::WIDTH / 2), 0);
 	m_gameover_ui_posy_max = 300;
@@ -32,9 +32,9 @@ void GameMain::Init() {
 
 void GameMain::Update() {
 
-	m_pobj_mng->Update();	
+	m_p_obj_mng->Update();	
 
-	if (m_pobj_mng->IsGameOver() == true) {
+	if (m_p_obj_mng->IsGameOver() == true) {
 
 		m_main_bgm->Stop();
 		if (m_gameover_jingle != nullptr) {
@@ -42,13 +42,13 @@ void GameMain::Update() {
 		}
 	}
 
-	if (m_pobj_mng->IsClear() == true) {
+	if (m_p_obj_mng->IsClear() == true) {
 	
 		m_main_bgm->Stop();
 		m_scene_step = END;
 		m_new_scene_id = CLEAR;
 	}
-	else if (m_pobj_mng->IsGameOver() == true && SceneChangeCheck() == true) {
+	else if (m_p_obj_mng->IsGameOver() == true && SceneChangeCheck() == true) {
 
 		m_gameover_jingle->Stop();
 		m_scene_step = END;
@@ -73,9 +73,9 @@ void GameMain::Update() {
 
 void GameMain::Draw() {
 
-	m_pobj_mng->Draw();
+	m_p_obj_mng->Draw();
 
-	if (m_pobj_mng->IsGameOver() == true) {
+	if (m_p_obj_mng->IsGameOver() == true) {
 
 		Texture::Draw2D(
 			m_gameover_ui.c_str(),

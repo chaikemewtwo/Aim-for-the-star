@@ -73,7 +73,7 @@ protected:
 	const float TEXTURE_SIZE_X = 0.5f;	// 描画する画像のXサイズ
 	const float TEXTURE_SIZE_Y = 0.5f;	// 描画する画像のYサイズ
 
-	StateBase* m_pstate_base;	// 状態を保存する変数
-	Map* m_pmap;
-	Player* m_pplayer[2];
+	StateBase* m_p_state_base;	// 状態を保存する変数
+	Map* m_p_map;
+	Player* m_p_player[2];
 };

@@ -31,5 +31,5 @@ private:
 	IDirectSoundBuffer8* m_main_bgm;
 	IDirectSoundBuffer8* m_gameover_jingle;
 
-	ObjectManager* m_pobj_mng;
+	ObjectManager* m_p_obj_mng;
 };

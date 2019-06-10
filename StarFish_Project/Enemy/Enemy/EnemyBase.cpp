@@ -16,7 +16,7 @@ EnemyBase::EnemyBase() {
 
 	m_delete_timer = 100;
 	m_max_animation = 0;
-	m_pstate_base = Wait::GetInstance();
+	m_p_state_base = Wait::GetInstance();
 
 	// ソートオブジェクトに敵追加
 	m_sort_object_type = SortObject::ENEMY;
@@ -30,7 +30,7 @@ EnemyBase::EnemyBase() {
 //―――――――――――――――――――――
 
 void EnemyBase::ChangeState(StateBase* state) {
-	m_pstate_base = state;
+	m_p_state_base = state;
 }
 //―――――――――――――――――――――
 
@@ -62,28 +62,28 @@ D3DXVECTOR2 EnemyBase::CalcDistance() {
 	// 自身がプレイヤーよりも上にいる場合
 	if (IsTopPos()==true) {
 
-		player1_distance.y = m_pplayer[0]->GetPos().y - m_pos.y;
-		player2_distance.y = m_pplayer[1]->GetPos().y - m_pos.y;
+		player1_distance.y = m_p_player[0]->GetPos().y - m_pos.y;
+		player2_distance.y = m_p_player[1]->GetPos().y - m_pos.y;
 	}
 	// 自身がプレイヤーよりも下にいる場合
 	else if (IsTopPos()==false) {
 
-		player1_distance.y = m_pos.y - m_pplayer[0]->GetPos().y;
-		player2_distance.y = m_pos.y - m_pplayer[1]->GetPos().y;
+		player1_distance.y = m_pos.y - m_p_player[0]->GetPos().y;
+		player2_distance.y = m_pos.y - m_p_player[1]->GetPos().y;
 	}
 
 
 	// 自身が画面左側にいるとき
 	if (m_is_left == true) {
 
-		player1_distance.x = m_pplayer[0]->GetPos().x - m_pos.x;
-		player2_distance.x = m_pplayer[1]->GetPos().x - m_pos.x;
+		player1_distance.x = m_p_player[0]->GetPos().x - m_pos.x;
+		player2_distance.x = m_p_player[1]->GetPos().x - m_pos.x;
 	}
 	// 自身が画面右側にいるとき
 	else if (m_is_left == false) {
 
-		player1_distance.x = m_pos.x - m_pplayer[0]->GetPos().x;
-		player2_distance.x = m_pos.x - m_pplayer[1]->GetPos().x;
+		player1_distance.x = m_pos.x - m_p_player[0]->GetPos().x;
+		player2_distance.x = m_pos.x - m_p_player[1]->GetPos().x;
 	}
 
 
@@ -98,7 +98,7 @@ D3DXVECTOR2 EnemyBase::CalcDistance() {
 
 bool EnemyBase::IsTopPos() {
 
-	if (m_pplayer[0]->GetPos().y > m_pos.y&&m_pplayer[1]->GetPos().y > m_pos.y) {
+	if (m_p_player[0]->GetPos().y > m_pos.y&&m_p_player[1]->GetPos().y > m_pos.y) {
 		return true;
 	}
 

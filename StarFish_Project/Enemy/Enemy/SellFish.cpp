@@ -4,9 +4,9 @@
 SellFish::SellFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2,bool can_move) {
 
 	// マップとプレイヤーを受け取る
-	m_pmap = map;
-	m_pplayer[0] = p1;
-	m_pplayer[1] = p2;
+	m_p_map = map;
+	m_p_player[0] = p1;
+	m_p_player[1] = p2;
 
 	// 取得した座標の登録
 	m_pos = pos;
@@ -37,9 +37,9 @@ SellFish::SellFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2,bool can_mo
 
 void SellFish::Update() {
 
-	m_pstate_base->Action(this);
+	m_p_state_base->Action(this);
 	// マップスクロールに合わせた移動処理
-	m_pos.y += m_pmap->GetMove().y;
+	m_pos.y += m_p_map->GetMove().y;
 
 	OutScreenCheck();
 }

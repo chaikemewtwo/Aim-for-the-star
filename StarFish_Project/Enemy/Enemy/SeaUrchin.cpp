@@ -5,7 +5,7 @@
 SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* map, bool can_move) {
 
 	// マップを受け取る
-	m_pmap = map;
+	m_p_map = map;
 
 	// 所得した座標の登録
 	m_pos = pos;
@@ -36,9 +36,9 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* map, bool can_move) {
 // 更新関数
 void SeaUrchin::Update() {
 
-	m_pstate_base->Action(this);
+	m_p_state_base->Action(this);
 	// マップスクロールに合わせた移動処理
-	m_pos.y += m_pmap->GetMove().y;
+	m_pos.y += m_p_map->GetMove().y;
 
 	OutScreenCheck();
 }

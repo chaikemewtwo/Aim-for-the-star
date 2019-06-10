@@ -4,7 +4,7 @@
 
 
 EnemyManager::EnemyManager(ObjectManager* obg_mng) {
-	m_pobj_mng = obg_mng;
+	m_p_obj_mng = obg_mng;
 }
 //――――――――――――――――――――――――――
 
@@ -54,15 +54,15 @@ void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2
 	}
 
 	// 生成された敵をObjectManagerに登録
-	m_pobj_mng->Entry(m_enemy_list.back());
+	m_p_obj_mng->Entry(m_enemy_list.back());
 }
 //―――――――――――――――――――――――――――
 
 void EnemyManager::CreateBlind(D3DXVECTOR2 pos, D3DXVECTOR2 goal) {
 
 	// Objectに登録時にブラインド用変数に代入、その後にブラインドを生成
-	m_pobj_mng->Entry(m_pblind = new Blind);
-	m_pblind->Create(pos, goal);
+	m_p_obj_mng->Entry(m_p_blind = new Blind);
+	m_p_blind->Create(pos, goal);
 }
 //―――――――――――――――――――――――――――
 
@@ -74,7 +74,7 @@ void EnemyManager::DeleteCheck() {
 		if ((*itr)->IsActive() == false) {
 
 			// 生成時に登録されているIdで、Object配列側の要素を指定
-			m_pobj_mng->Exit((*itr)->GetId());
+			m_p_obj_mng->Exit((*itr)->GetId());
 			delete (*itr);
 			itr = m_enemy_list.erase(itr);
 		}
@@ -82,11 +82,11 @@ void EnemyManager::DeleteCheck() {
 			++itr;
 		}
 	}
-	if (m_pblind != nullptr && m_pblind->IsActive()==false) {
+	if (m_p_blind != nullptr && m_p_blind->IsActive()==false) {
 
-		m_pobj_mng->Exit(m_pblind->GetId());
-		delete m_pblind;
-		m_pblind = nullptr;
+		m_p_obj_mng->Exit(m_p_blind->GetId());
+		delete m_p_blind;
+		m_p_blind = nullptr;
 	}
 }
 //――――――――――――――――――――――――――――
