@@ -2,13 +2,13 @@
 #include"../State/EnemyWaitState.h"
 #include"EnemyBase.h"
 
-
+// コンストラクタで共通の変数初期化
 EnemyBase::EnemyBase() {
 
 	m_angle = 0.f;
 	m_center = 0.5f;
 
-	// 当たり判定の変形を設定
+	// 当たり判定の半径
 	m_radius = 64.f;
 	// 当たり位置の頂点を画像の中心にずらす
 	m_offset.x = 64.f;
@@ -29,6 +29,7 @@ EnemyBase::EnemyBase() {
 }
 //―――――――――――――――――――――
 
+// 引数で指定したStateに遷移
 void EnemyBase::ChangeState(StateBase* state) {
 	m_p_state_base = state;
 }

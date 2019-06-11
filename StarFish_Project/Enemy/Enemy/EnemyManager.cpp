@@ -36,6 +36,7 @@ void EnemyManager::Draw() {
 }
 //―――――――――――――――――――――――――――
 
+// 指定された敵を指定の位置に生成する
 void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, EnemyType type_num) {
 
 	switch (type_num) {
@@ -58,6 +59,7 @@ void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2
 }
 //―――――――――――――――――――――――――――
 
+// 指定の位置にブラインドを生成する
 void EnemyManager::CreateBlind(D3DXVECTOR2 pos, D3DXVECTOR2 goal) {
 
 	// Objectに登録時にブラインド用変数に代入、その後にブラインドを生成
@@ -66,9 +68,10 @@ void EnemyManager::CreateBlind(D3DXVECTOR2 pos, D3DXVECTOR2 goal) {
 }
 //―――――――――――――――――――――――――――
 
+// Activeがfalseのものを削除する
 void EnemyManager::DeleteCheck() {
 
-	// 削除ループ
+	// 敵の削除ループ
 	for (auto itr = m_enemy_list.begin(); itr != m_enemy_list.end();) {
 
 		if ((*itr)->IsActive() == false) {
@@ -82,8 +85,11 @@ void EnemyManager::DeleteCheck() {
 			++itr;
 		}
 	}
+
+	// ブラインドの削除
 	if (m_p_blind != nullptr && m_p_blind->IsActive()==false) {
 
+		// Objectのリストから削除後、ブラインド自体を削除する
 		m_p_obj_mng->Exit(m_p_blind->GetId());
 		delete m_p_blind;
 		m_p_blind = nullptr;
@@ -91,11 +97,13 @@ void EnemyManager::DeleteCheck() {
 }
 //――――――――――――――――――――――――――――
 
+// 敵の配列の数を返す
 int EnemyManager::GetEnemyTotal() {
 	return m_enemy_list.size();
 }
 //――――――――――――――――――――――――――――
 
+// 指定された敵のインスタンスを返す関数を呼び出す
 EnemyBase* EnemyManager::GetEnemyInstance(int num) {
 
 	if (m_enemy_list[num] != nullptr) {

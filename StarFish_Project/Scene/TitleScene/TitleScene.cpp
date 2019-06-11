@@ -4,58 +4,60 @@
 
 Title::Title() {
 
-	m_scene_step = INIT;
+	m_scene_step = SceneStep::INIT;
 
+	// 画像の登録
 	m_button_texture_list[DESCRIPTION_BUTTON] = "Resource/Texture/UI/title_button03.png";
 	m_button_texture_list[START_BUTTON] = "Resource/Texture/UI/title_button01.png";
 	m_button_texture_list[RETURN_BUTTON] = "Resource/Texture/UI/title_button02.png";
 
-	m_title_bgm = m_paudio.getBuffer("Resource/Sound/BGM/title_bgm.wav");
+	// サウンドの登録
+	m_p_title_bgm = m_paudio.getBuffer("Resource/Sound/BGM/title_bgm.wav");
 }
 //―――――――――――――――――――
 
 void Title::Init() {
 
-	m_scene_id = TITLE;
-	m_scene_step = UPDATE;
+	m_scene_id = SceneId::TITLE;
+	m_scene_step = SceneStep::UPDATE;
 
-
-	// ボタンの初期化
 	m_button_texture = m_button_texture_list[START_BUTTON];
 	m_button_check_num = 1;
-	m_title_bgm->SetCurrentPosition(0);
+
+	m_p_title_bgm->SetCurrentPosition(0);
+
+	if (m_p_title_bgm != nullptr) {
+		m_p_title_bgm->Play(0, 0, DSBPLAY_LOOPING);
+	}
 }
 //―――――――――――――――――――
 
 void Title::Update() {
-	if (m_title_bgm != nullptr) {
-		m_title_bgm->Play(0, 0, DSBPLAY_LOOPING);
-	}
 
-	ButtonChangeCheck();
+	CheckChangeButton();
 
 	if (m_pkey_bord.press(VK_RETURN)) {
 
 		if (m_button_check_num == START_BUTTON) {
 			
-			m_title_bgm->Stop();
-			m_scene_step = END;
-			m_new_scene_id = GAME_MAIN;
+			m_p_title_bgm->Stop();
+			m_scene_step = SceneStep::END;
+			m_new_scene_id = SceneId::GAME_MAIN;
 		}
 		else if (m_button_check_num == RETURN_BUTTON) {
 
-			m_title_bgm->Stop();
-			m_scene_step = END;
-			m_new_scene_id = SCENE_QUIT;
+			m_p_title_bgm->Stop();
+			m_scene_step = SceneStep::END;
+			m_new_scene_id = SceneId::SCENE_QUIT;
 		}
 	}
 	
 	// デバック用　タイトル→ゲームメイン
 	if(m_pkey_bord.press(VK_F1)) {
 
-		m_title_bgm->Stop();
-		m_scene_step = END;
-		m_new_scene_id = GAME_MAIN;
+		m_p_title_bgm->Stop();
+		m_scene_step = SceneStep::END;
+		m_new_scene_id = SceneId:: GAME_MAIN;
 	}
 }
 //―――――――――――――――――――
@@ -83,7 +85,8 @@ void Title::Draw() {
 }
 //―――――――――――――――――――
 
-void Title::ButtonChangeCheck() {
+// 説明、スタート、終わるのボタン選択処理
+void Title::CheckChangeButton() {
 	
 	if (m_pkey_bord.press(VK_LEFT) && m_button_check_num > DESCRIPTION_BUTTON) {
 
