@@ -73,12 +73,12 @@ class Rope;             // ロープ
 
 // 定数の登録順に昇順ソート
 enum SortObject {
-	BG_BEFORE,
+	BEFORE_BG,
 	MAP,
 	ROPE,
 	PLAYER,
 	ENEMY,
-	BG_AFTER,
+	AFTER_BG,
 	GAME_UI,
 	BLIND,
 	MAX,

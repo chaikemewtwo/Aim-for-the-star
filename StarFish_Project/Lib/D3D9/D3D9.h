@@ -67,6 +67,8 @@ namespace D3D9 {
 	// 現在のビューポートパラメータを受け取る
 	HRESULT GetViewPort(D3DVIEWPORT9 d3d_view_port9);
 
+	void GraphicsMirror();
+
 	// デバイスのゲッター
 	LPDIRECT3DDEVICE9 GetLpDirect3DDevice9();
 

@@ -216,7 +216,7 @@ void Map::Draw() {
 
 			// ブロック描画範囲決定
 			if (m_map[(m_height_map_num) - y][x].m_chip_num >= 1 && 
-				m_map[(m_height_map_num)-y][x].m_chip_num <= MAX_BEDROCK_CHIP) {
+				m_map[(m_height_map_num) - y][x].m_chip_num <= MAX_BEDROCK_CHIP) {
 
 				int current_num = m_map[(m_height_map_num)-y][x].m_chip_num - 1;
 
@@ -807,7 +807,7 @@ void Map::Load(const std::string&file_name) {
 		// 文字列をバッファにいれる
 		char *str2 = str_buf;
 
-		m_map.reserve(0);
+		//m_map.reserve(0);
 
 		// 次の列へ
 		while (*str2 != '\0'&& *str2 != '\n') {

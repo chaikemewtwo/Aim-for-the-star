@@ -15,7 +15,6 @@ public:
 
 	// EnemyManagerも入れる
 	MapManager(Player*star1,Player*star2, EnemyManager*e_mng,ObjectManager*obj_mng);
-
 	~MapManager();
 
 	// 更新と描画
@@ -29,8 +28,8 @@ public:
 
 private:
 
-	// 参照
-	Map *m_p_map; // マップの選択
-	BackGround*m_p_bg1;     // 背景
-	BackGround *m_p_bg2;   // 奥行用の背景
+	// ポインタ
+	Map *m_p_map;             // マップの選択
+	BackGround *m_p_bg1;       // 背景
+	BackGround *m_p_bg2;      // 奥行用の背景
 };

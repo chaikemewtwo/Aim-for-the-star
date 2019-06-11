@@ -230,6 +230,35 @@ namespace D3D9 {
 	}
 
 
+	void SamplerStateMirror() {
+
+		// 描画UVを反転させる
+		GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_MIRROR);
+		GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_MIRROR);
+	}
+
+
+	void SamplerStateClamp() {
+		
+		// 描画UVループテクスチャ描画なし
+		GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+		GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+	}
+
+
+	void SamplerStateWrap() {
+
+		// 描画UVループテクスチャ描画あり
+		GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+		GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+	}
+
+
+	void SamplerStateBorderColor() {
+		GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_BORDERCOLOR,0xffffff);
+	}
+
+
 	LPDIRECT3DDEVICE9 GetLpDirect3DDevice9() {
 		return d3d_device9;
 	}

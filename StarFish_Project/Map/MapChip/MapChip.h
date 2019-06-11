@@ -150,8 +150,8 @@ private:
 private:
 	
 	/* マップチップ関係 */
-	//tagMapChip m_map[500][200] = {};           // 全体マップバッファ
-	std::vector<std::vector<tagMapChip>>m_map;
+	tagMapChip m_map[500][200] = {};           // 全体マップバッファ
+	//std::vector<std::vector<tagMapChip>>m_map;
 	const char*chip_str[MAX_BEDROCK_CHIP];      // 岩盤のチップ文字列
 	float chip_u[MAX_BEDROCK_CHIP];             // 線を直す為にずらすUV用配列U
 	float chip_v[MAX_BEDROCK_CHIP];             // 線を直す為にずらすUV用配列V

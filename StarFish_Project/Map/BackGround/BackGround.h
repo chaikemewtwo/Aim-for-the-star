@@ -39,7 +39,7 @@ private:
 	/* private関数 */
 	void MoveSub();                           // 自機を取り入れる
 	void MoveAdjustment(int adjustment_num);  // 移動調整
-	void BGLoad(const std::string&file_name); // 背景の読み込み
+	void BGLoad(const char*file_name);        // 背景の読み込み
 	void Scroll();                            // 背景スクロール
 	void PosYToMoveYAdd();                    // Y位置更新
 	bool IsScroll();                          // スクロールするかどうか
@@ -47,7 +47,7 @@ private:
 private:
 
 	/* 背景読み込み用バッファ */
-	std::vector<const char*>m_pback_str;      // 背景文字列
+	std::vector<const char*>m_p_bg_file_name_list;      // 背景文字列
 	//char str_load_buf[1000][500];           // 読み込み専用のもの
 									
 	D3DXVECTOR2 m_move;                       // 移動ベクトル

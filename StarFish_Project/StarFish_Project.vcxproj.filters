@@ -36,6 +36,7 @@
     <ClCompile Include="Map\BedRockChip\BedRockChip.cpp" />
     <ClCompile Include="Lib\D3D9\D3D9.cpp" />
     <ClCompile Include="Map\MapChip\MapChip.cpp" />
+    <ClCompile Include="Msg.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -79,6 +80,7 @@
     <ClInclude Include="Map\BedRockChip\BedRockChip.h" />
     <ClInclude Include="Lib\D3D9\D3D9.h" />
     <ClInclude Include="Map\MapChip\MapChip.h" />
+    <ClInclude Include="Msg.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />

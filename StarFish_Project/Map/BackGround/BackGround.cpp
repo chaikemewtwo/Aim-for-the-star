@@ -29,15 +29,20 @@ BackGround::BackGround(
 	m_graph_height_size_differance = graph_scale_y - Window::HEIGHT;
 
 	// 端数から中心位置に画像を配置できるようにする
-	m_pos.x = (Window::WIDTH - graph_scale_x) / 2;		 // 最初の背景の位置x
-	m_pos.y = ((Window::HEIGHT + m_graph_height_size_differance) - graph_scale_y) / 2;		 // 最初の背景の位置y
 
-	m_move.x = m_move.y = 0.f;		                 // 自機の移動初期化
+	// 最初の背景の位置x
+	m_pos.x = (Window::WIDTH - graph_scale_x) / 2;		 
+	// 最初の背景の位置y
+	m_pos.y = ((Window::HEIGHT + m_graph_height_size_differance) - graph_scale_y) / 2;		
+
+	// 自機の移動初期化
+	m_move.x = m_move.y = 0.f;
 
 	// 遷移スクロール位置のポインタを入れる。
 	m_pmap = map;
+
 	// ファイルの読み込み
-	BGLoad(file_name);	
+	BGLoad(file_name.c_str());	
 }
 
 
@@ -65,69 +70,61 @@ void BackGround::Draw(){
 	// m_graph_differenceで端数分横の位置をずらして描画している
 
 	// 1枚目描画
-		Texture::Draw2D(m_pback_str[m_connect1_graph % m_max_graph_num],
-			(float)m_width_difference,
-			(m_pos.y + (float)((-Window::HEIGHT - m_graph_height_size_differance) * m_connect1_graph) + (float)m_height_difference)
-		);
+	Texture::Draw2D(
+		// 描画ファイル名
+		m_p_bg_file_name_list[m_connect1_graph % m_max_graph_num],
+		// 横のサイズ
+		(float)m_width_difference,
+		// 縦のサイズ
+		(m_pos.y + (float)((-Window::HEIGHT - m_graph_height_size_differance) * m_connect1_graph) + (float)m_height_difference)
+	);
 		
 	// 2枚目描画
-		Texture::Draw2D(m_pback_str[m_connect2_graph % m_max_graph_num],
-			(float)m_width_difference,
-			(m_pos.y + (float)((-Window::HEIGHT - m_graph_height_size_differance) * m_connect2_graph) + (float)m_height_difference)// +10.f
-		);
+	Texture::Draw2D(
+		// 描画ファイル名
+		m_p_bg_file_name_list[m_connect2_graph % m_max_graph_num],
+		// 横のサイズ
+		(float)m_width_difference,
+		// 縦のサイズ
+		(m_pos.y + (float)((-Window::HEIGHT - m_graph_height_size_differance) * m_connect2_graph) + (float)m_height_difference)// +10.f
+	);
 }
 
 
-void BackGround::BGLoad(const std::string&file_name) {
+void BackGround::BGLoad(const char*file_name) {
 
-	/* fgets行の終端の改行文字まで読み込み */
+	// 文字列バッファサイズ
+	const int STRING_BUFFER = 256;
 
-	FILE*fp; // ストリーム
+	// ストリーム
+	FILE*fp; 
 	// ファイルオープン
-	fopen_s(&fp,file_name.c_str(), "r");
+	fopen_s(&fp,file_name, "r");
 
-	char str_load_buf[1000][100];
-	//std::vector<std::string>string_load_buffer;
-	//std::string string_load_buffer;
+	// 文字列バッファ
+	char str_load_buf[1000][100] = {};
 
 	// ファイルが読み込まれてない場合
 	if (fp == NULL) {
 		return;
 	}
 
-	// 縦 
-	int h = 0;
-
-	//// 要素確保
-	//string_load_buffer.reserve(h);
-	//// 数字確保
-	//string_load_buffer[h] = h;
-	//// 
-	//string_load_buffer.push_back.push_back(h);
+	// 現在の数
+	int current_num = 0;
 	
 	// 文字列読み込み、改行まで
-	while (fgets(str_load_buf[h], 256, fp) != NULL) {// str_load_buf[h]
+	while (fgets(str_load_buf[current_num],STRING_BUFFER,fp) != NULL) {
 
-		//if(string_load_buffer[h][strlen(string_load_buffer.c_str())])
-		//if(str_load_buf[h][strlen(str_load_buf[h])])
-
-		if (str_load_buf[h][strlen(str_load_buf[h]) - 1] == '\n'){
-			str_load_buf[h][strlen(str_load_buf[h]) - 1] = NULL;
+		// 末尾にある改行文字列を削除
+		if (str_load_buf[current_num][strlen(str_load_buf[current_num]) - 1] == '\n'){
+			str_load_buf[current_num][strlen(str_load_buf[current_num]) - 1] = NULL;
 		}
-
-		m_pback_str.push_back(str_load_buf[h]);
-
-		// stringバージョン
-		//if (string_load_buffer[h][strlen(string_load_buffer[h].c_str()) - 1] == '\n'){
-		//	string_load_buffer[h][strlen(string_load_buffer[h].c_str()) - 1] = NULL;
-		//}
-
-		// 文字列読み込み
-		//m_pback_str.push_back(string_load_buffer[h].c_str());
 		
-			
+		// 文字列を読み込み
+		m_p_bg_file_name_list.push_back(str_load_buf[current_num]);
+
 		// 次の文字列へ
-		h++;
+		current_num++;
 
 		// 画像数加算
 		m_max_graph_num++;

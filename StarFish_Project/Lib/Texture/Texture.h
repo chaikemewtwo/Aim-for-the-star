@@ -7,13 +7,13 @@
 
 
 /* 注意!
-テクスチャの読み込みは2の累乗でなければいけない
+テクスチャの読み込みサイズは2の累乗でなければいけない
 */
 
 // テクスチャデータを格納する。
-struct tagTextureData
+struct TextureData
 {
-	tagTextureData();
+	TextureData();
 
 	// tagTextureDataのオペレーター
 	operator LPDIRECT3DTEXTURE9() const;
@@ -30,6 +30,7 @@ namespace Texture {
 
 	// テクスチャのロード
 	void Load(const char*file_name);
+
 	/* ---Exのロード--- 
 	
 	fila_name = 読み込むファイル名
@@ -51,8 +52,8 @@ namespace Texture {
 	void Release();
 
 	// テクスチャデータのゲッター
-	tagTextureData GetData(const std::string&texture_file_name);
+	TextureData GetData(const std::string&texture_file_name);
 
 	// テクスチャが登録されているか
-	bool IsTextureRedistr(const std::string&file_name);
+	bool IsRedistr(const std::string&file_name);
 }

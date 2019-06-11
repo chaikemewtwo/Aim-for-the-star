@@ -14,19 +14,32 @@ MapManager::MapManager(Player*star1, Player*star2, EnemyManager*e_mng, ObjectMan
 	obj_mng->Entry(m_p_map = new Map(star1, star2, e_mng,obj_mng));
 
 	// 背景1オブジェクト登録(こちらをメインにする)
-	obj_mng->Entry(m_p_bg1 = new
-		BackGround("Map/BGData/BG1.csv",
+	obj_mng->Entry(
+		m_p_bg1 = new BackGround(
+			// 読み込むテキスト名
+			"Map/BGData/BG1.csv",
+			// マップ実体
 			m_p_map,
-			BG_BEFORE,
+			// ソートオブジェクトの型
+			BEFORE_BG,
+			// 指定したサイズを基準にスクロール
 			(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_01.png")),
 			(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_01.png")))
 	);
 
-	// 背景2
-	obj_mng->Entry(m_p_bg2 = new BackGround("Map/BGData/BG2.csv", m_p_map, BG_AFTER,
-		(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_01.png")),// バグった理由
-		(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_01.png")))
-	);
+	//// 背景2
+	//obj_mng->Entry(
+	//	m_p_bg2 = new BackGround(
+	//		// 読み込むテキスト名
+	//		"Map/BGData/BG2.csv",
+	//		// マップ実体
+	//		m_p_map,
+	//		// ソートオブジェクトの型
+	//		AFTER_BG,
+	//		// 指定したサイズを基準にスクロール
+	//	(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_01.png")),
+	//	(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_01.png")))
+	//);
 }
 
 

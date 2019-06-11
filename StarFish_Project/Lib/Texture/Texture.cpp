@@ -3,7 +3,7 @@
 
 
 
-tagTextureData::tagTextureData() {
+TextureData::TextureData() {
 	Texture = nullptr;
 	Width = 0.f;
 	Height = 0.f;
@@ -12,7 +12,7 @@ tagTextureData::tagTextureData() {
 }
 
 // tagTextureDataのオペレーター
-tagTextureData::operator LPDIRECT3DTEXTURE9() const {
+TextureData::operator LPDIRECT3DTEXTURE9() const {
 	return Texture;
 }
 
@@ -21,7 +21,7 @@ namespace Texture {
 
 
 	// テクスチャリスト
-	std::unordered_map < std::string, tagTextureData >tex_list;
+	std::unordered_map < std::string, TextureData >tex_list;
 	
 
 	void Load(const char*file_name)
@@ -95,14 +95,10 @@ namespace Texture {
 
 	}
 
-	// テクスチャデータのゲッター
-	tagTextureData GetData(const std::string&texture_file_name){
-		return tex_list[texture_file_name];
-	}
 
-	bool IsTextureRedistr(const std::string&texture_file_name) {
+	bool IsRedistr(const std::string&texture_file_name) {
 
-		std::unordered_map < std::string, tagTextureData >::iterator texture_data;
+		std::unordered_map < std::string, TextureData >::iterator texture_data;
 
 		// テクスチャが登録されているか
 		auto itr = tex_list.find(texture_file_name);
@@ -116,8 +112,16 @@ namespace Texture {
 			// 登録されていない
 			return false;
 		}
+
+		// 登録されていない
+		return false;
 	}
 
+
+	// テクスチャデータのゲッター
+	TextureData GetData(const std::string&texture_file_name) {
+		return tex_list[texture_file_name];
+	}
 }
 
 // テスト用のコード

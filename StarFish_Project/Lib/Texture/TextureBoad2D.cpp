@@ -7,24 +7,19 @@
 #include<unordered_map>
 
 
-// 頂点を設定する構造体
+// ---頂点を設定する構造体---
 struct CustomVertex
 {
-	// 頂点座標
-	D3DXVECTOR3 vtx;
-	// 除算数
-	FLOAT rhw;
-	// カラー
-	DWORD color;
-	// テクスチャ座標
-	D3DXVECTOR2 tex_pos;
+	D3DXVECTOR3 vtx;     // 頂点座標
+	FLOAT rhw;           // 除算数
+	DWORD color;         // カラー
+	D3DXVECTOR2 tex_pos; // テクスチャ座標
 };
 
 // テンプレート2DFVF
 #define FVF_2D (D3DFVF_XYZRHW | D3DFVF_TEX1 | D3DFVF_DIFFUSE)
 
 namespace Texture {
-
 
 	// 描画関係
 	void Draw2DGraph(const char*file_name, const float&pos_x, const float&pos_y) {
@@ -54,12 +49,12 @@ namespace Texture {
 	namespace Size {
 		// サイズ取得関数
 		float GetGraphSizeX(const char*file_name) {
-			tagTextureData *tex_d = &Texture::GetData(file_name);
+			TextureData *tex_d = &Texture::GetData(file_name);
 			return tex_d->Width;
 			return 0.f;
 		}
 		float GetGraphSizeY(const char*file_name) {
-			tagTextureData *tex_d = &Texture::GetData(file_name);
+			TextureData *tex_d = &Texture::GetData(file_name);
 			return tex_d->Height;
 			return 0.f;
 		}
@@ -101,11 +96,12 @@ namespace Texture {
 		int v_cut_num,				  // v軸のカット数
 		int graph_num,				  // カットした画像のどこを使うか
 		float u,					  // テクスチャ座標のu軸をずらす
-		float v)					  // テクスチャ座標のv軸をずらす 
+		float v						  // テクスチャ座標のv軸をずらす
+	)					   
 	{ 
 
 		// テクスチャデータの参照受け取り
-		tagTextureData *tex_d = &Texture::GetData(file_name);
+		TextureData *tex_d = &Texture::GetData(file_name);
 
 		// テクスチャ描画エラー
 		//if (Texture::IsTextureRedistr(file_name) == false) {
@@ -150,6 +146,7 @@ namespace Texture {
 		// 行列計算
 		D3DXMATRIX mat_world = GetMatrixTransformCalc(x, y,tex_d->Width * scale_w,tex_d->Height * scale_h, angle);
 
+		// 行列を頂点配列に変換
 		D3DXVec3TransformCoordArray((D3DXVECTOR3*)cv, sizeof(CustomVertex), (D3DXVECTOR3*)cv, sizeof(CustomVertex), &mat_world, std::size(cv));
 
 		// VERTEX3Dの構造情報をDirectXへ通知。										  
@@ -158,7 +155,7 @@ namespace Texture {
 		// デバイスにそのまま渡すことができる。
 		D3D9::GetLpDirect3DDevice9()->SetTexture(0,Texture::GetData(file_name));// これはテクスチャの指定、ポインタを渡して確認する。
 		
-
+		// 図形を元にポリゴン作成
 		D3D9::GetLpDirect3DDevice9()->DrawPrimitiveUP(
 			D3DPT_TRIANGLEFAN,
 			2,
@@ -185,13 +182,4 @@ namespace Texture {
 		// 拡縮 * 回転 * 移動
 		return (mat_scale * mat_rotz * mat_trans);
 	}
-}
-
-
-// HACK リファクタ中
-void SamplerStateConfig(D3DSAMPLERSTATETYPE state_type) {
-
-	// サンプラーステート(描画外は描画しないようにするため,デフォルト)
-	D3D9::GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-	D3D9::GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 }

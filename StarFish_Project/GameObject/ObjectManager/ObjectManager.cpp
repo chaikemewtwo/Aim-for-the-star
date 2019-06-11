@@ -35,7 +35,16 @@ ObjectManager::ObjectManager(){
 	Entry(m_p_ui);
 }
 
-ObjectManager::~ObjectManager() {}
+ObjectManager::~ObjectManager() {
+
+	// オブジェクトリスト削除
+	for (auto&obj : m_obj_list) {
+		delete &obj;
+	}
+
+	// 描画用オブジェクトリスト要素削除
+	m_draw_obj_list.clear();
+}
 
 
 void ObjectManager::Update() {
@@ -69,10 +78,11 @@ void ObjectManager::Draw() {
 void ObjectManager::SortDrawObject(){
 
 	// 一旦他のコンテナに入れ替えないといけない
-	
+
 	// 前のを削除
-	m_draw_obj_list.clear();
 	std::vector<Object*>().swap(m_draw_obj_list);
+	m_draw_obj_list.clear();
+	
 	
 	// 要素を全て入れる。
 	for (auto itr = m_obj_list.begin(); itr != m_obj_list.end();++itr) {
@@ -98,9 +108,12 @@ void ObjectManager::Entry(Object*obj) {
 	// 生成専用id
 	unsigned int create_id = 0;
 
+	//create_id = m_current_max_id;
+	//m_current_max_id++;
+
 	// idの空きがないなら最新idを作る
 	if (m_used_id_list.empty() != 0) {
-
+	
 		// 生成idに現在最大のidを入れる
 		create_id = m_current_max_id;
 		// 最新idにする
@@ -108,24 +121,24 @@ void ObjectManager::Entry(Object*obj) {
 	}
 	// 使われていないid番号があるなら
 	else {
-
+	
 		for (unsigned int i = 0; i < m_used_id_list.size(); i++) {
-
+	
 			// idがすでに使われているか
 			auto itr = m_obj_list.find(m_used_id_list[i]);
-
+	
 			// 設定されているなら
 			if (itr != m_obj_list.end()) {
 				continue;
 			}
-
+	
 			/* ここまできたら設定されていない */
-
+	
 			// 最初に入っているidを入れる
 			create_id = m_used_id_list[i];
 			// idを渡したので使っているとみなして要素を消す
 			m_used_id_list.erase(m_used_id_list.begin() + i);
-
+	
 			break;
 		}
 	}
@@ -141,8 +154,8 @@ void ObjectManager::Entry(Object*obj) {
 void ObjectManager::ObjectListInit() {
 
 	// 前のを削除
-	m_draw_obj_list.clear();
 	std::vector<Object*>().swap(m_draw_obj_list);
+	m_draw_obj_list.clear();
 }
 
 
