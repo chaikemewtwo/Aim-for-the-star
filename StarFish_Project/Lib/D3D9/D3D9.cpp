@@ -189,44 +189,44 @@ namespace D3D9 {
 
 	/* GetViewPortやSetViewPortなどもある*/
 	
-	void ViewPortConfig(D3DVIEWPORT9*d3d_view_port9,DWORD x, DWORD y,DWORD width,DWORD height,FLOAT min_z,FLOAT max_z) {
+	void SetUpViewPort(DWORD x, DWORD y,DWORD width,DWORD height,FLOAT min_z,FLOAT max_z) {
 
-		// ビューポートのnullチェック
-		if (d3d_view_port9 == NULL) {
-			return;
-		}
+		D3DVIEWPORT9 d3d_view_port9;
 
 		// ビューポートの設定
-		d3d_view_port9->X = x;           // X座標
-		d3d_view_port9->Y = y;           // Y座標
-		d3d_view_port9->Width = width;   // 幅
-		d3d_view_port9->Height = height; // 高さ
-		d3d_view_port9->MinZ = 0.f;	     // Z深度 : 最小
-		d3d_view_port9->MaxZ = 1.f;	     // Z深度 : 最大
+		d3d_view_port9.X = x;           // X座標
+		d3d_view_port9.Y = y;           // Y座標
+		d3d_view_port9.Width = width;   // 幅
+		d3d_view_port9.Height = height; // 高さ
+		d3d_view_port9.MinZ = 0.f;	     // Z深度 : 最小
+		d3d_view_port9.MaxZ = 1.f;	     // Z深度 : 最大
+
+		// ビューポート設定
+		SetViewPort(d3d_view_port9);
 	}
 
 
-	void SetViewPort(D3DVIEWPORT9*view_port) {
+	void SetViewPort(D3DVIEWPORT9 view_port) {
 
 		// ビューポートをデバイスにセットできなかったとき
-		if (d3d_device9->SetViewport(view_port) != D3D_OK) {
+		if (d3d_device9->SetViewport(&view_port) != D3D_OK) {
 			MessageBoxA(0, "SetViewPort...Error/Place...D3D9>SetViewPort", TEXT("MessageBoxA"), MB_OK);
 		}
 	}
 
 
-	HRESULT GetViewPort(D3DVIEWPORT9 d3d_view_port9) {
+	bool GetViewPort(D3DVIEWPORT9 *d3d_view_port9) {
 
 		// ビューポートのパラメータを受け取る
-		HRESULT view_port_parameter = d3d_device9->GetViewport(&d3d_view_port9);
+		HRESULT view_port_parameter = d3d_device9->GetViewport(d3d_view_port9);
 
 		// 受け取れなかった場合
 		if (view_port_parameter != D3D_OK) {
 			MessageBoxA(0, "GetViewPort...Error/Place...D3D9>GetViewPort", TEXT("MessageBoxA"), MB_OK);
-			return NULL;
+			return false;
 		}
 		// 正常終了
-		return view_port_parameter;
+		return true;
 	}
 
 

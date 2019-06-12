@@ -199,7 +199,7 @@ namespace Window {
 			SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
 	}
 
-	void SetSize(const UINT&width, const UINT&height) {
+	void SetReSize(const UINT&width, const UINT&height) {
 
 		// ウィンドウサイズ変更
 		SetWindowPos(window_handle, NULL, 0, 0, width, height, SWP_NOMOVE | SWP_NOZORDER);

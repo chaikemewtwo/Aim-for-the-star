@@ -104,6 +104,8 @@ public:
 	void Exit(unsigned int id);
 	// メモリの削除
 	void Delete(unsigned int id);
+	// 活動していない場合メモリ削除
+	void NotActiveIsDelete();
 	// クリアフラグを返す
 	bool IsClear()const;
 	bool IsGameOver()const;

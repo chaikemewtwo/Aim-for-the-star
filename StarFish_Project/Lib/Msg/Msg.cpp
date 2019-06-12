@@ -1,5 +1,5 @@
 ﻿#include"Msg.h"
-#include"../StarFish_Project/Lib/Window/Window.h"
+#include"../"
 
 /* メッセージ処理 */
 

@@ -141,31 +141,38 @@ void BackGround::Scroll() {
 
 	// 画面遷移基準
 	const int GRAPH_SIZE_H =      static_cast<int>(Window::HEIGHT + m_graph_height_size_differance);
-	const int CHANGE_RANGE_UP =   static_cast<int>(m_pos.y - BG_CHANGE_LINE);// -
-	const int CHANGE_RANGE_DOWN = static_cast<int>(m_pos.y + GRAPH_SIZE_H - GRAPH_DIFFERENCE + BG_CHANGE_LINE);// -
+	const int CHANGE_RANGE_UP =   static_cast<int>(m_pos.y - BG_CHANGE_LINE);
+	const int CHANGE_RANGE_DOWN = static_cast<int>(m_pos.y + GRAPH_SIZE_H - GRAPH_DIFFERENCE + BG_CHANGE_LINE);
 
 
-	// 連結1画像が進んだ時、連結2画像を一つ先に描画させるようにする
-	if ((CHANGE_RANGE_UP) >= (GRAPH_SIZE_H * m_connect1_graph)) {
-		m_connect2_graph = m_connect1_graph + 1;
+	
+	{
+		// 連結1画像が進んだ時、連結2画像を一つ先に描画させるようにする
+		if ((CHANGE_RANGE_UP) >= (GRAPH_SIZE_H * m_connect1_graph)) {
+			m_connect2_graph = m_connect1_graph + 1;
+		}
+
+		// 連結2画像が進んだ時、連結1画像を一つ先に描画させるようにする
+		if ((CHANGE_RANGE_UP) >= (GRAPH_SIZE_H * m_connect2_graph)) {
+			m_connect1_graph = m_connect2_graph + 1;
+		}
 	}
 	
-	// 連結2画像が進んだ時、連結1画像を一つ先に描画させるようにする
-	if ((CHANGE_RANGE_UP) >= (GRAPH_SIZE_H * m_connect2_graph)) {
-		m_connect1_graph = m_connect2_graph + 1;
+
+	{
+		// 連結1画像が後退した時、次は連結2画像を後退して描画させるようにする
+		if ((CHANGE_RANGE_DOWN) <= ((GRAPH_SIZE_H) * (m_connect1_graph - 1))) {
+
+			m_connect2_graph = m_connect1_graph - 1;
+		}
+
+		// 連結画像2が後退した時、次は連結1画像を後退して描画させるようにする
+		if ((CHANGE_RANGE_DOWN) <= (GRAPH_SIZE_H) * (m_connect2_graph - 1)) {
+
+			m_connect1_graph = m_connect2_graph - 1;
+		}
 	}
-	
-	// 連結1画像が後退した時、次は連結2画像を後退して描画させるようにする
-	if ((CHANGE_RANGE_DOWN)<= ((GRAPH_SIZE_H) * (m_connect1_graph - 1))) {
-	
-		m_connect2_graph = m_connect1_graph - 1;
-	}
-	
-	// 連結画像2が後退した時、次は連結1画像を後退して描画させるようにする
-	if ((CHANGE_RANGE_DOWN)<= (GRAPH_SIZE_H) * (m_connect2_graph - 1)) {
-	
-		m_connect1_graph = m_connect2_graph - 1;
-	}
+
 
 	// 配列外アクセスを起こさせないようにする
 	if (m_connect1_graph == 0 && -m_pos.y >= 0) {

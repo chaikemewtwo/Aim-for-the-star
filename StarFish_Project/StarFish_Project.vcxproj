@@ -51,10 +51,6 @@
     <ClCompile Include="Map\BedRockChip\BedRockChip.cpp" />
     <ClCompile Include="Map\MapChip\MapChip.cpp" />
     <ClCompile Include="Map\MapManager\MapManager.cpp" />
-    <ClCompile Include="Msg.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.cpp" />
@@ -120,10 +116,6 @@
     <ClInclude Include="Map\BedRockChip\BedRockChip.h" />
     <ClInclude Include="Map\MapChip\MapChip.h" />
     <ClInclude Include="Map\MapManager\MapManager.h" />
-    <ClInclude Include="Msg.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.h" />
     <ClInclude Include="Player\PlayerState\PlayerStateBase.h" />

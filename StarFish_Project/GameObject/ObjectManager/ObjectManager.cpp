@@ -101,7 +101,7 @@ void ObjectManager::SortDrawObject(){
 void ObjectManager::Entry(Object*obj) {
 
 	// nullなら戻す
-	if (nullptr == obj) {
+	if (obj == nullptr) {
 		return;
 	}
 
@@ -166,6 +166,34 @@ void ObjectManager::Exit(unsigned int id) {
 
 	// Objectの配列番号の要素を削除
 	m_obj_list.erase(id);
+}
+
+
+// 活動していない場合メモリ削除
+void ObjectManager::NotActiveIsDelete() {
+
+	// 敵の配列
+	auto obj = m_obj_list.begin();
+
+	for (; obj != m_obj_list.end();) {
+
+		// 活動を停止したら
+		if (obj->second->IsActive() == false) {
+
+			if (&obj == nullptr) {
+				return;
+			}
+
+			// メモリの削除
+			delete &obj;
+			// 敵の要素の削除
+			obj = m_obj_list.erase(obj);
+		}
+		else {
+			obj++;
+		}
+	}
+
 }
 
 

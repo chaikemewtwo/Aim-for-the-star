@@ -16,12 +16,12 @@
 
 
 // チップ情報をまとめる
-struct tagMapChip {
+struct MapChip {
 
 	int  m_chip_num;      // チップの種類
 	bool m_is_active;     // 存在しているか
 
-	tagMapChip() {
+	MapChip() {
 		m_chip_num = 0;
 		m_is_active = false;
 	}
@@ -108,7 +108,7 @@ private:
 	void InitWallCollision();
 
 
-	/* 描画遷移関係 */
+	/* ---描画遷移関係--- */
 
 	// 描画範囲に入っているか入っていないか判断する関数
 	int Scroll(float&pos_y,float&move_y);
@@ -150,8 +150,8 @@ private:
 private:
 	
 	/* マップチップ関係 */
-	tagMapChip m_map[500][200] = {};           // 全体マップバッファ
-	//std::vector<std::vector<tagMapChip>>m_map;
+	//tagMapChip m_map[500][200] = {};           // 全体マップバッファ
+	std::vector<std::vector<MapChip>>m_map_chip_list;
 	const char*chip_str[MAX_BEDROCK_CHIP];      // 岩盤のチップ文字列
 	float chip_u[MAX_BEDROCK_CHIP];             // 線を直す為にずらすUV用配列U
 	float chip_v[MAX_BEDROCK_CHIP];             // 線を直す為にずらすUV用配列V

@@ -3,9 +3,15 @@
 #include"../../Lib/Window/Window.h"
 #include"../MapChip/MapChip.h"
 
-// MEMO
-// MapManagerでBackGroundの変更を加えた
 
+// =============================
+/**
+* @file BackGround.h
+* @brief 背景画像を扱うファイル
+* @author maekawa
+* @date 2019/06/13
+*/
+// =============================
 
 
 // 背景クラス

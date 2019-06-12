@@ -136,13 +136,11 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 				}
 
 				// 敵生成集め
-				EnemyCreateGather(x, y, m_map[m_height_map_num - y][x].m_chip_num);
+				EnemyCreateGather(x, y, m_map_chip_list[m_height_map_num - y - 1][x].m_chip_num);
 			}
 		}
 	}
 }
-
-
 
 
 void Map::Update() {
@@ -157,7 +155,6 @@ void Map::Update() {
 
 	// マップの移動ベクトル初期化
 	m_move.x = m_move.y = 0.f;
-
 
 	for (int i = 0; i < 2; i++) {
 
@@ -215,21 +212,21 @@ void Map::Draw() {
 			}
 
 			// ブロック描画範囲決定
-			if (m_map[(m_height_map_num) - y][x].m_chip_num >= 1 && 
-				m_map[(m_height_map_num) - y][x].m_chip_num <= MAX_BEDROCK_CHIP) {
+			if (m_map_chip_list[(m_height_map_num) - y - 1][x].m_chip_num >= 1 && 
+				m_map_chip_list[(m_height_map_num) - y - 1][x].m_chip_num <= MAX_BEDROCK_CHIP) {
 
-				int current_num = m_map[(m_height_map_num)-y][x].m_chip_num - 1;
+				int current_num = m_map_chip_list[(m_height_map_num) - y - 1][x].m_chip_num - 1;
 
-				Texture::Draw2DUVShift(chip_str[m_map[(m_height_map_num) - y][x].m_chip_num - 1],
+				Texture::Draw2DUVShift(chip_str[m_map_chip_list[(m_height_map_num) - y - 1][x].m_chip_num - 1],
 					(float)(x * CHIP_SIZE) + bedrock_chip[current_num].x,
 					(float)(-y * CHIP_SIZE) + 1080 - m_pos.y + bedrock_chip[current_num].y - 128.f,// -128.fはズレた分を戻す処理
 					chip_u[current_num],
 					chip_v[current_num]);
 			}
 			// 0番目の文字列描画
-			else if (m_map[(m_height_map_num) - y][x].m_chip_num == 1) {
+			else if (m_map_chip_list[(m_height_map_num) - y - 1][x].m_chip_num == 1) {
 
-				Texture::Draw2D(chip_str[m_map[0][x].m_chip_num],
+				Texture::Draw2D(chip_str[m_map_chip_list[0][x].m_chip_num],
 					(float)(x * CHIP_SIZE),
 					(float)(-y * CHIP_SIZE) + 1080 - m_pos.y);
 			}
@@ -315,26 +312,28 @@ void Map::MapObjectCreate() {
 
 	// 生成部分(下から生成していく)
 	for (int y = 0; y < 2; y++) {
-		for (int x = 0; x < MAX_CHIP_NUM_W; x++) {
+		for (int x = 0; x < MAX_CHIP_NUM_W - 1; x++) {
+
+			int create_chip = (m_height_map_num) - create_line[y];
 
 			// 配列外アクセスは許させない
-			if (m_height_map_num - create_line[y] < 0 || x < 0) {
+			if (create_chip < 0 || x < 0) {
 				return;
 			}
 
 			// オブジェクト生成、チップ番号が51以上なら
-			if (m_map[m_height_map_num - create_line[y]][x].m_chip_num >= 100) {
+			if (m_map_chip_list[create_chip][x].m_chip_num >= 100) {
 
 				// 位置を代入
  				D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -create_line[y]) + Window::HEIGHT - m_pos.y);// マップ座標加算
 
 				// チップを消すタイミング、チップを生成するタイミングが必要
 				// チップが活動していないなら
-				if (m_map[m_height_map_num - create_line[y]][x].m_is_active == false){
+				if (m_map_chip_list[m_height_map_num - create_line[y]][x].m_is_active == false){
 					// 敵生成
-					EnemyCreateGather(x, create_line[y], m_map[m_height_map_num - create_line[y]][x].m_chip_num);
+					EnemyCreateGather(x, create_line[y], m_map_chip_list[m_height_map_num - create_line[y] - 1][x].m_chip_num);
 					// マップチップ記録
-					m_map[m_height_map_num - create_line[y]][x].m_is_active = true;
+					m_map_chip_list[m_height_map_num - create_line[y]][x].m_is_active = true;
 				}
 			}
 		}
@@ -355,17 +354,17 @@ void Map::MapObjectDestory() {
 
 	// 生成部分(下から生成していく)
 	for (int y = 0; y < 2; y++) {
-		for (int x = 0; x < MAX_CHIP_NUM_W; x++) {
+		for (int x = 0; x < MAX_CHIP_NUM_W - 1; x++) {
 
 			// 配列外アクセスは許させない
-			if (m_height_map_num - destory_line[y] < 0 || x < 0) {
+			if (m_height_map_num + destory_line[y] < 0 || x < 0) {
 				return;
 			}
 
 			// チップが活動しているなら
-			if (m_map[(m_height_map_num - destory_line[y])][x].m_is_active == true){
+			if (m_map_chip_list[(m_height_map_num - destory_line[y])][x].m_is_active == true){
 				// マップチップ活動中にする
-				m_map[(m_height_map_num - destory_line[y])][x].m_is_active = false;
+				m_map_chip_list[(m_height_map_num - destory_line[y])][x].m_is_active = false;
 			}
 		}
 	}
@@ -655,13 +654,14 @@ int Map::GetChipParam(const float &pos_x, const float&pos_y) {
 
 	// マップチップ範囲外なら戻す
 	if (px < 0 || px >= MAX_CHIP_NUM_W ||
-		(m_height_map_num + 1) + (py - MAX_CHIP_NUM_H) < 0 || py > MAX_CHIP_NUM_H) {
+		(m_height_map_num) + (py - MAX_CHIP_NUM_H) < 0 || py > MAX_CHIP_NUM_H) {
 		return 0;
 	}
 	
 	// マップの当たり判定をm_draw_mapに変更
-	return m_map[(m_height_map_num + 1) + (py - MAX_CHIP_NUM_H)][px].m_chip_num;// 前 (py)
+	return m_map_chip_list[(m_height_map_num) + (py - MAX_CHIP_NUM_H)][px].m_chip_num;// 前 (py)
 }
+
 
 // 所定位置にブロックを置く
 float Map::GetChipPosCastByChip(const float &chip_pos, const float &chip_y)const{
@@ -669,63 +669,76 @@ float Map::GetChipPosCastByChip(const float &chip_pos, const float &chip_y)const
 	return (chip_pos * CHIP_SIZE);
 }
 
+
 // マップのリセット
 void Map::SetMapResetY(float map_y) {
 	m_pos.y = map_y;
 }
+
 
 /* アクセサ */
 D3DXVECTOR2 Map::GetMove()const {// 元はmap
 	return -m_move;// -をなくす
 }
 
+
 // 着地しているか
 bool Map::IsStand()const {
 	return m_is_stand;
 }
+
 
 // 壁衝突しているか
 bool Map::IsWallCollision()const {
 	return m_is_wall_col;
 }
 
+
 // 上の壁に衝突しているか
 bool Map::IsWallColUp()const {
 	return m_is_wall_col_up;
 }
+
 
 // 下の壁に衝突しているか
 bool Map::IsWallColDown()const {
 	return m_is_wall_col_down;
 }
 
+
 // 左の壁に衝突しているか
 bool Map::IsWallColLeft()const {
 	return m_is_wall_col_left;
 }
+
 
 // 右の壁に衝突しているか
 bool Map::IsWallColRight()const {
 	return m_is_wall_col_right;
 }
 
+
 // スクロールしているか
 bool Map::IsScroll()const {
 	return m_is_scroll;
 }
 
+
 bool Map::IsMaxScroll()const {
 	return m_is_max_scroll;
 }
+
 
 void Map::SetIsScroll(bool is_scroll) {
 	m_is_scroll = is_scroll;
 }
 
+
 // スクロールの範囲
 void Map::SetScrollRangeUp(float range) {
 	m_scroll_range_up = range;
 }
+
 
 void Map::SetScrollRangeDown(float range) {
 	m_scroll_range_down = range;
@@ -743,7 +756,7 @@ void Map::EnemyCreateGather(int x, int y, int chip_num) {
 		// 敵生成
 		e_pmng->CreateEnemy(pos + fix_pos, this, m_pbase[0], m_pbase[1], SEAURCHIN);
 		// マップチップ記録
-		m_map[m_height_map_num - y][x].m_is_active = true;
+		m_map_chip_list[m_height_map_num - y][x].m_is_active = true;
 	}
 	// 落ちていくウニ生成
 	else if (chip_num == 101) {
@@ -752,7 +765,7 @@ void Map::EnemyCreateGather(int x, int y, int chip_num) {
 		// 敵生成
 		e_pmng->CreateEnemy(pos + fix_pos, this, m_pbase[0], m_pbase[1], NO_MOVE_SEAURCHIN);
 		// マップチップ記録
-		m_map[m_height_map_num - y][x].m_is_active = true;
+		m_map_chip_list[m_height_map_num - y][x].m_is_active = true;
 	}
 	// 貝生成
 	else if (chip_num == 102) {
@@ -761,7 +774,7 @@ void Map::EnemyCreateGather(int x, int y, int chip_num) {
 		// 敵生成
 		e_pmng->CreateEnemy(pos + fix_pos, this, m_pbase[0], m_pbase[1], SELLFISH);
 		// マップチップ記録
-		m_map[m_height_map_num - y][x].m_is_active = true;
+		m_map_chip_list[m_height_map_num - y][x].m_is_active = true;
 	}
 	// 右下に行くブラインド生成
 	else if (chip_num == 103) {
@@ -770,19 +783,18 @@ void Map::EnemyCreateGather(int x, int y, int chip_num) {
 		// ブラインド生成
 		e_pmng->CreateBlind(pos + fix_pos, D3DXVECTOR2(-100.f,1000.f));
 		// マップチップ記録
-		m_map[m_height_map_num - y][x].m_is_active = true;
+		m_map_chip_list[m_height_map_num - y][x].m_is_active = true;
 	}
 }
 
 
 void Map::Load(const std::string&file_name) {
 
-	// fgets行の終端の改行文字まで読み込み
 	FILE*fp;                                  // ストリーム
 	const char *fname = file_name.c_str();    // ファイル名
 	char str_buf[256];                        // 文字列バッファ
 
-											  // ファイルオープン
+	// ファイルオープン
 	fopen_s(&fp, fname, "r");
 
 	// ファイルが読み込まれてない場合
@@ -791,40 +803,61 @@ void Map::Load(const std::string&file_name) {
 	}
 
 	// 縦 
-	int h = 0;
+	int height_chip = 0;
 	// 横
-	int w = 0;
+	int width_chip = 0;
 
 	// 文字列読み込み、改行まで
 	while (fgets(str_buf, 256, fp) != NULL) {
 
 		// 最初が改行と空白なら戻す
 		if (str_buf[0] == '\n' || str_buf[0] == '\0') {
-			//h++;
 			continue;
 		}
 
-		// 文字列をバッファにいれる
-		char *str2 = str_buf;
+		// チップ文字列をバッファにいれる
+		char *chip_string = str_buf;
 
-		//m_map.reserve(0);
+		// 1次元配列に要素を追加
+		m_map_chip_list.emplace_back();
 
 		// 次の列へ
-		while (*str2 != '\0'&& *str2 != '\n') {
+		while (*chip_string != '\0'&& *chip_string != '\n') {
 
-			// 整数値変換
-			m_map[h][w++].m_chip_num = strtol(str2, &str2, 10);// str2に変換できない文字列を入れる。
+			// マップチップ構造体を生成
+			MapChip map_chip;
 
-															   // 文字列加算
-			str2++;
+			// 要素追加
+			m_map_chip_list[height_chip].push_back(map_chip);
+
+			// 整数値変換してチップ番号に登録
+			m_map_chip_list[height_chip][width_chip++].m_chip_num = strtol(chip_string, &chip_string, 10);
+
+			// 文字列加算
+			chip_string++;
 		}
 
-		w = 0;
-		// 次の行へ
-		h++;
+		// 横チップ初期化
+		width_chip = 0;
+		// 縦チップを下へ動かす
+		height_chip++;
 	}
+
+	// 配列外アクセス防止に10配列余分に配列を取る
+	for (int i = height_chip; i < 10 + height_chip; i++) {
+		m_map_chip_list.emplace_back();
+		for (int j = 0; j < 30; j++) {
+
+			MapChip map_chip;
+			// 要素追加
+			m_map_chip_list[i].push_back(map_chip);
+
+			m_map_chip_list[i][j].m_chip_num = 0;
+		}
+	}
+
 	// 高さを記録
-	m_height_map_num = h;
+	m_height_map_num = height_chip;
 
 	// ファイルを閉じる
 	fclose(fp);
