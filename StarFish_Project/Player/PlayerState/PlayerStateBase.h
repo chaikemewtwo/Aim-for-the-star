@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include"../../Lib/Input/KeyBord.h"
+#include"../../Lib/Input/GamePad.h"
 
 class Player;
 

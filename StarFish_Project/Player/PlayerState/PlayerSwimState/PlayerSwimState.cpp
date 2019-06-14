@@ -1,35 +1,43 @@
-﻿#include "PlayerSwimState.h"
-#include "../PlayerDeathState/PlayerDeathState.h"
-#include "../../Player/Player.h"
+﻿#include"PlayerSwimState.h"
+#include"../PlayerWaitState/PlayerWaitState.h"
+#include"../PlayerDeathState/PlayerDeathState.h"
+#include"../../Player/Player.h"
+
+
+const int PlayerSwimState::ONE_ANIMATION_SPEED = 6;
+const int PlayerSwimState::MAX_ANIMATION_TEX_NUM = 16;
+const int PlayerSwimState::CHANGE_STATE_COUNT = ONE_ANIMATION_SPEED * MAX_ANIMATION_TEX_NUM;
+const int PlayerSwimState::TO_SWIM_USE_STAMINA = 200;
 
 
 void PlayerSwimState::Init(Player* p) {
-	// 状態遷移タイマー
 	p->ResetStateChangeTimer();
 
-	// アニメーション番号
-	p->ResetAnimationNumber();
+	p->ResetAnimationCount();
 
-	// 状態画像変更
 	p->SetPlayerTexture(p->star_texture_name[p->SWIM_TEXTURE]);
 
 	p->swim_enable = true;
+
+	p->DecStamina(TO_SWIM_USE_STAMINA);
+
+	m_p_swim_se = m_p_audio.getCloneBuffer("Resource/Sound/Player/swim1.wav");
+
+	m_p_swim_se->Play(0,0,0);
 }
 
 
 void PlayerSwimState::Update(Player* p) {
 	Keybord& kb = Keybord::getInterface();
 
-	// アニメーション
 	p->AnimationDraw(MAX_ANIMATION_TEX_NUM, ONE_ANIMATION_SPEED);
 
-	// 状態遷移タイマーインクリメント
 	p->AddStateChangeTimer();
 
-	// 泳ぐ関数呼び出し
 	p->SwimUp();
 
 	// 左右角度変更
+	// PlayerのMAX_ANGLEまで傾けることができる
 	// 左
 	if ((kb.on(p->imput_button_name[p->LEFT_KEY]))) {
 		p->AngleAdjust(false);

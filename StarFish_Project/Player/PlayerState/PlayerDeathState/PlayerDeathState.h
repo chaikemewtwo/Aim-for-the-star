@@ -14,11 +14,16 @@ public:
 
 	void Init(Player* p) override;
 	void Update(Player* p) override;
-
 private:
 	// 1アニメーションの速さ
-	const int ONE_ANIMATION_SPEED = 10;
+	// この速さで1アニメーションが進んでいく
+	static const int ONE_ANIMATION_SPEED;
 
-	// 数値は仮のもの、統合画像が完成次第変更する
-	const int MAX_ANIMATION_TEX_NUM = 16;
+	// 統合画像内のアニメーション枚数
+	// 1つの統合画像にキャラの画像が詰め込んであるか
+	static const int MAX_ANIMATION_TEX_NUM;
+
+	// 1周目以外の初期アニメーションカウント
+	// 死亡状態のみ2周目からはアニメーションの途中から再生するため
+	static const int ANIMATION_INIT_COUNT;
 };

@@ -11,19 +11,25 @@ Rope::Rope(Player* p_1,Player* p_2) {
 
 
 void Rope::Update() {
+	// 常時距離調整
+	// HACK:PlayerManagerを作成しそこで行う
 	PlayersDistanceAdjust();
 }
 
 
 void Rope::Draw() {
-	static const float ROPE_LEGTH_ADJUST = 0.5f;
-	static const float POS_OFFSET = 10.f;
+	// ロープ最大全長調整
+	static const float ROPE_LEGTH_OFFSET = 0.5f;
+	// 描画Y軸調整
+	//（自機の中心より少し下に変更、死亡状態でヒモの先端が見えてしまうため）
+	static const float POS_Y_OFFSET = 10.f;
+
 	Texture::Draw2D(
 		"Resource/Texture/Player/himo.png",
 		m_p1->GetPos().x,
-		m_p1->GetPos().y + POS_OFFSET,
-		ROPE_LEGTH_ADJUST / LengthPercentage(),
-		ROPE_LEGTH_ADJUST,
+		m_p1->GetPos().y + POS_Y_OFFSET,
+		ROPE_LEGTH_OFFSET / LengthPercentage(),
+		ROPE_LEGTH_OFFSET,
 		AngleCalc()
 	);
 }
@@ -54,7 +60,6 @@ float Rope::PlayersRadiusCalc() {
 
 
 float Rope::LengthPercentage() {
-	// 長さの比率を返す
 	return MAX_ROPE_LEGTH / PlayersRadiusCalc();
 }
 
