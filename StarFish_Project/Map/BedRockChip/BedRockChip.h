@@ -24,7 +24,7 @@ class BedRockChip : public Object{
 public:
 
 	// コンストラクタでどのチップを使うか決める
-	BedRockChip(const std::string&str,const D3DXVECTOR2 &pos);
+	BedRockChip(BedRockChipType bed_rock_chip_type,const D3DXVECTOR2 &pos);
 
 	void Draw()override;
 	void Update()override;
@@ -32,5 +32,5 @@ public:
 private:
 
 	// 岩盤文字列
-	std::string str_buf;
+	std::string bed_rock_chip_name;
 };

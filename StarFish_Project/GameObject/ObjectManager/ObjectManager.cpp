@@ -193,7 +193,6 @@ void ObjectManager::NotActiveIsDelete() {
 			obj++;
 		}
 	}
-
 }
 
 

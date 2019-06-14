@@ -16,13 +16,18 @@
 Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 
 
-	const float INIT_MAP_POS_X = 0.f; // マップ初期化位置X
-	const float INIT_MAP_POS_Y = 0.f; // マップ初期化位置Y
+	// マップ初期化位置X
+	const float INIT_MAP_POS_X = 0.f; 
+	// マップ初期化位置Y
+	const float INIT_MAP_POS_Y = 0.f; 
 
-	m_sort_object_type = MAP;         // ソートオブジェクト代入
+	// ソートオブジェクト代入
+	m_sort_object_type = MAP;         
 
-	m_pos.x = INIT_MAP_POS_X;		  // マップ座標の初期化X
-	m_pos.y = INIT_MAP_POS_Y;		  // マップ座標の初期化Y
+	// マップ座標の初期化X
+	m_pos.x = INIT_MAP_POS_X;		 
+	// マップ座標の初期化Y
+	m_pos.y = INIT_MAP_POS_Y;		  
 
 	// マップ座標移動座標初期化
 	m_move.x = 0.f;
@@ -74,36 +79,37 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 	chip_str[8] = "Resource/Texture/Map/chip-map_image_03.png";
 	chip_str[9] = "Resource/Texture/Map/chip-map_image_05.png";
 
+
+	//for (int i = 0; i < 10; i++) {
+	//
+	//	char buffer[10][256];
+	//	if (i == 9) {
+	//		chip_str[i] = "Resource/Texture/Map/chip-map_image_10.png";
+	//		break;
+	//	}
+	//
+	//	sprintf_s(buffer[i],sizeof(buffer[i]),"Resource/Texture/Map/chip-map_image_0%d.png",i + 1);
+	//
+	//	chip_str[i] = buffer[i];
+	//}
+
 	// UVずらし配列初期化
 	for (int i = 0; i < 10; i++) {
 		chip_u[i] = 0.f;
 		chip_v[i] = 0.f;
 	}
 
-	//
-	//chip_u[0] = -0.001f;
-	//chip_v[1] = -0.01f;
-	//chip_u[1] = -0.01f;
-	//chip_v[2] = -0.01f;
-	//chip_v[7] = -0.01f;
-	//chip_v[4] = -0.001f;
-	//chip_v[3] = 0.01f;
-	//chip_v[5] = -0.01f;
-	//chip_v[6] =   - 0.001f;
-	//
-	//chip_u[4] = -0.01f;
-	//chip_u[5] = -0.01f;
 	
-	bedrock_chip[0].x = 0.f; bedrock_chip[0].y = 1.f;
-	bedrock_chip[1].x = 0.f; bedrock_chip[1].y = 1.f;
-	bedrock_chip[2].x = 2.f; bedrock_chip[2].y = -1.f;
-	bedrock_chip[3].x = 0.f; bedrock_chip[3].y = 0.f;
-	bedrock_chip[4].x = 1.f; bedrock_chip[4].y = 1.f;
-	bedrock_chip[5].x = 0.f; bedrock_chip[5].y = 0.f;
-	bedrock_chip[6].x = 0.f; bedrock_chip[6].y = 1.f;
-	bedrock_chip[7].x = 1.f; bedrock_chip[7].y = -1.f;
-	bedrock_chip[8].x = 0.f; bedrock_chip[8].y = 0.f;
-	bedrock_chip[9].x = 0.f; bedrock_chip[9].y = 0.f;
+	bedrock_chip_pos[0].x = 0.f; bedrock_chip_pos[0].y = 1.f;
+	bedrock_chip_pos[1].x = 0.f; bedrock_chip_pos[1].y = 1.f;
+	bedrock_chip_pos[2].x = 2.f; bedrock_chip_pos[2].y = -1.f;
+	bedrock_chip_pos[3].x = 0.f; bedrock_chip_pos[3].y = 0.f;
+	bedrock_chip_pos[4].x = 1.f; bedrock_chip_pos[4].y = 1.f;
+	bedrock_chip_pos[5].x = 0.f; bedrock_chip_pos[5].y = 0.f;
+	bedrock_chip_pos[6].x = 0.f; bedrock_chip_pos[6].y = 1.f;
+	bedrock_chip_pos[7].x = 1.f; bedrock_chip_pos[7].y = -1.f;
+	bedrock_chip_pos[8].x = 0.f; bedrock_chip_pos[8].y = 0.f;
+	bedrock_chip_pos[9].x = 0.f; bedrock_chip_pos[9].y = 0.f;
 	
 	// 初期化集
 	m_chip_num = 0;
@@ -131,12 +137,12 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 			for (int x = 0; x < MAX_CHIP_NUM_W; x++) {
 
 				// 配列外アクセスは許させない
-				if ((m_height_map_num) - y < 0 || x < 0) {
+				if ((m_max_height_map_size) - y < 0 || x < 0) {
 					return;
 				}
 
 				// 敵生成集め
-				EnemyCreateGather(x, y, m_map_chip_list[m_height_map_num - y - 1][x].m_chip_num);
+				EnemyCreateGather(x, y, m_map_chip_list[m_max_height_map_size - y - 1][x].m_chip_num);
 			}
 		}
 	}
@@ -207,24 +213,24 @@ void Map::Draw() {
 		for (int x = 0; x < MAX_CHIP_NUM_W; x++) {
 
 			// 配列外アクセスは許させない
-			if ((m_height_map_num) - y < 0 || x < 0) {
+			if ((m_max_height_map_size) - y < 0 || x < 0) {
 				return;
 			}
 
 			// ブロック描画範囲決定
-			if (m_map_chip_list[(m_height_map_num) - y - 1][x].m_chip_num >= 1 && 
-				m_map_chip_list[(m_height_map_num) - y - 1][x].m_chip_num <= MAX_BEDROCK_CHIP) {
+			if (m_map_chip_list[(m_max_height_map_size) - y - 1][x].m_chip_num >= 1 && 
+				m_map_chip_list[(m_max_height_map_size) - y - 1][x].m_chip_num <= MAX_BEDROCK_CHIP) {
 
-				int current_num = m_map_chip_list[(m_height_map_num) - y - 1][x].m_chip_num - 1;
+				int current_num = m_map_chip_list[(m_max_height_map_size) - y - 1][x].m_chip_num - 1;
 
-				Texture::Draw2DUVShift(chip_str[m_map_chip_list[(m_height_map_num) - y - 1][x].m_chip_num - 1],
-					(float)(x * CHIP_SIZE) + bedrock_chip[current_num].x,
-					(float)(-y * CHIP_SIZE) + 1080 - m_pos.y + bedrock_chip[current_num].y - 128.f,// -128.fはズレた分を戻す処理
+				Texture::Draw2DUVShift(chip_str[m_map_chip_list[(m_max_height_map_size) - y - 1][x].m_chip_num - 1],
+					(float)(x * CHIP_SIZE) + bedrock_chip_pos[current_num].x,
+					(float)(-y * CHIP_SIZE) + 1080 - m_pos.y + bedrock_chip_pos[current_num].y - 128.f,// -128.fはズレた分を戻す処理
 					chip_u[current_num],
 					chip_v[current_num]);
 			}
 			// 0番目の文字列描画
-			else if (m_map_chip_list[(m_height_map_num) - y - 1][x].m_chip_num == 1) {
+			else if (m_map_chip_list[(m_max_height_map_size) - y - 1][x].m_chip_num == 1) {
 
 				Texture::Draw2D(chip_str[m_map_chip_list[0][x].m_chip_num],
 					(float)(x * CHIP_SIZE),
@@ -239,22 +245,27 @@ void Map::Draw() {
 // 遷移はy軸だけ
 int Map::Scroll(float&pos_y, float&move_y) {
 
-	// 描画遷移範囲 = 現在のマップ座標(本来はスクリーン座標の方がいい) + 遷移範囲(スクリーンから見て)
 
-	// 上の遷移基準
+	// 上のスクロール範囲に入ったら
 	if (pos_y <= m_scroll_range_up) {
-		// スクリーン座標を戻す
-		pos_y = m_scroll_range_up;// 移動分減算
 
-		m_move.y += move_y;// マップ座標を加算
+		// スクリーン座標を戻す
+		pos_y = m_scroll_range_up;
+
+		// マップ移動を加算
+		m_move.y += move_y;
+
 		return 1;
 	}
 
-	// 下の遷移基準
+	// 下のスクロール範囲に入ったら
 	else if (pos_y >= m_scroll_range_down) {
 
+		// スクリーン座標を戻す
 		pos_y = m_scroll_range_down;
-		m_move.y += move_y;// マップ座標を加算
+		// マップ移動を加算
+		m_move.y += move_y;
+
 		return 2;
 	}
 
@@ -312,9 +323,9 @@ void Map::MapObjectCreate() {
 
 	// 生成部分(下から生成していく)
 	for (int y = 0; y < 2; y++) {
-		for (int x = 0; x < MAX_CHIP_NUM_W - 1; x++) {
+		for (int x = 0; x < MAX_CHIP_NUM_W; x++) {
 
-			int create_chip = (m_height_map_num) - create_line[y];
+			int create_chip = (m_max_height_map_size) - create_line[y];
 
 			// 配列外アクセスは許させない
 			if (create_chip < 0 || x < 0) {
@@ -329,11 +340,11 @@ void Map::MapObjectCreate() {
 
 				// チップを消すタイミング、チップを生成するタイミングが必要
 				// チップが活動していないなら
-				if (m_map_chip_list[m_height_map_num - create_line[y]][x].m_is_active == false){
+				if (m_map_chip_list[create_chip][x].m_is_active == false){
 					// 敵生成
-					EnemyCreateGather(x, create_line[y], m_map_chip_list[m_height_map_num - create_line[y] - 1][x].m_chip_num);
+					EnemyCreateGather(x, create_line[y] - 1, m_map_chip_list[create_chip][x].m_chip_num);
 					// マップチップ記録
-					m_map_chip_list[m_height_map_num - create_line[y]][x].m_is_active = true;
+					m_map_chip_list[m_max_height_map_size - create_line[y]][x].m_is_active = true;
 				}
 			}
 		}
@@ -357,14 +368,14 @@ void Map::MapObjectDestory() {
 		for (int x = 0; x < MAX_CHIP_NUM_W - 1; x++) {
 
 			// 配列外アクセスは許させない
-			if (m_height_map_num + destory_line[y] < 0 || x < 0) {
+			if (m_max_height_map_size + destory_line[y] < 0 || x < 0) {
 				return;
 			}
 
 			// チップが活動しているなら
-			if (m_map_chip_list[(m_height_map_num - destory_line[y])][x].m_is_active == true){
+			if (m_map_chip_list[(m_max_height_map_size - destory_line[y])][x].m_is_active == true){
 				// マップチップ活動中にする
-				m_map_chip_list[(m_height_map_num - destory_line[y])][x].m_is_active = false;
+				m_map_chip_list[(m_max_height_map_size - destory_line[y])][x].m_is_active = false;
 			}
 		}
 	}
@@ -380,16 +391,16 @@ bool Map::Collision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 
 	const float RS = 1.f; // ResizeのRS.サイズを補正
 	int chip_num = 0;     // チップ番号を記録する用
-	bool is_col = false;
+	bool is_collision = false;
 
 	// 左上
-	D3DXVECTOR2 up_left(pos.x + RS + SHRINK_X, pos.y + RS + SHRINK_Y);
+	D3DXVECTOR2 up_left(pos.x + RS + CHIP_SCALE_X, pos.y + RS + CHIP_SCALE_Y);
 	// 右上
-	D3DXVECTOR2 up_right(pos.x + CHIP_SIZE - RS - SHRINK_X, pos.y + RS + SHRINK_Y);
+	D3DXVECTOR2 up_right(pos.x + CHIP_SIZE - RS - CHIP_SCALE_X, pos.y + RS + CHIP_SCALE_Y);
 	// 左下
-	D3DXVECTOR2 down_left(pos.x + RS + SHRINK_X, pos.y + CHIP_SIZE - RS - SHRINK_Y);
+	D3DXVECTOR2 down_left(pos.x + RS + CHIP_SCALE_X, pos.y + CHIP_SIZE - RS - CHIP_SCALE_Y);
 	// 右下
-	D3DXVECTOR2 down_right(pos.x + CHIP_SIZE - RS - SHRINK_X, pos.y + CHIP_SIZE - RS - SHRINK_Y);
+	D3DXVECTOR2 down_right(pos.x + CHIP_SIZE - RS - CHIP_SCALE_X, pos.y + CHIP_SIZE - RS - CHIP_SCALE_Y);
 
 	{
 		// y軸の衝突判定(四隅)
@@ -399,9 +410,9 @@ bool Map::Collision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 			IsFloorCollision(down_right.x, down_right.y + CHIP_SIZE, 0.f, move.y,chip_num) == true) {
 
 			// 衝突している
-			is_col = true;
+			is_collision = true;
 			// 縦の衝突判定とアクション
-			ChipAction(pos, move, chip_num,COL_Y);
+			ChipAction(pos, move, chip_num,COLLISION_Y);
 		}
 		else {
 			InitWallCollision();
@@ -409,10 +420,10 @@ bool Map::Collision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 	}
 
 	// y軸更新
-	up_left.y = pos.y + RS + SHRINK_Y;
-	up_right.y = pos.y + RS + SHRINK_Y;
-	down_left.y = pos.y + CHIP_SIZE - RS - SHRINK_Y;
-	down_right.y = pos.y + CHIP_SIZE - RS - SHRINK_Y;
+	up_left.y = pos.y + RS + CHIP_SCALE_Y;
+	up_right.y = pos.y + RS + CHIP_SCALE_Y;
+	down_left.y = pos.y + CHIP_SIZE - RS - CHIP_SCALE_Y;
+	down_right.y = pos.y + CHIP_SIZE - RS - CHIP_SCALE_Y;
 
 	{
 		// x軸の衝突判定(四隅)
@@ -422,22 +433,22 @@ bool Map::Collision(D3DXVECTOR2&pos,D3DXVECTOR2&move) {
 			IsFloorCollision(down_left.x, down_left.y + CHIP_SIZE, move.x, 0.f,chip_num) == true ||// 衝突点を1CHIP下にずらしている
 			IsFloorCollision(down_right.x, down_right.y + CHIP_SIZE, move.x, 0.f,chip_num) == true) {
 
-			is_col = true;
+			is_collision = true;
 			// 横の衝突判定
-			ChipAction(pos, move, chip_num,COL_X);
+			ChipAction(pos, move, chip_num,COLLISION_X);
 		}
 		// x軸の中心衝突判定
 		else if (IsFloorCollision(down_left.x, down_right.y, move.x, 0.f,chip_num) == true ||// 左下
 			IsFloorCollision(down_right.x, down_right.y, move.x, 0.f,chip_num) == true) {  // 右下
 
 			// 横の衝突判定
-			ChipAction(pos, move, chip_num,COL_X);
+			ChipAction(pos, move, chip_num,COLLISION_X);
 		}
 		else {
 			InitWallCollision();
 		}
 	}
-	return is_col;
+	return is_collision;
 }
 
 void Map::InitWallCollision() {
@@ -460,11 +471,11 @@ void Map::ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos,int chip_num, COL_DI
 		CenterStuckChip(pos.x, pos.y, move_pos.x, move_pos.y);
 	}
 	// 衝突ブロックなら
-	else if (col_d == COL_Y) {
+	else if (col_d == COLLISION_Y) {
 
 		VerticalPosFixToMapPos(pos.y, move_pos.y);
 	}
-	else if (col_d == COL_X) {
+	else if (col_d == COLLISION_X) {
 		SidePosFixToMapPos(pos.x, move_pos.x);
 	}
 }
@@ -512,13 +523,15 @@ void Map::SidePosFixToMapPos(float &pos_x, float &move_x) {
 	// 左
 	if (move_x < 0.f) {
 
+		// チップに変換
 		chip_pos_x = (float)GetChipCastByPos(pos_x - (move_x - RETOUCH));
 
+		// X位置を右に戻す
 		pos_x = (chip_pos_x * CHIP_SIZE) - move_x;
 
 		// 縮小する時
-		if (SHRINK_Y > 0.f) {
-			pos_x += (CHIP_SIZE - SHRINK_X);
+		if (CHIP_SCALE_Y > 0.f) {
+			pos_x += (CHIP_SIZE - CHIP_SCALE_X);
 		}
 
 		// 移動ベクトルなし
@@ -533,7 +546,7 @@ void Map::SidePosFixToMapPos(float &pos_x, float &move_x) {
 		
  		chip_pos_x = (float)GetChipCastByPos(pos_x + move_x);
 		// 位置を戻す
-		pos_x = (chip_pos_x * CHIP_SIZE) + SHRINK_X - move_x;
+		pos_x = (chip_pos_x * CHIP_SIZE) + CHIP_SCALE_X - move_x;
 
 		// 移動ベクトルなし
 		move_x = 0.f;
@@ -555,14 +568,15 @@ void Map::VerticalPosFixToMapPos(float &pos_y, float &move_y) {
 	if (move_y < 0.f || m_move.y < 0.f) {
 
 		// チップサイズ割り出し
-		chip_pos_y = (float)GetChipCastByPos((pos_y +(m_pos.y)) - (move_y - RETOUCH + SHRINK_Y));// SHRINK_Y関係のバグ
+		chip_pos_y = (float)GetChipCastByPos((pos_y +(m_pos.y)) - (move_y - RETOUCH + CHIP_SCALE_Y));// SHRINK_Y関係のバグ
 
+		// 下に戻す
 		pos_y = (chip_pos_y * CHIP_SIZE) + (-m_pos.y) - m_move.y;
 
-		// 縮小する時
-		if (SHRINK_Y > 0.f) {
+		// 拡縮Y
+		if (CHIP_SCALE_Y > 0.f) {
 			// 修正(自機の移動とマップの移動を加算)
-			pos_y += (CHIP_SIZE - SHRINK_Y);
+			pos_y += (CHIP_SIZE - CHIP_SCALE_Y);
 		}
 		
 		// スクロール範囲に入っていれば
@@ -583,12 +597,14 @@ void Map::VerticalPosFixToMapPos(float &pos_y, float &move_y) {
 		// チップサイズ割り出し
 		chip_pos_y = (float)GetChipCastByPos((pos_y + m_pos.y) + move_y);
 
+		// 上に戻す
 		pos_y = (chip_pos_y * CHIP_SIZE) + (-m_pos.y);
 
 		pos_y += -move_y - m_move.y;
 
-		if (SHRINK_Y > 0.f) {
-			pos_y += SHRINK_Y;
+		// サイズY
+		if (CHIP_SCALE_Y > 0.f) {
+			pos_y += CHIP_SCALE_Y;
 		}
 
 		// スクロール範囲に入っていれば
@@ -654,12 +670,12 @@ int Map::GetChipParam(const float &pos_x, const float&pos_y) {
 
 	// マップチップ範囲外なら戻す
 	if (px < 0 || px >= MAX_CHIP_NUM_W ||
-		(m_height_map_num) + (py - MAX_CHIP_NUM_H) < 0 || py > MAX_CHIP_NUM_H) {
+		(m_max_height_map_size) + (py - MAX_CHIP_NUM_H) < 0 || py > MAX_CHIP_NUM_H) {
 		return 0;
 	}
 	
 	// マップの当たり判定をm_draw_mapに変更
-	return m_map_chip_list[(m_height_map_num) + (py - MAX_CHIP_NUM_H)][px].m_chip_num;// 前 (py)
+	return m_map_chip_list[m_max_height_map_size + (py - MAX_CHIP_NUM_H)][px].m_chip_num;// 前 (py)
 }
 
 
@@ -667,12 +683,6 @@ int Map::GetChipParam(const float &pos_x, const float&pos_y) {
 float Map::GetChipPosCastByChip(const float &chip_pos, const float &chip_y)const{
 	
 	return (chip_pos * CHIP_SIZE);
-}
-
-
-// マップのリセット
-void Map::SetMapResetY(float map_y) {
-	m_pos.y = map_y;
 }
 
 
@@ -756,7 +766,7 @@ void Map::EnemyCreateGather(int x, int y, int chip_num) {
 		// 敵生成
 		e_pmng->CreateEnemy(pos + fix_pos, this, m_pbase[0], m_pbase[1], SEAURCHIN);
 		// マップチップ記録
-		m_map_chip_list[m_height_map_num - y][x].m_is_active = true;
+		m_map_chip_list[m_max_height_map_size - y][x].m_is_active = true;
 	}
 	// 落ちていくウニ生成
 	else if (chip_num == 101) {
@@ -765,7 +775,7 @@ void Map::EnemyCreateGather(int x, int y, int chip_num) {
 		// 敵生成
 		e_pmng->CreateEnemy(pos + fix_pos, this, m_pbase[0], m_pbase[1], NO_MOVE_SEAURCHIN);
 		// マップチップ記録
-		m_map_chip_list[m_height_map_num - y][x].m_is_active = true;
+		m_map_chip_list[m_max_height_map_size - y][x].m_is_active = true;
 	}
 	// 貝生成
 	else if (chip_num == 102) {
@@ -774,7 +784,7 @@ void Map::EnemyCreateGather(int x, int y, int chip_num) {
 		// 敵生成
 		e_pmng->CreateEnemy(pos + fix_pos, this, m_pbase[0], m_pbase[1], SELLFISH);
 		// マップチップ記録
-		m_map_chip_list[m_height_map_num - y][x].m_is_active = true;
+		m_map_chip_list[m_max_height_map_size - y][x].m_is_active = true;
 	}
 	// 右下に行くブラインド生成
 	else if (chip_num == 103) {
@@ -783,7 +793,7 @@ void Map::EnemyCreateGather(int x, int y, int chip_num) {
 		// ブラインド生成
 		e_pmng->CreateBlind(pos + fix_pos, D3DXVECTOR2(-100.f,1000.f));
 		// マップチップ記録
-		m_map_chip_list[m_height_map_num - y][x].m_is_active = true;
+		m_map_chip_list[m_max_height_map_size - y][x].m_is_active = true;
 	}
 }
 
@@ -857,7 +867,7 @@ void Map::Load(const std::string&file_name) {
 	}
 
 	// 高さを記録
-	m_height_map_num = height_chip;
+	m_max_height_map_size = height_chip;
 
 	// ファイルを閉じる
 	fclose(fp);
@@ -911,6 +921,19 @@ bool Map::IsScrollLimit(float &pos_y1, float &pos_y2, D3DXVECTOR2&move1, D3DXVEC
 */
 
 
+//
+//chip_u[0] = -0.001f;
+//chip_v[1] = -0.01f;
+//chip_u[1] = -0.01f;
+//chip_v[2] = -0.01f;
+//chip_v[7] = -0.01f;
+//chip_v[4] = -0.001f;
+//chip_v[3] = 0.01f;
+//chip_v[5] = -0.01f;
+//chip_v[6] =   - 0.001f;
+//
+//chip_u[4] = -0.01f;
+//chip_u[5] = -0.01f;
 
 // MEMO
 /*

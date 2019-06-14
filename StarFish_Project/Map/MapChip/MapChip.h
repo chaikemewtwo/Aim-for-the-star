@@ -37,8 +37,8 @@ class ObjectManager;
 
 // 衝突方向を渡す
 enum COL_DIRECTION {
-	COL_X,
-	COL_Y,
+	COLLISION_X,
+	COLLISION_Y,
 };
 
 // プラスの符号に変換
@@ -83,7 +83,6 @@ public:
 	bool IsMaxScroll()const;         // 最大スクロールかどうか
 
 	// マップの初期化
-	void SetMapResetY(float map_y);
 	void SetIsScroll(bool is_scroll);
 
 	// スクロールを変更
@@ -103,7 +102,7 @@ private:
 	// 引っ付き判定
 	void CenterStuckChip(float &pos_x,float &pos_y,float &move_x,float &move_y);
 	// チップのアクションを起こす関数(ブロックが壊れる、吸いつくなど)
-	void ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos, int chip_num, COL_DIRECTION col_d = COL_X);
+	void ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos, int chip_num, COL_DIRECTION col_d = COLLISION_X);
 	// 壁の衝突判定を初期化
 	void InitWallCollision();
 
@@ -139,8 +138,8 @@ private:
 	const float HIT_VERTEX_X = -32.f;			 // 当たり位置の大きさ
 	const float HIT_VERTEX_Y = -56.f;			 // 当たり位置の大きさ
 	// 縮小										    
-	const float SHRINK_X = 6.f;					 // 当たり位置の縮小横
-	const float SHRINK_Y = 6.f;					 // 当たり位置の縮小縦
+	const float CHIP_SCALE_X = 6.f;					 // 当たり位置の縮小横
+	const float CHIP_SCALE_Y = 6.f;					 // 当たり位置の縮小縦
 	// チップ生成領域							  
 	const int CHIP_RANGE_UP = 19;				 // 生成領域上
 	const int CHIP_RANGE_DOWN = 1;				 // 生成領域下
@@ -155,14 +154,14 @@ private:
 	const char*chip_str[MAX_BEDROCK_CHIP];      // 岩盤のチップ文字列
 	float chip_u[MAX_BEDROCK_CHIP];             // 線を直す為にずらすUV用配列U
 	float chip_v[MAX_BEDROCK_CHIP];             // 線を直す為にずらすUV用配列V
-	D3DXVECTOR2 bedrock_chip[MAX_BEDROCK_CHIP]; // 岩盤チップをずらす座標
+	D3DXVECTOR2 bedrock_chip_pos[MAX_BEDROCK_CHIP]; // 岩盤チップをずらす座標
 
 	/* マップ座標 */
 
 	/* マップ描画領域 */					    
 	//D3DXVECTOR2 m_pos;         // 描画用マップの位置
 	D3DXVECTOR2 m_move;          // 描画用マップの位置
-	int m_height_map_num;        // マップデータの高さ
+	int m_max_height_map_size;        // マップデータの高さ
 	int m_map_chip_id[1000]={};  // 生成されたらマップチップを保存する
 	int m_chip_num;              // チップの番号
 							     
