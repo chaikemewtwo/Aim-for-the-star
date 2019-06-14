@@ -1,56 +1,53 @@
 ﻿#pragma once
 
-#include"../Lib/Texture/TextureBoad2D.h"
-#include"../Lib/Input/KeyBord.h"
-#include"../Lib/Input/GamePad.h"
 #include"../CollisionObject/CircleCollisionObject.h"
 #include"PlayerState\PlayerStateBase.h"
+#include"../Lib/Texture/TextureBoad2D.h"
+#include"../Lib/Sound/DirectSound.h"
 
 
 class Map;
 
+// プレイヤーオブジェクトクラス（自機2体とも）
 class Player : public CircleCollisionObject {
 public:	
-	// 自機1か2かの判断（主にコンストラクタで使用）
+	// 自機1か2かの判断
+	// 主にコンストラクタで使用
 	enum ID_TYPE {
 		STAR_1,
 		STAR_2
 	};
 
-	// 入力キー（後々操作入力をまとめたクラスを作成する）
+	// 入力キーデータ（後々操作入力をまとめたクラスを作成する）
+	// プレイヤーのコンストラクタで初期化し状態クラスで使用
 	enum IMPUT_KEY {
-		LEFT_KEY,		// 左キー
-		RIGHT_KEY,		// 右キー
-		SWIM_KEY,		// 泳ぐキー
-		PULL_ROPE_KEY,	// ロープ引っ張りキー
+		LEFT_KEY,		
+		RIGHT_KEY,		
+		SWIM_KEY,		
+		PULL_ROPE_KEY,	
 
-		MAX_KEY_NUM		// 最大値
+		MAX_KEY_NUM		
 	};
 
-	// 状態画像切り替え定数
+	// 状態画像データ
+	// プレイヤーのコンストラクタで初期化し状態クラスで使用
 	enum PLAYER_STATE_TEXTURE {
-		WAIT_TEXTURE,
-		STANDING_WAIT_TEXTURE,
-		SWIM_TEXTURE,
-		DEATH_TEXTURE,
+		WAIT_TEXTURE,			
+		STANDING_WAIT_TEXTURE,	
+		SWIM_TEXTURE,			
+		DEATH_TEXTURE,			
 
-		MAX_TEXTURE_NUM
+		MAX_TEXTURE_NUM			
 	};
 
 	// スタミナ最大値
-	const int MAX_STAMINA = 1000;
+	// HACK:UIのパーセンテージ関数をプレイヤーが持つことでこの定数をprivateに置く
+	static const int MAX_STAMINA = 1000;
 
-	// 泳いでるフラグ(泳ぎ状態のときtrue)
-	bool swim_enable;
-
-	// 入力キー文字列保持（操作分割のため）
-	char imput_button_name[MAX_KEY_NUM];
-
-	// テクスチャ文字列保持
-	std::string star_texture_name[MAX_TEXTURE_NUM];
-
+public:
 	// コンストラクタ（引数でオレンジくんとピンクちゃんを判別）
 	Player(ID_TYPE id);
+
 	// デストラクタ
 	~Player() {}
 
@@ -78,18 +75,22 @@ public:
 	//-----------------------------------------------------
 	// 状態遷移（各State）で使用する関数
 	// 状態切り替え
+	// 引数:(変更された後の状態)
 	void ChangeState(PlayerStateBase* state);
 
 	// アニメーション番号0初期化
-	void ResetAnimationNumber();
+	void ResetAnimationCount();
 
 	// 重力負荷
+	// 移動量に加算
 	void AddGravity();
 
 	// X方向向き変更
+	// 引数:(trueで右へ傾く)
 	void AngleAdjust(bool is_move_right);
 
-	// 泳ぐ（ジャンプ）、傾いてる向きに移動
+	// 泳ぐ（ジャンプ）
+	// 傾いてる向きに移動量を加算
 	void SwimUp();
 
 	// 状態画像セッター
@@ -101,7 +102,7 @@ public:
 	// 状態遷移タイマー0初期化
 	void ResetStateChangeTimer();
 
-	// 状態遷移タイマーインクリメント
+	// 状態遷移タイマー加算
 	void AddStateChangeTimer();
 
 	// スタミナゲッター
@@ -110,16 +111,19 @@ public:
 	// スタミナ減算
 	void DecStamina(int dec_sutamina_num);
 
-	// 死亡フラグ立てる
+	// 生存フラグ無効化
 	void EnableDead();
 	//-----------------------------------------------------
 
-	// MEMO:CollisionObjectで必要なので追加
-	// 自機を返す設定をする
+	// 自機を返す設定をする、CollisionObjectで使用
 	Type GetObjectType()const override { 
 		return PLAYER;
 	}
-		
+
+public:
+	bool swim_enable;	// 泳いでるフラグ(泳ぎ状態のときtrue)
+	std::string star_texture_name[MAX_TEXTURE_NUM];	// テクスチャ文字列保持
+	char imput_button_name[MAX_KEY_NUM];	// 入力キー文字列保持（操作分割のため）
 
 private:
 	//-----------------------------------------------------
@@ -133,30 +137,27 @@ private:
 	// 向き変更時最大角度（ヒトデの頭の向きの左右の最大角度）
 	const float MAX_ANGLE = 45.f;
 
+	// プレイヤーの当たり判定の半径
+	static const float PLAYER_COLLSION_RADIUS;
 
-	// STAR_1の初期位置
-	const float STAR_1_FIRST_POS_X = (float)Window::WIDTH / 2.f - 200.f;
-	const float STAR_1_FIRST_POS_Y = (float)Window::HEIGHT / 2.f + 200.f;
+	// 泳ぐ際の移動速度
+	// この値を1f毎に移動量に加算する
+	static const float PLAYER_SPEED;
 
-	// STAR_2の初期位置
-	const float STAR_2_FIRST_POS_X = (float)Window::WIDTH / 2.f + 200.f;
-	const float STAR_2_FIRST_POS_Y = (float)Window::HEIGHT / 2.f + 200.f;
-	//-----------------------------------------------------
+	// 自機1のゲーム開始時の座標
+	static const D3DXVECTOR2 STAR_1_FIRST_POS;
 
-	//-----------------------------------------------------
-	// 描画調整用定数
-	// キャラのサイズは128×128ピクセル
-	// テクスチャサイズ調整X座標用
-	const float TEXTURE_SIZE_X = 0.25f;
+	// 自機2のゲーム開始時の座標
+	static const D3DXVECTOR2 STAR_2_FIRST_POS;
 
-	// テクスチャサイズ調整Y座標用
-	const float TEXTURE_SIZE_Y = TEXTURE_SIZE_X;
+	// テクスチャサイズ調整
+	static const D3DXVECTOR2 TEXTURE_SIZE_OFFSET;
 
-	// 分割画像X枚数
-	const int TEXTURE_PARTITION_X_NUMBER = 4;
+	// 画像分割
+	static const D3DXVECTOR2 TEXTURE_PARTITION;
 
-	// 分割画像Y枚数
-	const int TEXTURE_PARTITION_Y_NUMBER = TEXTURE_PARTITION_X_NUMBER;
+	// 敵との被弾時に減らされるスタミナ
+	static const int DECREASE_STAMINA;
 	//-----------------------------------------------------
 
 	// 無敵時間タイマー、未実装
@@ -165,33 +166,19 @@ private:
 	// 自機と敵との当たり判定後の処理(点滅させる)
 	void HitAction(Type type)override;
 
-	// 画像格納用
-	std::string m_player_texture;
+	std::string m_player_texture;	// 画像格納用
+	D3DXVECTOR2 m_move;				// X、Y方向移動量
+	//D3DXVECTOR2 m_dbg_proto_move;	// 仮の移動量（動く前のシュミレーション用、未実装）
+	float m_angle;					// 自機画像角度（MAX_ANGLEから-MAX_ANGLE度まで）
+	int m_stamina;					// スタミナ
+	int m_state_change_timer;		// 状態遷移用タイマー		
+	int invisible_count;			// 敵被弾後無敵時間					
+	bool m_draw_enable;				// 被弾時点滅用描画切り替え			
+	bool m_is_hit;					// 被弾フラグ（まだ未使用）
 
-	// X、Y方向移動量
-	D3DXVECTOR2 m_move;
-
-	// 自機画像角度（MAX_ANGLEから-MAX_ANGLE度まで）
-	float m_angle;
-
-	// 状態遷移用タイマー
-	int m_state_change_timer;
-
-	// ステート基底クラスのインスタンス
-	PlayerStateBase * m_state;
-
-	// スタミナ
-	int m_stamina;
-
-	// 敵被弾後無敵時間
-	int invisible_count;
-
-	// 被弾時点滅用描画切り替え
-	bool m_draw_enable;
-
-	// 仮の移動量（動く前のシュミレーション用）
-	D3DXVECTOR2 m_proto_move;
-
-	// 被弾フラグ（まだ未使用）
-	bool m_is_hit;
+	
+	PlayerStateBase * m_p_state;		// ステート基底クラス					
+	IDirectSoundBuffer8* m_p_hit_se;	// 被弾SE
+										
+	Audio& m_p_audio = Audio::getInterface();	// オーディオインターフェース
 };

@@ -1,53 +1,46 @@
 ﻿#include "Player.h"
 #include "PlayerState/PlayerWaitState/PlayerWaitState.h"
-#include <cmath>
 #include "../Map/MapChip/MapChip.h"
-#include "../Lib/Sound/DirectSound.h"
+#include <cmath>
 
 
+const float Player::PLAYER_COLLSION_RADIUS = 64.f;
+const float Player::PLAYER_SPEED = 3.f;
+const D3DXVECTOR2 Player::STAR_1_FIRST_POS = { Window::WIDTH / 2.f - 200.f, Window::HEIGHT / 2.f + 200.f };
+const D3DXVECTOR2 Player::STAR_2_FIRST_POS = { Window::WIDTH / 2.f + 200.f, Window::HEIGHT / 2.f + 200.f };
+const D3DXVECTOR2 Player::TEXTURE_SIZE_OFFSET = { 0.25f, 0.25f };
+const D3DXVECTOR2 Player::TEXTURE_PARTITION = { 4.f,4.f };
+const int Player::DECREASE_STAMINA = 300;
 
-Player::Player(ID_TYPE id) :m_state(PlayerWaitState::GetInstance()) {
-	// HACK:メンバイニシャライザを使用しスッキリさせる
-	Keybord& kb = Keybord::getInterface();
 
-    // 各パラメータ
+Player::Player(ID_TYPE id) :
+	m_p_state(PlayerWaitState::GetInstance()), // 
+	m_move(0.f, 0.f),
+	m_angle(0.f),
+	m_draw_enable(true),
+	m_is_hit(false)
+	{
+	// 自機2種類の共通部分の初期化
 	// 当たり判定の半径
-	const float PLAYER_COLLSION_RADIUS = 64.f;
-	// 移動速度
-	const float PLAYER_SPEED = 3.f;
-
-	// 自機2種類の共通部分初期化
 	m_radius = PLAYER_COLLSION_RADIUS;
 
 	// 当たり判定位置調整（左上から中央に）
 	m_offset = { PLAYER_COLLSION_RADIUS, PLAYER_COLLSION_RADIUS };
 
-	m_is_active = true;
+	m_speed = PLAYER_SPEED;	
 
-	m_speed = PLAYER_SPEED;
-
-	m_angle = 0.f;
-
-	// アニメーション番号
-	m_animation_count = 0;
-
-	m_move = { 0.f, 0.f };
+	m_stamina = MAX_STAMINA;
 
 	// 仮移動量（未実装）
 	//m_proto_move = {0.f, 0.f};
 
-	m_stamina = MAX_STAMINA;
-
-	m_draw_enable = true;
-
 	// ソート
 	m_sort_object_type = SortObject::PLAYER;
 
+	m_p_hit_se = m_p_audio.getBuffer("Resource/Sound/Player/damage.wav");
+
 	// 自機1（ヒくん、オレンジの方）の初期化情報
 	if (id == STAR_1) {
-		// 初期位置
-		static const D3DXVECTOR2 STAR_1_FIRST_POS = { Window::WIDTH / 2.f - 200.f, Window::HEIGHT / 2.f + 200.f };
-
 		m_pos = STAR_1_FIRST_POS;
 
 		// 操作、キー入力
@@ -66,10 +59,6 @@ Player::Player(ID_TYPE id) :m_state(PlayerWaitState::GetInstance()) {
 	}
 	// 自機2（デちゃん、ピンクの方）の初期化情報
 	else if (id == STAR_2) {
-		// 初期位置
-		static const D3DXVECTOR2 STAR_2_FIRST_POS = { Window::WIDTH / 2.f + 200.f, Window::HEIGHT / 2.f + 200.f };
-
-
 		m_pos = STAR_2_FIRST_POS;
 
 		// 操作、キー入力
@@ -89,13 +78,13 @@ Player::Player(ID_TYPE id) :m_state(PlayerWaitState::GetInstance()) {
 	// WaitState初回のみ画像の初期化をしてやる（画像の初期化がWaitStateが生成されるタイミングより遅いため）
 	m_player_texture = star_texture_name[WAIT_TEXTURE];
 
-	m_state->Init(this);
+	m_p_state->Init(this);
 }
 
 
 void Player::Update() {
 
-	// 移動量を初期化（マップの当たり判定で必要）
+	// 移動量を初期化（マップの当たり判定で使用）
 	m_move = D3DXVECTOR2(0.f,0.f);
 
 	// スタミナ自動回復
@@ -107,27 +96,13 @@ void Player::Update() {
 	}
 
 	// ステート更新（内部の処理は各ステート内で管理しています）
-	m_state->Update(this);
+	m_p_state->Update(this);
 
 	m_pos += m_move;
 }
 
 
 void Player::Draw() {
-	// 描画調整用定数
-	// キャラのサイズは128×128ピクセル
-	// テクスチャサイズ調整X座標用
-	const float TEXTURE_SIZE_X = 0.25f;
-
-	// テクスチャサイズ調整Y座標用
-	const float TEXTURE_SIZE_Y = TEXTURE_SIZE_X;
-
-	// 分割画像X枚数
-	const int TEXTURE_PARTITION_X_NUMBER = 4;
-
-	// 分割画像Y枚数
-	const int TEXTURE_PARTITION_Y_NUMBER = TEXTURE_PARTITION_X_NUMBER;
-
 	// 第7、8引数が0.5fずつで中心座標から描画	
 	// 被弾状態は描画する、しないを切り替えて表現する
 	if (m_draw_enable == true) {
@@ -135,14 +110,14 @@ void Player::Draw() {
 			m_player_texture.c_str(),
 			m_pos.x,
 			m_pos.y,
-			TEXTURE_SIZE_X,
-			TEXTURE_SIZE_Y,
+			TEXTURE_SIZE_OFFSET.x,
+			TEXTURE_SIZE_OFFSET.y,
 			m_angle,
 			0.5f,
 			0.5f,
 			true,
-			TEXTURE_PARTITION_X_NUMBER,
-			TEXTURE_PARTITION_Y_NUMBER,
+			(int)TEXTURE_PARTITION.x,
+			(int)TEXTURE_PARTITION.y,
 			m_animation_count
 		);
 	}
@@ -181,30 +156,26 @@ void Player::SwimUp() {
 
 // 自機と敵との当たり判定後の処理(点滅処理へ移行)
 void  Player::HitAction(Type type) {
+	
 	// HACK:HitActionは毎フレーム実行されるので注意、無敵はフラグ等を立てて実装する
 	if (type == ENEMY&&m_is_active == true) {
-		const int DECREASE_STAMINA = 10;
 		DecStamina(DECREASE_STAMINA);
-		Audio& audio = Audio::getInterface();
-		auto sound = audio.getBuffer("Resource/Sound/Player/damage.wav");
-		sound->Play(0, 0, 0);
-		// 無敵時間
-		/*GetDamageTimer();*/
+		m_p_hit_se->Play(0,0,0);
+		m_is_hit = true;
 	}
+	m_is_hit = false;
 }
 
 
 // 未実装
 //void Player::GetDamageTimer() {
 //	--invisible_count;
-//	if (invisible_count % 25 == 0) {
-//		if (m_draw_enable == true) {
-//			m_draw_enable = false;
-//		}
-//		else {
-//			m_draw_enable = true;
-//		}
+//	/*if (m_is_hit != prev_is_hit) {
+//	
 //	}
+//	if (invisible_count % 25 == 0) {
+//		m_draw_enable == true ? false : true;
+//	}*/
 //}
 
 
@@ -229,12 +200,12 @@ void Player::AddMove(D3DXVECTOR2 add_move) {
 
 
 void Player::ChangeState(PlayerStateBase* state) {
-	m_state = state;
-	m_state->Init(this);
+	m_p_state = state;
+	m_p_state->Init(this);
 }
 
 
-void Player::ResetAnimationNumber() {
+void Player::ResetAnimationCount() {
 	m_animation_count = 0;
 }
 

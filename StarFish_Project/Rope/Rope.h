@@ -1,9 +1,8 @@
 ﻿#pragma once
-
 #include "../Player/Player.h"
 
-// ロープは650×16
 
+// ロープの最大全長は650×16
 class Rope:public Object {
 public:
 	Rope(Player* p1,Player* p2);
@@ -21,10 +20,10 @@ private:
 	// 向き計算
 	float AngleCalc();
 
-	// プレイヤー2体から半径算出
+	// プレイヤー2体から距離算出
 	float PlayersRadiusCalc();
 
-	// 長さ調節
+	// 長さの比率を返す
 	float LengthPercentage();
 
 	// プレイヤー2体を一定以上離れなくする

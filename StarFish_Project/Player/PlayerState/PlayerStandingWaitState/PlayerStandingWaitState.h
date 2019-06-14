@@ -17,11 +17,10 @@ public:
 
 private:
 	// 1アニメーションの速さ
-	const int ONE_ANIMATION_SPEED = 7;
+	// この速さで1アニメーションが進んでいく
+	static const int ONE_ANIMATION_SPEED;
 
-	// 統合画像内の画像枚数
-	const int MAX_ANIMATION_TEX_NUM = 7;
-
-	// 状態切り替えカウント
-	const int CHANGE_STATE_COUNT = ONE_ANIMATION_SPEED * MAX_ANIMATION_TEX_NUM;
+	// 統合画像内のアニメーション枚数
+	// 1つの統合画像にキャラの画像が詰め込んであるか
+	static const int MAX_ANIMATION_TEX_NUM;
 };
