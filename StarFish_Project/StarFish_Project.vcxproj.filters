@@ -36,6 +36,8 @@
     <ClCompile Include="Scene\ClearScene\ClearScene.cpp" />
     <ClCompile Include="CollisionObject\CollisionObject.cpp" />
     <ClCompile Include="Enemy\Enemy\NaporeonFish.cpp" />
+    <ClCompile Include="Enemy\State\EnemyChaseState.cpp" />
+    <ClCompile Include="Enemy\State\EnemyPatrolState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -79,6 +81,8 @@
     <ClInclude Include="Scene\ClearScene\ClearScene.h" />
     <ClInclude Include="Scene\GameScene\GameScene.h" />
     <ClInclude Include="Enemy\Enemy\NaporeonFish.h" />
+    <ClInclude Include="Enemy\State\EnemyChaseState.h" />
+    <ClInclude Include="Enemy\State\EnemyPatrolState.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />

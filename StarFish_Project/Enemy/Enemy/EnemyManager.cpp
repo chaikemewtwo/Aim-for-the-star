@@ -1,6 +1,7 @@
 ﻿#include"EnemyManager.h"
 #include"SeaUrchin.h"
 #include"SellFish.h"
+#include"NaporeonFish.h"
 #include"../../Blind/Blind.h"
 
 
@@ -43,19 +44,21 @@ void EnemyManager::EnemyCreate(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2
 
 	case SEAURCHIN:
 		m_enemy_list.emplace_back(new SeaUrchin(pos, map));
-		m_pobj_mng->Entry(m_enemy_list.back());
 		break;
 
 	case NO_MOVE_SEAURCHIN:
 		m_enemy_list.emplace_back(new SeaUrchin(pos, map, true));
-		m_pobj_mng->Entry(m_enemy_list.back());
 		break;
 
 	case SELLFISH:
 		m_enemy_list.emplace_back(new SellFish(pos, map, p1, p2));
-		m_pobj_mng->Entry(m_enemy_list.back());
+		break;
+
+	case NAPOREONFISH:
+		m_enemy_list.emplace_back(new NaporeonFish(pos, map, p1, p2));
 		break;
 	}
+	m_pobj_mng->Entry(m_enemy_list.back());
 }
 //―――――――――――――――――――――――――――
 

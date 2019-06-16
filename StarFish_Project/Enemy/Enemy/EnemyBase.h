@@ -12,6 +12,7 @@ enum StateId {
 	WAIT_ID,			// 待機
 	SIDEMOVE_ID,		// 横線移動
 	VERTICALMOVE_ID,	// 縦線移動
+	PATROL_ID,			// 徘徊移動
 	ATTACK_READY_ID,	// 攻撃準備
 	CHASE_ID,			// 追跡処理
 	STATEID_MAX

@@ -43,6 +43,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Enemy\State\EnemyPatrolState.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Enemy\State\EnemySideMoveState.cpp" />
     <ClCompile Include="Enemy\State\EnemyVerticalMoveState.cpp" />
     <ClCompile Include="Enemy\State\EnemyWaitState.cpp" />
@@ -109,6 +113,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Enemy\State\EnemyChaseState.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Enemy\State\EnemyPatrolState.h">
       <SubType>
       </SubType>
     </ClInclude>
