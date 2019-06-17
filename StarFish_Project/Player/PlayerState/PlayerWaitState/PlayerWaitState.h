@@ -6,6 +6,7 @@
 // オブジェクト上での待機状態はStandingWaitStateクラスです
 class PlayerWaitState : public PlayerStateBase {
 public:
+	// インスタンス取得
 	static PlayerWaitState *GetInstance()
 	{
 		static PlayerWaitState instance;
@@ -13,7 +14,8 @@ public:
 	}
 
 	void Init(Player* p) override;
-	void Update(Player* p)  override;	
+	void Update(Player* p)  override;
+
 private:
 	// 1アニメーションの速さ
 	// この速さで1アニメーションが進んでいく

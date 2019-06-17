@@ -2,6 +2,11 @@
 #include <cmath>
 
 
+const float Rope::MAX_ROPE_LEGTH = 650.f;
+const float Rope::ROPE_LEGTH_OFFSET = 0.5f;
+const float Rope::POS_Y_OFFSET = 10.f;
+
+
 Rope::Rope(Player* p_1,Player* p_2) {
 	m_p1 = p_1;
 	m_p2 = p_2;
@@ -18,12 +23,6 @@ void Rope::Update() {
 
 
 void Rope::Draw() {
-	// ロープ最大全長調整
-	static const float ROPE_LEGTH_OFFSET = 0.5f;
-	// 描画Y軸調整
-	//（自機の中心より少し下に変更、死亡状態でヒモの先端が見えてしまうため）
-	static const float POS_Y_OFFSET = 10.f;
-
 	Texture::Draw2D(
 		"Resource/Texture/Player/himo.png",
 		m_p1->GetPos().x,
@@ -65,21 +64,51 @@ float Rope::LengthPercentage() {
 
 
 void Rope::PlayersDistanceAdjust() {
-	if (MAX_ROPE_LEGTH <= PlayersRadiusCalc()) {
-		// HACK:PlayersRadiusCalc()がMAX_ROPE_LEGTHよりはみ出る
-		if (m_p1->swim_enable == true || m_p2->swim_enable == false) {
+	// 対の意味のif文を書きreturnで関数を終了させています（可読性向上のため）
 
-		m_p2->GetPos() += m_p1->GetMove() + m_p2->GetMove();
-		m_p2->SetPos(m_p2->GetPos());
+	// どちらかが死んでいるときは終了
+	if (m_p1->IsActive() != true || m_p2->IsActive() != true) {
+		return;
+	}
+	// プレイヤーの距離がロープの最大全長以下のときは終了
+	if (MAX_ROPE_LEGTH > PlayersRadiusCalc()) {
+		return;
+	}
+	// どちらかが0以外(重力含む)の移動量を保持していなかった場合（泳いでいない自機がいる場合）
+	if (m_p1->GetMove() != D3DXVECTOR2(0.f, 1.f) || m_p2->GetMove() != D3DXVECTOR2(0.f, 1.f)) {
+		ToPartnerAddMove(m_p1->SwimEnable(), m_p2->SwimEnable());
+	}
+}
 
-		m_p1->SetMove({ 0, 0 });
+
+void Rope::ToPartnerAddMove(bool p1_is_swim, bool p2_is_swim) {
+	if (p1_is_swim == true || p2_is_swim == false) {
+		if (IsSameDirectionForPartner(m_p1, m_p2) == true) {
+			m_p2->SetMove(m_p1->GetMove() + m_p2->GetMove());
 		}
-		if (m_p2->swim_enable == true || m_p1->swim_enable == false) {
-
-		m_p1->GetPos() += m_p2->GetMove() + m_p1->GetMove();
-		m_p1->SetPos(m_p1->GetPos());
-
-		m_p2->SetMove({ 0, 0 });
+	}
+	if (p1_is_swim == false || p2_is_swim == true) {
+		if (IsSameDirectionForPartner(m_p2, m_p1) == true) {
+			m_p1->SetMove(m_p2->GetMove() + m_p1->GetMove());
 		}
+	}
+	if (p1_is_swim == true && p2_is_swim == true) {
+		m_p1->SetMoveX(0.f);
+		m_p2->SetMoveX(0.f);
+	}
+}
+
+
+bool Rope::IsSameDirectionForPartner(Player*myself, Player*partner) {
+	// p1のX移動量がp1の座標から見て正の方向、p1の自機から見てp2の自機が正の方向
+	if (myself->GetMove().x < 0.f && myself->GetPos().x < partner->GetPos().x) {
+		return true;
+	}
+	// p1のX移動量がp1の座標から見て負の方向、p1の自機から見てp2の自機が負の方向
+	else if (myself->GetMove().x > 0.f && myself->GetPos().x > partner->GetPos().x) {
+		return true;
+	}
+	else {
+		return false;
 	}
 }

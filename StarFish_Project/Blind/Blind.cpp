@@ -22,7 +22,7 @@ Blind::Blind() {
 
 void Blind::Create(D3DXVECTOR2 pos, D3DXVECTOR2 goal) {
 
-	const float PI = 3.141592;
+	static const float PI = 3.141592f;
 
 	// 生成位置と目的地を設定
 	m_pos = pos;
