@@ -2,13 +2,13 @@
 #include"../State/EnemyWaitState.h"
 #include"EnemyBase.h"
 
-
+// コンストラクタで共通の変数初期化
 EnemyBase::EnemyBase() {
 
 	m_angle = 0.f;
 	m_center = 0.5f;
 
-	// 当たり判定の変形を設定
+	// 当たり判定の半径
 	m_radius = 64.f;
 	// 当たり位置の頂点を画像の中心にずらす
 	m_offset.x = 64.f;
@@ -16,25 +16,26 @@ EnemyBase::EnemyBase() {
 
 	m_delete_timer = 100;
 	m_max_animation = 0;
-	m_pstate_base = Wait::GetInstance();
+	m_p_state_base = Wait::GetInstance();
 
 	// ソートオブジェクトに敵追加
 	m_sort_object_type = SortObject::ENEMY;
 
 	// 敵画像の登録
-	m_texture_list[SEAURCHIN_MOVE] = "Resource/Texture/Enemy/uni_move.png";
-	m_texture_list[SELLFISH_WAIT] = "Resource/Texture/Enemy/hora_wait.png";
-	m_texture_list[SELLFISH_READY] = "Resource/Texture/Enemy/hora_ready.png";
-	m_texture_list[SELLFISH_ATTACK] = "Resource/Texture/Enemy/hora_attack.png";
+	m_texture_list[EnemyTexture::SEAURCHIN_MOVE] = "Resource/Texture/Enemy/uni_move.png";
+	m_texture_list[EnemyTexture::SELLFISH_WAIT] = "Resource/Texture/Enemy/hora_wait.png";
+	m_texture_list[EnemyTexture::SELLFISH_READY] = "Resource/Texture/Enemy/hora_ready.png";
+	m_texture_list[EnemyTexture::SELLFISH_ATTACK] = "Resource/Texture/Enemy/hora_attack.png";
 }
 //―――――――――――――――――――――
 
+// 引数で指定したStateに遷移
 void EnemyBase::ChangeState(StateBase* state) {
-	m_pstate_base = state;
+	m_p_state_base = state;
 }
 //―――――――――――――――――――――
 
-void EnemyBase::OutScreenCheck() {
+void EnemyBase::CheckEnemyActiv() {
 
 	// 画面外に出たら、削除までの時間をカウントダウン
 	if (m_pos.y > Window::HEIGHT || m_pos.x<0 || m_pos.x>Window::WIDTH) {
@@ -62,28 +63,28 @@ D3DXVECTOR2 EnemyBase::CalcDistance() {
 	// 自身がプレイヤーよりも上にいる場合
 	if (IsTopPos()==true) {
 
-		player1_distance.y = m_pplayer[0]->GetPos().y - m_pos.y;
-		player2_distance.y = m_pplayer[1]->GetPos().y - m_pos.y;
+		player1_distance.y = m_p_player[0]->GetPos().y - m_pos.y;
+		player2_distance.y = m_p_player[1]->GetPos().y - m_pos.y;
 	}
 	// 自身がプレイヤーよりも下にいる場合
 	else if (IsTopPos()==false) {
 
-		player1_distance.y = m_pos.y - m_pplayer[0]->GetPos().y;
-		player2_distance.y = m_pos.y - m_pplayer[1]->GetPos().y;
+		player1_distance.y = m_pos.y - m_p_player[0]->GetPos().y;
+		player2_distance.y = m_pos.y - m_p_player[1]->GetPos().y;
 	}
 
 
 	// 自身が画面左側にいるとき
 	if (m_is_left == true) {
 
-		player1_distance.x = m_pplayer[0]->GetPos().x - m_pos.x;
-		player2_distance.x = m_pplayer[1]->GetPos().x - m_pos.x;
+		player1_distance.x = m_p_player[0]->GetPos().x - m_pos.x;
+		player2_distance.x = m_p_player[1]->GetPos().x - m_pos.x;
 	}
 	// 自身が画面右側にいるとき
 	else if (m_is_left == false) {
 
-		player1_distance.x = m_pos.x - m_pplayer[0]->GetPos().x;
-		player2_distance.x = m_pos.x - m_pplayer[1]->GetPos().x;
+		player1_distance.x = m_pos.x - m_p_player[0]->GetPos().x;
+		player2_distance.x = m_pos.x - m_p_player[1]->GetPos().x;
 	}
 
 
@@ -98,7 +99,7 @@ D3DXVECTOR2 EnemyBase::CalcDistance() {
 
 bool EnemyBase::IsTopPos() {
 
-	if (m_pplayer[0]->GetPos().y > m_pos.y&&m_pplayer[1]->GetPos().y > m_pos.y) {
+	if (m_p_player[0]->GetPos().y > m_pos.y&&m_p_player[1]->GetPos().y > m_pos.y) {
 		return true;
 	}
 
@@ -114,10 +115,6 @@ EnemyBase* EnemyBase::GetInstance() {
 float EnemyBase::GetSpeed() {
 	return m_speed;
 }
-
-//int EnemyBase::GetPower() {
-//	return m_power;
-//}
 
 bool EnemyBase::IsLeft() {
 	return m_is_left;

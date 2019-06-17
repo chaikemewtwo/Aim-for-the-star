@@ -5,14 +5,17 @@
 
 Blind::Blind() {
 
-	m_pos = D3DXVECTOR2(0,0);
-	m_goal_pos = D3DXVECTOR2(0, 0);
+	// 変数の初期化
+	m_pos = { 0,0 };
+	m_goal_pos = { 0,0 };
 	m_speed = 3;
 	m_angle = 0;
 	m_animation_count = 0;
 	m_max_animation = 3;
 	m_anim_change_time = 15;
+
 	m_sort_object_type = SortObject::BLIND;
+
 	m_blind_texture = "Resource/Texture/Blind/blind.png";
 }
 //―――――――――――――――――――――――
@@ -24,16 +27,16 @@ void Blind::Create(D3DXVECTOR2 pos, D3DXVECTOR2 goal) {
 	m_goal_pos = goal;
 
 	// 移動方向に画像が向いているように設定(Draw2D使用のために角度に直す)
-	m_angle = ((CalcRadian(m_pos.x, m_pos.y, m_goal_pos.x, m_goal_pos.y) * 180) / PI) + 180;
+	m_angle = ((CalcRadian(m_pos, m_goal_pos) * 180) / PI) + 180;
 }
 //―――――――――――――――――――――――
 
 void Blind::Update() {
 
-	DeleteCheck();
+	CheckOutScreen();
 
 	// 現在地と目的地のラジアンを求める
-	float radian = CalcRadian(m_pos.x, m_pos.y, m_goal_pos.x, m_goal_pos.y);
+	float radian = CalcRadian(m_pos, m_goal_pos);
 
 	// 受け取ったラジアンで、目的地に向けて移動
 	m_pos.y += sinf(radian)*m_speed;
@@ -41,16 +44,16 @@ void Blind::Update() {
 }
 //―――――――――――――――――――――――
 
-// 引数に求めたい角度の2点を入れる　(第1引数＝現在地、第二引数＝目的地)
-float Blind::CalcRadian(float from_x, float from_y, float to_x, float to_y) {
+// 引数に求めたい角度の2点を入れる
+float Blind::CalcRadian(D3DXVECTOR2 from, D3DXVECTOR2 to) {
 
-	float rad = atan2((to_y - from_y), (to_x - from_x));
+	float rad = atan2((to.y - from.y), (to.x - from.x));
 	return rad;
 }
 //―――――――――――――――――――――――
 
 // 指定した左右位置(定数)を超えたら削除フラグをたたせる
-void Blind::DeleteCheck() {
+void Blind::CheckOutScreen() {
 
 	if (m_pos.x<DELETE_WIDE_MIN || m_pos.x>DELETE_WIDE_MAX) {
 		m_is_active = false;

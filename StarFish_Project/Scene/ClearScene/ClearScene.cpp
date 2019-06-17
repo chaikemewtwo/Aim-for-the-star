@@ -5,7 +5,7 @@
 
 Clear::Clear() {
 
-	m_scene_step = INIT;
+	m_scene_step = SceneStep::INIT;
 
 	// プレイヤー1の画像登録
 	m_player1_texture_list[FLY_TEXTURE] = "Resource/Texture/Player/hi_clear_01.png";
@@ -21,15 +21,15 @@ Clear::Clear() {
 	m_background_texture_list[TEXTURE_3] = "Resource/Texture/Map/bg_clear_03.png";
 
 	// サウンドの登録
-	m_fly_sound = m_paudio.getBuffer("Resource/Sound/Clear/player_fly.wav");
-	m_effect_sound = m_paudio.getBuffer("Resource/Sound/Clear/clear_effect.wav");
+	m_p_fly_sound = m_paudio.getBuffer("Resource/Sound/Clear/player_fly.wav");
+	m_p_effect_sound = m_paudio.getBuffer("Resource/Sound/Clear/clear_effect.wav");
 }
 //――――――――――――――――――――――――――――――――
 
 void Clear::Init() {
 
-	SceneBase::m_scene_id = CLEAR;
-	m_scene_step = UPDATE;
+	m_scene_id = SceneId::CLEAR;
+	m_scene_step = SceneStep::UPDATE;
 
 	// 画像の初期化
 	m_player1_texture = m_player1_texture_list[FLY_TEXTURE];
@@ -77,35 +77,35 @@ void Clear::Init() {
 
 void Clear::Update() {
 
-	if (m_player1_pos.y >= 750 && m_player2_pos.y >= 750) {
+	if (m_player1_pos.y >= PLAYER_FINISH_POS_Y && m_player2_pos.y >= PLAYER_FINISH_POS_Y) {
 		// プレイヤーの移動
-		PlayerMove();
+		MovePlayer();
 	}
 
 	if (m_is_background_move == true) {
 
 		// 移動時のサウンド再生
-		m_fly_sound->Play(0, 0, 0);
+		m_p_fly_sound->Play(0, 0, 0);
 
 		// 背景の移動
-		BackGroundMove();
+		ScrollBackGround();
 	}
 
 	// エフェクトが始まるタイミングでSE再生
-	if (m_player_animation_num == 6 && m_player_animation_finish == true) {
-		m_effect_sound->Play(0, 0, 0);
+	if (m_player_animation_num == PLAYER_CLEARPOSE_START_NUM && m_player_animation_finish == true) {
+		m_p_effect_sound->Play(0, 0, 0);
 	}
 
 	// UIを描画サイズまで徐々に大きくする 
-	ClearUiSizeChange();
+	SizeChangeClearUi();
 
 	// 時間経過でタイトルに遷移
 	if (m_player_animation_num >= (m_player_animation_max - 1)) {
 
 		if (m_scene_change_time <= m_scene_change_count_timer) {
 
-			m_scene_step = END;
-			m_new_scene_id = TITLE;
+			m_scene_step = SceneStep::END;
+			m_new_scene_id = SceneId::TITLE;
 		}
 		else {
 			m_scene_change_count_timer++;
@@ -115,10 +115,10 @@ void Clear::Update() {
 	// デバック用
 	if (m_pkey_bord.press(VK_F1)) {
 
-		m_effect_sound->Stop();
-		m_fly_sound->Stop();
-		m_scene_step = END;
-		m_new_scene_id = TITLE;
+		m_p_effect_sound->Stop();
+		m_p_fly_sound->Stop();
+		m_scene_step = SceneStep::END;
+		m_new_scene_id = SceneId::TITLE;
 	}
 }
 //――――――――――――――――――――――――――――――――
@@ -135,8 +135,7 @@ void Clear::Draw() {
 		m_background2_pos.x, m_background2_pos.y
 	);
 
-	
-	if (m_player_animation_num >= 6 && m_player_animation_finish == true) {
+	if (m_player_animation_num >= PLAYER_CLEARPOSE_START_NUM && m_player_animation_finish == true) {
 
 		// エフェクトの描画
 		Texture::Draw2D(
@@ -153,12 +152,12 @@ void Clear::Draw() {
 			true, EFFECT_TEXTURE_PARTITION_NUM, EFFECT_TEXTURE_PARTITION_NUM,
 			m_effect_animation_num
 		);
-		EffectAnimation();
+		ChangeEffectAnimation();
 
 		// せいこうUIの描画
 		Texture::Draw2D(
 			m_clear_ui_texture.c_str(),
-			Window::WIDTH / 2, m_player1_pos.y - 500,
+			m_clear_ui_pos.x, m_clear_ui_pos.y,
 			m_clear_ui_size, m_clear_ui_size, 0, 0.5, 0.5
 		);
 	}
@@ -178,17 +177,17 @@ void Clear::Draw() {
 		true, PLAYER_TEXTURE_PARTITION_NUM, PLAYER_TEXTURE_PARTITION_NUM, 
 		m_player_animation_num
 	);
-	PlayerAnimation();
+	ChangePlayerAnimation();
 }
 //―――――――――――――――――――――――――――――――――
 
-void Clear::PlayerMove() {
+void Clear::MovePlayer() {
 
 		m_player1_pos.y -= m_player_move_speed;
 		m_player2_pos.y -= m_player_move_speed;
 
 		// 一定の位置で背景を動かす、プレイヤーの移動速度を減少
-		if (m_player1_pos.y <= 950 && m_player2_pos.y <= 950) {
+		if (m_player1_pos.y <= PLAYER_DECELERATION_POS_Y && m_player2_pos.y <= PLAYER_DECELERATION_POS_Y) {
 
 			m_is_background_move = true;
 			m_player_move_speed -= 0.01f;
@@ -196,7 +195,7 @@ void Clear::PlayerMove() {
 }
 //―――――――――――――――――――――――――――――――――
 
-void Clear::BackGroundMove() {
+void Clear::ScrollBackGround() {
 
 	m_background1_pos.y += m_background_move_speed;
 	m_background2_pos.y += m_background_move_speed;
@@ -214,13 +213,13 @@ void Clear::BackGroundMove() {
 }
 //―――――――――――――――――――――――――――――――――
 
-void Clear::ClearUiSizeChange() {
+void Clear::SizeChangeClearUi() {
 
-	if (m_player_animation_finish == true && m_player_animation_num >= 6 && m_is_clear_ui_size_max == false && m_clear_ui_size <= 1) {
+	if (m_player_animation_finish == true && m_player_animation_num >= PLAYER_CLEARPOSE_START_NUM && m_is_clear_ui_size_max == false && m_clear_ui_size <= 1) {
 
 		m_clear_ui_size += m_clear_ui_size_change_speed;
 		// 描画サイズまで達したら、サイズ変更の値を小さくする
-		if (m_clear_ui_size >= 1) {
+		if (m_clear_ui_size >= CLEAR_UI_SIZE_MAX) {
 
 			m_is_clear_ui_size_max = true;
 			m_clear_ui_size_change_speed = 0.001f;
@@ -229,18 +228,19 @@ void Clear::ClearUiSizeChange() {
 	else if (m_is_clear_ui_size_max == true) {
 
 		m_clear_ui_size -= m_clear_ui_size_change_speed;
-		if (m_clear_ui_size <= 0.9) {
+
+		if (m_clear_ui_size <= CLEAR_UI_SIZE_MIN) {
 			m_is_clear_ui_size_max = false;
 		}
 	}
 }
 //―――――――――――――――――――――――――――――――――
 
-void Clear::PlayerAnimation() {
+void Clear::ChangePlayerAnimation() {
 
 	// アニメーションが回り切っていたら最後の画像で固定
 	if (m_player_animation_finish == true && m_player_animation_num == (m_player_animation_max - 1)) {
-		m_player_animation_num = 15;
+		m_player_animation_num = m_player_animation_max - 1;
 	}
 	// 回り切っていなければアニメーションする
 	else{
@@ -250,8 +250,8 @@ void Clear::PlayerAnimation() {
 			m_player_animation_num++;
 
 			// 背景が途中の場合、アニメーションをループさせる
-			if (m_background2_pos.y <= Window::HEIGHT && m_player_animation_num == 13) {
-				m_player_animation_num = 5;
+			if (m_background2_pos.y <= Window::HEIGHT && m_player_animation_num == PLAYER_REPEAT_ANIMATION_LAST_NUM) {
+				m_player_animation_num = PLAYER_REPEAT_ANIMATION_START_NUM;
 			}
 			// 背景スクロール後、アニメーションを次に遷移させる
 			else if (m_player_animation_num >= m_player_animation_max && m_player_animation_finish == false) {
@@ -269,7 +269,7 @@ void Clear::PlayerAnimation() {
 }
 //―――――――――――――――――――――――――――――――――
 
-void Clear::EffectAnimation() {
+void Clear::ChangeEffectAnimation() {
 	
 	// エフェクトのアニメーションを繰り返す処理
 	if (m_effect_animation_timer >= m_effect_animation_change_time) {

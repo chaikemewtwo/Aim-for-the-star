@@ -13,10 +13,10 @@ SceneManager* SceneManager::GetInstance() {
 
 SceneManager::~SceneManager() {
 
-	for (auto i : m_scene_list) {
+	for (auto scene : m_scene_list) {
 
-		if (&i != nullptr) {
-			delete i.second;
+		if (&scene != nullptr) {
+			delete scene.second;
 		}
 	}
 }
@@ -52,7 +52,7 @@ void SceneManager::ChangeScene(SceneId new_scene_id) {
 	if (new_scene_id == m_scene_id) {
 		return;
 	}
-	else if (new_scene_id == SCENE_QUIT) {
+	else if (new_scene_id == SceneId::SCENE_QUIT) {
 
 		m_is_quit = true;
 		return;

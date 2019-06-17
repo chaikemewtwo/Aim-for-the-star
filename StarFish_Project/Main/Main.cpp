@@ -17,7 +17,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 		return -1;
 	}
 
-	Audio& audio = Audio::getInterface(Window::GetWindowHandle());
+	Audio::getInterface(Window::GetWindowHandle());
 	Keybord& kb = Keybord::getInterface();
 
 	// リソース読み込み

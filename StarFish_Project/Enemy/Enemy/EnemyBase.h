@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include"../../Lib/Texture/TextureBoad2D.h"
+#include"../../Lib/Window/Window.h"
 #include"../../CollisionObject/CircleCollisionObject.h"
 #include"../../Map/MapChip/MapChip.h"
 #include"../../Player/Player.h"
@@ -27,16 +28,21 @@ public:
 	// 各遷移条件をチェックし、遷移先のStateIdを返す
 	virtual StateId StateChangeCheck() = 0;
 
-	// 敵のインスタンスを返す関数
+	// 敵のインスタンスを返す
 	virtual EnemyBase* GetInstance();	
 
+	// 引数で指定したStateに遷移
 	void ChangeState(StateBase* state);
+
+	// 速度のゲッター
 	float GetSpeed();
-	//int GetPower();			
+	
+	// 画面の左右どちらかのフラグのゲッター
 	bool IsLeft();				
 
+	// オブジェクトタイプのゲッター
 	Type GetObjectType()const override {
-		return ENEMY;
+		return Type::ENEMY;
 	}
 
 protected:
@@ -50,11 +56,13 @@ protected:
 
 
 	// 画面外に出たらm_is_activをfalseにする関数
-	virtual void OutScreenCheck();
-	// 自身の位置がプレイヤーの上下どちらかを判定
-	virtual bool IsTopPos();
-	// 2体のプレイヤーの、自身とより近い距離を返す
-	virtual D3DXVECTOR2 CalcDistance();
+	void CheckEnemyActiv();
+
+	// 自身の位置がプレイヤーの上下どちらかを判定する
+	bool IsTopPos();
+
+	// 2体のプレイヤーの、自身とより近い距離を正の数で返す
+	D3DXVECTOR2 CalcDistance();
 
 protected:
 	int m_power;				// 攻撃力
@@ -66,14 +74,21 @@ protected:
 	float m_center;				// 描画頂点
 	int m_anim_change_time;		// 1コマ分の画像の時間
 	int m_max_animation;		// 使用するアニメーション数
-	std::string m_texture_list[ENEMY_TEXTURE_MAX];
-	std::string m_enemy_texture;
 
-	const int TEX_PARTITION_NUM2 = 2;	// 画像の分割数　　2分割
-	const float TEXTURE_SIZE_X = 0.5f;	// 描画する画像のXサイズ
-	const float TEXTURE_SIZE_Y = 0.5f;	// 描画する画像のYサイズ
+	std::string m_enemy_texture;// 敵の画像変数
+	std::string m_texture_list[EnemyTexture::ENEMY_TEXTURE_MAX];	// 敵の画像リスト
+	
 
-	StateBase* m_pstate_base;	// 状態を保存する変数
-	Map* m_pmap;
-	Player* m_pplayer[2];
+	// 画像の分割数　　2分割
+	const int TEX_PARTITION_NUM2 = 2;	
+	// 描画する画像のXサイズ
+	const float TEXTURE_SIZE_X = 0.5f;	
+	// 描画する画像のYサイズ
+	const float TEXTURE_SIZE_Y = 0.5f;	
+
+	const float WINDOW_CENTER_LINE = Window::WIDTH / 2;
+
+	StateBase* m_p_state_base;	// 状態を保存する変数
+	Map* m_p_map;
+	Player* m_p_player[2];
 };

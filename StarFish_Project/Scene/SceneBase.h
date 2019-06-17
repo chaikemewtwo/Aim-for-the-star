@@ -12,13 +12,6 @@ enum SceneId {
 	SCENE_QUIT
 };
 
-// シーン内処理のステップ
-enum SceneStep {
-	INIT,
-	UPDATE,
-	END
-};
-
 
 class SceneBase {
 public:
@@ -28,12 +21,11 @@ public:
 	virtual void Init() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
-	//virtual SceneId End() = 0;
 
 	virtual SceneId End() {
 	
 		// ステップの初期化と次のシーンを返す
-		m_scene_step = INIT;
+		m_scene_step = SceneStep::INIT;
 		return m_new_scene_id;
 	}
 
@@ -41,20 +33,28 @@ public:
 
 		switch (m_scene_step) {
 
-		case INIT:
+		case SceneStep::INIT:
 			Init();
 			break;
-		case UPDATE:
+		case SceneStep::UPDATE:
 			Update();
-			//Draw();
 			break;
-		case END:
+		case SceneStep::END:
 			return End();
 		}
 
 		// 各シーンのIDを返す
 		return m_scene_id;
 	}
+
+protected:
+	// シーン内処理のステップ
+	enum SceneStep {
+		INIT,
+		UPDATE,
+		END
+	};
+
 
 protected:
 	SceneStep m_scene_step;		// シーン内のステップ

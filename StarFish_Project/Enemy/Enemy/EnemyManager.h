@@ -21,21 +21,26 @@ public:
 	
 	void Update();	
 	void Draw();
+
 	// 敵生成関数
 	void CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, EnemyType enemy_num);
+
 	// ブラインド生成関数
 	void CreateBlind(D3DXVECTOR2 pos, D3DXVECTOR2 goal);
-	// 生成されている敵の総数を返す関数
+
+	// 生成されている敵の総数を返す
 	int GetEnemyTotal();	
-	// 敵の指定された敵の関数を返す関数
+	
+	// 敵の指定された敵のインスタンスを返す
 	EnemyBase* GetEnemyInstance(int num);
 
 private:
-	void DeleteCheck();
+	// 各敵の生存をチェックする
+	void CheckDelete();
 
 private:
 	std::vector<EnemyBase*> m_enemy_list;	// 生成した敵の配列
 
-	ObjectManager* m_pobj_mng;				
-	Blind* m_pblind;						
+	ObjectManager* m_p_obj_mng;				
+	Blind* m_p_blind;						
 };
