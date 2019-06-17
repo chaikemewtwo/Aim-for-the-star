@@ -4,7 +4,7 @@
 #include"../Enemy/EnemyBase.h"
 
 
-Wait *Wait::GetInstance() {
+Wait* Wait::GetInstance() {
 
 	static Wait s_wait;
 	return &s_wait;
@@ -14,13 +14,13 @@ Wait *Wait::GetInstance() {
 void Wait::Action(EnemyBase* e) {
 
 	// 返ってきたStateIdによって遷移先を変える
-	if (e->StateChangeCheck() == WAIT_ID) {
+	if (e->StateChangeCheck() == StateId::WAIT_ID) {
 		return;
 	}
-	else if (e->StateChangeCheck() == SIDEMOVE_ID) {
+	else if (e->StateChangeCheck() == StateId::SIDEMOVE_ID) {
 		e->ChangeState(SideMove::GetInstance());
 	}
-	else if (e->StateChangeCheck() == VERTICALMOVE_ID) {
+	else if (e->StateChangeCheck() == StateId::VERTICALMOVE_ID) {
 		e->ChangeState(VerticalMove::GetInstance());
 	}
 }

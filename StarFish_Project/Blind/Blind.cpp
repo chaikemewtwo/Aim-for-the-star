@@ -33,7 +33,7 @@ void Blind::Create(D3DXVECTOR2 pos, D3DXVECTOR2 goal) {
 
 void Blind::Update() {
 
-	DeleteCheck();
+	CheckOutScreen();
 
 	// 現在地と目的地のラジアンを求める
 	float radian = CalcRadian(m_pos, m_goal_pos);
@@ -53,7 +53,7 @@ float Blind::CalcRadian(D3DXVECTOR2 from, D3DXVECTOR2 to) {
 //―――――――――――――――――――――――
 
 // 指定した左右位置(定数)を超えたら削除フラグをたたせる
-void Blind::DeleteCheck() {
+void Blind::CheckOutScreen() {
 
 	if (m_pos.x<DELETE_WIDE_MIN || m_pos.x>DELETE_WIDE_MAX) {
 		m_is_active = false;

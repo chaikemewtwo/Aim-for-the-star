@@ -35,8 +35,8 @@ public:
 	EnemyBase* GetEnemyInstance(int num);
 
 private:
-	// Activeをチェックする
-	void DeleteCheck();
+	// 各敵の生存をチェックする
+	void CheckDelete();
 
 private:
 	std::vector<EnemyBase*> m_enemy_list;	// 生成した敵の配列

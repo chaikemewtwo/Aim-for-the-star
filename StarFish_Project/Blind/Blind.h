@@ -17,8 +17,8 @@ public:
 	void Create(D3DXVECTOR2 pos, D3DXVECTOR2 goal);
 
 private:
-	// 指定の範囲外に出たら削除する
-	void DeleteCheck();
+	// 指定の範囲外に出たら生存フラグをfalseにする
+	void CheckOutScreen();
 
 	// 2点の間の角度(ラジアン)を求める関数　第1：現在地　第2：目標地点
 	float CalcRadian(D3DXVECTOR2 from, D3DXVECTOR2 to);

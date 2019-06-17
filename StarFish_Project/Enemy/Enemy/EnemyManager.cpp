@@ -21,7 +21,7 @@ EnemyManager::~EnemyManager() {
 //――――――――――――――――――――――――――
 
 void EnemyManager::Update() {
-	DeleteCheck();
+	CheckDelete();
 }
 //―――――――――――――――――――――――――――
 
@@ -41,15 +41,15 @@ void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2
 
 	switch (type_num) {
 
-	case SEAURCHIN:
+	case EnemyType::SEAURCHIN:
 		m_enemy_list.emplace_back(new SeaUrchin(pos, map));
 		break;
 
-	case NO_MOVE_SEAURCHIN:
+	case EnemyType::NO_MOVE_SEAURCHIN:
 		m_enemy_list.emplace_back(new SeaUrchin(pos, map, false));
 		break;
 
-	case SELLFISH:
+	case EnemyType::SELLFISH:
 		m_enemy_list.emplace_back(new SellFish(pos, map, p1, p2));
 		break;
 	}
@@ -69,7 +69,7 @@ void EnemyManager::CreateBlind(D3DXVECTOR2 pos, D3DXVECTOR2 goal) {
 //―――――――――――――――――――――――――――
 
 // Activeがfalseのものを削除する
-void EnemyManager::DeleteCheck() {
+void EnemyManager::CheckDelete() {
 
 	// 敵の削除ループ
 	for (auto itr = m_enemy_list.begin(); itr != m_enemy_list.end();) {

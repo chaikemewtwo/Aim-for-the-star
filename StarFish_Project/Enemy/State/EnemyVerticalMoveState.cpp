@@ -2,7 +2,7 @@
 #include"../Enemy/EnemyBase.h"
 
 
-VerticalMove *VerticalMove::GetInstance() {
+VerticalMove* VerticalMove::GetInstance() {
 
 	static VerticalMove s_vertical_move;
 	return &s_vertical_move;

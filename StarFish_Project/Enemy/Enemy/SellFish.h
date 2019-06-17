@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include"EnemyBase.h"
-#include"../../Lib/Window/Window.h"
 
 
 // ほら貝クラス
@@ -13,4 +12,10 @@ public:
 	void Update()override;
 	void Draw()override;
 	StateId StateChangeCheck()override;
+	
+private:
+	// 攻撃範囲の距離
+	const int ATTACK_RANGE = 200;
+	// 攻撃前の準備状態の範囲距離
+	const int ATTACK_READY_RANGE = 350;
 };

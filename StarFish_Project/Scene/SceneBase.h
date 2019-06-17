@@ -25,7 +25,7 @@ public:
 	virtual SceneId End() {
 	
 		// ステップの初期化と次のシーンを返す
-		m_scene_step = INIT;
+		m_scene_step = SceneStep::INIT;
 		return m_new_scene_id;
 	}
 
@@ -33,14 +33,13 @@ public:
 
 		switch (m_scene_step) {
 
-		case INIT:
+		case SceneStep::INIT:
 			Init();
 			break;
-		case UPDATE:
+		case SceneStep::UPDATE:
 			Update();
-			//Draw();
 			break;
-		case END:
+		case SceneStep::END:
 			return End();
 		}
 

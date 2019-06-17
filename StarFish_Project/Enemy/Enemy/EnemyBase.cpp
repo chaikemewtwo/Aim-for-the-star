@@ -22,10 +22,10 @@ EnemyBase::EnemyBase() {
 	m_sort_object_type = SortObject::ENEMY;
 
 	// 敵画像の登録
-	m_texture_list[SEAURCHIN_MOVE] = "Resource/Texture/Enemy/uni_move.png";
-	m_texture_list[SELLFISH_WAIT] = "Resource/Texture/Enemy/hora_wait.png";
-	m_texture_list[SELLFISH_READY] = "Resource/Texture/Enemy/hora_ready.png";
-	m_texture_list[SELLFISH_ATTACK] = "Resource/Texture/Enemy/hora_attack.png";
+	m_texture_list[EnemyTexture::SEAURCHIN_MOVE] = "Resource/Texture/Enemy/uni_move.png";
+	m_texture_list[EnemyTexture::SELLFISH_WAIT] = "Resource/Texture/Enemy/hora_wait.png";
+	m_texture_list[EnemyTexture::SELLFISH_READY] = "Resource/Texture/Enemy/hora_ready.png";
+	m_texture_list[EnemyTexture::SELLFISH_ATTACK] = "Resource/Texture/Enemy/hora_attack.png";
 }
 //―――――――――――――――――――――
 
@@ -35,7 +35,7 @@ void EnemyBase::ChangeState(StateBase* state) {
 }
 //―――――――――――――――――――――
 
-void EnemyBase::OutScreenCheck() {
+void EnemyBase::CheckEnemyActiv() {
 
 	// 画面外に出たら、削除までの時間をカウントダウン
 	if (m_pos.y > Window::HEIGHT || m_pos.x<0 || m_pos.x>Window::WIDTH) {
@@ -115,10 +115,6 @@ EnemyBase* EnemyBase::GetInstance() {
 float EnemyBase::GetSpeed() {
 	return m_speed;
 }
-
-//int EnemyBase::GetPower() {
-//	return m_power;
-//}
 
 bool EnemyBase::IsLeft() {
 	return m_is_left;
