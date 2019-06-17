@@ -16,7 +16,7 @@ class CollisionManager{
 public:
 
 	// コンストラクタで実体を入れる
-	CollisionManager(Player*p1,Player*p2, EnemyManager*e_mng);
+	CollisionManager(Player*m_p1,Player*p2, EnemyManager*e_mng);
 
 	// 当たり判定を行う所
 	void Collision();

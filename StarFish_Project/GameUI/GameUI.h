@@ -10,38 +10,36 @@ public:
 	void Draw()override;
 
 private:
-	// プレイヤーのスタミナの最大値を100%としたスタミナの割合
-	float StaminaParcentage(Player* p);
+	// 両自機のスタミナゲージの色変更
+	// プレイヤーのスタミナが一定以下になると赤に変わる
+	void GageColorChange();
 
-	// ゲージのY座標算出
+	// スタミナゲージのY座標算出
+	// プレイヤーのスタミナの増減をゲージに反映
 	float GagePosYCalc(float stamina_parcent);
 
+private:
 	// ゲージ満タン時のY座標
-	const float GAGE_MAX_POS_Y = 380.f;
+	static const float GAGE_MAX_POS_Y;
 
 	// ゲージがなくなった時のY座標
-	const float GAGE_UNDER_POS_Y = 1000.f;
+	static const float GAGE_UNDER_POS_Y;
 
-	// ゲージの量
-	const float ALL_GAGE = GAGE_UNDER_POS_Y - GAGE_MAX_POS_Y;
+	// ゲージの全体量
+	static const float ALL_GAGE;
 
-	// 右ゲージの位置
-	const float RIGHT_GAGE_POS = Window::WIDTH - 132.f;
-	// 右岩の位置
-	const float RIGHT_ROCK_POS = Window::WIDTH - 196.f;
+	// GageColorChange()でゲージの量の変えるスタミナの割合
+	static const float DANGER_LINE_PARCENTAGE;
 
-	// 自機1
-	Player * p1;
-	// 自機2
-	Player * p2;
+	// 自機2のスタミナゲージのX座標
+	static const float RIGHT_GAGE_POS_X;
 
-	// ゲージの画像指定用定数
-	enum GAGE_TEXTURE_INDEX {
-		ORANGE_GAGE,
-		PINK_GAGE,
-		RED_GAGE,
-		MAX_NUM
-	};
+	// 自機2のゲージ枠の岩のX座標
+	static const float RIGHT_ROCK_POS_X;
 
-	std::string gage_textue[MAX_NUM];
+private:
+	Player * m_p1;	// 自機1
+	Player * m_p2;	// 自機2
+	std::string m_1p_gage_texture;	// 自機1のゲージ
+	std::string m_2p_gage_texture;	// 自機2のゲージ
 };

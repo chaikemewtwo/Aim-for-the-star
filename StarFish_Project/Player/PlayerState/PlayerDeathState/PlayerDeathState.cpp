@@ -10,9 +10,10 @@ const int PlayerDeathState::ANIMATION_INIT_COUNT = 11;
 // 死亡状態
 // 初期化
 void PlayerDeathState::Init(Player* p) {
-	p->ResetAnimationCount();
+	// AnimationDraw内でやっているので不必要の可能性あり
+	//p->ResetAnimationCount();
 
-	p->SetPlayerTexture(p->star_texture_name[p->DEATH_TEXTURE]);
+	p->SetPlayerTexture(p->star_texture_list[p->DEATH_TEXTURE]);
 }
 
 

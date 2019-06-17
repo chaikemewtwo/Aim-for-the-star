@@ -14,6 +14,7 @@ public:
 
 	void Init(Player* p) override;
 	void Update(Player* p) override;
+
 private:
 	// 1アニメーションの速さ
 	// この速さで1アニメーションが進んでいく

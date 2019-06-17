@@ -8,6 +8,8 @@
 
 class Map;
 
+// HACK:順序を決め並び替えをする　19/06/14
+
 // プレイヤーオブジェクトクラス（自機2体とも）
 class Player : public CircleCollisionObject {
 public:	
@@ -15,7 +17,8 @@ public:
 	// 主にコンストラクタで使用
 	enum ID_TYPE {
 		STAR_1,
-		STAR_2
+		STAR_2,
+		MAX_TYPE
 	};
 
 	// 入力キーデータ（後々操作入力をまとめたクラスを作成する）
@@ -40,12 +43,9 @@ public:
 		MAX_TEXTURE_NUM			
 	};
 
-	// スタミナ最大値
-	// HACK:UIのパーセンテージ関数をプレイヤーが持つことでこの定数をprivateに置く
-	static const int MAX_STAMINA = 1000;
-
 public:
-	// コンストラクタ（引数でオレンジくんとピンクちゃんを判別）
+	// コンストラクタ
+	// 引数でオレンジくんとピンクちゃんを判別しています
 	Player(ID_TYPE id);
 
 	// デストラクタ
@@ -59,14 +59,19 @@ public:
 
 	//-----------------------------------------------------
 	// 当たり判定で使用する関数
-	// プレイヤー移動量ゲッター
-	D3DXVECTOR2 GetMove()const;
 
 	// プレイヤー座標セッター
 	void SetPos(D3DXVECTOR2 pos);
 
+	// プレイヤー移動量ゲッター
+	D3DXVECTOR2 GetMove()const;
+
 	// プレイヤー移動量セッター
 	void SetMove(D3DXVECTOR2 move);
+
+	void SetMoveX(float move_x) {
+		m_move.x = move_x;
+	}
 
 	// プレイヤー移動量の加算関数（ヒモ用、仮）
 	void AddMove(D3DXVECTOR2 add_move);
@@ -74,7 +79,9 @@ public:
 
 	//-----------------------------------------------------
 	// 状態遷移（各State）で使用する関数
+
 	// 状態切り替え
+	// 初期化もセットで行う
 	// 引数:(変更された後の状態)
 	void ChangeState(PlayerStateBase* state);
 
@@ -86,11 +93,12 @@ public:
 	void AddGravity();
 
 	// X方向向き変更
+	// -MAX_ANGLEからMAX_ANGLEまで傾けることができます
 	// 引数:(trueで右へ傾く)
 	void AngleAdjust(bool is_move_right);
 
 	// 泳ぐ（ジャンプ）
-	// 傾いてる向きに移動量を加算
+	// 1fごとに傾いてる向きに移動量を加算
 	void SwimUp();
 
 	// 状態画像セッター
@@ -106,42 +114,54 @@ public:
 	void AddStateChangeTimer();
 
 	// スタミナゲッター
-	int GetStamina();
+	float GetStamina();
+
+	// 泳ぐフラグゲッター
+	bool SwimEnable();
+
+	// 泳ぐフラグセッター
+	void SetSwimEnable(bool new_swim_enable);
 
 	// スタミナ減算
-	void DecStamina(int dec_sutamina_num);
+	void DecStamina(float dec_sutamina_num);
+
+	// 現在のスタミナの比率を返す
+	// MAX_STAMINAを1.fとしたときのm_staminaの割合
+	float StaminaParcentage();
 
 	// 生存フラグ無効化
 	void EnableDead();
 	//-----------------------------------------------------
 
-	// 自機を返す設定をする、CollisionObjectで使用
+	// 自機を返す設定をする
+	// CollisionObjectで使用
 	Type GetObjectType()const override { 
 		return PLAYER;
 	}
 
 public:
-	bool swim_enable;	// 泳いでるフラグ(泳ぎ状態のときtrue)
-	std::string star_texture_name[MAX_TEXTURE_NUM];	// テクスチャ文字列保持
-	char imput_button_name[MAX_KEY_NUM];	// 入力キー文字列保持（操作分割のため）
+	// HACK:public領域の変数をなくす　19/06/14	
+	std::string star_texture_list[MAX_TEXTURE_NUM];	// テクスチャ文字列保持
+	char imput_button_list[MAX_KEY_NUM];	// 入力キー文字列保持（2体の操作分割のため）
 
 private:
-	//-----------------------------------------------------
-	// ゲーム内パラメータ用定数
-	// 1フレームごとの画面下への移動量、重力負荷に使用
-	const float GRAVITY = -1.f;
+	// 重力
+	// 1フレームごとの画面下への移動量
+	static const float GRAVITY;
 
 	// 向き変更時に1フレームごとに傾く角度
-	const float ANGLE_ADD = 0.5f;
+	static const float ANGLE_ADD;
 
-	// 向き変更時最大角度（ヒトデの頭の向きの左右の最大角度）
-	const float MAX_ANGLE = 45.f;
+	// 向き変更時最大角度
+	// テクスチャの向きの左右の最大角度
+	static const float MAX_ANGLE;
 
-	// プレイヤーの当たり判定の半径
+	// 当たり判定の大きさ
+	// この値が当たり判定の円の半径です
 	static const float PLAYER_COLLSION_RADIUS;
 
 	// 泳ぐ際の移動速度
-	// この値を1f毎に移動量に加算する
+	// この値を1fごとに移動量に加算します
 	static const float PLAYER_SPEED;
 
 	// 自機1のゲーム開始時の座標
@@ -154,30 +174,38 @@ private:
 	static const D3DXVECTOR2 TEXTURE_SIZE_OFFSET;
 
 	// 画像分割
+	// 使用例:4*4サイズの統合画像ならこの値は{4.f,4.f}
 	static const D3DXVECTOR2 TEXTURE_PARTITION;
 
+	// スタミナ最大値
+	static const float MAX_STAMINA;
+
 	// 敵との被弾時に減らされるスタミナ
-	static const int DECREASE_STAMINA;
-	//-----------------------------------------------------
+	static const float DECREASE_STAMINA;
 
+private:
 	// 無敵時間タイマー、未実装
-	//void GetDamageTimer();
+	// (点滅させる)
+	//void DBGGetDamageTimer();
 
-	// 自機と敵との当たり判定後の処理(点滅させる)
+	// 自機との当たり判定後の処理
+	// 基本的にEnemyとの当たりで使用する
+	// 引数は当たりたいオブジェクトの種類
 	void HitAction(Type type)override;
 
+private:
 	std::string m_player_texture;	// 画像格納用
 	D3DXVECTOR2 m_move;				// X、Y方向移動量
-	//D3DXVECTOR2 m_dbg_proto_move;	// 仮の移動量（動く前のシュミレーション用、未実装）
 	float m_angle;					// 自機画像角度（MAX_ANGLEから-MAX_ANGLE度まで）
-	int m_stamina;					// スタミナ
+	float m_stamina;					// スタミナ
 	int m_state_change_timer;		// 状態遷移用タイマー		
-	int invisible_count;			// 敵被弾後無敵時間					
+	int m_invisible_count;			// 敵被弾後無敵時間					
 	bool m_draw_enable;				// 被弾時点滅用描画切り替え			
 	bool m_is_hit;					// 被弾フラグ（まだ未使用）
+	bool m_swim_enable;				// 泳いでるフラグ(泳ぎ状態のときtrue)
 
 	
-	PlayerStateBase * m_p_state;		// ステート基底クラス					
+	PlayerStateBase* m_p_state;		// ステート基底クラス					
 	IDirectSoundBuffer8* m_p_hit_se;	// 被弾SE
 										
 	Audio& m_p_audio = Audio::getInterface();	// オーディオインターフェース
