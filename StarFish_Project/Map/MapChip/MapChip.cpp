@@ -9,17 +9,47 @@
 #include"../BackGround/BackGround.h"
 #include<stdio.h>
 #include<string>
+#include"../../Map/MapObjectFactory/MapObjectFactory.h"
 
 
 
 // コンストラクタ
 Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 
+	// インスタンス生成
+	{
+		// nullチェック
+		if (e_mng == nullptr) {
+			return;
+		}
+		if (star1 == nullptr) {
+			return;
+		}
+		if (star2 == nullptr) {
+			return;
+		}
+		if (obj_mng == nullptr) {
+			return;
+		}
 
-	// マップ初期化位置X
+		// 各インスタンス受け取り
+		m_p_player[0] = star1;
+		m_p_player[1] = star2;
+		m_p_enemy_mng = e_mng;
+		m_p_obj_mng = obj_mng;
+		// マップオブジェクト生成クラスを生成
+		m_map_object_factory = new MapObjectFactory(this, m_p_enemy_mng, m_p_player[0], m_p_player[1], m_p_obj_mng);
+	}
+
+	
+	// マップ位置X初期化
 	const float INIT_MAP_POS_X = 0.f; 
-	// マップ初期化位置Y
+	// マップ位置Y初期化
 	const float INIT_MAP_POS_Y = 0.f; 
+	// マップ移動X初期化
+	const float INIT_MAP_MOVE_X = 0.f;
+	// マップ移動Y初期化
+	const float INIT_MAP_MOVE_Y = 0.f;
 
 	// ソートオブジェクト代入
 	m_sort_object_type = MAX;
@@ -30,39 +60,12 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 	m_pos.y = INIT_MAP_POS_Y;		  
 
 	// マップ座標移動座標初期化
-	m_move.x = 0.f;
-	m_move.y = 0.f;
+	m_move.x = INIT_MAP_MOVE_X;
+	m_move.y = INIT_MAP_MOVE_Y;
 	
 	// スクロールする範囲初期化
 	m_scroll_range_up = SCROLL_RANGE_UP;
 	m_scroll_range_down = SCROLL_RANGE_DOWN;
-
-	// Mapの持っている実体をnull初期化
-	m_p_base[0] = nullptr;
-	m_p_base[1] = nullptr;
-	m_p_obj_mng = nullptr;
-
-	// nullチェック
-	if (e_mng == nullptr) {
-		return;
-	}
-	if (star1 == nullptr) {
-		return;
-	}
-	if (star2 == nullptr) {
-		return;
-	}
-	if (obj_mng == nullptr) {
-		return;
-	}
-
-	// 自機の参照受け取り
-	m_p_base[0] = star1;
-	m_p_base[1] = star2;
-	// 敵の参照受け取り
-	e_p_mng = e_mng;
-	// オブジェクト管理受け取り
-	m_p_obj_mng = obj_mng;
 
 	// ファイル読み込み
 	Load("Map/MapData/MapData.csv");
@@ -72,17 +75,13 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 	
 	// ジャンプしているか
 	m_is_stand = false;
-
 	// 壁の衝突
-	m_is_wall_col[0] = false;
-	m_is_wall_col[1] = false;
-
+	m_is_wall_collision = false;
 	// 各壁の衝突判定
-	m_is_wall_col_left = false;    // 左に衝突しているか
-	m_is_wall_col_right = false;   // 右に衝突しているか
-	m_is_wall_col_up = false;      // 上に衝突しているか
-	m_is_wall_col_down = false;	   // 下に衝突しているか
-
+	m_is_wall_collision_left = false;    // 左に衝突しているか
+	m_is_wall_collision_right = false;   // 右に衝突しているか
+	m_is_wall_collision_up = false;      // 上に衝突しているか
+	m_is_wall_collision_down = false;	 // 下に衝突しているか
 	// スクロールしているか
 	m_is_scroll = true;
 
@@ -105,8 +104,9 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 			}
 		}
 	}
-}
 
+	
+}
 
 
 void Map::Update() {
@@ -117,6 +117,11 @@ void Map::Update() {
 
 	/* オブジェクトの生成と削除 */
 	//MapObjectCreate();
+	m_map_object_factory->Create(
+		GetChipCastByPos(-m_pos.y) + 18,
+		(m_max_height_map_size)-GetChipCastByPos(-m_pos.y) + 18,
+
+		)
 	MapObjectDestory();
 
 	// マップの移動ベクトル初期化
@@ -127,11 +132,11 @@ void Map::Update() {
 		// プレイヤーの情報を受け取る
 		{
 			// 移動位置取得
-			player_move[i] = m_p_base[i]->GetMove();
+			player_move[i] = m_p_player[i]->GetMove();
 
 			// 自機の位置を代入,当たりポイントを補正
-			player_pos[i].x = m_p_base[i]->GetPos().x + HIT_VERTEX_X;
-			player_pos[i].y = m_p_base[i]->GetPos().y + HIT_VERTEX_Y;
+			player_pos[i].x = m_p_player[i]->GetPos().x + HIT_VERTEX_X;
+			player_pos[i].y = m_p_player[i]->GetPos().y + HIT_VERTEX_Y;
 		}
 	
 		// スクロールしてもいいかどうか
@@ -147,16 +152,16 @@ void Map::Update() {
 		player_pos[i].y -= HIT_VERTEX_Y;
 
 		// 自機(obj)の位置変更
-		m_p_base[i]->SetPos(player_pos[i]);
+		m_p_player[i]->SetPos(player_pos[i]);
 		// 自機の移動ベクトル変更
-		m_p_base[i]->SetMove(player_move[i]);
+		m_p_player[i]->SetMove(player_move[i]);
 	}
 
 
 	// マップ座標にマップの移動ベクトルを加算
 	m_pos.y += m_move.y;
 	// スクロール制限
-	ScrollMaxMove();
+	MaxScroll();
 }
 
 
@@ -198,7 +203,7 @@ int Map::Scroll(float&pos_y, float&move_y) {
 
 
 // スクロールの最大移動
-void Map::ScrollMaxMove() {
+void Map::MaxScroll() {
 
 	// 上の最大スクロール
 	if (m_pos.y <= -BackGround::MAX_UP_SCROLL) {
@@ -291,14 +296,14 @@ void Map::EnemyCreate(int x, int y, int chip_num) {
 			// ウニ生成
 		case 100:
 			// 敵生成
-			e_p_mng->CreateEnemy(pos + fix_pos, this, m_p_base[0], m_p_base[1], SEAURCHIN);
+			m_p_enemy_mng->CreateEnemy(pos + fix_pos, this, m_p_player[0], m_p_player[1], SEAURCHIN);
 			// マップチップ記録
 			m_map_chip_list[create_chip_y][x].m_is_active = true;
 			break;
 			// 落ちていくウニ生成
 		case 101:
 			// 敵生成
-			e_p_mng->CreateEnemy(pos + fix_pos, this, m_p_base[0], m_p_base[1], NO_MOVE_SEAURCHIN);
+			m_p_enemy_mng->CreateEnemy(pos + fix_pos, this, m_p_player[0], m_p_player[1], NO_MOVE_SEAURCHIN);
 			// マップチップ記録
 			m_map_chip_list[create_chip_y][x].m_is_active = true;
 			break;
@@ -307,7 +312,7 @@ void Map::EnemyCreate(int x, int y, int chip_num) {
 			// 補正
 			fix_pos.x += CHIP_SIZE - 12.f;
 			// 敵生成
-			e_p_mng->CreateEnemy(pos + fix_pos, this, m_p_base[0], m_p_base[1], SELLFISH);
+			m_p_enemy_mng->CreateEnemy(pos + fix_pos, this, m_p_player[0], m_p_player[1], SELLFISH);
 			// マップチップ記録
 			m_map_chip_list[create_chip_y][x].m_is_active = true;
 			break;
@@ -315,7 +320,7 @@ void Map::EnemyCreate(int x, int y, int chip_num) {
 		case 103:
 			fix_pos.x += (float)CHIP_SIZE + 600.f;
 			// ブラインド生成
-			e_p_mng->CreateBlind(pos + fix_pos, D3DXVECTOR2(-100.f, 1000.f));
+			m_p_enemy_mng->CreateBlind(pos + fix_pos, D3DXVECTOR2(-100.f, 1000.f));
 			// マップチップ記録
 			m_map_chip_list[create_chip_y][x].m_is_active = true;
 			break;
@@ -462,10 +467,10 @@ void Map::InitWallCollision() {
 	// 衝突していない
 	//m_is_wall_col[0] = false;
 	//m_is_wall_col[1] = false;
-	m_is_wall_col_up = false;
-	m_is_wall_col_down = false;
-	m_is_wall_col_right = false;
-	m_is_wall_col_left = false;
+	m_is_wall_collision_up = false;
+	m_is_wall_collision_down = false;
+	m_is_wall_collision_right = false;
+	m_is_wall_collision_left = false;
 }
 
 
@@ -511,7 +516,7 @@ void Map::SidePosFixToMapPos(float &pos_x, float &move_x) {
 		// 移動ベクトルなし
 		move_x = 0.f;
 		// 左に衝突
-		m_is_wall_col_left = true;
+		m_is_wall_collision_left = true;
 	}
 
 	// 右
@@ -524,7 +529,7 @@ void Map::SidePosFixToMapPos(float &pos_x, float &move_x) {
 		// 移動ベクトルなし
 		move_x = 0.f;
 		// 右に衝突
-		m_is_wall_col_right = true;
+		m_is_wall_collision_right = true;
 	}
 }
 
@@ -559,7 +564,7 @@ void Map::VerticalPosFixToMapPos(float &pos_y, float &move_y) {
 		move_y = 0.f;
 
 		// 上に衝突
-		m_is_wall_col_up = true;
+		m_is_wall_collision_up = true;
 	}
 
 	// 下(自機の移動とマップの移動が進んだ時)
@@ -587,12 +592,11 @@ void Map::VerticalPosFixToMapPos(float &pos_y, float &move_y) {
 		move_y = 0.f;
 
 		// 下に衝突
-		m_is_wall_col_down = true;
+		m_is_wall_collision_down = true;
 	}
 }
 
 
-// 引っ付き処理
 void Map::CenterStuckChip(float &pos_x, float &pos_y, float &move_x, float &move_y) {
 
 	// チップ位置を作る
@@ -626,13 +630,11 @@ void Map::CenterStuckChip(float &pos_x, float &pos_y, float &move_x, float &move
 }
 
 
-// セルに変換
 int Map::GetChipCastByPos(const float&pos)const{
 	return static_cast<int>(std::floor(pos / CHIP_SIZE));
 }
 
 
-// 座標を入れたらマップチップの位置を返す
 int Map::GetChipParameter(const float &pos_x, const float&pos_y) {
 
 	// マップ座標変換
@@ -650,91 +652,14 @@ int Map::GetChipParameter(const float &pos_x, const float&pos_y) {
 }
 
 
-// 所定位置にブロックを置く
-float Map::GetChipPosCastByChip(const float &chip_pos, const float &chip_y)const{
-	return (chip_pos * CHIP_SIZE);
-}
-
-int Map::GetMaxHeightMapSize()const {
-	return m_max_height_map_size;
-}
-
-
-/* アクセサ */
-D3DXVECTOR2 Map::GetMove()const {// 元はmap
-	return -m_move;// -をなくす
-}
-
-
-// 着地しているか
-bool Map::IsStand()const {
-	return m_is_stand;
-}
-
-
-// 壁衝突しているか
-bool Map::IsWallCollision()const {
-	return m_is_wall_col;
-}
-
-
-// 上の壁に衝突しているか
-bool Map::IsWallColUp()const {
-	return m_is_wall_col_up;
-}
-
-
-// 下の壁に衝突しているか
-bool Map::IsWallColDown()const {
-	return m_is_wall_col_down;
-}
-
-
-// 左の壁に衝突しているか
-bool Map::IsWallColLeft()const {
-	return m_is_wall_col_left;
-}
-
-
-// 右の壁に衝突しているか
-bool Map::IsWallColRight()const {
-	return m_is_wall_col_right;
-}
-
-
-// スクロールしているか
-bool Map::IsScroll()const {
-	return m_is_scroll;
-}
-
-
-bool Map::IsMaxScroll()const {
-	return m_is_max_scroll;
-}
-
-
-void Map::SetIsScroll(bool is_scroll) {
-	m_is_scroll = is_scroll;
-}
-
-
-// スクロールの範囲
-void Map::SetScrollRangeUp(float range) {
-	m_scroll_range_up = range;
-}
-
-
-void Map::SetScrollRangeDown(float range) {
-	m_scroll_range_down = range;
-}
-
-
-
 void Map::Load(const std::string&file_name) {
 
-	FILE*fp;                                  // ストリーム
-	const char *fname = file_name.c_str();    // ファイル名
-	char str_buf[256];                        // 文字列バッファ
+	// 文字列バッファ
+	const int STRING_BUFFER = 256;
+
+	FILE*fp;                               // ストリーム
+	const char *fname = file_name.c_str(); // ファイル名
+	char file_load_buffer[STRING_BUFFER];  // ファイル読み込みバッファ 
 
 	// ファイルオープン
 	fopen_s(&fp, fname, "r");
@@ -750,16 +675,15 @@ void Map::Load(const std::string&file_name) {
 	int width_chip = 0;
 
 	// 文字列読み込み、改行まで
-	while (fgets(str_buf, 256, fp) != NULL) {
+	while (fgets(file_load_buffer, 256, fp) != NULL) {
 
 		// 最初が改行と空白なら戻す
-		if (str_buf[0] == '\n' || str_buf[0] == '\0') {
+		if (file_load_buffer[0] == '\n' || file_load_buffer[0] == '\0') {
 			continue;
 		}
 
 		// チップ文字列をバッファにいれる
-		char *chip_string = str_buf;
-
+		char *chip_string = file_load_buffer;
 		// 1次元配列に要素を追加
 		m_map_chip_list.emplace_back();
 
@@ -768,13 +692,10 @@ void Map::Load(const std::string&file_name) {
 
 			// マップチップ構造体を生成
 			MapChip map_chip;
-
 			// 要素追加
 			m_map_chip_list[height_chip].push_back(map_chip);
-
 			// 整数値変換してチップ番号に登録
 			m_map_chip_list[height_chip][width_chip++].m_chip_num = strtol(chip_string, &chip_string, 10);
-
 			// 文字列加算
 			chip_string++;
 		}
@@ -805,6 +726,93 @@ void Map::Load(const std::string&file_name) {
 	fclose(fp);
 	return;
 }
+
+
+
+float Map::GetChipPosCastByChip(const float &chip_pos, const float &chip_y)const{
+	return (chip_pos * CHIP_SIZE);
+}
+
+
+int Map::GetMaxHeightMapSize()const {
+	return m_max_height_map_size;
+}
+
+
+D3DXVECTOR2 Map::GetMove()const {
+	return -m_move;// -をなくす
+}
+
+
+bool Map::IsStand()const {
+	return m_is_stand;
+}
+
+
+bool Map::IsWallCollision()const {
+	return m_is_wall_collision;
+}
+
+
+bool Map::IsWallColUp()const {
+	return m_is_wall_collision_up;
+}
+
+
+bool Map::IsWallColDown()const {
+	return m_is_wall_collision_down;
+}
+
+
+bool Map::IsWallColLeft()const {
+	return m_is_wall_collision_left;
+}
+
+
+bool Map::IsWallColRight()const {
+	return m_is_wall_collision_right;
+}
+
+
+bool Map::IsScroll()const {
+	return m_is_scroll;
+}
+
+
+bool Map::IsMaxScroll()const {
+	return m_is_max_scroll;
+}
+
+
+void Map::SetIsScroll(bool is_scroll) {
+	m_is_scroll = is_scroll;
+}
+
+
+void Map::SetScrollRangeUp(float range) {
+	m_scroll_range_up = range;
+}
+
+
+void Map::SetScrollRangeDown(float range) {
+	m_scroll_range_down = range;
+}
+
+
+void Map::ActiveChangeChipSelect(int x, int y) {
+	m_map_chip_list[y][x].m_is_active = !m_map_chip_list[y][x].m_is_active;
+}
+
+
+bool Map::IsActiveChipSelect(int x, int y) {
+	return m_map_chip_list[y][x].m_is_active;
+}
+
+
+void Map::PlusSignChange(float &sign_change_num) {
+	sign_change_num *= -1;
+}
+
 
 
 
