@@ -4,6 +4,7 @@
 
 // コンストラクタで共通の変数初期化
 EnemyBase::EnemyBase() {
+	m_posx_count = 0;
 
 	m_angle = 0.f;
 	m_center = 0.5f;
@@ -26,6 +27,8 @@ EnemyBase::EnemyBase() {
 	m_texture_list[EnemyTexture::SELLFISH_WAIT] = "Resource/Texture/Enemy/hora_wait.png";
 	m_texture_list[EnemyTexture::SELLFISH_READY] = "Resource/Texture/Enemy/hora_ready.png";
 	m_texture_list[EnemyTexture::SELLFISH_ATTACK] = "Resource/Texture/Enemy/hora_attack.png";
+	m_texture_list[EnemyTexture::NAPOREONFISH_MOVE] = "Resource/Texture/Enemy/megane_move.png";
+	m_texture_list[EnemyTexture::NAPOREONFISH_ATTACK] = "Resource/Texture/Enemy/megane_attack.png";
 }
 //―――――――――――――――――――――
 

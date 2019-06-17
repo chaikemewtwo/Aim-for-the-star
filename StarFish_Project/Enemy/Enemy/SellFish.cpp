@@ -10,12 +10,14 @@ SellFish::SellFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2,bool can_mo
 
 	// 取得した座標の登録
 	m_pos = pos;
+
 	m_can_move = can_move;
 
 	// その他変数の初期化
 	m_speed = 5.f;
 	m_max_animation = 2;
 	m_anim_change_time = 20;
+	m_no_move = no_move;
 
 	m_enemy_texture = m_texture_list[EnemyTexture::SELLFISH_WAIT];
 
