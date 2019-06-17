@@ -4,6 +4,7 @@
 
 
 EnemyBase::EnemyBase() {
+	m_posx_count = 0;
 
 	m_angle = 0;
 	m_center = 0.5;

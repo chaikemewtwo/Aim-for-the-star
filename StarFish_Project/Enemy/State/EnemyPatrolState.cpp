@@ -1,5 +1,7 @@
 ﻿#include<math.h>
 #include"EnemyPatrolState.h"
+#include"EnemyWaitState.h"
+#include"EnemyChaseState.h"
 #include"../Enemy/EnemyBase.h"
 
 
@@ -12,19 +14,14 @@ void Patrol::Action(EnemyBase* e) {
 
 	D3DXVECTOR2 pos = e->GetPos();
 
-	if (m_max_posx_count > m_posx_count && e->IsLeft() == false) {
-		pos.x -= sin(PI * 2 / 120 * m_posx_count)*e->GetSpeed();
-	}
-	else if (m_max_posx_count > m_posx_count && e->IsLeft() == true) {
-		pos.x += sin(PI * 2 / 120 * m_posx_count)*e->GetSpeed();
-
-	}
+	pos.x -= e->CalcSinCurve();
 	
-	m_posx_count++;
-
-	if (m_max_posx_count < m_posx_count) {
-		m_posx_count = 0;
-	}
-
 	e->SetPos(pos);
+
+	if (e->StateChangeCheck() == CHASE_ID) {
+		e->ChangeState(Chase::GetInstance());
+	}
+	else {
+		e->ChangeState(Wait::GetInstance());
+	}
 }
