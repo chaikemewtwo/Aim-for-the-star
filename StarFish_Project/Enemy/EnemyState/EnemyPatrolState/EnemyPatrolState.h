@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include"EnemyStateBase.h"
+#include"../EnemyStateBase.h"
 
 
 class Patrol :public StateBase {

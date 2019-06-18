@@ -1,8 +1,8 @@
 ﻿#include<math.h>
 #include"EnemyPatrolState.h"
-#include"EnemyWaitState.h"
-#include"EnemyChaseState.h"
-#include"../Enemy/EnemyBase.h"
+#include"../EnemyWaitState/EnemyWaitState.h"
+#include"../EnemyChaseState/EnemyChaseState.h"
+#include"../../Enemy/EnemyBase.h"
 
 
 Patrol* Patrol::GetInstance() {

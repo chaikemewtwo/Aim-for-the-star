@@ -1,5 +1,5 @@
 ﻿#include"EnemyVerticalMoveState.h"
-#include"../Enemy/EnemyBase.h"
+#include"../../Enemy/EnemyBase.h"
 
 
 VerticalMove* VerticalMove::GetInstance() {

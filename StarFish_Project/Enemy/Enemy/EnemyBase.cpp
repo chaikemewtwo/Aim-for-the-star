@@ -1,5 +1,5 @@
 ﻿#include"../../Lib/Window/Window.h"
-#include"../State/EnemyWaitState.h"
+#include"../EnemyState/EnemyWaitState/EnemyWaitState.h"
 #include"EnemyBase.h"
 
 // コンストラクタで共通の変数初期化

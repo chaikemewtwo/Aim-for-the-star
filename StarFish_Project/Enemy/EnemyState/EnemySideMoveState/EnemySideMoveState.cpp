@@ -1,5 +1,5 @@
 ﻿#include"EnemySideMoveState.h"
-#include"../Enemy/EnemyBase.h"
+#include"../../Enemy/EnemyBase.h"
 
 
 SideMove* SideMove::GetInstance() {

@@ -1,7 +1,7 @@
 ﻿#include<math.h>
 #include"EnemyChaseState.h"
-#include"EnemyWaitState.h"
-#include"../Enemy/EnemyBase.h"
+#include"../EnemyWaitState/EnemyWaitState.h"
+#include"../../Enemy/EnemyBase.h"
 
 
 Chase* Chase::GetInstance() {

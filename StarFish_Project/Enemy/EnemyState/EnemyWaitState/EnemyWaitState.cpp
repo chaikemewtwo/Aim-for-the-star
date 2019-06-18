@@ -1,8 +1,8 @@
 ﻿#include"EnemyWaitState.h"
-#include"EnemySideMoveState.h"
-#include"EnemyVerticalMoveState.h"
-#include"EnemyPatrolState.h"
-#include"../Enemy/EnemyBase.h"
+#include"../EnemySideMoveState/EnemySideMoveState.h"
+#include"../EnemyVerticalMoveState/EnemyVerticalMoveState.h"
+#include"../EnemyPatrolState/EnemyPatrolState.h"
+#include"../../Enemy/EnemyBase.h"
 
 
 Wait* Wait::GetInstance() {
