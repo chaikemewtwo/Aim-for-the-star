@@ -43,10 +43,12 @@ void CollisionManager::Collision() {
 // 円の当たり判定
 void CollisionManager::ChackHitCircle(CircleCollisionObject*obj1, CircleCollisionObject*obj2) {
 
+	// nullチェック
 	if (obj1 == nullptr) {
 		return;
 	}
-	else if (obj2 == nullptr) {
+
+	if (obj2 == nullptr) {
 		return;
 	}
 
@@ -59,7 +61,8 @@ void CollisionManager::ChackHitCircle(CircleCollisionObject*obj1, CircleCollisio
 	float distance_y = pos1.y - pos2.y;
 
 	// 円の当たり判定
-	if (distance_x * distance_x + distance_y * distance_y < (obj1->GetRadius() + obj2->GetRadius())) {
+	if (distance_x * distance_x + distance_y * distance_y <
+		(obj1->GetRadius() + obj2->GetRadius()) * (obj1->GetRadius() + obj2->GetRadius())) {
 
 		// 当たっていた時の判定
 		obj1->HitAction(obj2->GetObjectType());

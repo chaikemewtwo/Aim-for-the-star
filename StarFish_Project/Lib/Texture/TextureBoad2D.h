@@ -6,11 +6,70 @@
 namespace Texture {
 
 
+	enum SamplerStateType {
+		CLAMP,              // つなぎ目なし
+		MIRROR,				// 反転
+	};
+
+
 	// 描画関係
-	void Draw2DGraph(const char*file_name, const float&pos_x, const float&pos_y);
-	void Draw2DTransGraph(const char*file_name, const float&pos_x, const float&pos_y, const float &scale_x, const float&scale_y, const float&angle);
-	void Draw2DRotaGraph(const char*file_name, const float&pos_x, const float &pos_y, const float&angle);
-	void Draw2DAnimationGraph(const char*file_name, const float&pos_x, const float&pos_y, const int&u_cut_num, const int&v_cut_num, const int&anim_num);
+	void Draw2DGraph(
+		const char*file_name,
+		const float&pos_x,
+		const float&pos_y
+	);
+
+
+	void Draw2DTransGraph(
+		const char*file_name,
+		const float&pos_x,
+		const float&pos_y,
+		const float&scale_x,
+		const float&scale_y,
+		const float&angle
+	);
+
+
+	void Draw2DRotaGraph(
+		const char*file_name,
+		const float&pos_x,
+		const float&pos_y,
+		const float&angle
+	);
+
+
+	void Draw2DAnimationGraph(
+		const char*file_name,
+		const float&pos_x,
+		const float&pos_y,
+		const int&tu_cut_num,
+		const int&tv_cut_num,
+		const int&animation_num
+	);
+
+
+	// UVをずらす関数
+	void Draw2DUVShift(
+		const char*file_name,
+		const float &pos_x,
+		const float &pos_y,
+		const float&shift_tu,
+		const float&shift_tv
+	);
+
+
+	void Draw2DAnimationUVSampler(
+		const char * file_name,
+		const float&pos_x,
+		const float&pos_y,
+		const float&scale_width,
+		const float&scale_height,
+		const int&tu_cut_num,
+		const int&tv_cut_num,
+		const int&animation_num,
+		SamplerStateType sampler_state_type
+	);
+
 
 	// サイズ系の関数が多くなってきたのでnamespaceでまとめる
 	namespace Size {
@@ -20,12 +79,11 @@ namespace Texture {
 		float GetGraphSizeY(const char*file_name);
 		D3DXVECTOR2 GetGraphSizeVec2(const char*file_name);
 
+		// 統合画像のサイズを取得する関数
 		float GetDivGraphSizeXByCutSize(const char*file_name, int div_num_x);
 		float GetDivGraphSizeYByCutSize(const char*file_name, int div_num_y);
 		D3DXVECTOR2 GetGraphSizeVec2ByCutSize(const char*file_name, int div_num_x, int div_num_y);
 	}
-	// UVをずらす関数
-	void Draw2DUVShift(const char*file_name, const float &pos_x, const float &pos_y, const float&shift_u, const float&shift_v);
 
 
 	// Draw2Dの使い方
@@ -73,6 +131,8 @@ namespace Texture {
 		int uy = 0.f,
 		int graph_num = 0,
 		float u = 0.f,
-		float v = 0.f);
+		float v = 0.f,
+		SamplerStateType type = CLAMP
+	);
 
 }

@@ -44,6 +44,7 @@ enum WallCollisionType {
 	TOTAL,
 };
 
+
 // MapChipManager
 // 海マップ
 class Map : public Object {
@@ -73,6 +74,8 @@ public:
 	/* アクセサ */
 	D3DXVECTOR2 GetMove()const;
 	int GetMaxHeightMapSize()const;
+	// 位置をマップ座標に変換
+	int GetChipCastByPos(const float&pos)const;
 
 	bool IsStand()const;			 // 立っているかどうか
 	bool IsWallCollision()const;     // 方向関係なく壁に当たっているか
@@ -85,12 +88,11 @@ public:
 
 	// マップのスクロールの初期化
 	void SetIsScroll(bool is_scroll);
-	// スクロールを変更
-	void SetScrollRangeUp(float range);
-	void SetScrollRangeDown(float range);
 	// チップを選択して生きているかを変更する
 	void ActiveChangeChipSelect(int x,int y);
 	bool IsActiveChipSelect(int x, int y);
+	// チップを選択してチップ番号取得
+	int GetChipNumChipSelect(int x, int y);
 
 private:
 	
@@ -114,11 +116,9 @@ private:
 	void EnemyCreate(int x, int y, int chip_num);
 	// 引っ付き判定
 	void CenterStuckChip(float &pos_x, float &pos_y, float &move_x, float &move_y);
-
-	// 位置をマップ座標に変換
-	int GetChipCastByPos(const float&pos)const;								   
+			
 	// マップ座標を位置に変換
-	float GetChipPosCastByChip(const float &chip_x, const float &chip_y)const; 
+	float GetChipPosCastByChip(const float &chip_x, const float &chip_y)const;
 	// 位置をマップ座標に変換
 	int GetChipParameter(const float &pos_x, const float&pos_y);		
 	// プラスの符号に変換
@@ -149,7 +149,6 @@ private:
 	/* マップ描画領域 */					    
 	D3DXVECTOR2 m_move;          // 描画用マップの位置
 	int m_max_height_map_size;   // マップデータの高さ
-	int m_chip_num;              // チップの番号
 							     
 	/* マップ遷移 */		     
 	float m_draw_range_up;       // 上の描画の範囲
@@ -159,9 +158,8 @@ private:
 							     
 	/* 各オブジェクトの参照 */   
 	Player * m_p_player[2];                   // 自機2体                     
-	EnemyManager * m_p_enemy_mng;                 // 敵の状態
-	ObjectManager * m_p_obj_mng;            // オブジェクト管理
-	MapObjectFactory *m_map_object_factory; // マップオブジェクトを生成するクラス
+	EnemyManager * m_p_enemy_mng;             // 敵の状態
+	ObjectManager * m_p_obj_mng;              // オブジェクト管理
 							     
 	/* 各フラグ */			     
 	bool m_is_stand;             // 立っているか

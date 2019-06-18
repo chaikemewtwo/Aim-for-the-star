@@ -37,8 +37,6 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 		m_p_player[1] = star2;
 		m_p_enemy_mng = e_mng;
 		m_p_obj_mng = obj_mng;
-		// マップオブジェクト生成クラスを生成
-		m_map_object_factory = new MapObjectFactory(this, m_p_enemy_mng, m_p_player[0], m_p_player[1], m_p_obj_mng);
 	}
 
 	
@@ -69,9 +67,6 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 
 	// ファイル読み込み
 	Load("Map/MapData/MapData.csv");
-	
-	// 初期化集
-	m_chip_num = 0;
 	
 	// ジャンプしているか
 	m_is_stand = false;
@@ -110,18 +105,13 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 
 
 void Map::Update() {
-
+	
 	/* プレイヤー座標 */
 	D3DXVECTOR2 player_pos[2];   // 自機の位置
 	D3DXVECTOR2 player_move[2];  // 自機の移動ベクトル
 
 	/* オブジェクトの生成と削除 */
-	//MapObjectCreate();
-	m_map_object_factory->Create(
-		GetChipCastByPos(-m_pos.y) + 18,
-		(m_max_height_map_size)-GetChipCastByPos(-m_pos.y) + 18,
-
-		)
+	MapObjectCreate();
 	MapObjectDestory();
 
 	// マップの移動ベクトル初期化
@@ -157,7 +147,6 @@ void Map::Update() {
 		m_p_player[i]->SetMove(player_move[i]);
 	}
 
-
 	// マップ座標にマップの移動ベクトルを加算
 	m_pos.y += m_move.y;
 	// スクロール制限
@@ -167,7 +156,7 @@ void Map::Update() {
 
 // マップの描画
 void Map::Draw() {
-	MapObjectCreate();
+	//MapObjectCreate();
 }
 
 
@@ -235,8 +224,6 @@ void Map::MaxScroll() {
 	}
 }
 
-
-
 // 生成は上と下のラインを作り、作成する。
 // それぞれ範囲外にでたら、アクティブをfalseにする。
 
@@ -269,8 +256,8 @@ void Map::MapObjectCreate() {
 			// 位置を代入
 			D3DXVECTOR2 pos((float)(CHIP_SIZE * x), (CHIP_SIZE * -create_line[y]) + Window::HEIGHT - m_pos.y);
 
-			Texture::Draw2D("Resource/Texture/Map/chip-map_image_3.png", pos.x,(float)CHIP_SIZE * -create_line[0] + Window::HEIGHT - m_pos.y);
-			Texture::Draw2D("Resource/Texture/Map/chip-map_image_4.png", pos.x,(float)CHIP_SIZE * -create_line[1] + Window::HEIGHT - m_pos.y);
+			//Texture::Draw2D("Resource/Texture/Map/chip-map_image_3.png", pos.x,(float)CHIP_SIZE * -create_line[0] + Window::HEIGHT - m_pos.y);
+			//Texture::Draw2D("Resource/Texture/Map/chip-map_image_4.png", pos.x,(float)CHIP_SIZE * -create_line[1] + Window::HEIGHT - m_pos.y);
 
 			// 敵生成
 			EnemyCreate(x, create_line[y], m_map_chip_list[create_chip_y][x].m_chip_num);
@@ -789,16 +776,6 @@ void Map::SetIsScroll(bool is_scroll) {
 }
 
 
-void Map::SetScrollRangeUp(float range) {
-	m_scroll_range_up = range;
-}
-
-
-void Map::SetScrollRangeDown(float range) {
-	m_scroll_range_down = range;
-}
-
-
 void Map::ActiveChangeChipSelect(int x, int y) {
 	m_map_chip_list[y][x].m_is_active = !m_map_chip_list[y][x].m_is_active;
 }
@@ -806,6 +783,11 @@ void Map::ActiveChangeChipSelect(int x, int y) {
 
 bool Map::IsActiveChipSelect(int x, int y) {
 	return m_map_chip_list[y][x].m_is_active;
+}
+
+
+int Map::GetChipNumChipSelect(int x, int y) {
+	return m_map_chip_list[y][x].m_chip_num;
 }
 
 

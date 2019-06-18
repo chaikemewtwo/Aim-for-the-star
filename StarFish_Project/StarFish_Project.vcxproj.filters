@@ -37,6 +37,7 @@
     <ClCompile Include="Lib\D3D9\D3D9.cpp" />
     <ClCompile Include="Map\MapChip\MapChip.cpp" />
     <ClCompile Include="Map\MapObjectFactory\MapObjectFactory.cpp" />
+    <ClCompile Include="GameObject\ObjectInterface\ObjectInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -81,6 +82,7 @@
     <ClInclude Include="Lib\D3D9\D3D9.h" />
     <ClInclude Include="Map\MapChip\MapChip.h" />
     <ClInclude Include="Map\MapObjectFactory\MapObjectFactory.h" />
+    <ClInclude Include="GameObject\ObjectInterface\ObjectInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />

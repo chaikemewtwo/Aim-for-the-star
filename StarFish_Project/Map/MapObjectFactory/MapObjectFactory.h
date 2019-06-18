@@ -2,20 +2,24 @@
 #include"../MapChip/MapChip.h"
 #include"../../Enemy/Enemy/EnemyManager.h"
 
+
 // マップオブジェクトを生成するクラス
+
 
 class MapObjectFactory {
 public:
 
 	MapObjectFactory(Map*map,EnemyManager*enemy_mng,Player * player1,Player * player2,ObjectManager*obj_mng);
 
-	void Create(int create_line, int create_chip_x, int create_chip_y, int chip_num, bool *is_active);
-	void Destory(int destory_line, int destory_chip_x, int destory_chip_y, bool *is_active);
+	void Update();
+
+	void Create(int create_line_y);
+	void Destory(int destory_line_y);
 	
 private:
 
-	void EnemyCreate(int x, int y, int chip_num);
-	void RockChipCreate(int x, int y, int chip_num);
+	void EnemyCreate(int x, int y);
+	void RockChipCreate(int x, int y);
 
 private:
 	Map * m_p_map;
