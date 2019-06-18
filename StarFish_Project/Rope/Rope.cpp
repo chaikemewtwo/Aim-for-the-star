@@ -74,32 +74,35 @@ void Rope::PlayersDistanceAdjust() {
 	if (MAX_ROPE_LEGTH > PlayersRadiusCalc()) {
 		return;
 	}
-	// どちらかが0以外(重力含む)の移動量を保持していなかった場合（泳いでいない自機がいる場合）
+	// どちらかが初期値以外(重力は含む)の移動量を保持していなかった場合（泳いでいない自機がいる場合）
 	if (m_p1->GetMove() != D3DXVECTOR2(0.f, 1.f) || m_p2->GetMove() != D3DXVECTOR2(0.f, 1.f)) {
-		ToPartnerAddMove(m_p1->SwimEnable(), m_p2->SwimEnable());
+		ToPlayersPull();
 	}
 }
 
 
-void Rope::ToPartnerAddMove(bool p1_is_swim, bool p2_is_swim) {
-	if (p1_is_swim == true || p2_is_swim == false) {
-		if (IsSameDirectionForPartner(m_p1, m_p2) == true) {
+void Rope::ToPlayersPull() {
+	// 自機1のみ泳ぐとき
+	if (m_p1->SwimEnable() == true || m_p2->SwimEnable() == false) {
+		if (PartnerIsThereDirection(m_p1, m_p2) == true) {
 			m_p2->SetMove(m_p1->GetMove() + m_p2->GetMove());
 		}
 	}
-	if (p1_is_swim == false || p2_is_swim == true) {
-		if (IsSameDirectionForPartner(m_p2, m_p1) == true) {
+	// 自機2のみ泳ぐ
+	if (m_p1->SwimEnable() == false || m_p2->SwimEnable() == true) {
+		if (PartnerIsThereDirection(m_p2, m_p1) == true) {
 			m_p1->SetMove(m_p2->GetMove() + m_p1->GetMove());
 		}
 	}
-	if (p1_is_swim == true && p2_is_swim == true) {
+	// 両方の自機が泳ぐ
+	if (m_p1->SwimEnable() == true && m_p2->SwimEnable() == true) {
 		m_p1->SetMoveX(0.f);
 		m_p2->SetMoveX(0.f);
 	}
 }
 
 
-bool Rope::IsSameDirectionForPartner(Player*myself, Player*partner) {
+bool Rope::PartnerIsThereDirection(Player*myself, Player*partner) {
 	// p1のX移動量がp1の座標から見て正の方向、p1の自機から見てp2の自機が正の方向
 	if (myself->GetMove().x < 0.f && myself->GetPos().x < partner->GetPos().x) {
 		return true;
