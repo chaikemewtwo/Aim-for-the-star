@@ -62,8 +62,6 @@ namespace Texture {
 		const char * file_name,
 		const float&pos_x,
 		const float&pos_y,
-		const float&scale_width,
-		const float&scale_height,
 		const int&tu_cut_num,
 		const int&tv_cut_num,
 		const int&animation_num,

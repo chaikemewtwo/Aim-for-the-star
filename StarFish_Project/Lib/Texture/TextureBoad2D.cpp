@@ -30,35 +30,166 @@ namespace Texture {
 
 
 	// 描画関係
-	void Draw2DGraph(const char*file_name, const float&pos_x, const float&pos_y) {
-		Draw2D(file_name, pos_x, pos_y);
+	void Draw2DGraph(
+		const char*file_name,
+		const float&pos_x,
+		const float&pos_y
+	) {
+		Draw2D(
+			file_name,
+			pos_x,
+			pos_y
+		);
 	}
 
-	void Draw2DTransGraph(const char*file_name, const float&pos_x, const float&pos_y,const float &scale_x,const float&scale_y,const float&angle) {
-		Draw2D(file_name, pos_x, pos_x, pos_y, scale_x, scale_y, angle);
+
+	void Draw2DTransGraph(
+		const char*file_name,
+		const float&pos_x,
+		const float&pos_y,
+		const float&scale_x,
+		const float&scale_y,
+		const float&angle
+	) {
+		Draw2D(
+			file_name,
+			pos_x,
+			pos_x,
+			pos_y,
+			scale_x,
+			scale_y,
+			angle
+		);
 	}
 
-	void Draw2DRotaGraph(const char*file_name, const float&pos_x, const float &pos_y, const float&angle) {
-		Draw2D(file_name, pos_x, pos_y, 1.f, 1.f, angle, 0.5f, 0.5f);
+
+	void Draw2DRotaGraph(
+		const char*file_name,
+		const float&pos_x,
+		const float &pos_y,
+		const float&angle
+	) {
+		Draw2D(
+			file_name,
+			pos_x,
+			pos_y,
+			1.f,
+			1.f,
+			angle,
+			0.5f,
+			0.5f
+		);
 	}
 
-	void Draw2DAnimationGraph(const char*file_name, const float&pos_x, const float&pos_y, const int &tu_cut_num, const int&tv_cut_num,const int&anim_num) {
-		Draw2D(file_name, pos_x, pos_y, 1.f, 1.f, 0.f, 0.f, 0.f, true, tu_cut_num, tv_cut_num, anim_num);
+
+	void Draw2DAnimationGraph(
+		const char*file_name,
+		const float&pos_x,
+		const float&pos_y,
+		const int &tu_cut_num,
+		const int&tv_cut_num,
+		const int&anim_num
+	) {
+		Draw2D(
+			file_name,
+			pos_x,
+			pos_y,
+			(float)(1.f / (float)tu_cut_num),
+			(float)(1.f / (float)tv_cut_num),
+			0.f,
+			0.f,
+			0.f,
+			true,
+			tu_cut_num,
+			tv_cut_num,
+			anim_num
+		);
 	}
 
-	void Draw2DRotaAnimation(const char*file_name, const float&pos_x, const float&pos_y, const float &angle, const int &tu_cut_num, const int&tv_cut_num, const int&anim_num) {
-		Draw2D(file_name, pos_x, pos_y, 1.f, 1.f, angle, 0.f, 0.f, true, tu_cut_num, tv_cut_num, anim_num);
+
+	void Draw2DRotaAnimation(
+		const char*file_name,
+		const float&pos_x,
+		const float&pos_y,
+		const float &angle,
+		const int &tu_cut_num,
+		const int&tv_cut_num,
+		const int&anim_num
+	) {
+		Draw2D(
+			file_name,
+			pos_x,
+			pos_y,
+			(float)(1.f / (float)tu_cut_num),
+			(float)(1.f / (float)tv_cut_num),
+			angle,
+			0.f,
+			0.f,
+			true,
+			tu_cut_num,
+			tv_cut_num,
+			anim_num
+		);
 	}
 
-	void Draw2DUVShift(const char*file_name, const float &pos_x, const float &pos_y, const float&shift_tu, const float&shift_tv) {
-		Draw2D(file_name, pos_x, pos_y, 1.f, 1.f, 0.f, 0.f, 0.f, false,0,0,0,shift_tu,shift_tv);
+
+	void Draw2DUVShift(
+		const char*file_name,
+		const float &pos_x,
+		const float &pos_y,
+		const float&shift_tu,
+		const float&shift_tv
+	) {
+		Draw2D(
+			file_name,
+			pos_x,
+			pos_y,
+			1.f,
+			1.f,
+			0.f,
+			0.f,
+			0.f,
+			false,
+			0,
+			0,
+			0,
+			shift_tu, shift_tv
+		);
 	}
 
-	void Draw2DAnimationUVSampler(const char * file_name, const float &pos_x, const float&pos_y, const float&scale_width,const float&scale_height, const int&tu_cut_num, const int&tv_cut_num, const int&animation_num, SamplerStateType sampler_state_type) {
-		Draw2D(file_name, pos_x, pos_y,scale_width,scale_height, 0.f, 0.f, 0.f, true, tu_cut_num, tv_cut_num, animation_num,0.f,0.f,sampler_state_type);
+
+	void Draw2DAnimationUVSampler(
+		const char * file_name,
+		const float &pos_x,
+		const float&pos_y,
+		const int&tu_cut_num,
+		const int&tv_cut_num,
+		const int&animation_num,
+		SamplerStateType sampler_state_type
+	) {
+
+		Draw2D(
+			file_name,
+			pos_x,
+			pos_y,
+			(float)(1.f / (float)tu_cut_num),
+			(float)(1.f / (float)tv_cut_num),
+			0.f,
+			0.f,
+			0.f,
+			true,
+			tu_cut_num,
+			tv_cut_num,
+			animation_num,
+			0.f,
+			0.f,
+			sampler_state_type
+		);
 	}
+
 
 	namespace Size {
+
 
 		// サイズ取得関数
 		float GetGraphSizeX(const char*file_name) {
@@ -67,11 +198,13 @@ namespace Texture {
 			return 0.f;
 		}
 
+
 		float GetGraphSizeY(const char*file_name) {
 			TextureData *tex_d = &Texture::GetData(file_name);
 			return tex_d->Height;
 			return 0.f;
 		}
+
 
 		D3DXVECTOR2 GetGraphSizeVec2(const char*file_name) {
 			return D3DXVECTOR2(
@@ -79,15 +212,18 @@ namespace Texture {
 				GetGraphSizeY(file_name));
 		}
 
+
 		// 分割画像サイズの一つ分を取得
 		// div_numはXかYの分割数を入れる
 		float GetDivGraphSizeXByCutSize(const char*file_name, int div_num_x) {
 			return (GetGraphSizeX(file_name) / div_num_x);
 		}
 
+
 		float GetDivGraphSizeYByCutSize(const char*file_name, int div_num_y) {
 			return (GetGraphSizeY(file_name) / div_num_y);
 		}
+
 
 		D3DXVECTOR2 GetGraphSizeVec2ByCutSize(const char*file_name, int div_num_x, int div_num_y) {
 			return D3DXVECTOR2(
@@ -101,11 +237,11 @@ namespace Texture {
 		const char*file_name,         // ファイル名
 		float x,                      // x座標
 		float y,					  // y座標
-		float scale_width,				  // 横の拡縮
-		float scale_height,				  // 縦の拡縮
+		float scale_width,			  // 横の拡縮
+		float scale_height,			  // 縦の拡縮
 		float angle,				  // 角度
-		float ofset_x,					  // オフセットx(描画頂点をずらす)
-		float ofset_y,					  // オフセットy
+		float ofset_x,				  // オフセットx(描画頂点をずらす)
+		float ofset_y,				  // オフセットy
 		bool is_graph_uv_cut,		  // 画像をカットするか
 		int u_cut_num,				  // u軸のカット数
 		int v_cut_num,				  // v軸のカット数
@@ -114,12 +250,12 @@ namespace Texture {
 		float v,					  // テクスチャ座標のv軸をずらす
 		SamplerStateType type         // サンプラーステートの状態
 	)
-	{ 
+	{
 
 		// テクスチャデータの参照受け取り
-		TextureData *tex_d = &Texture::GetData(file_name); 
+		TextureData *tex_d = &Texture::GetData(file_name);
 		// uvの範囲を設定する数
-		float uv_range_num = 0.f;
+		float u_range_num = 0.f;
 
 		// テクスチャ描画エラー HACK
 		//if (Texture::IsTextureRedistr(file_name) == false) {
@@ -152,28 +288,29 @@ namespace Texture {
 
 		// サンプラーステートの設定
 		if (SetSamplerStateSelect(type) == true) {
-			uv_range_num = 1.f;
+			u_range_num = 1.f;
 		}
 
 		// VERTEX3Dの初期化,UV.hからUVをずらして受け取り
-		CustomVertex cv[] = 
+		CustomVertex cv[] =
 		{
-		// 左上
-		{ {x1,y1,0.0f},1.0f,D3DCOLOR(0xfffffff),{ uv.GetUvUpLeftPos().x + uv_range_num,uv.GetUvUpLeftPos().y + uv_range_num} },              
-		// 右上
-		{ {x2,y1,0.0f},1.0f,D3DCOLOR(0xfffffff),{ uv.GetUvUpRightPos().x + u + uv_range_num,uv.GetUvUpRightPos().y + uv_range_num} },        
+			// 左上
+			{ { x1,y1,0.0f },1.0f,D3DCOLOR(0xfffffff),{ uv.GetUvUpLeftPos().x + u_range_num,uv.GetUvUpLeftPos().y } },
+			// 右上
+		{ { x2,y1,0.0f },1.0f,D3DCOLOR(0xfffffff),{ uv.GetUvUpRightPos().x + u + u_range_num,uv.GetUvUpRightPos().y } },
 		// 右下
-		{ {x2,y2,0.0f},1.0f,D3DCOLOR(0xfffffff),{ uv.GetUvDownRightPos().x + u + uv_range_num,uv.GetUvDownRightPos().y + v + uv_range_num} },  
+		{ { x2,y2,0.0f },1.0f,D3DCOLOR(0xfffffff),{ uv.GetUvDownRightPos().x + u + u_range_num,uv.GetUvDownRightPos().y + v } },
 		// 左下
-		{ {x1,y2,0.0f},1.0f,D3DCOLOR(0xfffffff),{ uv.GetUvDownLeftPos().x + uv_range_num,uv.GetUvDownLeftPos().y + v + uv_range_num} },    
+		{ { x1,y2,0.0f },1.0f,D3DCOLOR(0xfffffff),{ uv.GetUvDownLeftPos().x + u_range_num,uv.GetUvDownLeftPos().y + v } },
 		};
 
+
 		// サンプラーステート(描画外は描画しないようにするため,デフォルト)
-		//D3D9::GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSU,D3DTADDRESS_MIRROR);
-		//D3D9::GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSV,D3DTADDRESS_MIRROR);
+		//D3D9::GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+		//D3D9::GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
 
 		// 行列計算
-		D3DXMATRIX mat_world = GetMatrixTransformCalc(x, y,tex_d->Width * scale_width,tex_d->Height * scale_height, angle);
+		D3DXMATRIX mat_world = GetMatrixTransformCalc(x, y, tex_d->Width * scale_width, tex_d->Height * scale_height, angle);
 
 		// 行列を頂点配列に変換
 		D3DXVec3TransformCoordArray((D3DXVECTOR3*)cv, sizeof(CustomVertex), (D3DXVECTOR3*)cv, sizeof(CustomVertex), &mat_world, std::size(cv));
@@ -182,9 +319,9 @@ namespace Texture {
 		D3D9::GetLpDirect3DDevice9()->SetFVF(FVF_2D);
 
 		// デバイスにそのまま渡すことができる。
-		D3D9::GetLpDirect3DDevice9()->SetTexture(0,Texture::GetData(file_name));// これはテクスチャの指定、ポインタを渡して確認する。
-		
-		// 図形を元にポリゴン作成
+		D3D9::GetLpDirect3DDevice9()->SetTexture(0, Texture::GetData(file_name));// これはテクスチャの指定、ポインタを渡して確認する。
+
+																				 // 図形を元にポリゴン作成
 		D3D9::GetLpDirect3DDevice9()->DrawPrimitiveUP(
 			D3DPT_TRIANGLEFAN,
 			2,

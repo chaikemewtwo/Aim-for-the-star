@@ -111,6 +111,19 @@ namespace D3D9 {
 
 
 	/**
+	* @brief DirectX上に設定してあるSamplerStateを取得する
+	* @param[in] sampler_stage_index サンプラーステージのインデックス
+	* @param[in] member_type 任意のパラメータをメンバにできる
+	* @param[out] *get_state 取得する状態値、member_typeによって変わる
+	* @return 取得に成功すればtrue、失敗すればfalseを返す
+	*/
+	bool GetSamplerState(
+		DWORD sampler_stage_index,
+		D3DSAMPLERSTATETYPE member_type,
+		DWORD *get_state);
+
+
+	/**
 	* @brief デバイスのゲッター
 	* @return LPDIRECT3DDEVICE9を返す
 	*/

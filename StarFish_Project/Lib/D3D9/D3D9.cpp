@@ -3,7 +3,7 @@
 
 
 namespace D3D9 {
-	
+
 
 	// D3D9パラメータ変数
 	LPDIRECT3DDEVICE9 d3d_device9;      // グラフィック関連のデバイスを管理
@@ -19,7 +19,7 @@ namespace D3D9 {
 
 
 		// ウィンドウハンドルのnullチェック
-		if (Window::GetWindowHandle() == NULL){
+		if (Window::GetWindowHandle() == NULL) {
 
 			// ウィンドウハンドルの取得に失敗
 			MessageBoxA(0, "GetWindowHandle...Error/Place...D3D9>Init", TEXT("MessageBoxA"), MB_OK);
@@ -48,51 +48,51 @@ namespace D3D9 {
 		ZeroMemory(&d3d_pp, sizeof(D3DPRESENT_PARAMETERS));
 
 		/* 描画設定 */
-		
+
 		// 横の解像度
-		d3d_pp.BackBufferWidth = width_size;                         
+		d3d_pp.BackBufferWidth = width_size;
 		// 縦の解像度
-		d3d_pp.BackBufferHeight = height_size;						   
+		d3d_pp.BackBufferHeight = height_size;
 		// ディスプレイモード
-		d3d_pp.BackBufferFormat = D3DFMT_X8R8G8B8;             
+		d3d_pp.BackBufferFormat = D3DFMT_X8R8G8B8;
 		// バックバッファの数
-		d3d_pp.BackBufferCount = back_buffer_count;							  
+		d3d_pp.BackBufferCount = back_buffer_count;
 		// マルチサンプルの数
-		d3d_pp.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;	  
+		d3d_pp.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;
 		// マルチサンプルの品質レベル
-		d3d_pp.MultiSampleQuality = 0;						   
+		d3d_pp.MultiSampleQuality = 0;
 		// フロントバッファとバックバッファの切り替え方法
-		d3d_pp.SwapEffect = D3DSWAPEFFECT_DISCARD;			   
+		d3d_pp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 		// 画面を描画するウィンドウハンドル
-		d3d_pp.hDeviceWindow = h_wnd;					       
+		d3d_pp.hDeviceWindow = h_wnd;
 		// スクリーンモード
-		d3d_pp.Windowed = windowed;							       
+		d3d_pp.Windowed = windowed;
 		// 深度ステンシルバッファがあるかどうか
-		d3d_pp.EnableAutoDepthStencil = TRUE;				   
+		d3d_pp.EnableAutoDepthStencil = TRUE;
 		// ステンシルバッファのフォーマット
-		d3d_pp.AutoDepthStencilFormat = D3DFMT_D24S8;		   
+		d3d_pp.AutoDepthStencilFormat = D3DFMT_D24S8;
 		// バックバッファからフロントバッファへ転送時のオプション
-		d3d_pp.Flags = D3DPRESENTFLAG_DISCARD_DEPTHSTENCIL;    
+		d3d_pp.Flags = D3DPRESENTFLAG_DISCARD_DEPTHSTENCIL;
 		// フルスクリーンでのリフレッシュレート
-		d3d_pp.FullScreen_RefreshRateInHz = 0;				   
+		d3d_pp.FullScreen_RefreshRateInHz = 0;
 		// スワップエフェクトの書き換えタイミング
-		d3d_pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE; 
+		d3d_pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
 
 
 		// デバイスの作成
 		direct3d9->CreateDevice(
 			// ディスプレイアダプターの種類
-			D3DADAPTER_DEFAULT,                               
+			D3DADAPTER_DEFAULT,
 			// デバイスの種類を設定
-			D3DDEVTYPE_HAL,                                    
+			D3DDEVTYPE_HAL,
 			// デバイスが割り当てられるウィンドウハンドル
-			h_wnd,								               
+			h_wnd,
 			// デバイス制御の組み合わせ
-			D3DCREATE_HARDWARE_VERTEXPROCESSING,               
+			D3DCREATE_HARDWARE_VERTEXPROCESSING,
 			// デバイスを設定するためのD3DPRESENT_PARAMETERS構造体のアドレスを渡す
-			&d3d_pp,							               
+			&d3d_pp,
 			// LPDIRECT3DDEVICE9のアドレスを渡す
-			&d3d_device9						               
+			&d3d_device9
 		);
 
 
@@ -142,17 +142,17 @@ namespace D3D9 {
 		// シーンのクリア
 		d3d_device9->Clear(
 			// D3DRECT*の矩形の数
-			0,	  
+			0,
 			// ビューポート全体をクリア
-			NULL, 
+			NULL,
 			// Zバッファとステンシルをクリア       
 			D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
 			// クリアする色情報(背景色)
-			NULL, 
+			NULL,
 			// 深度バッファで使用(未使用なら0,f)
-			1.0f, 
+			1.0f,
 			// ステンシルバッファで使用する値(未使用なら0)
-			0     
+			0
 		);
 
 		// シーン描画を開始する
@@ -173,7 +173,7 @@ namespace D3D9 {
 		d3d_device9->EndScene();
 		// バッファ転送(バックバッファに描画してあるものをフロントバッファに送る)
 		d3d_device9->Present(
-			  NULL     // 転送元矩形
+			NULL     // 転送元矩形
 			, NULL	   // 転送先矩形
 			, NULL	   // ウィンドウハンドル
 			, NULL);   // 基本NULL
@@ -188,8 +188,8 @@ namespace D3D9 {
 	}
 
 	/* GetViewPortやSetViewPortなどもある*/
-	
-	void SetUpViewPort(DWORD x, DWORD y,DWORD width,DWORD height,FLOAT min_z,FLOAT max_z) {
+
+	void SetUpViewPort(DWORD x, DWORD y, DWORD width, DWORD height, FLOAT min_z, FLOAT max_z) {
 
 		D3DVIEWPORT9 d3d_view_port9;
 
@@ -201,7 +201,7 @@ namespace D3D9 {
 		d3d_view_port9.MinZ = 0.f;	     // Z深度 : 最小
 		d3d_view_port9.MaxZ = 1.f;	     // Z深度 : 最大
 
-		// ビューポート設定
+										 // ビューポート設定
 		SetViewPort(d3d_view_port9);
 	}
 
@@ -232,18 +232,19 @@ namespace D3D9 {
 
 	void SamplerStateUMirror() {
 
-		// 描画UVを反転させる
+		// 描画Uを反転させる
 		GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_MIRROR);
 	}
 
 
 	void SamplerStateVMirror() {
+		// 描画Vを反転させる
 		GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_MIRROR);
 	}
 
 
 	void SamplerStateClamp() {
-		
+
 		// 描画UVループテクスチャ描画なし
 		GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
 		GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
@@ -259,7 +260,17 @@ namespace D3D9 {
 
 
 	void SamplerStateBorderColor() {
-		GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_BORDERCOLOR,0xffffff);
+		GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_BORDERCOLOR, 0xffffff);
+	}
+
+
+	bool GetSamplerState(DWORD sampler_stage_index, D3DSAMPLERSTATETYPE member_type, DWORD *get_state) {
+
+		if (GetLpDirect3DDevice9()->GetSamplerState(sampler_stage_index, member_type, get_state) != MB_OK) {
+			return false;
+		}
+
+		return true;
 	}
 
 
