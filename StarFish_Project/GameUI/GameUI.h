@@ -40,6 +40,6 @@ private:
 private:
 	Player * m_p1;	// 自機1
 	Player * m_p2;	// 自機2
-	std::string m_1p_gage_texture;	// 自機1のゲージ
-	std::string m_2p_gage_texture;	// 自機2のゲージ
+	std::string m_1p_gage_texture;	// 自機1のスタミナゲージ
+	std::string m_2p_gage_texture;	// 自機2のスタミナゲージ
 };

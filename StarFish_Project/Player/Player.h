@@ -4,6 +4,7 @@
 #include"PlayerState\PlayerStateBase.h"
 #include"../Lib/Texture/TextureBoad2D.h"
 #include"../Lib/Sound/DirectSound.h"
+#include"../Map/MapChip/MapChip.h"
 
 
 class Map;
@@ -69,6 +70,7 @@ public:
 	// プレイヤー移動量セッター
 	void SetMove(D3DXVECTOR2 move);
 
+	// プレイヤーY移動量セッター、ロープで使用
 	void SetMoveX(float move_x) {
 		m_move.x = move_x;
 	}
@@ -78,7 +80,7 @@ public:
 	//-----------------------------------------------------
 
 	//-----------------------------------------------------
-	// 状態遷移（各State）で使用する関数
+	// 各Stateで使用する関数
 
 	// 状態切り替え
 	// 各StateのInitも行う
@@ -171,10 +173,11 @@ private:
 	static const D3DXVECTOR2 STAR_2_FIRST_POS;
 
 	// テクスチャサイズ調整
+	// 4*4サイズの統合画像で1枚を0.25倍ずつしたい時この値は{0.25f,0.25f}
 	static const D3DXVECTOR2 TEXTURE_SIZE_OFFSET;
 
 	// 画像分割
-	// 使用例:4*4サイズの統合画像ならこの値は{4.f,4.f}
+	// 4*4サイズの統合画像ならこの値は{4.f,4.f}
 	static const D3DXVECTOR2 TEXTURE_PARTITION;
 
 	// スタミナ最大値
@@ -185,32 +188,38 @@ private:
 
 	// 敵と被弾後の無敵時間カウントの最大値
 	// このフレーム数だけ無敵時間が行われる
-	static const float MAX_INVISIBLE_COUNT;
+	static const int MAX_INVISIBLE_COUNT;
+
+	// 無敵時間による描画切り替えの切り替える時間
+	// 描画切り替えを何フレーム区切りで行うか
+	static const int INVISIBLE_DRAW_SWITCH_TIME;
 
 private:
-	// 無敵時間タイマー、未実装
-	// (点滅させる)
-	void DBGGetDamageTimer();
+	// 無敵時間タイマー
+	void InvisibleCount();
+
+	// 無敵時間と死亡による描画のONOFF
+	// 無敵時間に入ると描画が一定の速度で点滅しますが死亡すると永続的に描画します
+	void InvisibleDrawSwitch();
 
 	// 自機との当たり判定後の処理
 	// 基本的にEnemyとの当たりで使用する
-	// 引数は当たりたいオブジェクトの種類
+	// 引数(当たりたいオブジェクトの種類)
 	void HitAction(Type type)override;
 
 private:
 	std::string m_player_texture;	// 画像格納用
 	D3DXVECTOR2 m_move;				// X、Y方向移動量
 	float m_angle;					// 自機画像角度（MAX_ANGLEから-MAX_ANGLE度まで）
-	float m_stamina;				// スタミナ
+	float m_stamina;				// スタミナ（最大値はMAX_STAMINA）
 	int m_state_change_timer;		// 状態遷移用タイマー		
-	int m_invisible_count;			// 敵と被弾後の無敵時間カウント					
+	int m_invisible_count;			// 敵と被弾後の無敵時間カウント（最大値はMAX_INVISIBLE_COUNT）				
 	bool m_draw_enable;				// 被弾時点滅用描画切り替え			
-	bool m_invisible_count_start;					// 被弾フラグ（まだ未使用）
 	bool m_swim_enable;				// 泳いでるフラグ(泳ぎ状態のときtrue)
-
 	
-	PlayerStateBase* m_p_state;		// ステート基底クラス					
+	PlayerStateBase* m_p_state;		// ステート基底クラスを保持					
+	MapChip* m_p_mapchip;			// マップチップクラスを保持
+	
 	IDirectSoundBuffer8* m_p_hit_se;	// 被弾SE
-										
 	Audio& m_p_audio = Audio::getInterface();	// オーディオインターフェース
 };

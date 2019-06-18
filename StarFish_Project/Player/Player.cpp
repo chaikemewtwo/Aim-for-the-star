@@ -4,7 +4,7 @@
 #include <cmath>
 
 
-const float Player::PLAYER_COLLSION_RADIUS = 128.f;
+const float Player::PLAYER_COLLSION_RADIUS = 64.f;
 const float Player::PLAYER_SPEED = 3.f;
 const D3DXVECTOR2 Player::STAR_1_FIRST_POS = { Window::WIDTH / 2.f - 200.f, Window::HEIGHT / 2.f + 200.f };
 const D3DXVECTOR2 Player::STAR_2_FIRST_POS = { Window::WIDTH / 2.f + 200.f, Window::HEIGHT / 2.f + 200.f };
@@ -14,8 +14,9 @@ const float Player::GRAVITY = 1.f;
 const float Player::ANGLE_ADD = 0.5f;
 const float Player::MAX_ANGLE = 45.f;
 const float Player::MAX_STAMINA = 1000.f;
-const float Player::DECREASE_STAMINA = 10.f;
-const float Player::MAX_INVISIBLE_COUNT = 180.f;
+const float Player::DECREASE_STAMINA = 300.f;
+const int Player::MAX_INVISIBLE_COUNT = 180;
+const int Player::INVISIBLE_DRAW_SWITCH_TIME = 20;
 
 
 Player::Player(ID_TYPE id) :
@@ -23,8 +24,7 @@ Player::Player(ID_TYPE id) :
 	m_move(0.f, 0.f),
 	m_angle(0.f),
 	m_draw_enable(true),
-	m_invisible_count(0),
-	m_invisible_count_start(false)
+	m_invisible_count(0)
 	{
 	// 自機2種類の共通部分の初期化
 
@@ -110,7 +110,9 @@ void Player::Update() {
 		EnableDead();
 	}
 
-	DBGGetDamageTimer();
+	// 無敵時間
+	// ずっとUpdate内で回ってるのがよろしくないかも　19/06/18
+	InvisibleCount();
 
 	// ステート更新（内部の処理は各ステート内で管理しています）
 	m_p_state->Update(this);
@@ -171,29 +173,35 @@ void Player::SwimUp() {
 
 
 void  Player::HitAction(Type type) {
-	bool prev_invisible_count_start = m_invisible_count_start;
 	// HACK:HitActionは毎フレーム実行されるので注意、無敵はフラグ等を立てて実装する
 	if (type == ENEMY&&m_is_active == true&& m_invisible_count <= 0) {
 		DecStamina(DECREASE_STAMINA);
 		m_p_hit_se->Play(0,0,0);
-		m_invisible_count_start = true;
-	}
-	else {
-		m_invisible_count_start = false;
+		m_invisible_count = MAX_INVISIBLE_COUNT;
 	}
 }
 
 
-// 未実装
-void Player::DBGGetDamageTimer() {
-	if (m_invisible_count_start = true) {
-		m_invisible_count = MAX_INVISIBLE_COUNT;
-		if (m_invisible_count > 0) {
-			--m_invisible_count;
-		}
-		if (m_invisible_count % 25 == 0) {
-			m_draw_enable == true ? false : true;
-		}
+void Player::InvisibleCount() {
+	if (m_invisible_count > 0) {
+		--m_invisible_count;
+		InvisibleDrawSwitch();
+	}
+}
+
+
+void Player::InvisibleDrawSwitch() {
+	// 描画する
+	if ((m_invisible_count / INVISIBLE_DRAW_SWITCH_TIME) % 2 == 0) {
+		m_draw_enable = true;
+	}
+	// 描画しない
+	else if ((m_invisible_count / INVISIBLE_DRAW_SWITCH_TIME) % 2 == 1) {
+		m_draw_enable = false;
+	}
+	// 死んだらずっと描画
+	if (m_is_active == false) {
+		m_draw_enable = true;
 	}
 }
 
