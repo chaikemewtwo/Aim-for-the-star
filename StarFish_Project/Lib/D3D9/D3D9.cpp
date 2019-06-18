@@ -230,10 +230,14 @@ namespace D3D9 {
 	}
 
 
-	void SamplerStateMirror() {
+	void SamplerStateUMirror() {
 
 		// 描画UVを反転させる
 		GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_MIRROR);
+	}
+
+
+	void SamplerStateVMirror() {
 		GetLpDirect3DDevice9()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_MIRROR);
 	}
 

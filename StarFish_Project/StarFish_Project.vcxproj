@@ -50,6 +50,10 @@
     <ClCompile Include="Enemy\State\EnemySideMoveState.cpp" />
     <ClCompile Include="Enemy\State\EnemyVerticalMoveState.cpp" />
     <ClCompile Include="Enemy\State\EnemyWaitState.cpp" />
+    <ClCompile Include="GameObject\ObjectInterface\ObjectInterface.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameObject\ObjectManager\ObjectManager.cpp" />
     <ClCompile Include="GameObject\Object\Object.cpp" />
     <ClCompile Include="Lib\D3D9\D3D9.cpp" />
@@ -63,6 +67,7 @@
     <ClCompile Include="Map\BedRockChip\BedRockChip.cpp" />
     <ClCompile Include="Map\MapChip\MapChip.cpp" />
     <ClCompile Include="Map\MapManager\MapManager.cpp" />
+    <ClCompile Include="Map\MapObjectFactory\MapObjectFactory.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.cpp" />
@@ -125,6 +130,10 @@
     <ClInclude Include="Enemy\State\EnemyStateBase.h" />
     <ClInclude Include="Enemy\State\EnemyVerticalMoveState.h" />
     <ClInclude Include="Enemy\State\EnemyWaitState.h" />
+    <ClInclude Include="GameObject\ObjectInterface\ObjectInterface.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameObject\ObjectManager\ObjectManager.h" />
     <ClInclude Include="GameObject\Object\Object.h" />
     <ClInclude Include="Lib\D3D9\D3D9.h" />
@@ -140,6 +149,7 @@
     <ClInclude Include="Map\BedRockChip\BedRockChip.h" />
     <ClInclude Include="Map\MapChip\MapChip.h" />
     <ClInclude Include="Map\MapManager\MapManager.h" />
+    <ClInclude Include="Map\MapObjectFactory\MapObjectFactory.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.h" />
     <ClInclude Include="Player\PlayerState\PlayerStateBase.h" />

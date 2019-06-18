@@ -14,7 +14,7 @@
 
 
 namespace D3D9 {
-	
+
 
 	/**
 	* @brief D3D9の初期化
@@ -30,15 +30,15 @@ namespace D3D9 {
 		BOOL windowed = TRUE,
 		UINT back_buffer_count = 1
 	);
-	
 
-	/** 
+
+	/**
 	* @brief スクリーンモードの変更
 	* @param[in] is_screen_mode スクリーンモードはtrue,フルスクリーンモードはfalse
 	*/
 	void SetScreenMode(BOOL is_screen_mode);
 
-	
+
 	/**
 	* @brief 解像度の変更
 	* @param[in] width_size 横のバックバッファサイズ
@@ -81,9 +81,15 @@ namespace D3D9 {
 
 
 	/**
-	* @brief SetSamplerStateをミラーに変更する 
+	* @brief SetSamplerStateでU軸をミラーに変更する
 	*/
-	void SamplerStateMirror();
+	void SamplerStateUMirror();
+
+
+	/**
+	* @brief SetSamplerStateでV軸をミラーに変更する
+	*/
+	void SamplerStateVMirror();
 
 
 	/**
@@ -123,9 +129,10 @@ namespace D3D9 {
 	*/
 	void DrawEnd();
 
-	
+
 	/**
 	* @brief グラフィックスの解放
 	*/
 	void Release();
+
 }

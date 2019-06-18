@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include"../../Map/BedRockChip/BedRockChip.h"
 #include<vector>
+#include"../../Player/Player.h"
+#include"../../GameObject/ObjectManager/ObjectManager.h"
 
 /*
 
@@ -28,32 +30,33 @@ struct MapChip {
 };
 
 
-// 各オブジェクトの前方参照
+// 前方参照
 class EnemyManager;
-class Player;
-class PlayerBase;
-class ObjectManager;
+class MapObjectFactory;
 
 
-// 衝突方向を渡す
-enum COL_DIRECTION {
-	COLLISION_X,
-	COLLISION_Y,
+// 壁に衝突した場合の列挙体
+enum WallCollisionType {
+	UP,
+	DOWN,
+	RIGHT,
+	LEFT,
+	TOTAL,
 };
 
-// プラスの符号に変換
-#define PlusSignChange (*(-1))
 
+// MapChipManager
 // 海マップ
 class Map : public Object {
 public:
 
-	/* 各定数 */
 	// 画像、全てのセルの大きさ
 	static constexpr int CHIP_SIZE = 64;
-	// マップのスクロール遷移ライン定数						   
+	// マップのスクロール遷移ライン定数   
 	static constexpr float SCROLL_RANGE_UP = 400.f;			// スクロール範囲上
 	static constexpr float SCROLL_RANGE_DOWN = 800.f;		// スクロール範囲下
+
+public:
 
 	Map(Player*star1, Player*star2, EnemyManager*e_mng,ObjectManager*obj_mng);
 
@@ -69,11 +72,12 @@ public:
 	bool Collision(D3DXVECTOR2&pos, D3DXVECTOR2&move);
 	
 	/* アクセサ */
-	//D3DXVECTOR2 GetMapPos()const;
 	D3DXVECTOR2 GetMove()const;
+	int GetMaxHeightMapSize()const;
+	// 位置をマップ座標に変換
+	int GetChipCastByPos(const float&pos)const;
 
 	bool IsStand()const;			 // 立っているかどうか
-	// 壁に衝突しているかどうかの活動
 	bool IsWallCollision()const;     // 方向関係なく壁に当たっているか
 	bool IsWallColUp()const;         // 上の壁に当たっているか
 	bool IsWallColDown()const;       // 下の壁に当たっているか
@@ -82,50 +86,43 @@ public:
 	bool IsScroll()const;			 // スクロールしているか
 	bool IsMaxScroll()const;         // 最大スクロールかどうか
 
-	// マップの初期化
+	// マップのスクロールの初期化
 	void SetIsScroll(bool is_scroll);
-
-	// スクロールを変更
-	void SetScrollRangeUp(float range);
-	void SetScrollRangeDown(float range);
+	// チップを選択して生きているかを変更する
+	void ActiveChangeChipSelect(int x,int y);
+	bool IsActiveChipSelect(int x, int y);
+	// チップを選択してチップ番号取得
+	int GetChipNumChipSelect(int x, int y);
 
 private:
 	
-	/* ---当たり判定--- */
-
 	// 床と当たっているかどうか
 	bool IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y);
-	bool IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y, int &col_chip);
 	// 横と縦の衝突後での位置補正
 	void SidePosFixToMapPos(float &pos_x, float &move_x);
 	void VerticalPosFixToMapPos(float &pos_y, float &move_y);
-	// 引っ付き判定
-	void CenterStuckChip(float &pos_x,float &pos_y,float &move_x,float &move_y);
-	// チップのアクションを起こす関数(ブロックが壊れる、吸いつくなど)
-	void ChipAction(D3DXVECTOR2 &pos, D3DXVECTOR2&move_pos, int chip_num, COL_DIRECTION col_d = COLLISION_X);
+	
 	// 壁の衝突判定を初期化
 	void InitWallCollision();
-
-
-	/* ---描画遷移関係--- */
-
+	// マップ読み込み
+	void Load(const std::string&file_name);
 	// 描画範囲に入っているか入っていないか判断する関数
 	int Scroll(float&pos_y,float&move_y);
 	// 地面に着地する点
-	void ScrollMaxMove();
-
-	/* マップ操作 */
-
-	// マップ読み込み
-	void Load(const std::string&file_name);
-	// 敵生成群
-	void EnemyCreateGather(int x, int y, int chip_num);
-	// 位置をマップ座標に変換
-	int GetChipCastByPos(const float&pos)const;								   
+	void MaxScroll();
+	// 岩生成
+	void RockChipCreate(int x, int y, int chip_num);
+	// 敵生成
+	void EnemyCreate(int x, int y, int chip_num);
+	// 引っ付き判定
+	void CenterStuckChip(float &pos_x, float &pos_y, float &move_x, float &move_y);
+			
 	// マップ座標を位置に変換
-	float GetChipPosCastByChip(const float &chip_x, const float &chip_y)const; 
+	float GetChipPosCastByChip(const float &chip_x, const float &chip_y)const;
 	// 位置をマップ座標に変換
-	int GetChipParam(const float &pos_x, const float&pos_y);				   
+	int GetChipParameter(const float &pos_x, const float&pos_y);		
+	// プラスの符号に変換
+	void PlusSignChange(float &sign_change_num);
 	
 private:
 
@@ -138,32 +135,20 @@ private:
 	const float HIT_VERTEX_X = -32.f;			 // 当たり位置の大きさ
 	const float HIT_VERTEX_Y = -56.f;			 // 当たり位置の大きさ
 	// 縮小										    
-	const float CHIP_SCALE_X = 6.f;					 // 当たり位置の縮小横
-	const float CHIP_SCALE_Y = 6.f;					 // 当たり位置の縮小縦
+	const float CHIP_SCALE_X = 6.f;			     // 当たり位置の縮小横
+	const float CHIP_SCALE_Y = 6.f;			     // 当たり位置の縮小縦
 	// チップ生成領域							  
 	const int CHIP_RANGE_UP = 19;				 // 生成領域上
 	const int CHIP_RANGE_DOWN = 1;				 // 生成領域下
-	// 岩盤の最大チップ数						       
-	static const int MAX_BEDROCK_CHIP = 10;		 // 岩盤チップ数
 
 private:
 	
 	/* マップチップ関係 */
-	//tagMapChip m_map[500][200] = {};           // 全体マップバッファ
-	std::vector<std::vector<MapChip>>m_map_chip_list;
-	const char*chip_str[MAX_BEDROCK_CHIP];      // 岩盤のチップ文字列
-	float chip_u[MAX_BEDROCK_CHIP];             // 線を直す為にずらすUV用配列U
-	float chip_v[MAX_BEDROCK_CHIP];             // 線を直す為にずらすUV用配列V
-	D3DXVECTOR2 bedrock_chip_pos[MAX_BEDROCK_CHIP]; // 岩盤チップをずらす座標
-
-	/* マップ座標 */
+	std::vector<std::vector<MapChip>>m_map_chip_list;   // マップチップの配列
 
 	/* マップ描画領域 */					    
-	//D3DXVECTOR2 m_pos;         // 描画用マップの位置
 	D3DXVECTOR2 m_move;          // 描画用マップの位置
-	int m_max_height_map_size;        // マップデータの高さ
-	int m_map_chip_id[1000]={};  // 生成されたらマップチップを保存する
-	int m_chip_num;              // チップの番号
+	int m_max_height_map_size;   // マップデータの高さ
 							     
 	/* マップ遷移 */		     
 	float m_draw_range_up;       // 上の描画の範囲
@@ -172,17 +157,17 @@ private:
 	float m_scroll_range_down;   // スクロールライン下
 							     
 	/* 各オブジェクトの参照 */   
-	Player * m_pbase[2];         // 自機2体                     
-	EnemyManager * e_pmng;       // 敵の状態
-	ObjectManager * m_pobj_mng;  // オブジェクト管理
+	Player * m_p_player[2];                   // 自機2体                     
+	EnemyManager * m_p_enemy_mng;             // 敵の状態
+	ObjectManager * m_p_obj_mng;              // オブジェクト管理
 							     
 	/* 各フラグ */			     
 	bool m_is_stand;             // 立っているか
-	bool m_is_wall_col[2];       // 方向関係なく壁衝突しているか
-	bool m_is_wall_col_left;     // 左に衝突しているか
-	bool m_is_wall_col_right;    // 右に衝突しているか
-	bool m_is_wall_col_up;       // 上に衝突しているか
-	bool m_is_wall_col_down;     // 下に衝突しているか
+	bool m_is_wall_collision;          // 方向関係なく壁衝突しているか
+	bool m_is_wall_collision_left;     // 左に衝突しているか
+	bool m_is_wall_collision_right;    // 右に衝突しているか
+	bool m_is_wall_collision_up;       // 上に衝突しているか
+	bool m_is_wall_collision_down;     // 下に衝突しているか
 	bool m_is_scroll;            // スクロールしているか
 	bool m_is_max_scroll;        // 最大スクロールか 
 

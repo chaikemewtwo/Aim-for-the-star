@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include"../MapObjectFactory/MapObjectFactory.h"
 
 
 // 前方参照
@@ -29,7 +30,8 @@ public:
 private:
 
 	// ポインタ
-	Map *m_p_map;             // マップの選択
-	BackGround *m_p_bg1;       // 背景
-	BackGround *m_p_bg2;      // 奥行用の背景
+	Map *m_p_map;                              // マップの選択
+	BackGround *m_p_bg1;                       // 背景
+	BackGround *m_p_bg2;                       // 奥行用の背景
+	MapObjectFactory * m_p_map_object_factory; // マップのオブジェクト生成クラス
 };

@@ -90,15 +90,15 @@ void Resource::LoadResource() {
 	// 岩（仮）
 	Texture::Load("Resource/Texture/Map/chip_map_image_64.png");
 	// 岩清書
-	Texture::Load("Resource/Texture/Map/chip-map_image_01.png");
-	Texture::Load("Resource/Texture/Map/chip-map_image_02.png");
-	Texture::Load("Resource/Texture/Map/chip-map_image_03.png");
-	Texture::Load("Resource/Texture/Map/chip-map_image_04.png");
-	Texture::Load("Resource/Texture/Map/chip-map_image_05.png");
-	Texture::Load("Resource/Texture/Map/chip-map_image_06.png");
-	Texture::Load("Resource/Texture/Map/chip-map_image_07.png");
-	Texture::Load("Resource/Texture/Map/chip-map_image_08.png");
-	Texture::Load("Resource/Texture/Map/chip-map_image_09.png");
+	Texture::Load("Resource/Texture/Map/chip-map_image_1.png");
+	Texture::Load("Resource/Texture/Map/chip-map_image_2.png");
+	Texture::Load("Resource/Texture/Map/chip-map_image_3.png");
+	Texture::Load("Resource/Texture/Map/chip-map_image_4.png");
+	Texture::Load("Resource/Texture/Map/chip-map_image_5.png");
+	Texture::Load("Resource/Texture/Map/chip-map_image_6.png");
+	Texture::Load("Resource/Texture/Map/chip-map_image_7.png");
+	Texture::Load("Resource/Texture/Map/chip-map_image_8.png");
+	Texture::Load("Resource/Texture/Map/chip-map_image_9.png");
 	Texture::Load("Resource/Texture/Map/chip-map_image_10.png");
 
 	// 泡エフェクト

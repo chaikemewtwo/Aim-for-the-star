@@ -50,7 +50,9 @@ public:
 	UV(int div_w, int div_h);
 
 	// 右から画像を分割する
-	void ToTheRightDivGraph(int divsion_num);
+	void AnimationToTheRightDivGraph(int divsion_num);
+	// 左から画像を分割する
+	void AnimationToTheLeftDivGraph(int divsion_num);
 
 	// HACK　まだ完成していません
 	//void UAxisVAxisSelectionDivGraph(int u, int v);
@@ -60,7 +62,7 @@ public:
 	scale_xは実際に拡縮させる大きさ
 	while_scaleは全体の大きさ
 	*/
-	void UVGauge(const float &scale_x, const float &scale_y,const float&whole_scale_x,const float&whole_scale_y);
+	//void UVGauge(const float &scale_x, const float &scale_y,const float&whole_scale_x,const float&whole_scale_y);
 
 	// 左上頂点
 	D3DXVECTOR2 GetUvUpLeftPos(){
@@ -81,7 +83,9 @@ public:
 private:
 
 	// 最大の頂点バッファ
-	const float MAX_UV_BUFFER = 1.f;
+	const float MAX_UV_SIZE = 1.f;
+
+private:
 
 	// 分割する合計の数
 	int total_div_num;

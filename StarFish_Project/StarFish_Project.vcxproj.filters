@@ -39,6 +39,8 @@
     <ClCompile Include="Enemy\Enemy\NaporeonFish.cpp" />
     <ClCompile Include="Enemy\State\EnemyChaseState.cpp" />
     <ClCompile Include="Enemy\State\EnemyPatrolState.cpp" />
+    <ClCompile Include="Map\MapObjectFactory\MapObjectFactory.cpp" />
+    <ClCompile Include="GameObject\ObjectInterface\ObjectInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -85,6 +87,8 @@
     <ClInclude Include="Enemy\Enemy\NaporeonFish.h" />
     <ClInclude Include="Enemy\State\EnemyChaseState.h" />
     <ClInclude Include="Enemy\State\EnemyPatrolState.h" />
+    <ClInclude Include="Map\MapObjectFactory\MapObjectFactory.h" />
+    <ClInclude Include="GameObject\ObjectInterface\ObjectInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />
