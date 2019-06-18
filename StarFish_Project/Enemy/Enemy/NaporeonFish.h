@@ -11,4 +11,7 @@ public:
 	void Update()override;
 	void Draw()override;
 	StateId StateChangeCheck()override;
+
+private:
+	static const int CHASE_RANGE = 200;
 };

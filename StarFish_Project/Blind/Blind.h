@@ -1,8 +1,8 @@
 ﻿#pragma once
 
+#include"../Lib/Window/Window.h"
 #include"../GameObject/Object/Object.h"
 #include"../GameObject/ObjectManager/ObjectManager.h"
-#include"../Lib/Window/Window.h"
 
 
 class Blind :public Object {

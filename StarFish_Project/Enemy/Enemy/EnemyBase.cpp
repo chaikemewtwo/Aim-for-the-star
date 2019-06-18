@@ -14,9 +14,9 @@ EnemyBase::EnemyBase() {
 	// 当たり位置の頂点を画像の中心にずらす
 	m_offset.x = 64.f;
 	m_offset.y = 64.f;
-
 	m_delete_timer = 100;
 	m_max_animation = 0;
+
 	m_p_state_base = Wait::GetInstance();
 
 	// ソートオブジェクトに敵追加

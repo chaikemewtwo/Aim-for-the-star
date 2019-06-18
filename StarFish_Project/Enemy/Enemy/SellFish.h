@@ -15,7 +15,7 @@ public:
 	
 private:
 	// 攻撃範囲の距離
-	const int ATTACK_RANGE = 200;
+	static const int ATTACK_RANGE = 200;
 	// 攻撃前の準備状態の範囲距離
-	const int ATTACK_READY_RANGE = 350;
+	static const int ATTACK_READY_RANGE = 350;
 };

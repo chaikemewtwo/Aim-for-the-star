@@ -1,11 +1,8 @@
 ﻿#include"EnemyManager.h"
 #include"SeaUrchin.h"
 #include"SellFish.h"
-<<<<<<< HEAD
-=======
 #include"NaporeonFish.h"
 #include"../../Blind/Blind.h"
->>>>>>> Enemy_メガネモチノウオ
 
 
 EnemyManager::EnemyManager(ObjectManager* obg_mng) {
@@ -64,7 +61,7 @@ void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2
 	}
 
 	// 生成された敵をObjectManagerに登録
-	m_pobj_mng->Entry(m_enemy_list.back());
+	m_p_obj_mng->Entry(m_enemy_list.back());
 }
 //―――――――――――――――――――――――――――
 

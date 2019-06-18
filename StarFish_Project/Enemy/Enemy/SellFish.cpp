@@ -17,7 +17,6 @@ SellFish::SellFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2,bool can_mo
 	m_speed = 5.f;
 	m_max_animation = 2;
 	m_anim_change_time = 20;
-	m_no_move = no_move;
 
 	m_enemy_texture = m_texture_list[EnemyTexture::SELLFISH_WAIT];
 

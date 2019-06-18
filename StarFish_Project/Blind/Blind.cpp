@@ -8,8 +8,8 @@ Blind::Blind() {
 	// 変数の初期化
 	m_pos = { 0,0 };
 	m_goal_pos = { 0,0 };
-	m_speed = 3;
-	m_angle = 0;
+	m_speed = 3.f;
+	m_angle = 0.f;
 	m_animation_count = 0;
 	m_max_animation = 3;
 	m_anim_change_time = 15;
