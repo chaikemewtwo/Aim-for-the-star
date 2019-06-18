@@ -81,7 +81,7 @@ public:
 	// 状態遷移（各State）で使用する関数
 
 	// 状態切り替え
-	// 初期化もセットで行う
+	// 各StateのInitも行う
 	// 引数:(変更された後の状態)
 	void ChangeState(PlayerStateBase* state);
 
@@ -89,7 +89,7 @@ public:
 	void ResetAnimationCount();
 
 	// 重力負荷
-	// 移動量に加算
+	// 重力を移動量に加算
 	void AddGravity();
 
 	// X方向向き変更
@@ -183,10 +183,14 @@ private:
 	// 敵との被弾時に減らされるスタミナ
 	static const float DECREASE_STAMINA;
 
+	// 敵と被弾後の無敵時間カウントの最大値
+	// このフレーム数だけ無敵時間が行われる
+	static const float MAX_INVISIBLE_COUNT;
+
 private:
 	// 無敵時間タイマー、未実装
 	// (点滅させる)
-	//void DBGGetDamageTimer();
+	void DBGGetDamageTimer();
 
 	// 自機との当たり判定後の処理
 	// 基本的にEnemyとの当たりで使用する
@@ -197,11 +201,11 @@ private:
 	std::string m_player_texture;	// 画像格納用
 	D3DXVECTOR2 m_move;				// X、Y方向移動量
 	float m_angle;					// 自機画像角度（MAX_ANGLEから-MAX_ANGLE度まで）
-	float m_stamina;					// スタミナ
+	float m_stamina;				// スタミナ
 	int m_state_change_timer;		// 状態遷移用タイマー		
-	int m_invisible_count;			// 敵被弾後無敵時間					
+	int m_invisible_count;			// 敵と被弾後の無敵時間カウント					
 	bool m_draw_enable;				// 被弾時点滅用描画切り替え			
-	bool m_is_hit;					// 被弾フラグ（まだ未使用）
+	bool m_invisible_count_start;					// 被弾フラグ（まだ未使用）
 	bool m_swim_enable;				// 泳いでるフラグ(泳ぎ状態のときtrue)
 
 	

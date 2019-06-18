@@ -4,7 +4,7 @@
 #include <cmath>
 
 
-const float Player::PLAYER_COLLSION_RADIUS = 64.f;
+const float Player::PLAYER_COLLSION_RADIUS = 128.f;
 const float Player::PLAYER_SPEED = 3.f;
 const D3DXVECTOR2 Player::STAR_1_FIRST_POS = { Window::WIDTH / 2.f - 200.f, Window::HEIGHT / 2.f + 200.f };
 const D3DXVECTOR2 Player::STAR_2_FIRST_POS = { Window::WIDTH / 2.f + 200.f, Window::HEIGHT / 2.f + 200.f };
@@ -15,6 +15,7 @@ const float Player::ANGLE_ADD = 0.5f;
 const float Player::MAX_ANGLE = 45.f;
 const float Player::MAX_STAMINA = 1000.f;
 const float Player::DECREASE_STAMINA = 10.f;
+const float Player::MAX_INVISIBLE_COUNT = 180.f;
 
 
 Player::Player(ID_TYPE id) :
@@ -22,7 +23,8 @@ Player::Player(ID_TYPE id) :
 	m_move(0.f, 0.f),
 	m_angle(0.f),
 	m_draw_enable(true),
-	m_is_hit(false)
+	m_invisible_count(0),
+	m_invisible_count_start(false)
 	{
 	// 自機2種類の共通部分の初期化
 
@@ -50,6 +52,7 @@ Player::Player(ID_TYPE id) :
 		{ VK_LEFT, VK_RIGHT, VK_UP, 'M' }
 	};
 
+	// 上記を代入
 	for (int i = 0; i < MAX_KEY_NUM; i++){
 		imput_button_list[i] = input_list[id][i];
 	}
@@ -69,6 +72,7 @@ Player::Player(ID_TYPE id) :
 		"Resource/Texture/Player/hi_die.png" }
 	};
 
+	// 上記を代入
 	for (int i = 0; i < MAX_KEY_NUM; i++) {
 		star_texture_list[i] = texture_list[id][i];
 	}
@@ -105,6 +109,8 @@ void Player::Update() {
 	if(m_is_active == true && m_stamina <= 0){
 		EnableDead();
 	}
+
+	DBGGetDamageTimer();
 
 	// ステート更新（内部の処理は各ステート内で管理しています）
 	m_p_state->Update(this);
@@ -165,29 +171,31 @@ void Player::SwimUp() {
 
 
 void  Player::HitAction(Type type) {
-	
+	bool prev_invisible_count_start = m_invisible_count_start;
 	// HACK:HitActionは毎フレーム実行されるので注意、無敵はフラグ等を立てて実装する
-	if (type == ENEMY&&m_is_active == true) {
+	if (type == ENEMY&&m_is_active == true&& m_invisible_count <= 0) {
 		DecStamina(DECREASE_STAMINA);
 		m_p_hit_se->Play(0,0,0);
-		m_is_hit = true;
+		m_invisible_count_start = true;
 	}
 	else {
-		m_is_hit = false;
+		m_invisible_count_start = false;
 	}
 }
 
 
 // 未実装
-//void Player::DBGGetDamageTimer() {
-//	--m_invisible_count;
-//	/*if (m_is_hit != prev_is_hit) {
-//	
-//	}
-//	if (m_invisible_count % 25 == 0) {
-//		m_draw_enable == true ? false : true;
-//	}*/
-//}
+void Player::DBGGetDamageTimer() {
+	if (m_invisible_count_start = true) {
+		m_invisible_count = MAX_INVISIBLE_COUNT;
+		if (m_invisible_count > 0) {
+			--m_invisible_count;
+		}
+		if (m_invisible_count % 25 == 0) {
+			m_draw_enable == true ? false : true;
+		}
+	}
+}
 
 
 D3DXVECTOR2 Player::GetMove()const {

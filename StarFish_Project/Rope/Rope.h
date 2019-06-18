@@ -27,15 +27,17 @@ private:
 	// ロープで一方を引っ張るようなイメージです
 	void PlayersDistanceAdjust();
 
-	// もう一方の自機に移動量を加算
-	// 引数（p1の泳いでるフラグ,p2の泳いでるフラグ）
-	void ToPartnerAddMove(bool p1_is_swim, bool p2_is_swim);
+	// プレイヤー2体を引っ張る処理
+	// 泳いでる自機がいてもう一方の自機が泳いでないとき、
+	// 泳いでない自機に泳いでる自機の移動量を加算
+	// 両方の自機が画面外側に向かって泳いでる場合はX方向の移動量を0に
+	void ToPlayersPull();
 
 	// myselfのX移動量がmyselfのX座標から見て正or負の方向とmyselfから見てpartnerが正or負の方向を判別
 	// 端的に説明するとmyselfが行きたいX方向にpartnerがいるかどうか
 	// 正と正、負と負ならtrueが返りそれ以外はfalseが返ります
 	// 引数(比較する側のプレイヤーのポインタ,比較される側のプレイヤーポインタ)
-	bool IsSameDirectionForPartner(Player*myself, Player*partner);
+	bool PartnerIsThereDirection(Player*myself, Player*partner);
 
 private:
 	// ロープの最大の長さ
@@ -45,7 +47,7 @@ private:
 	static const float ROPE_LEGTH_OFFSET;
 
 	// 描画Y軸調整
-	//（自機の中心より少し下に変更、死亡状態でヒモの先端が見えてしまうため）
+	// 自機の中心より少し下に変更、死亡状態でヒモの先端が見えてしまうため
 	static const float POS_Y_OFFSET;
 
 private:
