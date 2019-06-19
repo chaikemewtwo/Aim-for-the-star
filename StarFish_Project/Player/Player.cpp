@@ -24,7 +24,8 @@ Player::Player(ID_TYPE id) :
 	m_move(0.f, 0.f),
 	m_angle(0.f),
 	m_draw_enable(true),
-	m_invisible_count(0)
+	m_invisible_count(0),
+	m_stamina(MAX_STAMINA)
 	{
 	// 自機2種類の共通部分の初期化
 
@@ -35,8 +36,6 @@ Player::Player(ID_TYPE id) :
 	m_offset = { PLAYER_COLLSION_RADIUS, PLAYER_COLLSION_RADIUS };
 
 	m_speed = PLAYER_SPEED;	
-
-	m_stamina = MAX_STAMINA;
 
 	// 描画順ソート
 	m_sort_object_type = SortObject::PLAYER;
@@ -52,7 +51,7 @@ Player::Player(ID_TYPE id) :
 		{ VK_LEFT, VK_RIGHT, VK_UP, 'M' }
 	};
 
-	// 上記を代入
+	// 上記のキー入力を代入
 	for (int i = 0; i < MAX_KEY_NUM; i++){
 		imput_button_list[i] = input_list[id][i];
 	}
@@ -72,7 +71,7 @@ Player::Player(ID_TYPE id) :
 		"Resource/Texture/Player/hi_die.png" }
 	};
 
-	// 上記を代入
+	// 上記の画像を代入
 	for (int i = 0; i < MAX_KEY_NUM; i++) {
 		star_texture_list[i] = texture_list[id][i];
 	}

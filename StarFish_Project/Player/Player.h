@@ -218,7 +218,7 @@ private:
 	bool m_swim_enable;				// 泳いでるフラグ(泳ぎ状態のときtrue)
 	
 	PlayerStateBase* m_p_state;		// ステート基底クラスを保持					
-	MapChip* m_p_mapchip;			// マップチップクラスを保持
+	//MapChip* m_p_mapchip;			// マップチップクラスを保持
 	
 	IDirectSoundBuffer8* m_p_hit_se;	// 被弾SE
 	Audio& m_p_audio = Audio::getInterface();	// オーディオインターフェース
