@@ -52,9 +52,14 @@ public:
 
 	// 画像、全てのセルの大きさ
 	static constexpr int CHIP_SIZE = 64;
-	// マップのスクロール遷移ライン定数   
-	static constexpr float SCROLL_RANGE_UP = 400.f;			// スクロール範囲上
-	static constexpr float SCROLL_RANGE_DOWN = 800.f;		// スクロール範囲下
+	// 画面マップチップの大きさ
+	static constexpr int MAX_CHIP_NUM_W = ((int)(Window::WIDTH) / CHIP_SIZE);   
+	// 画面マップチップの大きさ
+	static constexpr int MAX_CHIP_NUM_H = ((int)(Window::HEIGHT) / CHIP_SIZE);  
+	// スクロール範囲上
+	static constexpr float SCROLL_RANGE_UP = 400.f;
+	// スクロール範囲下
+	static constexpr float SCROLL_RANGE_DOWN = 800.f;
 
 public:
 
@@ -120,7 +125,7 @@ private:
 	// マップ座標を位置に変換
 	float GetChipPosCastByChip(const float &chip_x, const float &chip_y)const;
 	// 位置をマップ座標に変換
-	int GetChipParameter(const float &pos_x, const float&pos_y);		
+	int GetChipParam(const float &pos_x, const float&pos_y);		
 	// プラスの符号に変換
 	void PlusSignChange(float &sign_change_num);
 	
@@ -128,8 +133,6 @@ private:
 
 	/* 各定数 */
 	const int HEIGHT_INTERVAL = 60;                                 // 縦間隔をあけて遷移などをする
-	const int MAX_CHIP_NUM_W = ((int)(Window::WIDTH)/ CHIP_SIZE);   // 画面マップチップの大きさ
-	const int MAX_CHIP_NUM_H = ((int)(Window::HEIGHT)/ CHIP_SIZE);  // 画面マップチップの大きさ
 	const int MAP_SAET_NUM = 5;								        // マップシートの数
 	// オブジェクトとマップ当たり判定の頂点位置				   
 	const float HIT_VERTEX_X = -32.f;			 // 当たり位置の大きさ
@@ -144,32 +147,33 @@ private:
 private:
 	
 	/* マップチップ関係 */
-	std::vector<std::vector<MapChip>>m_map_chip_list;   // マップチップの配列
+	std::vector<std::vector<MapChip>>m_map_chip_list; // マップチップの配列
 
 	/* マップ描画領域 */					    
-	D3DXVECTOR2 m_move;          // 描画用マップの位置
-	int m_max_height_map_size;   // マップデータの高さ
+	D3DXVECTOR2 m_move;             // 描画用マップの位置
+	int m_max_height_map_size;      // マップデータの高さ
 							     
 	/* マップ遷移 */		     
-	float m_draw_range_up;       // 上の描画の範囲
-	float m_draw_range_down;     // 後ろの描画の範囲
-	float m_scroll_range_up;     // スクロールライン上
-	float m_scroll_range_down;   // スクロールライン下
+	float m_draw_range_up;          // 上の描画の範囲
+	float m_draw_range_down;        // 後ろの描画の範囲
+	float m_scroll_range_up;        // スクロールライン上
+	float m_scroll_range_down;      // スクロールライン下
 							     
 	/* 各オブジェクトの参照 */   
-	Player * m_p_player[2];                   // 自機2体                     
-	EnemyManager * m_p_enemy_mng;             // 敵の状態
-	ObjectManager * m_p_obj_mng;              // オブジェクト管理
+	Player * m_p_player[2];                    // 自機2体                     
+	EnemyManager * m_p_enemy_mng;              // 敵の状態
+	ObjectManager * m_p_obj_mng;               // オブジェクト管理
+	MapObjectFactory * m_p_map_object_factory; // マップのオブジェクト生成クラス
 							     
 	/* 各フラグ */			     
-	bool m_is_stand;             // 立っているか
-	bool m_is_wall_collision;          // 方向関係なく壁衝突しているか
-	bool m_is_wall_collision_left;     // 左に衝突しているか
-	bool m_is_wall_collision_right;    // 右に衝突しているか
-	bool m_is_wall_collision_up;       // 上に衝突しているか
-	bool m_is_wall_collision_down;     // 下に衝突しているか
-	bool m_is_scroll;            // スクロールしているか
-	bool m_is_max_scroll;        // 最大スクロールか 
+	bool m_is_stand;                // 立っているか
+	bool m_is_wall_collision;       // 方向関係なく壁衝突しているか
+	bool m_is_wall_collision_left;  // 左に衝突しているか
+	bool m_is_wall_collision_right; // 右に衝突しているか
+	bool m_is_wall_collision_up;    // 上に衝突しているか
+	bool m_is_wall_collision_down;  // 下に衝突しているか
+	bool m_is_scroll;               // スクロールしているか
+	bool m_is_max_scroll;           // 最大スクロールか 
 
 };
 

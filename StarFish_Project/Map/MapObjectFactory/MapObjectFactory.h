@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include"../MapChip/MapChip.h"
 #include"../../Enemy/Enemy/EnemyManager.h"
-
+#include"../BedRockChip/BedRockChip.h"
 
 // マップオブジェクトを生成するクラス
 
@@ -15,6 +15,17 @@ public:
 
 	void Create(int create_line_y);
 	void Destory(int destory_line_y);
+
+private:
+
+	// 上の生成線
+	static constexpr int CREATE_LINE_UP = 16;
+	// 下の生成線
+	static constexpr int CREATE_LINE_DOWN = 3;
+	// 上の生成線
+	static constexpr int DESTORY_LINE_UP = 17;
+	// 下の生成線
+	static constexpr int DESTORY_LINE_DOWN = 2;
 	
 private:
 
@@ -26,4 +37,7 @@ private:
 	EnemyManager * m_p_enemy_mng;
 	Player *m_p_player[2];
 	ObjectManager * m_p_obj_mng;
+
+	// BedRockChipの配列を持つ
+	std::vector<BedRockChip*>m_rock_chip_list;
 };

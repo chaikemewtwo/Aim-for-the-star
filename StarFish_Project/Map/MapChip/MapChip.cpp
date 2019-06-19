@@ -37,6 +37,8 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 		m_p_player[1] = star2;
 		m_p_enemy_mng = e_mng;
 		m_p_obj_mng = obj_mng;
+		// マップオブジェクト生成クラスを生成
+		m_p_map_object_factory = new MapObjectFactory(this, e_mng, star1, star2, obj_mng);
 	}
 
 	
@@ -111,8 +113,8 @@ void Map::Update() {
 	D3DXVECTOR2 player_move[2];  // 自機の移動ベクトル
 
 	/* オブジェクトの生成と削除 */
-	MapObjectCreate();
-	MapObjectDestory();
+	//MapObjectCreate();
+	//MapObjectDestory();
 
 	// マップの移動ベクトル初期化
 	m_move.x = m_move.y = 0.f;
@@ -156,7 +158,10 @@ void Map::Update() {
 
 // マップの描画
 void Map::Draw() {
+
+	// 更新
 	//MapObjectCreate();
+	m_p_map_object_factory->Update();
 }
 
 
@@ -468,7 +473,7 @@ bool Map::IsFloorCollision(float pos_x, float pos_y,float move_x,float move_y) {
 	D3DXVECTOR2 after_pos(pos_x + move_x ,pos_y + move_y + (m_pos.y) + m_move.y);
 
 	// 床と衝突しているか(障害物は50番号まで),0番号は何もなし
-	if (GetChipParameter(after_pos.x, after_pos.y) <= 50 && GetChipParameter(after_pos.x, after_pos.y) >= 1) {
+	if (GetChipParam(after_pos.x, after_pos.y) <= 50 && GetChipParam(after_pos.x, after_pos.y) >= 1) {
 
 		// 衝突している
 		return true;
@@ -622,7 +627,7 @@ int Map::GetChipCastByPos(const float&pos)const{
 }
 
 
-int Map::GetChipParameter(const float &pos_x, const float&pos_y) {
+int Map::GetChipParam(const float &pos_x, const float&pos_y) {
 
 	// マップ座標変換
 	int px = GetChipCastByPos(pos_x);
@@ -715,7 +720,6 @@ void Map::Load(const std::string&file_name) {
 }
 
 
-
 float Map::GetChipPosCastByChip(const float &chip_pos, const float &chip_y)const{
 	return (chip_pos * CHIP_SIZE);
 }
@@ -776,17 +780,17 @@ void Map::SetIsScroll(bool is_scroll) {
 }
 
 
-void Map::ActiveChangeChipSelect(int x, int y) {
+void Map::ActiveChangeChipSelect(int y, int x) {
 	m_map_chip_list[y][x].m_is_active = !m_map_chip_list[y][x].m_is_active;
 }
 
 
-bool Map::IsActiveChipSelect(int x, int y) {
+bool Map::IsActiveChipSelect(int y, int x) {
 	return m_map_chip_list[y][x].m_is_active;
 }
 
 
-int Map::GetChipNumChipSelect(int x, int y) {
+int Map::GetChipNumChipSelect(int y, int x) {
 	return m_map_chip_list[y][x].m_chip_num;
 }
 
