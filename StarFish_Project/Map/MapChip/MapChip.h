@@ -4,6 +4,8 @@
 #include"../../Player/Player.h"
 #include"../../GameObject/ObjectManager/ObjectManager.h"
 
+
+
 /*
 
 マップでは二つの座標があります。
@@ -33,16 +35,8 @@ struct MapChip {
 // 前方参照
 class EnemyManager;
 class MapObjectFactory;
+class MapCollision;
 
-
-// 壁に衝突した場合の列挙体
-enum WallCollisionType {
-	UP,
-	DOWN,
-	RIGHT,
-	LEFT,
-	TOTAL,
-};
 
 
 // MapChipManager
@@ -53,9 +47,9 @@ public:
 	// 画像、全てのセルの大きさ
 	static constexpr int CHIP_SIZE = 64;
 	// 画面マップチップの大きさ
-	static constexpr int MAX_CHIP_NUM_W = ((int)(Window::WIDTH) / CHIP_SIZE);   
+	static constexpr int MAX_IN_WINDOW_CHIP_NUM_W = ((int)(Window::WIDTH) / CHIP_SIZE);   
 	// 画面マップチップの大きさ
-	static constexpr int MAX_CHIP_NUM_H = ((int)(Window::HEIGHT) / CHIP_SIZE);  
+	static constexpr int MAX_IN_WINDOW_CHIP_NUM_H = ((int)(Window::HEIGHT) / CHIP_SIZE);  
 	// スクロール範囲上
 	static constexpr float SCROLL_RANGE_UP = 400.f;
 	// スクロール範囲下
@@ -70,31 +64,44 @@ public:
 	void Draw();
 
 	// マップオブジェクトの生成と削除
-	void MapObjectCreate();
-	void MapObjectDestory();
+	void MapObjectCreate(int create_line_y);
+	void MapObjectDestory(int destory_line_y);
 
 	// マップとの当たり判定
 	bool Collision(D3DXVECTOR2&pos, D3DXVECTOR2&move);
-	
-	/* アクセサ */
+	// スクロール移動値ゲッター
 	D3DXVECTOR2 GetMove()const;
+	// 高さゲッター
 	int GetMaxHeightMapSize()const;
 	// 位置をマップ座標に変換
 	int GetChipCastByPos(const float&pos)const;
-
-	bool IsStand()const;			 // 立っているかどうか
-	bool IsWallCollision()const;     // 方向関係なく壁に当たっているか
-	bool IsWallColUp()const;         // 上の壁に当たっているか
-	bool IsWallColDown()const;       // 下の壁に当たっているか
-	bool IsWallColLeft()const;	     // 左の壁に当たっているか
-	bool IsWallColRight()const;	     // 右の壁に当たっているか
-	bool IsScroll()const;			 // スクロールしているか
-	bool IsMaxScroll()const;         // 最大スクロールかどうか
-
+	// 位置をチップ番号に変換
+	int GetChipParam(const float pos_x, const float pos_y);
+	// スクロールする上の範囲
+	float GetScrollRangeUp();
+	// スクロールする下の範囲
+	float GetScrollRangeDown();
+	// 立っているかどうか
+	bool IsStand()const;
+	// 方向関係なく壁に当たっているか
+	bool IsWallCollision()const;     
+	// 上の壁に当たっているか
+	bool IsWallColUp()const;
+	// 下の壁に当たっているか
+	bool IsWallColDown()const;
+	// 左の壁に当たっているか
+	bool IsWallColLeft()const;
+	// 右の壁に当たっているか
+	bool IsWallColRight()const;
+	// スクロールしているか
+	bool IsScroll()const;			 
+	// 最大スクロールかどうか
+	bool IsMaxScroll()const;         
 	// マップのスクロールの初期化
 	void SetIsScroll(bool is_scroll);
 	// チップを選択して生きているかを変更する
 	void ActiveChangeChipSelect(int x,int y);
+	// チップを選択して生きているか確認する
 	bool IsActiveChipSelect(int x, int y);
 	// チップを選択してチップ番号取得
 	int GetChipNumChipSelect(int x, int y);
@@ -120,29 +127,26 @@ private:
 	// 敵生成
 	void EnemyCreate(int x, int y, int chip_num);
 	// 引っ付き判定
-	void CenterStuckChip(float &pos_x, float &pos_y, float &move_x, float &move_y);
+	//void CenterStuckChip(float &pos_x, float &pos_y, float &move_x, float &move_y);
 			
 	// マップ座標を位置に変換
 	float GetChipPosCastByChip(const float &chip_x, const float &chip_y)const;
-	// 位置をマップ座標に変換
-	int GetChipParam(const float &pos_x, const float&pos_y);		
 	// プラスの符号に変換
 	void PlusSignChange(float &sign_change_num);
 	
 private:
 
-	/* 各定数 */
-	const int HEIGHT_INTERVAL = 60;                                 // 縦間隔をあけて遷移などをする
-	const int MAP_SAET_NUM = 5;								        // マップシートの数
+	const int HEIGHT_INTERVAL = 60;                     // 縦間隔をあけて遷移などをする
+	const int MAP_SAET_NUM = 5;					        // マップシートの数
 	// オブジェクトとマップ当たり判定の頂点位置				   
-	const float HIT_VERTEX_X = -32.f;			 // 当たり位置の大きさ
-	const float HIT_VERTEX_Y = -56.f;			 // 当たり位置の大きさ
+	const float VERTEX_OFFSET_X = -32.f;			    // 当たり位置の大きさ
+	const float VERTEX_OFFSET_Y = -56.f;			    // 当たり位置の大きさ
 	// 縮小										    
-	const float CHIP_SCALE_X = 6.f;			     // 当たり位置の縮小横
-	const float CHIP_SCALE_Y = 6.f;			     // 当たり位置の縮小縦
+	const float CHIP_SCALE_X = 6.f;			            // 当たり位置の縮小横
+	const float CHIP_SCALE_Y = 6.f;			            // 当たり位置の縮小縦
 	// チップ生成領域							  
-	const int CHIP_RANGE_UP = 19;				 // 生成領域上
-	const int CHIP_RANGE_DOWN = 1;				 // 生成領域下
+	const int CHIP_RANGE_UP = 19;				        // 生成領域上
+	const int CHIP_RANGE_DOWN = 1;				        // 生成領域下
 
 private:
 	

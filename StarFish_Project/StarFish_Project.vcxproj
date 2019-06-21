@@ -66,6 +66,10 @@
     <ClCompile Include="Map\BackGround\BackGround.cpp" />
     <ClCompile Include="Map\BedRockChip\BedRockChip.cpp" />
     <ClCompile Include="Map\MapChip\MapChip.cpp" />
+    <ClCompile Include="Map\MapCollision\MapCollision.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Map\MapManager\MapManager.cpp" />
     <ClCompile Include="Map\MapObjectFactory\MapObjectFactory.cpp" />
     <ClCompile Include="Player\Player.cpp" />
@@ -148,6 +152,10 @@
     <ClInclude Include="Map\BackGround\BackGround.h" />
     <ClInclude Include="Map\BedRockChip\BedRockChip.h" />
     <ClInclude Include="Map\MapChip\MapChip.h" />
+    <ClInclude Include="Map\MapCollision\MapCollision.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Map\MapManager\MapManager.h" />
     <ClInclude Include="Map\MapObjectFactory\MapObjectFactory.h" />
     <ClInclude Include="Player\Player.h" />

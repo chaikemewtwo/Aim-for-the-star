@@ -11,6 +11,7 @@ public:
 
 	MapObjectFactory(Map*map,EnemyManager*enemy_mng,Player * player1,Player * player2,ObjectManager*obj_mng);
 
+	void Init();
 	void Update();
 
 	void Create(int create_line_y);
@@ -23,9 +24,9 @@ private:
 	// 下の生成線
 	static constexpr int CREATE_LINE_DOWN = 3;
 	// 上の生成線
-	static constexpr int DESTORY_LINE_UP = 17;
+	static constexpr int DESTORY_LINE_UP = CREATE_LINE_UP + 1;
 	// 下の生成線
-	static constexpr int DESTORY_LINE_DOWN = 2;
+	static constexpr int DESTORY_LINE_DOWN = CREATE_LINE_DOWN - 1;
 	
 private:
 
