@@ -28,7 +28,7 @@ public:
 	virtual ~EnemyBase() {}
 
 	// 各遷移条件をチェックし、遷移先のStateIdを返す
-	virtual StateId StateChangeCheck() = 0;
+	virtual StateId CheckChangeState() = 0;
 
 	// 敵のインスタンスを返す
 	virtual EnemyBase* GetInstance();	
@@ -38,9 +38,12 @@ public:
 
 	// 速度のゲッター
 	float GetSpeed();
+
+	// 追跡時のターゲット座標ゲッター
+	D3DXVECTOR2 GetTargetPos();
 	
 	// 画面の左右どちらかのフラグのゲッター
-	bool IsLeft();				
+	bool IsLeft();
 
 	// オブジェクトタイプのゲッター
 	Type GetObjectType()const override {
@@ -60,49 +63,6 @@ public:
 		return curve;
 	}
 
-	D3DXVECTOR2 CheckCloseTarget() {
-		/*
-		＊↓簡略化する場所
-		 　　CalcDistanceの内容が使えるので、距離を測って近いほうのプレイヤーを返す関数を作る。
-		   　CalcDistanceは受け取ったプレイヤーから距離を計算するようにする。
-		*/
-		D3DXVECTOR2 player1_distance;
-		D3DXVECTOR2 player2_distance;
-
-		// 自身がプレイヤーよりも上にいる場合
-		if (IsTopPos() == true) {
-
-			player1_distance.y = m_p_player[0]->GetPos().y - m_pos.y;
-			player2_distance.y = m_p_player[1]->GetPos().y - m_pos.y;
-		}
-		// 自身がプレイヤーよりも下にいる場合
-		else if (IsTopPos() == false) {
-
-			player1_distance.y = m_pos.y - m_p_player[0]->GetPos().y;
-			player2_distance.y = m_pos.y - m_p_player[1]->GetPos().y;
-		}
-
-
-		// 自身が画面左側にいるとき
-		if (m_is_left == true) {
-
-			player1_distance.x = m_p_player[0]->GetPos().x - m_pos.x;
-			player2_distance.x = m_p_player[1]->GetPos().x - m_pos.x;
-		}
-		// 自身が画面右側にいるとき
-		else if (m_is_left == false) {
-
-			player1_distance.x = m_pos.x - m_p_player[0]->GetPos().x;
-			player2_distance.x = m_pos.x - m_p_player[1]->GetPos().x;
-		}
-
-		if (player1_distance.y < player2_distance.y) {
-			return m_p_player[0]->GetPos();
-		}
-		return m_p_player[1]->GetPos();
-
-	}
-
 protected:
 	enum EnemyTexture {
 		SEAURCHIN_MOVE,		// ウニ画像
@@ -118,17 +78,21 @@ protected:
 	// 画面外に出たらm_is_activをfalseにする関数
 	void CheckEnemyActiv();
 
+	// プレイヤーの位置を受け取り、敵自身と指定のプレイヤーとの距離を返す
+	/*
+	プレイヤーが２機いるので、引数でどちらかの座標を入れる
+	例：CalcDistanceToPlayer(m_p_player[1]->GetPos());
+	*/
+	D3DXVECTOR2 CalcDistanceToPlayer(const D3DXVECTOR2& target_pos);
+
 	// 自身の位置がプレイヤーの上下どちらかを判定する
 	bool IsTopPos();
 
-	// 2体のプレイヤーの、自身とより近い距離を正の数で返す
-	D3DXVECTOR2 CalcDistance();
-
 protected:
-	int m_power;				// 攻撃力
 	int m_delete_timer;			// 削除用タイマー
 	bool m_can_move;			// 移動するかのフラグ
-	bool m_is_left;				// 画面中央から左右どちらにいるかのフラグ
+	bool m_is_left;				// 左右どちら向きかのフラグ
+	D3DXVECTOR2 m_target_pos;	// 追跡するターゲットの座標
 
 	float m_angle;				// 描画角度
 	float m_center;				// 描画頂点
@@ -147,12 +111,19 @@ protected:
 
 	const float WINDOW_CENTER_LINE = Window::WIDTH / 2;
 
+	// 追跡範囲の距離
+	static const int CHASE_RANGE = 200;
+	// 攻撃範囲の距離
+	static const int ATTACK_RANGE = 200;
+	// 攻撃前の準備状態の範囲距離
+	static const int ATTACK_READY_RANGE = 350;
+
 	StateBase* m_p_state_base;	// 状態を保存する変数
 	Map* m_p_map;
 	Player* m_p_player[2];
-	StateBase* m_pstate_base;	// 状態を保存する変数
 
 	// メガネ用の仮変数《要/修正》
 	float m_posx_count;
 	const float m_max_posx_count = 720;
 };
+
