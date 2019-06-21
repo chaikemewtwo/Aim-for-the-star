@@ -11,17 +11,10 @@ Patrol* Patrol::GetInstance() {
 }
 
 void Patrol::Action(EnemyBase* e) {
-
-	D3DXVECTOR2 pos = e->GetPos();
-
-	pos.x -= e->CalcSinCurve();
 	
-	e->SetPos(pos);
+	PatrolBase::Action(e);
 
-	if (e->CheckChangeState() == StateId::CHASE_ID) {
-		e->ChangeState(Chase::GetInstance());
-	}
-	else {
+	if (e->CheckChangeState() != StateId::PATROL_ID) {
 		e->ChangeState(Wait::GetInstance());
 	}
 }

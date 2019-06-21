@@ -1,18 +1,15 @@
 ﻿#pragma once
 
+#include"EnemyPatrolBase.h"
 #include"../EnemyStateBase.h"
 
 
-class Patrol :public StateBase {
+class Patrol :public PatrolBase {
 public:
 	static Patrol* GetInstance();
 	void Action(EnemyBase* e)override;
-private:
-	Patrol() {
-		//m_posx_count = 0;
-	}
-	~Patrol() {}
 
 private:
-	
+	Patrol() {}
+	~Patrol() {}
 };
