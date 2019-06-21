@@ -59,10 +59,13 @@ void SellFish::Draw() {
 }
 //―――――――――――――――――――――――
 
-StateId SellFish::StateChangeCheck() {
+StateId SellFish::CheckChangeState() {
+
+	D3DXVECTOR2 distance1= CalcDistanceToPlayer(m_p_player[0]->GetPos());
+	D3DXVECTOR2 distance2= CalcDistanceToPlayer(m_p_player[1]->GetPos());
 
 	// 近距離で、横移動に遷移
-	if (CalcDistance().y < ATTACK_RANGE && CalcDistance().x>0) {
+	if ((distance1.y < ATTACK_RANGE && distance1.x > 0) || (distance2.y < ATTACK_RANGE && distance2.x > 0)) {
 
 		m_anim_change_time = 5;
 		m_max_animation = 4;
@@ -72,7 +75,7 @@ StateId SellFish::StateChangeCheck() {
 
 	}
 	// 中距離で、画像のみ攻撃前の画像に変更
-	else if (CalcDistance().y < ATTACK_READY_RANGE) {
+	else if (distance1.y < ATTACK_READY_RANGE || distance2.y < ATTACK_READY_RANGE) {
 
 		m_anim_change_time = 10;
 		m_max_animation = 2;
