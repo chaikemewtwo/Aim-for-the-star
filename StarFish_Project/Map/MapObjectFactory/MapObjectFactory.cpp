@@ -35,7 +35,7 @@ void MapObjectFactory::Init() {
 
 	// 初期位置だけスクリーン画面にある全てのマップオブジェクトを生成する
 	for (int i = 0; i < Map::MAX_IN_WINDOW_CHIP_NUM_W; i++) {
-		Create(m_p_map->GetChipCastByPos(-m_p_map->GetPos().y) + i);
+		CreateWidthLine(m_p_map->GetChipCastByPos(-m_p_map->GetPos().y) + i);
 	}
 
 }
@@ -43,40 +43,42 @@ void MapObjectFactory::Init() {
 
 void MapObjectFactory::Update() {
 
+	// 上の生成線
+	const int CREATE_LINE_UP = 16;
+	// 下の生成線
+	const int CREATE_LINE_DOWN = 3;
+	// 上の削除線
+	const int DESTORY_LINE_UP = CREATE_LINE_UP + 1;
+	// 下の削除線
+	const int DESTORY_LINE_DOWN = CREATE_LINE_DOWN - 1;
 
+	int create_line_range[2] = { CREATE_LINE_UP,CREATE_LINE_DOWN };
 	// 生成
 	{
-		// 上
-		Create(
-			m_p_map->GetChipCastByPos(-m_p_map->GetPos().y) + CREATE_LINE_UP
-		);
-	
-		// 下
-		Create(
-			m_p_map->GetChipCastByPos(-m_p_map->GetPos().y) + CREATE_LINE_DOWN
-		);
+		for (int i = 0; i < 2; i++) {
+			// 上
+			CreateWidthLine(
+				m_p_map->GetChipCastByPos(-m_p_map->GetPos().y) + create_line_range[i]
+			);
+		}
 	}
 	
+	int destory_line_range[2] = { DESTORY_LINE_UP ,DESTORY_LINE_DOWN };
 	// 削除
 	{
-		// 上
-		Destory(
-			m_p_map->GetChipCastByPos(-m_p_map->GetPos().y) + DESTORY_LINE_UP
-		);
-	
-		// 下
-		Destory(
-			m_p_map->GetChipCastByPos(-m_p_map->GetPos().y) + DESTORY_LINE_DOWN
-		);
+		for (int i = 0; i < 2; i++) {
+			// 上
+			DestoryWidthLine(
+				m_p_map->GetChipCastByPos(-m_p_map->GetPos().y) + destory_line_range[i]
+			);
+		}
 	}
 }
 
 
-void MapObjectFactory::Create(int create_line_y) {
+void MapObjectFactory::CreateWidthLine(int create_line_y) {
 
-	// y軸の線を作成
-	int create_line = m_p_map->GetMaxHeightMapSize() - create_line_y;
-
+	
 	for (int x = 0; x < Map::MAX_IN_WINDOW_CHIP_NUM_W; x++) {
 
 		// 配列外アクセスは許させない
@@ -105,7 +107,7 @@ void MapObjectFactory::Create(int create_line_y) {
 }
 
 
-void MapObjectFactory::Destory(int destory_line_y) {
+void MapObjectFactory::DestoryWidthLine(int destory_line_y) {
 
 	// 下から線を作成
 	int destory_line = m_p_map->GetMaxHeightMapSize() - destory_line_y;
@@ -220,7 +222,7 @@ void MapObjectFactory::RockChipCreate(int x, int y) {
 
 		// マップチップリスト追加
 		m_rock_chip_list.push_back(
-			new BedRockChip(
+			new RockChip(
 				chip_num,
 				pos,
 				m_p_map

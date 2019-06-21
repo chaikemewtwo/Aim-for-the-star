@@ -23,11 +23,11 @@
 class Map;
 
 // 岩盤クラス
-class BedRockChip : public Object{
+class RockChip : public Object{
 public:
 
 	// コンストラクタでどのチップを使うか決める
-	BedRockChip(int chip_num,const D3DXVECTOR2 &pos,Map*map);
+	RockChip(int chip_num,const D3DXVECTOR2 &pos,Map*map);
 
 	void Draw()override;
 	void Update()override;
@@ -41,7 +41,8 @@ private:
 
 	float chip_u[10]; // 線を直す為にずらすUV用配列U
 	float chip_v[10]; // 線を直す為にずらすUV用配列V
-	// 岩盤文字列s
+
+	// 岩盤文字列
 	std::string bed_rock_chip_name;
 	const char *str_buf[MAX_CHIP];
 	// 岩盤チップをずらす座標

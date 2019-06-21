@@ -12,7 +12,7 @@ bool MapCollision::HitChack(D3DXVECTOR2&pos, D3DXVECTOR2&move) {
 	const float Resize = 1.f;  // サイズを修正
 	bool is_collision = false; // 当たっているかどうか
 
-	// 左上
+							   // 左上
 	D3DXVECTOR2 up_left(pos.x + Resize + CHIP_SCALE_X, pos.y + Resize + CHIP_SCALE_Y);
 	// 右上
 	D3DXVECTOR2 up_right(pos.x + Map::CHIP_SIZE - Resize - CHIP_SCALE_X, pos.y + Resize + CHIP_SCALE_Y);
@@ -21,36 +21,40 @@ bool MapCollision::HitChack(D3DXVECTOR2&pos, D3DXVECTOR2&move) {
 	// 右下
 	D3DXVECTOR2 down_right(pos.x + Map::CHIP_SIZE - Resize - CHIP_SCALE_X, pos.y + Map::CHIP_SIZE - Resize - CHIP_SCALE_Y);
 
-	float collision_info_y[4][4] = {
+	// Y座標当たり判定
+	{
+		// 衝突情報y座標
+		float collision_info_y[4][4] = {
 		{ up_left.x,up_left.y,0.f,move.y },
-	{ up_right.x,up_right.y,0.f,move.y },
-	{ down_left.x,down_left.y + Map::CHIP_SIZE,0.f,move.y },
-	{ down_right.x,down_right.y + Map::CHIP_SIZE,0.f,move.y },
-	};
+		{ up_right.x,up_right.y,0.f,move.y },
+		{ down_left.x,down_left.y + Map::CHIP_SIZE,0.f,move.y },
+		{ down_right.x,down_right.y + Map::CHIP_SIZE,0.f,move.y },
+		};
 
-	// 上の衝突判定
-	if (IsFloorCollision(collision_info_y[0][0], collision_info_y[0][1],
-		collision_info_y[0][2], collision_info_y[0][3]) == true) {
-		is_collision = true;
-		// 立っている
-		m_is_stand = true;
-	}
-
-	// y軸の衝突判定(四隅)
-	for (int i = 1; i < 3; i++) {
-		if (IsFloorCollision(collision_info_y[i][0], collision_info_y[i][1],
-			collision_info_y[i][2], collision_info_y[i][3]) == true) {
+		// 上の衝突判定
+		if (IsFloorCollision(collision_info_y[0][0], collision_info_y[0][1],
+			collision_info_y[0][2], collision_info_y[0][3]) == true) {
 			is_collision = true;
+			// 立っている
+			m_is_stand = true;
 		}
-	}
 
-	// 衝突していたら
-	if (is_collision == true) {
+		// y軸の衝突判定(四隅)
+		for (int i = 1; i < 3; i++) {
+			if (IsFloorCollision(collision_info_y[i][0], collision_info_y[i][1],
+				collision_info_y[i][2], collision_info_y[i][3]) == true) {
+				is_collision = true;
+			}
+		}
 
-		// 縦の衝突判定
-		SidePosFixToMapPos(pos.y, move.y);
-		// 衝突していないに変更
-		is_collision = false;
+		// 衝突していたら
+		if (is_collision == true) {
+
+			// 縦の衝突判定
+			VerticalPosPullBack(pos.y, move.y);
+			// 衝突していないに変更
+			is_collision = false;
+		}
 	}
 
 	// y軸更新
@@ -59,23 +63,29 @@ bool MapCollision::HitChack(D3DXVECTOR2&pos, D3DXVECTOR2&move) {
 	down_left.y = pos.y + Map::CHIP_SIZE - Resize - CHIP_SCALE_Y;
 	down_right.y = pos.y + Map::CHIP_SIZE - Resize - CHIP_SCALE_Y;
 
-	float collision_info_x[6][4] = {
+	// X座標当たり判定
+	{
+		// 衝突情報x座標
+		float collision_info_x[6][4] = {
 		{ up_left.x,up_left.y,move.x,0.f },
-	{ up_right.x,up_right.y,move.x,0.f },
-	{ down_left.x,down_left.y + Map::CHIP_SIZE,move.x,0.f },
-	{ down_right.x,down_right.y + Map::CHIP_SIZE,move.x,0.f },
-	{ down_left.x, down_right.y, move.x, 0.f },
-	{ down_right.x, down_right.y, move.x, 0.f },
-	};
+		{ up_right.x,up_right.y,move.x,0.f },
+		{ down_left.x,down_left.y + Map::CHIP_SIZE,move.x,0.f },
+		{ down_right.x,down_right.y + Map::CHIP_SIZE,move.x,0.f },
+		{ down_left.x, down_right.y, move.x, 0.f },
+		{ down_right.x, down_right.y, move.x, 0.f },
+		};
 
-	for (int i = 0; i < 6; i++) {
-		if (IsFloorCollision(collision_info_x[i][0], collision_info_x[i][1], collision_info_x[i][2], collision_info_x[i][3]) == true) {
-			is_collision = true;
+		for (int i = 0; i < 6; i++) {
+			if (IsFloorCollision(collision_info_x[i][0], collision_info_x[i][1],
+				collision_info_x[i][2], collision_info_x[i][3]) == true) {
+				is_collision = true;
+			}
 		}
-	}
-	if (is_collision == true) {
-		is_collision = false;
-		SidePosFixToMapPos(pos.x, move.x);
+
+		if (is_collision == true) {
+			is_collision = false;
+			SidePosPullBack(pos.x, move.x);
+		}
 	}
 
 	return is_collision;
@@ -111,7 +121,7 @@ bool MapCollision::IsFloorCollision(float pos_x, float pos_y, float move_x, floa
 
 
 // 横マップの位置に修正
-void MapCollision::SidePosFixToMapPos(float &pos_x, float &move_x) {
+void MapCollision::SidePosPullBack(float &pos_x, float &move_x) {
 
 
 	// 入ったマップチップの座標を割り出す
@@ -147,7 +157,7 @@ void MapCollision::SidePosFixToMapPos(float &pos_x, float &move_x) {
 		if (CHIP_SCALE_X > 0.f) {
 			pos_x += CHIP_SCALE_X;
 		}
-
+		
 		// 移動ベクトルなし
 		move_x = 0.f;
 		// 右に衝突
@@ -156,16 +166,16 @@ void MapCollision::SidePosFixToMapPos(float &pos_x, float &move_x) {
 }
 
 
-void MapCollision::VerticalPosFixToMapPos(float &pos_y, float &move_y) {
+void MapCollision::VerticalPosPullBack(float &pos_y, float &move_y) {
 
 	// 入ったマップチップの座標を割り出す
 	float chip_pos_y = 0.f;
 
-	// 上(自機の移動とマップの移動が進んだ時)
-	if (move_y < 0.f || m_p_map->GetMove().y < 0.f) {
+	// 上に当たった場合
+	if (move_y < 0.f || -m_p_map->GetMove().y < 0.f) {
 
 		// チップサイズ割り出し
-		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + (m_p_map->GetPos().y)) - (move_y - 1 + CHIP_SCALE_Y));
+		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + m_p_map->GetPos().y) - (move_y - 1));
 
 		// 下に戻す
 		pos_y = (chip_pos_y * Map::CHIP_SIZE) + (-m_p_map->GetPos().y) - m_p_map->GetMove().y;
@@ -190,8 +200,8 @@ void MapCollision::VerticalPosFixToMapPos(float &pos_y, float &move_y) {
 		m_is_wall_collision_up = true;
 	}
 
-	// 下(自機の移動とマップの移動が進んだ時)
-	else if (move_y > 0.f || m_p_map->GetMove().y > 0.f) {
+	// 下に当たった場合
+	else if (move_y > 0.f || -m_p_map->GetMove().y > 0.f) {
 
 		// チップサイズ割り出し
 		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + m_p_map->GetPos().y) + move_y);

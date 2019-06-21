@@ -13,7 +13,6 @@ enum WallCollisionType {
 };
 
 
-
 // マップ当たり判定クラス
 class MapCollision {
 public:
@@ -42,8 +41,8 @@ private:
 	// 壁の衝突判定を初期化
 	void InitWallCollision();
 	// 横と縦の衝突後での位置補正
-	void SidePosFixToMapPos(float &pos_x, float &move_x);
-	void VerticalPosFixToMapPos(float &pos_y, float &move_y);
+	void SidePosPullBack(float &pos_x, float &move_x);
+	void VerticalPosPullBack(float &pos_y, float &move_y);
 
 private:
 

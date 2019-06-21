@@ -33,7 +33,6 @@
     <ClCompile Include="Scene\GameScene\GameScene.cpp" />
     <ClCompile Include="Scene\ClearScene\ClearScene.cpp" />
     <ClCompile Include="CollisionObject\CollisionObject.cpp" />
-    <ClCompile Include="Map\BedRockChip\BedRockChip.cpp" />
     <ClCompile Include="Lib\D3D9\D3D9.cpp" />
     <ClCompile Include="Map\MapChip\MapChip.cpp" />
     <ClCompile Include="Enemy\Enemy\NaporeonFish.cpp" />
@@ -42,6 +41,7 @@
     <ClCompile Include="Map\MapObjectFactory\MapObjectFactory.cpp" />
     <ClCompile Include="GameObject\ObjectInterface\ObjectInterface.cpp" />
     <ClCompile Include="Map\MapCollision\MapCollision.cpp" />
+    <ClCompile Include="Map\BedRockChip\RockChip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -82,7 +82,6 @@
     <ClInclude Include="Scene\TitleScene\TitleScene.h" />
     <ClInclude Include="Scene\ClearScene\ClearScene.h" />
     <ClInclude Include="Scene\GameScene\GameScene.h" />
-    <ClInclude Include="Map\BedRockChip\BedRockChip.h" />
     <ClInclude Include="Lib\D3D9\D3D9.h" />
     <ClInclude Include="Map\MapChip\MapChip.h" />
     <ClInclude Include="Enemy\Enemy\NaporeonFish.h" />
@@ -91,6 +90,7 @@
     <ClInclude Include="Map\MapObjectFactory\MapObjectFactory.h" />
     <ClInclude Include="GameObject\ObjectInterface\ObjectInterface.h" />
     <ClInclude Include="Map\MapCollision\MapCollision.h" />
+    <ClInclude Include="Map\BedRockChip\RockChip.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />
