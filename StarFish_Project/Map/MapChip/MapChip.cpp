@@ -114,12 +114,15 @@ void Map::Update() {
 	m_move.y = 0.f;
 	
 	// 先に衝突とスクロールをする
-	for (int i = 0; i < 2; i++) {
-		PlayerScroll(i);
-		PlayerCollision(i);
-	}
+	
+		PlayerScroll(0);
+		PlayerCollision(0);
+		PlayerScroll(1);
+		PlayerCollision(1);
+
 	// 変更があるかもしれないので衝突処理
-	PlayerCollision(0);
+	//PlayerCollision(0);
+	//PlayerCollision(1);
 
 	// マップ座標にマップの移動ベクトルを加算
 	m_pos.y += m_move.y;
@@ -150,6 +153,7 @@ void Map::PlayerCollision(int i) {
 	m_p_player[i]->SetMove(player_move);
 }
 
+
 void Map::PlayerScroll(int i) {
 
 	/* プレイヤー座標 */
@@ -172,6 +176,7 @@ void Map::PlayerScroll(int i) {
 	m_p_player[i]->SetMove(player_move);
 }
 
+
 // マップの描画
 void Map::Draw() {
 
@@ -191,10 +196,9 @@ void Map::Scroll(float *pos_y, float *move_y) {
 		*pos_y = m_scroll_range_up;
 
 		// 移動していないなら
-		if (m_move.y == 0.f) {
 			// マップ移動を加算
-			m_move.y += *move_y;
-		}
+			m_move.y = *move_y;
+		
 	}
 
 	// 下のスクロール範囲に入ったら
@@ -204,10 +208,8 @@ void Map::Scroll(float *pos_y, float *move_y) {
 		*pos_y = m_scroll_range_down;
 
 		// 移動していないなら
-		if (m_move.y == 0.f) {
 			// マップ移動を加算
-			m_move.y += *move_y;
-		}
+			m_move.y = *move_y;
 	}
 }
 
