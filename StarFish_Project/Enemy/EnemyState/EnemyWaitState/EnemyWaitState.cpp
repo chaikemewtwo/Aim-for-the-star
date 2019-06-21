@@ -15,16 +15,16 @@ Wait* Wait::GetInstance() {
 void Wait::Action(EnemyBase* e) {
 
 	// 返ってきたStateIdによって遷移先を変える
-	if (e->StateChangeCheck() == StateId::WAIT_ID) {
+	if (e->CheckChangeState() == StateId::WAIT_ID) {
 		return;
 	}
-	else if (e->StateChangeCheck() == StateId::SIDEMOVE_ID) {
+	else if (e->CheckChangeState() == StateId::SIDEMOVE_ID) {
 		e->ChangeState(SideMove::GetInstance());
 	}
-	else if (e->StateChangeCheck() == StateId::VERTICALMOVE_ID) {
+	else if (e->CheckChangeState() == StateId::VERTICALMOVE_ID) {
 		e->ChangeState(VerticalMove::GetInstance());
 	}
-	else if (e->StateChangeCheck() == PATROL_ID) {
+	else if (e->CheckChangeState() == PATROL_ID) {
 		e->ChangeState(Patrol::GetInstance());
 	}
 }

@@ -18,7 +18,7 @@ void Patrol::Action(EnemyBase* e) {
 	
 	e->SetPos(pos);
 
-	if (e->StateChangeCheck() == StateId::CHASE_ID) {
+	if (e->CheckChangeState() == StateId::CHASE_ID) {
 		e->ChangeState(Chase::GetInstance());
 	}
 	else {
