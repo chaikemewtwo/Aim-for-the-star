@@ -10,7 +10,7 @@
 #include<stdio.h>
 #include<string>
 #include"../../Map/MapObjectFactory/MapObjectFactory.h"
-#include"../MapCollision/MapCollision.h"
+#include"../MapCollision/MapCollider.h"
 
 
 
@@ -39,7 +39,7 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 		m_p_enemy_mng = e_mng;
 		m_p_obj_mng = obj_mng;
 		// マップ当たり判定クラスを生成
-		m_p_map_collision = new MapCollision(this);
+		m_p_map_collision = new MapCollider(this);
 	}
 
 	// マップ位置X初期化

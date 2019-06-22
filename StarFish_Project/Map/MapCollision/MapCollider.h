@@ -4,7 +4,7 @@
 
 
 // 壁に衝突した場合の列挙体
-enum WallCollisionType {
+enum DirectionType {
 	UP,
 	DOWN,
 	RIGHT,
@@ -14,10 +14,10 @@ enum WallCollisionType {
 
 
 // マップ当たり判定クラス
-class MapCollision {
+class MapCollider {
 public:
 
-	MapCollision(Map*map);
+	MapCollider(Map*map);
 
 	// マップとの当たり判定
 	bool HitChack(D3DXVECTOR2&pos, D3DXVECTOR2&move);
@@ -42,7 +42,13 @@ private:
 	void InitWallCollision();
 	// 横と縦の衝突後での位置補正
 	void SidePosPullBack(float &pos_x, float &move_x);
+	// スクロールによる縦位置を引き戻す処理
+	void VerticalPosPullBackByScroll(float &pos_y, float &move_y);
+	// 縦位置を引き戻す処理
 	void VerticalPosPullBack(float &pos_y, float &move_y);
+
+	DirectionType GetWidthDirectionType(float direction_num_x);
+	DirectionType GetHeightDirectionType(float direction_num_y);
 
 private:
 

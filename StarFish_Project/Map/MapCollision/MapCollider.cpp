@@ -1,13 +1,13 @@
-﻿#include"MapCollision.h"
+﻿#include"MapCollider.h"
 
 
 
-MapCollision::MapCollision(Map*map) {
+MapCollider::MapCollider(Map*map) {
 	m_p_map = map;
 }
 
 
-bool MapCollision::HitChack(D3DXVECTOR2&pos, D3DXVECTOR2&move) {
+bool MapCollider::HitChack(D3DXVECTOR2&pos, D3DXVECTOR2&move) {
 
 	const float Resize = 1.f;  // サイズを修正
 	bool is_collision = false; // 当たっているかどうか
@@ -51,6 +51,7 @@ bool MapCollision::HitChack(D3DXVECTOR2&pos, D3DXVECTOR2&move) {
 		if (is_collision == true) {
 
 			// 縦の衝突判定
+			VerticalPosPullBackByScroll(pos.y, move.y);
 			VerticalPosPullBack(pos.y, move.y);
 			// 衝突していないに変更
 			is_collision = false;
@@ -92,7 +93,7 @@ bool MapCollision::HitChack(D3DXVECTOR2&pos, D3DXVECTOR2&move) {
 }
 
 
-void MapCollision::InitWallCollision() {
+void MapCollider::InitWallCollision() {
 
 	// 衝突していない
 	//m_is_wall_col[0] = false;
@@ -104,7 +105,7 @@ void MapCollision::InitWallCollision() {
 }
 
 
-bool MapCollision::IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y) {
+bool MapCollider::IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y) {
 
 	// 現在のスクリーン座標にマップ座標を加算する
 	D3DXVECTOR2 after_pos(pos_x + move_x, pos_y + move_y + (m_p_map->GetPos().y) + m_p_map->GetMove().y);
@@ -121,7 +122,7 @@ bool MapCollision::IsFloorCollision(float pos_x, float pos_y, float move_x, floa
 
 
 // 横マップの位置に修正
-void MapCollision::SidePosPullBack(float &pos_x, float &move_x) {
+void MapCollider::SidePosPullBack(float &pos_x, float &move_x) {
 
 
 	// 入ったマップチップの座標を割り出す
@@ -166,48 +167,50 @@ void MapCollision::SidePosPullBack(float &pos_x, float &move_x) {
 }
 
 
-void MapCollision::VerticalPosPullBack(float &pos_y, float &move_y) {
+void MapCollider::VerticalPosPullBackByScroll(float &pos_y,float &move_y) {
 
 	// 入ったマップチップの座標を割り出す
 	float chip_pos_y = 0.f;
 
-	// 上に当たった場合
-	if (move_y < 0.f || -m_p_map->GetMove().y < 0.f) {
+	// 上(自機の移動とマップの移動が進んだ時)
+	if (-m_p_map->GetMove().y < 0.f) {
 
 		// チップサイズ割り出し
-		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + m_p_map->GetPos().y) - (move_y - 1));
+		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + (m_p_map->GetPos().y)) + 1);
 
 		// 下に戻す
 		pos_y = (chip_pos_y * Map::CHIP_SIZE) + (-m_p_map->GetPos().y) - m_p_map->GetMove().y;
 
-		// 当たりチップ
+		// 拡縮Y
 		if (CHIP_SCALE_Y > 0.f) {
 			// 修正(自機の移動とマップの移動を加算)
 			pos_y += (Map::CHIP_SIZE - CHIP_SCALE_Y);
 		}
-		
+
 		// スクロール範囲に入っていれば
 		if (pos_y < m_p_map->GetScrollRangeUp()) {
-			// 位置を戻す
-			D3DXVECTOR2 pos(m_p_map->GetPos().x,-m_p_map->GetPos().y);
-			pos.y += (pos_y - m_p_map->GetScrollRangeUp());
-			m_p_map->SetPos(pos);
+			D3DXVECTOR2 new_pos(m_p_map->GetPos().x, m_p_map->GetPos().y);
+			new_pos.y += (pos_y - m_p_map->GetScrollRangeUp());
+			m_p_map->SetPos(new_pos);
+			//pos_y = new_pos.y;
 		}
 
 		// 移動ベクトルなし
 		move_y = 0.f;
+
 		// 上に衝突
 		m_is_wall_collision_up = true;
 	}
 
-	// 下に当たった場合
-	else if (move_y > 0.f || -m_p_map->GetMove().y > 0.f) {
+	// 下(自機の移動とマップの移動が進んだ時)
+	else if (-m_p_map->GetMove().y > 0.f) {
 
 		// チップサイズ割り出し
 		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + m_p_map->GetPos().y) + move_y);
 
 		// 上に戻す
 		pos_y = (chip_pos_y * Map::CHIP_SIZE) + (-m_p_map->GetPos().y);
+
 		pos_y += -move_y - m_p_map->GetMove().y;
 
 		// サイズY
@@ -218,40 +221,137 @@ void MapCollision::VerticalPosPullBack(float &pos_y, float &move_y) {
 		// スクロール範囲に入っていれば
 		if (pos_y > m_p_map->GetScrollRangeDown()) {
 
-			// 位置を戻す
-			D3DXVECTOR2 pos(m_p_map->GetPos().x, -m_p_map->GetPos().y);
-			pos.y += (pos_y + m_p_map->GetScrollRangeDown());
-			m_p_map->SetPos(pos);
+			D3DXVECTOR2 new_pos(m_p_map->GetPos().x, m_p_map->GetPos().y);
+			new_pos.y += (pos_y + m_p_map->GetScrollRangeDown());
+			pos_y = new_pos.y;
+			//m_p_map->SetPos(new_pos);
 		}
 
 		// 移動ベクトルなし
 		move_y = 0.f;
+
+		// 下に衝突
+		m_is_wall_collision_down = true;
+	}
+
+}
+
+void MapCollider::VerticalPosPullBack(float &pos_y, float &move_y) {
+
+
+	// 入ったマップチップの座標を割り出す
+	float chip_pos_y = 0.f;
+
+	if (m_p_map->GetMove().y != 0.f) {
+		move_y = 0;
+	}
+
+	// 上(自機の移動とマップの移動が進んだ時)
+	if (move_y < 0.f ) {
+
+		// チップサイズ割り出し
+		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + (m_p_map->GetPos().y)) + 1);
+
+		// 下に戻す
+		pos_y = (chip_pos_y * Map::CHIP_SIZE) + (-m_p_map->GetPos().y) - m_p_map->GetMove().y;
+
+		// 拡縮Y
+		if (CHIP_SCALE_Y > 0.f) {
+			// 修正(自機の移動とマップの移動を加算)
+			pos_y += (Map::CHIP_SIZE - CHIP_SCALE_Y);
+		}
+
+		// スクロール範囲に入っていれば
+		if (pos_y < m_p_map->GetScrollRangeUp()) {
+			D3DXVECTOR2 new_pos(m_p_map->GetPos().x, m_p_map->GetPos().y);
+			new_pos.y += (pos_y - m_p_map->GetScrollRangeUp());
+			m_p_map->SetPos(new_pos);
+			pos_y = new_pos.y;
+		}
+
+		// 移動ベクトルなし
+		move_y = 0.f;
+
+		// 上に衝突
+		m_is_wall_collision_up = true;
+	}
+
+	// 下(自機の移動とマップの移動が進んだ時)
+	else if (move_y > 0.f) {
+
+		// チップサイズ割り出し
+		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + m_p_map->GetPos().y) + move_y);
+
+		// 上に戻す
+		pos_y = (chip_pos_y * Map::CHIP_SIZE) + (-m_p_map->GetPos().y);
+
+		pos_y += -move_y - m_p_map->GetMove().y;
+
+		// サイズY
+		if (CHIP_SCALE_Y > 0.f) {
+			pos_y += CHIP_SCALE_Y;
+		}
+
+		// スクロール範囲に入っていれば
+		if (pos_y > m_p_map->GetScrollRangeDown()) {
+
+			D3DXVECTOR2 new_pos(m_p_map->GetPos().x, m_p_map->GetPos().y);
+			new_pos.y += (pos_y + m_p_map->GetScrollRangeDown());
+			pos_y = new_pos.y;
+			//m_p_map->SetPos(new_pos);
+		}
+
+		// 移動ベクトルなし
+		move_y = 0.f;
+
 		// 下に衝突
 		m_is_wall_collision_down = true;
 	}
 }
 
+DirectionType MapCollider::GetWidthDirectionType(float direction_num_x) {
 
-bool MapCollision::IsStand()const {
+	if (direction_num_x > 0.f) {
+		return RIGHT;
+	}
+	else if (direction_num_x < 0.f) {
+		return LEFT;
+	}
+	return TOTAL;
+}
+
+DirectionType MapCollider::GetHeightDirectionType(float direction_num_y) {
+
+	if (direction_num_y > 0.f) {
+		return DOWN;
+	}
+	else if (direction_num_y < 0.f) {
+		return UP;
+	}
+	return TOTAL;
+}
+
+
+bool MapCollider::IsStand()const {
 	return m_is_stand;
 }
 
-bool MapCollision::IsWallCollision()const {
+bool MapCollider::IsWallCollision()const {
 	return m_is_wall_collision;
 }
 
-bool MapCollision::IsWallColUp()const {
+bool MapCollider::IsWallColUp()const {
 	return m_is_wall_collision_up;
 }
 
-bool MapCollision::IsWallColDown()const {
+bool MapCollider::IsWallColDown()const {
 	return m_is_wall_collision_down;
 }
 
-bool MapCollision::IsWallColLeft()const {
+bool MapCollider::IsWallColLeft()const {
 	return m_is_wall_collision_left;
 }
 
-bool MapCollision::IsWallColRight()const {
+bool MapCollider::IsWallColRight()const {
 	return m_is_wall_collision_right;
 }

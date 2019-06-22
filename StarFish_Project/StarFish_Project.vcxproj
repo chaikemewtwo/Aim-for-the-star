@@ -66,7 +66,7 @@
     <ClCompile Include="Map\BackGround\BackGround.cpp" />
     <ClCompile Include="Map\BedRockChip\RockChip.cpp" />
     <ClCompile Include="Map\MapChip\MapChip.cpp" />
-    <ClCompile Include="Map\MapCollision\MapCollision.cpp">
+    <ClCompile Include="Map\MapCollision\MapCollider.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -152,7 +152,7 @@
     <ClInclude Include="Map\BackGround\BackGround.h" />
     <ClInclude Include="Map\BedRockChip\RockChip.h" />
     <ClInclude Include="Map\MapChip\MapChip.h" />
-    <ClInclude Include="Map\MapCollision\MapCollision.h">
+    <ClInclude Include="Map\MapCollision\MapCollider.h">
       <SubType>
       </SubType>
     </ClInclude>

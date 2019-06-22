@@ -35,7 +35,7 @@ struct MapChip {
 // 前方参照
 class EnemyManager;
 class MapObjectFactory;
-class MapCollision;
+class MapCollider;
 
 
 
@@ -174,7 +174,7 @@ private:
 	Player * m_p_player[2];                    // 自機2体                     
 	EnemyManager * m_p_enemy_mng;              // 敵の状態
 	ObjectManager * m_p_obj_mng;               // オブジェクト管理
-	MapCollision * m_p_map_collision;          // 当たり判定マップ生成クラス
+	MapCollider * m_p_map_collision;          // 当たり判定マップ生成クラス
 	std::vector<RockChip*>m_rock_chip_list;    // BedRockChipの配列を持つ
 	
 	/* 各フラグ */			     
