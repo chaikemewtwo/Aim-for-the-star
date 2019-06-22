@@ -20,7 +20,7 @@ public:
 	MapCollider(Map*map);
 
 	// マップとの当たり判定
-	bool HitChack(D3DXVECTOR2&pos, D3DXVECTOR2&move);
+	bool Collision(D3DXVECTOR2&pos, D3DXVECTOR2&move);
 	// 床と当たっているかどうか
 	bool IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y);
 	

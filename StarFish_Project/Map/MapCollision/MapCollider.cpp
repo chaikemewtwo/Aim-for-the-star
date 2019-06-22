@@ -7,7 +7,7 @@ MapCollider::MapCollider(Map*map) {
 }
 
 
-bool MapCollider::HitChack(D3DXVECTOR2&pos, D3DXVECTOR2&move) {
+bool MapCollider::Collision(D3DXVECTOR2&pos, D3DXVECTOR2&move) {
 
 	const float Resize = 1.f;  // サイズを修正
 	bool is_collision = false; // 当たっているかどうか
@@ -55,6 +55,9 @@ bool MapCollider::HitChack(D3DXVECTOR2&pos, D3DXVECTOR2&move) {
 			VerticalPosPullBack(pos.y, move.y);
 			// 衝突していないに変更
 			is_collision = false;
+		}
+		else {
+			InitWallCollision();
 		}
 	}
 

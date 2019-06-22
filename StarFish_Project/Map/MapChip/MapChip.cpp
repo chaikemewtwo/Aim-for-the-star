@@ -106,29 +106,29 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 
 void Map::Update() {
 	
-	/* オブジェクトの生成と削除 */
-	//MapObjectCreate();
-	//MapObjectDestory();
-
+	CreateAndDestory();
 	// マップの移動ベクトル初期化
 	m_move.y = 0.f;
 	
 	// 先に衝突とスクロールをする
-	
-		PlayerScroll(0);
-		PlayerCollision(0);
-		PlayerScroll(1);
-		PlayerCollision(1);
-
-	// 変更があるかもしれないので衝突処理
-	//PlayerCollision(0);
-	//PlayerCollision(1);
+	for (int i = 0; i < 2; i++) {
+		PlayerScroll(i);
+		PlayerCollision(i);
+	}
 
 	// マップ座標にマップの移動ベクトルを加算
 	m_pos.y += m_move.y;
 
+	m_p_player[0]->SetSwimEnable()
+
 	// スクロール制限
 	MaxScroll();
+}
+
+
+// マップの描画
+void Map::Draw() {
+
 }
 
 
@@ -140,7 +140,7 @@ void Map::PlayerCollision(int i) {
 	D3DXVECTOR2 player_move(m_p_player[i]->GetMove().x, m_p_player[i]->GetMove().y);  // 自機の移動ベクトル
 
 
-	m_p_map_collision->HitChack(player_pos, player_move);
+	m_p_map_collision->Collision(player_pos, player_move);
 	// マップの当たり判定
 	//Collision(player_pos[i],player_move[i]);
 
@@ -177,13 +177,6 @@ void Map::PlayerScroll(int i) {
 }
 
 
-// マップの描画
-void Map::Draw() {
-
-	CreateAndDestory();
-	// 更新
-	//m_p_map_object_factory->Update();
-}
 
 
 void Map::Scroll(float *pos_y, float *move_y) {
