@@ -50,19 +50,6 @@ public:
 		return Type::ENEMY;
 	}
 
-	// 仮の巡回用の処理　サインカーブ
-	float CalcSinCurve() {
-
-		static const float PI = 3.141925f;
-	
-		float curve = (float)sin(PI * 2 / m_max_posx_count * m_posx_count) *2.5f;
-		m_posx_count++;
-		if (m_max_posx_count <= m_posx_count) {
-			m_posx_count = 0;
-		}
-		return curve;
-	}
-
 protected:
 	enum EnemyTexture {
 		SEAURCHIN_MOVE,		// ウニ画像
@@ -112,7 +99,7 @@ protected:
 	const float WINDOW_CENTER_LINE = Window::WIDTH / 2;
 
 	// 追跡範囲の距離
-	static const int CHASE_RANGE = 200;
+	static const int CHASE_RANGE = 150;
 	// 攻撃範囲の距離
 	static const int ATTACK_RANGE = 200;
 	// 攻撃前の準備状態の範囲距離

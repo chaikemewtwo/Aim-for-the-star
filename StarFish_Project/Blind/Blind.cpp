@@ -22,14 +22,12 @@ Blind::Blind() {
 
 void Blind::Create(D3DXVECTOR2 pos, D3DXVECTOR2 goal) {
 
-	static const float PI = 3.141592f;
-
 	// 生成位置と目的地を設定
 	m_pos = pos;
 	m_goal_pos = goal;
 
 	// 移動方向に画像が向いているように設定(Draw2D使用のために角度に直す)
-	m_angle = ((CalcRadian(m_pos, m_goal_pos) * 180) / PI) + 180;
+	m_angle = ((CalcRadian(m_pos, m_goal_pos) * 180) / D3DX_PI) + 180;
 }
 //―――――――――――――――――――――――
 

@@ -60,7 +60,7 @@ StateId NaporeonFish::CheckChangeState() {
 
 	// 自身の向きによって三角形のできる位置を左右逆転させる
 	if (m_is_left == true) {
-		vec1 = { m_pos.x + CHASE_RANGE,m_pos.y - CHASE_RANGE };
+		vec1 = { m_pos.x + CHASE_RANGE,m_pos.y - CHASE_RANGE};
 		vec2 = { m_pos.x + CHASE_RANGE,m_pos.y + CHASE_RANGE };
 	}
 	else if (m_is_left == false) {
@@ -112,18 +112,11 @@ StateId NaporeonFish::CheckChangeState() {
 	
 		return StateId::CHASE_ID;
 	}
-	else {
 		m_anim_change_time = 15;
 		m_speed = 2.5f;
 		m_enemy_texture[EnemyTexture::NAPOREONFISH_MOVE];
 
 		return StateId::PATROL_ID;
-	}
-
-	m_anim_change_time = 15;
-	m_enemy_texture[EnemyTexture::NAPOREONFISH_MOVE];
-
-	return StateId::WAIT_ID;
 }
 //―――――――――――――――――――――――――
 
@@ -155,7 +148,7 @@ bool NaporeonFish::CheckTargetInTheRange(D3DXVECTOR2 vecA, D3DXVECTOR2 vecB, D3D
 	// 外積を求める
 	float crossA = (vecAB.x*vecBT.y) - (vecAB.y*vecBT.x);
 	float crossB = (vecBC.x*vecCT.y) - (vecBC.y*vecCT.x);
-	float crossC = (vecCA.x*vecAT.y) - (vecCA.y*vecAT.y);
+	float crossC = (vecCA.x*vecAT.y) - (vecCA.y*vecAT.x);
 
 	// 当たり判定
 	if ((crossA > 0 && crossB > 0 && crossC > 0) || (crossA < 0 && crossB < 0 && crossC < 0)) {

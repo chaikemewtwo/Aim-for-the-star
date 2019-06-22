@@ -2,6 +2,7 @@
 #include"../EnemySideMoveState/EnemySideMoveState.h"
 #include"../EnemyVerticalMoveState/EnemyVerticalMoveState.h"
 #include"../EnemyPatrolState/EnemyPatrolState.h"
+#include"../EnemyChaseState/EnemyChaseState.h"
 #include"../../Enemy/EnemyBase.h"
 
 
@@ -26,6 +27,9 @@ void Wait::Action(EnemyBase* e) {
 	}
 	else if (e->CheckChangeState() == PATROL_ID) {
 		e->ChangeState(Patrol::GetInstance());
+	}
+	else if (e->CheckChangeState() == CHASE_ID) {
+		e->ChangeState(Chase::GetInstance());
 	}
 }
 //―――――――――――――――――――――

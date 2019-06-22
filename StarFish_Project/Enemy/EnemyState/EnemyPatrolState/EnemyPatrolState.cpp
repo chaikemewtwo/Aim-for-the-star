@@ -9,6 +9,7 @@ Patrol* Patrol::GetInstance() {
 	static Patrol s_patrol;
 	return &s_patrol;
 }
+//――――――――――――――――――
 
 void Patrol::Action(EnemyBase* e) {
 	
@@ -18,3 +19,4 @@ void Patrol::Action(EnemyBase* e) {
 		e->ChangeState(Wait::GetInstance());
 	}
 }
+//――――――――――――――――――

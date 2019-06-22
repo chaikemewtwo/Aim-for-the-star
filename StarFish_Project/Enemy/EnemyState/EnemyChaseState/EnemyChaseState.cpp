@@ -27,3 +27,4 @@ void Chase::Action(EnemyBase* e) {
 		e->ChangeState(Wait::GetInstance());
 	}
 }
+//――――――――――――――――――
