@@ -294,14 +294,18 @@ namespace Texture {
 		// VERTEX3Dの初期化,UV.hからUVをずらして受け取り
 		CustomVertex cv[] =
 		{
-			// 左上
-			{ { x1,y1,0.0f },1.0f,D3DCOLOR(0xfffffff),{ uv.GetUvUpLeftPos().x + u_range_num,uv.GetUvUpLeftPos().y } },
-			// 右上
-		{ { x2,y1,0.0f },1.0f,D3DCOLOR(0xfffffff),{ uv.GetUvUpRightPos().x + u + u_range_num,uv.GetUvUpRightPos().y } },
+		// 左上
+		{ { x1,y1,0.0f },1.0f,D3DCOLOR(0xfffffff),
+		{ uv.GetUvUpLeftPos().x + u_range_num,uv.GetUvUpLeftPos().y } },
+		// 右上
+		{ { x2,y1,0.0f },1.0f,D3DCOLOR(0xfffffff),
+		{ uv.GetUvUpRightPos().x + u + u_range_num,uv.GetUvUpRightPos().y } },
 		// 右下
-		{ { x2,y2,0.0f },1.0f,D3DCOLOR(0xfffffff),{ uv.GetUvDownRightPos().x + u + u_range_num,uv.GetUvDownRightPos().y + v } },
+		{ { x2,y2,0.0f },1.0f,D3DCOLOR(0xfffffff),
+		{ uv.GetUvDownRightPos().x + u + u_range_num,uv.GetUvDownRightPos().y + v } },
 		// 左下
-		{ { x1,y2,0.0f },1.0f,D3DCOLOR(0xfffffff),{ uv.GetUvDownLeftPos().x + u_range_num,uv.GetUvDownLeftPos().y + v } },
+		{ { x1,y2,0.0f },1.0f,D3DCOLOR(0xfffffff),
+		{ uv.GetUvDownLeftPos().x + u_range_num,uv.GetUvDownLeftPos().y + v } },
 		};
 
 

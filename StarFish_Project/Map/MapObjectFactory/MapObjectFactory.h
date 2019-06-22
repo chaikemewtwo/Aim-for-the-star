@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include"../MapChip/MapChip.h"
 #include"../../Enemy/Enemy/EnemyManager.h"
-
+#include"../BedRockChip/RockChip.h"
 
 // マップオブジェクトを生成するクラス
 
@@ -11,10 +11,13 @@ public:
 
 	MapObjectFactory(Map*map,EnemyManager*enemy_mng,Player * player1,Player * player2,ObjectManager*obj_mng);
 
+	void Init();
 	void Update();
 
-	void Create(int create_line_y);
-	void Destory(int destory_line_y);
+	void CreateWidthLine(int create_line_y);
+	void DestoryWidthLine(int destory_line_y);
+
+private:
 	
 private:
 
@@ -26,4 +29,7 @@ private:
 	EnemyManager * m_p_enemy_mng;
 	Player *m_p_player[2];
 	ObjectManager * m_p_obj_mng;
+
+	// BedRockChipの配列を持つ
+	std::vector<RockChip*>m_rock_chip_list;
 };

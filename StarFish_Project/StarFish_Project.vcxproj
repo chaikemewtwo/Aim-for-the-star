@@ -64,8 +64,12 @@
     <ClCompile Include="LoadResource\LoadResource.cpp" />
     <ClCompile Include="Main\Main.cpp" />
     <ClCompile Include="Map\BackGround\BackGround.cpp" />
-    <ClCompile Include="Map\BedRockChip\BedRockChip.cpp" />
+    <ClCompile Include="Map\BedRockChip\RockChip.cpp" />
     <ClCompile Include="Map\MapChip\MapChip.cpp" />
+    <ClCompile Include="Map\MapCollision\MapCollider.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Map\MapManager\MapManager.cpp" />
     <ClCompile Include="Map\MapObjectFactory\MapObjectFactory.cpp" />
     <ClCompile Include="Player\Player.cpp" />
@@ -150,8 +154,12 @@
     <ClInclude Include="Lib\Window\Window.h" />
     <ClInclude Include="LoadResource\LoadResource.h" />
     <ClInclude Include="Map\BackGround\BackGround.h" />
-    <ClInclude Include="Map\BedRockChip\BedRockChip.h" />
+    <ClInclude Include="Map\BedRockChip\RockChip.h" />
     <ClInclude Include="Map\MapChip\MapChip.h" />
+    <ClInclude Include="Map\MapCollision\MapCollider.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Map\MapManager\MapManager.h" />
     <ClInclude Include="Map\MapObjectFactory\MapObjectFactory.h" />
     <ClInclude Include="Player\Player.h" />

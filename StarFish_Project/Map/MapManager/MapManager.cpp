@@ -38,8 +38,6 @@ MapManager::MapManager(Player*star1, Player*star2, EnemyManager*e_mng, ObjectMan
 		(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_01.png")),
 		(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_01.png")));
 
-	// マップオブジェクト生成クラスを生成
-	m_p_map_object_factory = new MapObjectFactory(m_p_map, e_mng, star1, star2, obj_mng);
 
 	// マップ登録
 	obj_mng->Entry(m_p_map);

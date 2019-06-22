@@ -1,11 +1,11 @@
-﻿#include"BedRockChip.h"
+﻿#include"RockChip.h"
 #include"../../Lib/Texture/TextureBoad2D.h"
 #include"../../Map/MapChip/MapChip.h"
 
 
 
-BedRockChip::BedRockChip(int chip_num,const D3DXVECTOR2 &pos, Map*map) {
-
+RockChip::RockChip(int chip_num,const D3DXVECTOR2 &pos, Map*map) {
+	
 	// オフセット値設定
 	//offset[0].x = 0.f; offset[0].y = 1.f;
 	//offset[1].x = 0.f; offset[1].y = 1.f;
@@ -44,12 +44,12 @@ BedRockChip::BedRockChip(int chip_num,const D3DXVECTOR2 &pos, Map*map) {
 	m_map = map;
 }
 
-void BedRockChip::Draw(){
+void RockChip::Draw(){
 
 	Texture::Draw2D(bed_rock_chip_name.c_str(), m_pos.x, m_pos.y);
 }
 
-void BedRockChip::Update(){
+void RockChip::Update(){
 
 	// マップにそって移動
 	m_pos.y += m_map->GetMove().y;
