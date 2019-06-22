@@ -45,10 +45,10 @@ float Rope::AngleCalc() {
 
 float Rope::PlayersRadiusCalc() {
 	// 2点間の距離算出
-	float distance = ((
-		(m_p2->GetPos().x - m_p1->GetPos().x) * 
+	float distance =
+		(((m_p2->GetPos().x - m_p1->GetPos().x) *
 		(m_p2->GetPos().x - m_p1->GetPos().x)) +
-		((m_p2->GetPos().y - m_p1->GetPos().y) * 
+		((m_p2->GetPos().y - m_p1->GetPos().y) *
 		(m_p2->GetPos().y - m_p1->GetPos().y)));
 
 	// 距離から半径算出
@@ -103,15 +103,13 @@ void Rope::ToPlayersPull() {
 
 
 bool Rope::PartnerIsThereDirection(Player*myself, Player*partner) {
-	// p1のX移動量がp1の座標から見て正の方向、p1の自機から見てp2の自機が正の方向
+	// myselfのX移動量がmyselfの座標から見て正の方向、myselfの自機から見てpartnerの自機が正の方向
 	if (myself->GetMove().x < 0.f && myself->GetPos().x < partner->GetPos().x) {
 		return true;
 	}
-	// p1のX移動量がp1の座標から見て負の方向、p1の自機から見てp2の自機が負の方向
+	// myselfのX移動量がmyselfの座標から見て負の方向、myselfの自機から見てpartnerの自機が負の方向
 	else if (myself->GetMove().x > 0.f && myself->GetPos().x > partner->GetPos().x) {
 		return true;
 	}
-	else {
-		return false;
-	}
+	return false;
 }

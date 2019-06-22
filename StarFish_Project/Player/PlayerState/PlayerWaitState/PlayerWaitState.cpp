@@ -13,7 +13,7 @@ const int PlayerWaitState::MAX_ANIMATION_TEX_NUM = 6;
 void PlayerWaitState::Init(Player* p) {
 	p->ResetAnimationCount();
 
-	p->SetPlayerTexture(p->star_texture_list[p->WAIT_TEXTURE]);
+	p->SetPlayerTexture(p->WAIT_TEXTURE);
 
 	p->SetSwimEnable(false);
 }

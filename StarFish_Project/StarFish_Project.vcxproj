@@ -69,6 +69,10 @@
     <ClCompile Include="Map\MapManager\MapManager.cpp" />
     <ClCompile Include="Map\MapObjectFactory\MapObjectFactory.cpp" />
     <ClCompile Include="Player\Player.cpp" />
+    <ClCompile Include="Player\PlayerManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.cpp" />
     <ClCompile Include="Player\PlayerState\PlayerSwimState\PlayerSwimState.cpp" />
@@ -151,6 +155,10 @@
     <ClInclude Include="Map\MapManager\MapManager.h" />
     <ClInclude Include="Map\MapObjectFactory\MapObjectFactory.h" />
     <ClInclude Include="Player\Player.h" />
+    <ClInclude Include="Player\PlayerManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Player\PlayerState\PlayerDeathState\PlayerDeathState.h" />
     <ClInclude Include="Player\PlayerState\PlayerStateBase.h" />
     <ClInclude Include="Player\PlayerState\PlayerStandingWaitState\PlayerStandingWaitState.h" />

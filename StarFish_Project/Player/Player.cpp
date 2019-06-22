@@ -78,7 +78,7 @@ Player::Player(ID_TYPE id) :
 
 	// WaitState初回のみ画像の初期化をしてやる
 	// 画像の初期化がWaitStateが生成されるタイミングより遅いため
-	m_player_texture = star_texture_list[WAIT_TEXTURE];
+	SetPlayerTexture(WAIT_TEXTURE);
 
 	// 自機1（ヒくん、オレンジの方）の初期化情報
 	if (id == STAR_1) {
@@ -94,10 +94,11 @@ Player::Player(ID_TYPE id) :
 
 
 void Player::Update() {
+	// 移動量を座標に加算
 	m_pos += m_move;
 
 	// 移動量を初期化（マップの当たり判定で使用）
-	m_move = D3DXVECTOR2(0.f,0.f);
+	m_move = { 0.f,0.f };
 
 	// スタミナ自動回復
 	if (m_stamina < MAX_STAMINA && m_is_active == true && m_swim_enable == false){
@@ -164,10 +165,9 @@ void Player::AngleAdjust(bool is_move_right) {
 
 void Player::SwimUp() {
 	static const float RAD = 180.f;
-	static const float PI = 3.141592f;
 	// 上方向への移動量(ベクトルの長さ)を割り出す
-	m_move.x += sin(m_angle * PI / RAD) * m_speed;
-	m_move.y -= cos(m_angle * PI / RAD) * m_speed;
+	m_move.x += sin(m_angle * D3DX_PI / RAD) * m_speed;
+	m_move.y -= cos(m_angle * D3DX_PI / RAD) * m_speed;
 }
 
 
@@ -236,8 +236,8 @@ void Player::ResetAnimationCount() {
 }
 
 
-void Player::SetPlayerTexture(std::string new_player_texture) {
-	m_player_texture = new_player_texture;
+void Player::SetPlayerTexture(PLAYER_STATE_TEXTURE new_state_texture) {
+	m_player_texture = star_texture_list[new_state_texture];
 }
 
 

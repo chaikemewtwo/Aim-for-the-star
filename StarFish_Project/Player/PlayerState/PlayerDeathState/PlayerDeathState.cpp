@@ -13,7 +13,7 @@ void PlayerDeathState::Init(Player* p) {
 	// AnimationDraw内でやっているので不必要の可能性あり
 	//p->ResetAnimationCount();
 
-	p->SetPlayerTexture(p->star_texture_list[p->DEATH_TEXTURE]);
+	p->SetPlayerTexture(p->DEATH_TEXTURE);
 }
 
 

@@ -47,7 +47,6 @@ void CollisionManager::ChackHitCircle(CircleCollisionObject*obj1, CircleCollisio
 	if (obj1 == nullptr) {
 		return;
 	}
-
 	if (obj2 == nullptr) {
 		return;
 	}

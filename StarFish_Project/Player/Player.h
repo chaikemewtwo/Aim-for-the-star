@@ -96,6 +96,7 @@ public:
 
 	// X方向向き変更
 	// -MAX_ANGLEからMAX_ANGLEまで傾けることができます
+	// 向き変更が可能なStateでキー入力を受け取りこの関数を呼び出します
 	// 引数:(trueで右へ傾く)
 	void AngleAdjust(bool is_move_right);
 
@@ -104,7 +105,8 @@ public:
 	void SwimUp();
 
 	// 状態画像セッター
-	void SetPlayerTexture(std::string new_player_texture);
+	/*void SetPlayerTexture(std::string new_player_texture);*/
+	void SetPlayerTexture(PLAYER_STATE_TEXTURE new_state_texture);
 
 	// 状態遷移タイマーゲッター
 	int GetStateChangeTimer();
@@ -143,7 +145,6 @@ public:
 
 public:
 	// HACK:public領域の変数をなくす　19/06/14	
-	std::string star_texture_list[MAX_TEXTURE_NUM];	// テクスチャ文字列保持
 	char imput_button_list[MAX_KEY_NUM];	// 入力キー文字列保持（2体の操作分割のため）
 
 private:
@@ -208,6 +209,7 @@ private:
 	void HitAction(Type type)override;
 
 private:
+	std::string star_texture_list[MAX_TEXTURE_NUM];	// テクスチャ文字列保持
 	std::string m_player_texture;	// 画像格納用
 	D3DXVECTOR2 m_move;				// X、Y方向移動量
 	float m_angle;					// 自機画像角度（MAX_ANGLEから-MAX_ANGLE度まで）
@@ -216,6 +218,7 @@ private:
 	int m_invisible_count;			// 敵と被弾後の無敵時間カウント（最大値はMAX_INVISIBLE_COUNT）				
 	bool m_draw_enable;				// 被弾時点滅用描画切り替え			
 	bool m_swim_enable;				// 泳いでるフラグ(泳ぎ状態のときtrue)
+	bool dbg_m_gravity_enable;		// 重力負荷が有効か否か、テストコード
 	
 	PlayerStateBase* m_p_state;		// ステート基底クラスを保持					
 	//MapChip* m_p_mapchip;			// マップチップクラスを保持

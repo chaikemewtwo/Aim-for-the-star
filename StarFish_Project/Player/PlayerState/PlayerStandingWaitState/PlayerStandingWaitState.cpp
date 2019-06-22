@@ -11,7 +11,7 @@ void PlayerStandingWaitState::Init(Player* p) {
 	// AnimationDraw内でやっているので不必要の可能性あり
 	//p->ResetAnimationCount();
 
-	p->SetPlayerTexture(p->star_texture_list[p->STANDING_WAIT_TEXTURE]);
+	p->SetPlayerTexture(p->STANDING_WAIT_TEXTURE);
 }
 
 

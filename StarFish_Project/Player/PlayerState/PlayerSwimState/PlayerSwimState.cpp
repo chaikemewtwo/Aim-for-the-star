@@ -15,7 +15,7 @@ void PlayerSwimState::Init(Player* p) {
 
 	p->ResetAnimationCount();
 
-	p->SetPlayerTexture(p->star_texture_list[p->SWIM_TEXTURE]);
+	p->SetPlayerTexture(p->SWIM_TEXTURE);
 
 	p->SetSwimEnable(true);
 
