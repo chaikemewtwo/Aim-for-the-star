@@ -135,6 +135,12 @@ public:
 
 	// 生存フラグ無効化
 	void EnableDead();
+
+	// 重力負荷有効フラグゲッター
+	bool DBGGravityEnable();
+
+	// 重力負荷有効フラグセッター
+	void DBGSetGravityEnable(bool new_gravity_enable);
 	//-----------------------------------------------------
 
 	// 自機を返す設定をする
@@ -221,7 +227,6 @@ private:
 	bool dbg_m_gravity_enable;		// 重力負荷が有効か否か、テストコード
 	
 	PlayerStateBase* m_p_state;		// ステート基底クラスを保持					
-	//MapChip* m_p_mapchip;			// マップチップクラスを保持
 	
 	IDirectSoundBuffer8* m_p_hit_se;	// 被弾SE
 	Audio& m_p_audio = Audio::getInterface();	// オーディオインターフェース

@@ -25,7 +25,8 @@ Player::Player(ID_TYPE id) :
 	m_angle(0.f),
 	m_draw_enable(true),
 	m_invisible_count(0),
-	m_stamina(MAX_STAMINA)
+	m_stamina(MAX_STAMINA),
+	dbg_m_gravity_enable(true)
 	{
 	// 自機2種類の共通部分の初期化
 
@@ -142,7 +143,10 @@ void Player::Draw() {
 
 
 void Player::AddGravity() {
-	m_move.y += GRAVITY;
+	// 重力フラグを判別
+	if (dbg_m_gravity_enable) {
+		m_move.y += GRAVITY;
+	}
 }
 
 
@@ -263,6 +267,16 @@ float Player::GetStamina() {
 
 void Player::DecStamina(float dec_sutamina_num) {
 	m_stamina -= dec_sutamina_num;
+}
+
+
+bool Player::DBGGravityEnable() {
+	return dbg_m_gravity_enable;
+}
+
+
+void Player::DBGSetGravityEnable(bool new_gravity_enable) {
+	dbg_m_gravity_enable = new_gravity_enable;
 }
 
 
