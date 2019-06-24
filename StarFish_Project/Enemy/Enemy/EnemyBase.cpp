@@ -4,7 +4,6 @@
 
 // コンストラクタで共通の変数初期化
 EnemyBase::EnemyBase() {
-	m_posx_count = 0;
 
 	m_angle = 0.f;
 	m_center = 0.5f;
@@ -16,6 +15,7 @@ EnemyBase::EnemyBase() {
 	m_offset.y = 64.f;
 	m_delete_timer = 100;
 	m_max_animation = 0;
+	m_sin_count = 0;
 
 	m_p_state_base = Wait::GetInstance();
 
@@ -56,6 +56,41 @@ void EnemyBase::CheckEnemyActiv() {
 		m_delete_timer = 60;
 	}
 }
+//―――――――――――――――――――――
+
+void EnemyBase::SideMove() {
+
+	if (m_is_left == true) {
+		m_pos.x += m_speed;
+	}
+	else if (m_is_left == false) {
+		m_pos.x += m_speed;
+	}
+}
+
+void EnemyBase::VerticalMove() {
+	m_pos.y += m_speed;
+}
+
+void EnemyBase::Patrol() {
+
+	float curve = (float)sinf(D3DX_PI * 2 / SINCURVE_COUNT_MAX * m_sin_count)*m_speed;
+	m_sin_count++;
+	m_pos.x -= curve;
+
+	if (SINCURVE_COUNT_MAX < m_sin_count) {
+		m_sin_count = 0;
+	}
+}
+
+void EnemyBase::Chase() {
+
+	float radian = atan2((m_target_pos.y - m_pos.y), (m_target_pos.x - m_pos.x));
+	m_pos.x += cosf(radian)*m_speed;
+	m_pos.y += sinf(radian)*m_speed;
+}
+
+
 //―――――――――――――――――――――
 
 bool EnemyBase::IsTopPos() {
@@ -112,3 +147,5 @@ bool EnemyBase::IsLeft() {
 	return m_is_left;
 }
 //―――――――――――――――――――――
+
+

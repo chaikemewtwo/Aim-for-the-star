@@ -30,8 +30,16 @@ public:
 	// 各遷移条件をチェックし、遷移先のStateIdを返す
 	virtual StateId CheckChangeState() = 0;
 
+	virtual void SideMove();
+
+	virtual void VerticalMove();
+
+	virtual void Chase();
+
+	virtual void Patrol();
+
 	// 敵のインスタンスを返す
-	virtual EnemyBase* GetInstance();	
+	EnemyBase* GetInstance();	
 
 	// 引数で指定したStateに遷移
 	void ChangeState(StateBase* state);
@@ -110,7 +118,7 @@ protected:
 	Player* m_p_player[2];
 
 	// メガネ用の仮変数《要/修正》
-	float m_posx_count;
-	const float m_max_posx_count = 720;
+	float m_sin_count;
+	const float SINCURVE_COUNT_MAX = 720;
 };
 

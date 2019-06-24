@@ -1,10 +1,9 @@
 ﻿#pragma once
 
-#include"EnemyPatrolBase.h"
 #include"../EnemyStateBase.h"
 
 
-class Patrol :public PatrolBase {
+class Patrol :public StateBase {
 public:
 	static Patrol* GetInstance();
 	void Action(EnemyBase* e)override;

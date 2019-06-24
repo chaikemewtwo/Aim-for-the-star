@@ -11,8 +11,10 @@ VerticalMove* VerticalMove::GetInstance() {
 
 void VerticalMove::Action(EnemyBase* e) {
 
-	D3DXVECTOR2 pos = e->GetPos();
-	pos.y += e->GetSpeed();
-	e->SetPos(pos);
+	//D3DXVECTOR2 pos = e->GetPos();
+	//pos.y += e->GetSpeed();
+	//e->SetPos(pos);
+
+	e->VerticalMove();
 }
 //――――――――――――――――――――――――
