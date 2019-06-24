@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include"../MapObjectFactory/MapObjectFactory.h"
 
 
 // 前方参照

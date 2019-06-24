@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include"../../GameObject/Object/Object.h"
 #include<string>
-
+#include"../ChipBase/ChipBase.h"
 
 /* HACK まだできていません */
 
@@ -23,7 +23,7 @@
 class Map;
 
 // 岩盤クラス
-class RockChip : public Object{
+class RockChip : public ChipBase{
 public:
 
 	// コンストラクタでどのチップを使うか決める

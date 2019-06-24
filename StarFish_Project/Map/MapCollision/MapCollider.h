@@ -3,7 +3,9 @@
 
 
 
-// 壁に衝突した場合の列挙体
+
+
+// 移動方向などを示す
 enum DirectionType {
 	UP,
 	DOWN,
@@ -13,23 +15,28 @@ enum DirectionType {
 };
 
 
+// 衝突方向を示す
+enum CollisionDirectionType {
+	NONE_COLLISION,
+	UP_COLLISION,
+	DOWN_COLLISION,
+	RIGHT_COLLISION,
+	LEFT_COLLISION,
+	TOTAL_COLLISION,
+};
+
+
 // マップ当たり判定クラス
 class MapCollider {
 public:
 
+
 	MapCollider(Map*map);
 
 	// マップとの当たり判定
-	bool Collision(D3DXVECTOR2&pos, D3DXVECTOR2&move);
+	void Collision(D3DXVECTOR2&pos, D3DXVECTOR2&move,CollisionDirectionType &collision_dir_type_x, CollisionDirectionType &collision_dir_type_y);
 	// 床と当たっているかどうか
 	bool IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y);
-	
-	bool IsStand()const;			 // 立っているかどうか
-	bool IsWallCollision()const;     // 方向関係なく壁に当たっているか
-	bool IsWallColUp()const;         // 上の壁に当たっているか
-	bool IsWallColDown()const;       // 下の壁に当たっているか
-	bool IsWallColLeft()const;	     // 左の壁に当たっているか
-	bool IsWallColRight()const;	     // 右の壁に当たっているか
 
 private:
 
@@ -38,26 +45,19 @@ private:
 
 private:
 
-	// 壁の衝突判定を初期化
-	void InitWallCollision();
 	// 横と縦の衝突後での位置補正
-	void SidePosPullBack(float &pos_x, float &move_x);
+	void SidePosPullBack(float &pos_x, float &move_x, CollisionDirectionType &collision_dir_type_x);
 	// スクロールによる縦位置を引き戻す処理
-	void VerticalPosPullBackByScroll(float &pos_y, float &move_y);
+	void VerticalPosPullBackByScroll(float &pos_y, float &move_y, CollisionDirectionType &collision_dir_type_y);
 	// 縦位置を引き戻す処理
-	void VerticalPosPullBack(float &pos_y, float &move_y);
+	void VerticalPosPullBack(float &pos_y, float &move_y, CollisionDirectionType &collision_dir_type_y);
 
 	DirectionType GetWidthDirectionType(float direction_num_x);
 	DirectionType GetHeightDirectionType(float direction_num_y);
 
 private:
 
-	bool m_is_stand;                // 立っているか
-	bool m_is_wall_collision;       // 方向関係なく壁衝突しているか
-	bool m_is_wall_collision_left;  // 左に衝突しているか
-	bool m_is_wall_collision_right; // 右に衝突しているか
-	bool m_is_wall_collision_up;    // 上に衝突しているか
-	bool m_is_wall_collision_down;  // 下に衝突しているか
+	bool m_is_end_scroll;
 
 	// マップインスタンス
 	Map*m_p_map;

@@ -62,6 +62,7 @@
 
 */
 
+
 /* 前方参照 */
 class Object;           // オブジェクトクラス
 class EnemyManager;     // 敵管理
@@ -70,6 +71,7 @@ class Player;           // 自機
 class CollisionManager; // 衝突管理
 class GameUI;           // ゲームメインUI
 class Rope;             // ロープ
+
 
 // 定数の登録順に昇順ソート
 enum SortObject {
@@ -104,8 +106,6 @@ public:
 	void Exit(unsigned int id);
 	// メモリの削除
 	void Delete(unsigned int id);
-	// 活動していない場合メモリ削除
-	void NotActiveIsDelete();
 	// クリアフラグを返す
 	bool IsClear()const;
 	bool IsGameOver()const;
@@ -113,7 +113,7 @@ public:
 private:
 
 	// 描画用オブジェクトのソート
-	void SortDrawObject();
+	void SwapAndSortDrawObject();
 
 	/* 管理用の配列など */
 	std::unordered_map<unsigned int,Object*>m_obj_list;// オブジェクト管理クラス(更新時にアドレスを入れる)

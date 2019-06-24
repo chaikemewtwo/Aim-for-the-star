@@ -27,12 +27,22 @@ RockChip::RockChip(int chip_num,const D3DXVECTOR2 &pos, Map*map) {
 		return;
 	}
 
+	m_is_obj = false;
+
+	// 生成されている
+	m_is_active = true;
+
+	// 生成されている
+	m_is_chip_active = true;
+
 	// ソートオブジェクト代入
 	m_sort_object_type = ROCK_CHIP;
 
 	m_pos = pos;                 // 位置
-	//m_pos += offset[chip_num]; // 位置を再移動
 	char str_buffer[256];        // チップの文字列を入れるchar
+
+	// チップ番号登録
+	this->m_chip_num = chip_num;
 
 	// 文字列を選ぶ
 	sprintf_s(str_buffer, sizeof(str_buffer),"Resource/Texture/Map/chip-map_image_%d.png",chip_num);

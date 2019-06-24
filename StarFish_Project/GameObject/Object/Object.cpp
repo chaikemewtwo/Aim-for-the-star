@@ -13,7 +13,7 @@ Object::Object() {
 }
 
 
-void Object::AnimationDraw(int max_animation, int anim_cange_time, int init_anim_num) {
+void Object::AnimationCount(int max_animation, int anim_cange_time, int init_anim_num) {
 	if (m_animation_timer >= anim_cange_time) {
 		m_animation_timer = 0;
 		m_animation_count++;
