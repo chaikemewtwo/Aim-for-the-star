@@ -68,7 +68,7 @@ void Clear::Init() {
 	m_effect_animation_change_time = 7;
 
 	// UIの変数初期化
-	m_clear_ui_pos = { (Window::WIDTH / 2), (m_player1_pos.y - 500) };
+	m_clear_ui_pos = { (Window::WIDTH / 2), (m_player1_pos.y - 700) };
 	m_clear_ui_size = 0;
 	m_clear_ui_size_change_speed = 0.025f;
 	m_is_clear_ui_size_max = false;

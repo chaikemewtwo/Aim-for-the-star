@@ -27,16 +27,27 @@ public:
 	EnemyBase();
 	virtual ~EnemyBase() {}
 
+
 	// 各遷移条件をチェックし、遷移先のStateIdを返す
 	virtual StateId CheckChangeState() = 0;
 
+
+	/*
+	各Stateで実行する挙動
+	敵ごとに挙動が違う場合は、派生先で再定義すること
+	*/
+	// 横移動
 	virtual void SideMove();
 
+	// 縦移動
 	virtual void VerticalMove();
 
+	// 巡回
+	virtual void Patrol();
+
+	// 追跡
 	virtual void Chase();
 
-	virtual void Patrol();
 
 	// 敵のインスタンスを返す
 	EnemyBase* GetInstance();	
@@ -46,9 +57,6 @@ public:
 
 	// 速度のゲッター
 	float GetSpeed();
-
-	// 追跡時のターゲット座標ゲッター
-	D3DXVECTOR2 GetTargetPos();
 	
 	// 画面の左右どちらかのフラグのゲッター
 	bool IsLeft();
@@ -88,6 +96,7 @@ protected:
 	bool m_can_move;			// 移動するかのフラグ
 	bool m_is_left;				// 左右どちら向きかのフラグ
 	D3DXVECTOR2 m_target_pos;	// 追跡するターゲットの座標
+	float m_sin_count;			// Sin波のカウント用
 
 	float m_angle;				// 描画角度
 	float m_center;				// 描画頂点
@@ -97,14 +106,17 @@ protected:
 	std::string m_enemy_texture;// 敵の画像変数
 	std::string m_texture_list[EnemyTexture::ENEMY_TEXTURE_MAX];	// 敵の画像リスト
 	
+	// Sin波の最大移動量
+	const float SINCURVE_COUNT_MAX = 300;
+	// 画面のｙ軸の中心
+	const float WINDOW_CENTER_LINE = Window::WIDTH / 2;
+
 	// 画像の分割数　　2分割
 	const int TEX_PARTITION_NUM2 = 2;	
 	// 描画する画像のXサイズ
 	const float TEXTURE_SIZE_X = 0.5f;	
 	// 描画する画像のYサイズ
 	const float TEXTURE_SIZE_Y = 0.5f;	
-
-	const float WINDOW_CENTER_LINE = Window::WIDTH / 2;
 
 	// 追跡範囲の距離
 	static const int CHASE_RANGE = 150;
@@ -116,9 +128,21 @@ protected:
 	StateBase* m_p_state_base;	// 状態を保存する変数
 	Map* m_p_map;
 	Player* m_p_player[2];
-
-	// メガネ用の仮変数《要/修正》
-	float m_sin_count;
-	const float SINCURVE_COUNT_MAX = 720;
 };
 
+/*
+《Enemy挙動》
+	・State全体の整理（コメントアウト部分とか不要なもの）
+	・Patrolを左右で計算変える（左なら+、右なら-）
+	・コメント入れる
+	・Patrol範囲を調整
+
+《メガネ》
+	・画像の追加
+	・画像の切り替え
+	・索敵の確認（左右逆転時）
+
+《その他Enemy》
+	・画像の反転処理の反映
+	・EnemyManagerのDraw関数の削除
+*/

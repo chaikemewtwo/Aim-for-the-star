@@ -67,21 +67,43 @@ void EnemyBase::SideMove() {
 		m_pos.x += m_speed;
 	}
 }
+//―――――――――――――――――――――
 
 void EnemyBase::VerticalMove() {
 	m_pos.y += m_speed;
 }
+//―――――――――――――――――――――
 
 void EnemyBase::Patrol() {
 
-	float curve = (float)sinf(D3DX_PI * 2 / SINCURVE_COUNT_MAX * m_sin_count)*m_speed;
-	m_sin_count++;
-	m_pos.x -= curve;
+	//if (m_can_patrol==false) {
+	//
+	//	float radian = atan2((m_fast_pos.y - m_pos.y), (m_fast_pos.x - m_pos.x));
+	//	m_pos.x += cosf(radian)*m_speed;
+	//	m_pos.y += sinf(radian)*m_speed;
+	//
+	//	if (m_fast_pos.x == m_pos.x&&m_fast_pos.y == m_pos.y) {
+	//		m_can_patrol = true;
+	//		m_fast_pos = { 0,0 };
+	//	}
+	//}
+	//else if(m_can_patrol==true){
 
-	if (SINCURVE_COUNT_MAX < m_sin_count) {
-		m_sin_count = 0;
-	}
+		float curve = (float)sinf(D3DX_PI * 2 / SINCURVE_COUNT_MAX * m_sin_count)*m_speed;
+		m_sin_count++;
+		if (m_is_left == true) {
+			m_pos.x += curve;
+		}
+		else if (m_is_left == false) {
+			m_pos.x -= curve;
+		}
+		
+		if (SINCURVE_COUNT_MAX < m_sin_count) {
+			m_sin_count = 0;
+		}
+	//}
 }
+//―――――――――――――――――――――
 
 void EnemyBase::Chase() {
 
@@ -89,8 +111,6 @@ void EnemyBase::Chase() {
 	m_pos.x += cosf(radian)*m_speed;
 	m_pos.y += sinf(radian)*m_speed;
 }
-
-
 //―――――――――――――――――――――
 
 bool EnemyBase::IsTopPos() {
@@ -135,11 +155,6 @@ EnemyBase* EnemyBase::GetInstance() {
 
 float EnemyBase::GetSpeed() {
 	return m_speed;
-}
-//―――――――――――――――――――――
-
-D3DXVECTOR2 EnemyBase::GetTargetPos() {
-	return m_target_pos;
 }
 //―――――――――――――――――――――
 

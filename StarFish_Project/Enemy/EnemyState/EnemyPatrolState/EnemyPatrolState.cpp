@@ -16,7 +16,6 @@ void Patrol::Action(EnemyBase* e) {
 	e->Patrol();
 
 	if (e->CheckChangeState() != StateId::PATROL_ID) {
-		//PatrolBase::ISPatrol(false);
 		e->ChangeState(Wait::GetInstance());
 	}
 }
