@@ -59,7 +59,7 @@ void SeaUrchin::Draw() {
 }
 //―――――――――――――――――――――――――――
 
-StateId SeaUrchin::StateChangeCheck() {
+StateId SeaUrchin::CheckChangeState() {
 
 	// 動かないウニならばWaitのまま
 	if (m_can_move == false) {

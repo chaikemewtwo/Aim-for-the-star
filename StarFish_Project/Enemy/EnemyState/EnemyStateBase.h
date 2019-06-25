@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+
 class EnemyBase;
 
 // 状態基底クラス

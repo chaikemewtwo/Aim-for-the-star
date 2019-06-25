@@ -1,10 +1,9 @@
 ﻿#include"../../Lib/Window/Window.h"
-#include"../State/EnemyWaitState.h"
+#include"../EnemyState/EnemyWaitState/EnemyWaitState.h"
 #include"EnemyBase.h"
 
 // コンストラクタで共通の変数初期化
 EnemyBase::EnemyBase() {
-	m_posx_count = 0;
 
 	m_angle = 0.f;
 	m_center = 0.5f;
@@ -16,6 +15,7 @@ EnemyBase::EnemyBase() {
 	m_offset.y = 64.f;
 	m_delete_timer = 100;
 	m_max_animation = 0;
+	m_sin_count = 0;
 
 	m_p_state_base = Wait::GetInstance();
 
@@ -58,45 +58,58 @@ void EnemyBase::CheckEnemyActiv() {
 }
 //―――――――――――――――――――――
 
-D3DXVECTOR2 EnemyBase::CalcDistance() {
+void EnemyBase::SideMove() {
 
-	D3DXVECTOR2 player1_distance;
-	D3DXVECTOR2 player2_distance;
-
-	// 自身がプレイヤーよりも上にいる場合
-	if (IsTopPos()==true) {
-
-		player1_distance.y = m_p_player[0]->GetPos().y - m_pos.y;
-		player2_distance.y = m_p_player[1]->GetPos().y - m_pos.y;
-	}
-	// 自身がプレイヤーよりも下にいる場合
-	else if (IsTopPos()==false) {
-
-		player1_distance.y = m_pos.y - m_p_player[0]->GetPos().y;
-		player2_distance.y = m_pos.y - m_p_player[1]->GetPos().y;
-	}
-
-
-	// 自身が画面左側にいるとき
 	if (m_is_left == true) {
-
-		player1_distance.x = m_p_player[0]->GetPos().x - m_pos.x;
-		player2_distance.x = m_p_player[1]->GetPos().x - m_pos.x;
+		m_pos.x += m_speed;
 	}
-	// 自身が画面右側にいるとき
 	else if (m_is_left == false) {
-
-		player1_distance.x = m_pos.x - m_p_player[0]->GetPos().x;
-		player2_distance.x = m_pos.x - m_p_player[1]->GetPos().x;
+		m_pos.x += m_speed;
 	}
+}
+//―――――――――――――――――――――
 
+void EnemyBase::VerticalMove() {
+	m_pos.y += m_speed;
+}
+//―――――――――――――――――――――
 
-	// より近いほうの距離を返す
-	if (player1_distance.y < player2_distance.y) {
-		return player1_distance;
-	}
+void EnemyBase::Patrol() {
 
-	return player2_distance;
+	//if (m_can_patrol==false) {
+	//
+	//	float radian = atan2((m_fast_pos.y - m_pos.y), (m_fast_pos.x - m_pos.x));
+	//	m_pos.x += cosf(radian)*m_speed;
+	//	m_pos.y += sinf(radian)*m_speed;
+	//
+	//	if (m_fast_pos.x == m_pos.x&&m_fast_pos.y == m_pos.y) {
+	//		m_can_patrol = true;
+	//		m_fast_pos = { 0,0 };
+	//	}
+	//}
+	//else if(m_can_patrol==true){
+
+		float curve = (float)sinf(D3DX_PI * 2 / SINCURVE_COUNT_MAX * m_sin_count)*m_speed;
+		m_sin_count++;
+		if (m_is_left == true) {
+			m_pos.x += curve;
+		}
+		else if (m_is_left == false) {
+			m_pos.x -= curve;
+		}
+		
+		if (SINCURVE_COUNT_MAX < m_sin_count) {
+			m_sin_count = 0;
+		}
+	//}
+}
+//―――――――――――――――――――――
+
+void EnemyBase::Chase() {
+
+	float radian = atan2((m_target_pos.y - m_pos.y), (m_target_pos.x - m_pos.x));
+	m_pos.x += cosf(radian)*m_speed;
+	m_pos.y += sinf(radian)*m_speed;
 }
 //―――――――――――――――――――――
 
@@ -110,6 +123,31 @@ bool EnemyBase::IsTopPos() {
 }
 //―――――――――――――――――――――
 
+// 指定されたプレイヤーの位置と自身の位置の距離を計算する
+D3DXVECTOR2 EnemyBase::CalcDistanceToPlayer(const D3DXVECTOR2& target_pos) {
+
+	D3DXVECTOR2 distance;
+
+	// Y軸の距離を正の数で求める
+	if (IsTopPos() == true) {
+		distance.y = target_pos.y - m_pos.y;
+	}
+	else if (IsTopPos() == false) {
+		distance.y = m_pos.y - target_pos.y;
+	}
+
+	// X軸の距離を正の数で求める
+	if (m_is_left == true) {
+		distance.x = target_pos.x - m_pos.x;
+	}
+	else if (m_is_left == false) {
+		distance.x = m_pos.x - target_pos.x;
+	}
+
+	return distance;
+}
+//―――――――――――――――――――――
+
 EnemyBase* EnemyBase::GetInstance() {
 	return this;
 }
@@ -118,8 +156,11 @@ EnemyBase* EnemyBase::GetInstance() {
 float EnemyBase::GetSpeed() {
 	return m_speed;
 }
+//―――――――――――――――――――――
 
 bool EnemyBase::IsLeft() {
 	return m_is_left;
 }
 //―――――――――――――――――――――
+
+

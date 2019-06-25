@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 
-#include"EnemyStateBase.h"
+#include"../EnemyStateBase.h"
 
 
 // 横移動クラス

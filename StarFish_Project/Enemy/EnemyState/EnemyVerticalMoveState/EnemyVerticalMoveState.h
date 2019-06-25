@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include"EnemyStateBase.h"
+#include"../EnemyStateBase.h"
 
 
 // 縦移動クラス

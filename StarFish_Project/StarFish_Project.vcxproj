@@ -39,21 +39,21 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Enemy\State\EnemyChaseState.cpp">
+    <ClCompile Include="Enemy\EnemyState\EnemyChaseState\EnemyChaseState.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Enemy\State\EnemyPatrolState.cpp">
+    <ClCompile Include="Enemy\EnemyState\EnemyPatrolState\EnemyPatrolState.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Enemy\State\EnemySideMoveState.cpp" />
-    <ClCompile Include="Enemy\State\EnemyVerticalMoveState.cpp" />
-    <ClCompile Include="Enemy\State\EnemyWaitState.cpp" />
     <ClCompile Include="GameObject\ObjectInterface\ObjectInterface.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Enemy\EnemyState\EnemySideMoveState\EnemySideMoveState.cpp" />
+    <ClCompile Include="Enemy\EnemyState\EnemyVerticalMoveState\EnemyVerticalMoveState.cpp" />
+    <ClCompile Include="Enemy\EnemyState\EnemyWaitState\EnemyWaitState.cpp" />
     <ClCompile Include="GameObject\ObjectManager\ObjectManager.cpp" />
     <ClCompile Include="GameObject\Object\Object.cpp" />
     <ClCompile Include="Lib\D3D9\D3D9.cpp" />
@@ -126,22 +126,22 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Enemy\State\EnemyChaseState.h">
+    <ClInclude Include="Enemy\EnemyState\EnemyChaseState\EnemyChaseState.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Enemy\State\EnemyPatrolState.h">
+    <ClInclude Include="Enemy\EnemyState\EnemyPatrolState\EnemyPatrolState.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Enemy\State\EnemySideMoveState.h" />
-    <ClInclude Include="Enemy\State\EnemyStateBase.h" />
-    <ClInclude Include="Enemy\State\EnemyVerticalMoveState.h" />
-    <ClInclude Include="Enemy\State\EnemyWaitState.h" />
     <ClInclude Include="GameObject\ObjectInterface\ObjectInterface.h">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Enemy\EnemyState\EnemySideMoveState\EnemySideMoveState.h" />
+    <ClInclude Include="Enemy\EnemyState\EnemyStateBase.h" />
+    <ClInclude Include="Enemy\EnemyState\EnemyVerticalMoveState\EnemyVerticalMoveState.h" />
+    <ClInclude Include="Enemy\EnemyState\EnemyWaitState\EnemyWaitState.h" />
     <ClInclude Include="GameObject\ObjectManager\ObjectManager.h" />
     <ClInclude Include="GameObject\Object\Object.h" />
     <ClInclude Include="Lib\D3D9\D3D9.h" />
