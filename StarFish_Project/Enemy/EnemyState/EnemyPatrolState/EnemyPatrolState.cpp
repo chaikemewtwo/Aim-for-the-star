@@ -1,7 +1,5 @@
-﻿#include<math.h>
-#include"EnemyPatrolState.h"
+﻿#include"EnemyPatrolState.h"
 #include"../EnemyWaitState/EnemyWaitState.h"
-#include"../EnemyChaseState/EnemyChaseState.h"
 #include"../../Enemy/EnemyBase.h"
 
 

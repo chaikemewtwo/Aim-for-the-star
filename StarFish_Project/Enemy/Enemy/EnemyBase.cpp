@@ -15,20 +15,25 @@ EnemyBase::EnemyBase() {
 	m_offset.y = 64.f;
 	m_delete_timer = 100;
 	m_max_animation = 0;
-	m_sin_count = 0;
+	m_sin_count = 0.f;
 
 	m_p_state_base = Wait::GetInstance();
 
 	// ソートオブジェクトに敵追加
 	m_sort_object_type = SortObject::ENEMY;
 
-	// 敵画像の登録
+	//  敵画像の登録　//
+	// ウニ
 	m_texture_list[EnemyTexture::SEAURCHIN_MOVE] = "Resource/Texture/Enemy/uni_move.png";
+	// ほら貝
 	m_texture_list[EnemyTexture::SELLFISH_WAIT] = "Resource/Texture/Enemy/hora_wait.png";
 	m_texture_list[EnemyTexture::SELLFISH_READY] = "Resource/Texture/Enemy/hora_ready.png";
 	m_texture_list[EnemyTexture::SELLFISH_ATTACK] = "Resource/Texture/Enemy/hora_attack.png";
-	m_texture_list[EnemyTexture::NAPOREONFISH_MOVE] = "Resource/Texture/Enemy/megane_move.png";
-	m_texture_list[EnemyTexture::NAPOREONFISH_ATTACK] = "Resource/Texture/Enemy/megane_attack.png";
+	// メガネモチノウオ
+	m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_MOVE] = "Resource/Texture/Enemy/megane_move.png";
+	m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_ATTACK] = "Resource/Texture/Enemy/megane_attack.png";
+	m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_MOVE] = "Resource/Texture/Enemy/megane_move_m.png";
+	m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_ATTACK] = "Resource/Texture/Enemy/megane_attack_m.png";
 }
 //―――――――――――――――――――――
 

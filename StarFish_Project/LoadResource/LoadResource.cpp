@@ -68,6 +68,8 @@ void Resource::LoadResource() {
 	// ナポレオンフィッシュ
 	Texture::Load("Resource/Texture/Enemy/megane_attack.png");
 	Texture::Load("Resource/Texture/Enemy/megane_move.png");
+	Texture::Load("Resource/Texture/Enemy/megane_attack_m.png");
+	Texture::Load("Resource/Texture/Enemy/megane_move_m.png");
 
 	// ブラインド
 	Texture::Load("Resource/Texture/Blind/blind.png");
