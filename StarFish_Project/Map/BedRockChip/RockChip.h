@@ -3,7 +3,7 @@
 #include<string>
 #include"../ChipBase/ChipBase.h"
 
-/* HACK まだできていません */
+
 
 // 岩盤チップの型
 //enum BedRockChipType {
@@ -26,12 +26,13 @@ class Map;
 class RockChip : public ChipBase{
 public:
 
+
 	// コンストラクタでどのチップを使うか決める
 	RockChip(int chip_num,const D3DXVECTOR2 &pos,Map*map);
 
 	void Draw()override;
 	void Update()override;
-
+	
 private:
 
 	// 岩盤の最大チップ数	       

@@ -119,8 +119,8 @@ void Map::Update() {
 		PlayerScroll(i);
 		PlayerCollision(i);
 	}
-	PlayerScroll(0);
 	PlayerCollision(0);
+	PlayerScroll(0);
 	
 	// マップ座標にマップの移動ベクトルを加算
 	m_pos.y += m_move.y;
@@ -329,7 +329,7 @@ void Map::MapObjectWidthDestoryLine(int destory_line_y) {
 		// 位置を代入
 		D3DXVECTOR2 pos(
 			(float)(Map::CHIP_SIZE * x),
-			(Map::CHIP_SIZE * -destory_line_y) + Window::HEIGHT - m_pos.y
+			(Map::CHIP_SIZE * -destory_line_y) + Window::HEIGHT - (int)m_pos.y
 		);
 
 		// デバッグ用
@@ -339,7 +339,7 @@ void Map::MapObjectWidthDestoryLine(int destory_line_y) {
 		//if (m_map_chip_list[destory_line][x]->IsObject() == true) {
 		//	continue;
 		//}
-
+		
 		// チップが活動しているなら
 		if (m_map_chip_list[destory_line][x]->IsChipActive() == true) {
 
@@ -426,14 +426,19 @@ void Map::EnemyCreate(int x, int y) {
 
 void Map::RockChipCreate(int x, int y) {
 
+	// Mapの高さから今のyチップ座標を割り出し
+	int create_chip_y = m_max_height_map_size - y;
+
+	// チップが活動中なら生成中止
+	if (m_map_chip_list[create_chip_y][x]->IsChipActive() == true) {
+		return;
+	}
+	
 	// チップ座標位置を作成
 	D3DXVECTOR2 pos(
 		(float)(Map::CHIP_SIZE * x),
-		(Map::CHIP_SIZE * -y) + Window::HEIGHT - m_pos.y
+		(float)(Map::CHIP_SIZE * -y) + (float)(Window::HEIGHT + (CHIP_SIZE * GetChipCastByPos(-m_pos.y)))
 	);
-
-	// Mapの高さから今のyチップ座標を割り出し
-	int create_chip_y = m_max_height_map_size - y;
 
 	// 指定のチップを渡す
 	ChipBase*chip_base = m_map_chip_list[create_chip_y][x];
@@ -441,10 +446,6 @@ void Map::RockChipCreate(int x, int y) {
 	// チップ番号をMapクラスから受け取る
 	int chip_num = m_map_chip_list[create_chip_y][x]->GetChipNum();
 
-	// チップが活動中なら生成中止
-	if (chip_base->IsChipActive() == true) {
-		return;
-	}
 
 	// 検索しているチップが岩のチップ番号なら
 	if (chip_num != 0 && chip_num <= 10) {

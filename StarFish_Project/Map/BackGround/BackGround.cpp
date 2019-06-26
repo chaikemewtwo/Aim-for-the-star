@@ -103,7 +103,7 @@ void BackGround::Scroll() {
 	
 	const int CHANGE_RANGE_UP = static_cast<int>(m_pos.y - BG_CHANGE_LINE);
 
-	// 連結1画像が現在画面内の描画を行っている場合
+	// 連結1画像が現在の描画軸になっている場合
 	{
 		// 連結1画像が進んだ時、連結2画像を一つ先に描画させるようにする
 		if ((CHANGE_RANGE_UP) >= (GRAPH_SIZE_H * m_connect1_graph)) {
@@ -118,16 +118,16 @@ void BackGround::Scroll() {
 	
 	const int CHANGE_RANGE_DOWN = static_cast<int>(m_pos.y + GRAPH_SIZE_H - GRAPH_DIFFERENCE + BG_CHANGE_LINE);
 
-	// 連結2画像が現在画面内の描画を行っている場合
+	// 連結2画像が現在描画の軸になっている場合
 	{
 		// 連結1画像が後退した時、次は連結2画像を後退して描画させるようにする
-		if ((CHANGE_RANGE_DOWN) <= ((GRAPH_SIZE_H) * (m_connect1_graph) - 1)) {// -1
+		if ((CHANGE_RANGE_DOWN) <= ((GRAPH_SIZE_H) * (m_connect1_graph))) {// -1
 
 			m_connect2_graph = m_connect1_graph - 1;
 		}
 
 		// 連結画像2が後退した時、次は連結1画像を後退して描画させるようにする
-		if ((CHANGE_RANGE_DOWN) <= (GRAPH_SIZE_H) * (m_connect2_graph) - 1) {// -1
+		if ((CHANGE_RANGE_DOWN) <= (GRAPH_SIZE_H) * (m_connect2_graph + 1)) {// -1
 
 			m_connect1_graph = m_connect2_graph - 1;
 		}

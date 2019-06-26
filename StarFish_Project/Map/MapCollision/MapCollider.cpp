@@ -54,7 +54,7 @@ void MapCollider::Collision(
 			is_collision = false;
 		}
 		else {
-			if (collision_dir_type_y == UP_COLLISION) {
+			if (collision_dir_type_y == UP_COLLISION){
 				collision_dir_type_y = NONE_COLLISION;
 				pos.y += 6.f;
 				move.y = -1.f;
@@ -262,7 +262,7 @@ void MapCollider::VerticalPosPullBack(float &pos_y, float &move_y, CollisionDire
 	// 下(自機の移動とマップの移動が進んだ時)
 	else if (move_y > 0.f && collision_dir_type_y != UP_COLLISION) {
 
-		// チップサイズ割り出し
+		// チwップサイズ割り出し
 		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + m_p_map->GetPos().y) + move_y);
 
 		// 上に戻す
