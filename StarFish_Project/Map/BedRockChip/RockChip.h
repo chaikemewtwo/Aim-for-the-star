@@ -6,33 +6,56 @@
 
 
 // 岩盤チップの型
-//enum BedRockChipType {
-//	LEFT_UP,		 // 左上
-//	RIGHT_UP,		 // 右上
-//	LEFT_DOWN,		 // 左下
-//	RIGHT_DOWN,		 // 右下
-//	RIGHT,			 // 右
-//	LEFT,			 // 左
-//	UP,				 // 上
-//	DOWN,			 // 下
-//	CENTER,          // 中央
-//	CENTER_AMMONITE, // アンモナイト
+
+//  番号   岩盤の種類
+//	1,   // 左上
+//	2,   // 右上
+//	3,	 // 左下
+//	4,	 // 右下
+//	5,	 // 右
+//	6,	 // 左
+//	7,	 // 上
+//	8,	 // 下
+//	9,   // 中央
+//	10,  // アンモナイト
 //};
+
+/**
+* @file RockChip.h
+* @brief 岩盤オブジェクトを管理しているファイル
+* @author maekawa
+*/
 
 // 前方参照
 class Map;
 
-// 岩盤クラス
+
+/**
+* @brief 岩盤クラス
+*/
 class RockChip : public ChipBase{
 public:
 
 
-	// コンストラクタでどのチップを使うか決める
+	/**
+	* @brief RockChipクラスのコンストラクタ
+	* @details コンストラクタでどのチップを使うか決める
+	*/
 	RockChip(int chip_num,const D3DXVECTOR2 &pos,Map*map);
 
+
+	/**
+	* @brief 描画(Object.h In override)
+	*/
 	void Draw()override;
+
+
+	/**
+	* @brief 更新(Object.h In override)
+	*/
 	void Update()override;
 	
+
 private:
 
 	// 岩盤の最大チップ数	       
@@ -40,14 +63,8 @@ private:
 
 private:
 
-	float chip_u[10]; // 線を直す為にずらすUV用配列U
-	float chip_v[10]; // 線を直す為にずらすUV用配列V
-
-	// 岩盤文字列
+	//! 岩盤文字列
 	std::string bed_rock_chip_name;
-	const char *str_buf[MAX_CHIP];
-	// 岩盤チップをずらす座標
-	D3DXVECTOR2 offset[MAX_CHIP];
-	
+	//! マップインスタンス
 	Map*m_map;
 };

@@ -6,33 +6,21 @@
 // オフセット値設定
 const D3DXVECTOR2 offset_pos[10] =
 {
-{ 0.f,0.f }, // 左上
-{ 0.f,0.f }, // 右上
-{ 0.f,0.f }, // 左下
-{ 0.f,0.f }, // 右下
+{ 0.f,1.f }, // 左上
+{ 0.f,1.f }, // 右上
+{ 0.f,-1.f }, // 左下
+{ 0.f,-1.f }, // 右下
 { 0.f,0.f }, // 左
 { 0.f,0.f }, // 右
-{ 0.f,0.f }, // 上
-{ 0.f,0.f }, // 下
+{ 0.f,1.f }, // 上
+{ 0.f,-1.f }, // 下
 { 0.f,0.f }, // 中央
 { 0.f,0.f }, // アンモナイト
 };
 
 
 RockChip::RockChip(int chip_num,const D3DXVECTOR2 &pos, Map*map) {
-	
 
-	// オフセット値設定
-	//offset[0].x = 0.f; offset[0].y = 1.f;
-	//offset[1].x = 0.f; offset[1].y = 1.f;
-	//offset[2].x = 2.f; offset[2].y = -1.f;
-	//offset[3].x = 0.f; offset[3].y = 0.f;
-	//offset[4].x = 1.f; offset[4].y = 1.f;
-	//offset[5].x = 0.f; offset[5].y = 0.f;
-	//offset[6].x = 0.f; offset[6].y = 1.f;
-	//offset[7].x = 1.f; offset[7].y = -1.f;
-	//offset[8].x = 0.f; offset[8].y = 0.f;
-	//offset[9].x = 0.f; offset[9].y = 0.f;
 
 	// 最大チップより大きいなら生成失敗
 	if (chip_num > MAX_CHIP || chip_num <= 0) {
@@ -56,7 +44,6 @@ RockChip::RockChip(int chip_num,const D3DXVECTOR2 &pos, Map*map) {
 
 	m_pos = pos;                 // 位置
 	
-
 	m_pos += offset_pos[chip_num - 1];
 	
 	char str_buffer[256];        // チップの文字列を入れるchar

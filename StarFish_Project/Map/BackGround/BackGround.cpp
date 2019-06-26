@@ -39,7 +39,7 @@ BackGround::BackGround(
 	m_move.x = m_move.y = 0.f;
 
 	// 遷移スクロール位置のポインタを入れる。
-	m_pmap = map;
+	mp_map = map;
 
 	// ファイルの読み込み
 	BGLoad(file_name.c_str());	
@@ -150,11 +150,11 @@ bool BackGround::IsScroll(){
 
 	// 背景のスクロール制限
 	// 上
-	if (-m_pmap->GetPos().y >= MAX_UP_SCROLL) {
+	if (-mp_map->GetPos().y >= MAX_UP_SCROLL) {
 		is_scroll = false;
 	}
 	// 下
-	else if (-m_pmap->GetPos().y <= 0.f) {
+	else if (-mp_map->GetPos().y <= 0.f) {
 		is_scroll = false;
 	}
 
@@ -215,7 +215,7 @@ void BackGround::PosYToMoveYAdd() {
 
 void BackGround::MoveSub() {
 
-	m_move = m_pmap->GetMove();// 反対方向に行くので-変換
+	m_move = mp_map->GetMove();// 反対方向に行くので-変換
 }
 
 void BackGround::MoveAdjustment(int adjustment_num) {

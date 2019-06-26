@@ -18,17 +18,27 @@
 
 */
 
+// =====================
+/**
+* @file Map.h
+* @brief チップによるMapを構成する
+* @author maekawa
+*/
+// =====================
+
 
 
 // 前方参照
 class EnemyManager;
 class MapObjectFactory;
 class MapCollider;
-
 enum CollisionDirectionType;
 
 
-// 海マップ
+
+/**
+* @brief マップクラス
+*/
 class Map : public Object {
 public:
 
@@ -45,14 +55,39 @@ public:
 
 public:
 
+
+	/**
+	* @brief マップのコンストラクタ
+	* @param[out] Player1のポインタ
+	* @param[out] Player2のポインタ
+	* @param[out] EnemyManagerのポインタ
+	* @param[out] ObjectManagerのポインタ
+	*/
 	Map(Player*star1, Player*star2, EnemyManager*e_mng,ObjectManager*obj_mng);
+
+
+	/**
+	* @brief マップのデストラクタ
+	*/
 	~Map();
 
-	// 更新と描画
+
+	/**
+	* @brief 更新(override)
+	*/
 	void Update();
+
+
+	/**
+	* @brief 描画(override)
+	*/
 	void Draw();
 
 	// マップオブジェクトの生成と削除
+
+	/**
+	* @brief 
+	*/
 	void MapObjectWidthCreateLine(int create_line_y);
 	void MapObjectWidthDestoryLine(int destory_line_y);
 

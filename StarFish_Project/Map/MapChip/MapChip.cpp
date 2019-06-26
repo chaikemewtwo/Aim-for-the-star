@@ -252,9 +252,9 @@ void Map::CreateAndDestory() {
 	// 下の生成線
 	const int CREATE_LINE_DOWN = 0;
 	// 上の削除線
-	const int DESTORY_LINE_UP = CREATE_LINE_UP +2;
+	const int DESTORY_LINE_UP = CREATE_LINE_UP + 2;
 	// 下の削除線
-	const int DESTORY_LINE_DOWN = CREATE_LINE_DOWN-1;
+	const int DESTORY_LINE_DOWN = CREATE_LINE_DOWN-2;
 
 
 	int create_line_range[2] = { CREATE_LINE_UP,CREATE_LINE_DOWN };
@@ -263,7 +263,7 @@ void Map::CreateAndDestory() {
 		for (int i = 0; i < 2; i++) {
 			
 			MapObjectWidthCreateLine(
-				GetChipCastByPos(-m_pos.y) + create_line_range[i]
+				(int)GetChipCastByPos(-m_pos.y) + create_line_range[i]
 			);
 		}
 	}
@@ -274,7 +274,7 @@ void Map::CreateAndDestory() {
 		for (int i = 0; i < 2; i++) {
 			
 			MapObjectWidthDestoryLine(
-				GetChipCastByPos(-m_pos.y) + destory_line_range[i]
+				(int)GetChipCastByPos(-m_pos.y) + destory_line_range[i]
 			);
 		}
 	}
@@ -434,10 +434,13 @@ void Map::RockChipCreate(int x, int y) {
 		return;
 	}
 	
+	// チップ間の間隔
+	const int INTERVAL_CHIP_Y = 1;
+
 	// チップ座標位置を作成
 	D3DXVECTOR2 pos(
 		(float)(Map::CHIP_SIZE * x),
-		(float)(Map::CHIP_SIZE * -y) + (float)(Window::HEIGHT + (CHIP_SIZE * GetChipCastByPos(-m_pos.y)))
+		(float)((Map::CHIP_SIZE - INTERVAL_CHIP_Y) * (int)-y) + (float)(Window::HEIGHT + (CHIP_SIZE * GetChipCastByPos(-m_pos.y)))
 	);
 
 	// 指定のチップを渡す
