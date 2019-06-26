@@ -69,7 +69,7 @@ void EnemyBase::SideMove() {
 		m_pos.x += m_speed;
 	}
 	else if (m_is_left == false) {
-		m_pos.x += m_speed;
+		m_pos.x -= m_speed;
 	}
 }
 //―――――――――――――――――――――
@@ -81,32 +81,33 @@ void EnemyBase::VerticalMove() {
 
 void EnemyBase::Patrol() {
 
-	//if (m_can_patrol==false) {
-	//
-	//	float radian = atan2((m_fast_pos.y - m_pos.y), (m_fast_pos.x - m_pos.x));
-	//	m_pos.x += cosf(radian)*m_speed;
-	//	m_pos.y += sinf(radian)*m_speed;
-	//
-	//	if (m_fast_pos.x == m_pos.x&&m_fast_pos.y == m_pos.y) {
-	//		m_can_patrol = true;
-	//		m_fast_pos = { 0,0 };
-	//	}
-	//}
-	//else if(m_can_patrol==true){
-
 		float curve = (float)sinf(D3DX_PI * 2 / SINCURVE_COUNT_MAX * m_sin_count)*m_speed;
 		m_sin_count++;
-		if (m_is_left == true) {
-			m_pos.x += curve;
-		}
-		else if (m_is_left == false) {
-			m_pos.x -= curve;
-		}
+		m_pos.x -= curve;
+		//if (m_is_left == true) {
+		//	m_pos.x += curve;
+		//}
+		//else if (m_is_left == false) {
+		//	m_pos.x -= curve;
+		//}
 		
 		if (SINCURVE_COUNT_MAX < m_sin_count) {
 			m_sin_count = 0;
+			if (m_is_left == false) {
+				m_is_left = true;
+			}
+			else if (m_is_left == true) {
+				m_is_left = false;
+			}
 		}
-	//}
+		else if (m_sin_count == SINCURVE_COUNT_MAX / 2) {
+			if (m_is_left == false) {
+				m_is_left = true;
+			}
+			else if (m_is_left == true) {
+				m_is_left = false;
+			}
+		}
 }
 //―――――――――――――――――――――
 

@@ -121,9 +121,9 @@ protected:
 	const float TEXTURE_SIZE_Y = 0.5f;	
 
 	// 追跡範囲の距離
-	static const int CHASE_RANGE = 150;
+	static const int CHASE_RANGE = 200;
 	// 攻撃範囲の距離
-	static const int ATTACK_RANGE = 200;
+	static const int ATTACK_RANGE = 250;
 	// 攻撃前の準備状態の範囲距離
 	static const int ATTACK_READY_RANGE = 350;
 

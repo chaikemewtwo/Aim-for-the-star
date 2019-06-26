@@ -17,14 +17,14 @@ NaporeonFish::NaporeonFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2,boo
 	m_anim_change_time = 15;
 	m_can_move = can_move;
 
-	m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_MOVE];
-
 	// 画面の左右どちらにいるかを判定
 	if (m_pos.x < WINDOW_CENTER_LINE) {
 		m_is_left = true;
+		m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_MOVE];
 	}
 	else if (m_pos.x > WINDOW_CENTER_LINE) {
 		m_is_left = false;
+		m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_MOVE];
 	}
 }
 //―――――――――――――――――――――――――
@@ -80,8 +80,12 @@ StateId NaporeonFish::CheckChangeState() {
 			m_anim_change_time = 15;
 			m_speed = 3.f;
 			m_target_pos = m_p_player[0]->GetPos();
-			m_enemy_texture[EnemyTexture::NAPOREONFISH_ATTACK];
-			
+			if (m_is_left == false) {
+				m_enemy_texture=m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_ATTACK];
+			}
+			else {
+				m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_ATTACK];
+			}
 			return StateId::CHASE_ID;
 		}
 		else if (distance1.x > distance2.x) {
@@ -89,7 +93,12 @@ StateId NaporeonFish::CheckChangeState() {
 			m_anim_change_time = 15;
 			m_speed = 3.f;
 			m_target_pos = m_p_player[1]->GetPos();
-			m_enemy_texture[EnemyTexture::NAPOREONFISH_ATTACK];
+			if (m_is_left == false) {
+				m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_ATTACK];
+			}
+			else {
+				m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_ATTACK];
+			}
 			
 			return StateId::CHASE_ID;
 		}
@@ -99,7 +108,12 @@ StateId NaporeonFish::CheckChangeState() {
 		m_anim_change_time = 15;
 		m_speed = 3.f;
 		m_target_pos = m_p_player[0]->GetPos();
-		m_enemy_texture[EnemyTexture::NAPOREONFISH_ATTACK];
+		if (m_is_left == false) {
+			m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_ATTACK];
+		}
+		else {
+			m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_ATTACK];
+		}
 		
 		return StateId::CHASE_ID;
 	}
@@ -108,14 +122,22 @@ StateId NaporeonFish::CheckChangeState() {
 		m_anim_change_time = 15;
 		m_speed = 3.f;
 		m_target_pos = m_p_player[1]->GetPos();
-		m_enemy_texture[EnemyTexture::NAPOREONFISH_ATTACK];
-	
+		if (m_is_left == false) {
+			m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_ATTACK];
+		}
+		else {
+			m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_ATTACK];
+		}
 		return StateId::CHASE_ID;
 	}
 		m_anim_change_time = 15;
 		m_speed = 2.5f;
-		m_enemy_texture[EnemyTexture::NAPOREONFISH_MOVE];
-
+		if (m_is_left == false) {
+			m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_ATTACK];
+		}
+		else {
+			m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_ATTACK];
+		}
 		return StateId::PATROL_ID;
 }
 //―――――――――――――――――――――――――
