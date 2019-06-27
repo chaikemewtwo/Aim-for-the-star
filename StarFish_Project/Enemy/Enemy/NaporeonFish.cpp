@@ -1,7 +1,7 @@
 ﻿#include"NaporeonFish.h"
 
 
-NaporeonFish::NaporeonFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2,bool can_move) {
+NaporeonFish::NaporeonFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, bool can_move) {
 
 	// マップとプレイヤーを受け取る
 	m_p_map = map;
@@ -17,15 +17,8 @@ NaporeonFish::NaporeonFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2,boo
 	m_anim_change_time = 15;
 	m_can_move = can_move;
 
-	// 画面の左右どちらにいるかを判定
-	if (m_pos.x < WINDOW_CENTER_LINE) {
-		m_is_left = true;
-		m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_MOVE];
-	}
-	else if (m_pos.x > WINDOW_CENTER_LINE) {
-		m_is_left = false;
-		m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_MOVE];
-	}
+	m_is_left = true;
+	m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_MOVE];
 }
 //―――――――――――――――――――――――――
 
@@ -60,12 +53,12 @@ StateId NaporeonFish::CheckChangeState() {
 
 	// 自身の向きによって三角形のできる位置を左右逆転させる
 	if (m_is_left == true) {
-		vec1 = { m_pos.x + CHASE_RANGE,m_pos.y - CHASE_RANGE };
-		vec2 = { m_pos.x + CHASE_RANGE,m_pos.y + CHASE_RANGE };
-	}
-	else if (m_is_left == false) {
 		vec1 = { m_pos.x - CHASE_RANGE,m_pos.y - CHASE_RANGE };
 		vec2 = { m_pos.x - CHASE_RANGE,m_pos.y + CHASE_RANGE };
+	}
+	else if (m_is_left == false) {
+		vec1 = { m_pos.x + CHASE_RANGE,m_pos.y - CHASE_RANGE };
+		vec2 = { m_pos.x + CHASE_RANGE,m_pos.y + CHASE_RANGE };
 	}
 
 	// プレイヤーが２機とも範囲にいれば、より近いほうを追跡する
@@ -81,12 +74,13 @@ StateId NaporeonFish::CheckChangeState() {
 			m_speed = 3.f;
 			m_target_pos = m_p_player[0]->GetPos();
 
-			if (m_is_left == false) {
-				m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_ATTACK];
-			}
-			else if (m_is_left == true) {
+			if (m_is_left == true) {
 				m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_ATTACK];
 			}
+			else if (m_is_left == false) {
+				m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_ATTACK];
+			}
+
 			return StateId::CHASE_ID;
 		}
 		else if (distance1.x > distance2.x) {
@@ -95,11 +89,11 @@ StateId NaporeonFish::CheckChangeState() {
 			m_speed = 3.f;
 			m_target_pos = m_p_player[1]->GetPos();
 
-			if (m_is_left == false) {
-				m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_ATTACK];
-			}
-			else if(m_is_left==true) {
+			if (m_is_left == true) {
 				m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_ATTACK];
+			}
+			else if(m_is_left == false) {
+				m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_ATTACK];
 			}
 
 			return StateId::CHASE_ID;
@@ -112,11 +106,11 @@ StateId NaporeonFish::CheckChangeState() {
 		m_speed = 3.f;
 		m_target_pos = m_p_player[0]->GetPos();
 
-		if (m_is_left == false) {
-			m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_ATTACK];
-		}
-		else if (m_is_left == true) {
+		if (m_is_left == true) {
 			m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_ATTACK];
+		}
+		else if (m_is_left == false) {
+			m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_ATTACK];
 		}
 
 		return StateId::CHASE_ID;
@@ -128,24 +122,25 @@ StateId NaporeonFish::CheckChangeState() {
 		m_speed = 3.f;
 		m_target_pos = m_p_player[1]->GetPos();
 
-		if (m_is_left == false) {
-			m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_ATTACK];
-		}
-		else if (m_is_left == true) {
+		if (m_is_left == true) {
 			m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_ATTACK];
 		}
+		else if (m_is_left == false) {
+			m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_ATTACK];
+		}
+
 		return StateId::CHASE_ID;
 	}
 
+	// 追跡処理に入らなければ巡回処理に遷移する
 	m_anim_change_time = 15;
 	m_speed = 2.5f;
 
-	if (m_is_left == false) {
-
-		m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_MOVE];
-	}
-	else if (m_is_left == true) {
+	if (m_is_left == true) {
 		m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_MOVE];
+	}
+	else if (m_is_left == false) {
+		m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_MOVE];
 	}
 
 	return StateId::PATROL_ID;
