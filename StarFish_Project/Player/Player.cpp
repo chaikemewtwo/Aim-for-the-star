@@ -34,7 +34,7 @@ Player::Player(ID_TYPE id) :
 	m_radius = PLAYER_COLLSION_RADIUS;
 
 	// 当たり判定位置調整（左上から中央に）
-	m_offset = { PLAYER_COLLSION_RADIUS, PLAYER_COLLSION_RADIUS };
+	m_hit_vertex_offset = { PLAYER_COLLSION_RADIUS, PLAYER_COLLSION_RADIUS };
 
 	m_speed = PLAYER_SPEED;	
 

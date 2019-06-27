@@ -31,7 +31,7 @@ void PlayerSwimState::Init(Player* p) {
 void PlayerSwimState::Update(Player* p) {
 	Keybord& kb = Keybord::getInterface();
 
-	p->AnimationDraw(MAX_ANIMATION_TEX_NUM-1, ONE_ANIMATION_SPEED);
+	p->AnimationCount(MAX_ANIMATION_TEX_NUM-1, ONE_ANIMATION_SPEED);
 
 	p->AddStateChangeTimer();
 

@@ -23,7 +23,7 @@ void PlayerWaitState::Update(Player* p) {
 	Keybord& kb = Keybord::getInterface();	
 
 	// HACK:各StateのAnimationDrawはplayerのDrawでやったほうがいいかも　19/06/17
-	p->AnimationDraw(MAX_ANIMATION_TEX_NUM, ONE_ANIMATION_SPEED);
+	p->AnimationCount(MAX_ANIMATION_TEX_NUM, ONE_ANIMATION_SPEED);
 
 	p->AddGravity();
 

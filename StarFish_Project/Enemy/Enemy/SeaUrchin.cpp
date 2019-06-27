@@ -13,8 +13,8 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* map, bool can_move) {
 	// can_moveがfalseの場合は動かないウニの生成
 	m_can_move = can_move;
 	
-	m_offset.x = 128.f;
-	m_offset.y = 128.f;
+	m_hit_vertex_offset.x = 128.f;
+	m_hit_vertex_offset.y = 128.f;
 
 	// その他変数の初期化
 	m_speed = 2.f;
@@ -55,7 +55,7 @@ void SeaUrchin::Draw() {
 		true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
 		m_animation_count
 	);
-	AnimationDraw(m_max_animation, m_anim_change_time);
+	AnimationCount(m_max_animation, m_anim_change_time);
 }
 //―――――――――――――――――――――――――――
 

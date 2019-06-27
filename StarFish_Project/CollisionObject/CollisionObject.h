@@ -33,6 +33,6 @@ public:
 
 protected:
 
-	//float m_speed;
-	D3DXVECTOR2 m_hit_vertex_offset; // 当たり頂点をずらす 
+	// 当たり頂点をずらす 
+	D3DXVECTOR2 m_hit_vertex_offset;
 };

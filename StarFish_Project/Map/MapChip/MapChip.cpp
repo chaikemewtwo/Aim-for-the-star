@@ -61,8 +61,8 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 	m_pos.y = INIT_MAP_POS_Y;		  
 
 	// マップ座標移動座標初期化
-	m_move.x = INIT_MAP_MOVE_X;
-	m_move.y = INIT_MAP_MOVE_Y;
+	m_scroll_move.x = INIT_MAP_MOVE_X;
+	m_scroll_move.y = INIT_MAP_MOVE_Y;
 	
 	// スクロールする範囲初期化
 	m_scroll_range_up = SCROLL_RANGE_UP;
@@ -105,7 +105,7 @@ Map::~Map() {
 void Map::Update() {
 	
 	// マップの移動ベクトル初期化
-	m_move.y = 0.f;
+	m_scroll_move.y = 0.f;
 	
 	// 先に衝突とスクロールをする
 	for (int i = 0; i < 2; i++) {
@@ -123,7 +123,7 @@ void Map::Update() {
 	PlayerScroll(0);
 	
 	// マップ座標にマップの移動ベクトルを加算
-	m_pos.y += m_move.y;
+	m_pos.y += m_scroll_move.y;
 	
 	// スクロール制限
 	MaxScroll();
@@ -192,7 +192,7 @@ void Map::Scroll(float *pos_y, float *move_y) {
 
 		// 移動していないなら
 			// マップ移動を加算
-			m_move.y = *move_y;
+			m_scroll_move.y = *move_y;
 		
 	}
 
@@ -204,7 +204,7 @@ void Map::Scroll(float *pos_y, float *move_y) {
 
 		// 移動していないなら
 			// マップ移動を加算
-			m_move.y = *move_y;
+			m_scroll_move.y = *move_y;
 	}
 }
 
@@ -216,7 +216,7 @@ void Map::MaxScroll() {
 
 		m_scroll_range_up = 0.f;
 		// スクロール移動初期化
-		m_move.y = 0.f;
+		m_scroll_move.y = 0.f;
 		// マップ座標初期化
 		m_pos.y = -BackGround::MAX_UP_SCROLL - 1.f;
 
@@ -225,7 +225,7 @@ void Map::MaxScroll() {
 	}
 
 	if(m_pos.y <= -BackGround::MAX_UP_SCROLL - 50.f){
-		m_draw_range_up = SCROLL_RANGE_UP;
+		m_scroll_range_up = SCROLL_RANGE_UP;
 	}
 	
 	// 下の最大スクロール
@@ -234,13 +234,13 @@ void Map::MaxScroll() {
 		m_scroll_range_down = 800.f;
 
 		// スクロール移動初期化
-		m_move.y = 0.f;
+		m_scroll_move.y = 0.f;
 		// マップ座標初期化
 		m_pos.y = 0.f;
 	}
 	else {
 		// スクロールを最初に戻す
-		m_draw_range_down = SCROLL_RANGE_DOWN;
+		m_scroll_range_down = SCROLL_RANGE_DOWN;
 	}
 }
 
@@ -262,7 +262,7 @@ void Map::CreateAndDestory() {
 	{
 		for (int i = 0; i < 2; i++) {
 			
-			MapObjectWidthCreateLine(
+			MapObjectWidthEntryLine(
 				(int)GetChipCastByPos(-m_pos.y) + create_line_range[i]
 			);
 		}
@@ -273,7 +273,7 @@ void Map::CreateAndDestory() {
 	{
 		for (int i = 0; i < 2; i++) {
 			
-			MapObjectWidthDestoryLine(
+			MapObjectWidthExitLine(
 				(int)GetChipCastByPos(-m_pos.y) + destory_line_range[i]
 			);
 		}
@@ -281,7 +281,7 @@ void Map::CreateAndDestory() {
 }
 
 
-void Map::MapObjectWidthCreateLine(int create_line_y) {
+void Map::MapObjectWidthEntryLine(int create_line_y) {
 
 	// 配列外アクセスは許させない
 	if (create_line_y < 0.f || create_line_y > m_max_height_map_size) {
@@ -312,7 +312,7 @@ void Map::MapObjectWidthCreateLine(int create_line_y) {
 }
 
 
-void Map::MapObjectWidthDestoryLine(int destory_line_y) {
+void Map::MapObjectWidthExitLine(int destory_line_y) {
 
 
 	// 配列外アクセスは許させない
@@ -604,7 +604,7 @@ int Map::GetMaxHeightMapSize()const {
 }
 
 D3DXVECTOR2 Map::GetMove()const {
-	return -m_move;// -をなくす
+	return -m_scroll_move;// -をなくす
 }
 
 bool Map::IsScroll()const {

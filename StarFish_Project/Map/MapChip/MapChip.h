@@ -86,13 +86,19 @@ public:
 	// マップオブジェクトの生成と削除
 
 	/**
-	* @brief 
+	* @brief マップオブジェクトの生成
+	* @param[in] create_line_y 横チップ全てにマップオブジェクトを生成する処理を作成する
 	*/
-	void MapObjectWidthCreateLine(int create_line_y);
-	void MapObjectWidthDestoryLine(int destory_line_y);
+	void MapObjectWidthEntryLine(int create_line_y);
 
-	// マップとの当たり判定
-	//bool Collision(D3DXVECTOR2&pos, D3DXVECTOR2&move);
+
+	/**
+	* @brief マップオブジェクトの削除
+	* @param[in] destory_line_y 横チップ全てにマップオブジェクトを削除する処理を作成する
+	*/
+	void MapObjectWidthExitLine(int destory_line_y);
+
+
 	// スクロール移動値ゲッター
 	D3DXVECTOR2 GetMove()const;
 	// 高さゲッター
@@ -167,12 +173,10 @@ private:
 	std::vector<std::vector<ChipBase*>>m_map_chip_list; 
 	
 	/* マップ描画領域 */					    
-	D3DXVECTOR2 m_move;                        // 描画用マップの位置
+	D3DXVECTOR2 m_scroll_move;                 // 描画用マップの位置
 	int m_max_height_map_size;                 // マップデータの高さ
 							     	           
 	/* マップスクロール */		     	           
-	float m_draw_range_up;                     // 上の描画の範囲
-	float m_draw_range_down;                   // 後ろの描画の範囲
 	float m_scroll_range_up;                   // スクロールライン上
 	float m_scroll_range_down;                 // スクロールライン下
 							     
