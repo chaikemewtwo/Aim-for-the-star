@@ -16,19 +16,19 @@ void MapCollider::Collision(
 	CollisionDirectionType &collision_dir_type_y) 
 {
 	// サイズを修正
-	const float Resize = 1.f;
+	const float RESIZE = 1.f;
 	// 当たっているかどうか
 	bool is_collision = false;
 
 	// 四隅
-	D3DXVECTOR2 up_left(pos.x + Resize + CHIP_SCALE_X, pos.y + Resize + CHIP_SCALE_Y);
-	D3DXVECTOR2 up_right(pos.x + Map::CHIP_SIZE - Resize - CHIP_SCALE_X, pos.y + Resize + CHIP_SCALE_Y);
-	D3DXVECTOR2 down_left(pos.x + Resize + CHIP_SCALE_X, pos.y + Map::CHIP_SIZE - Resize - CHIP_SCALE_Y);
-	D3DXVECTOR2 down_right(pos.x + Map::CHIP_SIZE - Resize - CHIP_SCALE_X, pos.y + Map::CHIP_SIZE - Resize - CHIP_SCALE_Y);
+	D3DXVECTOR2 up_left(pos.x + RESIZE + CHIP_SCALE_X, pos.y + RESIZE + CHIP_SCALE_Y);
+	D3DXVECTOR2 up_right(pos.x + Map::CHIP_SIZE - RESIZE - CHIP_SCALE_X, pos.y + RESIZE + CHIP_SCALE_Y);
+	D3DXVECTOR2 down_left(pos.x + RESIZE + CHIP_SCALE_X, pos.y + Map::CHIP_SIZE - RESIZE - CHIP_SCALE_Y);
+	D3DXVECTOR2 down_right(pos.x + Map::CHIP_SIZE - RESIZE - CHIP_SCALE_X, pos.y + Map::CHIP_SIZE - RESIZE - CHIP_SCALE_Y);
 
 	/* ---Y座標当たり判定--- */
 	{
-		// 衝突情報y座標
+		// y座標の衝突情報
 		float collision_info_y[4][4] = {
 		{ up_left.x,up_left.y,0.f,move.y },
 		{ up_right.x,up_right.y,0.f,move.y },
@@ -54,21 +54,21 @@ void MapCollider::Collision(
 			is_collision = false;
 		}
 		else {
-			if (collision_dir_type_y == UP_COLLISION){
-				collision_dir_type_y = NONE_COLLISION;
-				pos.y += 6.f;
-				move.y = -1.f;
-			}
-			collision_dir_type_y = NONE_COLLISION;
+			//if (collision_dir_type_y == UP_COLLISION){
+			//	collision_dir_type_y = NONE_COLLISION;
+			//	pos.y += 6.f;
+			//	move.y = -1.f;
+			//}
+			//collision_dir_type_y = NONE_COLLISION;
 		}
 	}
 
 	// y軸更新
 	{
-		up_left.y = pos.y + Resize + CHIP_SCALE_Y;
-		up_right.y = pos.y + Resize + CHIP_SCALE_Y;
-		down_left.y = pos.y + Map::CHIP_SIZE - Resize - CHIP_SCALE_Y;
-		down_right.y = pos.y + Map::CHIP_SIZE - Resize - CHIP_SCALE_Y;
+		up_left.y = pos.y + RESIZE + CHIP_SCALE_Y;
+		up_right.y = pos.y + RESIZE + CHIP_SCALE_Y;
+		down_left.y = pos.y + Map::CHIP_SIZE - RESIZE - CHIP_SCALE_Y;
+		down_right.y = pos.y + Map::CHIP_SIZE - RESIZE - CHIP_SCALE_Y;
 	}
 
 	/* ---X座標当たり判定--- */
@@ -179,12 +179,12 @@ void MapCollider::VerticalPosPullBackByScroll(float &pos_y,float &move_y,Collisi
 
 
 		// スクロール範囲に入っていれば
-		if (pos_y < m_p_map->GetScrollRangeUp()) {
-			D3DXVECTOR2 new_pos(m_p_map->GetPos().x, m_p_map->GetPos().y);
-			new_pos.y += (pos_y - m_p_map->GetScrollRangeUp());
-			m_p_map->SetPos(new_pos);
-			//pos_y = new_pos.y;
-		}
+		//if (pos_y < m_p_map->GetScrollRangeUp()) {
+		//	D3DXVECTOR2 new_pos(m_p_map->GetPos().x, m_p_map->GetPos().y);
+		//	new_pos.y += (pos_y - m_p_map->GetScrollRangeUp());
+		//	m_p_map->SetPos(new_pos);
+		//	//pos_y = new_pos.y;
+		//}
 
 		// 移動ベクトルなし
 		move_y = 0.f;
@@ -206,13 +206,13 @@ void MapCollider::VerticalPosPullBackByScroll(float &pos_y,float &move_y,Collisi
 		pos_y += -move_y - m_p_map->GetMove().y;
 		
 		// スクロール範囲に入っていれば
-		if (pos_y > m_p_map->GetScrollRangeDown()) {
-		
-			D3DXVECTOR2 new_pos(m_p_map->GetPos().x, m_p_map->GetPos().y);
-			new_pos.y += (pos_y + m_p_map->GetScrollRangeDown());
-			pos_y = new_pos.y;
-			//m_p_map->SetPos(new_pos);
-		}
+		//if (pos_y > m_p_map->GetScrollRangeDown()) {
+		//
+		//	D3DXVECTOR2 new_pos(m_p_map->GetPos().x, m_p_map->GetPos().y);
+		//	new_pos.y += (pos_y + m_p_map->GetScrollRangeDown());
+		//	pos_y = new_pos.y;
+		//	//m_p_map->SetPos(new_pos);
+		//}
 
 		// 移動ベクトルなし
 		move_y = 0.f;
@@ -245,12 +245,12 @@ void MapCollider::VerticalPosPullBack(float &pos_y, float &move_y, CollisionDire
 		}
 
 		// スクロール範囲に入っていれば
-		if (pos_y < m_p_map->GetScrollRangeUp()) {
-			D3DXVECTOR2 new_pos(m_p_map->GetPos().x, m_p_map->GetPos().y);
-			new_pos.y += (pos_y - m_p_map->GetScrollRangeUp());
-			m_p_map->SetPos(new_pos);
-			pos_y = new_pos.y;
-		}
+		//if (pos_y < m_p_map->GetScrollRangeUp()) {
+		//	D3DXVECTOR2 new_pos(m_p_map->GetPos().x, m_p_map->GetPos().y);
+		//	new_pos.y += (pos_y - m_p_map->GetScrollRangeUp());
+		//	m_p_map->SetPos(new_pos);
+		//	pos_y = new_pos.y;
+		//}
 
 		// 移動ベクトルなし
 		move_y = 0.f;
@@ -276,13 +276,13 @@ void MapCollider::VerticalPosPullBack(float &pos_y, float &move_y, CollisionDire
 		}
 
 		// スクロール範囲に入っていれば
-		if (pos_y > m_p_map->GetScrollRangeDown()) {
-
-			D3DXVECTOR2 new_pos(m_p_map->GetPos().x, m_p_map->GetPos().y);
-			new_pos.y += (pos_y + m_p_map->GetScrollRangeDown());
-			pos_y = new_pos.y;
-			//m_p_map->SetPos(new_pos);
-		}
+		//if (pos_y > m_p_map->GetScrollRangeDown()) {
+		//
+		//	D3DXVECTOR2 new_pos(m_p_map->GetPos().x, m_p_map->GetPos().y);
+		//	new_pos.y += (pos_y + m_p_map->GetScrollRangeDown());
+		//	//pos_y = new_pos.y;
+		//	//m_p_map->SetPos(new_pos);
+		//}
 
 		// 移動ベクトルなし
 		move_y = 0.f;

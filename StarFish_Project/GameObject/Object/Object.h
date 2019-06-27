@@ -37,7 +37,7 @@ protected:
 	int m_animation_timer;         // アニメーションの時間 
 	int m_animation_count;         // 現在のアニメーションの数
 	SortObject m_sort_object_type; // ソート番号
-	
+	float m_speed;
 private:
 	int m_id;                      // 生成id
 };
