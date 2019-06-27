@@ -21,16 +21,12 @@ SellFish::SellFish(D3DXVECTOR2 pos, Map* const map, Player* const p1, Player* co
 	m_enemy_texture = m_texture_list[EnemyTexture::SELLFISH_WAIT];
 
 
-	// 画面の左右どちらにいるかを判定
+	// 生成時にどちらを向いているか
 	if (m_pos.x < WINDOW_CENTER_LINE) {
-
 		m_is_left = true;
-		m_angle = 180;
 	}
 	else if (m_pos.x > WINDOW_CENTER_LINE) {
-
 		m_is_left = false;
-		m_angle = 0;
 	}
 }
 //―――――――――――――――――――――――
@@ -47,14 +43,30 @@ void SellFish::Update() {
 
 void SellFish::Draw() {
 
-	Texture::Draw2D(
-		m_enemy_texture.c_str(),
-		m_pos.x, m_pos.y,
-		TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
-		m_angle, m_center, m_center,
-		true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
-		m_animation_count
-	);
+	// 左向きと右向きで画像を反転させる(通常は左向き)
+	if (m_is_left == true) {
+		Texture::Draw2D(
+			m_enemy_texture.c_str(),
+			m_pos.x, m_pos.y,
+			TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
+			m_angle, m_center, m_center,
+			true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
+			m_animation_count,
+			0,0,
+			Texture::MIRROR
+		);
+	}
+	else if (m_is_left == false) {
+		Texture::Draw2D(
+			m_enemy_texture.c_str(),
+			m_pos.x, m_pos.y,
+			TEXTURE_SIZE_X, TEXTURE_SIZE_Y,
+			m_angle, m_center, m_center,
+			true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
+			m_animation_count
+		);
+	}
+
 	AnimationDraw(m_max_animation, m_anim_change_time);
 }
 //―――――――――――――――――――――――

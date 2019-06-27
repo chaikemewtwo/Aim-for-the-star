@@ -22,14 +22,6 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* const map, bool can_move) {
 	m_anim_change_time = 20;
 
 	m_enemy_texture = m_texture_list[EnemyTexture::SEAURCHIN_MOVE];
-
-	// 画面の左右どちらにいるかを判定
-	if (m_pos.x < WINDOW_CENTER_LINE) {
-		m_is_left = true;
-	}
-	else if (m_pos.x > WINDOW_CENTER_LINE) {
-		m_is_left = false;
-	}
 }
 //――――――――――――――――――――――――――
 
