@@ -66,14 +66,29 @@ void Blind::CheckOutScreen() {
 
 void Blind::Draw() {
 
-	Texture::Draw2D(
-		m_blind_texture.c_str(),
-		m_pos.x, m_pos.y,
-		0.5, 0.5, 
-		m_angle, 0.5, 0.5,
-		true, TEX_PARTITION_NUM, TEX_PARTITION_NUM,
-		m_animation_count
-	);
+	// 目的地の座標に合わせて
+	if (m_goal_pos.x < 0) {
+		Texture::Draw2D(
+			m_blind_texture.c_str(),
+			m_pos.x, m_pos.y,
+			0.5, 0.5,
+			m_angle, 0.5, 0.5,
+			true, TEX_PARTITION_NUM, TEX_PARTITION_NUM,
+			m_animation_count
+		);
+	}
+	else if (m_goal_pos.x > Window::WIDTH) {
+		Texture::Draw2D(
+			m_blind_texture.c_str(),
+			m_pos.x, m_pos.y,
+			0.5, 0.5,
+			m_angle, 0.5, 0.5,
+			true, TEX_PARTITION_NUM, TEX_PARTITION_NUM,
+			m_animation_count,
+			0,0,
+			Texture::MIRROR
+		);
+	}
 	AnimationDraw(m_max_animation, m_anim_change_time);
 }
 //―――――――――――――――――――――――
