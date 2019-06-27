@@ -74,6 +74,6 @@ void Blind::Draw() {
 		true, TEX_PARTITION_NUM, TEX_PARTITION_NUM,
 		m_animation_count
 	);
-	AnimationDraw(m_max_animation, m_anim_change_time);
+	AnimationCount(m_max_animation, m_anim_change_time);
 }
 //―――――――――――――――――――――――

@@ -71,7 +71,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Map\MapManager\MapManager.cpp" />
-    <ClCompile Include="Map\MapObjectFactory\MapObjectFactory.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Player\PlayerManager.cpp">
       <SubType>
@@ -155,13 +154,16 @@
     <ClInclude Include="LoadResource\LoadResource.h" />
     <ClInclude Include="Map\BackGround\BackGround.h" />
     <ClInclude Include="Map\BedRockChip\RockChip.h" />
+    <ClInclude Include="Map\ChipBase\ChipBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Map\MapChip\MapChip.h" />
     <ClInclude Include="Map\MapCollision\MapCollider.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Map\MapManager\MapManager.h" />
-    <ClInclude Include="Map\MapObjectFactory\MapObjectFactory.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\PlayerManager.h">
       <SubType>

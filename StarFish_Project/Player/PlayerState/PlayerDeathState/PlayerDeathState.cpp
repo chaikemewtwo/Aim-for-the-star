@@ -21,5 +21,5 @@ void PlayerDeathState::Init(Player* p) {
 void PlayerDeathState::Update(Player* p) {
 	p->AddGravity();
 
-	p->AnimationDraw(MAX_ANIMATION_TEX_NUM, ONE_ANIMATION_SPEED, ANIMATION_INIT_COUNT);
+	p->AnimationCount(MAX_ANIMATION_TEX_NUM, ONE_ANIMATION_SPEED, ANIMATION_INIT_COUNT);
 }

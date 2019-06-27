@@ -55,7 +55,7 @@ void SellFish::Draw() {
 		true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
 		m_animation_count
 	);
-	AnimationDraw(m_max_animation, m_anim_change_time);
+	AnimationCount(m_max_animation, m_anim_change_time);
 }
 //―――――――――――――――――――――――
 

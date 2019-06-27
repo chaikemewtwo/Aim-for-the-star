@@ -52,8 +52,8 @@ void CollisionManager::ChackHitCircle(CircleCollisionObject*obj1, CircleCollisio
 	}
 
 	// 位置を受け取る
-	D3DXVECTOR2 pos1 = obj1->GetPos() + obj1->GetOffset();
-	D3DXVECTOR2 pos2 = obj2->GetPos() + obj2->GetOffset();
+	D3DXVECTOR2 pos1 = obj1->GetPos() + obj1->GetHitVertexOffset();
+	D3DXVECTOR2 pos2 = obj2->GetPos() + obj2->GetHitVertexOffset();
 
 	// obj1とobj2までの距離を出す
 	float distance_x = pos1.x - pos2.x;

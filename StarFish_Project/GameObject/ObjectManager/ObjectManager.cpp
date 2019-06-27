@@ -52,9 +52,6 @@ void ObjectManager::Update() {
 	// 敵管理クラス更新
 	m_p_enemy_mng->Update();
 
-	// 描画用オブジェクトをソートする
-	SortDrawObject();
-
 	// 更新
 	for (auto&itr : m_obj_list) {
 
@@ -63,6 +60,9 @@ void ObjectManager::Update() {
 
 	// 当たり判定
 	m_p_collision_mng->Collision();
+
+	// 描画用オブジェクトをソートする
+	SwapAndSortDrawObject();
 }
 
 
@@ -75,7 +75,7 @@ void ObjectManager::Draw() {
 }
 
 
-void ObjectManager::SortDrawObject(){
+void ObjectManager::SwapAndSortDrawObject(){
 
 	// 一旦他のコンテナに入れ替えないといけない
 
@@ -108,40 +108,40 @@ void ObjectManager::Entry(Object*obj) {
 	// 生成専用id
 	unsigned int create_id = 0;
 
-	//create_id = m_current_max_id;
-	//m_current_max_id++;
+	create_id = m_current_max_id;
+	m_current_max_id++;
 
-	// idの空きがないなら最新idを作る
-	if (m_used_id_list.empty() != 0) {
-	
-		// 生成idに現在最大のidを入れる
-		create_id = m_current_max_id;
-		// 最新idにする
-		m_current_max_id++;
-	}
-	// 使われていないid番号があるなら
-	else {
-	
-		for (unsigned int i = 0; i < m_used_id_list.size(); i++) {
-	
-			// idがすでに使われているか
-			auto itr = m_obj_list.find(m_used_id_list[i]);
-	
-			// 設定されているなら
-			if (itr != m_obj_list.end()) {
-				continue;
-			}
-	
-			/* ここまできたら設定されていない */
-	
-			// 最初に入っているidを入れる
-			create_id = m_used_id_list[i];
-			// idを渡したので使っているとみなして要素を消す
-			m_used_id_list.erase(m_used_id_list.begin() + i);
-	
-			break;
-		}
-	}
+	//// idの空きがないなら最新idを作る
+	//if (m_used_id_list.empty() != 0) {
+	//
+	//	// 生成idに現在最大のidを入れる
+	//	create_id = m_current_max_id;
+	//	// 最新idにする
+	//	m_current_max_id++;
+	//}
+	//// 使われていないid番号があるなら
+	//else {
+	//
+	//	for (unsigned int i = 0; i < m_used_id_list.size(); i++) {
+	//
+	//		// idがすでに使われているか
+	//		auto itr = m_obj_list.find(m_used_id_list[i]);
+	//
+	//		// 設定されているなら
+	//		if (itr != m_obj_list.end()) {
+	//			continue;
+	//		}
+	//
+	//		/* ここまできたら設定されていない */
+	//
+	//		// 最初に入っているidを入れる
+	//		create_id = m_used_id_list[i];
+	//		// idを渡したので使っているとみなして要素を消す
+	//		m_used_id_list.erase(m_used_id_list.begin() + i);
+	//
+	//		break;
+	//	}
+	//}
 
 	// Objectの要素を追加
 	m_obj_list[create_id] = obj;
@@ -166,33 +166,6 @@ void ObjectManager::Exit(unsigned int id) {
 
 	// Objectの配列番号の要素を削除
 	m_obj_list.erase(id);
-}
-
-
-// 活動していない場合メモリ削除
-void ObjectManager::NotActiveIsDelete() {
-
-	// 敵の配列
-	auto obj = m_obj_list.begin();
-
-	for (; obj != m_obj_list.end();) {
-
-		// 活動を停止したら
-		if (obj->second->IsActive() == false) {
-
-			if (&obj == nullptr) {
-				return;
-			}
-
-			// メモリの削除
-			delete &obj;
-			// 敵の要素の削除
-			obj = m_obj_list.erase(obj);
-		}
-		else {
-			obj++;
-		}
-	}
 }
 
 

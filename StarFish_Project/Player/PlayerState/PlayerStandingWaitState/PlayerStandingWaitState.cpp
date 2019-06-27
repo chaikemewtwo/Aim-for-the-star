@@ -18,7 +18,7 @@ void PlayerStandingWaitState::Init(Player* p) {
 void PlayerStandingWaitState::Update(Player* p) {
 	Keybord& kb = Keybord::getInterface();
 	
-	p->AnimationDraw(MAX_ANIMATION_TEX_NUM, ONE_ANIMATION_SPEED);
+	p->AnimationCount(MAX_ANIMATION_TEX_NUM, ONE_ANIMATION_SPEED);
 
 	// 泳ぎ状態へ移行
 	if (kb.press(VK_SPACE)) {

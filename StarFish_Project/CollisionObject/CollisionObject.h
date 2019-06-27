@@ -29,10 +29,10 @@ public:
 	virtual void HitAction(Type type) {};
 
 	// 当たり判定頂点をずらす
-	D3DXVECTOR2 GetOffset()const;
+	D3DXVECTOR2 GetHitVertexOffset()const;
 
 protected:
 
-	float m_speed;       // 移動速度
-	D3DXVECTOR2 m_offset; // 当たり頂点をずらす 
+	// 当たり頂点をずらす 
+	D3DXVECTOR2 m_hit_vertex_offset;
 };

@@ -103,9 +103,9 @@ Map MapManager::GetMapInstance()const {
 }
 
 
-float MapManager::GetMaxMapPos()const {
-	return m_p_bg1->GetMaxMapPos();
-}
+//float MapManager::GetMaxMapPos()const {
+//	return m_p_bg1->GetMaxMapPos();
+//}
 
 
 bool MapManager::IsMaxMapRange()const {

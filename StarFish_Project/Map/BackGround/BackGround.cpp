@@ -39,7 +39,7 @@ BackGround::BackGround(
 	m_move.x = m_move.y = 0.f;
 
 	// 遷移スクロール位置のポインタを入れる。
-	m_pmap = map;
+	mp_map = map;
 
 	// ファイルの読み込み
 	BGLoad(file_name.c_str());	
@@ -90,6 +90,78 @@ void BackGround::Draw(){
 	);
 }
 
+/*
+大きい方が下
+小さい方が上
+*/
+// 背景スクロール
+void BackGround::Scroll() {
+
+	// 画面遷移基準
+	const int GRAPH_SIZE_H = static_cast<int>(Window::HEIGHT + m_graph_height_size_differance);
+	
+	
+	const int CHANGE_RANGE_UP = static_cast<int>(m_pos.y - BG_CHANGE_LINE);
+
+	// 連結1画像が現在の描画軸になっている場合
+	{
+		// 連結1画像が進んだ時、連結2画像を一つ先に描画させるようにする
+		if ((CHANGE_RANGE_UP) >= (GRAPH_SIZE_H * m_connect1_graph)) {
+			m_connect2_graph = m_connect1_graph + 1;
+		}
+
+		// 連結2画像が進んだ時、連結1画像を一つ先に描画させるようにする
+		if ((CHANGE_RANGE_UP) >= (GRAPH_SIZE_H * m_connect2_graph)) {
+			m_connect1_graph = m_connect2_graph + 1;
+		}
+	}
+	
+	const int CHANGE_RANGE_DOWN = static_cast<int>(m_pos.y + GRAPH_SIZE_H - GRAPH_DIFFERENCE + BG_CHANGE_LINE);
+
+	// 連結2画像が現在描画の軸になっている場合
+	{
+		// 連結1画像が後退した時、次は連結2画像を後退して描画させるようにする
+		if ((CHANGE_RANGE_DOWN) <= ((GRAPH_SIZE_H) * (m_connect1_graph))) {// -1
+
+			m_connect2_graph = m_connect1_graph - 1;
+		}
+
+		// 連結画像2が後退した時、次は連結1画像を後退して描画させるようにする
+		if ((CHANGE_RANGE_DOWN) <= (GRAPH_SIZE_H) * (m_connect2_graph + 1)) {// -1
+
+			m_connect1_graph = m_connect2_graph - 1;
+		}
+	}
+
+
+	// 配列外アクセスを起こさせないようにする
+	if (m_connect1_graph < 0 || -m_pos.y >= 0 ||
+		m_connect2_graph < 0) {
+
+		m_connect1_graph = 0;
+		m_connect2_graph = 1;
+	}
+}
+
+
+bool BackGround::IsScroll(){
+
+	bool is_scroll = true;
+
+	// 背景のスクロール制限
+	// 上
+	if (-mp_map->GetPos().y >= MAX_UP_SCROLL) {
+		is_scroll = false;
+	}
+	// 下
+	else if (-mp_map->GetPos().y <= 0.f) {
+		is_scroll = false;
+	}
+
+	// スクロール制限しない
+	return is_scroll;
+}
+
 
 void BackGround::BGLoad(const char*file_name) {
 
@@ -97,9 +169,9 @@ void BackGround::BGLoad(const char*file_name) {
 	const int STRING_BUFFER = 256;
 
 	// ストリーム
-	FILE*fp; 
+	FILE*fp;
 	// ファイルオープン
-	fopen_s(&fp,file_name, "r");
+	fopen_s(&fp, file_name, "r");
 
 	// 文字列バッファ
 	char str_load_buf[1000][100] = {};
@@ -111,15 +183,15 @@ void BackGround::BGLoad(const char*file_name) {
 
 	// 現在の数
 	int current_num = 0;
-	
+
 	// 文字列読み込み、改行まで
-	while (fgets(str_load_buf[current_num],STRING_BUFFER,fp) != NULL) {
+	while (fgets(str_load_buf[current_num], STRING_BUFFER, fp) != NULL) {
 
 		// 末尾にある改行文字列を削除
-		if (str_load_buf[current_num][strlen(str_load_buf[current_num]) - 1] == '\n'){
+		if (str_load_buf[current_num][strlen(str_load_buf[current_num]) - 1] == '\n') {
 			str_load_buf[current_num][strlen(str_load_buf[current_num]) - 1] = NULL;
 		}
-		
+
 		// 文字列を読み込み
 		m_p_bg_file_name_list.push_back(str_load_buf[current_num]);
 
@@ -136,72 +208,6 @@ void BackGround::BGLoad(const char*file_name) {
 }
 
 
-// 背景スクロール
-void BackGround::Scroll() {
-
-	// 画面遷移基準
-	const int GRAPH_SIZE_H =      static_cast<int>(Window::HEIGHT + m_graph_height_size_differance);
-	const int CHANGE_RANGE_UP =   static_cast<int>(m_pos.y - BG_CHANGE_LINE);
-	const int CHANGE_RANGE_DOWN = static_cast<int>(m_pos.y + GRAPH_SIZE_H - GRAPH_DIFFERENCE + BG_CHANGE_LINE);
-
-
-	
-	{
-		// 連結1画像が進んだ時、連結2画像を一つ先に描画させるようにする
-		if ((CHANGE_RANGE_UP) >= (GRAPH_SIZE_H * m_connect1_graph)) {
-			m_connect2_graph = m_connect1_graph + 1;
-		}
-
-		// 連結2画像が進んだ時、連結1画像を一つ先に描画させるようにする
-		if ((CHANGE_RANGE_UP) >= (GRAPH_SIZE_H * m_connect2_graph)) {
-			m_connect1_graph = m_connect2_graph + 1;
-		}
-	}
-	
-
-	{
-		// 連結1画像が後退した時、次は連結2画像を後退して描画させるようにする
-		if ((CHANGE_RANGE_DOWN) <= ((GRAPH_SIZE_H) * (m_connect1_graph - 1))) {
-
-			m_connect2_graph = m_connect1_graph - 1;
-		}
-
-		// 連結画像2が後退した時、次は連結1画像を後退して描画させるようにする
-		if ((CHANGE_RANGE_DOWN) <= (GRAPH_SIZE_H) * (m_connect2_graph - 1)) {
-
-			m_connect1_graph = m_connect2_graph - 1;
-		}
-	}
-
-
-	// 配列外アクセスを起こさせないようにする
-	if (m_connect1_graph == 0 && -m_pos.y >= 0) {
-
-		m_connect1_graph = 0;
-		m_connect2_graph = 1;
-	}
-}
-
-
-bool BackGround::IsScroll(){
-
-	bool is_scroll = true;
-
-	// 背景のスクロール制限
-	// 上
-	if (-m_pmap->GetPos().y >= MAX_UP_SCROLL) {
-		is_scroll = false;
-	}
-	// 下
-	else if (-m_pmap->GetPos().y <= 0.f) {
-		is_scroll = false;
-	}
-
-	// スクロール制限しない
-	return is_scroll;
-}
-
-
 void BackGround::PosYToMoveYAdd() {
 	// 上下だけ加算
 	m_pos.y += m_move.y;
@@ -209,7 +215,7 @@ void BackGround::PosYToMoveYAdd() {
 
 void BackGround::MoveSub() {
 
-	m_move = m_pmap->GetMove();// 反対方向に行くので-変換
+	m_move = mp_map->GetMove();// 反対方向に行くので-変換
 }
 
 void BackGround::MoveAdjustment(int adjustment_num) {
