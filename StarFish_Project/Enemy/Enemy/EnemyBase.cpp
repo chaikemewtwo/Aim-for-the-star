@@ -30,10 +30,10 @@ EnemyBase::EnemyBase() {
 	m_texture_list[EnemyTexture::SELLFISH_READY] = "Resource/Texture/Enemy/hora_ready.png";
 	m_texture_list[EnemyTexture::SELLFISH_ATTACK] = "Resource/Texture/Enemy/hora_attack.png";
 	// メガネモチノウオ
-	m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_MOVE] = "Resource/Texture/Enemy/megane_move.png";
-	m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_ATTACK] = "Resource/Texture/Enemy/megane_attack.png";
-	m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_MOVE] = "Resource/Texture/Enemy/megane_move_m.png";
-	m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_ATTACK] = "Resource/Texture/Enemy/megane_attack_m.png";
+	m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_MOVE] = "Resource/Texture/Enemy/megane_move.png";						
+	m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_ATTACK] = "Resource/Texture/Enemy/megane_attack.png";
+	m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_MOVE] = "Resource/Texture/Enemy/megane_move_m.png";
+	m_texture_list[EnemyTexture::NAPOREONFISH_RIGHT_ATTACK] = "Resource/Texture/Enemy/megane_attack_m.png";
 }
 //―――――――――――――――――――――
 
@@ -81,38 +81,27 @@ void EnemyBase::VerticalMove() {
 
 void EnemyBase::Patrol() {
 
-		float curve = (float)sinf(D3DX_PI * 2 / SINCURVE_COUNT_MAX * m_sin_count)*m_speed;
-		m_sin_count++;
-		m_pos.x -= curve;
-		//if (m_is_left == true) {
-		//	m_pos.x += curve;
-		//}
-		//else if (m_is_left == false) {
-		//	m_pos.x -= curve;
-		//}
-		
-		if (SINCURVE_COUNT_MAX < m_sin_count) {
-			m_sin_count = 0;
-			if (m_is_left == false) {
-				m_is_left = true;
-			}
-			else if (m_is_left == true) {
-				m_is_left = false;
-			}
-		}
-		else if (m_sin_count == SINCURVE_COUNT_MAX / 2) {
-			if (m_is_left == false) {
-				m_is_left = true;
-			}
-			else if (m_is_left == true) {
-				m_is_left = false;
-			}
-		}
+	// Sin波を計算
+	float curve = (float)sinf(D3DX_PI * 2 / SINCURVE_COUNT_MAX * m_sin_count)*m_speed;
+	m_sin_count++;
+	m_pos.x -= curve;
+
+	// Sin波が1週したらカウントを初期化、向きを左にする
+	if (SINCURVE_COUNT_MAX < m_sin_count) {
+
+		m_sin_count = 0;
+		m_is_left = true;		
+	}
+	// Sin波の中間(折り返し)になったら向きを右向きにする
+	else if (m_sin_count == SINCURVE_COUNT_MAX / 2) {
+		m_is_left = false;
+	}
 }
 //―――――――――――――――――――――
 
 void EnemyBase::Chase() {
 
+	// 索敵範囲に入ったプレイヤーの角度を計算
 	float radian = atan2((m_target_pos.y - m_pos.y), (m_target_pos.x - m_pos.x));
 	m_pos.x += cosf(radian)*m_speed;
 	m_pos.y += sinf(radian)*m_speed;

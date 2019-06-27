@@ -108,8 +108,8 @@ protected:
 	std::string m_enemy_texture;// 敵の画像変数
 	std::string m_texture_list[EnemyTexture::ENEMY_TEXTURE_MAX];	// 敵の画像リスト
 	
-	// Sin波の最大移動量
-	const float SINCURVE_COUNT_MAX = 300;
+	// Sin波の大きさ
+	const float SINCURVE_COUNT_MAX = 300.f;
 	// 画面のｙ軸の中心
 	const float WINDOW_CENTER_LINE = Window::WIDTH / 2;
 
@@ -120,11 +120,11 @@ protected:
 	// 描画する画像のYサイズ
 	const float TEXTURE_SIZE_Y = 0.5f;	
 
-	// 追跡範囲の距離
-	static const int CHASE_RANGE = 200;
-	// 攻撃範囲の距離
+	// 追跡範囲
+	static const int CHASE_RANGE = 150;
+	// 攻撃範囲
 	static const int ATTACK_RANGE = 250;
-	// 攻撃前の準備状態の範囲距離
+	// 攻撃前の準備状態の範囲
 	static const int ATTACK_READY_RANGE = 350;
 
 	StateBase* m_p_state_base;	// 状態を保存する変数
@@ -133,17 +133,6 @@ protected:
 };
 
 /*
-《Enemy挙動》
-	・State全体の整理（コメントアウト部分とか不要なもの）
-	・Patrolを左右で計算変える（左なら+、右なら-）
-	・コメント入れる
-	・Patrol範囲を調整
-
-《メガネ》
-	・画像の追加
-	・画像の切り替え
-	・索敵の確認（左右逆転時）
-
 《その他Enemy》
 	・画像の反転処理の反映
 	・EnemyManagerのDraw関数の削除
