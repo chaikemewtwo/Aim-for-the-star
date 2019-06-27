@@ -148,7 +148,7 @@ EnemyBase* EnemyBase::GetInstance() {
 }
 //―――――――――――――――――――――
 
-float EnemyBase::GetSpeed() {
+float EnemyBase::GetSpeed()const {
 	return m_speed;
 }
 //―――――――――――――――――――――

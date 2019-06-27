@@ -6,7 +6,7 @@
 // ウニクラス
 class SeaUrchin :public EnemyBase {
 public:
-	SeaUrchin(D3DXVECTOR2 pos, Map* map_chip, bool cam_move = true);
+	SeaUrchin(D3DXVECTOR2 pos, const Map* map_chip, bool cam_move = true);
 	~SeaUrchin()override {}	
 
 	void Update()override;

@@ -20,20 +20,30 @@ public:
 	EnemyManager(ObjectManager* obj_mng);
 	~EnemyManager();
 	
+
 	void Update();	
-	void Draw();
 
 	// 敵生成関数
-	void CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, EnemyType enemy_num);
+	/*
+	第1　：敵の生成座標
+	第2　：マップのインスタンス(スクロールによる移動に使用)
+	第3,4：プレイヤーのインスタンス(追跡、索敵に使用)
+	第5　：生成する敵の番号を指定
+	*/
+	void CreateEnemy(D3DXVECTOR2 pos, const Map* map, const Player* p1, const Player* p2, const EnemyType enemy_num);
 
 	// ブラインド生成関数
-	void CreateBlind(D3DXVECTOR2 pos, D3DXVECTOR2 goal);
+	/*
+	第1：生成する座標
+	第2：目指す地点(画面外に出るように設定)
+	*/
+	void CreateBlind(D3DXVECTOR2 from, D3DXVECTOR2 goal);
 
 	// 生成されている敵の総数を返す
-	int GetEnemyTotal();	
+	int GetEnemyTotal()const;	
 	
-	// 敵の指定された敵のインスタンスを返す
-	EnemyBase* GetEnemyInstance(int num);
+	// 指定された敵のインスタンスを返す
+	EnemyBase* GetEnemyInstance(int num)const;
 
 private:
 	// 各敵の生存をチェックする

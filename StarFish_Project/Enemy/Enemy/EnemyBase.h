@@ -56,7 +56,7 @@ public:
 	void ChangeState(StateBase* state);
 
 	// 速度のゲッター
-	float GetSpeed();
+	float GetSpeed()const;
 	
 	// 画面の左右どちらかのフラグのゲッター
 	bool IsLeft();
@@ -94,6 +94,7 @@ protected:
 	bool IsTopPos();
 
 protected:
+	float m_speed;				// 移動速度	
 	int m_delete_timer;			// 削除用タイマー
 	bool m_can_move;			// 移動するかのフラグ
 	bool m_is_left;				// 左右どちら向きかのフラグ
@@ -128,8 +129,8 @@ protected:
 	static const int ATTACK_READY_RANGE = 350;
 
 	StateBase* m_p_state_base;	// 状態を保存する変数
-	Map* m_p_map;
-	Player* m_p_player[2];
+	const Map* m_p_map;
+	const Player* m_p_player[2];
 };
 
 /*

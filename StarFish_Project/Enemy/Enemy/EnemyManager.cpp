@@ -2,7 +2,6 @@
 #include"SeaUrchin.h"
 #include"SellFish.h"
 #include"NaporeonFish.h"
-#include"../../Blind/Blind.h"
 
 
 EnemyManager::EnemyManager(ObjectManager* obg_mng) {
@@ -23,23 +22,13 @@ EnemyManager::~EnemyManager() {
 //――――――――――――――――――――――――――
 
 void EnemyManager::Update() {
+	// 削除するかのチェック
 	CheckDelete();
 }
 //―――――――――――――――――――――――――――
 
-void EnemyManager::Draw() {
-
-	for (auto enemy : m_enemy_list) {
-
-		if (enemy != nullptr) {
-			enemy->Draw();
-		}
-	}
-}
-//―――――――――――――――――――――――――――
-
 // 指定された敵を指定の位置に生成する
-void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, EnemyType type_num) {
+void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, const Map* map, const Player* p1, const Player* p2, const EnemyType type_num) {
 
 	switch (type_num) {
 
@@ -66,11 +55,11 @@ void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2
 //―――――――――――――――――――――――――――
 
 // 指定の位置にブラインドを生成する
-void EnemyManager::CreateBlind(D3DXVECTOR2 pos, D3DXVECTOR2 goal) {
+void EnemyManager::CreateBlind(D3DXVECTOR2 from, D3DXVECTOR2 goal) {
 
 	// Objectに登録時にブラインド用変数に代入、その後にブラインドを生成
 	m_p_obj_mng->Entry(m_p_blind = new Blind);
-	m_p_blind->Create(pos, goal);
+	m_p_blind->Create(from, goal);
 }
 //―――――――――――――――――――――――――――
 
@@ -104,13 +93,13 @@ void EnemyManager::CheckDelete() {
 //――――――――――――――――――――――――――――
 
 // 敵の配列の数を返す
-int EnemyManager::GetEnemyTotal() {
+int EnemyManager::GetEnemyTotal()const {
 	return m_enemy_list.size();
 }
 //――――――――――――――――――――――――――――
 
 // 指定された敵のインスタンスを返す関数を呼び出す
-EnemyBase* EnemyManager::GetEnemyInstance(int num) {
+EnemyBase* EnemyManager::GetEnemyInstance(int num)const {
 
 	if (m_enemy_list[num] != nullptr) {
 		return m_enemy_list[num]->GetInstance();
