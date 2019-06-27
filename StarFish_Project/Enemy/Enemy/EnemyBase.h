@@ -129,8 +129,8 @@ protected:
 	static const int ATTACK_READY_RANGE = 350;
 
 	StateBase* m_p_state_base;	// 状態を保存する変数
-	const Map* m_p_map;
-	const Player* m_p_player[2];
+	Map* m_p_map;
+	Player* m_p_player[2];
 };
 
 /*

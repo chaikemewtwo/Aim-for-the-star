@@ -2,7 +2,7 @@
 
 
 //コンストラクタ
-SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, const Map* map, bool can_move) {
+SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* const map, bool can_move) {
 
 	// マップを受け取る
 	m_p_map = map;

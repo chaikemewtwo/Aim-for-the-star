@@ -4,7 +4,7 @@
 #include"NaporeonFish.h"
 
 
-EnemyManager::EnemyManager(ObjectManager* obg_mng) {
+EnemyManager::EnemyManager(ObjectManager* const obg_mng) {
 	m_p_obj_mng = obg_mng;
 }
 //――――――――――――――――――――――――――
@@ -28,7 +28,7 @@ void EnemyManager::Update() {
 //―――――――――――――――――――――――――――
 
 // 指定された敵を指定の位置に生成する
-void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, const Map* map, const Player* p1, const Player* p2, const EnemyType type_num) {
+void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* const map, Player* const p1, Player* const p2, const EnemyType type_num) {
 
 	switch (type_num) {
 
@@ -99,7 +99,7 @@ int EnemyManager::GetEnemyTotal()const {
 //――――――――――――――――――――――――――――
 
 // 指定された敵のインスタンスを返す関数を呼び出す
-EnemyBase* EnemyManager::GetEnemyInstance(int num)const {
+EnemyBase* EnemyManager::GetEnemyInstance(int num) {
 
 	if (m_enemy_list[num] != nullptr) {
 		return m_enemy_list[num]->GetInstance();

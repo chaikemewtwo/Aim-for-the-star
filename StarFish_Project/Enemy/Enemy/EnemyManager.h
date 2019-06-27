@@ -17,7 +17,7 @@ enum EnemyType {
 
 class EnemyManager {
 public:
-	EnemyManager(ObjectManager* obj_mng);
+	EnemyManager(ObjectManager* const obj_mng);
 	~EnemyManager();
 	
 
@@ -30,7 +30,7 @@ public:
 	第3,4：プレイヤーのインスタンス(追跡、索敵に使用)
 	第5　：生成する敵の番号を指定
 	*/
-	void CreateEnemy(D3DXVECTOR2 pos, const Map* map, const Player* p1, const Player* p2, const EnemyType enemy_num);
+	void CreateEnemy(D3DXVECTOR2 pos, Map* const map, Player* const p1, Player* const p2, const EnemyType enemy_num);
 
 	// ブラインド生成関数
 	/*
@@ -43,7 +43,7 @@ public:
 	int GetEnemyTotal()const;	
 	
 	// 指定された敵のインスタンスを返す
-	EnemyBase* GetEnemyInstance(int num)const;
+	EnemyBase* GetEnemyInstance(int num);
 
 private:
 	// 各敵の生存をチェックする
