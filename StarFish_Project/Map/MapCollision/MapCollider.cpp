@@ -1,5 +1,5 @@
 ﻿#include"MapCollider.h"
-
+#include"../MapChip/MapChip.h"
 
 
 MapCollider::MapCollider(Map*map) {
@@ -38,7 +38,7 @@ void MapCollider::Collision(
 
 		// y軸の衝突判定(四隅)
 		for (int i = 0; i < 4; i++) {
-			if (IsFloorCollision(collision_info_y[i][0], collision_info_y[i][1],
+			if (IsWallCollision(collision_info_y[i][0], collision_info_y[i][1],
 				collision_info_y[i][2], collision_info_y[i][3]) == true) {
 				is_collision = true;
 			}
@@ -48,8 +48,8 @@ void MapCollider::Collision(
 		if (is_collision == true) {
 
 			// 縦の衝突判定
-			VerticalPosPullBackByScroll(pos.y, move.y,collision_dir_type_y);
-			VerticalPosPullBack(pos.y, move.y,collision_dir_type_y);
+			VerticalScrollPosPullBackPrevPos(pos.y, move.y,collision_dir_type_y);
+			VerticalPosPullBackPrevPos(pos.y, move.y,collision_dir_type_y);
 			// 衝突していないに変更
 			is_collision = false;
 		}
@@ -84,7 +84,7 @@ void MapCollider::Collision(
 		};
 
 		for (int i = 0; i < 6; i++) {
-			if (IsFloorCollision(collision_info_x[i][0], collision_info_x[i][1],
+			if (IsWallCollision(collision_info_x[i][0], collision_info_x[i][1],
 				collision_info_x[i][2], collision_info_x[i][3]) == true) {
 				is_collision = true;
 			}
@@ -92,7 +92,7 @@ void MapCollider::Collision(
 
 		if (is_collision == true) {
 			is_collision = false;
-			SidePosPullBack(pos.x, move.x,collision_dir_type_x);
+			SidePosPullBackToPrevPos(pos.x, move.x,collision_dir_type_x);
 		}
 		else {
 			collision_dir_type_x = NONE_COLLISION;
@@ -101,7 +101,7 @@ void MapCollider::Collision(
 }
 
 
-bool MapCollider::IsFloorCollision(float pos_x, float pos_y, float move_x, float move_y) {
+bool MapCollider::IsWallCollision(float pos_x, float pos_y, float move_x, float move_y) {
 
 	// 現在のスクリーン座標にマップ座標を加算する
 	D3DXVECTOR2 after_pos(pos_x + move_x, pos_y + move_y + (m_p_map->GetPos().y) + m_p_map->GetMove().y);
@@ -118,7 +118,7 @@ bool MapCollider::IsFloorCollision(float pos_x, float pos_y, float move_x, float
 
 
 // 横マップの位置に修正
-void MapCollider::SidePosPullBack(float &pos_x, float &move_x, CollisionDirectionType &collision_dir_type_x) {
+void MapCollider::SidePosPullBackToPrevPos(float &pos_x, float &move_x, CollisionDirectionType &collision_dir_type_x) {
 
 
 	// 入ったマップチップの座標を割り出す
@@ -163,7 +163,7 @@ void MapCollider::SidePosPullBack(float &pos_x, float &move_x, CollisionDirectio
 }
 
 
-void MapCollider::VerticalPosPullBackByScroll(float &pos_y,float &move_y,CollisionDirectionType &collision_dir_type_y) {
+void MapCollider::VerticalScrollPosPullBackPrevPos(float &pos_y,float &move_y,CollisionDirectionType &collision_dir_type_y) {
 
 	// 入ったマップチップの座標を割り出す
 	float chip_pos_y = 0.f;
@@ -222,7 +222,7 @@ void MapCollider::VerticalPosPullBackByScroll(float &pos_y,float &move_y,Collisi
 	}
 }
 
-void MapCollider::VerticalPosPullBack(float &pos_y, float &move_y, CollisionDirectionType &collision_dir_type_y) {
+void MapCollider::VerticalPosPullBackPrevPos(float &pos_y, float &move_y, CollisionDirectionType &collision_dir_type_y) {
 
 
 	// 入ったマップチップの座標を割り出す

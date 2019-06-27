@@ -107,15 +107,30 @@ private:
 	//! 背景読み込み用バッファ
 	std::vector<const char*>m_p_bg_file_name_list;      
 									
-	D3DXVECTOR2 m_move;                   //! 移動ベクトル
-	int m_max_graph_num;				  //! 画像の最大数  
-	int m_current_pos;                    //! 今いる位置
-	int m_connect1_graph;                 //! 連結画像1 
-	int m_connect2_graph;                 //! 連結画像2
-	int m_height_difference;              //! 縦の画像の端数
-	int m_width_difference;               //! 横の画像の端数
-	float m_graph_height_size_differance; //! 画像の縦のサイズ端数
+	//! 移動ベクトル
+	D3DXVECTOR2 m_move;                
 
-	/* マップインスタンス */
+	//! 画像の最大数 
+	int m_max_graph_num;				
+
+	//! 今いる位置
+	int m_current_pos;              
+
+	//! 連結画像1 
+	int m_connect1_graph;         
+
+	//! 連結画像2
+	int m_connect2_graph;      
+
+	//! 縦の画像の端数
+	int m_height_graph_difference;  
+
+	//! 横の画像の端数
+	int m_width_graph_difference;   
+
+	//! 画像の縦のサイズ端数
+	float m_height_graph_size_differance; 
+
+	//! マップポインタ
 	Map *mp_map;
 };

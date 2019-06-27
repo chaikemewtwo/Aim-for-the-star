@@ -18,22 +18,22 @@ BackGround::BackGround(
 	m_sort_object_type = sort_num;		                 // ソート番号代入
 	m_pos.x = m_pos.y = 0.f;		                     // 位置初期化
 	m_max_graph_num = 0;				                 // 画像数初期化
-	m_height_difference = 
+	m_height_graph_difference = 
 		(int)(Window::HEIGHT - graph_scale_y) / 2;       // 画像の縦端数初期化
-	m_width_difference =									 
+	m_width_graph_difference =									 
 		(int)(Window::WIDTH - graph_scale_x) / 2;        // 画像の横端数初期化
 	m_current_pos = 0;				                     // 画像の現在位置初期化
 	m_connect1_graph = 0;			                     // 連結画像1初期化
 	m_connect2_graph = 1;			                     // 連結画像2初期化
 
-	m_graph_height_size_differance = graph_scale_y - Window::HEIGHT;
+	m_height_graph_size_differance = graph_scale_y - Window::HEIGHT;
 
 	// 端数から中心位置に画像を配置できるようにする
 
 	// 最初の背景の位置x
 	m_pos.x = (Window::WIDTH - graph_scale_x) / 2;		 
 	// 最初の背景の位置y
-	m_pos.y = ((Window::HEIGHT + m_graph_height_size_differance) - graph_scale_y) / 2;		
+	m_pos.y = ((Window::HEIGHT + m_height_graph_size_differance) - graph_scale_y) / 2;		
 
 	// 自機の移動初期化
 	m_move.x = m_move.y = 0.f;
@@ -74,9 +74,9 @@ void BackGround::Draw(){
 		// 描画ファイル名
 		m_p_bg_file_name_list[m_connect1_graph % m_max_graph_num],
 		// 横のサイズ
-		(float)m_width_difference,
+		(float)m_width_graph_difference,
 		// 縦のサイズ
-		(m_pos.y + (float)((-Window::HEIGHT - m_graph_height_size_differance) * m_connect1_graph) + (float)m_height_difference)
+		(m_pos.y + (float)((-Window::HEIGHT - m_height_graph_size_differance) * m_connect1_graph) + (float)m_height_graph_difference)
 	);
 		
 	// 2枚目描画
@@ -84,9 +84,9 @@ void BackGround::Draw(){
 		// 描画ファイル名
 		m_p_bg_file_name_list[m_connect2_graph % m_max_graph_num],
 		// 横のサイズ
-		(float)m_width_difference,
+		(float)m_width_graph_difference,
 		// 縦のサイズ
-		(m_pos.y + (float)((-Window::HEIGHT - m_graph_height_size_differance) * m_connect2_graph) + (float)m_height_difference)// +10.f
+		(m_pos.y + (float)((-Window::HEIGHT - m_height_graph_size_differance) * m_connect2_graph) + (float)m_height_graph_difference)// +10.f
 	);
 }
 
@@ -98,7 +98,7 @@ void BackGround::Draw(){
 void BackGround::Scroll() {
 
 	// 画面遷移基準
-	const int GRAPH_SIZE_H = static_cast<int>(Window::HEIGHT + m_graph_height_size_differance);
+	const int GRAPH_SIZE_H = static_cast<int>(Window::HEIGHT + m_height_graph_size_differance);
 	
 	
 	const int CHANGE_RANGE_UP = static_cast<int>(m_pos.y - BG_CHANGE_LINE);

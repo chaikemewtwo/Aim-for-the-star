@@ -3,55 +3,53 @@
 #include"../../Player/Player.h"
 #include"../../GameObject/ObjectManager/ObjectManager.h"
 #include"../ChipBase/ChipBase.h"
+#include"../MapCollision/MapCollider.h"
 
 
 
-/*
-
-マップでは二つの座標があります。
-
-一つ目はスクリーン座標(自分が勝手に付けた名前です)
-主に自機などのキャラクターの座標
-
-二つ目はマップ座標(これも自分が勝手につけた名前です)
-スクリーン座標をもとにマップチップを動かす座標です。
-
+/*各座標説明
+// =====================
+マップ座標 = マップチップを構成する座標
+スクリーン座標 = 画面内で生きる座標
+// =====================
 */
 
-// =====================
+
+// ==============================
 /**
 * @file Map.h
 * @brief チップによるMapを構成する
 * @author maekawa
 */
-// =====================
+// ==============================
 
 
 
 // 前方参照
 class EnemyManager;
-class MapObjectFactory;
-class MapCollider;
-enum CollisionDirectionType;
-
 
 
 /**
-* @brief マップクラス
+* @brief チップを構成するマップクラス
 */
 class Map : public Object {
 public:
 	
 	//! チップ間の間隔
 	static constexpr float ENTRY_CHIP_INTERVAL_Y = 0.5f;
+
 	//! 画像、全てのセルの大きさ
 	static const int CHIP_SIZE = 64;
+
 	//! 画面マップチップの大きさ
 	static const int MAX_IN_WINDOW_CHIP_NUM_W = ((int)(Window::WIDTH) / CHIP_SIZE);   
+
 	//! 画面マップチップの大きさ
 	static const int MAX_IN_WINDOW_CHIP_NUM_H = ((int)(Window::HEIGHT) / CHIP_SIZE);  
+
 	//! スクロール範囲上
 	static constexpr float SCROLL_RANGE_UP = 400.f;
+
 	//! スクロール範囲下
 	static constexpr float SCROLL_RANGE_DOWN = 800.f;
 
@@ -129,16 +127,6 @@ public:
 	int GetChipParam(const float pos_x, const float pos_y);
 
 
-
-	// スクロールする上の範囲
-	/**
-	* @brief 
-	*/
-	//float GetScrollRangeUp();
-	//// スクロールする下の範囲
-	//float GetScrollRangeDown();
-
-
 	/**
 	* @brief スクロールしているか
 	* @return bool
@@ -160,12 +148,26 @@ public:
 	void SetIsScroll(bool is_scroll);
 
 
+	/**
+	* @brief スクロールする上の範囲を返すゲッター関数
+	* @return float スクロールする上の範囲
+	*/
+	float GetScrollUpMapPosY();
+
+
+	/**
+	* @brief スクロールする下の範囲を返すゲッター関数
+	* @return float スクロールする下の範囲
+	*/
+	float GetScrollDownMapPosY();
+
+
 private:
 	
 
 	/**
 	* @brief マップ読み込み
-	* @param[out] 
+	* @param[out] load_file_name
 	*/
 	void Load(const std::string&load_file_name);
 
@@ -240,41 +242,53 @@ private:
 
 private:
 	
-	const int HEIGHT_INTERVAL = 60;                     // 縦間隔をあけて遷移などをする
-	const int MAP_SAET_NUM = 5;					        // マップシートの数
-	// オブジェクトとマップ当たり判定の頂点位置	
-	const D3DXVECTOR2 VERTEX_OFFSET{-32.f,-56.f};       // 当たり位置の大きさ
-	// チップの大きさ						    
-	const float CHIP_SCALE_X = 6.f;			            // 当たり位置の縮小横
-	const float CHIP_SCALE_Y = 6.f;			            // 当たり位置の縮小縦
-	// チップ生成領域							  
-	const int CHIP_RANGE_UP = 19;				        // 生成領域上
-	const int CHIP_RANGE_DOWN = 1;				        // 生成領域下
+	//! 縦間隔をあけて遷移などをする
+	const int HEIGHT_INTERVAL = 60;
+	//! オブジェクトとマップ当たり判定の頂点位置	
+	const D3DXVECTOR2 VERTEX_OFFSET{-32.f,-56.f};
+	//! チップ生成領域上							  
+	const int CHIP_RANGE_UP = 19;
+	//! チップ生成領域下
+	const int CHIP_RANGE_DOWN = 1;
 
 private:
 	
-	// マップチップの配列
+	//! マップを構成するチップリスト
 	std::vector<std::vector<ChipBase*>>m_map_chip_list; 
 	
-	/* マップ描画領域 */					    
-	D3DXVECTOR2 m_scroll_move;                 // 描画用マップの位置
-	int m_max_map_chip_height_size;            // マップチップ高さサイズ
-							     	           
-	/* マップスクロール */		     	           
-	float m_scroll_range_up;                   // スクロールライン上
-	float m_scroll_range_down;                 // スクロールライン下
-							     
-	/* 各オブジェクトの参照 */   
-	Player * m_p_player[2];                    // 自機2体         
+	//! マップスクロールの動き
+	D3DXVECTOR2 m_scroll_move;
 
-	CollisionDirectionType collision_dir_type[2][2];// 衝突方向[自機2体分][xとy]
-	EnemyManager * m_p_enemy_mng;              // 敵の状態
-	ObjectManager * m_p_obj_mng;               // オブジェクト管理
-	MapCollider * mp_map_collider;          // 当たり判定マップ生成クラス
+	//! 最大マップの高さチップサイズ
+	int m_max_map_chip_height_size;		
+
+	//! 上のスクロールするマップ位置Y
+	float m_scroll_up_map_pos_y;
+
+	//! 下のスクロールするマップ位置Y
+	float m_scroll_down_map_pos_y;
+
+	//! スクロールしているか
+	bool m_is_scroll;
+
+	//! 最大スクロールか 
+	bool m_is_max_scroll;
+							     
+	//! 自機2体のポインタ
+	Player * mp_player[2];                
+
+	//! 衝突方向[自機2体分][xとy]
+	MapCollider::CollisionDirectionType collision_dir_type[2][2];
+
+	//! 敵の状態
+	EnemyManager * m_p_enemy_mng;
+
+	//! オブジェクト管理
+	ObjectManager * m_p_obj_mng;
+
+	//! 当たり判定マップ生成クラス
+	MapCollider * mp_map_collider;
 	
-	/* 各フラグ */			        
-	bool m_is_scroll;               // スクロールしているか
-	bool m_is_max_scroll;           // 最大スクロールか 
 };
 
 

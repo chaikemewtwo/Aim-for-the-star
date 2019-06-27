@@ -58,7 +58,7 @@ public:
 
 private:
 
-	// 岩盤の最大チップ数	       
+	//! 岩盤の最大チップ数	       
 	static const int MAX_CHIP = 10;
 
 private:
