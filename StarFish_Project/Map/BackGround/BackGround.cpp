@@ -10,7 +10,7 @@
 BackGround::BackGround(
 	const std::string&file_name,
 	Map * map,
-	SortObject sort_num,
+	SortObjectType sort_num,
 	float graph_scale_x,
 	float graph_scale_y) {
 

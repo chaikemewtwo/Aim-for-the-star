@@ -9,31 +9,31 @@
 
 CollisionManager::CollisionManager(Player*p1,Player*p2, EnemyManager*e_mng) {
 
-	m_pplayer[0] = p1;
-	m_pplayer[1] = p2;
-	m_pe_mng = e_mng;
+	mp_player[0] = p1;
+	mp_player[1] = p2;
+	mp_enemy_manager = e_mng;
 }
 
 
 void CollisionManager::Collision() {
 
 	// プレイヤーとの当たり判定
-	ChackHitCircle(m_pplayer[0],m_pplayer[1]);
+	ChackHitCircle(mp_player[0],mp_player[1]);
 
 	// 敵と自機の当たり判定
 	for (int i = 0; i < PLAYER_NUM; i++) {
 
 		// 敵と自機の当たり判定
-		for (int j = 0; j < m_pe_mng->GetEnemyTotal(); j++) {
+		for (int j = 0; j < mp_enemy_manager->GetEnemyTotal(); j++) {
 
-			if (m_pe_mng->GetEnemyInstance(j) == nullptr) {
+			if (mp_enemy_manager->GetEnemyInstance(j) == nullptr) {
 				continue;
 			}
-			else if (m_pplayer[i] == nullptr) {
+			else if (mp_player[i] == nullptr) {
 				continue;
 			}
 
-			ChackHitCircle(m_pe_mng->GetEnemyInstance(j),m_pplayer[i]);
+			ChackHitCircle(mp_enemy_manager->GetEnemyInstance(j),mp_player[i]);
 		}
 	}
 }

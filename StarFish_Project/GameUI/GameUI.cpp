@@ -15,7 +15,7 @@ GameUI::GameUI(Player* p_1, Player* p_2) {
 	m_p1 = p_1;
 	m_p2 = p_2;
 
-	m_sort_object_type = SortObject::GAME_UI;
+	m_sort_object_type = SortObjectType::GAME_UI;
 
 	m_1p_gage_texture = "Resource/Texture/UI/ui_ora.png";
 	m_2p_gage_texture = "Resource/Texture/UI/ui_vio.png";

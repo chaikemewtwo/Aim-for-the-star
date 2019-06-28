@@ -22,37 +22,96 @@
 class Object {
 public:
 
+
+	/**
+	* @brief コンストラクタ
+	*/
 	Object();
-	// 仮想デストラクタ
+
+
+	/**
+	* @brief 仮想デストラクタ(virtual)
+	*/
 	virtual ~Object() {};
 
-	// 純粋仮想関数
+	
+	/**
+	* @brief 更新関数(virtual)
+	*/
 	virtual void Update() = 0;
+
+
+	/**
+	* @brief 描画関数(virtual)
+	*/
 	virtual void Draw() = 0;
 
-	// 描画関数
+
+	/**
+	* @brief アニメーションのカウントを行う関数
+	*/
 	void AnimationCount(int max_animation, int anim_cange_time, int init_anim_num = 0);
 
-	/* ゲッター */
+
+	/**
+	* @brief m_posの位置を取得するゲッター
+	* @return D3DXVECTOR2
+	*/
 	D3DXVECTOR2 GetPos()const;
+
+
+	/**
+	* @brief idを取得するゲッター
+	* @return int
+	*/
 	int GetId()const;
-	SortObject GetSortNum()const;
+
+
+	/**
+	* @brief SortObjectを取得するゲッター
+	* @return SortObjectType
+	*/
+	SortObjectType GetSortNum()const;
+
+
+	/**
+	* @brief オブジェクトが活動的かを取得する
+	* @return bool
+	*/
 	bool IsActive()const;
 
-	/* セッター */
+
+	/**
+	* @brief 位置を決めるセッター
+	* @param[in] pos オブジェクト位置
+	*/
 	void SetPos(const D3DXVECTOR2&pos);
+
+
+	/**
+	* @brief オブジェクトのidを決めるセッター
+	* @param[in] id オブジェクトID番号
+	*/
 	void SetId(int id);
+
 
 protected:
 
-	D3DXVECTOR2 m_pos;             // 位置
-	bool m_is_active;              // Objectが活動しているかの状態変数(活動中true 活動停止false)
-	int m_animation_timer;         // アニメーションの時間 
-	int m_animation_count;         // 現在のアニメーションの数
-	SortObject m_sort_object_type; // ソート番号
-	float m_speed;
+	//! 位置
+	D3DXVECTOR2 m_pos;             
+	//! Objectが活動しているかの状態変数(活動中true 活動停止false)
+	bool m_is_active;              
+	//! アニメーションの時間 
+	int m_animation_timer;         
+	//! 現在のアニメーションの数
+	int m_animation_count;         
+	//! ソート番号
+	SortObjectType m_sort_object_type; 
+	
 private:
-	int m_id;                      // 生成id
+
+	//! 生成id
+	int m_id;
 };
 
 

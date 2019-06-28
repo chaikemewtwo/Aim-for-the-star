@@ -39,7 +39,7 @@ Player::Player(ID_TYPE id) :
 	m_speed = PLAYER_SPEED;	
 
 	// 描画順ソート
-	m_sort_object_type = SortObject::PLAYER;
+	m_sort_object_type = SortObjectType::PLAYER;
 
 	m_p_hit_se = m_p_audio.getBuffer("Resource/Sound/Player/damage.wav");
 

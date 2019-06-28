@@ -36,7 +36,7 @@ public:
 	BackGround(
 		const std::string&text_file_name,
 		Map*map,
-		SortObject sort_num,
+		SortObjectType sort_num,
 		float graph_width_scale = -50.f,
 		float graph_height_scale = 0.f);
 
