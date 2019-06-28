@@ -218,6 +218,7 @@ private:
 	std::string star_texture_list[MAX_TEXTURE_NUM];	// テクスチャ文字列保持
 	std::string m_player_texture;	// 画像格納用
 	D3DXVECTOR2 m_move;				// X、Y方向移動量
+	float m_speed;
 	float m_angle;					// 自機画像角度（MAX_ANGLEから-MAX_ANGLE度まで）
 	float m_stamina;				// スタミナ（最大値はMAX_STAMINA）
 	int m_state_change_timer;		// 状態遷移用タイマー		
