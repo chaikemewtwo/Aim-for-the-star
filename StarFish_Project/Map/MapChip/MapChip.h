@@ -27,6 +27,7 @@
 
 // 前方参照
 class EnemyManager;
+enum CollisionDirectionType;
 
 
 /**
@@ -278,7 +279,7 @@ private:
 	Player * mp_player[2];                
 
 	//! 衝突方向[自機2体分][xとy]
-	MapCollider::CollisionDirectionType collision_dir_type[2][2];
+	CollisionDirectionType collision_dir_type[2][2];
 
 	//! 敵の状態
 	EnemyManager * m_p_enemy_mng;

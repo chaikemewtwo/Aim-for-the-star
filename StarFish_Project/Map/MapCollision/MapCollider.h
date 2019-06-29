@@ -12,21 +12,23 @@
 
 
 
-/**
-* @enum DirectionType
-* @brief 方向を示すの列挙体
-*/
-enum DirectionType {
-	UP,
-	DOWN,
-	RIGHT,
-	LEFT,
-	TOTAL,
-};
-
-
-// マップクラスの前方参照
+// 前方参照
 class Map;
+struct D3DXVECTOR2;
+
+
+/**
+* @enum CollisionDirectionType
+* @brief 衝突方向を示す列挙体
+*/
+enum CollisionDirectionType {
+	NONE_COLLISION,
+	UP_COLLISION,
+	DOWN_COLLISION,
+	RIGHT_COLLISION,
+	LEFT_COLLISION,
+	TOTAL_COLLISION,
+};
 
 
 /**
@@ -34,20 +36,6 @@ class Map;
 */
 class MapCollider {
 public:
-
-
-	/**
-	* @enum CollisionDirectionType
-	* @brief 衝突方向を示す列挙体
-	*/
-	enum CollisionDirectionType {
-		NONE_COLLISION,
-		UP_COLLISION,
-		DOWN_COLLISION,
-		RIGHT_COLLISION,
-		LEFT_COLLISION,
-		TOTAL_COLLISION,
-	};
 
 
 	/**
@@ -64,6 +52,35 @@ public:
 	* @param[]
 	*/
 	void Collision(D3DXVECTOR2&pos, D3DXVECTOR2&move,CollisionDirectionType &collision_dir_type_x, CollisionDirectionType &collision_dir_type_y);
+
+	// 衝突方向を調べる
+	CollisionDirectionType CollisionDirectionSerchX(const float&move_x)const;
+
+	CollisionDirectionType GetCollisionDirectionSerchY(const float&move_y)const;
+
+
+
+	bool YVertexHitCheck(
+		D3DXVECTOR2 up_left,
+		D3DXVECTOR2 up_right,
+		D3DXVECTOR2 down_left,
+		D3DXVECTOR2 down_right,
+		D3DXVECTOR2&pos,
+		float&move_y,
+		CollisionDirectionType &collision_dir_type_y
+	);
+
+
+
+	bool XVertexHitCheck(
+		D3DXVECTOR2 up_left,
+		D3DXVECTOR2 up_right,
+		D3DXVECTOR2 down_left,
+		D3DXVECTOR2 down_right,
+		D3DXVECTOR2&pos,
+		float&move_y,
+		CollisionDirectionType &collision_dir_type_x
+	);
 
 
 	/**
@@ -93,16 +110,7 @@ private:
 	* @param[out] pos_y オブジェクト位置Y
 	* @param[out] collision_dir_type_x 衝突方向X列挙体
 	*/
-	void SidePosPullBackToPrevPos(float &pos_x, float &move_x, CollisionDirectionType &collision_dir_type_x);
-
-
-	/**
-	* @brief 縦位置を前の位置まで引き戻す。スクロールによって
-	* @param[out] pos_y オブジェクト位置Y
-	* @param[out] move_y オブジェクトの移動値Y
-	* @param[out] collision_dir_type_y 衝突方向Y列挙体
-	*/
-	void VerticalScrollPosPullBackPrevPos(float &pos_y, float &move_y, CollisionDirectionType &collision_dir_type_y);
+	void WidthPosPullBackToPrevPos(float &pos_x, float &move_x, CollisionDirectionType &collision_dir_type_x);
 
 
 	/**
@@ -111,26 +119,11 @@ private:
 	* @param[out] move_y オブジェクトの移動値Y
 	* @param[out] collision_dir_type_y 衝突方向Y列挙体
 	*/
-	void VerticalPosPullBackPrevPos(float &pos_y, float &move_y, CollisionDirectionType &collision_dir_type_y);
+	void HeightPosPullBackPrevPos(float &pos_y, float &move_y, CollisionDirectionType &collision_dir_type_y);
 
-
-	/**
-	* @brief 横の移動方向を受け取り、それに対する列挙体を返す
-	* @param[in] direction_num_x 移動方向変数X
-	* @return DirectionType 横の移動方向の列挙体
-	*/
-	DirectionType GetWidthDirectionType(float direction_num_x);
-
-
-	/**
-	* @brief 縦の移動方向を受け取り、それに対する列挙体を返す
-	* @param[in] direction_num_y 移動方向変数Y
-	* @return DirectionType 縦の移動方向の列挙体
-	*/
-	DirectionType GetHeightDirectionType(float direction_num_y);
 
 private:
 
 	//! マップインスタンス
-	Map*m_p_map;
+	Map*mp_map;
 };

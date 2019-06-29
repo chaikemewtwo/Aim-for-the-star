@@ -29,11 +29,10 @@ public:
 
 
 	/**
-	* @brief デストラクタ
+	* @brief 仮想デストラクタ(virtual)
 	*/
-	~CollisionObject();
+	virtual ~CollisionObject() {};
 
-	// 当たった相手を識別する定数
 
 	/**
 	* @enum Type
@@ -44,12 +43,6 @@ public:
 		ENEMY,
 		MAX,
 	};
-
-
-	/**
-	* @brief 仮想デストラクタ(virtual)
-	*/
-	virtual ~CollisionObject() {};
 
 
 	/**
@@ -76,7 +69,7 @@ public:
 
 
 protected:
-
+	float m_speed;
 	//! 当たり頂点をずらす 
 	D3DXVECTOR2 m_hit_vertex_offset;
 };

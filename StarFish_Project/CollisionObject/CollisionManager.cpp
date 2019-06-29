@@ -9,6 +9,21 @@
 
 CollisionManager::CollisionManager(Player*p1,Player*p2, EnemyManager*e_mng) {
 
+
+	// nullチェック
+	if (p1 == nullptr) {
+		return;
+	}
+
+	if (p2 == nullptr) {
+		return;
+	}
+
+	if (e_mng == nullptr) {
+		return;
+	}
+
+	// メンバにインスタンスを設定
 	mp_player[0] = p1;
 	mp_player[1] = p2;
 	mp_enemy_manager = e_mng;
@@ -21,7 +36,7 @@ void CollisionManager::Collision() {
 	ChackHitCircle(mp_player[0],mp_player[1]);
 
 	// 敵と自機の当たり判定
-	for (int i = 0; i < PLAYER_NUM; i++) {
+	for (int i = 0; i < Player::MAX_TYPE; i++) {
 
 		// 敵と自機の当たり判定
 		for (int j = 0; j < mp_enemy_manager->GetEnemyTotal(); j++) {

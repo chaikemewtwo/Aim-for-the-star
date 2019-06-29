@@ -2,7 +2,11 @@
 #include<vector>
 
 
-
+/**
+* @file CollisionManager.h
+* @brief 衝突管理者ファイル
+* @author maekawa
+*/
 
 
 // 前方参照
@@ -13,7 +17,7 @@ class Player;               // 自機
 
 
 /**
-* @brief 当たり判定の管理者
+* @brief 衝突管理者クラス
 */
 class CollisionManager{
 public:

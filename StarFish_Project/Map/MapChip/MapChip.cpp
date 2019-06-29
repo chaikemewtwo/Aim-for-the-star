@@ -40,6 +40,12 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 		m_p_obj_mng = obj_mng;
 		// マップ当たり判定クラスを生成
 		mp_map_collider = new MapCollider(this);
+
+		for (int i = 0; i < 2; i++) {
+			collision_dir_type[0][i] = CollisionDirectionType::NONE_COLLISION;
+			collision_dir_type[1][i] = CollisionDirectionType::NONE_COLLISION;
+
+		}
 	}
 
 	// マップ位置X初期化
@@ -129,6 +135,17 @@ void Map::Update() {
 	MaxScroll();
 
 	CreateAndDestory();
+
+	//for (int i = 0; i < 2; i++) {
+	//	if (this->m_scroll_move.y != 0.f) {
+	//		mp_player[i]->DBGSetGravityEnable(false);
+	//		mp_player[i]->SetMove(D3DXVECTOR2(0.f,0.f));
+	//	}
+	//	else {
+	//		mp_player[i]->DBGSetGravityEnable(true);
+	//		//mp_player[i]->SetMove(D3DXVECTOR2(0.f, 0.f));
+	//	}
+	//}
 }
 
 
@@ -143,6 +160,8 @@ void Map::PlayerCollision(int i) {
 	// 自機の位置を代入,当たりポイントを補正
 	D3DXVECTOR2 player_pos(mp_player[i]->GetPos().x + VERTEX_OFFSET.x, mp_player[i]->GetPos().y + VERTEX_OFFSET.y);   // 自機の位置
 	D3DXVECTOR2 player_move(mp_player[i]->GetMove().x, mp_player[i]->GetMove().y);  // 自機の移動ベクトル
+
+	
 	
 	mp_map_collider->Collision(player_pos, player_move,collision_dir_type[i][0],collision_dir_type[i][1]);
 	// マップの当たり判定
@@ -155,6 +174,7 @@ void Map::PlayerCollision(int i) {
 	mp_player[i]->SetPos(player_pos);
 	// 自機の移動ベクトル変更
 	mp_player[i]->SetMove(player_move);
+
 }
 
 
