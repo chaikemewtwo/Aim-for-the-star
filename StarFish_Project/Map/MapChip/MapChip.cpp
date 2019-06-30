@@ -42,8 +42,8 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) {
 		mp_map_collider = new MapCollider(this);
 
 		for (int i = 0; i < 2; i++) {
-			collision_dir_type[0][i] = CollisionDirectionType::NONE_COLLISION;
-			collision_dir_type[1][i] = CollisionDirectionType::NONE_COLLISION;
+			collision_dir_type[0][i] = CollisionDirectionType::NONE;
+			collision_dir_type[1][i] = CollisionDirectionType::NONE;
 
 		}
 	}
@@ -116,12 +116,6 @@ void Map::Update() {
 	// 先に衝突とスクロールをする
 	for (int i = 0; i < 2; i++) {
 
-		//if (m_move.y != 0.f) {
-		//	m_p_player[i]->DBGSetGravityEnable(false);
-		//}
-		//else {
-		//	m_p_player[i]->DBGSetGravityEnable(true);
-		//}
 		PlayerScroll(i);
 		PlayerCollision(i);
 	}
@@ -134,18 +128,9 @@ void Map::Update() {
 	// スクロール制限
 	MaxScroll();
 
+	// 生成と削除
 	CreateAndDestory();
 
-	//for (int i = 0; i < 2; i++) {
-	//	if (this->m_scroll_move.y != 0.f) {
-	//		mp_player[i]->DBGSetGravityEnable(false);
-	//		mp_player[i]->SetMove(D3DXVECTOR2(0.f,0.f));
-	//	}
-	//	else {
-	//		mp_player[i]->DBGSetGravityEnable(true);
-	//		//mp_player[i]->SetMove(D3DXVECTOR2(0.f, 0.f));
-	//	}
-	//}
 }
 
 
@@ -459,8 +444,8 @@ void Map::RockChipCreate(int x, int y) {
 	D3DXVECTOR2 pos(
 		(float)(Map::CHIP_SIZE * x),
 		// 0.5ずつ上にずらしているだけ
-		(float)((Map::CHIP_SIZE - ENTRY_CHIP_INTERVAL_Y) * -y) + 
-		(float)(Window::HEIGHT) - (CHIP_SIZE * ((m_pos.y) / CHIP_SIZE))
+		(float)((Map::CHIP_SIZE) * -y) + // -ENTRY_CHIP_INTERVAL_Y
+		(float)(Window::HEIGHT) - (CHIP_SIZE * ((int)(m_pos.y) / CHIP_SIZE))
 	);
 
 	// 指定のチップを渡す

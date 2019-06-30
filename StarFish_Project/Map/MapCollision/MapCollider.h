@@ -22,11 +22,11 @@ struct D3DXVECTOR2;
 * @brief 衝突方向を示す列挙体
 */
 enum CollisionDirectionType {
-	NONE_COLLISION,
-	UP_COLLISION,
-	DOWN_COLLISION,
-	RIGHT_COLLISION,
-	LEFT_COLLISION,
+	NONE,
+	UP,
+	DOWN,
+	RIGHT,
+	LEFT,
 	TOTAL_COLLISION,
 };
 
@@ -54,7 +54,7 @@ public:
 	void Collision(D3DXVECTOR2&pos, D3DXVECTOR2&move,CollisionDirectionType &collision_dir_type_x, CollisionDirectionType &collision_dir_type_y);
 
 	// 衝突方向を調べる
-	CollisionDirectionType CollisionDirectionSerchX(const float&move_x)const;
+	CollisionDirectionType GetCollisionDirectionSerchX(const float&move_x)const;
 
 	CollisionDirectionType GetCollisionDirectionSerchY(const float&move_y)const;
 
@@ -126,4 +126,7 @@ private:
 
 	//! マップインスタンス
 	Map*mp_map;
+
+	//! スクロールの状態
+	CollisionDirectionType m_scroll_dir_y_type;
 };
