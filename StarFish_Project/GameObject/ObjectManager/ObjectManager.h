@@ -174,7 +174,7 @@ private:
 private:
 
 	//! オブジェクトリスト
-	std::unordered_map<unsigned int,Object*>m_object_list;
+	std::unordered_map<unsigned int,Object*>mp_object_list;
 
 	//! 再利用idリスト(使い終わったidを登録するリスト)
 	std::vector<unsigned int>m_reuse_id_list;
@@ -186,20 +186,20 @@ private:
 	unsigned int m_current_the_newest_id;
 
 	//! マップ管理クラスポインタ
-	MapManager * m_p_map_mng;
+	MapManager * mp_map_mng;
 
 	//! 自機クラスヒトデ1ヒトデ2ポインタ
-	Player * m_p_player[2];              
+	Player * mp_player[2];              
 
 	//! GameUIクラスポインタ
-	GameUI * m_p_ui;  
+	GameUI * mp_ui;  
 
 	//! ロープクラスポインタ
-	Rope * m_p_rope;                     
+	Rope * mp_rope;                     
 
 	//! 敵管理クラスポインタ
-	EnemyManager *m_p_enemy_mng;         
+	EnemyManager *mp_enemy_mng;         
 
 	//! 衝突管理クラスポインタ
-	CollisionManager *m_p_collision_mng; 
+	CollisionManager *mp_collision_mng; 
 };

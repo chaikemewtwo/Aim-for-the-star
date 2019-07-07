@@ -12,6 +12,13 @@
 */
 // =============================
 
+/* =============================
+
+画像サイズを入れると、自ずと画面の中心に描画されるようになっている。
+
+
+   ============================= */
+
 
 /**
 * @brief 背景クラス
@@ -19,9 +26,10 @@
 class BackGround : public Object{
 public:
 
-	// 背景の最大画像数
+
+	//! 背景の最大画像数
 	static constexpr int MAX_BACKGROUND_GRAPH = 5;  
-	// 上の最大スクロール
+	//! 上の最大スクロール
 	static constexpr float MAX_UP_SCROLL = (Map::CHIP_SIZE * 18) * MAX_BACKGROUND_GRAPH + 1170;
 
 
@@ -80,20 +88,26 @@ private:
 	*/
 	void MoveAdjustment(int adjustment_num);  
 
+
 	/**
 	* @brief 背景の読み込み
 	*/
 	void BGLoad(const char*file_name);        
 
+
 	/**
 	* @brief 背景スクロール
+	* @detail 描画には画面分のシート画像があり、それを前後に配置しながらスクロールしていく
+	* @detail 通り過ぎたシート画像は描画されないようになっている
 	*/
 	void Scroll();
+
 
 	/**
 	* @brief Y座標加算
 	*/
 	void PosYToMoveYAdd();
+
 
 	/**
 	* @brief スクロールするかどうか

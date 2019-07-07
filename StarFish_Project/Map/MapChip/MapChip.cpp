@@ -130,7 +130,6 @@ void Map::Update() {
 
 	// 生成と削除
 	CreateAndDestory();
-
 }
 
 
@@ -146,7 +145,6 @@ void Map::PlayerCollision(int i) {
 	D3DXVECTOR2 player_pos(mp_player[i]->GetPos().x + VERTEX_OFFSET.x, mp_player[i]->GetPos().y + VERTEX_OFFSET.y);   // 自機の位置
 	D3DXVECTOR2 player_move(mp_player[i]->GetMove().x, mp_player[i]->GetMove().y);  // 自機の移動ベクトル
 
-	
 	
 	mp_map_collider->Collision(player_pos, player_move,collision_dir_type[i][0],collision_dir_type[i][1]);
 	// マップの当たり判定
@@ -165,7 +163,7 @@ void Map::PlayerCollision(int i) {
 
 void Map::PlayerScroll(int i) {
 
-	/* プレイヤー座標 */
+
 	// 自機の位置を代入,当たりポイントを補正
 	D3DXVECTOR2 player_pos(mp_player[i]->GetPos().x + VERTEX_OFFSET.x, mp_player[i]->GetPos().y + VERTEX_OFFSET.y);   // 自機の位置
 	D3DXVECTOR2 player_move(mp_player[i]->GetMove().x, mp_player[i]->GetMove().y);  // 自機の移動ベクトル
@@ -173,7 +171,7 @@ void Map::PlayerScroll(int i) {
 
 	// スクロールしてもいいかどうか
 	if (IsScroll() == true) {
-		Scroll(&player_pos.y, &player_move.y);
+		Scroll(player_pos.y, player_move.y);
 	}
 
 	// プレイヤーの頂点位置をずらす
@@ -186,30 +184,30 @@ void Map::PlayerScroll(int i) {
 }
 
 
-void Map::Scroll(float *screen_pos_y, float *move_y) {
+void Map::Scroll(float &screen_pos_y, float &move_y) {
 
 
 	// 上のスクロール範囲に入ったら
-	if (*screen_pos_y <= m_scroll_up_map_pos_y) {
+	if (screen_pos_y <= m_scroll_up_map_pos_y) {
 
 		// スクリーン座標を戻す
-		*screen_pos_y = m_scroll_up_map_pos_y;
+		screen_pos_y = m_scroll_up_map_pos_y;
 
 		// 移動していないなら
-			// マップ移動を加算
-			m_scroll_move.y = *move_y;
+		// マップ移動を加算
+		m_scroll_move.y = move_y;
 		
 	}
 
 	// 下のスクロール範囲に入ったら
-	else if (*screen_pos_y >= m_scroll_down_map_pos_y) {
+	else if (screen_pos_y >= m_scroll_down_map_pos_y) {
 
 		// スクリーン座標を戻す
-		*screen_pos_y = m_scroll_down_map_pos_y;
+		screen_pos_y = m_scroll_down_map_pos_y;
 
 		// 移動していないなら
 			// マップ移動を加算
-			m_scroll_move.y = *move_y;
+			m_scroll_move.y = move_y;
 	}
 }
 
@@ -228,8 +226,8 @@ void Map::MaxScroll() {
 		// 最大スクロールにする
 		m_is_max_scroll = true;
 	}
-
-	if(m_pos.y <= -BackGround::MAX_UP_SCROLL - 50.f){
+	// スクロール位置を最初に戻す
+	else if(m_pos.y <= -BackGround::MAX_UP_SCROLL - 50.f){
 		m_scroll_up_map_pos_y = SCROLL_RANGE_UP;
 	}
 	
@@ -250,36 +248,39 @@ void Map::MaxScroll() {
 }
 
 
-void Map::CreateAndDestory() {
+void Map::CreateAndDestory(){
 
 	// 上の生成線
-	const int CREATE_LINE_UP = 15;
+	const int CREATE_LINE_UP = 18;
 	// 下の生成線
 	const int CREATE_LINE_DOWN = 0;
+
 	// 上の削除線
 	const int DESTORY_LINE_UP = CREATE_LINE_UP + 2;
 	// 下の削除線
-	const int DESTORY_LINE_DOWN = CREATE_LINE_DOWN-2;
+	const int DESTORY_LINE_DOWN = CREATE_LINE_DOWN - 2;
 
 
 	int create_line_range[2] = { CREATE_LINE_UP,CREATE_LINE_DOWN };
+
 	// 生成
 	{
 		for (int i = 0; i < 2; i++) {
 			
 			MapObjectWidthEntryLine(
-				(int)GetChipCastByPos(-m_pos.y) + create_line_range[i]
+				(int)-m_pos.y/CHIP_SIZE + create_line_range[i]
 			);
 		}
 	}
 
 	int destory_line_range[2] = { DESTORY_LINE_UP ,DESTORY_LINE_DOWN };
+
 	// 削除
 	{
 		for (int i = 0; i < 2; i++) {
 			
 			MapObjectWidthExitLine(
-				(int)GetChipCastByPos(-m_pos.y) + destory_line_range[i]
+				(int)-m_pos.y / CHIP_SIZE + destory_line_range[i]
 			);
 		}
 	}
@@ -295,14 +296,14 @@ void Map::MapObjectWidthEntryLine(int create_line_y) {
 
 	for (int x = 0; x < Map::MAX_IN_WINDOW_CHIP_NUM_W; x++) {
 
-		// 位置を代入
-		D3DXVECTOR2 pos(
-			(float)(Map::CHIP_SIZE * x),
-			(Map::CHIP_SIZE * -create_line_y) + Window::HEIGHT - m_pos.y
-		);
-
-		// デバッグ用
-		Texture::Draw2D("Resource/Texture/Map/chip-map_image_3.png",pos.x,pos.y - (float)CHIP_SIZE);
+		//// 位置を代入
+		//D3DXVECTOR2 pos(
+		//	(float)(Map::CHIP_SIZE * x),
+		//	(Map::CHIP_SIZE * -create_line_y) + Window::HEIGHT - m_pos.y
+		//);
+		//
+		//// デバッグ用
+		//Texture::Draw2D("Resource/Texture/Map/chip-map_image_3.png",pos.x,pos.y - (float)CHIP_SIZE);
 
 		// チップが活動中なら生成中止
 		if (m_map_chip_list[m_max_map_chip_height_size - create_line_y][x]->IsChipActive() == true) {
@@ -338,7 +339,7 @@ void Map::MapObjectWidthExitLine(int destory_line_y) {
 		);
 
 		// デバッグ用
-		Texture::Draw2D("Resource/Texture/Map/chip-map_image_10.png", pos.x, pos.y);
+		//Texture::Draw2D("Resource/Texture/Map/chip-map_image_10.png", pos.x, pos.y);
 
 		// オブジェクトなら
 		//if (m_map_chip_list[destory_line][x]->IsObject() == true) {
@@ -348,8 +349,9 @@ void Map::MapObjectWidthExitLine(int destory_line_y) {
 		// チップが活動しているなら
 		if (m_map_chip_list[destory_line][x]->IsChipActive() == true) {
 
-			// 要素削除
+			// オブジェクトに登録されているチップの要素削除
 			m_p_obj_mng->Exit(m_map_chip_list[destory_line][x]->GetId());
+
 			// 番号を取り出す
 			int chip_num = m_map_chip_list[destory_line][x]->GetChipNum();
 
@@ -368,6 +370,51 @@ void Map::MapObjectWidthExitLine(int destory_line_y) {
 }
 
 
+
+void Map::RockChipCreate(int x, int y) {
+	
+	// Mapの高さから今のyチップ座標を割り出し
+	int create_chip_y = m_max_map_chip_height_size - y;
+
+	// チップ座標位置を作成
+	D3DXVECTOR2 chip_pos(
+		(float)(Map::CHIP_SIZE * x),
+		// 0.5ずつ上にずらしているだけ
+		(float)((Map::CHIP_SIZE) * -y) + // -ENTRY_CHIP_INTERVAL_Y
+		(float)(Window::HEIGHT + 8) + (CHIP_SIZE * ((-m_pos.y + 0.5f) / CHIP_SIZE)) - 64.f // スクロール位置
+	);
+
+	// 指定のチップを渡す
+	ChipBase*chip_base = m_map_chip_list[create_chip_y][x];
+
+	// チップ番号をMapクラスから受け取る
+	int chip_num = m_map_chip_list[create_chip_y][x]->GetChipNum();
+
+	// 検索しているチップが岩のチップ番号なら
+	if (chip_num != 0 && chip_num <= 10) {
+
+		// チップリストの中にすでにチップがある場合
+		if (m_map_chip_list[create_chip_y][x] != nullptr) {
+			delete m_map_chip_list[create_chip_y][x];
+		}
+
+		// 岩リスト追加
+		m_map_chip_list[create_chip_y][x] =
+			new RockChip(
+				chip_num,
+				chip_pos,
+				this
+			);
+
+		// 岩盤登録
+		m_p_obj_mng->Entry(m_map_chip_list[create_chip_y][x]);
+
+		// マップチップ記録
+		m_map_chip_list[create_chip_y][x]->SetIsChipActive(true);
+	}
+}
+
+
 void Map::EnemyCreate(int x, int y) {
 
 	// チップ座標位置を作成
@@ -381,11 +428,6 @@ void Map::EnemyCreate(int x, int y) {
 	// Mapの高さから今のyチップ座標を割り出し
 	int create_chip_y = m_max_map_chip_height_size - y;
 
-	
-	// チップが活動中なら生成中止
-	if (m_map_chip_list[create_chip_y][x]->IsChipActive() == true) {
-		return;
-	}
 
 	// チップ番号をMapクラスから受け取る
 	int chip_num = m_map_chip_list[create_chip_y][x]->GetChipNum();
@@ -405,7 +447,7 @@ void Map::EnemyCreate(int x, int y) {
 			if (chip_num == enemy_chip[i]) {
 
 				// 生成
-				m_p_enemy_mng->CreateEnemy(pos + offset_pos,this, mp_player[0], mp_player[1], enemy_type[i]);
+				m_p_enemy_mng->CreateEnemy(pos + offset_pos, this, mp_player[0], mp_player[1], enemy_type[i]);
 				// チップベースは生成中に変える
 				m_map_chip_list[create_chip_y][x]->SetIsChipActive(true);
 				m_map_chip_list[create_chip_y][x]->SetIsObject(true);
@@ -416,69 +458,15 @@ void Map::EnemyCreate(int x, int y) {
 
 		// ブラインド生成
 		if (chip_num == 103) {
-	
+
 			// 修正位置を少しずらす
 			offset_pos.x += (float)Map::CHIP_SIZE + 600.f;
 			// 生成
-			m_p_enemy_mng->CreateBlind(pos + offset_pos, D3DXVECTOR2(-300.f,1000.f));
+			m_p_enemy_mng->CreateBlind(pos + offset_pos, D3DXVECTOR2(-300.f, 1000.f));
 			// マップチップ記録
 			m_map_chip_list[create_chip_y][x]->SetIsChipActive(true);
 			m_map_chip_list[create_chip_y][x]->SetIsObject(true);
 		}
-	}
-}
-
-
-void Map::RockChipCreate(int x, int y) {
-	
-	// Mapの高さから今のyチップ座標を割り出し
-	int create_chip_y = m_max_map_chip_height_size - y;
-
-	// チップが活動中なら生成中止
-	if (m_map_chip_list[create_chip_y][x]->IsChipActive() == true) {
-		return;
-	}
-
-	float chip_pos = m_pos.y - (int)m_pos.y;
-	// チップ座標位置を作成
-	D3DXVECTOR2 pos(
-		(float)(Map::CHIP_SIZE * x),
-		// 0.5ずつ上にずらしているだけ
-		(float)((Map::CHIP_SIZE) * -y) + // -ENTRY_CHIP_INTERVAL_Y
-		(float)(Window::HEIGHT) - (CHIP_SIZE * ((int)(m_pos.y) / CHIP_SIZE))
-	);
-
-	// 指定のチップを渡す
-	ChipBase*chip_base = m_map_chip_list[create_chip_y][x];
-
-	// チップ番号をMapクラスから受け取る
-	int chip_num = m_map_chip_list[create_chip_y][x]->GetChipNum();
-
-
-	// 検索しているチップが岩のチップ番号なら
-	if (chip_num != 0 && chip_num <= 10) {
-
-		// 位置を補正,間隔ごとに生成
-		pos.y -= (float)CHIP_SIZE;
-
-		// チップリストの中にすでにチップがある場合
-		if (m_map_chip_list[create_chip_y][x] != nullptr) {
-			delete m_map_chip_list[create_chip_y][x];
-		}
-
-		// 岩リスト追加
-		m_map_chip_list[create_chip_y][x] =
-			new RockChip(
-				chip_num,
-				pos,
-				this
-			);
-
-		// 岩盤登録
-		m_p_obj_mng->Entry(m_map_chip_list[create_chip_y][x]);
-
-		// マップチップ記録
-		m_map_chip_list[create_chip_y][x]->SetIsChipActive(true);
 	}
 }
 
@@ -489,14 +477,17 @@ void Map::Load(const std::string&load_file_name) {
 	const int STRING_BUFFER = 256;
 	// 10進数
 	const int TenBaseNumber = 10;
-	FILE*fp;                               // ストリーム
-	const char *fname = load_file_name.c_str(); // ファイル名
-	char file_load_buffer[STRING_BUFFER];  // ファイル読み込みバッファ 
+	// ファイルストリーム
+	FILE*fp;                               
+	// ファイル名
+	const char *fname = load_file_name.c_str(); 
+	// ファイル読み込みバッファ 
+	char file_load_buffer[STRING_BUFFER];  
 
 	// ファイルオープン
 	fopen_s(&fp, fname, "r");
 
-	// ファイルが読み込まれてない場合
+	// ファイルが読み込まれてない場合終了
 	if (fp == NULL) {
 		return;
 	}
@@ -514,12 +505,14 @@ void Map::Load(const std::string&load_file_name) {
 
 		// チップ文字列をバッファにいれる
 		char *chip_string = file_load_buffer;
+
 		// 1次元配列に要素を追加
 		m_map_chip_list.emplace_back();
 
 		// 次の列へ
 		while (*chip_string != '\0'&& *chip_string != '\n') {
 
+			// 2次元配列に要素を追加
 			m_map_chip_list[height_chip].emplace_back();
 			// 要素追加
 			m_map_chip_list[height_chip][width_chip] = (new ChipBase());
@@ -535,8 +528,7 @@ void Map::Load(const std::string&load_file_name) {
 		// 縦チップを下へ動かす
 		height_chip++;
 	}
-
-	/* ---後ろ--- */
+	
 	// 配列外アクセス防止に10配列余分に配列を取る
 	for (int i = height_chip; i < 10 + height_chip; i++) {
 	
@@ -561,11 +553,6 @@ void Map::Load(const std::string&load_file_name) {
 }
 
 
-int Map::GetChipCastByPos(const float&pos)const {
-	return static_cast<int>(std::floor(pos / CHIP_SIZE));
-}
-
-
 int Map::GetChipParam(const float  pos_x, const float pos_y) {
 
 	// マップ座標変換
@@ -583,9 +570,20 @@ int Map::GetChipParam(const float  pos_x, const float pos_y) {
 }
 
 
-int Map::GetChipPosCastByChip(const float chip_pos, const float chip_y)const {
-	return (chip_pos * CHIP_SIZE);
+int Map::GetChipCastByPos(const float&pos)const {
+	return static_cast<int>(std::floor((pos / CHIP_SIZE)));
 }
+
+
+int Map::GetChipCastByPos(const int&pos)const {
+	return (pos / CHIP_SIZE);
+}
+
+
+int Map::GetChipPosCastByChip(const float chip_pos, const float chip_y)const {
+	return (int)(chip_pos * CHIP_SIZE);
+}
+
 
 int Map::GetMaxMapChipHeightSize()const {
 	return m_max_map_chip_height_size;

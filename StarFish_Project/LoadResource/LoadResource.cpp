@@ -80,11 +80,11 @@ void Resource::LoadResource() {
 	Texture::Load("Resource/Texture/Map/bg_clear_03.png");
 
 	// 引数付きのロード(UVをずらしている)
-	Texture::LoadEx("Resource/Texture/Map/bg_hero_01.png"
+	Texture::LoadEx("Resource/Texture/Map/bg_hero_1.png"
 		, 0, 0, 0.f, -0.001f);
-	Texture::LoadEx("Resource/Texture/Map/bg_hero_02.png"
+	Texture::LoadEx("Resource/Texture/Map/bg_hero_2.png"
 		, 0, 0, 0.f, 0.f);
-	Texture::LoadEx("Resource/Texture/Map/bg_hero_03.png"
+	Texture::LoadEx("Resource/Texture/Map/bg_hero_3.png"
 		, 0, 0, 0.f, -0.001f);
 	Texture::LoadEx("Resource/Texture/Map/bg_hero_04.png"
 		, 0, 0, 0.f, -0.001f);

@@ -15,30 +15,30 @@
 ObjectManager::ObjectManager(){
 
 	// プレイヤー生成
-	m_p_player[0] = new Player(Player::STAR_1);
-	m_p_player[1] = new Player(Player::STAR_2);
+	mp_player[0] = new Player(Player::STAR_1);
+	mp_player[1] = new Player(Player::STAR_2);
 	// 敵管理生成
-	m_p_enemy_mng = new EnemyManager(this);
+	mp_enemy_mng = new EnemyManager(this);
 	// ロープ生成
-	m_p_rope = new Rope(m_p_player[0], m_p_player[1]);
+	mp_rope = new Rope(mp_player[0], mp_player[1]);
 	// スタミナGameUI生成
-	m_p_ui = new GameUI(m_p_player[0], m_p_player[1]);
+	mp_ui = new GameUI(mp_player[0], mp_player[1]);
 	// マップ管理生成
-	m_p_map_mng = new MapManager(m_p_player[0], m_p_player[1], m_p_enemy_mng, this);
+	mp_map_mng = new MapManager(mp_player[0], mp_player[1], mp_enemy_mng, this);
 	// 当たり判定管理生成
-	m_p_collision_mng = new CollisionManager(m_p_player[0], m_p_player[1], m_p_enemy_mng);
+	mp_collision_mng = new CollisionManager(mp_player[0], mp_player[1], mp_enemy_mng);
 
 	// オブジェクト登録
-	Entry(m_p_rope);
-	Entry(m_p_player[0]);
-	Entry(m_p_player[1]);
-	Entry(m_p_ui);
+	Entry(mp_rope);
+	Entry(mp_player[0]);
+	Entry(mp_player[1]);
+	Entry(mp_ui);
 }
 
 ObjectManager::~ObjectManager() {
 
 	// オブジェクトリスト削除
-	for (auto&obj : m_object_list) {
+	for (auto&obj : mp_object_list) {
 		delete &obj;
 	}
 
@@ -50,16 +50,16 @@ ObjectManager::~ObjectManager() {
 void ObjectManager::Update() {
 
 	// 敵管理クラス更新
-	m_p_enemy_mng->Update();
+	mp_enemy_mng->Update();
 
 	// 更新
-	for (auto&itr : m_object_list) {
+	for (auto&itr : mp_object_list) {
 
 		itr.second->Update();
 	}
 
 	// 当たり判定
-	m_p_collision_mng->Collision();
+	mp_collision_mng->Collision();
 
 	// 描画用オブジェクトをソートする
 	EntryAndSortDrawObject();
@@ -81,7 +81,7 @@ void ObjectManager::EntryAndSortDrawObject(){
 	InitDrawObjectList();
 	
 	// 要素を全て入れる。
-	for (auto itr = m_object_list.begin(); itr != m_object_list.end();++itr) {
+	for (auto itr = mp_object_list.begin(); itr != mp_object_list.end();++itr) {
 
 		m_draw_obj_list.push_back(itr->second);
 	}
@@ -140,10 +140,10 @@ void ObjectManager::Entry(Object*obj) {
 	//}
 
 	// Objectの要素を追加
-	m_object_list[create_id] = obj;
+	mp_object_list[create_id] = obj;
 
 	// Objectの最新のidをセット
-	m_object_list.at(create_id)->SetId(create_id);
+	mp_object_list.at(create_id)->SetId(create_id);
 }
 
 
@@ -163,7 +163,7 @@ void ObjectManager::Exit(unsigned int id) {
 	m_reuse_id_list.push_back(id);
 
 	// Objectの配列番号の要素を削除
-	m_object_list.erase(id);
+	mp_object_list.erase(id);
 }
 
 
@@ -172,20 +172,20 @@ void ObjectManager::Exit(Object*object) {
 	m_reuse_id_list.push_back(object->GetId());
 
 	// Objectの配列番号の要素を削除
-	m_object_list.erase(object->GetId());
+	mp_object_list.erase(object->GetId());
 }
 
 
 void ObjectManager::MemoryDelete(unsigned int id) {
-	delete m_object_list.at(id);
+	delete mp_object_list.at(id);
 }
 
 
 bool ObjectManager::IsClear()const{
 	
 	// マップの背景とチップが最大で、かつ自機の位置が200.fよりも少ない(上)のとき
-	if (m_p_map_mng->IsMaxMapRange() == true && m_p_player[0]->GetPos().y <= 200.f ||
-		m_p_map_mng->IsMaxMapRange() == true && m_p_player[1]->GetPos().y <= 200.f) {
+	if (mp_map_mng->IsMaxMapRange() == true && mp_player[0]->GetPos().y <= 200.f ||
+		mp_map_mng->IsMaxMapRange() == true && mp_player[1]->GetPos().y <= 200.f) {
 		return true;
 	}
 		return false;
@@ -193,7 +193,7 @@ bool ObjectManager::IsClear()const{
 
 
 bool ObjectManager::IsGameOver()const {
-	if (m_p_player[0]->IsActive() == false && m_p_player[1]->IsActive() == false) {
+	if (mp_player[0]->IsActive() == false && mp_player[1]->IsActive() == false) {
 		return true;
 	}
 	return false;

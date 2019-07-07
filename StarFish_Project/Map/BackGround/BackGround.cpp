@@ -14,24 +14,23 @@ BackGround::BackGround(
 	float graph_scale_x,
 	float graph_scale_y) {
 
-
-	m_sort_object_type = sort_num;		                 // ソート番号代入
-	m_pos.x = m_pos.y = 0.f;		                     // 位置初期化
-	m_max_graph_num = 0;				                 // 画像数初期化
+	m_sort_object_type = sort_num;		                 
+	m_pos.x = m_pos.y = 0.f;		                     
+	m_max_graph_num = 0;				                 
 	m_height_graph_difference = 
-		(int)(Window::HEIGHT - graph_scale_y) / 2;       // 画像の縦端数初期化
-	m_width_graph_difference =									 
-		(int)(Window::WIDTH - graph_scale_x) / 2;        // 画像の横端数初期化
-	m_current_pos = 0;				                     // 画像の現在位置初期化
-	m_connect1_graph = 0;			                     // 連結画像1初期化
-	m_connect2_graph = 1;			                     // 連結画像2初期化
+		(int)(Window::HEIGHT - graph_scale_y) / 2;       
+	m_width_graph_difference =							
+		(int)(Window::WIDTH - graph_scale_x) / 2;        
+	m_current_pos = 0;				                     
+	m_connect1_graph = 0;			                     
+	m_connect2_graph = 1;			                     
 
+	// 画像から縦の画面分の端数を割り出す
 	m_height_graph_size_differance = graph_scale_y - Window::HEIGHT;
 
-	// 端数から中心位置に画像を配置できるようにする
-
 	// 最初の背景の位置x
-	m_pos.x = (Window::WIDTH - graph_scale_x) / 2;		 
+	m_pos.x = (Window::WIDTH - graph_scale_x) / 2;	
+
 	// 最初の背景の位置y
 	m_pos.y = ((Window::HEIGHT + m_height_graph_size_differance) - graph_scale_y) / 2;		
 
@@ -90,53 +89,47 @@ void BackGround::Draw(){
 	);
 }
 
-/*
-大きい方が下
-小さい方が上
-*/
+
 // 背景スクロール
 void BackGround::Scroll() {
 
 	// 画面遷移基準
 	const int GRAPH_SIZE_H = static_cast<int>(Window::HEIGHT + m_height_graph_size_differance);
 	
-	
-	const int CHANGE_RANGE_UP = static_cast<int>(m_pos.y - BG_CHANGE_LINE);
+	// 描画切り替え領域上
+	const int CHANGE_GRAPH_POS_UP = static_cast<int>(m_pos.y - BG_CHANGE_LINE);
 
-	// 連結1画像が現在の描画軸になっている場合
+	// 上にスクロールしている場合の描画切り替え
 	{
-		// 連結1画像が進んだ時、連結2画像を一つ先に描画させるようにする
-		if ((CHANGE_RANGE_UP) >= (GRAPH_SIZE_H * m_connect1_graph)) {
+		// 連結1画像が描画軸になっており、描画軸が進んだ時、連結2画像を1シート先に描画させるようにする
+		if ((CHANGE_GRAPH_POS_UP) >= (GRAPH_SIZE_H * m_connect1_graph)) {
 			m_connect2_graph = m_connect1_graph + 1;
 		}
 
-		// 連結2画像が進んだ時、連結1画像を一つ先に描画させるようにする
-		if ((CHANGE_RANGE_UP) >= (GRAPH_SIZE_H * m_connect2_graph)) {
+		// 連結2画像が描画軸になっており、描画軸が進んだ時、連結1画像を1シート先に描画させるようにする
+		if ((CHANGE_GRAPH_POS_UP) >= (GRAPH_SIZE_H * m_connect2_graph)) {
 			m_connect1_graph = m_connect2_graph + 1;
 		}
 	}
 	
-	const int CHANGE_RANGE_DOWN = static_cast<int>(m_pos.y + GRAPH_SIZE_H - GRAPH_DIFFERENCE + BG_CHANGE_LINE);
+	// 描画切り替え領域下
+	const int CHANGE_GRAPH_POS_DOWN = static_cast<int>(m_pos.y + GRAPH_SIZE_H - GRAPH_DIFFERENCE + BG_CHANGE_LINE);
 
-	// 連結2画像が現在描画の軸になっている場合
+	// 下にスクロールしている場合の描画切り替え
 	{
-		// 連結1画像が後退した時、次は連結2画像を後退して描画させるようにする
-		if ((CHANGE_RANGE_DOWN) <= ((GRAPH_SIZE_H) * (m_connect1_graph))) {// -1
-
+		// 連結1画像が描画軸になっており、描画軸が後退した時、次は連結2画像を1シート戻して描画させるようにする
+		if ((CHANGE_GRAPH_POS_DOWN) <= ((GRAPH_SIZE_H) * (m_connect1_graph))) {
 			m_connect2_graph = m_connect1_graph - 1;
 		}
 
-		// 連結画像2が後退した時、次は連結1画像を後退して描画させるようにする
-		if ((CHANGE_RANGE_DOWN) <= (GRAPH_SIZE_H) * (m_connect2_graph + 1)) {// -1
-
+		// 連結2画像が描画軸になっており、描画軸が後退した時、次は連結1画像を1シート戻して描画させるようにする
+		if ((CHANGE_GRAPH_POS_DOWN) <= (GRAPH_SIZE_H) * (m_connect2_graph + 1)) {
 			m_connect1_graph = m_connect2_graph - 1;
 		}
 	}
 
-
-	// 配列外アクセスを起こさせないようにする
-	if (m_connect1_graph < 0 || -m_pos.y >= 0 ||
-		m_connect2_graph < 0) {
+	// 配列外アクセス禁止
+	if (m_connect1_graph < 0 || m_connect2_graph < 0 || -m_pos.y >= 0) {
 
 		m_connect1_graph = 0;
 		m_connect2_graph = 1;

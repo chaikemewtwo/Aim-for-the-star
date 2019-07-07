@@ -49,17 +49,43 @@ public:
 	* @brief マップとの当たり判定
 	* @param[out] pos 当たり判定を取る位置
 	* @param[out] move 当たり判定を取る移動値
-	* @param[]
+	* @param[out] collision_dir_type_x 移動方向X列挙型
+	* @param[out] collision_dir_type_y 移動方向Y列挙型
 	*/
-	void Collision(D3DXVECTOR2&pos, D3DXVECTOR2&move,CollisionDirectionType &collision_dir_type_x, CollisionDirectionType &collision_dir_type_y);
+	void Collision(
+		D3DXVECTOR2&pos,
+		D3DXVECTOR2&move,
+		CollisionDirectionType &collision_dir_type_x,
+		CollisionDirectionType &collision_dir_type_y
+	);
 
-	// 衝突方向を調べる
+
+	/**
+	* @brief X移動値の衝突方向を返す
+	* @param[out] move_x X移動値
+	* @return CollsionDirectionType 衝突方向
+	*/
 	CollisionDirectionType GetCollisionDirectionSerchX(const float&move_x)const;
 
+
+	/**
+	* @brief Y移動値の衝突方向を返す
+	* @param[out] move_y Y移動値
+	* @return CollsionDirectionType 衝突方向
+	*/
 	CollisionDirectionType GetCollisionDirectionSerchY(const float&move_y)const;
 
 
-
+	/**
+	* @brief Y座標のマップチップ当たり判定を行う
+	* @param[in] up_left 左上頂点
+	* @param[in] up_right 右上頂点
+	* @param[in] down_left 左下頂点
+	* @param[in] down_right 右下頂点
+	* @param[out] pos 衝突位置
+	* @param[out] move_y 衝突した場合の移動値y
+	* @param[out] collision_dir_type_y 衝突方向yの参照
+	*/
 	bool YVertexHitCheck(
 		D3DXVECTOR2 up_left,
 		D3DXVECTOR2 up_right,
@@ -71,14 +97,23 @@ public:
 	);
 
 
-
+	/**
+	* @brief Y座標のマップチップ当たり判定を行う
+	* @param[in] up_left 左上頂点
+	* @param[in] up_right 右上頂点
+	* @param[in] down_left 左下頂点
+	* @param[in] down_right 右下頂点
+	* @param[out] pos 衝突位置
+	* @param[out] move_x 衝突した場合の移動値x
+	* @param[out] collision_dir_type_x 衝突方向xの参照
+	*/
 	bool XVertexHitCheck(
 		D3DXVECTOR2 up_left,
 		D3DXVECTOR2 up_right,
 		D3DXVECTOR2 down_left,
 		D3DXVECTOR2 down_right,
 		D3DXVECTOR2&pos,
-		float&move_y,
+		float&move_x,
 		CollisionDirectionType &collision_dir_type_x
 	);
 

@@ -122,6 +122,13 @@ public:
 
 
 	/**
+	* @brief int 位置をマップ座標に変換(オーバーロード)
+	* @return int
+	*/
+	int GetChipCastByPos(const int&pos)const;
+
+
+	/**
 	* @brief 位置をチップ番号に変換 
 	* @return int
 	*/
@@ -162,7 +169,7 @@ public:
 	*/
 	float GetScrollDownMapPosY();
 
-
+	
 private:
 	
 
@@ -178,7 +185,7 @@ private:
 	* @param[out] screen_pos_y 現在いるスクリーン座標値 
 	* @param[out] move_y オブジェクトの移動値
 	*/
-	void Scroll(float *screen_pos_y,float *move_y);
+	void Scroll(float &screen_pos_y,float &move_y);
 
 
 	/**
@@ -256,7 +263,7 @@ private:
 	
 	//! マップを構成するチップリスト
 	std::vector<std::vector<ChipBase*>>m_map_chip_list; 
-	
+
 	//! マップスクロールの動き
 	D3DXVECTOR2 m_scroll_move;
 
