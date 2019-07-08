@@ -1,6 +1,8 @@
 ﻿#pragma once
-#include<unordered_map>
+#include<map>
+#include<vector>
 #include<memory>
+#include <functional>
 
 
 /* ---Objectの説明---
@@ -166,15 +168,15 @@ private:
 
 
 	/**
-	* @brief 描画用オブジェクトリストの登録と昇順ソート
+	* @brief 描画用オブジェクトリストの登録と降順ソート
 	*/
 	void EntryAndSortDrawObject();
 
 
 private:
 
-	//! オブジェクトリスト
-	std::unordered_map<unsigned int,Object*>mp_object_list;
+	//! オブジェクトリスト(常に降順ソートを行う)
+	std::map<unsigned int,Object*>m_p_object_list;
 
 	//! 再利用idリスト(使い終わったidを登録するリスト)
 	std::vector<unsigned int>m_reuse_id_list;
@@ -186,20 +188,20 @@ private:
 	unsigned int m_current_the_newest_id;
 
 	//! マップ管理クラスポインタ
-	MapManager * mp_map_mng;
+	MapManager * m_p_map_mng;
 
 	//! 自機クラスヒトデ1ヒトデ2ポインタ
-	Player * mp_player[2];              
+	Player * m_p_player[2];              
 
 	//! GameUIクラスポインタ
-	GameUI * mp_ui;  
+	GameUI * m_p_ui;  
 
 	//! ロープクラスポインタ
-	Rope * mp_rope;                     
+	Rope * m_p_rope;                     
 
 	//! 敵管理クラスポインタ
-	EnemyManager *mp_enemy_mng;         
+	EnemyManager *m_p_enemy_mng;         
 
 	//! 衝突管理クラスポインタ
-	CollisionManager *mp_collision_mng; 
+	CollisionManager *m_p_collision_mng; 
 };

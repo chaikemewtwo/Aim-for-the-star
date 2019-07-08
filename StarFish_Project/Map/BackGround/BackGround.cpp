@@ -12,17 +12,24 @@ BackGround::BackGround(
 	Map * map,
 	SortObjectType sort_num,
 	float graph_scale_x,
-	float graph_scale_y) {
+	float graph_scale_y) : 
+	m_max_graph_num(0),
+	m_move(0.f,0.f)
+{
 
-	m_sort_object_type = sort_num;		                 
-	m_pos.x = m_pos.y = 0.f;		                     
-	m_max_graph_num = 0;				                 
-	m_height_graph_difference = 
-		(int)(Window::HEIGHT - graph_scale_y) / 2;       
-	m_width_graph_difference =							
-		(int)(Window::WIDTH - graph_scale_x) / 2;        
-	m_current_pos = 0;				                     
-	m_connect1_graph = 0;			                     
+	// ソートオブジェクトの型を代入
+	m_sort_object_type = sort_num;		                
+
+	// 画像の縦端数を割り出し
+	m_height_graph_difference = (int)(Window::HEIGHT - graph_scale_y) / 2;
+
+	// 画像の横端数を割り出し
+	m_width_graph_difference = (int)(Window::WIDTH - graph_scale_x) / 2;
+
+	// 1画像は0番目から始める
+	m_connect1_graph = 0;	
+
+	// 2画像は1番目から始める
 	m_connect2_graph = 1;			                     
 
 	// 画像から縦の画面分の端数を割り出す
@@ -34,11 +41,8 @@ BackGround::BackGround(
 	// 最初の背景の位置y
 	m_pos.y = ((Window::HEIGHT + m_height_graph_size_differance) - graph_scale_y) / 2;		
 
-	// 自機の移動初期化
-	m_move.x = m_move.y = 0.f;
-
 	// 遷移スクロール位置のポインタを入れる。
-	mp_map = map;
+	m_p_map = map;
 
 	// ファイルの読み込み
 	BGLoad(file_name.c_str());	
@@ -47,15 +51,20 @@ BackGround::BackGround(
 
 void BackGround::Update() {
 
+	const int SCROLL_SPEED = 3;
+
 	// 移動代入
 	MoveSub();
+
 	// マップスクロールの3分の１の速度にする
-	MoveAdjustment(3);
+	MoveAdjustment(SCROLL_SPEED);
 
 	// スクロールしてもいいなら
 	if (IsScroll() == true) {
+
 		// 位置Yに移動を加算
 		PosYToMoveYAdd();
+
 		// スクロール
 		Scroll();
 	}
@@ -63,8 +72,6 @@ void BackGround::Update() {
 
 
 void BackGround::Draw(){
-
-	/* 注意! UVをロードEx関数でずらしている */
 
 	// m_graph_differenceで端数分横の位置をずらして描画している
 
@@ -139,19 +146,20 @@ void BackGround::Scroll() {
 
 bool BackGround::IsScroll(){
 
+	// スクロール制限する
 	bool is_scroll = true;
 
-	// 背景のスクロール制限
 	// 上
-	if (-mp_map->GetPos().y >= MAX_UP_SCROLL) {
-		is_scroll = false;
-	}
-	// 下
-	else if (-mp_map->GetPos().y <= 0.f) {
+	if (-m_p_map->GetPos().y >= MAX_UP_SCROLL) {
 		is_scroll = false;
 	}
 
-	// スクロール制限しない
+	// 下
+	else if (-m_p_map->GetPos().y < 0.f) {
+		is_scroll = false;
+	}
+
+	// スクロール制限するかどうかを返す
 	return is_scroll;
 }
 
@@ -208,7 +216,7 @@ void BackGround::PosYToMoveYAdd() {
 
 void BackGround::MoveSub() {
 
-	m_move = mp_map->GetMove();// 反対方向に行くので-変換
+	m_move = m_p_map->GetMove();// 反対方向に行くので-変換
 }
 
 void BackGround::MoveAdjustment(int adjustment_num) {
@@ -217,7 +225,7 @@ void BackGround::MoveAdjustment(int adjustment_num) {
 
 float BackGround::GetMaxMapPos()const {
 	// 背景サイズを一つ足す
-	return (((Map::CHIP_SIZE * 18.f) + 1180.f) * m_max_graph_num);
+	return (((Map::CHIP_SIZE * 18) + Window::HEIGHT) * m_max_graph_num);
 }
 
 

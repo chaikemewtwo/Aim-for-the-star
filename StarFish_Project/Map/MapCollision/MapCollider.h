@@ -60,6 +60,34 @@ public:
 	);
 
 
+private:
+
+	//! 衝突チップサイズX
+	const float CHIP_SCALE_X = 6.f;
+	//! 衝突チップサイズY
+	const float CHIP_SCALE_Y = 6.f;
+
+private:
+
+
+	/**
+	* @brief 横位置を前の位置まで引き戻す
+	* @param[out] pos_x オブジェクト位置X
+	* @param[out] pos_y オブジェクト位置Y
+	* @param[out] collision_dir_type_x 衝突方向X列挙体
+	*/
+	void WidthPosPullBackToPrevPos(float &pos_x, float &move_x, CollisionDirectionType &collision_dir_type_x);
+
+
+	/**
+	* @brief 縦位置を引き戻す処理
+	* @param[out] pos_y オブジェクト位置Y
+	* @param[out] move_y オブジェクトの移動値Y
+	* @param[out] collision_dir_type_y 衝突方向Y列挙体
+	*/
+	void HeightPosPullBackPrevPos(float &pos_y, float &move_y, CollisionDirectionType &collision_dir_type_y);
+
+
 	/**
 	* @brief X移動値の衝突方向を返す
 	* @param[out] move_x X移動値
@@ -128,33 +156,6 @@ public:
 	*/
 	bool IsWallCollision(float pos_x, float pos_y, float move_x, float move_y);
 
-
-private:
-
-	//! 衝突チップサイズX
-	const float CHIP_SCALE_X = 6.f;
-	//! 衝突チップサイズY
-	const float CHIP_SCALE_Y = 6.f;
-
-private:
-
-
-	/**
-	* @brief 横位置を前の位置まで引き戻す
-	* @param[out] pos_x オブジェクト位置X
-	* @param[out] pos_y オブジェクト位置Y
-	* @param[out] collision_dir_type_x 衝突方向X列挙体
-	*/
-	void WidthPosPullBackToPrevPos(float &pos_x, float &move_x, CollisionDirectionType &collision_dir_type_x);
-
-
-	/**
-	* @brief 縦位置を引き戻す処理
-	* @param[out] pos_y オブジェクト位置Y
-	* @param[out] move_y オブジェクトの移動値Y
-	* @param[out] collision_dir_type_y 衝突方向Y列挙体
-	*/
-	void HeightPosPullBackPrevPos(float &pos_y, float &move_y, CollisionDirectionType &collision_dir_type_y);
 
 
 private:

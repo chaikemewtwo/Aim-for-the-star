@@ -55,13 +55,6 @@ public:
 
 
 	/**
-	* @brief Mapのインスタンスを返す
-	* @return Map 同上
-	*/
-	Map GetMapInstance()const;
-
-
-	/**
 	* @brief マップが最大スクロールかどうかを返す
 	* @return bool 同上
 	*/
@@ -71,9 +64,11 @@ public:
 private:
 
 	//! マップのポインタ
-	Map *m_p_map;        
+	Map *m_p_map;       
+
 	//! 後ろの背景ポインタ
 	BackGround *m_p_bg1; 
+
 	//! 前の背景ポインタ
 	BackGround *m_p_bg2; 
 };

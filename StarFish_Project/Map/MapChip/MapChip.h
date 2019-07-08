@@ -169,6 +169,21 @@ public:
 	*/
 	float GetScrollDownMapPosY();
 
+
+	/**
+	* @brief マップ当たり判定器ゲッター
+	* @return MapCollider マップの当たり判定
+	*/
+	MapCollider *GetMapColliderInstance();
+
+
+	/**
+	* @brief スクロールする関数
+	* @param[out] screen_pos_y 現在いるスクリーン座標値
+	* @param[out] move_y オブジェクトの移動値
+	*/
+	void Scroll(float &screen_pos_y, float &move_y);
+
 	
 private:
 	
@@ -178,14 +193,6 @@ private:
 	* @param[out] load_file_name
 	*/
 	void Load(const std::string&load_file_name);
-
-
-	/**
-	* @brief スクロールする関数
-	* @param[out] screen_pos_y 現在いるスクリーン座標値 
-	* @param[out] move_y オブジェクトの移動値
-	*/
-	void Scroll(float &screen_pos_y,float &move_y);
 
 
 	/**
@@ -271,32 +278,32 @@ private:
 	int m_max_map_chip_height_size;		
 
 	//! 上のスクロールするマップ位置Y
-	float m_scroll_up_map_pos_y;
+	float m_scroll_up_map_line;
 
 	//! 下のスクロールするマップ位置Y
-	float m_scroll_down_map_pos_y;
+	float m_scroll_down_map_line;
 
 	//! スクロールしているか
 	bool m_is_scroll;
 
 	//! 最大スクロールか 
 	bool m_is_max_scroll;
-							     
-	//! 自機2体のポインタ
-	Player * mp_player[2];                
 
 	//! 衝突方向[自機2体分][xとy]
 	CollisionDirectionType collision_dir_type[2][2];
-
-	//! 敵の状態
-	EnemyManager * m_p_enemy_mng;
 
 	//! オブジェクト管理
 	ObjectManager * m_p_obj_mng;
 
 	//! 当たり判定マップ生成クラス
-	MapCollider * mp_map_collider;
-	
+	MapCollider * m_p_map_collider;
+
+	//! 自機二つのポインタ
+	Player*m_p_player[2];
+
+	//! 敵管理のポインタ
+	EnemyManager *m_p_enemy_manager;
+
 };
 
 

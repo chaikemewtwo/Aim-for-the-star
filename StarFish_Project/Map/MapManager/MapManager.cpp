@@ -9,6 +9,7 @@
 
 MapManager::MapManager(Player*star1, Player*star2, EnemyManager*e_mng, ObjectManager*obj_mng) {
 
+
 	// nullチェック
 	if (star1 == nullptr) {
 		return;
@@ -55,9 +56,7 @@ MapManager::MapManager(Player*star1, Player*star2, EnemyManager*e_mng, ObjectMan
 	// 背景1登録
 	obj_mng->Entry(m_p_bg1);
 	// 背景2
-	//obj_mng->Entry(m_p_bg2);
-
-	
+	//obj_mng->Entry(m_p_bg2);	
 }
 
 
@@ -91,11 +90,6 @@ void MapManager::Update() {
 
 void MapManager::Draw(){
 
-}
-
-
-Map MapManager::GetMapInstance()const {
-	return *m_p_map;
 }
 
 
