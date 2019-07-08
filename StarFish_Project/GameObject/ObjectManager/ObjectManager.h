@@ -1,36 +1,33 @@
 ﻿#pragma once
-#include<unordered_map>
+#include<map>
+#include<vector>
 #include<memory>
+#include <functional>
 
 
-/* ～説明書～
+/* ---Objectの説明---
 
-       使用例
-       
-       ①まずObjectの継承を行う。
-       オブジェクトを継承する基準はゲーム内で描画されているものならほとんどObjectとして扱う
-       
-       例:
+   ♦使用例♦
 
-       {
-       // プレイヤーをオブジェクトとして継承
-       class Player : public Object
-	   }
-       
-       ②ObjectManagerによる登録
-       ObjectManagerをセッター、コンストラクタなどで受け取るなどして、
-       登録関数、「Entry(Object*obj)」にオブジェクトを入れて登録
-       
-       例:
+   ①Objectの継承
 
-	   {
-       Player p;      // 自機のインスタンス
-       obj->Entry(p); // Playerを登録
-       }
-       
-       ③Update,Drawなどにそれぞれ処理を入れる。
-       
-       これでうまく回ったらOK、不具合があったら教えてください
+   class Player,Enemyなど : public Object
+
+   ②ObjectManagerの登録
+
+   オブジェクトマネージャーのポインタ->Entry(登録するオブジェクト)
+
+   ③継承先でUpdateやDrawを定義、処理を内部に入れる
+
+   void Update()override
+   void Draw()override
+
+ */
+
+/* ---削除の仕方---
+
+	①ObjectManagerの方で要素削除
+	②先のポインタで削除
 
 */
 
@@ -63,69 +60,148 @@
 */
 
 
-/* 前方参照 */
-class Object;           // オブジェクトクラス
-class EnemyManager;     // 敵管理
-class MapManager;       // マップ管理
-class Player;           // 自機
-class CollisionManager; // 衝突管理
-class GameUI;           // ゲームメインUI
-class Rope;             // ロープ
+// 前方参照 
+class Object;          
+class EnemyManager;    
+class MapManager;      
+class Player;          
+class CollisionManager;
+class GameUI;          
+class Rope;            
 
 
-// 定数の登録順に昇順ソート
-enum SortObject {
-	BEFORE_BG,     
-	ROPE,          
-	PLAYER,        
-	ENEMY,         
-	ROCK_CHIP,     
-	AFTER_BG,	
-	GAME_UI,	
-	BLIND,		
-	MAX,	
+/**
+* @enum SortObjectType
+* @brief 描画順に昇順ソートする列挙体
+*/
+enum SortObjectType {
+	BEFORE_BG,
+	ROPE,
+	PLAYER,
+	ENEMY,
+	ROCK_CHIP,
+	AFTER_BG,
+	GAME_UI,
+	BLIND,
+	MAX,
 };
 
-// オブジェクト管理クラス
+
+/**
+* @brief オブジェクト管理クラス
+*/
 class ObjectManager {
 public:
 
+
+	/**
+	* @brief コンストラクタ
+	*/
 	ObjectManager();
+
+
+	/**
+	* @brief デストラクタ
+	*/
 	~ObjectManager();
 
-	// 更新
+
+	/**
+	* @brief 更新
+	*/
 	void Update();
-	// 描画
+	
+
+	/**
+	* @brief 描画
+	*/
 	void Draw();
 
-	void ObjectListInit();
 
-	// 要素の追加
+	/**
+	* @brief オブジェクトの登録
+	* @param[out] 登録するobjectクラス継承先のオブジェクト
+	*/
 	void Entry(Object*obj);
-	// 配列の削除(メモリの削除ではない)
+
+
+	/**
+	* @brief 配列の削除(メモリの削除は行わない)
+	* @param[in] id 削除id
+	*/
 	void Exit(unsigned int id);
-	// メモリの削除
-	void Delete(unsigned int id);
-	// クリアフラグを返す
+
+
+	/**
+	* @brief 指定したオブジェクトの配列の削除(メモリの削除は行わない)
+	*/
+	void Exit(Object*object);
+
+
+	/**
+	* @brief オブジェクトリストのメモリ削除
+	*/
+	void MemoryDelete(unsigned int id);
+
+
+	/**
+	* @brief クリアかどうかを取得する
+	* @return bool
+	*/
 	bool IsClear()const;
+
+
+	/**
+	* @brief ゲームオーバーかどうかを取得する
+	* @return bool
+	*/
 	bool IsGameOver()const;
+
 
 private:
 
-	// 描画用オブジェクトのソート
-	void SwapAndSortDrawObject();
 
-	/* 管理用の配列など */
-	std::unordered_map<unsigned int,Object*>m_obj_list;// オブジェクト管理クラス(更新時にアドレスを入れる)
-	std::vector<unsigned int>m_used_id_list;           // 使い終わったidを再利用するための配列
-	std::vector<Object*>m_draw_obj_list;               // 描画用オブジェクトリスト
-	unsigned int m_current_max_id;                     // 現在最大のid
+	/**
+	* @brief 描画オブジェクトリストの要素を初期化する(メモリの削除は行わない)
+	*/
+	void InitDrawObjectList();
 
-	/* object参照 */
-	MapManager * m_p_map_mng;            // マップ管理クラス
-	Player * m_p_player[2];              // 自機1,2
-	GameUI * m_p_ui;                     // スタミナGameUI
-	Rope * m_p_rope;                     // ロープ
-	EnemyManager *m_p_enemy_mng;         // 敵管理クラス
-	CollisionManager *m_p_collision_mng; // 衝突管理クラス
+
+	/**
+	* @brief 描画用オブジェクトリストの登録と降順ソート
+	*/
+	void EntryAndSortDrawObject();
+
+
+private:
+
+	//! オブジェクトリスト(常に降順ソートを行う)
+	std::map<unsigned int,Object*>m_p_object_list;
+
+	//! 再利用idリスト(使い終わったidを登録するリスト)
+	std::vector<unsigned int>m_reuse_id_list;
+
+	//! 描画用オブジェクトリスト
+	std::vector<Object*>m_draw_obj_list;
+
+	//! 現在最新id
+	unsigned int m_current_the_newest_id;
+
+	//! マップ管理クラスポインタ
+	MapManager * m_p_map_mng;
+
+	//! 自機クラスヒトデ1ヒトデ2ポインタ
+	Player * m_p_player[2];              
+
+	//! GameUIクラスポインタ
+	GameUI * m_p_ui;  
+
+	//! ロープクラスポインタ
+	Rope * m_p_rope;                     
+
+	//! 敵管理クラスポインタ
+	EnemyManager *m_p_enemy_mng;         
+
+	//! 衝突管理クラスポインタ
+	CollisionManager *m_p_collision_mng; 
 };

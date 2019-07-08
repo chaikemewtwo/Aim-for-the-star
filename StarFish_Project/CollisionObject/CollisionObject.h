@@ -4,35 +4,72 @@
 
 
 
+// ==================================
+/**
+* @file CollisionObject.h
+* @brief 衝突用オブジェクトファイル
+* @author maekawa
+*/
+// ==================================
 
-// 当たり判定付きのオブジェクトを継承するにはCollisionObjectを継承する
+
+
+/**
+* @brief 衝突オブジェクトクラス(抽象クラス)
+* @detail 当たり判定を付けるなら衝突用オブジェクトを継承させる
+*/
 class CollisionObject : public Object {
 public:
 
+
+	/**
+	* @brief コンストラクタ
+	*/
 	CollisionObject();
 
-	// 当たった相手を識別する定数
+
+	/**
+	* @brief 仮想デストラクタ(virtual)
+	*/
+	virtual ~CollisionObject() {};
+
+
+	/**
+	* @enum Type
+	* @brief 衝突した相手を識別する列挙体
+	*/
 	enum Type {
 		PLAYER,
 		ENEMY,
 		MAX,
 	};
 
-	// 仮想デストラクタ
-	virtual ~CollisionObject() {};
 
-	// どのObjectを返したのかを返す
+	/**
+	* @brief どのObjectと接触したのかを返す(virtual)
+	* @return Type
+	*/
 	virtual Type GetObjectType()const {
 		return MAX;
 	}
-	// 当たり判定の結果を返す,引数は当たった相手の定数を入れる
+
+
+	/**
+	* @brief 衝突後の処理を行う
+	* @param[in] type 衝突したオブジェクトタイプを返す
+	*/
 	virtual void HitAction(Type type) {};
 
-	// 当たり判定頂点をずらす
+
+	/**
+	* @brief 当たり判定用の頂点をずらす
+	* @return D3DXVECTOR2 衝突頂点
+	*/
 	D3DXVECTOR2 GetHitVertexOffset()const;
 
-protected:
 
-	// 当たり頂点をずらす 
+protected:
+	float m_speed;
+	//! 当たり頂点をずらす 
 	D3DXVECTOR2 m_hit_vertex_offset;
 };

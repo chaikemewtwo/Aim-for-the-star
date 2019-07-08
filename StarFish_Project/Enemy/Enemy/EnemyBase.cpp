@@ -20,7 +20,7 @@ EnemyBase::EnemyBase() {
 	m_p_state_base = Wait::GetInstance();
 
 	// ソートオブジェクトに敵追加
-	m_sort_object_type = SortObject::ENEMY;
+	m_sort_object_type = SortObjectType::ENEMY;
 
 	//  敵画像の登録　//
 	// ウニ

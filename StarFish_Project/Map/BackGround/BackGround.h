@@ -12,6 +12,14 @@
 */
 // =============================
 
+/* =============================
+  背景動作説明
+
+  背景は今現在いる場所1枚と上か下
+　画像サイズを入れると、自ずと画面の中心に描画されるようになっている。
+
+   ============================= */
+
 
 /**
 * @brief 背景クラス
@@ -19,9 +27,10 @@
 class BackGround : public Object{
 public:
 
-	// 背景の最大画像数
+
+	//! 背景の最大画像数
 	static constexpr int MAX_BACKGROUND_GRAPH = 5;  
-	// 上の最大スクロール
+	//! 上の最大スクロール
 	static constexpr float MAX_UP_SCROLL = (Map::CHIP_SIZE * 18) * MAX_BACKGROUND_GRAPH + 1170;
 
 
@@ -36,7 +45,7 @@ public:
 	BackGround(
 		const std::string&text_file_name,
 		Map*map,
-		SortObject sort_num,
+		SortObjectType sort_num,
 		float graph_width_scale = -50.f,
 		float graph_height_scale = 0.f);
 
@@ -80,20 +89,26 @@ private:
 	*/
 	void MoveAdjustment(int adjustment_num);  
 
+
 	/**
 	* @brief 背景の読み込み
 	*/
 	void BGLoad(const char*file_name);        
 
+
 	/**
 	* @brief 背景スクロール
+	* @detail 描画には画面分のシート画像があり、それを前後に配置しながらスクロールしていく
+	* @detail 通り過ぎたシート画像は描画されないようになっている
 	*/
 	void Scroll();
+
 
 	/**
 	* @brief Y座標加算
 	*/
 	void PosYToMoveYAdd();
+
 
 	/**
 	* @brief スクロールするかどうか
@@ -107,15 +122,27 @@ private:
 	//! 背景読み込み用バッファ
 	std::vector<const char*>m_p_bg_file_name_list;      
 									
-	D3DXVECTOR2 m_move;                   //! 移動ベクトル
-	int m_max_graph_num;				  //! 画像の最大数  
-	int m_current_pos;                    //! 今いる位置
-	int m_connect1_graph;                 //! 連結画像1 
-	int m_connect2_graph;                 //! 連結画像2
-	int m_height_difference;              //! 縦の画像の端数
-	int m_width_difference;               //! 横の画像の端数
-	float m_graph_height_size_differance; //! 画像の縦のサイズ端数
+	//! 移動ベクトル
+	D3DXVECTOR2 m_move;                
 
-	/* マップインスタンス */
-	Map *mp_map;
+	//! 画像の最大数 
+	int m_max_graph_num;				
+
+	//! 連結画像1 
+	int m_connect1_graph;         
+
+	//! 連結画像2
+	int m_connect2_graph;      
+
+	//! 縦の画像の端数
+	int m_height_graph_difference;  
+
+	//! 横の画像の端数
+	int m_width_graph_difference;   
+
+	//! 画像の縦のサイズ端数
+	float m_height_graph_size_differance; 
+
+	//! マップポインタ
+	Map *m_p_map;
 };

@@ -36,7 +36,7 @@ int Object::GetId()const {
 	return m_id;
 }
 
-SortObject Object::GetSortNum()const {
+SortObjectType Object::GetSortNum()const {
 	return m_sort_object_type;
 }
 

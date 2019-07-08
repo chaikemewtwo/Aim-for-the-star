@@ -3,54 +3,55 @@
 #include"../../Player/Player.h"
 #include"../../GameObject/ObjectManager/ObjectManager.h"
 #include"../ChipBase/ChipBase.h"
+#include"../MapCollision/MapCollider.h"
 
 
 
-/*
-
-マップでは二つの座標があります。
-
-一つ目はスクリーン座標(自分が勝手に付けた名前です)
-主に自機などのキャラクターの座標
-
-二つ目はマップ座標(これも自分が勝手につけた名前です)
-スクリーン座標をもとにマップチップを動かす座標です。
-
+/*各座標説明
+// =====================
+マップ座標 = マップチップを構成する座標
+スクリーン座標 = 画面内で生きる座標
+// =====================
 */
 
-// =====================
+
+// ==============================
 /**
 * @file Map.h
 * @brief チップによるMapを構成する
 * @author maekawa
 */
-// =====================
+// ==============================
 
 
 
 // 前方参照
 class EnemyManager;
-class MapObjectFactory;
-class MapCollider;
 enum CollisionDirectionType;
 
 
-
 /**
-* @brief マップクラス
+* @brief チップを構成するマップクラス
 */
 class Map : public Object {
 public:
+	
+	//! チップ間の間隔
+	static constexpr float ENTRY_CHIP_INTERVAL_Y = 0.5f;
 
-	// 画像、全てのセルの大きさ
-	static constexpr int CHIP_SIZE = 64;
-	// 画面マップチップの大きさ
-	static constexpr int MAX_IN_WINDOW_CHIP_NUM_W = ((int)(Window::WIDTH) / CHIP_SIZE);   
-	// 画面マップチップの大きさ
-	static constexpr int MAX_IN_WINDOW_CHIP_NUM_H = ((int)(Window::HEIGHT) / CHIP_SIZE);  
-	// スクロール範囲上
+	//! 画像、全てのセルの大きさ
+	static const int CHIP_SIZE = 64;
+
+	//! 画面マップチップの大きさ
+	static const int MAX_IN_WINDOW_CHIP_NUM_W = ((int)(Window::WIDTH) / CHIP_SIZE);   
+
+	//! 画面マップチップの大きさ
+	static const int MAX_IN_WINDOW_CHIP_NUM_H = ((int)(Window::HEIGHT) / CHIP_SIZE);  
+
+	//! スクロール範囲上
 	static constexpr float SCROLL_RANGE_UP = 400.f;
-	// スクロール範囲下
+
+	//! スクロール範囲下
 	static constexpr float SCROLL_RANGE_DOWN = 800.f;
 
 public:
@@ -99,98 +100,210 @@ public:
 	void MapObjectWidthExitLine(int destory_line_y);
 
 
-	// スクロール移動値ゲッター
+	/**
+	* @brief スクロール移動値ゲッター
+	* @return D3DXVECTOR2
+	*/
 	D3DXVECTOR2 GetMove()const;
-	// 高さゲッター
-	int GetMaxHeightMapSize()const;
-	// 位置をマップ座標に変換
+
+
+	/**
+	* @brief 最大マップチップ高さサイズ
+	* @return int
+	*/ 
+	int GetMaxMapChipHeightSize()const;
+
+
+	/** 
+	* @brief 位置をマップ座標に変換
+	* @return int
+	*/
 	int GetChipCastByPos(const float&pos)const;
-	// 位置をチップ番号に変換
+
+
+	/**
+	* @brief int 位置をマップ座標に変換(オーバーロード)
+	* @return int
+	*/
+	int GetChipCastByPos(const int&pos)const;
+
+
+	/**
+	* @brief 位置をチップ番号に変換 
+	* @return int
+	*/
 	int GetChipParam(const float pos_x, const float pos_y);
-	// スクロールする上の範囲
-	float GetScrollRangeUp();
-	// スクロールする下の範囲
-	float GetScrollRangeDown();
 
 
-	// スクロールしているか
-	bool IsScroll()const;			 
-	// 最大スクロールかどうか
-	bool IsMaxScroll()const;         
-	// マップのスクロールの初期化
+	/**
+	* @brief スクロールしているか
+	* @return bool
+	*/
+	bool IsScroll()const;
+
+
+	/**
+	* @brief 最大スクロールかどうか
+	* @return bool
+	*/
+	bool IsMaxScroll()const; 
+
+
+	/**
+	* @brief マップのスクロールの初期化セッター
+	* @param[in] is_scroll スクロールしているか
+	*/
 	void SetIsScroll(bool is_scroll);
 
 
-	// チップを選択して生きているかを変更する
-	void ActiveChangeChipSelect(int x,int y,bool is_chip_active);
-	// チップを選択して生きているか確認する
-	bool IsActiveChipSelect(int x, int y);
-	// チップを選択してチップ番号取得
-	int GetChipNumChipSelect(int x, int y);
+	/**
+	* @brief スクロールする上の範囲を返すゲッター関数
+	* @return float スクロールする上の範囲
+	*/
+	float GetScrollUpMapPosY();
 
+
+	/**
+	* @brief スクロールする下の範囲を返すゲッター関数
+	* @return float スクロールする下の範囲
+	*/
+	float GetScrollDownMapPosY();
+
+
+	/**
+	* @brief マップ当たり判定器ゲッター
+	* @return MapCollider マップの当たり判定
+	*/
+	MapCollider *GetMapColliderInstance();
+
+
+	/**
+	* @brief スクロールする関数
+	* @param[out] screen_pos_y 現在いるスクリーン座標値
+	* @param[out] move_y オブジェクトの移動値
+	*/
+	void Scroll(float &screen_pos_y, float &move_y);
+
+	
 private:
 	
-	// マップ読み込み
-	void Load(const std::string&file_name);
-	// 描画範囲に入っているか入っていないか判断する関数
-	void Scroll(float *pos_y,float *move_y);
-	// 地面に着地する点
+
+	/**
+	* @brief マップ読み込み
+	* @param[out] load_file_name
+	*/
+	void Load(const std::string&load_file_name);
+
+
+	/**
+	* @brief 最大スクロール関数
+	*/
 	void MaxScroll();
-	// 岩生成
+
+
+	/**
+	* @brief 岩生成関数
+	* @param[in] x チップ座標x
+	* @param[in] y チップ座標y
+	*/
 	void RockChipCreate(int x, int y);
-	// 敵生成
+
+
+	/**
+	* @brief 敵生成関数
+	* @param[in] x チップ座標x
+	* @param[in] y チップ座標y
+	*/
 	void EnemyCreate(int x, int y);
-	// マップ座標を位置に変換
-	float GetChipPosCastByChip(const float &chip_x, const float &chip_y)const;
+
+ 
+	/**
+	* @brief チップをマップチップ位置に変換
+	* @param[out] chip_x チップ座標x
+	* @param[out] chip_y チップ座標y
+	* @return int マップチップ位置に変換した値
+	*/
+	int GetChipPosCastByChip(const float chip_x, const float chip_y)const;
+
+
 	// プラスの符号に変換
-	void PlusSignChange(float &sign_change_num);
-	// 生成と削除
+	/**
+	* @brief プラスの符号に変換
+	* @param[out] sign_change_num 変換する値
+	* @return float 符号変換した値
+	*/
+	float GetPlusSignChange(float sign_change_num);
+
+
+	/**
+	* @brief 生成と削除を行う関数
+	*/
 	void CreateAndDestory();
-	// 自機との当たり判定とスクロール
-	void PlayerCollision(int i);
-	// 自機のスクロール
-	void PlayerScroll(int i);
 
-	// 引っ付き判定
-	//void CenterStuckChip(float &pos_x, float &pos_y, float &move_x, float &move_y);
+
+	/**
+	* @brief 自機との当たり判定とスクロール
+	* @param[in] player_num 当たりを行う自機番号
+	*/
+	void PlayerCollision(int player_num);
+
+
+	/** 
+	* @brief 自機のスクロール
+	* @param[in] player_num スクロールを行う自機番号
+	*/
+	void PlayerScroll(int player_num);
 	
-private:
-
-	const int HEIGHT_INTERVAL = 60;                     // 縦間隔をあけて遷移などをする
-	const int MAP_SAET_NUM = 5;					        // マップシートの数
-	// オブジェクトとマップ当たり判定の頂点位置	
-	const D3DXVECTOR2 VERTEX_OFFSET{-32.f,-56.f};       // 当たり位置の大きさ
-	// チップの大きさ						    
-	const float CHIP_SCALE_X = 6.f;			            // 当たり位置の縮小横
-	const float CHIP_SCALE_Y = 6.f;			            // 当たり位置の縮小縦
-	// チップ生成領域							  
-	const int CHIP_RANGE_UP = 19;				        // 生成領域上
-	const int CHIP_RANGE_DOWN = 1;				        // 生成領域下
 
 private:
 	
-	// マップチップの配列
+	//! 縦間隔をあけて遷移などをする
+	const int HEIGHT_INTERVAL = 60;
+	//! オブジェクトとマップ当たり判定の頂点位置	
+	const D3DXVECTOR2 VERTEX_OFFSET{-32.f,-56.f};
+	//! チップ生成領域上							  
+	const int CHIP_RANGE_UP = 19;
+	//! チップ生成領域下
+	const int CHIP_RANGE_DOWN = 1;
+
+private:
+	
+	//! マップを構成するチップリスト
 	std::vector<std::vector<ChipBase*>>m_map_chip_list; 
-	
-	/* マップ描画領域 */					    
-	D3DXVECTOR2 m_scroll_move;                 // 描画用マップの位置
-	int m_max_height_map_size;                 // マップデータの高さ
-							     	           
-	/* マップスクロール */		     	           
-	float m_scroll_range_up;                   // スクロールライン上
-	float m_scroll_range_down;                 // スクロールライン下
-							     
-	/* 各オブジェクトの参照 */   
-	Player * m_p_player[2];                    // 自機2体         
 
-	CollisionDirectionType collision_dir_type[2][2];// 衝突方向[自機2体分][xとy]
-	EnemyManager * m_p_enemy_mng;              // 敵の状態
-	ObjectManager * m_p_obj_mng;               // オブジェクト管理
-	MapCollider * m_p_map_collision;          // 当たり判定マップ生成クラス
-	
-	/* 各フラグ */			        
-	bool m_is_scroll;               // スクロールしているか
-	bool m_is_max_scroll;           // 最大スクロールか 
+	//! マップスクロールの動き
+	D3DXVECTOR2 m_scroll_move;
+
+	//! 最大マップの高さチップサイズ
+	int m_max_map_chip_height_size;		
+
+	//! 上のスクロールするマップ位置Y
+	float m_scroll_up_map_line;
+
+	//! 下のスクロールするマップ位置Y
+	float m_scroll_down_map_line;
+
+	//! スクロールしているか
+	bool m_is_scroll;
+
+	//! 最大スクロールか 
+	bool m_is_max_scroll;
+
+	//! 衝突方向[自機2体分][xとy]
+	CollisionDirectionType collision_dir_type[2][2];
+
+	//! オブジェクト管理
+	ObjectManager * m_p_obj_mng;
+
+	//! 当たり判定マップ生成クラス
+	MapCollider * m_p_map_collider;
+
+	//! 自機二つのポインタ
+	Player*m_p_player[2];
+
+	//! 敵管理のポインタ
+	EnemyManager *m_p_enemy_manager;
+
 };
 
 

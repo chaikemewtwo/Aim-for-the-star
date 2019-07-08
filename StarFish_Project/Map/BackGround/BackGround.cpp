@@ -10,36 +10,39 @@
 BackGround::BackGround(
 	const std::string&file_name,
 	Map * map,
-	SortObject sort_num,
+	SortObjectType sort_num,
 	float graph_scale_x,
-	float graph_scale_y) {
+	float graph_scale_y) : 
+	m_max_graph_num(0),
+	m_move(0.f,0.f)
+{
 
+	// ソートオブジェクトの型を代入
+	m_sort_object_type = sort_num;		                
 
-	m_sort_object_type = sort_num;		                 // ソート番号代入
-	m_pos.x = m_pos.y = 0.f;		                     // 位置初期化
-	m_max_graph_num = 0;				                 // 画像数初期化
-	m_height_difference = 
-		(int)(Window::HEIGHT - graph_scale_y) / 2;       // 画像の縦端数初期化
-	m_width_difference =									 
-		(int)(Window::WIDTH - graph_scale_x) / 2;        // 画像の横端数初期化
-	m_current_pos = 0;				                     // 画像の現在位置初期化
-	m_connect1_graph = 0;			                     // 連結画像1初期化
-	m_connect2_graph = 1;			                     // 連結画像2初期化
+	// 画像の縦端数を割り出し
+	m_height_graph_difference = (int)(Window::HEIGHT - graph_scale_y) / 2;
 
-	m_graph_height_size_differance = graph_scale_y - Window::HEIGHT;
+	// 画像の横端数を割り出し
+	m_width_graph_difference = (int)(Window::WIDTH - graph_scale_x) / 2;
 
-	// 端数から中心位置に画像を配置できるようにする
+	// 1画像は0番目から始める
+	m_connect1_graph = 0;	
+
+	// 2画像は1番目から始める
+	m_connect2_graph = 1;			                     
+
+	// 画像から縦の画面分の端数を割り出す
+	m_height_graph_size_differance = graph_scale_y - Window::HEIGHT;
 
 	// 最初の背景の位置x
-	m_pos.x = (Window::WIDTH - graph_scale_x) / 2;		 
-	// 最初の背景の位置y
-	m_pos.y = ((Window::HEIGHT + m_graph_height_size_differance) - graph_scale_y) / 2;		
+	m_pos.x = (Window::WIDTH - graph_scale_x) / 2;	
 
-	// 自機の移動初期化
-	m_move.x = m_move.y = 0.f;
+	// 最初の背景の位置y
+	m_pos.y = ((Window::HEIGHT + m_height_graph_size_differance) - graph_scale_y) / 2;		
 
 	// 遷移スクロール位置のポインタを入れる。
-	mp_map = map;
+	m_p_map = map;
 
 	// ファイルの読み込み
 	BGLoad(file_name.c_str());	
@@ -48,15 +51,20 @@ BackGround::BackGround(
 
 void BackGround::Update() {
 
+	const int SCROLL_SPEED = 3;
+
 	// 移動代入
 	MoveSub();
+
 	// マップスクロールの3分の１の速度にする
-	MoveAdjustment(3);
+	MoveAdjustment(SCROLL_SPEED);
 
 	// スクロールしてもいいなら
 	if (IsScroll() == true) {
+
 		// 位置Yに移動を加算
 		PosYToMoveYAdd();
+
 		// スクロール
 		Scroll();
 	}
@@ -65,8 +73,6 @@ void BackGround::Update() {
 
 void BackGround::Draw(){
 
-	/* 注意! UVをロードEx関数でずらしている */
-
 	// m_graph_differenceで端数分横の位置をずらして描画している
 
 	// 1枚目描画
@@ -74,9 +80,9 @@ void BackGround::Draw(){
 		// 描画ファイル名
 		m_p_bg_file_name_list[m_connect1_graph % m_max_graph_num],
 		// 横のサイズ
-		(float)m_width_difference,
+		(float)m_width_graph_difference,
 		// 縦のサイズ
-		(m_pos.y + (float)((-Window::HEIGHT - m_graph_height_size_differance) * m_connect1_graph) + (float)m_height_difference)
+		(m_pos.y + (float)((-Window::HEIGHT - m_height_graph_size_differance) * m_connect1_graph) + (float)m_height_graph_difference)
 	);
 		
 	// 2枚目描画
@@ -84,59 +90,53 @@ void BackGround::Draw(){
 		// 描画ファイル名
 		m_p_bg_file_name_list[m_connect2_graph % m_max_graph_num],
 		// 横のサイズ
-		(float)m_width_difference,
+		(float)m_width_graph_difference,
 		// 縦のサイズ
-		(m_pos.y + (float)((-Window::HEIGHT - m_graph_height_size_differance) * m_connect2_graph) + (float)m_height_difference)// +10.f
+		(m_pos.y + (float)((-Window::HEIGHT - m_height_graph_size_differance) * m_connect2_graph) + (float)m_height_graph_difference)// +10.f
 	);
 }
 
-/*
-大きい方が下
-小さい方が上
-*/
+
 // 背景スクロール
 void BackGround::Scroll() {
 
 	// 画面遷移基準
-	const int GRAPH_SIZE_H = static_cast<int>(Window::HEIGHT + m_graph_height_size_differance);
+	const int GRAPH_SIZE_H = static_cast<int>(Window::HEIGHT + m_height_graph_size_differance);
 	
-	
-	const int CHANGE_RANGE_UP = static_cast<int>(m_pos.y - BG_CHANGE_LINE);
+	// 描画切り替え領域上
+	const int CHANGE_GRAPH_POS_UP = static_cast<int>(m_pos.y - BG_CHANGE_LINE);
 
-	// 連結1画像が現在の描画軸になっている場合
+	// 上にスクロールしている場合の描画切り替え
 	{
-		// 連結1画像が進んだ時、連結2画像を一つ先に描画させるようにする
-		if ((CHANGE_RANGE_UP) >= (GRAPH_SIZE_H * m_connect1_graph)) {
+		// 連結1画像が描画軸になっており、描画軸が進んだ時、連結2画像を1シート先に描画させるようにする
+		if ((CHANGE_GRAPH_POS_UP) >= (GRAPH_SIZE_H * m_connect1_graph)) {
 			m_connect2_graph = m_connect1_graph + 1;
 		}
 
-		// 連結2画像が進んだ時、連結1画像を一つ先に描画させるようにする
-		if ((CHANGE_RANGE_UP) >= (GRAPH_SIZE_H * m_connect2_graph)) {
+		// 連結2画像が描画軸になっており、描画軸が進んだ時、連結1画像を1シート先に描画させるようにする
+		if ((CHANGE_GRAPH_POS_UP) >= (GRAPH_SIZE_H * m_connect2_graph)) {
 			m_connect1_graph = m_connect2_graph + 1;
 		}
 	}
 	
-	const int CHANGE_RANGE_DOWN = static_cast<int>(m_pos.y + GRAPH_SIZE_H - GRAPH_DIFFERENCE + BG_CHANGE_LINE);
+	// 描画切り替え領域下
+	const int CHANGE_GRAPH_POS_DOWN = static_cast<int>(m_pos.y + GRAPH_SIZE_H - GRAPH_DIFFERENCE + BG_CHANGE_LINE);
 
-	// 連結2画像が現在描画の軸になっている場合
+	// 下にスクロールしている場合の描画切り替え
 	{
-		// 連結1画像が後退した時、次は連結2画像を後退して描画させるようにする
-		if ((CHANGE_RANGE_DOWN) <= ((GRAPH_SIZE_H) * (m_connect1_graph))) {// -1
-
+		// 連結1画像が描画軸になっており、描画軸が後退した時、次は連結2画像を1シート戻して描画させるようにする
+		if ((CHANGE_GRAPH_POS_DOWN) <= ((GRAPH_SIZE_H) * (m_connect1_graph))) {
 			m_connect2_graph = m_connect1_graph - 1;
 		}
 
-		// 連結画像2が後退した時、次は連結1画像を後退して描画させるようにする
-		if ((CHANGE_RANGE_DOWN) <= (GRAPH_SIZE_H) * (m_connect2_graph + 1)) {// -1
-
+		// 連結2画像が描画軸になっており、描画軸が後退した時、次は連結1画像を1シート戻して描画させるようにする
+		if ((CHANGE_GRAPH_POS_DOWN) <= (GRAPH_SIZE_H) * (m_connect2_graph + 1)) {
 			m_connect1_graph = m_connect2_graph - 1;
 		}
 	}
 
-
-	// 配列外アクセスを起こさせないようにする
-	if (m_connect1_graph < 0 || -m_pos.y >= 0 ||
-		m_connect2_graph < 0) {
+	// 配列外アクセス禁止
+	if (m_connect1_graph < 0 || m_connect2_graph < 0 || -m_pos.y >= 0) {
 
 		m_connect1_graph = 0;
 		m_connect2_graph = 1;
@@ -146,19 +146,20 @@ void BackGround::Scroll() {
 
 bool BackGround::IsScroll(){
 
+	// スクロール制限する
 	bool is_scroll = true;
 
-	// 背景のスクロール制限
 	// 上
-	if (-mp_map->GetPos().y >= MAX_UP_SCROLL) {
-		is_scroll = false;
-	}
-	// 下
-	else if (-mp_map->GetPos().y <= 0.f) {
+	if (-m_p_map->GetPos().y >= MAX_UP_SCROLL) {
 		is_scroll = false;
 	}
 
-	// スクロール制限しない
+	// 下
+	else if (-m_p_map->GetPos().y < 0.f) {
+		is_scroll = false;
+	}
+
+	// スクロール制限するかどうかを返す
 	return is_scroll;
 }
 
@@ -215,7 +216,7 @@ void BackGround::PosYToMoveYAdd() {
 
 void BackGround::MoveSub() {
 
-	m_move = mp_map->GetMove();// 反対方向に行くので-変換
+	m_move = m_p_map->GetMove();// 反対方向に行くので-変換
 }
 
 void BackGround::MoveAdjustment(int adjustment_num) {
@@ -224,7 +225,7 @@ void BackGround::MoveAdjustment(int adjustment_num) {
 
 float BackGround::GetMaxMapPos()const {
 	// 背景サイズを一つ足す
-	return (((Map::CHIP_SIZE * 18.f) + 1180.f) * m_max_graph_num);
+	return (((Map::CHIP_SIZE * 18) + Window::HEIGHT) * m_max_graph_num);
 }
 
 

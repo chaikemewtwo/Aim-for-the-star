@@ -9,6 +9,7 @@
 
 MapManager::MapManager(Player*star1, Player*star2, EnemyManager*e_mng, ObjectManager*obj_mng) {
 
+
 	// nullチェック
 	if (star1 == nullptr) {
 		return;
@@ -35,29 +36,27 @@ MapManager::MapManager(Player*star1, Player*star2, EnemyManager*e_mng, ObjectMan
 		// ソートオブジェクトの型
 		BEFORE_BG,
 		// 指定したサイズを基準にスクロール
-		(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_01.png")),
-		(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_01.png")));
+		(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_1.png")),
+		(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_1.png")));
+
+	//m_p_bg2 = new BackGround(
+	//	// 読み込むテキスト名
+	//	"Map/BGData/BG2.csv",
+	//	// マップ実体
+	//	m_p_map,
+	//	// ソートオブジェクトの型
+	//	AFTER_BG,
+	//	// 指定したサイズを基準にスクロール
+	//	(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_1.png")),
+	//	(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_1.png")));
 
 
 	// マップ登録
 	obj_mng->Entry(m_p_map);
 	// 背景1登録
 	obj_mng->Entry(m_p_bg1);
-
-
-	//// 背景2
-	//obj_mng->Entry(
-	//	m_p_bg2 = new BackGround(
-	//		// 読み込むテキスト名
-	//		"Map/BGData/BG2.csv",
-	//		// マップ実体
-	//		m_p_map,
-	//		// ソートオブジェクトの型
-	//		AFTER_BG,
-	//		// 指定したサイズを基準にスクロール
-	//	(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_01.png")),
-	//	(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_01.png")))
-	//);
+	// 背景2
+	//obj_mng->Entry(m_p_bg2);	
 }
 
 
@@ -84,28 +83,14 @@ void MapManager::Update() {
 	}
 
 	// マップ関連更新
-	m_p_map->Update();
-	m_p_bg1->Update();
-
+	//m_p_map->Update();
+	//m_p_bg1->Update();
 }
 
 
 void MapManager::Draw(){
 
-	// 描画
-	m_p_bg1->Draw();
-	m_p_map->Draw();
 }
-
-
-Map MapManager::GetMapInstance()const {
-	return *m_p_map;
-}
-
-
-//float MapManager::GetMaxMapPos()const {
-//	return m_p_bg1->GetMaxMapPos();
-//}
 
 
 bool MapManager::IsMaxMapRange()const {

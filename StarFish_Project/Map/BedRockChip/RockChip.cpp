@@ -42,9 +42,10 @@ RockChip::RockChip(int chip_num,const D3DXVECTOR2 &pos, Map*map) {
 	// ソートオブジェクト代入
 	m_sort_object_type = ROCK_CHIP;
 
-	m_pos = pos;                 // 位置
+	// 生成位置を作成
+	m_pos = pos;
 	
-	m_pos += offset_pos[chip_num - 1];
+	//m_pos += offset_pos[chip_num - 1];
 	
 	char str_buffer[256];        // チップの文字列を入れるchar
 
