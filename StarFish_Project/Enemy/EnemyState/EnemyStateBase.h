@@ -7,5 +7,6 @@ class EnemyBase;
 class StateBase {
 public:
 	virtual void Action(EnemyBase* e) = 0;
+
 	virtual ~StateBase() {}
 };

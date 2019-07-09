@@ -2,6 +2,7 @@
 #include"../EnemyState/EnemyWaitState/EnemyWaitState.h"
 #include"EnemyBase.h"
 
+
 // コンストラクタで共通の変数初期化
 EnemyBase::EnemyBase() {
 
@@ -63,8 +64,10 @@ void EnemyBase::CheckEnemyActiv() {
 }
 //―――――――――――――――――――――
 
+// 横移動
 void EnemyBase::SideMove() {
 
+	// 一直線に移動する(停止しない)
 	if (m_is_left == true) {
 		m_pos.x += m_speed;
 	}
@@ -74,11 +77,13 @@ void EnemyBase::SideMove() {
 }
 //―――――――――――――――――――――
 
+// 縦移動
 void EnemyBase::VerticalMove() {
 	m_pos.y += m_speed;
 }
 //―――――――――――――――――――――
 
+// 巡回
 void EnemyBase::Patrol() {
 
 	// Sin波を計算
@@ -99,6 +104,7 @@ void EnemyBase::Patrol() {
 }
 //―――――――――――――――――――――
 
+// 追跡
 void EnemyBase::Chase() {
 
 	// 索敵範囲に入ったプレイヤーの角度を計算

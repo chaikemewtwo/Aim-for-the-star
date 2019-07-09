@@ -8,6 +8,7 @@ class SideMove :public StateBase {
 public:
 	// シングルトン
 	static SideMove* GetInstance();
+
 	void Action(EnemyBase* e)override;
 
 private:

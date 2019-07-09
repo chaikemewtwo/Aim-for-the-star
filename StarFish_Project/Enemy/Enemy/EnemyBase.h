@@ -132,9 +132,3 @@ protected:
 	Map* m_p_map;
 	Player* m_p_player[2];
 };
-
-/*
-《その他Enemy》
-	・画像の反転処理の反映
-	・EnemyManagerのDraw関数の削除
-*/
