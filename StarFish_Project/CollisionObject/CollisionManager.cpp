@@ -1,16 +1,16 @@
 ﻿#include"CollisionManager.h"
 #include"../GameObject/Object/Object.h"
 #include"../Player/Player.h"
+#include"../Player/PlayerManager.h"
 #include"../Enemy/Enemy/EnemyManager.h"
 #include"CollisionObject.h"
 #include"../CollisionObject/CircleCollisionObject.h"
 
 
 
-CollisionManager::CollisionManager(Player*p1,Player*p2, EnemyManager*e_mng) {
+CollisionManager::CollisionManager(PlayerManager * p_mng, EnemyManager*e_mng) {
 
-	m_pplayer[0] = p1;
-	m_pplayer[1] = p2;
+	m_p_p_mng = p_mng;
 	m_pe_mng = e_mng;
 }
 
@@ -18,10 +18,10 @@ CollisionManager::CollisionManager(Player*p1,Player*p2, EnemyManager*e_mng) {
 void CollisionManager::Collision() {
 
 	// プレイヤーとの当たり判定
-	ChackHitCircle(m_pplayer[0],m_pplayer[1]);
+	//ChackHitCircle(m_pplayer[0],m_pplayer[1]);
 
 	// 敵と自機の当たり判定
-	for (int i = 0; i < PLAYER_NUM; i++) {
+	for (int i = 0; i < Player::MAX_TYPE; i++) {
 
 		// 敵と自機の当たり判定
 		for (int j = 0; j < m_pe_mng->GetEnemyTotal(); j++) {
@@ -29,11 +29,11 @@ void CollisionManager::Collision() {
 			if (m_pe_mng->GetEnemyInstance(j) == nullptr) {
 				continue;
 			}
-			else if (m_pplayer[i] == nullptr) {
+			else if (m_p_p_mng->GetPlayerInstance(i) == nullptr) {
 				continue;
 			}
 
-			ChackHitCircle(m_pe_mng->GetEnemyInstance(j),m_pplayer[i]);
+			ChackHitCircle(m_pe_mng->GetEnemyInstance(j), m_p_p_mng->GetPlayerInstance(i));
 		}
 	}
 }

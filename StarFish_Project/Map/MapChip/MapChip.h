@@ -1,7 +1,8 @@
 ﻿#pragma once
 #include"../BedRockChip/RockChip.h"
 #include<vector>
-#include"../../Player/Player.h"
+//#include"../../Player/Player.h"
+#include"../../Player/PlayerManager.h"
 #include"../../GameObject/ObjectManager/ObjectManager.h"
 
 
@@ -56,7 +57,7 @@ public:
 
 public:
 
-	Map(Player*star1, Player*star2, EnemyManager*e_mng,ObjectManager*obj_mng);
+	Map(PlayerManager*p_mng, EnemyManager*e_mng,ObjectManager*obj_mng);
 
 	// 更新と描画
 	void Update();
@@ -135,9 +136,9 @@ private:
 	// 生成と削除
 	void CreateAndDestory();
 	// 自機との当たり判定とスクロール
-	void PlayerCollision(int i);
+	void PlayerCollision(Player::ID_TYPE type);
 	// 自機のスクロール
-	void PlayerScroll(int i);
+	void PlayerScroll(Player::ID_TYPE type);
 
 	// 引っ付き判定
 	//void CenterStuckChip(float &pos_x, float &pos_y, float &move_x, float &move_y);
@@ -171,7 +172,8 @@ private:
 	float m_scroll_range_down;                 // スクロールライン下
 							     
 	/* 各オブジェクトの参照 */   
-	Player * m_p_player[2];                    // 自機2体                     
+	//Player * m_p_player[2];                    // 自機2体         
+	PlayerManager * m_p_p_mng;					// 味方の状態
 	EnemyManager * m_p_enemy_mng;              // 敵の状態
 	ObjectManager * m_p_obj_mng;               // オブジェクト管理
 	MapCollider * m_p_map_collision;          // 当たり判定マップ生成クラス

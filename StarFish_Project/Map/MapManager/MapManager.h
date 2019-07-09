@@ -4,7 +4,8 @@
 
 // 前方参照
 class EnemyManager;
-class Player;
+//class Player;
+class PlayerManager;
 class Map;
 class BackGround;
 class ObjectManager;
@@ -15,7 +16,7 @@ class MapManager {
 public:
 
 	// EnemyManagerも入れる
-	MapManager(Player*star1,Player*star2, EnemyManager*e_mng,ObjectManager*obj_mng);
+	MapManager(PlayerManager*p_mng, EnemyManager*e_mng,ObjectManager*obj_mng);
 	~MapManager();
 
 	// 更新と描画

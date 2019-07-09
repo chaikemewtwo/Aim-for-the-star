@@ -66,7 +66,8 @@
 class Object;           // オブジェクトクラス
 class EnemyManager;     // 敵管理
 class MapManager;       // マップ管理
-class Player;           // 自機
+class PlayerManager;
+//class Player;           // 自機
 class CollisionManager; // 衝突管理
 class GameUI;           // ゲームメインUI
 class Rope;             // ロープ
@@ -123,7 +124,8 @@ private:
 
 	/* object参照 */
 	MapManager * m_p_map_mng;            // マップ管理クラス
-	Player * m_p_player[2];              // 自機1,2
+	PlayerManager * m_p_player_mng;		 //プレイヤー管理クラス
+	//Player * m_p_player[2];              // 自機1,2
 	GameUI * m_p_ui;                     // スタミナGameUI
 	Rope * m_p_rope;                     // ロープ
 	EnemyManager *m_p_enemy_mng;         // 敵管理クラス

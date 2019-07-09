@@ -5,7 +5,7 @@
 
 class NaporeonFish :public EnemyBase {
 public:
-	NaporeonFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, bool can_move = false);
+	NaporeonFish(D3DXVECTOR2 pos, Map* map, PlayerManager * p_mng, bool can_move = false);
 	~NaporeonFish()override {}
 
 	void Update()override;

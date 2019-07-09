@@ -4,7 +4,8 @@
 #include"../../Lib/Window/Window.h"
 #include"../../CollisionObject/CircleCollisionObject.h"
 #include"../../Map/MapChip/MapChip.h"
-#include"../../Player/Player.h"
+//#include"../../Player/Player.h"
+#include"../../Player/PlayerManager.h"
 #include"../State/EnemyStateBase.h"
 
 
@@ -72,34 +73,35 @@ public:
 		// 自身がプレイヤーよりも上にいる場合
 		if (IsTopPos() == true) {
 
-			player1_distance.y = m_p_player[0]->GetPos().y - m_pos.y;
-			player2_distance.y = m_p_player[1]->GetPos().y - m_pos.y;
+			//player1_distance.y = m_p_player[0]->GetPos().y - m_pos.y;
+			//player2_distance.y = m_p_player[1]->GetPos().y - m_pos.y;
+			player1_distance.y = m_p_p_mng->GetPosRelay(Player::STAR_1).y - m_pos.y;
+			player2_distance.y = m_p_p_mng->GetPosRelay(Player::STAR_2).y - m_pos.y;
 		}
 		// 自身がプレイヤーよりも下にいる場合
 		else if (IsTopPos() == false) {
-
-			player1_distance.y = m_pos.y - m_p_player[0]->GetPos().y;
-			player2_distance.y = m_pos.y - m_p_player[1]->GetPos().y;
+			player1_distance.y = m_pos.y - m_p_p_mng->GetPosRelay(Player::STAR_1).y;
+			player2_distance.y = m_pos.y - m_p_p_mng->GetPosRelay(Player::STAR_2).y;
 		}
 
 
 		// 自身が画面左側にいるとき
 		if (m_is_left == true) {
 
-			player1_distance.x = m_p_player[0]->GetPos().x - m_pos.x;
-			player2_distance.x = m_p_player[1]->GetPos().x - m_pos.x;
+			player1_distance.x = m_p_p_mng->GetPosRelay(Player::STAR_1).x - m_pos.x;
+			player2_distance.x = m_p_p_mng->GetPosRelay(Player::STAR_2).x - m_pos.x;
 		}
 		// 自身が画面右側にいるとき
 		else if (m_is_left == false) {
 
-			player1_distance.x = m_pos.x - m_p_player[0]->GetPos().x;
-			player2_distance.x = m_pos.x - m_p_player[1]->GetPos().x;
+			player1_distance.x = m_pos.x - m_p_p_mng->GetPosRelay(Player::STAR_1).x;
+			player2_distance.x = m_pos.x - m_p_p_mng->GetPosRelay(Player::STAR_2).x;
 		}
 
 		if (player1_distance.y < player2_distance.y) {
-			return m_p_player[0]->GetPos();
+			return m_p_p_mng->GetPosRelay(Player::STAR_1);
 		}
-		return m_p_player[1]->GetPos();
+		return m_p_p_mng->GetPosRelay(Player::STAR_2);
 
 	}
 
@@ -149,7 +151,8 @@ protected:
 
 	StateBase* m_p_state_base;	// 状態を保存する変数
 	Map* m_p_map;
-	Player* m_p_player[2];
+	//Player* m_p_player[2];
+	PlayerManager* m_p_p_mng;	// プレイヤーマネージャー保持
 	StateBase* m_pstate_base;	// 状態を保存する変数
 
 	// メガネ用の仮変数《要/修正》

@@ -6,8 +6,6 @@
 
 const float Player::PLAYER_COLLSION_RADIUS = 64.f;
 const float Player::PLAYER_SPEED = 3.f;
-const D3DXVECTOR2 Player::STAR_1_FIRST_POS = { Window::WIDTH / 2.f - 200.f, Window::HEIGHT / 2.f + 200.f };
-const D3DXVECTOR2 Player::STAR_2_FIRST_POS = { Window::WIDTH / 2.f + 200.f, Window::HEIGHT / 2.f + 200.f };
 const D3DXVECTOR2 Player::TEXTURE_SIZE_OFFSET = { 0.25f, 0.25f };
 const D3DXVECTOR2 Player::TEXTURE_PARTITION = { 4.f,4.f };
 const float Player::GRAVITY = 1.f;
@@ -19,7 +17,7 @@ const int Player::MAX_INVISIBLE_COUNT = 180;
 const int Player::INVISIBLE_DRAW_SWITCH_TIME = 20;
 
 
-Player::Player(ID_TYPE id) :
+Player::Player(ID_TYPE id,D3DXVECTOR2 first_pos) :
 	m_p_state(PlayerWaitState::GetInstance()),
 	m_move(0.f, 0.f),
 	m_angle(0.f),
@@ -82,13 +80,15 @@ Player::Player(ID_TYPE id) :
 	SetPlayerTexture(WAIT_TEXTURE);
 
 	// 自機1（ヒくん、オレンジの方）の初期化情報
-	if (id == STAR_1) {
-		m_pos = STAR_1_FIRST_POS;
-	}
-	// 自機2（デちゃん、ピンクの方）の初期化情報
-	else if (id == STAR_2) {
-		m_pos = STAR_2_FIRST_POS;
-	}	
+	// PlayerManagerが完成した時点で削除します
+	//if (id == STAR_1) {
+	//	m_pos = STAR_1_FIRST_POS;
+	//}
+	//// 自機2（デちゃん、ピンクの方）の初期化情報
+	//else if (id == STAR_2) {
+	//	m_pos = STAR_2_FIRST_POS;
+	//}	
+	m_pos = first_pos;
 
 	m_p_state->Init(this);
 }
@@ -139,6 +139,11 @@ void Player::Draw() {
 			m_animation_count
 		);
 	}
+}
+
+
+Player* Player::GetInstance() {
+	return this;
 }
 
 
@@ -211,11 +216,6 @@ void Player::InvisibleDrawSwitch() {
 
 D3DXVECTOR2 Player::GetMove()const {
 	return m_move;
-}
-
-
-void Player::SetPos(D3DXVECTOR2 pos) {
-	m_pos = pos;
 }
 
 

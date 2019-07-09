@@ -7,13 +7,10 @@
 
 
 
-MapManager::MapManager(Player*star1, Player*star2, EnemyManager*e_mng, ObjectManager*obj_mng) {
+MapManager::MapManager(PlayerManager*p_mng, EnemyManager*e_mng, ObjectManager*obj_mng) {
 
 	// nullチェック
-	if (star1 == nullptr) {
-		return;
-	}
-	if (star2 == nullptr) {
+	if (p_mng == nullptr) {
 		return;
 	}
 	if (e_mng == nullptr) {
@@ -24,7 +21,7 @@ MapManager::MapManager(Player*star1, Player*star2, EnemyManager*e_mng, ObjectMan
 	}
 
 	// マップ生成
-	m_p_map = new Map(star1, star2, e_mng, obj_mng);
+	m_p_map = new Map(p_mng, e_mng, obj_mng);
 
 	// 背景生成
 	m_p_bg1 = new BackGround(

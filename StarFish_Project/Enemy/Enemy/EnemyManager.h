@@ -24,7 +24,7 @@ public:
 	void Draw();
 
 	// 敵生成関数
-	void CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, EnemyType enemy_num);
+	void CreateEnemy(D3DXVECTOR2 pos, Map* map, PlayerManager* p_mng, EnemyType enemy_num);
 
 	// ブラインド生成関数
 	void CreateBlind(D3DXVECTOR2 pos, D3DXVECTOR2 goal);

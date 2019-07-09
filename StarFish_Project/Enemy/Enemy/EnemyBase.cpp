@@ -66,28 +66,36 @@ D3DXVECTOR2 EnemyBase::CalcDistance() {
 	// 自身がプレイヤーよりも上にいる場合
 	if (IsTopPos()==true) {
 
-		player1_distance.y = m_p_player[0]->GetPos().y - m_pos.y;
-		player2_distance.y = m_p_player[1]->GetPos().y - m_pos.y;
+		//player1_distance.y = m_p_player[0]->GetPos().y - m_pos.y;
+		//player2_distance.y = m_p_player[1]->GetPos().y - m_pos.y;
+		player1_distance.y = m_p_p_mng->GetPosRelay(Player::STAR_1).y - m_pos.y;
+		player2_distance.y = m_p_p_mng->GetPosRelay(Player::STAR_2).y - m_pos.y;
 	}
 	// 自身がプレイヤーよりも下にいる場合
 	else if (IsTopPos()==false) {
 
-		player1_distance.y = m_pos.y - m_p_player[0]->GetPos().y;
-		player2_distance.y = m_pos.y - m_p_player[1]->GetPos().y;
+		//player1_distance.y = m_pos.y - m_p_player[0]->GetPos().y;
+		//player2_distance.y = m_pos.y - m_p_player[1]->GetPos().y;
+		player1_distance.y = m_pos.y - m_p_p_mng->GetPosRelay(Player::STAR_1).y;
+		player2_distance.y = m_pos.y - m_p_p_mng->GetPosRelay(Player::STAR_2).y;
 	}
 
 
 	// 自身が画面左側にいるとき
 	if (m_is_left == true) {
 
-		player1_distance.x = m_p_player[0]->GetPos().x - m_pos.x;
-		player2_distance.x = m_p_player[1]->GetPos().x - m_pos.x;
+		//player1_distance.x = m_p_player[0]->GetPos().x - m_pos.x;
+		//player2_distance.x = m_p_player[1]->GetPos().x - m_pos.x;
+		player1_distance.x = m_p_p_mng->GetPosRelay(Player::STAR_1).x - m_pos.x;
+		player2_distance.x = m_p_p_mng->GetPosRelay(Player::STAR_2).x - m_pos.x;
 	}
 	// 自身が画面右側にいるとき
 	else if (m_is_left == false) {
 
-		player1_distance.x = m_pos.x - m_p_player[0]->GetPos().x;
-		player2_distance.x = m_pos.x - m_p_player[1]->GetPos().x;
+		//player1_distance.x = m_pos.x - m_p_player[0]->GetPos().x;
+		//player2_distance.x = m_pos.x - m_p_player[1]->GetPos().x;
+		player1_distance.x = m_pos.x - m_p_p_mng->GetPosRelay(Player::STAR_1).x;
+		player2_distance.x = m_pos.x - m_p_p_mng->GetPosRelay(Player::STAR_2).x;
 	}
 
 
@@ -102,7 +110,8 @@ D3DXVECTOR2 EnemyBase::CalcDistance() {
 
 bool EnemyBase::IsTopPos() {
 
-	if (m_p_player[0]->GetPos().y > m_pos.y&&m_p_player[1]->GetPos().y > m_pos.y) {
+	if (m_p_p_mng->GetPosRelay(Player::STAR_1).y - m_pos.y > m_pos.y
+		&&m_p_p_mng->GetPosRelay(Player::STAR_2).y - m_pos.y > m_pos.y) {
 		return true;
 	}
 

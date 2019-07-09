@@ -9,7 +9,7 @@
 class MapObjectFactory {
 public:
 
-	MapObjectFactory(Map*map,EnemyManager*enemy_mng,Player * player1,Player * player2,ObjectManager*obj_mng);
+	MapObjectFactory(Map*map,EnemyManager*enemy_mng, PlayerManager*player_mng,ObjectManager*obj_mng);
 
 	void Init();
 	void Update();
@@ -26,8 +26,9 @@ private:
 
 private:
 	Map * m_p_map;
-	EnemyManager * m_p_enemy_mng;
-	Player *m_p_player[2];
+	//Player *m_p_player[2];
+	PlayerManager * m_p_player_mng;
+	EnemyManager  * m_p_enemy_mng;
 	ObjectManager * m_p_obj_mng;
 
 	// BedRockChipの配列を持つ

@@ -3,7 +3,7 @@
 
 
 
-MapObjectFactory::MapObjectFactory(Map*map, EnemyManager*enemy_mng, Player * player1, Player * player2, ObjectManager*obj_mng) {
+MapObjectFactory::MapObjectFactory(Map*map, EnemyManager*enemy_mng, PlayerManager*player_mng, ObjectManager*obj_mng) {
 
 	// 各インスタンスのnullチェック
 	if (map == nullptr) {
@@ -12,10 +12,7 @@ MapObjectFactory::MapObjectFactory(Map*map, EnemyManager*enemy_mng, Player * pla
 	if (enemy_mng == nullptr) {
 		return;
 	}
-	if (player1 == nullptr) {
-		return;
-	}
-	if (player2 == nullptr) {
+	if (player_mng == nullptr) {
 		return;
 	}
 	if (obj_mng == nullptr) {
@@ -25,8 +22,7 @@ MapObjectFactory::MapObjectFactory(Map*map, EnemyManager*enemy_mng, Player * pla
 	// 各インスタンスの代入
 	m_p_map = map;
 	m_p_enemy_mng = enemy_mng;
-	m_p_player[0] = player1;
-	m_p_player[1] = player2;
+	m_p_player_mng = player_mng;
 	m_p_obj_mng = obj_mng;
 }
 
@@ -176,7 +172,7 @@ void MapObjectFactory::EnemyCreate(int x, int y) {
 
 			if (chip_num == enemy_chip[i]) {
 				// 敵生成
-				m_p_enemy_mng->CreateEnemy(pos + fix_pos, m_p_map, m_p_player[0], m_p_player[1],enemy_type[i]);
+				m_p_enemy_mng->CreateEnemy(pos + fix_pos, m_p_map, m_p_player_mng,enemy_type[i]);
 				// マップチップ記録
 				m_p_map->ActiveChangeChipSelect(create_chip_y, x);
 				break;
