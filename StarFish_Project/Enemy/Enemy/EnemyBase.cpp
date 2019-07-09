@@ -64,7 +64,6 @@ void EnemyBase::CheckEnemyActiv() {
 //―――――――――――――――――――――
 
 void EnemyBase::SideMove() {
-
 	if (m_is_left == true) {
 		m_pos.x += m_speed;
 	}
@@ -79,6 +78,7 @@ void EnemyBase::VerticalMove() {
 }
 //―――――――――――――――――――――
 
+<<<<<<< HEAD
 void EnemyBase::Patrol() {
 
 	// Sin波を計算
@@ -110,7 +110,8 @@ void EnemyBase::Chase() {
 
 bool EnemyBase::IsTopPos() {
 
-	if (m_p_player[0]->GetPos().y > m_pos.y&&m_p_player[1]->GetPos().y > m_pos.y) {
+	if (m_p_p_mng->GetPosRelay(Player::STAR_1).y - m_pos.y > m_pos.y
+		&&m_p_p_mng->GetPosRelay(Player::STAR_2).y - m_pos.y > m_pos.y) {
 		return true;
 	}
 

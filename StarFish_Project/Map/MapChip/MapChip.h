@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include<vector>
-#include"../../Player/Player.h"
+//#include"../../Player/Player.h"
+#include"../../Player/PlayerManager.h"
 #include"../../GameObject/ObjectManager/ObjectManager.h"
 #include"../ChipBase/ChipBase.h"
 #include"../MapCollision/MapCollider.h"
@@ -56,7 +57,6 @@ public:
 
 public:
 
-
 	/**
 	* @brief マップのコンストラクタ
 	* @param[out] Player1のポインタ
@@ -64,7 +64,7 @@ public:
 	* @param[out] EnemyManagerのポインタ
 	* @param[out] ObjectManagerのポインタ
 	*/
-	Map(Player*star1, Player*star2, EnemyManager*e_mng,ObjectManager*obj_mng);
+	Map(PlayerManager*p_mng, EnemyManager*e_mng,ObjectManager*obj_mng);
 
 
 	/**
@@ -240,23 +240,23 @@ private:
 	*/
 	void CreateAndDestory();
 
-
 	/**
 	* @brief 自機との当たり判定とスクロール
 	* @param[in] player_num 当たりを行う自機番号
 	*/
-	void PlayerCollision(int player_num);
+	void PlayerCollision(Player::ID_TYPE type));
 
 
 	/** 
 	* @brief 自機のスクロール
 	* @param[in] player_num スクロールを行う自機番号
 	*/
-	void PlayerScroll(int player_num);
+	void PlayerScroll(Player::ID_TYPE type));
 	
 
 private:
 	
+<<<<<<< HEAD
 	//! 縦間隔をあけて遷移などをする
 	const int HEIGHT_INTERVAL = 60;
 	//! オブジェクトとマップ当たり判定の頂点位置	
@@ -299,7 +299,7 @@ private:
 	MapCollider * m_p_map_collider;
 
 	//! 自機二つのポインタ
-	Player*m_p_player[2];
+	PlayerManager * m_p_p_mng;
 
 	//! 敵管理のポインタ
 	EnemyManager *m_p_enemy_manager;

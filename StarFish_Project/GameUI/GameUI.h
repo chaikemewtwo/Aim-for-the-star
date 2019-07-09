@@ -1,10 +1,11 @@
 ﻿#pragma once
-#include "../Player/Player.h"
+#include "../Player/PlayerManager.h"
 
 
 class GameUI:public Object {
 public:
-	GameUI(Player* p1, Player* p2);
+	//GameUI(Player* p1, Player* p2);
+	GameUI(PlayerManager* pm);
 
 	void Update()override;
 	void Draw()override;
@@ -38,8 +39,9 @@ private:
 	static const float RIGHT_ROCK_POS_X;
 
 private:
-	Player * m_p1;	// 自機1
-	Player * m_p2;	// 自機2
+	//Player * m_player1;	// 自機1
+	//Player * m_player2;	// 自機2
+	PlayerManager * m_p_player_mng; //プレイヤーマネージャー
 	std::string m_1p_gage_texture;	// 自機1のスタミナゲージ
 	std::string m_2p_gage_texture;	// 自機2のスタミナゲージ
 };

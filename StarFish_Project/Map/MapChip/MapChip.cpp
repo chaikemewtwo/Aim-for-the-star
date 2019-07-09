@@ -5,6 +5,7 @@
 #include"../../Lib/Input/KeyBord.h"
 #include"../MapChip/MapChip.h"
 #include"../../Player/Player.h"
+#include"../../Player/PlayerManager.h"
 #include"../../Enemy/Enemy/EnemyManager.h"
 #include"../BackGround/BackGround.h"
 #include<stdio.h>
@@ -15,9 +16,9 @@
 
 
 // コンストラクタ
-Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) :
-	m_scroll_move(0.f,0.f),
-	m_is_scroll(true)
+Map::Map(PlayerManager*p_mng,EnemyManager*e_mng,ObjectManager*obj_mng):
+	m_scroll_move(0.f, 0.f),
+	m_is_scroll(true) 
 {
 
 	// インスタンス生成
@@ -26,10 +27,7 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) :
 		if (e_mng == nullptr) {
 			return;
 		}
-		if (star1 == nullptr) {
-			return;
-		}
-		if (star2 == nullptr) {
+		if (p_mng == nullptr) {
 			return;
 		}
 		if (obj_mng == nullptr) {
@@ -37,18 +35,17 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) :
 		}
 
 		// 各インスタンス受け取り
-		m_p_player[0] = star1;
-		m_p_player[1] = star2;
-		m_p_enemy_manager = e_mng;
-		m_p_obj_mng = obj_mng;
+
+	m_p_p_mng = p_mng;
+	m_p_enemy_manager = e_mng;
+
+	m_p_obj_mng = obj_mng;
 		// マップ当たり判定クラスを生成
-		m_p_map_collider = new MapCollider(this);
+	m_p_map_collider = new MapCollider(this);
 
-		for (int i = 0; i < 2; i++) {
-			collision_dir_type[0][i] = CollisionDirectionType::NONE;
-			collision_dir_type[1][i] = CollisionDirectionType::NONE;
-
-		}
+	for (int i = 0; i < 2; i++) {
+		collision_dir_type[0][i] = CollisionDirectionType::NONE;
+		collision_dir_type[1][i] = CollisionDirectionType::NONE;
 	}
 
 	// ソートオブジェクト代入
@@ -95,8 +92,8 @@ void Map::Update() {
 	m_scroll_move.y = 0.f;
 	
 	// 自機更新
-	for (int i = 0; i < 2; i++) {
-
+	for (int i = 0; i < Player::MAX_ID; i++) {
+	// 先に衝突とスクロールをする
 		PlayerScroll(i);
 		PlayerCollision(i);
 	}
@@ -119,12 +116,12 @@ void Map::Draw() {
 }
 
 
-void Map::PlayerCollision(int i) {
+void Map::PlayerCollision(Player::ID_TYPE type) {
 
 	/* プレイヤー座標 */
 	// 自機の位置を代入,当たりポイントを補正
-	D3DXVECTOR2 player_pos(m_p_player[i]->GetPos().x + VERTEX_OFFSET.x, m_p_player[i]->GetPos().y + VERTEX_OFFSET.y);   // 自機の位置
-	D3DXVECTOR2 player_move(m_p_player[i]->GetMove().x, m_p_player[i]->GetMove().y);  // 自機の移動ベクトル
+	D3DXVECTOR2 player_pos(m_p_p_mng->GetPosRelay(type).x + VERTEX_OFFSET.x, m_p_p_mng->GetPosRelay(type).y + VERTEX_OFFSET.y);   // 自機の位置
+	D3DXVECTOR2 player_move(m_p_p_mng->GetMoveRelay(type).x, m_p_p_mng->GetMoveRelay(type).y);  // 自機の移動ベクトル
 
 	
 	m_p_map_collider->Collision(player_pos, player_move,collision_dir_type[i][0],collision_dir_type[i][1]);
@@ -135,19 +132,19 @@ void Map::PlayerCollision(int i) {
 	player_pos -= VERTEX_OFFSET;
 
 	// 自機(obj)の位置変更
-	m_p_player[i]->SetPos(player_pos);
+	//m_p_player[i]->SetPos(player_pos);
+	m_p_p_mng->SetPosRelay(type, player_pos);
 	// 自機の移動ベクトル変更
-	m_p_player[i]->SetMove(player_move);
-
+	m_p_p_mng->SetMoveRelay(type, player_move);
 }
 
 
-void Map::PlayerScroll(int i) {
+void Map::PlayerScroll(Player::ID_TYPE type) {
 
 
 	// 自機の位置を代入,当たりポイントを補正
-	D3DXVECTOR2 player_pos(m_p_player[i]->GetPos().x + VERTEX_OFFSET.x, m_p_player[i]->GetPos().y + VERTEX_OFFSET.y);   // 自機の位置
-	D3DXVECTOR2 player_move(m_p_player[i]->GetMove().x, m_p_player[i]->GetMove().y);  // 自機の移動ベクトル
+	D3DXVECTOR2 player_pos(m_p_p_mng->GetPosRelay(type).x + VERTEX_OFFSET.x, m_p_p_mng->GetPosRelay(type).y + VERTEX_OFFSET.y);   // 自機の位置
+	D3DXVECTOR2 player_move(m_p_p_mng->GetMoveRelay(type).x, m_p_p_mng->GetMoveRelay(type).y);  // 自機の移動ベクトル
 
 
 	// スクロールしてもいいかどうか
@@ -159,9 +156,11 @@ void Map::PlayerScroll(int i) {
 	player_pos -= VERTEX_OFFSET;
 
 	// 自機(obj)の位置変更
-	m_p_player[i]->SetPos(player_pos);
+	//m_p_player[i]->SetPos(player_pos);
+	m_p_p_mng->SetPosRelay(type, player_pos);
 	// 自機の移動ベクトル変更
-	m_p_player[i]->SetMove(player_move);
+	//m_p_player[i]->SetMove(player_move);
+	m_p_p_mng->SetMoveRelay(type, player_pos);
 }
 
 
@@ -428,7 +427,7 @@ void Map::EnemyCreate(int x, int y) {
 			if (chip_num == enemy_chip[i]) {
 
 				// 生成
-				m_p_enemy_manager->CreateEnemy(pos + offset_pos, this, m_p_player[0], m_p_player[1], enemy_type[i]);
+				m_p_enemy_manager->CreateEnemy(pos + offset_pos, this, m_p_p_mng, enemy_type[i]);
 				// チップベースは生成中に変える
 				m_map_chip_list[create_chip_y][x]->SetIsChipActive(true);
 				m_map_chip_list[create_chip_y][x]->SetIsObject(true);

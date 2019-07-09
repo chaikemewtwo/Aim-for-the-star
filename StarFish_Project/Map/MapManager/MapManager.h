@@ -13,7 +13,8 @@
 
 // 前方参照
 class EnemyManager;
-class Player;
+//class Player;
+class PlayerManager;
 class Map;
 class BackGround;
 class ObjectManager;
@@ -25,7 +26,6 @@ class ObjectManager;
 class MapManager {
 public:
 
-
 	/**
 	* @brief MapManagerのコンストラクタ
 	* @param[out] Player1のポインタ
@@ -33,7 +33,7 @@ public:
 	* @param[out] EnemyManagerのポインタ
 	* @param[out] ObjectManagerのポインタ 
 	*/
-	MapManager(Player*star1,Player*star2, EnemyManager*e_mng,ObjectManager*obj_mng);
+	MapManager(PlayerManager*p_mng, EnemyManager*e_mng, ObjectManager*obj_mng);
 
 
 	/**

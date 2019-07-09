@@ -4,7 +4,6 @@
 #include"PlayerState\PlayerStateBase.h"
 #include"../Lib/Texture/TextureBoad2D.h"
 #include"../Lib/Sound/DirectSound.h"
-#include"../Map/MapChip/MapChip.h"
 
 
 class Map;
@@ -47,7 +46,7 @@ public:
 public:
 	// コンストラクタ
 	// 引数でオレンジくんとピンクちゃんを判別しています
-	Player(ID_TYPE id);
+	Player(ID_TYPE id, D3DXVECTOR2 first_pos);
 
 	// デストラクタ
 	~Player() {}
@@ -58,22 +57,16 @@ public:
 	// 描画処理
 	void Draw()override;
 
+	// インスタンス取得
+	Player* GetInstance();
 	//-----------------------------------------------------
 	// 当たり判定で使用する関数
-
-	// プレイヤー座標セッター
-	void SetPos(D3DXVECTOR2 pos);
 
 	// プレイヤー移動量ゲッター
 	D3DXVECTOR2 GetMove()const;
 
 	// プレイヤー移動量セッター
 	void SetMove(D3DXVECTOR2 move);
-
-	// プレイヤーY移動量セッター、ロープで使用
-	void SetMoveX(float move_x) {
-		m_move.x = move_x;
-	}
 
 	// プレイヤー移動量の加算関数（ヒモ用、仮）
 	void AddMove(D3DXVECTOR2 add_move);
@@ -173,11 +166,6 @@ private:
 	// この値を1fごとに移動量に加算します
 	static const float PLAYER_SPEED;
 
-	// 自機1のゲーム開始時の座標
-	static const D3DXVECTOR2 STAR_1_FIRST_POS;
-
-	// 自機2のゲーム開始時の座標
-	static const D3DXVECTOR2 STAR_2_FIRST_POS;
 
 	// テクスチャサイズ調整
 	// 4*4サイズの統合画像で1枚を0.25倍ずつしたい時この値は{0.25f,0.25f}

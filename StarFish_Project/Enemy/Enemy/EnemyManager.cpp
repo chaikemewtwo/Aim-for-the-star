@@ -39,7 +39,7 @@ void EnemyManager::Draw() {
 //―――――――――――――――――――――――――――
 
 // 指定された敵を指定の位置に生成する
-void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, EnemyType type_num) {
+void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* map, PlayerManager* p_mng, EnemyType type_num) {
 
 	switch (type_num) {
 
@@ -52,11 +52,11 @@ void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2
 		break;
 
 	case EnemyType::SELLFISH:
-		m_enemy_list.emplace_back(new SellFish(pos, map, p1, p2));
+		m_enemy_list.emplace_back(new SellFish(pos, map, p_mng));
 		break;
 
 	case EnemyType::NAPOREONFISH:
-		m_enemy_list.emplace_back(new NaporeonFish(pos, map, p1, p2));
+		m_enemy_list.emplace_back(new NaporeonFish(pos, map, p_mng));
 		break;
 	}
 

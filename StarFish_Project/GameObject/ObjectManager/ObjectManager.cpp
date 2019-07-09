@@ -1,4 +1,5 @@
 ﻿#include"ObjectManager.h"
+#include"../../Player/PlayerManager.h"
 #include"../../Enemy/Enemy/EnemyManager.h"
 #include"../../Player/Player.h"
 #include"../../Map/MapChip/MapChip.h"
@@ -13,33 +14,23 @@
 
 
 ObjectManager::ObjectManager(){
-
-
-	// プレイヤー1生成
-	m_p_player[Player::STAR_1] = new Player(Player::STAR_1);
-
-	// プレイヤー2生成
-	m_p_player[Player::STAR_2] = new Player(Player::STAR_2);
+	// プレイヤー生成
+	m_p_player_mng = new PlayerManager(this);
 
 	// 敵管理生成
 	m_p_enemy_mng = new EnemyManager(this);
 
 	// ロープ生成
-	m_p_rope = new Rope(m_p_player[Player::STAR_1], m_p_player[Player::STAR_2]);
-
+	m_p_rope = new Rope(m_p_player_mng);
 	// スタミナGameUI生成
-	m_p_ui = new GameUI(m_p_player[Player::STAR_1], m_p_player[Player::STAR_2]);
-
+	m_p_ui = new GameUI(m_p_player_mng);
 	// マップ管理生成
-	m_p_map_mng = new MapManager(m_p_player[Player::STAR_1], m_p_player[Player::STAR_2], m_p_enemy_mng, this);
-
+	m_p_map_mng = new MapManager(m_p_player_mng, m_p_enemy_mng, this);
 	// 当たり判定管理生成
-	m_p_collision_mng = new CollisionManager(m_p_player[Player::STAR_1], m_p_player[Player::STAR_2], m_p_enemy_mng);
+	m_p_collision_mng = new CollisionManager(m_p_player_mng, m_p_enemy_mng);
 
 	// オブジェクト登録
 	Entry(m_p_rope);
-	Entry(m_p_player[Player::STAR_1]);
-	Entry(m_p_player[Player::STAR_2]);
 	Entry(m_p_ui);
 }
 
@@ -56,7 +47,8 @@ ObjectManager::~ObjectManager() {
 
 
 void ObjectManager::Update() {
-
+	// プレイヤー管理クラス更新
+	m_p_player_mng->Update();
 	// 敵管理クラス更新
 	m_p_enemy_mng->Update();
 
@@ -192,8 +184,12 @@ void ObjectManager::MemoryDelete(unsigned int id) {
 bool ObjectManager::IsClear()const{
 	
 	// マップの背景とチップが最大で、かつ自機の位置が200.fよりも少ない(上)のとき
-	if (m_p_map_mng->IsMaxMapRange() == true && m_p_player[0]->GetPos().y <= 200.f ||
-		m_p_map_mng->IsMaxMapRange() == true && m_p_player[1]->GetPos().y <= 200.f) {
+	//if (m_p_map_mng->IsMaxMapRange() == true && m_p_player[0]->GetPos().y <= 200.f ||
+	//	m_p_map_mng->IsMaxMapRange() == true && m_p_player[1]->GetPos().y <= 200.f) {
+	//	return true;
+	//}
+	if (m_p_map_mng->IsMaxMapRange() == true && m_p_player_mng->GetPosRelay(Player::STAR_1).y <= 200.f ||
+		m_p_map_mng->IsMaxMapRange() == true && m_p_player_mng->GetPosRelay(Player::STAR_2).y) {
 		return true;
 	}
 		return false;
@@ -201,7 +197,10 @@ bool ObjectManager::IsClear()const{
 
 
 bool ObjectManager::IsGameOver()const {
-	if (m_p_player[0]->IsActive() == false && m_p_player[1]->IsActive() == false) {
+	//if (m_p_player[0]->IsActive() == false && m_p_player[1]->IsActive() == false) {
+	//	return true;
+	//}
+	if (m_p_player_mng->IsActiveRelay(Player::STAR_1) == false && m_p_player_mng->IsActiveRelay(Player::STAR_2) == false) {
 		return true;
 	}
 	return false;

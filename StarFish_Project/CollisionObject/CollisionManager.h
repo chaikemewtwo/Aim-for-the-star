@@ -13,8 +13,8 @@
 class CollisionObject;      // 衝突オブジェクト
 class CircleCollisionObject;// 円衝突オブジェクト
 class EnemyManager;         // 敵管理
-class Player;               // 自機
-
+//class Player;               // 自機
+class PlayerManager;
 
 /**
 * @brief 衝突管理者クラス
@@ -35,6 +35,9 @@ public:
 	/**
 	* @brief 当たり判定を行う関数
 	*/
+	CollisionManager(PlayerManager * p_mng , EnemyManager*e_mng);
+
+	// 当たり判定を行う所
 	void Collision();
 
 
@@ -49,9 +52,8 @@ public:
 	);
 
 private:
-
 	//! 自機1,2のポインタ
-	Player * mp_player[2];
+	PlayerManager * m_p_p_mng;
 	//! 敵管理のポインタ
 	EnemyManager*mp_enemy_manager;
 };

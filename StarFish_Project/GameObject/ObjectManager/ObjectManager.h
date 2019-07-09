@@ -64,7 +64,7 @@
 class Object;          
 class EnemyManager;    
 class MapManager;      
-class Player;          
+class PlayerManager;
 class CollisionManager;
 class GameUI;          
 class Rope;            
@@ -191,7 +191,7 @@ private:
 	MapManager * m_p_map_mng;
 
 	//! 自機クラスヒトデ1ヒトデ2ポインタ
-	Player * m_p_player[2];              
+	PlayerManager * m_p_player_mng;
 
 	//! GameUIクラスポインタ
 	GameUI * m_p_ui;  
