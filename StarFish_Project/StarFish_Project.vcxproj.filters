@@ -33,8 +33,6 @@
     <ClCompile Include="Lib\D3D9\D3D9.cpp" />
     <ClCompile Include="Map\MapChip\MapChip.cpp" />
     <ClCompile Include="Enemy\Enemy\NaporeonFish.cpp" />
-    <ClCompile Include="Enemy\State\EnemyChaseState.cpp" />
-    <ClCompile Include="Enemy\State\EnemyPatrolState.cpp" />
     <ClCompile Include="GameObject\ObjectInterface\ObjectInterface.cpp" />
     <ClCompile Include="Player\PlayerManager.cpp" />
     <ClCompile Include="Map\BedRockChip\RockChip.cpp" />
@@ -83,8 +81,6 @@
     <ClInclude Include="Lib\D3D9\D3D9.h" />
     <ClInclude Include="Map\MapChip\MapChip.h" />
     <ClInclude Include="Enemy\Enemy\NaporeonFish.h" />
-    <ClInclude Include="Enemy\State\EnemyChaseState.h" />
-    <ClInclude Include="Enemy\State\EnemyPatrolState.h" />
     <ClInclude Include="GameObject\ObjectInterface\ObjectInterface.h" />
     <ClInclude Include="Player\PlayerManager.h" />
     <ClInclude Include="Map\BedRockChip\RockChip.h" />
@@ -96,6 +92,7 @@
     <ClInclude Include="Enemy\EnemyState\EnemyVerticalMoveState\EnemyVerticalMoveState.h" />
     <ClInclude Include="Enemy\EnemyState\EnemyPatrolState\EnemyPatrolState.h" />
     <ClInclude Include="Map\ChipBase\ChipBase.h" />
+    <ClInclude Include="Map\NormalChip\NormalChip.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />

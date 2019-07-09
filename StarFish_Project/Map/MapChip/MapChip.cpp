@@ -11,6 +11,7 @@
 #include<string>
 #include"../MapCollision/MapCollider.h"
 #include"../BedRockChip/RockChip.h"
+#include"../NormalChip/NormalChip.h"
 
 
 
@@ -342,7 +343,7 @@ void Map::MapObjectWidthExitLine(int destory_line_y) {
 			}
 
 			// 初期状態に戻す
-			m_map_chip_list[destory_line][x] = new ChipBase(chip_num);
+			m_map_chip_list[destory_line][x] = new NormalChip(chip_num);
 
 			// チップ活動中止にする
 			m_map_chip_list[destory_line][x]->SetIsChipActive(false);
@@ -361,7 +362,7 @@ void Map::RockChipCreate(int x, int y) {
 	D3DXVECTOR2 chip_pos(
 		(float)(Map::CHIP_SIZE * x),
 		// 0.5ずつ上にずらしているだけ
-		(float)((Map::CHIP_SIZE) * -y) + // -ENTRY_CHIP_INTERVAL_Y
+		(float)((Map::CHIP_SIZE - 0.5f) * -y) + // -ENTRY_CHIP_INTERVAL_Y
 		(float)(Window::HEIGHT + 8) + (CHIP_SIZE * ((-m_pos.y + 0.5f) / CHIP_SIZE)) - 64.f // スクロール位置
 	);
 
@@ -409,11 +410,12 @@ void Map::EnemyCreate(int x, int y) {
 	// Mapの高さから今のyチップ座標を割り出し
 	int create_chip_y = m_max_map_chip_height_size - y;
 
-
 	// チップ番号をMapクラスから受け取る
 	int chip_num = m_map_chip_list[create_chip_y][x]->GetChipNum();
+
 	// 敵生成チップ番号
 	int enemy_chip[3] = { 100,101,102 };
+
 	// 敵の種類
 	EnemyType enemy_type[3] = { SEAURCHIN ,NO_MOVE_SEAURCHIN , SELLFISH };
 

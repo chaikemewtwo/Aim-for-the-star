@@ -164,6 +164,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Map\MapManager\MapManager.h" />
+    <ClInclude Include="Map\NormalChip\NormalChip.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\PlayerManager.h">
       <SubType>
