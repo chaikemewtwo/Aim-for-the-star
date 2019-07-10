@@ -4,28 +4,24 @@
 #include"../../GameObject/ObjectManager/ObjectManager.h"
 #include"../MapChip/MapChip.h"
 #include"../BackGround/BackGround.h"
+#include"../MapChip/MapChip.h"
 
 
 
-MapManager::MapManager(Player*star1, Player*star2, EnemyManager*e_mng, ObjectManager*obj_mng) {
+MapManager::MapManager(EnemyManager*e_mng, ObjectManager*obj_mng) {
 
 
 	// nullチェック
-	if (star1 == nullptr) {
-		return;
-	}
-	if (star2 == nullptr) {
-		return;
-	}
 	if (e_mng == nullptr) {
 		return;
 	}
+
 	if (obj_mng == nullptr) {
 		return;
 	}
 
 	// マップ生成
-	m_p_map = new Map(star1, star2, e_mng, obj_mng);
+	m_p_map = new Map(e_mng, obj_mng);
 
 	// 背景生成
 	m_p_bg1 = new BackGround(
@@ -50,13 +46,13 @@ MapManager::MapManager(Player*star1, Player*star2, EnemyManager*e_mng, ObjectMan
 	//	(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_1.png")),
 	//	(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_1.png")));
 
-
-	// マップ登録
-	obj_mng->Entry(m_p_map);
+	
 	// 背景1登録
 	obj_mng->Entry(m_p_bg1);
 	// 背景2
 	//obj_mng->Entry(m_p_bg2);	
+	// マップ登録
+	obj_mng->Entry(m_p_map);
 }
 
 
@@ -95,4 +91,32 @@ void MapManager::Draw(){
 
 bool MapManager::IsMaxMapRange()const {
 	return m_p_map->IsMaxScroll();
+}
+
+
+void MapManager::MapCollision(
+	Object*object,
+	D3DXVECTOR2&obj_move,
+	CollisionDirectionType&collision_dir_type_x,
+	CollisionDirectionType&collision_dir_type_y
+) {
+
+	// 衝突位置
+	D3DXVECTOR2 collision_pos = object->GetPos();
+
+	// マップとの当たり判定
+	m_p_map->GetMapColliderInstance()->Collision(
+		collision_pos,
+		obj_move,
+		collision_dir_type_x,
+		collision_dir_type_y
+	);
+
+	// 位置変更
+	object->SetPos(collision_pos);
+}
+
+
+Map *MapManager::GetMapInstance(){
+	return m_p_map;
 }

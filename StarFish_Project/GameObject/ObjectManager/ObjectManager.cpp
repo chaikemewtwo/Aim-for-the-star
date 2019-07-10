@@ -9,11 +9,11 @@
 #include"../../CollisionObject/CollisionManager.h"
 #include<algorithm>
 #include<iostream>
+#include"../../ScrollManager/ScrollManager.h"
 
 
 
 ObjectManager::ObjectManager(){
-
 
 	// プレイヤー1生成
 	m_p_player[Player::STAR_1] = new Player(Player::STAR_1);
@@ -21,9 +21,13 @@ ObjectManager::ObjectManager(){
 	// プレイヤー2生成
 	m_p_player[Player::STAR_2] = new Player(Player::STAR_2);
 
+	// プレイヤーオブジェクト登録
+	Entry(m_p_player[Player::STAR_1]);
+	Entry(m_p_player[Player::STAR_2]);
+
 	// 敵管理生成
 	m_p_enemy_mng = new EnemyManager(this);
-
+	
 	// ロープ生成
 	m_p_rope = new Rope(m_p_player[Player::STAR_1], m_p_player[Player::STAR_2]);
 
@@ -31,15 +35,16 @@ ObjectManager::ObjectManager(){
 	m_p_ui = new GameUI(m_p_player[Player::STAR_1], m_p_player[Player::STAR_2]);
 
 	// マップ管理生成
-	m_p_map_mng = new MapManager(m_p_player[Player::STAR_1], m_p_player[Player::STAR_2], m_p_enemy_mng, this);
+	m_p_map_mng = new MapManager(m_p_enemy_mng, this);
 
 	// 当たり判定管理生成
-	m_p_collision_mng = new CollisionManager(m_p_player[Player::STAR_1], m_p_player[Player::STAR_2], m_p_enemy_mng);
+	m_p_collision_mng = new CollisionManager(m_p_player[Player::STAR_1], m_p_player[Player::STAR_2], m_p_enemy_mng,m_p_map_mng);
+
+	// スクロール管理者生成
+	m_p_scroll_manager = new ScrollManager(m_p_player[Player::STAR_1], m_p_player[Player::STAR_2], m_p_map_mng);
 
 	// オブジェクト登録
 	Entry(m_p_rope);
-	Entry(m_p_player[Player::STAR_1]);
-	Entry(m_p_player[Player::STAR_2]);
 	Entry(m_p_ui);
 }
 
@@ -51,7 +56,7 @@ ObjectManager::~ObjectManager() {
 	}
 
 	// 描画用オブジェクトリスト要素削除
-	m_draw_obj_list.clear();
+	m_draw_object_list.clear();
 }
 
 
@@ -59,6 +64,9 @@ void ObjectManager::Update() {
 
 	// 敵管理クラス更新
 	m_p_enemy_mng->Update();
+
+	// スクロールの管理者
+	m_p_scroll_manager->Update();
 
 	// 更新
 	for (auto&itr : m_p_object_list) {
@@ -77,8 +85,8 @@ void ObjectManager::Update() {
 void ObjectManager::Draw() {
 
 	// 描画用オブジェクト描画
-	for (auto &itr : m_draw_obj_list) {
-		(*itr).Draw();
+	for (auto &obj : m_draw_object_list) {
+		(*obj).Draw();
 	}
 }
 
@@ -88,14 +96,14 @@ void ObjectManager::EntryAndSortDrawObject(){
 	// 前のリストを削除
 	InitDrawObjectList();
 	
-	// 要素を全て入れる。
-	for (auto itr = m_p_object_list.begin(); itr != m_p_object_list.end();++itr) {
+	// 要素を全て入れる
+	for (auto draw_object = m_p_object_list.begin(); draw_object != m_p_object_list.end();++draw_object) {
 
-		m_draw_obj_list.push_back(itr->second);
+		m_draw_object_list.push_back(draw_object->second);
 	}
 
 	// 昇順ソートを行う
-	std::sort(m_draw_obj_list.begin(), m_draw_obj_list.end(),
+	std::sort(m_draw_object_list.begin(), m_draw_object_list.end(),
 		[](const Object*obj1, const Object*obj2) {
 		return obj1->GetSortNum() < obj2->GetSortNum();
 	});
@@ -115,38 +123,6 @@ void ObjectManager::Entry(Object*obj) {
 	create_id = m_current_the_newest_id;
 	m_current_the_newest_id++;
 
-	//// idの空きがないなら
-	//if (m_reuse_id_list.empty() != 0) {
-	//
-	//	// 生成idに現在最大のidを入れる
-	//	create_id = m_current_newest_id;
-	//	// 最新idにする
-	//	m_current_newest_id++;
-	//}
-	//// 使われていないid番号があるなら
-	//else {
-	//
-	//	for (unsigned int i = 0; i < m_reuse_id_list.size(); i++) {
-	//
-	//		// idがすでに使われているか
-	//		auto itr = m_object_list.find(m_reuse_id_list[i]);
-	//
-	//		// 設定されているなら
-	//		if (itr != m_object_list.end()) {
-	//			continue;
-	//		}
-	//
-	//		/* ここまできたら設定されていない */
-	//
-	//		// 最初に入っているidを入れる
-	//		create_id = m_reuse_id_list[i];
-	//		// idを渡したので使っているとみなして要素を消す
-	//		m_reuse_id_list.erase(m_reuse_id_list.begin() + i);
-	//
-	//		break;
-	//	}
-	//}
-
 	// Objectの要素を追加
 	m_p_object_list[create_id] = obj;
 
@@ -155,13 +131,11 @@ void ObjectManager::Entry(Object*obj) {
 }
 
 
-
-
 void ObjectManager::InitDrawObjectList() {
 
 	// 前のを削除
-	std::vector<Object*>().swap(m_draw_obj_list);
-	m_draw_obj_list.clear();
+	std::vector<Object*>().swap(m_draw_object_list);
+	m_draw_object_list.clear();
 }
 
 

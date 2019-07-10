@@ -49,10 +49,10 @@ public:
 	static const int MAX_IN_WINDOW_CHIP_NUM_H = ((int)(Window::HEIGHT) / CHIP_SIZE);  
 
 	//! スクロール範囲上
-	static constexpr float SCROLL_RANGE_UP = 400.f;
+	static constexpr float INIT_SCROLL_RANGE_UP = 400.f;
 
 	//! スクロール範囲下
-	static constexpr float SCROLL_RANGE_DOWN = 800.f;
+	static constexpr float INIT_SCROLL_RANGE_DOWN = 800.f;
 
 public:
 
@@ -64,7 +64,7 @@ public:
 	* @param[out] EnemyManagerのポインタ
 	* @param[out] ObjectManagerのポインタ
 	*/
-	Map(Player*star1, Player*star2, EnemyManager*e_mng,ObjectManager*obj_mng);
+	Map(EnemyManager*e_mng,ObjectManager*obj_mng);
 
 
 	/**
@@ -171,18 +171,37 @@ public:
 
 
 	/**
-	* @brief マップ当たり判定器ゲッター
-	* @return MapCollider マップの当たり判定
-	*/
-	MapCollider *GetMapColliderInstance();
-
-
-	/**
 	* @brief スクロールする関数
 	* @param[out] screen_pos_y 現在いるスクリーン座標値
 	* @param[out] move_y オブジェクトの移動値
 	*/
 	void Scroll(float &screen_pos_y, float &move_y);
+
+
+	/**
+	* @brief マップ当たり判定のゲッター
+	*/
+	MapCollider *GetMapColliderInstance();
+
+
+	/**
+	* @brief 移動値のセッター
+	*/
+	void SetScrollYMove(const float&move);
+
+
+	/**
+	* @brief 上のマップスクロール線を変えるセッター
+	* @param[in] scroll_line_y
+	*/
+	void SetScrollUpLine(const float &scroll_line_y);
+
+
+	/**
+	* @brief 下のマップスクロール線を変えるセッター
+	* @param[in] scroll_line_y
+	*/
+	void SetScrollDownLine(const float &scroll_line_y);
 
 	
 private:
@@ -232,7 +251,7 @@ private:
 	* @param[out] sign_change_num 変換する値
 	* @return float 符号変換した値
 	*/
-	float GetPlusSignChange(float sign_change_num);
+	float GetSignChange(float sign_change_num);
 
 
 	/**
@@ -245,14 +264,14 @@ private:
 	* @brief 自機との当たり判定とスクロール
 	* @param[in] player_num 当たりを行う自機番号
 	*/
-	void PlayerCollision(int player_num);
+	//void PlayerCollision(int player_num);
 
 
 	/** 
 	* @brief 自機のスクロール
 	* @param[in] player_num スクロールを行う自機番号
 	*/
-	void PlayerScroll(int player_num);
+	//void PlayerScroll(int player_num);
 	
 
 private:
@@ -298,11 +317,11 @@ private:
 	//! 当たり判定マップ生成クラス
 	MapCollider * m_p_map_collider;
 
-	//! 自機二つのポインタ
-	Player*m_p_player[2];
-
 	//! 敵管理のポインタ
 	EnemyManager *m_p_enemy_manager;
+
+	//! 遅延更新
+	int delay_update_count;
 
 };
 

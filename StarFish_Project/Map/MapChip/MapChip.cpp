@@ -16,7 +16,7 @@
 
 
 // コンストラクタ
-Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) :
+Map::Map(EnemyManager*e_mng,ObjectManager*obj_mng) :
 	m_scroll_move(0.f,0.f),
 	m_is_scroll(true)
 {
@@ -27,19 +27,11 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) :
 		if (e_mng == nullptr) {
 			return;
 		}
-		if (star1 == nullptr) {
-			return;
-		}
-		if (star2 == nullptr) {
-			return;
-		}
 		if (obj_mng == nullptr) {
 			return;
 		}
 
 		// 各インスタンス受け取り
-		m_p_player[0] = star1;
-		m_p_player[1] = star2;
 		m_p_enemy_manager = e_mng;
 		m_p_obj_mng = obj_mng;
 		// マップ当たり判定クラスを生成
@@ -56,8 +48,10 @@ Map::Map(Player*star1,Player*star2,EnemyManager*e_mng,ObjectManager*obj_mng) :
 	m_sort_object_type = MAX;  
 
 	// スクロールする範囲初期化
-	m_scroll_up_map_line = SCROLL_RANGE_UP;
-	m_scroll_down_map_line = SCROLL_RANGE_DOWN;
+	m_scroll_up_map_line = INIT_SCROLL_RANGE_UP;
+	m_scroll_down_map_line = INIT_SCROLL_RANGE_DOWN;
+
+	delay_update_count = 0;
 
 	// ファイル読み込み
 	Load("Map/MapData/MapData.csv");
@@ -92,23 +86,30 @@ Map::~Map() {
 
 void Map::Update() {
 	
-	// マップの移動ベクトル初期化
-	m_scroll_move.y = 0.f;
 	
 	// 自機更新
-	for (int i = 0; i < 2; i++) {
-
-		PlayerScroll(i);
-		PlayerCollision(i);
-	}
-	PlayerCollision(0);
-	PlayerScroll(0);
+	//for (int i = 0; i < 2; i++) {
+	//
+	//	PlayerScroll(i);
+	//	PlayerCollision(i);
+	//}
+	//PlayerCollision(0);
+	//PlayerScroll(0);
+	
 	
 	// マップ座標にマップの移動ベクトルを加算
-	m_pos.y += m_scroll_move.y;
+	//if (delay_update_count >= 1) {
+		m_pos.y += m_scroll_move.y;
+		// マップの移動ベクトル初期化
+		m_scroll_move.y = 0.f;
+		delay_update_count = 0;
+	//}
+	// 遅延カウント更新
+	//delay_update_count++;
 	
+
 	// スクロール制限
-	MaxScroll();
+	//MaxScroll();
 
 	// 生成と削除
 	CreateAndDestory();
@@ -120,50 +121,55 @@ void Map::Draw() {
 }
 
 
-void Map::PlayerCollision(int i) {
-
-	/* プレイヤー座標 */
-	// 自機の位置を代入,当たりポイントを補正
-	D3DXVECTOR2 player_pos(m_p_player[i]->GetPos().x + VERTEX_OFFSET.x, m_p_player[i]->GetPos().y + VERTEX_OFFSET.y);   // 自機の位置
-	D3DXVECTOR2 player_move(m_p_player[i]->GetMove().x, m_p_player[i]->GetMove().y);  // 自機の移動ベクトル
-
-	
-	m_p_map_collider->Collision(player_pos, player_move,collision_dir_type[i][0],collision_dir_type[i][1]);
-	// マップの当たり判定
-	//Collision(player_pos[i],player_move[i]);
-
-	// プレイヤーの頂点位置をずらす
-	player_pos -= VERTEX_OFFSET;
-
-	// 自機(obj)の位置変更
-	m_p_player[i]->SetPos(player_pos);
-	// 自機の移動ベクトル変更
-	m_p_player[i]->SetMove(player_move);
-
+MapCollider *Map::GetMapColliderInstance() {
+	return m_p_map_collider;
 }
 
+//
+//void Map::PlayerCollision(int i) {
+//
+//	/* プレイヤー座標 */
+//	// 自機の位置を代入,当たりポイントを補正
+//	D3DXVECTOR2 player_pos(m_p_player[i]->GetPos().x + VERTEX_OFFSET.x, m_p_player[i]->GetPos().y + VERTEX_OFFSET.y);   // 自機の位置
+//	D3DXVECTOR2 player_move(m_p_player[i]->GetMove().x, m_p_player[i]->GetMove().y);  // 自機の移動ベクトル
+//
+//	
+//	m_p_map_collider->Collision(player_pos, player_move,collision_dir_type[i][0],collision_dir_type[i][1]);
+//	// マップの当たり判定
+//	//Collision(player_pos[i],player_move[i]);
+//
+//	// プレイヤーの頂点位置をずらす
+//	player_pos -= VERTEX_OFFSET;
+//
+//	// 自機(obj)の位置変更
+//	m_p_player[i]->SetPos(player_pos);
+//	// 自機の移動ベクトル変更
+//	m_p_player[i]->SetMove(player_move);
+//
+//}
+//
 
-void Map::PlayerScroll(int i) {
-
-
-	// 自機の位置を代入,当たりポイントを補正
-	D3DXVECTOR2 player_pos(m_p_player[i]->GetPos().x + VERTEX_OFFSET.x, m_p_player[i]->GetPos().y + VERTEX_OFFSET.y);   // 自機の位置
-	D3DXVECTOR2 player_move(m_p_player[i]->GetMove().x, m_p_player[i]->GetMove().y);  // 自機の移動ベクトル
-
-
-	// スクロールしてもいいかどうか
-	if (IsScroll() == true) {
-		Scroll(player_pos.y, player_move.y);
-	}
-
-	// プレイヤーの頂点位置をずらす
-	player_pos -= VERTEX_OFFSET;
-
-	// 自機(obj)の位置変更
-	m_p_player[i]->SetPos(player_pos);
-	// 自機の移動ベクトル変更
-	m_p_player[i]->SetMove(player_move);
-}
+//void Map::PlayerScroll(int i) {
+//
+//
+//	// 自機の位置を代入,当たりポイントを補正
+//	D3DXVECTOR2 player_pos(m_p_player[i]->GetPos().x + VERTEX_OFFSET.x, m_p_player[i]->GetPos().y + VERTEX_OFFSET.y);   // 自機の位置
+//	D3DXVECTOR2 player_move(m_p_player[i]->GetMove().x, m_p_player[i]->GetMove().y);  // 自機の移動ベクトル
+//
+//
+//	// スクロールしてもいいかどうか
+//	if (IsScroll() == true) {
+//		Scroll(player_pos.y, player_move.y);
+//	}
+//
+//	// プレイヤーの頂点位置をずらす
+//	player_pos -= VERTEX_OFFSET;
+//
+//	// 自機(obj)の位置変更
+//	m_p_player[i]->SetPos(player_pos);
+//	// 自機の移動ベクトル変更
+//	m_p_player[i]->SetMove(player_move);
+//}
 
 
 void Map::Scroll(float &screen_pos_y, float &move_y) {
@@ -175,10 +181,8 @@ void Map::Scroll(float &screen_pos_y, float &move_y) {
 		// スクリーン座標を戻す
 		screen_pos_y = m_scroll_up_map_line;
 
-		// 移動していないなら
 		// マップ移動を加算
 		m_scroll_move.y = move_y;
-		
 	}
 
 	// 下のスクロール範囲に入ったら
@@ -187,9 +191,8 @@ void Map::Scroll(float &screen_pos_y, float &move_y) {
 		// スクリーン座標を戻す
 		screen_pos_y = m_scroll_down_map_line;
 
-		// 移動していないなら
-			// マップ移動を加算
-			m_scroll_move.y = move_y;
+		// マップ移動を加算
+		m_scroll_move.y = move_y;
 	}
 }
 
@@ -199,9 +202,12 @@ void Map::MaxScroll() {
 	// 上の最大スクロール
 	if (m_pos.y <= -BackGround::MAX_UP_SCROLL + 1.f) {
 
+		// 上のマップ線初期化
 		m_scroll_up_map_line = 0.f;
+
 		// スクロール移動初期化
 		m_scroll_move.y = 0.f;
+
 		// マップ座標初期化
 		m_pos.y = -BackGround::MAX_UP_SCROLL - 1.f;
 
@@ -210,7 +216,8 @@ void Map::MaxScroll() {
 	}
 	// スクロール位置を最初に戻す
 	else if(m_pos.y <= -BackGround::MAX_UP_SCROLL - 50.f){
-		m_scroll_up_map_line = SCROLL_RANGE_UP;
+
+		m_scroll_up_map_line = INIT_SCROLL_RANGE_UP;
 	}
 	
 	// 下の最大スクロール
@@ -225,7 +232,7 @@ void Map::MaxScroll() {
 	}
 	else {
 		// スクロールを最初に戻す
-		m_scroll_down_map_line = SCROLL_RANGE_DOWN;
+		m_scroll_down_map_line = INIT_SCROLL_RANGE_DOWN;
 	}
 }
 
@@ -362,12 +369,9 @@ void Map::RockChipCreate(int x, int y) {
 	D3DXVECTOR2 chip_pos(
 		(float)(Map::CHIP_SIZE * x),
 		// 0.5ずつ上にずらしているだけ
-		(float)((Map::CHIP_SIZE - 0.5f) * -y) + // -ENTRY_CHIP_INTERVAL_Y
+		(float)((Map::CHIP_SIZE) * -y) + // -ENTRY_CHIP_INTERVAL_Y
 		(float)(Window::HEIGHT + 8) + (CHIP_SIZE * ((-m_pos.y + 0.5f) / CHIP_SIZE)) - 64.f // スクロール位置
 	);
-
-	// 指定のチップを渡す
-	ChipBase*chip_base = m_map_chip_list[create_chip_y][x];
 
 	// チップ番号をMapクラスから受け取る
 	int chip_num = m_map_chip_list[create_chip_y][x]->GetChipNum();
@@ -430,7 +434,7 @@ void Map::EnemyCreate(int x, int y) {
 			if (chip_num == enemy_chip[i]) {
 
 				// 生成
-				m_p_enemy_manager->CreateEnemy(pos + offset_pos, this, m_p_player[0], m_p_player[1], enemy_type[i]);
+				//m_p_enemy_manager->CreateEnemy(pos + offset_pos, this, m_p_player[0], m_p_player[1], enemy_type[i]);
 				// チップベースは生成中に変える
 				m_map_chip_list[create_chip_y][x]->SetIsChipActive(true);
 				m_map_chip_list[create_chip_y][x]->SetIsObject(true);
@@ -498,7 +502,7 @@ void Map::Load(const std::string&load_file_name) {
 			// 2次元配列に要素を追加
 			m_map_chip_list[height_chip].emplace_back();
 			// 要素追加
-			m_map_chip_list[height_chip][width_chip] = (new ChipBase());
+			m_map_chip_list[height_chip][width_chip] = (new NormalChip);
 			// 整数値変換してチップ番号に登録
 			m_map_chip_list[height_chip][width_chip++]->SetChipNum(strtol(chip_string, &chip_string, TenBaseNumber));
 
@@ -521,7 +525,7 @@ void Map::Load(const std::string&load_file_name) {
 	
 			m_map_chip_list[i].emplace_back();
 			// 要素追加
-			m_map_chip_list[i][j] = new ChipBase;
+			m_map_chip_list[i][j] = new NormalChip;
 	
 			m_map_chip_list[i][j]->SetChipNum(0);
 		}
@@ -584,11 +588,7 @@ bool Map::IsMaxScroll()const {
 	return m_is_max_scroll;
 }
 
-void Map::SetIsScroll(bool is_scroll) {
-	m_is_scroll = is_scroll;
-}
-
-float Map::GetPlusSignChange(float sign_change_num) {
+float Map::GetSignChange(float sign_change_num) {
 	return (sign_change_num *= -1);
 }
 
@@ -600,7 +600,21 @@ float Map::GetScrollDownMapPosY() {
 	return m_scroll_down_map_line;
 }
 
+void Map::SetIsScroll(bool is_scroll) {
+	m_is_scroll = is_scroll;
+}
 
+void Map::SetScrollYMove(const float&move) {
+	m_scroll_move.y = move;
+}
+
+void Map::SetScrollUpLine(const float &scroll_line_y) {
+	m_scroll_up_map_line = scroll_line_y;
+}
+
+void Map::SetScrollDownLine(const float&scroll_line_y) {
+	m_scroll_down_map_line = scroll_line_y;
+}
 
 // 当たり判定を取っているサイズ
 /*

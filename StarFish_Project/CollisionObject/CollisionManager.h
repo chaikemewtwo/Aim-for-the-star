@@ -1,19 +1,24 @@
 ﻿#pragma once
 #include<vector>
 
+#include"CollisionObject.h"
+#include"../CollisionObject/CircleCollisionObject.h"
+#include"../Enemy/Enemy/EnemyManager.h"
+#include"../Player/Player.h"
+#include"../Map/MapManager/MapManager.h"
 
+
+
+// ===================================
 /**
 * @file CollisionManager.h
 * @brief 衝突管理者ファイル
 * @author maekawa
 */
+// ===================================
 
 
-// 前方参照
-class CollisionObject;      // 衝突オブジェクト
-class CircleCollisionObject;// 円衝突オブジェクト
-class EnemyManager;         // 敵管理
-class Player;               // 自機
+const int XY = 2;
 
 
 /**
@@ -22,20 +27,26 @@ class Player;               // 自機
 class CollisionManager{
 public:
 
-	// コンストラクタで実体を入れる
+
 	/**
 	* @brief コンストラクタ
 	* @param[out] player1 自機のポインタ1
 	* @param[out] player2 自機のポインタ2
 	* @param[out] enemy_manager 敵管理のポインタ3
 	*/
-	CollisionManager(Player*player1,Player*player2, EnemyManager*enemy_manager);
+	CollisionManager(Player*player1,Player*player2, EnemyManager*enemy_manager,MapManager*map);
 
 
 	/**
 	* @brief 当たり判定を行う関数
 	*/
 	void Collision();
+
+
+	/**
+	* @brief マップとの当たり判定を行う関数
+	*/
+	void MapCollision();
 
 
 	/**
@@ -48,11 +59,18 @@ public:
 		CircleCollisionObject*circle_collision_object2
 	);
 
+
 private:
 
 	//! 自機1,2のポインタ
-	Player * mp_player[2];
-	//! 敵管理のポインタ
-	EnemyManager*mp_enemy_manager;
-};
+	Player * m_p_player[Player::MAX];
 
+	//! 敵管理のポインタ
+	EnemyManager*m_p_enemy_manager;
+
+	//! マップの管理者
+	MapManager*m_p_map_manager;
+
+	//! 自機の当たり方向の型
+	CollisionDirectionType m_player_collision_dir_type[Player::MAX][XY];
+};

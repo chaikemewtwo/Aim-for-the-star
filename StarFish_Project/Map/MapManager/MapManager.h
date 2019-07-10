@@ -1,5 +1,6 @@
 ﻿#pragma once
-
+#include"../../GameObject/Object/Object.h"
+#include"../MapCollision/MapCollider.h"
 
 
 // =========================
@@ -33,7 +34,7 @@ public:
 	* @param[out] EnemyManagerのポインタ
 	* @param[out] ObjectManagerのポインタ 
 	*/
-	MapManager(Player*star1,Player*star2, EnemyManager*e_mng,ObjectManager*obj_mng);
+	MapManager(EnemyManager*e_mng,ObjectManager*obj_mng);
 
 
 	/**
@@ -59,6 +60,23 @@ public:
 	* @return bool 同上
 	*/
 	bool IsMaxMapRange()const;// マップが最大値になったら返す
+
+
+	/**
+	* @brief マップの当たり判定
+	*/
+	void MapCollision(
+		Object*object,
+		D3DXVECTOR2&obj_move,
+		CollisionDirectionType&collision_dir_type_x,
+		CollisionDirectionType&collision_dir_type_y
+	);
+
+
+	/**
+	* @brief
+	*/
+	Map *GetMapInstance();
 
 
 private:
