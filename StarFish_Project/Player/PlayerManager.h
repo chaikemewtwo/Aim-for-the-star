@@ -35,6 +35,4 @@ private:
 
 private:
 	Player * m_p_list[Player::MAX_TYPE];
-
-	ObjectManager * m_p_obj_mng;
 };

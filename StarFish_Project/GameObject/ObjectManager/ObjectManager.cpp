@@ -95,7 +95,6 @@ void ObjectManager::EntryAndSortDrawObject(){
 
 
 void ObjectManager::Entry(Object*obj) {
-
 	// nullなら戻す
 	if (obj == nullptr) {
 		return;
@@ -147,8 +146,6 @@ void ObjectManager::Entry(Object*obj) {
 }
 
 
-
-
 void ObjectManager::InitDrawObjectList() {
 
 	// 前のを削除
@@ -184,12 +181,8 @@ void ObjectManager::MemoryDelete(unsigned int id) {
 bool ObjectManager::IsClear()const{
 	
 	// マップの背景とチップが最大で、かつ自機の位置が200.fよりも少ない(上)のとき
-	//if (m_p_map_mng->IsMaxMapRange() == true && m_p_player[0]->GetPos().y <= 200.f ||
-	//	m_p_map_mng->IsMaxMapRange() == true && m_p_player[1]->GetPos().y <= 200.f) {
-	//	return true;
-	//}
 	if (m_p_map_mng->IsMaxMapRange() == true && m_p_player_mng->GetPosRelay(Player::STAR_1).y <= 200.f ||
-		m_p_map_mng->IsMaxMapRange() == true && m_p_player_mng->GetPosRelay(Player::STAR_2).y) {
+		m_p_map_mng->IsMaxMapRange() == true && m_p_player_mng->GetPosRelay(Player::STAR_2).y <= 200.f) {
 		return true;
 	}
 		return false;
@@ -197,9 +190,6 @@ bool ObjectManager::IsClear()const{
 
 
 bool ObjectManager::IsGameOver()const {
-	//if (m_p_player[0]->IsActive() == false && m_p_player[1]->IsActive() == false) {
-	//	return true;
-	//}
 	if (m_p_player_mng->IsActiveRelay(Player::STAR_1) == false && m_p_player_mng->IsActiveRelay(Player::STAR_2) == false) {
 		return true;
 	}

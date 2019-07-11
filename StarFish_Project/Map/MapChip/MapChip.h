@@ -255,7 +255,6 @@ private:
 	
 
 private:
-	
 	//! 縦間隔をあけて遷移などをする
 	const int HEIGHT_INTERVAL = 60;
 	//! オブジェクトとマップ当たり判定の頂点位置	

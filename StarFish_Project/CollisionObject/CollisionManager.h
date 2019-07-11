@@ -29,13 +29,7 @@ public:
 	* @param[out] player2 自機のポインタ2
 	* @param[out] enemy_manager 敵管理のポインタ3
 	*/
-	CollisionManager(Player*player1,Player*player2, EnemyManager*enemy_manager);
-
-
-	/**
-	* @brief 当たり判定を行う関数
-	*/
-	CollisionManager(PlayerManager * p_mng , EnemyManager*e_mng);
+	CollisionManager(PlayerManager* player_manager, EnemyManager*enemy_manager);
 
 	// 当たり判定を行う所
 	void Collision();
@@ -53,8 +47,8 @@ public:
 
 private:
 	//! 自機1,2のポインタ
-	PlayerManager * m_p_p_mng;
+	PlayerManager * m_p_player_manager;
 	//! 敵管理のポインタ
-	EnemyManager*mp_enemy_manager;
+	EnemyManager * m_p_enemy_manager;
 };
 

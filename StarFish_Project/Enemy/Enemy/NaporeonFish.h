@@ -24,4 +24,7 @@ private:
 	第4   ：判定したい相手の座標
 	*/
 	bool CheckTargetInTheRange(D3DXVECTOR2 vec1, D3DXVECTOR2 vec2, D3DXVECTOR2 vec3, D3DXVECTOR2 target_pos);
+
+private:
+	PlayerManager * m_p_p_mng;
 };
