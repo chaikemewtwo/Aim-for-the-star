@@ -244,19 +244,18 @@ private:
 	* @brief 自機との当たり判定とスクロール
 	* @param[in] player_num 当たりを行う自機番号
 	*/
-	void PlayerCollision(Player::ID_TYPE type));
+	void PlayerCollision(Player::ID_TYPE type);
 
 
 	/** 
 	* @brief 自機のスクロール
 	* @param[in] player_num スクロールを行う自機番号
 	*/
-	void PlayerScroll(Player::ID_TYPE type));
+	void PlayerScroll(Player::ID_TYPE type);
 	
 
 private:
 	
-<<<<<<< HEAD
 	//! 縦間隔をあけて遷移などをする
 	const int HEIGHT_INTERVAL = 60;
 	//! オブジェクトとマップ当たり判定の頂点位置	

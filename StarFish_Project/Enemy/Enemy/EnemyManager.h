@@ -30,7 +30,7 @@ public:
 	第3,4：プレイヤーのインスタンス(追跡、索敵に使用)
 	第5　：生成する敵の番号を指定
 	*/
-	void CreateEnemy(D3DXVECTOR2 pos, Map* const map, Player* const p1, Player* const p2, const EnemyType enemy_num);
+	void CreateEnemy(D3DXVECTOR2 pos, Map* const map, PlayerManager* const p_mng, const EnemyType enemy_num);
 
 	// ブラインド生成関数
 	/*

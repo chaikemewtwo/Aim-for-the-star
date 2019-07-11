@@ -1,7 +1,7 @@
 ﻿#include"SellFish.h"
 
 
-SellFish::SellFish(D3DXVECTOR2 pos, Map* const map, Player* const p1, Player* const p2,bool can_move) {
+SellFish::SellFish(D3DXVECTOR2 pos, Map* const map, PlayerManager* const p_mng,bool can_move) {
 
 	// マップとプレイヤーを受け取る
 	m_p_map = map;
@@ -75,8 +75,8 @@ void SellFish::Draw() {
 
 StateId SellFish::CheckChangeState() {
 
-	D3DXVECTOR2 distance1= CalcDistanceToPlayer(m_p_player[0]->GetPos());
-	D3DXVECTOR2 distance2= CalcDistanceToPlayer(m_p_player[1]->GetPos());
+	D3DXVECTOR2 distance1= CalcDistanceToPlayer(m_p_p_mng[0]->GetPos());
+	D3DXVECTOR2 distance2= CalcDistanceToPlayer(m_p_p_mng[1]->GetPos());
 
 	// 近距離で、横移動に遷移
 	if ((distance1.y < ATTACK_RANGE && distance1.x > 0) || (distance2.y < ATTACK_RANGE && distance2.x > 0)) {

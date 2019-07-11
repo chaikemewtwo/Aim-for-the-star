@@ -28,7 +28,7 @@ void EnemyManager::Update() {
 //―――――――――――――――――――――――――――
 
 // 指定された敵を指定の位置に生成する
-void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* const map, Player* const p1, Player* const p2, const EnemyType type_num) {
+void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* const map, PlayerManager* const p_mng, const EnemyType type_num) {
 
 	switch (type_num) {
 

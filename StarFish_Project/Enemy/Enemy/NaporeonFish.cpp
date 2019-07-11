@@ -1,7 +1,7 @@
 ﻿#include"NaporeonFish.h"
 
 
-NaporeonFish::NaporeonFish(D3DXVECTOR2 pos, Map* const map, Player* const p1, Player* const p2, bool can_move) {
+NaporeonFish::NaporeonFish(D3DXVECTOR2 pos, Map* const map, PlayerManager* const p_mng, bool can_move) {
 
 	// マップとプレイヤーを受け取る
 	m_p_map = map;
