@@ -62,8 +62,8 @@ void SellFish::Draw() {
 
 StateId SellFish::CheckChangeState() {
 
-	D3DXVECTOR2 distance1= CalcDistanceToPlayer(m_p_player[0]->GetPos());
-	D3DXVECTOR2 distance2= CalcDistanceToPlayer(m_p_player[1]->GetPos());
+	D3DXVECTOR2 distance1= CalcDistanceToPlayer(m_p_p_mng->GetPosRelay(Player::STAR_1));
+	D3DXVECTOR2 distance2= CalcDistanceToPlayer(m_p_p_mng->GetPosRelay(Player::STAR_2));
 
 	// 近距離で、横移動に遷移
 	if ((distance1.y < ATTACK_RANGE && distance1.x > 0) || (distance2.y < ATTACK_RANGE && distance2.x > 0)) {

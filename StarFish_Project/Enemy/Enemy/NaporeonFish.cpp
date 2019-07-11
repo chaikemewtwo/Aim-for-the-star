@@ -64,17 +64,18 @@ StateId NaporeonFish::CheckChangeState() {
 	}
 
 	// プレイヤーが２機とも範囲にいれば、より近いほうを追跡する
-	if (CheckTargetInTheRange(m_pos, vec1, vec2, m_p_player[0]->GetPos()) == true && CheckTargetInTheRange(m_pos, vec1, vec2, m_p_player[1]->GetPos()) == true) {
+	if (CheckTargetInTheRange(m_pos, vec1, vec2, m_p_p_mng->GetPosRelay(Player::STAR_1)) == true &&
+		CheckTargetInTheRange(m_pos, vec1, vec2, m_p_p_mng->GetPosRelay(Player::STAR_2)) == true) {
 
 		// 自身とプレイイヤーの位置の距離を算出
-		D3DXVECTOR2 distance1 = CalcDistanceToPlayer(m_p_player[0]->GetPos());
-		D3DXVECTOR2 distance2 = CalcDistanceToPlayer(m_p_player[1]->GetPos());
+		D3DXVECTOR2 distance1 = CalcDistanceToPlayer(m_p_p_mng->GetPosRelay(Player::STAR_1));
+		D3DXVECTOR2 distance2 = CalcDistanceToPlayer(m_p_p_mng->GetPosRelay(Player::STAR_2));
 
 		if (distance1.x < distance2.x) {
 
 			m_anim_change_time = 15;
 			m_speed = 3.f;
-			m_target_pos = m_p_player[0]->GetPos();
+			m_target_pos = m_p_p_mng->GetPosRelay(Player::STAR_1);
 
 			if (m_is_left == true) {
 				m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_ATTACK];
@@ -89,7 +90,7 @@ StateId NaporeonFish::CheckChangeState() {
 
 			m_anim_change_time = 15;
 			m_speed = 3.f;
-			m_target_pos = m_p_player[1]->GetPos();
+			m_target_pos = m_p_p_mng->GetPosRelay(Player::STAR_2);
 
 			if (m_is_left == true) {
 				m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_ATTACK];
@@ -102,11 +103,11 @@ StateId NaporeonFish::CheckChangeState() {
 		}
 	}
 	// プレイヤー１が範囲内のとき
-	else if (CheckTargetInTheRange(m_pos, vec1, vec2, m_p_player[0]->GetPos()) == true) {
+	else if (CheckTargetInTheRange(m_pos, vec1, vec2, m_p_p_mng->GetPosRelay(Player::STAR_1)) == true) {
 
 		m_anim_change_time = 15;
 		m_speed = 3.f;
-		m_target_pos = m_p_player[0]->GetPos();
+		m_target_pos = m_p_p_mng->GetPosRelay(Player::STAR_1);
 
 		if (m_is_left == true) {
 			m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_ATTACK];
@@ -118,11 +119,11 @@ StateId NaporeonFish::CheckChangeState() {
 		return StateId::CHASE_ID;
 	}
 	// プレイヤー２が範囲内のとき
-	else if (CheckTargetInTheRange(m_pos, vec1, vec2, m_p_player[1]->GetPos()) == true) {
+	else if (CheckTargetInTheRange(m_pos, vec1, vec2, m_p_p_mng->GetPosRelay(Player::STAR_2)) == true) {
 
 		m_anim_change_time = 15;
 		m_speed = 3.f;
-		m_target_pos = m_p_player[1]->GetPos();
+		m_target_pos = m_p_p_mng->GetPosRelay(Player::STAR_2);
 
 		if (m_is_left == true) {
 			m_enemy_texture = m_texture_list[EnemyTexture::NAPOREONFISH_LEFT_ATTACK];

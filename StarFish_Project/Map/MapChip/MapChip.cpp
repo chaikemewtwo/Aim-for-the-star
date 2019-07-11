@@ -16,31 +16,31 @@
 
 
 // コンストラクタ
-Map::Map(PlayerManager*p_mng,EnemyManager*e_mng,ObjectManager*obj_mng):
+Map::Map(PlayerManager*p_mng, EnemyManager*e_mng, ObjectManager*obj_mng) :
 	m_scroll_move(0.f, 0.f),
-	m_is_scroll(true) 
+	m_is_scroll(true)
 {
 
 	// インスタンス生成
-	{
-		// nullチェック
-		if (e_mng == nullptr) {
-			return;
-		}
-		if (p_mng == nullptr) {
-			return;
-		}
-		if (obj_mng == nullptr) {
-			return;
-		}
 
-		// 各インスタンス受け取り
+		// nullチェック
+	if (e_mng == nullptr) {
+		return;
+	}
+	if (p_mng == nullptr) {
+		return;
+	}
+	if (obj_mng == nullptr) {
+		return;
+	}
+
+	// 各インスタンス受け取り
 
 	m_p_p_mng = p_mng;
 	m_p_enemy_manager = e_mng;
 
 	m_p_obj_mng = obj_mng;
-		// マップ当たり判定クラスを生成
+	// マップ当たり判定クラスを生成
 	m_p_map_collider = new MapCollider(this);
 
 	for (int i = 0; i < 2; i++) {
@@ -49,7 +49,7 @@ Map::Map(PlayerManager*p_mng,EnemyManager*e_mng,ObjectManager*obj_mng):
 	}
 
 	// ソートオブジェクト代入
-	m_sort_object_type = MAX;  
+	m_sort_object_type = MAX;
 
 	// スクロールする範囲初期化
 	m_scroll_up_map_line = SCROLL_RANGE_UP;
@@ -57,7 +57,7 @@ Map::Map(PlayerManager*p_mng,EnemyManager*e_mng,ObjectManager*obj_mng):
 
 	// ファイル読み込み
 	Load("Map/MapData/MapData.csv");
-	
+
 	// スクロール位置を中心に
 	// 初期化時回りのオブジェクトを生成させる
 	{
@@ -65,7 +65,7 @@ Map::Map(PlayerManager*p_mng,EnemyManager*e_mng,ObjectManager*obj_mng):
 		int create_pos_end = GetChipCastByPos(-m_pos.y) + (MAX_IN_WINDOW_CHIP_NUM_H + 2);
 
 		for (int y = create_pos_begin; y < create_pos_end; y++) {
-			for (int x = 0; x < MAX_IN_WINDOW_CHIP_NUM_W; x++){
+			for (int x = 0; x < MAX_IN_WINDOW_CHIP_NUM_W; x++) {
 
 				// 配列外アクセスは許させない
 				if (y < 0 || x < 0) {
@@ -77,7 +77,7 @@ Map::Map(PlayerManager*p_mng,EnemyManager*e_mng,ObjectManager*obj_mng):
 				RockChipCreate(x, y);
 			}
 		}
-	}	
+	}
 }
 
 
@@ -92,13 +92,14 @@ void Map::Update() {
 	m_scroll_move.y = 0.f;
 	
 	// 自機更新
-	for (int i = 0; i < Player::MAX_ID; i++) {
+	for (int i = 0; i < Player::MAX_TYPE; ++i) {
 	// 先に衝突とスクロールをする
-		PlayerScroll(i);
-		PlayerCollision(i);
+		PlayerScroll((Player::ID_TYPE)i);
+		PlayerCollision((Player::ID_TYPE)i);
 	}
-	PlayerCollision(0);
-	PlayerScroll(0);
+	// ここわかりにくいのでコメント必須！byちゃいけ
+	PlayerScroll(Player::STAR_1);
+	PlayerCollision(Player::STAR_1);
 	
 	// マップ座標にマップの移動ベクトルを加算
 	m_pos.y += m_scroll_move.y;
@@ -123,16 +124,13 @@ void Map::PlayerCollision(Player::ID_TYPE type) {
 	D3DXVECTOR2 player_pos(m_p_p_mng->GetPosRelay(type).x + VERTEX_OFFSET.x, m_p_p_mng->GetPosRelay(type).y + VERTEX_OFFSET.y);   // 自機の位置
 	D3DXVECTOR2 player_move(m_p_p_mng->GetMoveRelay(type).x, m_p_p_mng->GetMoveRelay(type).y);  // 自機の移動ベクトル
 
-	
-	m_p_map_collider->Collision(player_pos, player_move,collision_dir_type[i][0],collision_dir_type[i][1]);
 	// マップの当たり判定
-	//Collision(player_pos[i],player_move[i]);
+	m_p_map_collider->Collision(player_pos, player_move,collision_dir_type[type][0],collision_dir_type[type][1]);
 
 	// プレイヤーの頂点位置をずらす
 	player_pos -= VERTEX_OFFSET;
 
 	// 自機(obj)の位置変更
-	//m_p_player[i]->SetPos(player_pos);
 	m_p_p_mng->SetPosRelay(type, player_pos);
 	// 自機の移動ベクトル変更
 	m_p_p_mng->SetMoveRelay(type, player_move);
@@ -160,7 +158,7 @@ void Map::PlayerScroll(Player::ID_TYPE type) {
 	m_p_p_mng->SetPosRelay(type, player_pos);
 	// 自機の移動ベクトル変更
 	//m_p_player[i]->SetMove(player_move);
-	m_p_p_mng->SetMoveRelay(type, player_pos);
+	m_p_p_mng->SetMoveRelay(type, player_move);
 }
 
 

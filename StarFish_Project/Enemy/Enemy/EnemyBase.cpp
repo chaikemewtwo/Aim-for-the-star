@@ -78,7 +78,6 @@ void EnemyBase::VerticalMove() {
 }
 //―――――――――――――――――――――
 
-<<<<<<< HEAD
 void EnemyBase::Patrol() {
 
 	// Sin波を計算

@@ -8,24 +8,21 @@
 
 
 
-CollisionManager::CollisionManager(PlayerManager * p_mng, EnemyManager*e_mng) {
+CollisionManager::CollisionManager(PlayerManager* player_manager, EnemyManager*enemy_manager) {
 
 	// nullチェック
-	if (p1 == nullptr) {
+	if (player_manager == nullptr) {
 		return;
 	}
 
-	if (p2 == nullptr) {
-		return;
-	}
 
-	if (e_mng == nullptr) {
+	if (enemy_manager == nullptr) {
 		return;
 	}
 
 	// メンバにインスタンスを設定
-	m_p_p_mng = p_mng;
-	mp_enemy_manager = e_mng;
+	m_p_player_manager = player_manager;
+	m_p_enemy_manager = enemy_manager;
 }
 
 
@@ -35,16 +32,16 @@ void CollisionManager::Collision() {
 	for (int i = 0; i < Player::MAX_TYPE; i++) {
 
 		// 敵と自機の当たり判定
-		for (int j = 0; j < mp_enemy_manager->GetEnemyTotal(); j++) {
+		for (int j = 0; j < m_p_enemy_manager->GetEnemyTotal(); j++) {
 
-			if (mp_enemy_manager->GetEnemyInstance(j) == nullptr) {
+			if (m_p_enemy_manager->GetEnemyInstance(j) == nullptr) {
 				continue;
 			}
-			else if (m_p_p_mng->GetPlayerInstance(i) == nullptr) {
+			else if (m_p_player_manager->GetPlayerInstance(i) == nullptr) {
 				continue;
 			}
 
-			ChackHitCircle(m_pe_mng->GetEnemyInstance(j), m_p_p_mng->GetPlayerInstance(i));
+			ChackHitCircle(m_p_enemy_manager->GetEnemyInstance(j), m_p_player_manager->GetPlayerInstance(i));
 		}
 	}
 }

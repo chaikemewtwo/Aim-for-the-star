@@ -6,11 +6,11 @@ const D3DXVECTOR2 PlayerManager::STAR_2_FIRST_POS = { Window::WIDTH / 2.f + 200.
 
 
 PlayerManager::PlayerManager(ObjectManager* obg_mng) {
-	if (m_p_obj_mng == nullptr) {
-		m_p_obj_mng = obg_mng;
-	}
 	m_p_list[Player::STAR_1] = new Player(Player::STAR_1, STAR_1_FIRST_POS);
 	m_p_list[Player::STAR_2] = new Player(Player::STAR_2, STAR_2_FIRST_POS);
+
+	obg_mng->Entry(m_p_list[Player::STAR_1]);
+	obg_mng->Entry(m_p_list[Player::STAR_2]);
 }
 
 
@@ -20,8 +20,8 @@ PlayerManager::~PlayerManager() {
 
 
 void PlayerManager::Update() {
-	m_p_list[Player::STAR_1]->Update();
-	m_p_list[Player::STAR_2]->Update();
+	//m_p_list[Player::STAR_1]->Update();
+	//m_p_list[Player::STAR_2]->Update();
 
 	// 片方死んだら片方も死ぬ
 	if (m_p_list[Player::STAR_1]->IsActive() == false || m_p_list[Player::STAR_2]->IsActive() == false) {
@@ -31,10 +31,10 @@ void PlayerManager::Update() {
 }
 
 
-void PlayerManager::Draw() {
-	m_p_list[Player::STAR_1]->Draw();
-	m_p_list[Player::STAR_2]->Draw();
-}
+//void PlayerManager::Draw() {
+//	m_p_list[Player::STAR_1]->Draw();
+//	m_p_list[Player::STAR_2]->Draw();
+//}
 
 
 float PlayerManager::StaminaParcentageRelay(Player::ID_TYPE type) {
@@ -70,7 +70,6 @@ bool PlayerManager::IsActiveRelay(Player::ID_TYPE type) {
 bool PlayerManager::SwimEnableRelay(Player::ID_TYPE type) {
 	return m_p_list[type]->SwimEnable();
 }
-
 
 
 bool PlayerManager::PartnerIsThereDirection(Player::ID_TYPE myself, Player::ID_TYPE partner) {

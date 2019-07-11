@@ -76,7 +76,7 @@ float Rope::LengthPercentage() {
 void Rope::PlayersDistanceAdjust() {
 	// 対の意味のif文を書きreturnで関数を終了させています（可読性向上のため）
 
-	// どちらかが死んでいるときは終了
+	// どちらかの自機が死んでいるときは終了
 	if (m_p_player_mng->IsActiveRelay(Player::STAR_1) != true || m_p_player_mng->IsActiveRelay(Player::STAR_2) != true) {
 		return;
 	}
@@ -94,34 +94,23 @@ void Rope::PlayersDistanceAdjust() {
 void Rope::ToPlayersPull() {
 	// 自機1のみ泳ぐとき
 	if (m_p_player_mng->SwimEnableRelay(Player::STAR_1) == true || m_p_player_mng->SwimEnableRelay(Player::STAR_2) == false) {
+		// 1の進みたい方向に自機2がいるとき、2に1の移動量を加算
 		if (m_p_player_mng->PartnerIsThereDirection(Player::STAR_1, Player::STAR_2) == true) {
 			m_p_player_mng->SetMoveRelay(Player::STAR_2, m_p_player_mng->GetMoveRelay(Player::STAR_1)+ m_p_player_mng->GetMoveRelay(Player::STAR_2));
 		}
 	}
-	// 自機2のみ泳ぐ
+	// 自機2のみ泳ぐとき
 	if (m_p_player_mng->SwimEnableRelay(Player::STAR_1) == false || m_p_player_mng->SwimEnableRelay(Player::STAR_2) == true) {
+		// 2の進みたい方向に自機1がいるとき、1に2の移動量を加算
 		if (m_p_player_mng->PartnerIsThereDirection(Player::STAR_2, Player::STAR_1) == true) {
 			m_p_player_mng->SetMoveRelay(Player::STAR_1, m_p_player_mng->GetMoveRelay(Player::STAR_1)+ m_p_player_mng->GetMoveRelay(Player::STAR_2));
 		}
 	}
-	// 両方の自機が泳ぐ
+	// 両方の自機が泳ぐとき
 	if (m_p_player_mng->SwimEnableRelay(Player::STAR_1) == true && m_p_player_mng->SwimEnableRelay(Player::STAR_2) == true) {
+		// X方向の移動量を消すことでロープの最大距離で2体の距離を維持する
 		m_p_player_mng->SetMoveRelay(Player::STAR_1, { 0.f , m_p_player_mng->GetMoveRelay(Player::STAR_1).y });
 		m_p_player_mng->SetMoveRelay(Player::STAR_2, { 0.f , m_p_player_mng->GetMoveRelay(Player::STAR_2).y });
 	}
 }
-
-
-//bool Rope::PartnerIsThereDirection(Player*myself, Player*partner) {
-//	// myselfのX移動量がmyselfの座標から見て正の方向、myselfの自機から見てpartnerの自機が正の方向
-//	if (myself->GetMove().x < 0.f && myself->GetPos().x < partner->GetPos().x) {
-//		return true;
-//	}
-//	// myselfのX移動量がmyselfの座標から見て負の方向、myselfの自機から見てpartnerの自機が負の方向
-//	else if (myself->GetMove().x > 0.f && myself->GetPos().x > partner->GetPos().x) {
-//		return true;
-//	}
-//	return false;
-//}
-
 
