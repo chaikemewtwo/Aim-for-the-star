@@ -8,6 +8,7 @@ class VerticalMove :public StateBase {
 public:
 	// シングルトン
 	static VerticalMove* GetInstance();
+
 	void Action(EnemyBase* e)override;
 
 private:
