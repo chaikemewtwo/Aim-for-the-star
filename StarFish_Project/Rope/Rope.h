@@ -3,10 +3,9 @@
 #include "../Player/PlayerManager.h"
 
 
-// ロープの最大全長は650×16
+// ロープクラス、最大全長は650×16
 class Rope:public Object {
 public:
-	//Rope(Player* p1,Player* p2);
 	Rope(PlayerManager*pm);
 
 	void Update()override;
@@ -35,13 +34,6 @@ private:
 	// 両方の自機が画面外側に向かって泳いでる場合はX方向の移動量を0に
 	void ToPlayersPull();
 
-	// myselfのX移動量がmyselfのX座標から見て正or負の方向とmyselfから見てpartnerが正or負の方向を判別
-	// 端的に説明するとmyselfが行きたいX方向にpartnerがいるかどうか
-	// 正と正、負と負ならtrueが返りそれ以外はfalseが返ります
-	// 引数(比較する側のプレイヤーのポインタ,比較される側のプレイヤーポインタ)
-	//bool PartnerIsThereDirection(Player*myself, Player*partner);
-	//bool PartnerIsThereDirection(Player*myself, Player*partner);
-
 private:
 	// ロープの最大の長さ
 	static const float MAX_ROPE_LEGTH;
@@ -54,8 +46,5 @@ private:
 	static const float POS_Y_OFFSET;
 
 private:
-	PlayerManager* m_p_player_mng;
-
-	//Player* m_p1;	// 自機1
-	//Player* m_p2;	// 自機2
+	PlayerManager* m_p_player_manager;	// プレイヤー管理クラス
 };
