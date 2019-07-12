@@ -57,6 +57,15 @@ Map::Map(PlayerManager*p_mng, EnemyManager*e_mng, ObjectManager*obj_mng) :
 
 	// ファイル読み込み
 	Load("Map/MapData/MapData.csv");
+}
+
+
+Map::~Map() {
+
+}
+
+
+void Map::Init() {
 
 	// スクロール位置を中心に
 	// 初期化時回りのオブジェクトを生成させる
@@ -79,12 +88,6 @@ Map::Map(PlayerManager*p_mng, EnemyManager*e_mng, ObjectManager*obj_mng) :
 		}
 	}
 }
-
-
-Map::~Map() {
-
-}
-
 
 void Map::Update() {
 	
@@ -171,7 +174,6 @@ void Map::Scroll(float &screen_pos_y, float &move_y) {
 		// スクリーン座標を戻す
 		screen_pos_y = m_scroll_up_map_line;
 
-		// 移動していないなら
 		// マップ移動を加算
 		m_scroll_move.y = move_y;
 		
@@ -182,10 +184,8 @@ void Map::Scroll(float &screen_pos_y, float &move_y) {
 
 		// スクリーン座標を戻す
 		screen_pos_y = m_scroll_down_map_line;
-
-		// 移動していないなら
-			// マップ移動を加算
-			m_scroll_move.y = move_y;
+		// マップ移動を加算
+		m_scroll_move.y = move_y;
 	}
 }
 
@@ -231,7 +231,7 @@ void Map::CreateAndDestory(){
 	// 上の生成線
 	const int CREATE_LINE_UP = 18;
 	// 下の生成線
-	const int CREATE_LINE_DOWN = 0;
+	const int CREATE_LINE_DOWN = -1;
 
 	// 上の削除線
 	const int DESTORY_LINE_UP = CREATE_LINE_UP + 2;
@@ -246,7 +246,7 @@ void Map::CreateAndDestory(){
 		for (int i = 0; i < 2; i++) {
 			
 			MapObjectWidthEntryLine(
-				(int)-m_pos.y/CHIP_SIZE + create_line_range[i]
+				(int)(std::ceil((-m_pos.y)) / CHIP_SIZE) + create_line_range[i]
 			);
 		}
 	}
@@ -258,7 +258,7 @@ void Map::CreateAndDestory(){
 		for (int i = 0; i < 2; i++) {
 			
 			MapObjectWidthExitLine(
-				(int)-m_pos.y / CHIP_SIZE + destory_line_range[i]
+				(int)(std::ceil((-m_pos.y)) / CHIP_SIZE) + destory_line_range[i]
 			);
 		}
 	}
@@ -289,9 +289,9 @@ void Map::MapObjectWidthEntryLine(int create_line_y) {
 		}
 
 		// 敵生成
-		EnemyCreate(x, create_line_y);
+		EnemyCreate(x,create_line_y);
 		// 岩生成
-		RockChipCreate(x, create_line_y);
+		RockChipCreate(x,create_line_y);
 	}
 }
 
@@ -320,15 +320,19 @@ void Map::MapObjectWidthExitLine(int destory_line_y) {
 		//Texture::Draw2D("Resource/Texture/Map/chip-map_image_10.png", pos.x, pos.y);
 
 		// オブジェクトなら
-		//if (m_map_chip_list[destory_line][x]->IsObject() == true) {
-		//	continue;
-		//}
+		if (m_map_chip_list[destory_line][x]->IsEnemy() == true){
+
+			// 敵削除
+			m_map_chip_list[destory_line][x]->SetIsChipActive(false);
+			m_map_chip_list[destory_line][x]->SetIsObject(false);
+			continue;
+		}
 		
 		// チップが活動しているなら
-		if (m_map_chip_list[destory_line][x]->IsChipActive() == true) {
+		else if (m_map_chip_list[destory_line][x]->IsChipActive() == true) {
 
 			// オブジェクトに登録されているチップの要素削除
-			m_p_obj_mng->Exit(m_map_chip_list[destory_line][x]->GetId());
+			m_p_obj_mng->Exit(m_map_chip_list[destory_line][x]);
 
 			// 番号を取り出す
 			int chip_num = m_map_chip_list[destory_line][x]->GetChipNum();
@@ -409,8 +413,10 @@ void Map::EnemyCreate(int x, int y) {
 
 	// チップ番号をMapクラスから受け取る
 	int chip_num = m_map_chip_list[create_chip_y][x]->GetChipNum();
+
 	// 敵生成チップ番号
 	int enemy_chip[3] = { 100,101,102 };
+
 	// 敵の種類
 	EnemyType enemy_type[3] = { SEAURCHIN ,NO_MOVE_SEAURCHIN , SELLFISH };
 
@@ -493,7 +499,7 @@ void Map::Load(const std::string&load_file_name) {
 			// 2次元配列に要素を追加
 			m_map_chip_list[height_chip].emplace_back();
 			// 要素追加
-			m_map_chip_list[height_chip][width_chip] = (new ChipBase());
+			m_map_chip_list[height_chip][width_chip] = new ChipBase();
 			// 整数値変換してチップ番号に登録
 			m_map_chip_list[height_chip][width_chip++]->SetChipNum(strtol(chip_string, &chip_string, TenBaseNumber));
 
@@ -516,7 +522,7 @@ void Map::Load(const std::string&load_file_name) {
 	
 			m_map_chip_list[i].emplace_back();
 			// 要素追加
-			m_map_chip_list[i][j] = new ChipBase;
+			m_map_chip_list[i][j] = new ChipBase();
 	
 			m_map_chip_list[i][j]->SetChipNum(0);
 		}
@@ -583,7 +589,7 @@ void Map::SetIsScroll(bool is_scroll) {
 	m_is_scroll = is_scroll;
 }
 
-float Map::GetPlusSignChange(float sign_change_num) {
+float Map::GetSignChange(float sign_change_num) {
 	return (sign_change_num *= -1);
 }
 

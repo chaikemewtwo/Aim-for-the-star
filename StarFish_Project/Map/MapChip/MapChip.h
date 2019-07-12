@@ -84,7 +84,12 @@ public:
 	*/
 	void Draw();
 
-	// マップオブジェクトの生成と削除
+
+	/**
+	* @brief マップチップの初期化
+	*/
+	void Init();
+
 
 	/**
 	* @brief マップオブジェクトの生成
@@ -226,19 +231,19 @@ private:
 	int GetChipPosCastByChip(const float chip_x, const float chip_y)const;
 
 
-	// プラスの符号に変換
 	/**
-	* @brief プラスの符号に変換
+	* @brief 符号変換
 	* @param[out] sign_change_num 変換する値
 	* @return float 符号変換した値
 	*/
-	float GetPlusSignChange(float sign_change_num);
+	float GetSignChange(float sign_change_num);
 
 
 	/**
 	* @brief 生成と削除を行う関数
 	*/
 	void CreateAndDestory();
+
 
 	/**
 	* @brief 自機との当たり判定とスクロール
@@ -255,12 +260,16 @@ private:
 	
 
 private:
+
 	//! 縦間隔をあけて遷移などをする
 	const int HEIGHT_INTERVAL = 60;
+
 	//! オブジェクトとマップ当たり判定の頂点位置	
 	const D3DXVECTOR2 VERTEX_OFFSET{-32.f,-56.f};
+
 	//! チップ生成領域上							  
 	const int CHIP_RANGE_UP = 19;
+
 	//! チップ生成領域下
 	const int CHIP_RANGE_DOWN = 1;
 

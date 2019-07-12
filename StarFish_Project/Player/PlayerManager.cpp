@@ -15,7 +15,7 @@ PlayerManager::PlayerManager(ObjectManager* obg_mng) {
 
 
 PlayerManager::~PlayerManager() {
-	delete[] &m_p_list;
+	//delete[] m_p_list;
 }
 
 

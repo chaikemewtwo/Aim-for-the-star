@@ -50,10 +50,15 @@ MapManager::MapManager(PlayerManager*p_mng, EnemyManager*e_mng, ObjectManager*ob
 
 	// マップ登録
 	obj_mng->Entry(m_p_map);
+
 	// 背景1登録
 	obj_mng->Entry(m_p_bg1);
+
 	// 背景2
-	//obj_mng->Entry(m_p_bg2);	
+	//obj_mng->Entry(m_p_bg2);
+
+	// マップチップ初期化
+	m_p_map->Init();
 }
 
 

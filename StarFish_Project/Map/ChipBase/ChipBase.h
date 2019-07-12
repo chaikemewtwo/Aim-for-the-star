@@ -75,7 +75,7 @@ public:
 	* @brief オブジェクトかどうかを返す
 	* @return bool
 	*/
-	bool IsObject() {
+	bool IsEnemy() {
 		return m_is_obj;
 	}
 

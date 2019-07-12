@@ -141,7 +141,7 @@ public:
 	/**
 	* @brief オブジェクトリストのメモリ削除
 	*/
-	void MemoryDelete(unsigned int id);
+	//void MemoryDelete(unsigned int id);
 
 
 	/**
@@ -177,9 +177,6 @@ private:
 
 	//! オブジェクトリスト(常に降順ソートを行う)
 	std::map<unsigned int,Object*>m_p_object_list;
-
-	//! 再利用idリスト(使い終わったidを登録するリスト)
-	std::vector<unsigned int>m_reuse_id_list;
 
 	//! 描画用オブジェクトリスト
 	std::vector<Object*>m_draw_obj_list;

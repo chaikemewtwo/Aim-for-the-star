@@ -14,6 +14,7 @@
 
 
 ObjectManager::ObjectManager(){
+
 	// プレイヤー生成
 	m_p_player_mng = new PlayerManager(this);
 
@@ -22,10 +23,13 @@ ObjectManager::ObjectManager(){
 
 	// ロープ生成
 	m_p_rope = new Rope(m_p_player_mng);
+
 	// スタミナGameUI生成
 	m_p_ui = new GameUI(m_p_player_mng);
+
 	// マップ管理生成
 	m_p_map_mng = new MapManager(m_p_player_mng, m_p_enemy_mng, this);
+
 	// 当たり判定管理生成
 	m_p_collision_mng = new CollisionManager(m_p_player_mng, m_p_enemy_mng);
 
@@ -47,8 +51,10 @@ ObjectManager::~ObjectManager() {
 
 
 void ObjectManager::Update() {
+
 	// プレイヤー管理クラス更新
 	m_p_player_mng->Update();
+
 	// 敵管理クラス更新
 	m_p_enemy_mng->Update();
 
@@ -104,39 +110,9 @@ void ObjectManager::Entry(Object*obj) {
 	unsigned int create_id = 0;
 
 	create_id = m_current_the_newest_id;
+
 	m_current_the_newest_id++;
 
-	//// idの空きがないなら
-	//if (m_reuse_id_list.empty() != 0) {
-	//
-	//	// 生成idに現在最大のidを入れる
-	//	create_id = m_current_newest_id;
-	//	// 最新idにする
-	//	m_current_newest_id++;
-	//}
-	//// 使われていないid番号があるなら
-	//else {
-	//
-	//	for (unsigned int i = 0; i < m_reuse_id_list.size(); i++) {
-	//
-	//		// idがすでに使われているか
-	//		auto itr = m_object_list.find(m_reuse_id_list[i]);
-	//
-	//		// 設定されているなら
-	//		if (itr != m_object_list.end()) {
-	//			continue;
-	//		}
-	//
-	//		/* ここまできたら設定されていない */
-	//
-	//		// 最初に入っているidを入れる
-	//		create_id = m_reuse_id_list[i];
-	//		// idを渡したので使っているとみなして要素を消す
-	//		m_reuse_id_list.erase(m_reuse_id_list.begin() + i);
-	//
-	//		break;
-	//	}
-	//}
 
 	// Objectの要素を追加
 	m_p_object_list[create_id] = obj;
@@ -156,26 +132,21 @@ void ObjectManager::InitDrawObjectList() {
 
 void ObjectManager::Exit(unsigned int id) {
 
-	// 使い終わったidを保存
-	m_reuse_id_list.push_back(id);
-
 	// Objectの配列番号の要素を削除
 	m_p_object_list.erase(id);
 }
 
 
 void ObjectManager::Exit(Object*object) {
-	// 使い終わったidを保存
-	m_reuse_id_list.push_back(object->GetId());
-
+	
 	// Objectの配列番号の要素を削除
 	m_p_object_list.erase(object->GetId());
 }
 
 
-void ObjectManager::MemoryDelete(unsigned int id) {
-	delete m_p_object_list.at(id);
-}
+//void ObjectManager::MemoryDelete(unsigned int id) {
+//	delete m_p_object_list.at(id);
+//}
 
 
 bool ObjectManager::IsClear()const{
