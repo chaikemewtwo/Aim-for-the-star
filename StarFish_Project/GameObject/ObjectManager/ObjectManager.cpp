@@ -22,22 +22,14 @@ ObjectManager::ObjectManager(){
 	m_p_enemy_mng = new EnemyManager(this);
 
 	// ロープ生成
-<<<<<<< HEAD
-	m_p_rope = new Rope(m_p_player_mng);
-
-	// スタミナGameUI生成
-	m_p_ui = new GameUI(m_p_player_mng);
-
-	// マップ管理生成
-	m_p_map_mng = new MapManager(m_p_player_mng, m_p_enemy_mng, this);
-
-=======
 	m_p_rope = new Rope(m_p_player_manager);
+
 	// スタミナGameUI生成
 	m_p_ui = new GameUI(m_p_player_manager);
+
 	// マップ管理生成
 	m_p_map_mng = new MapManager(m_p_player_manager, m_p_enemy_mng, this);
->>>>>>> 9efc5f3ec544a1a7ffca878c99bf160ea4835f6e
+
 	// 当たり判定管理生成
 	m_p_collision_mng = new CollisionManager(m_p_player_manager, m_p_enemy_mng);
 
@@ -61,12 +53,8 @@ ObjectManager::~ObjectManager() {
 void ObjectManager::Update() {
 
 	// プレイヤー管理クラス更新
-<<<<<<< HEAD
-	m_p_player_mng->Update();
-
-=======
 	m_p_player_manager->Update();
->>>>>>> 9efc5f3ec544a1a7ffca878c99bf160ea4835f6e
+
 	// 敵管理クラス更新
 	m_p_enemy_mng->Update();
 
@@ -154,11 +142,6 @@ void ObjectManager::Exit(Object*object) {
 	// Objectの配列番号の要素を削除
 	m_p_object_list.erase(object->GetId());
 }
-
-
-//void ObjectManager::MemoryDelete(unsigned int id) {
-//	delete m_p_object_list.at(id);
-//}
 
 
 bool ObjectManager::IsClear()const{

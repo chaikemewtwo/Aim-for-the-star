@@ -139,12 +139,6 @@ public:
 
 
 	/**
-	* @brief オブジェクトリストのメモリ削除
-	*/
-	//void MemoryDelete(unsigned int id);
-
-
-	/**
 	* @brief クリアかどうかを取得する
 	* @return bool
 	*/
