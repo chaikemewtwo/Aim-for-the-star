@@ -45,7 +45,7 @@ public:
 
 public:
 	// コンストラクタ
-	// 引数でオレンジくんとピンクちゃんを判別しています
+	// 引数で自機1と自機2を判別しています
 	Player(ID_TYPE id, D3DXVECTOR2 first_pos);
 
 	// デストラクタ
@@ -98,7 +98,6 @@ public:
 	void SwimUp();
 
 	// 状態画像セッター
-	/*void SetPlayerTexture(std::string new_player_texture);*/
 	void SetPlayerTexture(PLAYER_STATE_TEXTURE new_state_texture);
 
 	// 状態遷移タイマーゲッター
@@ -123,17 +122,11 @@ public:
 	void DecStamina(float dec_sutamina_num);
 
 	// 現在のスタミナの比率を返す
-	// MAX_STAMINAを1.fとしたときのm_staminaの割合
+	// 戻り値:MAX_STAMINAを1.fとしたときのm_staminaの割合
 	float StaminaParcentage();
 
 	// 生存フラグ無効化
 	void EnableDead();
-
-	// 重力負荷有効フラグゲッター
-	bool DBGGravityEnable();
-
-	// 重力負荷有効フラグセッター
-	void DBGSetGravityEnable(bool new_gravity_enable);
 	//-----------------------------------------------------
 
 	// 自機を返す設定をする
@@ -213,7 +206,6 @@ private:
 	int m_invisible_count;			// 敵と被弾後の無敵時間カウント（最大値はMAX_INVISIBLE_COUNT）				
 	bool m_draw_enable;				// 被弾時点滅用描画切り替え			
 	bool m_swim_enable;				// 泳いでるフラグ(泳ぎ状態のときtrue)
-	bool dbg_m_gravity_enable;		// 重力負荷が有効か否か、テストコード
 	
 	PlayerStateBase* m_p_state;		// ステート基底クラスを保持					
 	

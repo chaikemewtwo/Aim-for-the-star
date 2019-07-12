@@ -191,7 +191,7 @@ private:
 	MapManager * m_p_map_mng;
 
 	//! 自機クラスヒトデ1ヒトデ2ポインタ
-	PlayerManager * m_p_player_mng;
+	PlayerManager * m_p_player_manager;
 
 	//! GameUIクラスポインタ
 	GameUI * m_p_ui;  

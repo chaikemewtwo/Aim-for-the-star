@@ -22,10 +22,8 @@ Player::Player(ID_TYPE id,D3DXVECTOR2 first_pos) :
 	m_move(0.f, 0.f),
 	m_angle(0.f),
 	m_draw_enable(true),
-	/*m_swim_enable(false),*/
 	m_invisible_count(0),
-	m_stamina(MAX_STAMINA),
-	dbg_m_gravity_enable(true)
+	m_stamina(MAX_STAMINA)
 	{
 	// 自機2種類の共通部分の初期化
 
@@ -80,15 +78,6 @@ Player::Player(ID_TYPE id,D3DXVECTOR2 first_pos) :
 	// 画像の初期化がWaitStateが生成されるタイミングより遅いため
 	SetPlayerTexture(WAIT_TEXTURE);
 
-	// 自機1（ヒくん、オレンジの方）の初期化情報
-	// PlayerManagerが完成した時点で削除します
-	//if (id == STAR_1) {
-	//	m_pos = STAR_1_FIRST_POS;
-	//}
-	//// 自機2（デちゃん、ピンクの方）の初期化情報
-	//else if (id == STAR_2) {
-	//	m_pos = STAR_2_FIRST_POS;
-	//}	
 	m_pos = first_pos;
 
 	m_p_state->Init(this);
@@ -150,9 +139,7 @@ Player* Player::GetInstance() {
 
 void Player::AddGravity() {
 	// 重力フラグを判別
-	if (dbg_m_gravity_enable) {
-		m_move.y += GRAVITY;
-	}
+	m_move.y += GRAVITY;
 }
 
 
@@ -181,7 +168,6 @@ void Player::SwimUp() {
 
 
 void  Player::HitAction(Type type) {
-	// HACK:HitActionは毎フレーム実行されるので注意、無敵はフラグ等を立てて実装する
 	if (type == ENEMY&&m_is_active == true&& m_invisible_count <= 0) {
 		DecStamina(DECREASE_STAMINA);
 		m_p_hit_se->Play(0,0,0);
@@ -267,16 +253,6 @@ float Player::GetStamina() {
 
 void Player::DecStamina(float dec_sutamina_num) {
 	m_stamina -= dec_sutamina_num;
-}
-
-
-bool Player::DBGGravityEnable() {
-	return dbg_m_gravity_enable;
-}
-
-
-void Player::DBGSetGravityEnable(bool new_gravity_enable) {
-	dbg_m_gravity_enable = new_gravity_enable;
 }
 
 

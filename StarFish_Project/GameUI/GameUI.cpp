@@ -10,19 +10,8 @@ const float GameUI::RIGHT_ROCK_POS_X = Window::WIDTH - 196.f;
 const float GameUI::DANGER_LINE_PARCENTAGE = 0.3f;
 
 
-//GameUI::GameUI(Player* p_1, Player* p_2) {
-//	m_player1 = p_1;
-//	m_player2 = p_2;
-//
-//	m_sort_object_type = SortObject::GAME_UI;
-//
-//	m_1p_gage_texture = "Resource/Texture/UI/ui_ora.png";
-//	m_2p_gage_texture = "Resource/Texture/UI/ui_vio.png";
-//};
-
-
 GameUI::GameUI(PlayerManager* pm) {
-	m_p_player_mng = pm;
+	m_p_player_manager = pm;
 	m_sort_object_type = SortObjectType::GAME_UI;
 	
 	m_1p_gage_texture = "Resource/Texture/UI/ui_ora.png";
@@ -43,12 +32,12 @@ void GameUI::Draw() {
 
 	// スタミナゲージ
 	// どちらかの自機のスタミナがなくなるとスタミナゲージの描画をしない
-	if (m_p_player_mng->IsActiveRelay(Player::STAR_1) == true&& m_p_player_mng->IsActiveRelay(Player::STAR_2) == true) {
+	if (m_p_player_manager->IsActiveRelay(Player::STAR_1) == true&& m_p_player_manager->IsActiveRelay(Player::STAR_2) == true) {
 		// 自機1スタミナゲージ
-		Texture::Draw2D(m_1p_gage_texture.c_str(), 0.f, GagePosYCalc(m_p_player_mng->StaminaParcentageRelay(Player::STAR_1)));
+		Texture::Draw2D(m_1p_gage_texture.c_str(), 0.f, GagePosYCalc(m_p_player_manager->StaminaParcentageRelay(Player::STAR_1)));
 
 		// 自機2スタミナゲージ
-		Texture::Draw2D(m_2p_gage_texture.c_str(), RIGHT_GAGE_POS_X, GagePosYCalc(m_p_player_mng->StaminaParcentageRelay(Player::STAR_2)));
+		Texture::Draw2D(m_2p_gage_texture.c_str(), RIGHT_GAGE_POS_X, GagePosYCalc(m_p_player_manager->StaminaParcentageRelay(Player::STAR_2)));
 	}
 
 	// 左右ゲージ枠の岩
@@ -59,7 +48,7 @@ void GameUI::Draw() {
 
 void GameUI::GageColorChange() {
 	// 自機1
-	if (m_p_player_mng->StaminaParcentageRelay(Player::STAR_1) <= DANGER_LINE_PARCENTAGE) {
+	if (m_p_player_manager->StaminaParcentageRelay(Player::STAR_1) <= DANGER_LINE_PARCENTAGE) {
 		m_1p_gage_texture = "Resource/Texture/UI/ui_red.png";
 	}
 	else {
@@ -67,7 +56,7 @@ void GameUI::GageColorChange() {
 	}
 
 	// 自機2
-	if (m_p_player_mng->StaminaParcentageRelay(Player::STAR_2) <= DANGER_LINE_PARCENTAGE) {
+	if (m_p_player_manager->StaminaParcentageRelay(Player::STAR_2) <= DANGER_LINE_PARCENTAGE) {
 		m_2p_gage_texture = "Resource/Texture/UI/ui_red.png";
 	}
 	else {

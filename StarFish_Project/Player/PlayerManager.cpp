@@ -20,21 +20,12 @@ PlayerManager::~PlayerManager() {
 
 
 void PlayerManager::Update() {
-	//m_p_list[Player::STAR_1]->Update();
-	//m_p_list[Player::STAR_2]->Update();
-
 	// 片方死んだら片方も死ぬ
 	if (m_p_list[Player::STAR_1]->IsActive() == false || m_p_list[Player::STAR_2]->IsActive() == false) {
 		m_p_list[Player::STAR_1]->EnableDead();
 		m_p_list[Player::STAR_2]->EnableDead();
 	}
 }
-
-
-//void PlayerManager::Draw() {
-//	m_p_list[Player::STAR_1]->Draw();
-//	m_p_list[Player::STAR_2]->Draw();
-//}
 
 
 float PlayerManager::StaminaParcentageRelay(Player::ID_TYPE type) {
@@ -86,10 +77,8 @@ bool PlayerManager::PartnerIsThereDirection(Player::ID_TYPE myself, Player::ID_T
 
 
 Player* PlayerManager::GetPlayerInstance(int player_num) {
-
 	if (m_p_list[player_num] != nullptr) {
 		return m_p_list[player_num]->GetInstance();
 	}
-
 	return nullptr;
 }

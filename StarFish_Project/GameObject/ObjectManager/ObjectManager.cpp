@@ -15,19 +15,19 @@
 
 ObjectManager::ObjectManager(){
 	// プレイヤー生成
-	m_p_player_mng = new PlayerManager(this);
+	m_p_player_manager = new PlayerManager(this);
 
 	// 敵管理生成
 	m_p_enemy_mng = new EnemyManager(this);
 
 	// ロープ生成
-	m_p_rope = new Rope(m_p_player_mng);
+	m_p_rope = new Rope(m_p_player_manager);
 	// スタミナGameUI生成
-	m_p_ui = new GameUI(m_p_player_mng);
+	m_p_ui = new GameUI(m_p_player_manager);
 	// マップ管理生成
-	m_p_map_mng = new MapManager(m_p_player_mng, m_p_enemy_mng, this);
+	m_p_map_mng = new MapManager(m_p_player_manager, m_p_enemy_mng, this);
 	// 当たり判定管理生成
-	m_p_collision_mng = new CollisionManager(m_p_player_mng, m_p_enemy_mng);
+	m_p_collision_mng = new CollisionManager(m_p_player_manager, m_p_enemy_mng);
 
 	// オブジェクト登録
 	Entry(m_p_rope);
@@ -48,7 +48,7 @@ ObjectManager::~ObjectManager() {
 
 void ObjectManager::Update() {
 	// プレイヤー管理クラス更新
-	m_p_player_mng->Update();
+	m_p_player_manager->Update();
 	// 敵管理クラス更新
 	m_p_enemy_mng->Update();
 
@@ -181,8 +181,8 @@ void ObjectManager::MemoryDelete(unsigned int id) {
 bool ObjectManager::IsClear()const{
 	
 	// マップの背景とチップが最大で、かつ自機の位置が200.fよりも少ない(上)のとき
-	if (m_p_map_mng->IsMaxMapRange() == true && m_p_player_mng->GetPosRelay(Player::STAR_1).y <= 200.f ||
-		m_p_map_mng->IsMaxMapRange() == true && m_p_player_mng->GetPosRelay(Player::STAR_2).y <= 200.f) {
+	if (m_p_map_mng->IsMaxMapRange() == true && m_p_player_manager->GetPosRelay(Player::STAR_1).y <= 200.f ||
+		m_p_map_mng->IsMaxMapRange() == true && m_p_player_manager->GetPosRelay(Player::STAR_2).y <= 200.f) {
 		return true;
 	}
 		return false;
@@ -190,7 +190,7 @@ bool ObjectManager::IsClear()const{
 
 
 bool ObjectManager::IsGameOver()const {
-	if (m_p_player_mng->IsActiveRelay(Player::STAR_1) == false && m_p_player_mng->IsActiveRelay(Player::STAR_2) == false) {
+	if (m_p_player_manager->IsActiveRelay(Player::STAR_1) == false && m_p_player_manager->IsActiveRelay(Player::STAR_2) == false) {
 		return true;
 	}
 	return false;
