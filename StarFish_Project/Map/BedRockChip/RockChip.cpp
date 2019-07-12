@@ -6,16 +6,16 @@
 // オフセット値設定
 const D3DXVECTOR2 offset_pos[10] =
 {
-{ 0.f,1.f }, // 左上
-{ 0.f,1.f }, // 右上
+{ 0.f,1.f },  // 左上
+{ 0.f,1.f },  // 右上
 { 0.f,-1.f }, // 左下
 { 0.f,-1.f }, // 右下
-{ 0.f,0.f }, // 左
-{ 0.f,0.f }, // 右
-{ 0.f,1.f }, // 上
+{ 0.f,0.f },  // 左
+{ 0.f,0.f },  // 右
+{ 0.f,1.f },  // 上
 { 0.f,-1.f }, // 下
-{ 0.f,0.f }, // 中央
-{ 0.f,0.f }, // アンモナイト
+{ 0.f,0.f },  // 中央
+{ 0.f,0.f },  // アンモナイト
 };
 
 
@@ -62,10 +62,12 @@ RockChip::RockChip(int chip_num,const D3DXVECTOR2 &pos, Map*map) {
 	m_map = map;
 }
 
+
 void RockChip::Draw(){
 
 	Texture::Draw2D(bed_rock_chip_name.c_str(), m_pos.x, m_pos.y,1.0f,1.0f);
 }
+
 
 void RockChip::Update(){
 

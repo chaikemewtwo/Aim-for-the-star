@@ -43,6 +43,7 @@
     <ClCompile Include="Enemy\EnemyState\EnemyVerticalMoveState\EnemyVerticalMoveState.cpp" />
     <ClCompile Include="Enemy\EnemyState\EnemyPatrolState\EnemyPatrolState.cpp" />
     <ClCompile Include="ScrollManager\ScrollManager.cpp" />
+    <ClCompile Include="ScrollManager\ScrollManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -94,6 +95,7 @@
     <ClInclude Include="Enemy\EnemyState\EnemyPatrolState\EnemyPatrolState.h" />
     <ClInclude Include="Map\ChipBase\ChipBase.h" />
     <ClInclude Include="Map\NormalChip\NormalChip.h" />
+    <ClInclude Include="ScrollManager\ScrollManager.h" />
     <ClInclude Include="ScrollManager\ScrollManager.h" />
   </ItemGroup>
   <ItemGroup>

@@ -55,6 +55,9 @@ void CollisionManager::Collision() {
 			ChackHitCircle(m_p_enemy_manager->GetEnemyInstance(j),m_p_player[i]);
 		}
 	}
+
+	// マップ当たり判定
+	MapCollision();
 }
 
 
@@ -104,6 +107,7 @@ void CollisionManager::MapCollision(){
 			m_player_collision_dir_type[i][1]
 		);
 
+		// 移動量初期化
 		m_p_player[i]->SetMove(collision_move);
 	}
 }

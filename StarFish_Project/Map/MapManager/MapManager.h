@@ -50,12 +50,6 @@ public:
 
 
 	/**
-	* @brief MapManagerの描画(Objectのオーバーライド関数)
-	*/
-	void Draw();
-
-
-	/**
 	* @brief マップが最大スクロールかどうかを返す
 	* @return bool 同上
 	*/

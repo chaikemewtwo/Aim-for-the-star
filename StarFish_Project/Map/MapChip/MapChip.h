@@ -33,7 +33,7 @@ enum CollisionDirectionType;
 /**
 * @brief チップを構成するマップクラス
 */
-class Map : public Object {
+class Map : public Object{
 public:
 	
 	//! チップ間の間隔
@@ -71,6 +71,12 @@ public:
 	* @brief マップのデストラクタ
 	*/
 	~Map();
+
+
+	/**
+	* @brief 生成してからブロックなどを設置する初期化
+	*/
+	void Init();
 
 
 	/**

@@ -15,6 +15,10 @@
 
 ObjectManager::ObjectManager(){
 
+
+	// 敵管理生成
+	m_p_enemy_mng = new EnemyManager(this);
+
 	// プレイヤー1生成
 	m_p_player[Player::STAR_1] = new Player(Player::STAR_1);
 
@@ -25,9 +29,6 @@ ObjectManager::ObjectManager(){
 	Entry(m_p_player[Player::STAR_1]);
 	Entry(m_p_player[Player::STAR_2]);
 
-	// 敵管理生成
-	m_p_enemy_mng = new EnemyManager(this);
-	
 	// ロープ生成
 	m_p_rope = new Rope(m_p_player[Player::STAR_1], m_p_player[Player::STAR_2]);
 
@@ -46,7 +47,9 @@ ObjectManager::ObjectManager(){
 	// オブジェクト登録
 	Entry(m_p_rope);
 	Entry(m_p_ui);
+
 }
+
 
 ObjectManager::~ObjectManager() {
 
@@ -67,10 +70,10 @@ void ObjectManager::Update() {
 
 	// スクロールの管理者
 	m_p_scroll_manager->Update();
-
-	// 更新
+	
 	for (auto&itr : m_p_object_list) {
 
+		// 更新
 		itr.second->Update();
 	}
 

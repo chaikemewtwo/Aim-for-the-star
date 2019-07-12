@@ -9,7 +9,7 @@
 
 
 /**
-*
+* @brief オブジェクトを管理する管理者
 */
 
 // 前方参照 
@@ -129,7 +129,7 @@ private:
 private:
 
 	//! オブジェクトリスト(常に降順ソートを行う)
-	std::map<unsigned int,Object*>m_p_object_list;
+	std::map<unsigned int,Object*,std::greater<>>m_p_object_list;
 
 	//! 再利用idリスト(使い終わったidを登録するリスト)
 	std::vector<unsigned int>m_reuse_id_list;

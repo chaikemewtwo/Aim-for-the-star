@@ -56,26 +56,6 @@ Map::Map(EnemyManager*e_mng,ObjectManager*obj_mng) :
 	// ファイル読み込み
 	Load("Map/MapData/MapData.csv");
 	
-	// スクロール位置を中心に
-	// 初期化時回りのオブジェクトを生成させる
-	{
-		int create_pos_begin = GetChipCastByPos(-m_pos.y);
-		int create_pos_end = GetChipCastByPos(-m_pos.y) + (MAX_IN_WINDOW_CHIP_NUM_H + 2);
-
-		for (int y = create_pos_begin; y < create_pos_end; y++) {
-			for (int x = 0; x < MAX_IN_WINDOW_CHIP_NUM_W; x++){
-
-				// 配列外アクセスは許させない
-				if (y < 0 || x < 0) {
-					return;
-				}
-
-				// 敵生成集め
-				EnemyCreate(x, y);
-				RockChipCreate(x, y);
-			}
-		}
-	}	
 }
 
 
@@ -97,15 +77,20 @@ void Map::Update() {
 	//PlayerScroll(0);
 	
 	
-	// マップ座標にマップの移動ベクトルを加算
-	//if (delay_update_count >= 1) {
+	if (delay_update_count >= 1) {
+
+		// マップ座標にマップの移動ベクトルを加算
 		m_pos.y += m_scroll_move.y;
+
 		// マップの移動ベクトル初期化
 		m_scroll_move.y = 0.f;
+
+		// 遅延カウント初期化
 		delay_update_count = 0;
-	//}
+	}
+
 	// 遅延カウント更新
-	//delay_update_count++;
+	delay_update_count++;
 	
 
 	// スクロール制限
@@ -113,6 +98,32 @@ void Map::Update() {
 
 	// 生成と削除
 	CreateAndDestory();
+}
+
+
+void Map::Init() {
+
+	// スクロール位置を中心に
+	// 初期化時回りのオブジェクトを生成させる
+	{
+		int create_pos_begin = GetChipCastByPos(-m_pos.y);
+		int create_pos_end = GetChipCastByPos(-m_pos.y) + (MAX_IN_WINDOW_CHIP_NUM_H + 2);
+
+		for (int y = create_pos_begin; y < create_pos_end; y++) {
+			for (int x = 0; x < MAX_IN_WINDOW_CHIP_NUM_W; x++) {
+
+				// 配列外アクセスは許させない
+				if (y < 0 || x < 0) {
+					return;
+				}
+
+				// 敵生成集め
+				EnemyCreate(x, y);
+				RockChipCreate(x, y);
+			}
+		}
+	}
+
 }
 
 
@@ -250,6 +261,7 @@ void Map::CreateAndDestory(){
 	const int DESTORY_LINE_DOWN = CREATE_LINE_DOWN - 2;
 
 
+	// 生成線
 	int create_line_range[2] = { CREATE_LINE_UP,CREATE_LINE_DOWN };
 
 	// 生成
@@ -262,6 +274,7 @@ void Map::CreateAndDestory(){
 		}
 	}
 
+	// 削除線
 	int destory_line_range[2] = { DESTORY_LINE_UP ,DESTORY_LINE_DOWN };
 
 	// 削除
@@ -364,13 +377,13 @@ void Map::RockChipCreate(int x, int y) {
 	
 	// Mapの高さから今のyチップ座標を割り出し
 	int create_chip_y = m_max_map_chip_height_size - y;
-
+	
 	// チップ座標位置を作成
 	D3DXVECTOR2 chip_pos(
 		(float)(Map::CHIP_SIZE * x),
 		// 0.5ずつ上にずらしているだけ
-		(float)((Map::CHIP_SIZE) * -y) + // -ENTRY_CHIP_INTERVAL_Y
-		(float)(Window::HEIGHT + 8) + (CHIP_SIZE * ((-m_pos.y + 0.5f) / CHIP_SIZE)) - 64.f // スクロール位置
+		(float)((Map::CHIP_SIZE -0.5f) * -y) + 
+		(float)(Window::HEIGHT + 8) + (CHIP_SIZE * ((-m_pos.y + 0.5f) / CHIP_SIZE)) - 64.f
 	);
 
 	// チップ番号をMapクラスから受け取る
@@ -385,7 +398,7 @@ void Map::RockChipCreate(int x, int y) {
 		}
 
 		// 岩リスト追加
-		m_map_chip_list[create_chip_y][x] =
+		m_map_chip_list[create_chip_y][x] = 
 			new RockChip(
 				chip_num,
 				chip_pos,

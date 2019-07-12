@@ -31,6 +31,7 @@ enum CollisionDirectionType {
 };
 
 
+
 /**
 * @brief マップの衝突装置クラス
 */
@@ -64,6 +65,7 @@ private:
 
 	//! 衝突チップサイズX
 	const float CHIP_SCALE_X = 6.f;
+
 	//! 衝突チップサイズY
 	const float CHIP_SCALE_Y = 6.f;
 
@@ -157,11 +159,10 @@ private:
 	bool IsWallCollision(float pos_x, float pos_y, float move_x, float move_y);
 
 
-
 private:
 
 	//! マップインスタンス
-	Map*mp_map;
+	Map*m_p_map;
 
 	//! スクロールの状態
 	CollisionDirectionType m_scroll_dir_y_type;

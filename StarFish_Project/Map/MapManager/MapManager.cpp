@@ -8,7 +8,7 @@
 
 
 
-MapManager::MapManager(EnemyManager*e_mng, ObjectManager*obj_mng) {
+MapManager::MapManager(EnemyManager*e_mng, ObjectManager*object_manager) {
 
 
 	// nullチェック
@@ -16,12 +16,12 @@ MapManager::MapManager(EnemyManager*e_mng, ObjectManager*obj_mng) {
 		return;
 	}
 
-	if (obj_mng == nullptr) {
+	if (object_manager == nullptr) {
 		return;
 	}
 
 	// マップ生成
-	m_p_map = new Map(e_mng, obj_mng);
+	m_p_map = new Map(e_mng, object_manager);
 
 	// 背景生成
 	m_p_bg1 = new BackGround(
@@ -46,13 +46,17 @@ MapManager::MapManager(EnemyManager*e_mng, ObjectManager*obj_mng) {
 	//	(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_1.png")),
 	//	(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_1.png")));
 
-	
+	// マップの登録
+	object_manager->Entry(m_p_map);
 	// 背景1登録
-	obj_mng->Entry(m_p_bg1);
+	object_manager->Entry(m_p_bg1);
 	// 背景2
-	//obj_mng->Entry(m_p_bg2);	
-	// マップ登録
-	obj_mng->Entry(m_p_map);
+	//obj_mng->Entry(m_p_bg2);
+
+	
+
+	// マップの初期化
+	m_p_map->Init();
 }
 
 
@@ -67,26 +71,6 @@ MapManager::~MapManager() {
 	}
 }
 
-
-void MapManager::Update() {
-
-	// nullチェック
-	if (m_p_map == nullptr) {
-		return;
-	}
-	if (m_p_bg1 == nullptr) {
-		return;
-	}
-
-	// マップ関連更新
-	//m_p_map->Update();
-	//m_p_bg1->Update();
-}
-
-
-void MapManager::Draw(){
-
-}
 
 
 bool MapManager::IsMaxMapRange()const {

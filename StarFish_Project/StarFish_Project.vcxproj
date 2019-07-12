@@ -100,10 +100,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="ScrollManager\ScrollManager.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
+    <ClCompile Include="ScrollManager\ScrollManager.cpp" />
     <ClCompile Include="SetRenderStateFile\SetRenderStateFile.cpp" />
     <ClCompile Include="GameUI\GameUI.cpp">
       <SubType>
@@ -206,10 +203,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="ScrollManager\ScrollManager.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
+    <ClInclude Include="ScrollManager\ScrollManager.h" />
     <ClInclude Include="SetRenderStateFile\SetRenderStateFile.h" />
     <ClInclude Include="GameUI\GameUI.h">
       <SubType>
