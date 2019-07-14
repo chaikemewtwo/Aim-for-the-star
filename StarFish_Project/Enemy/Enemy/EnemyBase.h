@@ -4,8 +4,8 @@
 #include"../../Lib/Window/Window.h"
 #include"../../CollisionObject/CircleCollisionObject.h"
 #include"../../Map/MapChip/MapChip.h"
-#include"../../Player/Player.h"
-#include"../EnemyState/EnemyStateBase.h"
+#include"../../Player/PlayerManager.h"
+#include"../../Enemy/EnemyState/EnemyStateBase.h"
 
 
 // 敵の状態識別Id
@@ -56,7 +56,7 @@ public:
 	void ChangeState(StateBase* state);
 
 	// 速度のゲッター
-	float GetSpeed();
+	float GetSpeed()const;
 	
 	// 画面の左右どちらかのフラグのゲッター
 	bool IsLeft();
@@ -94,6 +94,7 @@ protected:
 	bool IsTopPos();
 
 protected:
+	float m_speed;				// 移動速度	
 	int m_delete_timer;			// 削除用タイマー
 	bool m_can_move;			// 移動するかのフラグ
 	bool m_is_left;				// 左右どちら向きかのフラグ
@@ -129,11 +130,5 @@ protected:
 
 	StateBase* m_p_state_base;	// 状態を保存する変数
 	Map* m_p_map;
-	Player* m_p_player[2];
+	PlayerManager* m_p_p_mng;
 };
-
-/*
-《その他Enemy》
-	・画像の反転処理の反映
-	・EnemyManagerのDraw関数の削除
-*/

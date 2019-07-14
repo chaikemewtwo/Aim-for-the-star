@@ -2,7 +2,7 @@
 
 
 //コンストラクタ
-SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* map, bool can_move) {
+SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* const map, bool can_move) {
 
 	// マップを受け取る
 	m_p_map = map;
@@ -22,14 +22,6 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* map, bool can_move) {
 	m_anim_change_time = 20;
 
 	m_enemy_texture = m_texture_list[EnemyTexture::SEAURCHIN_MOVE];
-
-	// 画面の左右どちらにいるかを判定
-	if (m_pos.x < WINDOW_CENTER_LINE) {
-		m_is_left = true;
-	}
-	else if (m_pos.x > WINDOW_CENTER_LINE) {
-		m_is_left = false;
-	}
 }
 //――――――――――――――――――――――――――
 
@@ -38,7 +30,7 @@ void SeaUrchin::Update() {
 
 	m_p_state_base->Action(this);
 	// マップスクロールに合わせた移動処理
-	m_pos.y += m_p_map->GetMove().y;
+	m_pos.y += m_p_map->GetMove();
 
 	CheckEnemyActiv();
 }

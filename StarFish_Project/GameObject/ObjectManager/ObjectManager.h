@@ -3,6 +3,7 @@
 #include<vector>
 #include<memory>
 #include <functional>
+#include"../../ManagerBase/ManagerBase.h"
 
 
 // オブジェクト管理者の説明はクラスの下にあります。
@@ -16,7 +17,7 @@
 class Object;          
 class EnemyManager;    
 class MapManager;      
-class Player;          
+class PlayerManager;
 class CollisionManager;
 class GameUI;          
 class Rope;       
@@ -92,12 +93,6 @@ public:
 
 
 	/**
-	* @brief オブジェクトリストのメモリ削除
-	*/
-	void MemoryDelete(unsigned int id);
-
-
-	/**
 	* @brief クリアかどうかを取得する
 	* @return bool
 	*/
@@ -131,20 +126,20 @@ private:
 	//! オブジェクトリスト(常に降順ソートを行う)
 	std::map<unsigned int,Object*,std::greater<>>m_p_object_list;
 
-	//! 再利用idリスト(使い終わったidを登録するリスト)
-	std::vector<unsigned int>m_reuse_id_list;
-
 	//! 描画用オブジェクトリスト
 	std::vector<Object*>m_draw_object_list;
 
+	//! 管理者配列
+	std::vector<ManagerBase*>m_p_manager_list;
+
+	//! マップ管理者
+	MapManager * m_p_map_manager;
+
+	//! 自機管理者
+	PlayerManager * m_p_player_manager;
+
 	//! 現在最新id
 	unsigned int m_current_the_newest_id;
-
-	//! マップ管理クラスポインタ
-	MapManager * m_p_map_mng;
-
-	//! 自機クラスヒトデ1ヒトデ2ポインタ
-	Player * m_p_player[2];              
 
 	//! GameUIクラスポインタ
 	GameUI * m_p_ui;  
@@ -152,14 +147,6 @@ private:
 	//! ロープクラスポインタ
 	Rope * m_p_rope;                     
 
-	//! 敵管理クラスポインタ
-	EnemyManager *m_p_enemy_mng;         
-
-	//! 衝突管理クラスポインタ
-	CollisionManager *m_p_collision_mng;
-
-	//! スクロールさせる為の管理者
-	ScrollManager *m_p_scroll_manager;
 };
 
 

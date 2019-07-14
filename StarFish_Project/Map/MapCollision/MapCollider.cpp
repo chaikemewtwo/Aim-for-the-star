@@ -104,7 +104,7 @@ bool MapCollider::YVertexHitCheck(
 				collision_dir_type_y = GetCollisionDirectionSerchY(move_y);
 
 				// スクロール方向衝突方向受け取り
-				m_scroll_dir_y_type = GetCollisionDirectionSerchY(-m_p_map->GetMove().y);
+				m_scroll_dir_y_type = GetCollisionDirectionSerchY(-m_p_map->GetMove());
 
 				// 縦の衝突判定
 				HeightPosPullBackPrevPos(pos.y, move_y, collision_dir_type_y);
@@ -188,14 +188,14 @@ bool MapCollider::IsWallCollision(float pos_x, float pos_y, float move_x, float 
 
 	{
 		// スクロールしているなら、スクロール移動値加算
-		if (-m_p_map->GetMove().y != 0.f) {
+		if (-m_p_map->GetMove() != 0.f) {
 
-			hit_pos_y = pos_y + (m_p_map->GetPos().y) + -m_p_map->GetMove().y;
+			hit_pos_y = pos_y + (m_p_map->GetPos()) + -m_p_map->GetMove();
 		}
 		// スクロールしていないなら、スクリーン移動値加算
 		else{
 
-			hit_pos_y = pos_y + (m_p_map->GetPos().y) + move_y;
+			hit_pos_y = pos_y + (m_p_map->GetPos()) + move_y;
 		}
 	}
 
@@ -223,10 +223,10 @@ void MapCollider::HeightPosPullBackPrevPos(float &pos_y, float &move_y, Collisio
 	if (collision_dir_type_y == UP || m_scroll_dir_y_type == UP && collision_dir_type_y != DOWN) {
 
 		// チップサイズ割り出し
-		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + (m_p_map->GetPos().y)) + 1);
+		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + (m_p_map->GetPos())) + 1);
 
 		// 下に戻す
-		pos_y = (chip_pos_y * Map::CHIP_SIZE) + ((-m_p_map->GetPos().y) + m_p_map->GetMove().y);
+		pos_y = (chip_pos_y * Map::CHIP_SIZE) + ((-m_p_map->GetPos()) + m_p_map->GetMove());
 
 		// 拡縮Y
 		if (CHIP_SCALE_Y > 0.f) {
@@ -243,13 +243,13 @@ void MapCollider::HeightPosPullBackPrevPos(float &pos_y, float &move_y, Collisio
 	else if (collision_dir_type_y == DOWN) {
 
 		// チップサイズ割り出し
-		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + m_p_map->GetPos().y));
+		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + m_p_map->GetPos()));
 
 		// 上に戻す
-		pos_y = (chip_pos_y * Map::CHIP_SIZE) + (-m_p_map->GetPos().y) + move_y + m_p_map->GetMove().y;
+		pos_y = (chip_pos_y * Map::CHIP_SIZE) + (-m_p_map->GetPos()) + move_y + m_p_map->GetMove();
 
 		// 衝突後の移動分減算
-		pos_y += -move_y - m_p_map->GetMove().y;
+		pos_y += -move_y - m_p_map->GetMove();
 
 		// サイズY
 		if (CHIP_SCALE_Y > 0.f) {
@@ -275,7 +275,7 @@ void MapCollider::WidthPosPullBackToPrevPos(float &pos_x, float &move_x, Collisi
 	if (collision_dir_type_x == LEFT) {
 
 		// チップに変換
-		chip_pos_x = (float)m_p_map->GetChipCastByPos(pos_x - (1));
+		chip_pos_x = (float)m_p_map->GetChipCastByPos(pos_x) - 1;
 
 		// X位置を右に戻す
 		pos_x = (chip_pos_x * Map::CHIP_SIZE) - move_x;

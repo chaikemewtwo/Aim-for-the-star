@@ -2,11 +2,11 @@
 #include"SeaUrchin.h"
 #include"SellFish.h"
 #include"NaporeonFish.h"
-#include"../../Blind/Blind.h"
 
 
-EnemyManager::EnemyManager(ObjectManager* obg_mng) {
+EnemyManager::EnemyManager(ObjectManager* const obg_mng,PlayerManager*const player_manager) {
 	m_p_obj_mng = obg_mng;
+	m_p_player_manager = player_manager;
 }
 //――――――――――――――――――――――――――
 
@@ -23,23 +23,13 @@ EnemyManager::~EnemyManager() {
 //――――――――――――――――――――――――――
 
 void EnemyManager::Update() {
+	// 削除するかのチェック
 	CheckDelete();
 }
 //―――――――――――――――――――――――――――
 
-void EnemyManager::Draw() {
-
-	for (auto enemy : m_enemy_list) {
-
-		if (enemy != nullptr) {
-			enemy->Draw();
-		}
-	}
-}
-//―――――――――――――――――――――――――――
-
 // 指定された敵を指定の位置に生成する
-void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, EnemyType type_num) {
+void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* const map,const EnemyType type_num) {
 
 	switch (type_num) {
 
@@ -52,11 +42,11 @@ void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2
 		break;
 
 	case EnemyType::SELLFISH:
-		m_enemy_list.emplace_back(new SellFish(pos, map, p1, p2));
+		m_enemy_list.emplace_back(new SellFish(pos, map, m_p_player_manager));
 		break;
 
 	case EnemyType::NAPOREONFISH:
-		m_enemy_list.emplace_back(new NaporeonFish(pos, map, p1, p2));
+		m_enemy_list.emplace_back(new NaporeonFish(pos, map,m_p_player_manager));
 		break;
 	}
 
@@ -66,11 +56,11 @@ void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2
 //―――――――――――――――――――――――――――
 
 // 指定の位置にブラインドを生成する
-void EnemyManager::CreateBlind(D3DXVECTOR2 pos, D3DXVECTOR2 goal) {
+void EnemyManager::CreateBlind(D3DXVECTOR2 from, D3DXVECTOR2 goal) {
 
 	// Objectに登録時にブラインド用変数に代入、その後にブラインドを生成
 	m_p_obj_mng->Entry(m_p_blind = new Blind);
-	m_p_blind->Create(pos, goal);
+	m_p_blind->Create(from, goal);
 }
 //―――――――――――――――――――――――――――
 
@@ -104,7 +94,7 @@ void EnemyManager::CheckDelete() {
 //――――――――――――――――――――――――――――
 
 // 敵の配列の数を返す
-int EnemyManager::GetEnemyTotal() {
+int EnemyManager::GetEnemyTotal()const {
 	return m_enemy_list.size();
 }
 //――――――――――――――――――――――――――――

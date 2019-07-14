@@ -153,6 +153,10 @@
     <ClInclude Include="Lib\UV\UV.h" />
     <ClInclude Include="Lib\Window\Window.h" />
     <ClInclude Include="LoadResource\LoadResource.h" />
+    <ClInclude Include="ManagerBase\ManagerBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Map\BackGround\BackGround.h" />
     <ClInclude Include="Map\BedRockChip\RockChip.h" />
     <ClInclude Include="Map\ChipBase\ChipBase.h">

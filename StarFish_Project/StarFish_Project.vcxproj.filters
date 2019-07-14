@@ -97,6 +97,7 @@
     <ClInclude Include="Map\NormalChip\NormalChip.h" />
     <ClInclude Include="ScrollManager\ScrollManager.h" />
     <ClInclude Include="ScrollManager\ScrollManager.h" />
+    <ClInclude Include="ManagerBase\ManagerBase.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />

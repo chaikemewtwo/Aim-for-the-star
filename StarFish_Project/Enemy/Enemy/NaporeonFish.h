@@ -3,9 +3,10 @@
 #include"EnemyBase.h"
 
 
+// メガネモチノウオクラス
 class NaporeonFish :public EnemyBase {
 public:
-	NaporeonFish(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, bool can_move = false);
+	NaporeonFish(D3DXVECTOR2 pos, Map* const map, PlayerManager* const p_mng, bool can_move = false);
 	~NaporeonFish()override {}
 
 	void Update()override;
@@ -23,4 +24,7 @@ private:
 	第4   ：判定したい相手の座標
 	*/
 	bool CheckTargetInTheRange(D3DXVECTOR2 vec1, D3DXVECTOR2 vec2, D3DXVECTOR2 vec3, D3DXVECTOR2 target_pos);
+
+private:
+	PlayerManager * m_p_p_mng;
 };

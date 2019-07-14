@@ -1,10 +1,11 @@
 ﻿#pragma once
-#include"../../Player/Player.h"
+#include"../Player/PlayerManager.h"
 #include"../Map/MapManager/MapManager.h"
+#include"../ManagerBase/ManagerBase.h"
 
 
 
-class ScrollManager {
+class ScrollManager : public ManagerBase{
 public:
 
 
@@ -14,7 +15,7 @@ public:
 	* @param[out] player2 自機２
 	* @param[out] map マップ管理者
 	*/
-	ScrollManager(Player*player1, Player*player2, MapManager*map);
+	ScrollManager(PlayerManager*player_manager,MapManager*map);
 
 
 	/**
@@ -38,7 +39,7 @@ public:
 private:
 
 	//! 自機配列
-	Player * m_p_player_list[Player::MAX];
+	PlayerManager * m_p_player_manager;
 
 	//! マップ管理者のポインタ
 	MapManager * m_p_map_manager;

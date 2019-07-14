@@ -3,6 +3,8 @@
 #include"../../GameObject/ObjectManager/ObjectManager.h"
 #include"../../Blind/Blind.h"
 #include"EnemyBase.h"
+#include"../../ManagerBase/ManagerBase.h"
+
 
 
 // 敵生成時の指定用定数
@@ -15,24 +17,34 @@ enum EnemyType {
 };
 
 
-class EnemyManager {
+class EnemyManager :public ManagerBase{
 public:
-	EnemyManager(ObjectManager* obj_mng);
+	EnemyManager(ObjectManager* const obj_mng, PlayerManager*const player_manager);
 	~EnemyManager();
 	
+
 	void Update();	
-	void Draw();
 
 	// 敵生成関数
-	void CreateEnemy(D3DXVECTOR2 pos, Map* map, Player* p1, Player* p2, EnemyType enemy_num);
+	/*
+	第1　：敵の生成座標
+	第2　：マップのインスタンス(スクロールによる移動に使用)
+	第3,4：プレイヤーのインスタンス(追跡、索敵に使用)
+	第5　：生成する敵の番号を指定
+	*/
+	void CreateEnemy(D3DXVECTOR2 pos, Map* const map,const EnemyType enemy_num);
 
 	// ブラインド生成関数
-	void CreateBlind(D3DXVECTOR2 pos, D3DXVECTOR2 goal);
+	/*
+	第1：生成する座標
+	第2：目指す地点(画面外に出るように設定)
+	*/
+	void CreateBlind(D3DXVECTOR2 from, D3DXVECTOR2 goal);
 
 	// 生成されている敵の総数を返す
-	int GetEnemyTotal();	
+	int GetEnemyTotal()const;	
 	
-	// 敵の指定された敵のインスタンスを返す
+	// 指定された敵のインスタンスを返す
 	EnemyBase* GetEnemyInstance(int num);
 
 private:
@@ -42,6 +54,7 @@ private:
 private:
 	std::vector<EnemyBase*> m_enemy_list;	// 生成した敵の配列
 
+	PlayerManager*m_p_player_manager;
 	ObjectManager* m_p_obj_mng;				
 	Blind* m_p_blind;						
 };

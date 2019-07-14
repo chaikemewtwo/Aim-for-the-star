@@ -1,11 +1,13 @@
 ﻿#pragma once
-#include "../Player/Player.h"
+//#include "../Player/Player.h"
+#include "../Player/PlayerManager.h"
 
 
 // ロープの最大全長は650×16
 class Rope:public Object {
 public:
-	Rope(Player* p1,Player* p2);
+	//Rope(Player* p1,Player* p2);
+	Rope(PlayerManager*pm);
 
 	void Update()override;
 	void Draw()override;
@@ -37,7 +39,8 @@ private:
 	// 端的に説明するとmyselfが行きたいX方向にpartnerがいるかどうか
 	// 正と正、負と負ならtrueが返りそれ以外はfalseが返ります
 	// 引数(比較する側のプレイヤーのポインタ,比較される側のプレイヤーポインタ)
-	bool PartnerIsThereDirection(Player*myself, Player*partner);
+	//bool PartnerIsThereDirection(Player*myself, Player*partner);
+	//bool PartnerIsThereDirection(Player*myself, Player*partner);
 
 private:
 	// ロープの最大の長さ
@@ -51,6 +54,8 @@ private:
 	static const float POS_Y_OFFSET;
 
 private:
-	Player* m_p1;	// 自機1
-	Player* m_p2;	// 自機2
+	PlayerManager* m_p_player_mng;
+
+	//Player* m_p1;	// 自機1
+	//Player* m_p2;	// 自機2
 };

@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include"../../GameObject/Object/Object.h"
 #include"../MapCollision/MapCollider.h"
+#include"../../ManagerBase/ManagerBase.h"
 
 
 // =========================
@@ -12,9 +13,10 @@
 // =========================
 
 
+
 // 前方参照
 class EnemyManager;
-class Player;
+class PlayerManager;
 class Map;
 class BackGround;
 class ObjectManager;
@@ -23,9 +25,8 @@ class ObjectManager;
 /**
 * @brief マップ関連の管理者
 */
-class MapManager {
+class MapManager : public ManagerBase{
 public:
-
 
 	/**
 	* @brief MapManagerのコンストラクタ
@@ -44,7 +45,7 @@ public:
 
 
 	/**
-	* @brief MapManagerの更新(Objectのオーバーライド関数)
+	* マップの更新
 	*/
 	void Update();
 

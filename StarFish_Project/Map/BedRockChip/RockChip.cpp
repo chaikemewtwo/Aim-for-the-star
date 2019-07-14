@@ -31,7 +31,7 @@ RockChip::RockChip(int chip_num,const D3DXVECTOR2 &pos, Map*map) {
 		return;
 	}
 
-	m_is_obj = false;
+	m_is_enemy = false;
 
 	// 生成されている
 	m_is_active = true;
@@ -45,7 +45,7 @@ RockChip::RockChip(int chip_num,const D3DXVECTOR2 &pos, Map*map) {
 	// 生成位置を作成
 	m_pos = pos;
 	
-	//m_pos += offset_pos[chip_num - 1];
+	m_pos += offset_pos[chip_num - 1];
 	
 	char str_buffer[256];        // チップの文字列を入れるchar
 
@@ -72,5 +72,5 @@ void RockChip::Draw(){
 void RockChip::Update(){
 
 	// マップにそって移動
-	m_pos.y += m_map->GetMove().y;
+	m_pos.y += m_map->GetMove();
 }

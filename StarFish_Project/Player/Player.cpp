@@ -6,8 +6,6 @@
 
 const float Player::PLAYER_COLLSION_RADIUS = 64.f;
 const float Player::PLAYER_SPEED = 3.f;
-const D3DXVECTOR2 Player::STAR_1_FIRST_POS = { Window::WIDTH / 2.f - 200.f, Window::HEIGHT / 2.f + 200.f };
-const D3DXVECTOR2 Player::STAR_2_FIRST_POS = { Window::WIDTH / 2.f + 200.f, Window::HEIGHT / 2.f + 200.f };
 const D3DXVECTOR2 Player::TEXTURE_SIZE_OFFSET = { 0.25f, 0.25f };
 const D3DXVECTOR2 Player::TEXTURE_PARTITION = { 4.f,4.f };
 const float Player::GRAVITY = 1.f;
@@ -19,11 +17,12 @@ const int Player::MAX_INVISIBLE_COUNT = 180;
 const int Player::INVISIBLE_DRAW_SWITCH_TIME = 20;
 
 
-Player::Player(ID_TYPE id) :
+Player::Player(ID_TYPE id,D3DXVECTOR2 first_pos) :
 	m_p_state(PlayerWaitState::GetInstance()),
 	m_move(0.f, 0.f),
 	m_angle(0.f),
 	m_draw_enable(true),
+	/*m_swim_enable(false),*/
 	m_invisible_count(0),
 	m_stamina(MAX_STAMINA),
 	dbg_m_gravity_enable(true)
@@ -82,13 +81,15 @@ Player::Player(ID_TYPE id) :
 	SetPlayerTexture(WAIT_TEXTURE);
 
 	// 自機1（ヒくん、オレンジの方）の初期化情報
-	if (id == STAR_1) {
-		m_pos = STAR_1_FIRST_POS;
-	}
-	// 自機2（デちゃん、ピンクの方）の初期化情報
-	else if (id == STAR_2) {
-		m_pos = STAR_2_FIRST_POS;
-	}	
+	// PlayerManagerが完成した時点で削除します
+	//if (id == STAR_1) {
+	//	m_pos = STAR_1_FIRST_POS;
+	//}
+	//// 自機2（デちゃん、ピンクの方）の初期化情報
+	//else if (id == STAR_2) {
+	//	m_pos = STAR_2_FIRST_POS;
+	//}	
+	m_pos = first_pos;
 
 	m_p_state->Init(this);
 }
@@ -142,6 +143,11 @@ void Player::Draw() {
 }
 
 
+Player* Player::GetInstance() {
+	return this;
+}
+
+
 void Player::AddGravity() {
 	// 重力フラグを判別
 	if (dbg_m_gravity_enable) {
@@ -151,7 +157,7 @@ void Player::AddGravity() {
 
 
 void Player::AngleAdjust(bool is_move_right) {
-	// 自機傾き変更、TRUEで右へ傾く
+	// 自機角度変更、TRUEで右へ傾く
 	if (m_angle <= MAX_ANGLE && m_angle >= -MAX_ANGLE) {
 		m_angle += is_move_right ? ANGLE_ADD : -ANGLE_ADD;
 	}
@@ -167,11 +173,10 @@ void Player::AngleAdjust(bool is_move_right) {
 }
 
 
-void Player::SwimUp() {
-	static const float RAD = 180.f;
-	// 上方向への移動量(ベクトルの長さ)を割り出す
-	m_move.x += sin(m_angle * D3DX_PI / RAD) * m_speed;
-	m_move.y -= cos(m_angle * D3DX_PI / RAD) * m_speed;
+void Player::SwimUp() {	
+	// 向いている角度とスピードから移動量を割り出し加算（移動量は毎フレーム0リセットしています）
+	m_move.x += sin(m_angle * D3DX_PI / 180.f) * m_speed;
+	m_move.y -= cos(m_angle * D3DX_PI / 180.f) * m_speed;
 }
 
 
@@ -211,11 +216,6 @@ void Player::InvisibleDrawSwitch() {
 
 D3DXVECTOR2 Player::GetMove()const {
 	return m_move;
-}
-
-
-void Player::SetPos(D3DXVECTOR2 pos) {
-	m_pos = pos;
 }
 
 

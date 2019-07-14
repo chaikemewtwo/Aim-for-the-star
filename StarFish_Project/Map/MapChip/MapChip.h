@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include<vector>
-#include"../../Player/Player.h"
+//#include"../../Player/Player.h"
+#include"../../Player/PlayerManager.h"
 #include"../../GameObject/ObjectManager/ObjectManager.h"
 #include"../ChipBase/ChipBase.h"
 #include"../MapCollision/MapCollider.h"
@@ -33,7 +34,7 @@ enum CollisionDirectionType;
 /**
 * @brief チップを構成するマップクラス
 */
-class Map : public Object{
+class Map{
 public:
 	
 	//! チップ間の間隔
@@ -56,7 +57,6 @@ public:
 
 public:
 
-
 	/**
 	* @brief マップのコンストラクタ
 	* @param[out] Player1のポインタ
@@ -74,7 +74,7 @@ public:
 
 
 	/**
-	* @brief 生成してからブロックなどを設置する初期化
+	* @brief マップチップの初期化
 	*/
 	void Init();
 
@@ -90,7 +90,6 @@ public:
 	*/
 	void Draw();
 
-	// マップオブジェクトの生成と削除
 
 	/**
 	* @brief マップオブジェクトの生成
@@ -110,7 +109,7 @@ public:
 	* @brief スクロール移動値ゲッター
 	* @return D3DXVECTOR2
 	*/
-	D3DXVECTOR2 GetMove()const;
+	float GetMove()const;
 
 
 	/**
@@ -156,6 +155,20 @@ public:
 
 
 	/**
+	* @brief スクロール位置を返す
+	* @return float
+	*/
+	float GetPos()const;
+
+
+	/**
+	* @brief スクロール位置を代入
+	* @param[in] pos
+	*/
+	void SetPos(const float&pos);
+
+
+	/**
 	* @brief マップのスクロールの初期化セッター
 	* @param[in] is_scroll スクロールしているか
 	*/
@@ -177,14 +190,6 @@ public:
 
 
 	/**
-	* @brief スクロールする関数
-	* @param[out] screen_pos_y 現在いるスクリーン座標値
-	* @param[out] move_y オブジェクトの移動値
-	*/
-	void Scroll(float &screen_pos_y, float &move_y);
-
-
-	/**
 	* @brief マップ当たり判定のゲッター
 	*/
 	MapCollider *GetMapColliderInstance();
@@ -193,7 +198,7 @@ public:
 	/**
 	* @brief 移動値のセッター
 	*/
-	void SetScrollYMove(const float&move);
+	void SetScrollMove(const float&move);
 
 
 	/**
@@ -209,7 +214,7 @@ public:
 	*/
 	void SetScrollDownLine(const float &scroll_line_y);
 
-	
+
 private:
 	
 
@@ -218,12 +223,6 @@ private:
 	* @param[out] load_file_name
 	*/
 	void Load(const std::string&load_file_name);
-
-
-	/**
-	* @brief 最大スクロール関数
-	*/
-	void MaxScroll();
 
 
 	/**
@@ -251,9 +250,8 @@ private:
 	int GetChipPosCastByChip(const float chip_x, const float chip_y)const;
 
 
-	// プラスの符号に変換
 	/**
-	* @brief プラスの符号に変換
+	* @brief 符号変換
 	* @param[out] sign_change_num 変換する値
 	* @return float 符号変換した値
 	*/
@@ -266,28 +264,17 @@ private:
 	void CreateAndDestory();
 
 
-	/**
-	* @brief 自機との当たり判定とスクロール
-	* @param[in] player_num 当たりを行う自機番号
-	*/
-	//void PlayerCollision(int player_num);
-
-
-	/** 
-	* @brief 自機のスクロール
-	* @param[in] player_num スクロールを行う自機番号
-	*/
-	//void PlayerScroll(int player_num);
-	
-
 private:
-	
+
 	//! 縦間隔をあけて遷移などをする
 	const int HEIGHT_INTERVAL = 60;
+
 	//! オブジェクトとマップ当たり判定の頂点位置	
 	const D3DXVECTOR2 VERTEX_OFFSET{-32.f,-56.f};
+
 	//! チップ生成領域上							  
 	const int CHIP_RANGE_UP = 19;
+
 	//! チップ生成領域下
 	const int CHIP_RANGE_DOWN = 1;
 
@@ -296,8 +283,11 @@ private:
 	//! マップを構成するチップリスト
 	std::vector<std::vector<ChipBase*>>m_map_chip_list; 
 
+	//! スクロール位置
+	float m_scroll_pos;
+
 	//! マップスクロールの動き
-	D3DXVECTOR2 m_scroll_move;
+	float m_scroll_move;
 
 	//! 最大マップの高さチップサイズ
 	int m_max_map_chip_height_size;		
@@ -322,6 +312,9 @@ private:
 
 	//! 当たり判定マップ生成クラス
 	MapCollider * m_p_map_collider;
+
+	//! 自機管理のポインタ
+	PlayerManager * m_p_p_mng;
 
 	//! 敵管理のポインタ
 	EnemyManager *m_p_enemy_manager;

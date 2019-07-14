@@ -1,4 +1,5 @@
 ﻿#include"ObjectManager.h"
+#include"../../Player/PlayerManager.h"
 #include"../../Enemy/Enemy/EnemyManager.h"
 #include"../../Player/Player.h"
 #include"../../Map/MapChip/MapChip.h"
@@ -15,39 +16,44 @@
 
 ObjectManager::ObjectManager(){
 
+	// 各コンストラクタに渡す為、一時的な参照に入れる
+	m_p_player_manager = new PlayerManager(this);
 
-	// 敵管理生成
-	m_p_enemy_mng = new EnemyManager(this);
+	// オブジェクト生成
+	{
+		// ロープ生成
+		m_p_rope = new Rope(m_p_player_manager);
 
-	// プレイヤー1生成
-	m_p_player[Player::STAR_1] = new Player(Player::STAR_1);
+		// スタミナGameUI生成
+		m_p_ui = new GameUI(m_p_player_manager);
 
-	// プレイヤー2生成
-	m_p_player[Player::STAR_2] = new Player(Player::STAR_2);
+		// オブジェクト登録
+		Entry(m_p_rope);
+		Entry(m_p_ui);
+	}
 
-	// プレイヤーオブジェクト登録
-	Entry(m_p_player[Player::STAR_1]);
-	Entry(m_p_player[Player::STAR_2]);
+	EnemyManager*p_enemy_manager = new EnemyManager(this,m_p_player_manager);
+	m_p_map_manager = new MapManager(p_enemy_manager, this);
 
-	// ロープ生成
-	m_p_rope = new Rope(m_p_player[Player::STAR_1], m_p_player[Player::STAR_2]);
 
-	// スタミナGameUI生成
-	m_p_ui = new GameUI(m_p_player[Player::STAR_1], m_p_player[Player::STAR_2]);
+	// 管理者登録
+	{
+		// 敵管理登録
+		m_p_manager_list.emplace_back(p_enemy_manager);
 
-	// マップ管理生成
-	m_p_map_mng = new MapManager(m_p_enemy_mng, this);
+		// プレイヤー管理登録
+		m_p_manager_list.emplace_back(m_p_player_manager);
 
-	// 当たり判定管理生成
-	m_p_collision_mng = new CollisionManager(m_p_player[Player::STAR_1], m_p_player[Player::STAR_2], m_p_enemy_mng,m_p_map_mng);
+		// マップ管理登録
+		m_p_manager_list.emplace_back(m_p_map_manager);
 
-	// スクロール管理者生成
-	m_p_scroll_manager = new ScrollManager(m_p_player[Player::STAR_1], m_p_player[Player::STAR_2], m_p_map_mng);
+		// スクロール管理者生成
+		m_p_manager_list.emplace_back(new ScrollManager(m_p_player_manager, m_p_map_manager));
 
-	// オブジェクト登録
-	Entry(m_p_rope);
-	Entry(m_p_ui);
+		// 当たり判定管理生成
+		m_p_manager_list.emplace_back(new CollisionManager(m_p_player_manager, p_enemy_manager, m_p_map_manager));
 
+	}	
 }
 
 
@@ -65,20 +71,19 @@ ObjectManager::~ObjectManager() {
 
 void ObjectManager::Update() {
 
-	// 敵管理クラス更新
-	m_p_enemy_mng->Update();
 
-	// スクロールの管理者
-	m_p_scroll_manager->Update();
-	
+	// オブジェクトの更新
 	for (auto&itr : m_p_object_list) {
 
 		// 更新
 		itr.second->Update();
 	}
 
-	// 当たり判定
-	m_p_collision_mng->Collision();
+	// 管理者の更新
+	for (auto&manager : m_p_manager_list) {
+		manager->Update();
+	}
+
 
 	// 描画用オブジェクトをソートする
 	EntryAndSortDrawObject();
@@ -124,6 +129,7 @@ void ObjectManager::Entry(Object*obj) {
 	unsigned int create_id = 0;
 
 	create_id = m_current_the_newest_id;
+
 	m_current_the_newest_id++;
 
 	// Objectの要素を追加
@@ -144,33 +150,24 @@ void ObjectManager::InitDrawObjectList() {
 
 void ObjectManager::Exit(unsigned int id) {
 
-	// 使い終わったidを保存
-	m_reuse_id_list.push_back(id);
-
 	// Objectの配列番号の要素を削除
 	m_p_object_list.erase(id);
 }
 
 
 void ObjectManager::Exit(Object*object) {
-	// 使い終わったidを保存
-	m_reuse_id_list.push_back(object->GetId());
-
+	
 	// Objectの配列番号の要素を削除
 	m_p_object_list.erase(object->GetId());
 }
 
 
-void ObjectManager::MemoryDelete(unsigned int id) {
-	delete m_p_object_list.at(id);
-}
-
-
 bool ObjectManager::IsClear()const{
+
 	
 	// マップの背景とチップが最大で、かつ自機の位置が200.fよりも少ない(上)のとき
-	if (m_p_map_mng->IsMaxMapRange() == true && m_p_player[0]->GetPos().y <= 200.f ||
-		m_p_map_mng->IsMaxMapRange() == true && m_p_player[1]->GetPos().y <= 200.f) {
+	if (m_p_map_manager->IsMaxMapRange() == true && m_p_player_manager->GetPosRelay(Player::STAR_1).y <= 200.f ||
+		m_p_map_manager->IsMaxMapRange() == true && m_p_player_manager->GetPosRelay(Player::STAR_2).y <= 200.f) {
 		return true;
 	}
 		return false;
@@ -178,7 +175,8 @@ bool ObjectManager::IsClear()const{
 
 
 bool ObjectManager::IsGameOver()const {
-	if (m_p_player[0]->IsActive() == false && m_p_player[1]->IsActive() == false) {
+	if (m_p_player_manager->IsActiveRelay(Player::STAR_1) == false &&
+		m_p_player_manager->IsActiveRelay(Player::STAR_2) == false) {
 		return true;
 	}
 	return false;

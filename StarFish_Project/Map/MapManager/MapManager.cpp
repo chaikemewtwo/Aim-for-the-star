@@ -46,17 +46,14 @@ MapManager::MapManager(EnemyManager*e_mng, ObjectManager*object_manager) {
 	//	(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_1.png")),
 	//	(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_1.png")));
 
-	// マップの登録
-	object_manager->Entry(m_p_map);
 	// 背景1登録
 	object_manager->Entry(m_p_bg1);
 	// 背景2
 	//obj_mng->Entry(m_p_bg2);
 
-	
-
-	// マップの初期化
+	// マップチップの初期化
 	m_p_map->Init();
+
 }
 
 
@@ -71,6 +68,10 @@ MapManager::~MapManager() {
 	}
 }
 
+
+void MapManager::Update() {
+	m_p_map->Update();
+}
 
 
 bool MapManager::IsMaxMapRange()const {
