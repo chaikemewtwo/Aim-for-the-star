@@ -38,6 +38,12 @@ enum CollisionDirectionType {
 class MapCollider {
 public:
 
+	//! オブジェクトとマップ当たり判定の頂点位置	
+	static constexpr float VERTEX_OFFSET_X = -32.f;
+	static constexpr float VERTEX_OFFSET_Y = -56.f;
+
+public:
+
 
 	/**
 	* @brief MapColliderのコンストラクタ

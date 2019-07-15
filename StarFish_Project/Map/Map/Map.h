@@ -269,9 +269,6 @@ private:
 	//! 縦間隔をあけて遷移などをする
 	const int HEIGHT_INTERVAL = 60;
 
-	//! オブジェクトとマップ当たり判定の頂点位置	
-	const D3DXVECTOR2 VERTEX_OFFSET{-32.f,-56.f};
-
 	//! チップ生成領域上							  
 	const int CHIP_RANGE_UP = 19;
 
@@ -318,10 +315,6 @@ private:
 
 	//! 敵管理のポインタ
 	EnemyManager *m_p_enemy_manager;
-
-	//! 遅延更新
-	int delay_update_count;
-
 };
 
 

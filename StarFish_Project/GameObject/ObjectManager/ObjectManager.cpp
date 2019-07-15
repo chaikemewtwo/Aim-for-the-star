@@ -2,7 +2,7 @@
 #include"../../Player/PlayerManager.h"
 #include"../../Enemy/Enemy/EnemyManager.h"
 #include"../../Player/Player.h"
-#include"../../Map/MapChip/MapChip.h"
+#include"../../Map/Map/Map.h"
 #include"../../GameUI/GameUI.h"
 #include"../../Map/MapManager/MapManager.h"
 #include"../../Rope/Rope.h"

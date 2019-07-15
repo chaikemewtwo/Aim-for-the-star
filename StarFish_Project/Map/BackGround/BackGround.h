@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include"../../GameObject/Object/Object.h"
 #include"../../Lib/Window/Window.h"
-#include"../MapChip/MapChip.h"
+#include"../Map/Map.h"
 
 
 // =============================

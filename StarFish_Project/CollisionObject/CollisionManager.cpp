@@ -106,3 +106,8 @@ void CollisionManager::MapCollision(){
 		m_p_player_manager->GetPlayerInstance(i)->SetMove(collision_move);
 	}
 }
+
+
+void CollisionManager::PlayerMoveCollision() {
+
+}

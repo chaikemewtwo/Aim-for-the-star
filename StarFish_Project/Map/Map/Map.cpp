@@ -3,7 +3,7 @@
 #include"../../Lib/Texture/Texture.h"
 #include"../../Lib/Texture/TextureBoad2D.h"
 #include"../../Lib/Input/KeyBord.h"
-#include"../MapChip/MapChip.h"
+#include"../Map/Map.h"
 #include"../../Player/Player.h"
 #include"../../Player/PlayerManager.h"
 #include"../../Enemy/Enemy/EnemyManager.h"
@@ -60,8 +60,6 @@ Map::Map(EnemyManager*e_mng,ObjectManager*obj_mng) :
 	m_scroll_up_map_line = INIT_SCROLL_RANGE_UP;
 	m_scroll_down_map_line = INIT_SCROLL_RANGE_DOWN;
 
-	delay_update_count = 0;
-
 	// ファイル読み込み
 	Load("Map/MapData/MapData.csv");
 }
@@ -98,20 +96,11 @@ void Map::Init() {
 
 void Map::Update() {
 	
-	//if (delay_update_count >= 1) {
-
 	// マップ座標にマップの移動ベクトルを加算
 	m_scroll_pos += m_scroll_move;
 
 	// マップの移動ベクトル初期化
 	m_scroll_move = 0.f;
-
-	// 遅延カウント初期化
-	delay_update_count = 0;
-	//}
-
-	// 遅延カウント更新
-	delay_update_count++;
 
 	// 生成と削除
 	CreateAndDestory();
@@ -297,7 +286,8 @@ void Map::EnemyCreate(int x, int y) {
 	// チップ座標位置を作成
 	D3DXVECTOR2 pos(
 		(float)(Map::CHIP_SIZE * x),
-		(Map::CHIP_SIZE * -y) + Window::HEIGHT - m_scroll_pos);
+		(Map::CHIP_SIZE * -y) + Window::HEIGHT - m_scroll_pos
+	);
 
 	// 修正値
 	D3DXVECTOR2 offset_pos(0.f, -148.f);
@@ -325,8 +315,7 @@ void Map::EnemyCreate(int x, int y) {
 			if (chip_num == enemy_chip[i]) {
 
 				// 生成
-				//m_p_enemy_manager->CreateEnemy(pos + offset_pos, this, m_p_player[0], m_p_player[1], enemy_type[i]);
-				//m_p_enemy_manager->CreateEnemy(pos + offset_pos, this, m_p_p_mng, enemy_type[i]);
+				m_p_enemy_manager->CreateEnemy(pos + offset_pos, this, enemy_type[i]);
 
 				// チップベースは生成中に変える
 				m_map_chip_list[create_chip_y][x]->SetIsChipActive(true);

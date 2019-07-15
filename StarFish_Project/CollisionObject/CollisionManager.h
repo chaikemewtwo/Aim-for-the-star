@@ -71,6 +71,12 @@ public:
 	);
 
 
+	/**
+	* @brief 自機の移動による当たり判定
+	*/
+	void PlayerMoveCollision();
+
+
 private:
 	
 	//! 自機管理のポインタ

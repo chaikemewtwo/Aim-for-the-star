@@ -1,5 +1,5 @@
 ﻿#include"MapCollider.h"
-#include"../MapChip/MapChip.h"
+#include"../Map/Map.h"
 
 
 
@@ -29,11 +29,26 @@ void MapCollider::Collision(
 	// 当たっているかどうか
 	bool is_collision = false;
 
-	// 四隅
-	D3DXVECTOR2 up_left(pos.x + RESIZE + CHIP_SCALE_X, pos.y + RESIZE + CHIP_SCALE_Y);
-	D3DXVECTOR2 up_right(pos.x + Map::CHIP_SIZE - RESIZE - CHIP_SCALE_X, pos.y + RESIZE + CHIP_SCALE_Y);
-	D3DXVECTOR2 down_left(pos.x + RESIZE + CHIP_SCALE_X, pos.y + Map::CHIP_SIZE - RESIZE - CHIP_SCALE_Y);
-	D3DXVECTOR2 down_right(pos.x + Map::CHIP_SIZE - RESIZE - CHIP_SCALE_X, pos.y + Map::CHIP_SIZE - RESIZE - CHIP_SCALE_Y);
+	// 四隅を作る
+	D3DXVECTOR2 up_left(
+		pos.x + RESIZE + CHIP_SCALE_X,
+		pos.y + RESIZE + CHIP_SCALE_Y
+	);
+
+	D3DXVECTOR2 up_right(
+		pos.x + Map::CHIP_SIZE - RESIZE - CHIP_SCALE_X,
+		pos.y + RESIZE + CHIP_SCALE_Y
+	);
+
+	D3DXVECTOR2 down_left(
+		pos.x + RESIZE + CHIP_SCALE_X,
+		pos.y + Map::CHIP_SIZE - RESIZE - CHIP_SCALE_Y
+	);
+
+	D3DXVECTOR2 down_right(
+		pos.x + Map::CHIP_SIZE - RESIZE - CHIP_SCALE_X,
+		pos.y + Map::CHIP_SIZE - RESIZE - CHIP_SCALE_Y
+	);
 
 
 	YVertexHitCheck(
@@ -275,7 +290,7 @@ void MapCollider::WidthPosPullBackToPrevPos(float &pos_x, float &move_x, Collisi
 	if (collision_dir_type_x == LEFT) {
 
 		// チップに変換
-		chip_pos_x = (float)m_p_map->GetChipCastByPos(pos_x) - 1;
+		chip_pos_x = (float)m_p_map->GetChipCastByPos(pos_x);
 
 		// X位置を右に戻す
 		pos_x = (chip_pos_x * Map::CHIP_SIZE) - move_x;
