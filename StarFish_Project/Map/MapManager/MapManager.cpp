@@ -88,6 +88,7 @@ void MapManager::MapCollision(
 
 	// 衝突位置
 	D3DXVECTOR2 collision_pos = object->GetPos();
+	collision_pos.y -= 32.f;
 
 	// マップとの当たり判定
 	m_p_map->GetMapColliderInstance()->Collision(
@@ -97,6 +98,7 @@ void MapManager::MapCollision(
 		collision_dir_type_y
 	);
 
+	collision_pos.y += 32.f;
 	// 位置変更
 	object->SetPos(collision_pos);
 }

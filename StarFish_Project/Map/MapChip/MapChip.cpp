@@ -261,7 +261,7 @@ void Map::RockChipCreate(int x, int y) {
 	D3DXVECTOR2 chip_pos(
 		(float)(Map::CHIP_SIZE * x),
 		(float)((Map::CHIP_SIZE) * -y) + 
-		(float)(Window::HEIGHT + 8) + (CHIP_SIZE * ((-m_scroll_pos + 0.5f) / CHIP_SIZE)) - CHIP_SIZE - 32.f
+		(float)(Window::HEIGHT + 8) + (CHIP_SIZE * ((-m_scroll_pos) / CHIP_SIZE)) - CHIP_SIZE
 	);
 
 	// チップ番号をMapクラスから受け取る
