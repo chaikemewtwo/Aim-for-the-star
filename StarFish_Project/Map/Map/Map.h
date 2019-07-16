@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include<vector>
-//#include"../../Player/Player.h"
 #include"../../Player/PlayerManager.h"
 #include"../../GameObject/ObjectManager/ObjectManager.h"
 #include"../ChipBase/ChipBase.h"

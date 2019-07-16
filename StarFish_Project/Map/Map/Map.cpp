@@ -34,20 +34,7 @@ Map::Map(EnemyManager*e_mng,ObjectManager*obj_mng) :
 	// 各インスタンス受け取り
 	m_p_enemy_manager = e_mng;
 	m_p_obj_mng = obj_mng;
-	// マップ当たり判定クラスを生成
-	m_p_map_collider = new MapCollider(this);
 
-	if (e_mng == nullptr) {
-		return;
-	}
-	if (obj_mng == nullptr) {
-		return;
-	}
-
-	// 各インスタンス受け取り
-	m_p_enemy_manager = e_mng;
-
-	m_p_obj_mng = obj_mng;
 	// マップ当たり判定クラスを生成
 	m_p_map_collider = new MapCollider(this);
 
@@ -207,7 +194,7 @@ void Map::MapObjectWidthExitLine(int destory_line_y) {
 		// デバッグ用
 		//Texture::Draw2D("Resource/Texture/Map/chip-map_image_10.png", pos.x, pos.y);
 
-		// オブジェクトなら
+		// 敵なら
 		if (m_map_chip_list[destory_line][x]->IsEnemy() == true){
 
 			// 敵削除
