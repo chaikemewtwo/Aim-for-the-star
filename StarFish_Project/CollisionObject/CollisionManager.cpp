@@ -5,24 +5,33 @@
 #include"../Enemy/Enemy/EnemyManager.h"
 #include"CollisionObject.h"
 #include"../CollisionObject/CircleCollisionObject.h"
+#include"../Map/MapManager/MapManager.h"
 
 
 
-CollisionManager::CollisionManager(PlayerManager* player_manager, EnemyManager*enemy_manager) {
+
+CollisionManager::CollisionManager(PlayerManager* player_manager, EnemyManager*enemy_manager, MapManager*map_manager) {
 
 	// nullチェック
 	if (player_manager == nullptr) {
 		return;
 	}
 
-
 	if (enemy_manager == nullptr) {
 		return;
 	}
 
 	// メンバにインスタンスを設定
-	m_p_player_manager = player_manager;
 	m_p_enemy_manager = enemy_manager;
+	m_p_map_manager = map_manager;
+	m_p_player_manager = player_manager;
+}
+
+
+void CollisionManager::Update() {
+
+	Collision();
+	MapCollision();
 }
 
 
@@ -46,9 +55,7 @@ void CollisionManager::Collision() {
 	}
 }
 
-/* 以下当たり判定 */
 
-// 円の当たり判定
 void CollisionManager::ChackHitCircle(CircleCollisionObject*obj1, CircleCollisionObject*obj2) {
 
 	// nullチェック
@@ -75,4 +82,32 @@ void CollisionManager::ChackHitCircle(CircleCollisionObject*obj1, CircleCollisio
 		obj1->HitAction(obj2->GetObjectType());
 		obj2->HitAction(obj1->GetObjectType());
 	}
+}
+
+
+void CollisionManager::MapCollision(){
+
+
+	// 自機とマップの当たり判定
+	for (int i = 0; i < Player::MAX; i++){
+
+		// 衝突移動値
+		D3DXVECTOR2 collision_move = m_p_player_manager->GetPlayerInstance(i)->GetMove();
+
+		// マップとの当たり判定
+		m_p_map_manager->MapCollision(
+			m_p_player_manager->GetPlayerInstance(i),
+			collision_move,
+			m_player_collision_dir_type[i][0],
+			m_player_collision_dir_type[i][1]
+		);
+
+		// 移動量初期化
+		m_p_player_manager->GetPlayerInstance(i)->SetMove(collision_move);
+	}
+}
+
+
+void CollisionManager::PlayerMoveCollision() {
+
 }

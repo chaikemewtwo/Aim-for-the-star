@@ -31,10 +31,7 @@
     <ClCompile Include="Scene\ClearScene\ClearScene.cpp" />
     <ClCompile Include="CollisionObject\CollisionObject.cpp" />
     <ClCompile Include="Lib\D3D9\D3D9.cpp" />
-    <ClCompile Include="Map\MapChip\MapChip.cpp" />
     <ClCompile Include="Enemy\Enemy\NaporeonFish.cpp" />
-    <ClCompile Include="Enemy\State\EnemyChaseState.cpp" />
-    <ClCompile Include="Enemy\State\EnemyPatrolState.cpp" />
     <ClCompile Include="GameObject\ObjectInterface\ObjectInterface.cpp" />
     <ClCompile Include="Player\PlayerManager.cpp" />
     <ClCompile Include="Map\BedRockChip\RockChip.cpp" />
@@ -44,6 +41,9 @@
     <ClCompile Include="Enemy\EnemyState\EnemySideMoveState\EnemySideMoveState.cpp" />
     <ClCompile Include="Enemy\EnemyState\EnemyVerticalMoveState\EnemyVerticalMoveState.cpp" />
     <ClCompile Include="Enemy\EnemyState\EnemyPatrolState\EnemyPatrolState.cpp" />
+    <ClCompile Include="ScrollManager\ScrollManager.cpp" />
+    <ClCompile Include="ScrollManager\ScrollManager.cpp" />
+    <ClCompile Include="Map\Map\Map.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -81,10 +81,7 @@
     <ClInclude Include="Scene\ClearScene\ClearScene.h" />
     <ClInclude Include="Scene\GameScene\GameScene.h" />
     <ClInclude Include="Lib\D3D9\D3D9.h" />
-    <ClInclude Include="Map\MapChip\MapChip.h" />
     <ClInclude Include="Enemy\Enemy\NaporeonFish.h" />
-    <ClInclude Include="Enemy\State\EnemyChaseState.h" />
-    <ClInclude Include="Enemy\State\EnemyPatrolState.h" />
     <ClInclude Include="GameObject\ObjectInterface\ObjectInterface.h" />
     <ClInclude Include="Player\PlayerManager.h" />
     <ClInclude Include="Map\BedRockChip\RockChip.h" />
@@ -96,6 +93,11 @@
     <ClInclude Include="Enemy\EnemyState\EnemyVerticalMoveState\EnemyVerticalMoveState.h" />
     <ClInclude Include="Enemy\EnemyState\EnemyPatrolState\EnemyPatrolState.h" />
     <ClInclude Include="Map\ChipBase\ChipBase.h" />
+    <ClInclude Include="Map\NormalChip\NormalChip.h" />
+    <ClInclude Include="ScrollManager\ScrollManager.h" />
+    <ClInclude Include="ScrollManager\ScrollManager.h" />
+    <ClInclude Include="ManagerBase\ManagerBase.h" />
+    <ClInclude Include="Map\Map\Map.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />

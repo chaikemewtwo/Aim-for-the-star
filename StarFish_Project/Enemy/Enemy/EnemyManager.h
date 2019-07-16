@@ -3,6 +3,8 @@
 #include"../../GameObject/ObjectManager/ObjectManager.h"
 #include"../../Blind/Blind.h"
 #include"EnemyBase.h"
+#include"../../ManagerBase/ManagerBase.h"
+
 
 
 // 敵生成時の指定用定数
@@ -15,9 +17,10 @@ enum EnemyType {
 };
 
 
-class EnemyManager {
+class EnemyManager :public ManagerBase{
 public:
-	EnemyManager(ObjectManager* const obj_mng);
+
+	EnemyManager(ObjectManager* const obj_mng, PlayerManager*const player_manager);
 	~EnemyManager();
 	
 
@@ -30,7 +33,7 @@ public:
 	第3,4：プレイヤーのインスタンス(追跡、索敵に使用)
 	第5　：生成する敵の番号を指定
 	*/
-	void CreateEnemy(D3DXVECTOR2 pos, Map* const map, PlayerManager* const p_mng, const EnemyType enemy_num);
+	void CreateEnemy(D3DXVECTOR2 pos, Map* const map,const EnemyType enemy_num);
 
 	// ブラインド生成関数
 	/*
@@ -52,6 +55,7 @@ private:
 private:
 	std::vector<EnemyBase*> m_enemy_list;	// 生成した敵の配列
 
+	PlayerManager*m_p_player_manager;
 	ObjectManager* m_p_obj_mng;				
 	Blind* m_p_blind;						
 };

@@ -3,62 +3,15 @@
 #include<vector>
 #include<memory>
 #include <functional>
+#include"../../ManagerBase/ManagerBase.h"
 
 
-/* ---Objectの説明---
+// オブジェクト管理者の説明はクラスの下にあります。
 
-   ♦使用例♦
 
-   ①Objectの継承
-
-   class Player,Enemyなど : public Object
-
-   ②ObjectManagerの登録
-
-   オブジェクトマネージャーのポインタ->Entry(登録するオブジェクト)
-
-   ③継承先でUpdateやDrawを定義、処理を内部に入れる
-
-   void Update()override
-   void Draw()override
-
- */
-
-/* ---削除の仕方---
-
-	①ObjectManagerの方で要素削除
-	②先のポインタで削除
-
+/**
+* @brief オブジェクトを管理する管理者
 */
-
-// 配列型オブジェクトの消し方(敵など)
-/*
-
-       // 敵の配列
-       auto itr = m_enemy_lists.begin();
-       
-       for (; itr != m_enemy_lists.end();) {
-       
-       // 活動を停止したら
-       if ((**itr).GetIsActive() == true) {
-       
-	   // m_obj_mngはObjectManagerのポインタ
-       m_obj_mng->Exit((**itr).GetId());
-       
-       // メモリの削除
-       delete (*itr);
-       // 敵の要素の削除
-       itr = m_enemy_lists.erase(itr);
-                  }
-           else {
-           itr++;
-         }
-       }
-       
-       MEMO そのままコピペして使ってください
-
-*/
-
 
 // 前方参照 
 class Object;          
@@ -67,7 +20,8 @@ class MapManager;
 class PlayerManager;
 class CollisionManager;
 class GameUI;          
-class Rope;            
+class Rope;       
+class ScrollManager;
 
 
 /**
@@ -170,16 +124,16 @@ private:
 private:
 
 	//! オブジェクトリスト(常に降順ソートを行う)
-	std::map<unsigned int,Object*>m_p_object_list;
+	std::map<unsigned int,Object*,std::greater<>>m_p_object_list;
 
 	//! 描画用オブジェクトリスト
-	std::vector<Object*>m_draw_obj_list;
+	std::vector<Object*>m_draw_object_list;
 
-	//! 現在最新id
-	unsigned int m_current_the_newest_id;
+	//! 管理者配列
+	std::vector<ManagerBase*>m_p_manager_list;
 
-	//! マップ管理クラスポインタ
-	MapManager * m_p_map_mng;
+	//! スクロール管理者
+	ScrollManager * m_p_scroll_manager;
 
 	//! 自機クラスヒトデ1ヒトデ2ポインタ
 	PlayerManager * m_p_player_manager;
@@ -190,9 +144,61 @@ private:
 	//! ロープクラスポインタ
 	Rope * m_p_rope;                     
 
-	//! 敵管理クラスポインタ
-	EnemyManager *m_p_enemy_mng;         
-
-	//! 衝突管理クラスポインタ
-	CollisionManager *m_p_collision_mng; 
 };
+
+
+// MEMO
+/* ---Objectの説明---
+
+♦使用例♦
+
+①Objectの継承
+
+class Player,Enemyなど : public Object
+
+②ObjectManagerの登録
+
+オブジェクトマネージャーのポインタ->Entry(登録するオブジェクト)
+
+③継承先でUpdateやDrawを定義、処理を内部に入れる
+
+void Update()override
+void Draw()override
+
+*/
+
+/* ---削除の仕方---
+
+①ObjectManagerの方で要素削除
+②先のポインタで削除
+
+*/
+
+// 配列型オブジェクトの消し方(敵など)
+/*
+
+// 敵の配列
+auto itr = m_enemy_lists.begin();
+
+for (; itr != m_enemy_lists.end();) {
+
+// 活動を停止したら
+if ((**itr).GetIsActive() == true) {
+
+// m_obj_mngはObjectManagerのポインタ
+m_obj_mng->Exit((**itr).GetId());
+
+// メモリの削除
+delete (*itr);
+// 敵の要素の削除
+itr = m_enemy_lists.erase(itr);
+}
+else {
+itr++;
+}
+}
+
+MEMO そのままコピペして使ってください
+
+*/
+

@@ -2,7 +2,7 @@
 #include"../../Player/PlayerManager.h"
 #include"../../Enemy/Enemy/EnemyManager.h"
 #include"../../Player/Player.h"
-#include"../../Map/MapChip/MapChip.h"
+#include"../../Map/Map/Map.h"
 #include"../../GameUI/GameUI.h"
 #include"../../Map/MapManager/MapManager.h"
 #include"../../Rope/Rope.h"
@@ -10,33 +10,55 @@
 #include"../../CollisionObject/CollisionManager.h"
 #include<algorithm>
 #include<iostream>
+#include"../../ScrollManager/ScrollManager.h"
 
 
 
 ObjectManager::ObjectManager(){
 
-	// プレイヤー生成
+
+	// 各コンストラクタに渡す為、一時的な参照に入れる
 	m_p_player_manager = new PlayerManager(this);
 
-	// 敵管理生成
-	m_p_enemy_mng = new EnemyManager(this);
+	// オブジェクト生成
+	{
+		// ロープ生成
+		m_p_rope = new Rope(m_p_player_manager);
 
-	// ロープ生成
-	m_p_rope = new Rope(m_p_player_manager);
+		// スタミナGameUI生成
+		m_p_ui = new GameUI(m_p_player_manager);
 
-	// スタミナGameUI生成
-	m_p_ui = new GameUI(m_p_player_manager);
+		// オブジェクト登録
+		Entry(m_p_rope);
+		Entry(m_p_ui);
+	}
 
-	// マップ管理生成
-	m_p_map_mng = new MapManager(m_p_player_manager, m_p_enemy_mng, this);
+	EnemyManager*p_enemy_manager = new EnemyManager(this,m_p_player_manager);
+	MapManager * p_map_manager = new MapManager(p_enemy_manager, this);
 
-	// 当たり判定管理生成
-	m_p_collision_mng = new CollisionManager(m_p_player_manager, m_p_enemy_mng);
+	m_p_scroll_manager = new ScrollManager(m_p_player_manager, p_map_manager);
 
-	// オブジェクト登録
-	Entry(m_p_rope);
-	Entry(m_p_ui);
+
+	// 管理者登録
+	{
+		// 敵管理登録
+		m_p_manager_list.emplace_back(p_enemy_manager);
+
+		// プレイヤー管理登録
+		m_p_manager_list.emplace_back(m_p_player_manager);
+
+		// マップ管理登録
+		m_p_manager_list.emplace_back(p_map_manager);
+
+		// スクロール管理者生成
+		m_p_manager_list.emplace_back(m_p_scroll_manager);
+
+		// 当たり判定管理生成
+		m_p_manager_list.emplace_back(new CollisionManager(m_p_player_manager, p_enemy_manager, p_map_manager));
+
+	}	
 }
+
 
 ObjectManager::~ObjectManager() {
 
@@ -46,26 +68,24 @@ ObjectManager::~ObjectManager() {
 	}
 
 	// 描画用オブジェクトリスト要素削除
-	m_draw_obj_list.clear();
+	m_draw_object_list.clear();
 }
 
 
 void ObjectManager::Update() {
 
-	// プレイヤー管理クラス更新
-	m_p_player_manager->Update();
-
-	// 敵管理クラス更新
-	m_p_enemy_mng->Update();
-
-	// 更新
+	// オブジェクトの更新
 	for (auto&itr : m_p_object_list) {
 
+		// 更新
 		itr.second->Update();
 	}
 
-	// 当たり判定
-	m_p_collision_mng->Collision();
+	// 管理者の更新
+	for (auto&manager : m_p_manager_list) {
+		manager->Update();
+	}
+
 
 	// 描画用オブジェクトをソートする
 	EntryAndSortDrawObject();
@@ -75,8 +95,8 @@ void ObjectManager::Update() {
 void ObjectManager::Draw() {
 
 	// 描画用オブジェクト描画
-	for (auto &itr : m_draw_obj_list) {
-		(*itr).Draw();
+	for (auto &obj : m_draw_object_list) {
+		(*obj).Draw();
 	}
 }
 
@@ -86,14 +106,14 @@ void ObjectManager::EntryAndSortDrawObject(){
 	// 前のリストを削除
 	InitDrawObjectList();
 	
-	// 要素を全て入れる。
-	for (auto itr = m_p_object_list.begin(); itr != m_p_object_list.end();++itr) {
+	// 要素を全て入れる
+	for (auto draw_object = m_p_object_list.begin(); draw_object != m_p_object_list.end();++draw_object) {
 
-		m_draw_obj_list.push_back(itr->second);
+		m_draw_object_list.push_back(draw_object->second);
 	}
 
 	// 昇順ソートを行う
-	std::sort(m_draw_obj_list.begin(), m_draw_obj_list.end(),
+	std::sort(m_draw_object_list.begin(), m_draw_object_list.end(),
 		[](const Object*obj1, const Object*obj2) {
 		return obj1->GetSortNum() < obj2->GetSortNum();
 	});
@@ -113,7 +133,6 @@ void ObjectManager::Entry(Object*obj) {
 
 	m_current_the_newest_id++;
 
-
 	// Objectの要素を追加
 	m_p_object_list[create_id] = obj;
 
@@ -125,8 +144,8 @@ void ObjectManager::Entry(Object*obj) {
 void ObjectManager::InitDrawObjectList() {
 
 	// 前のを削除
-	std::vector<Object*>().swap(m_draw_obj_list);
-	m_draw_obj_list.clear();
+	std::vector<Object*>().swap(m_draw_object_list);
+	m_draw_object_list.clear();
 }
 
 
@@ -145,10 +164,12 @@ void ObjectManager::Exit(Object*object) {
 
 
 bool ObjectManager::IsClear()const{
+
 	
 	// マップの背景とチップが最大で、かつ自機の位置が200.fよりも少ない(上)のとき
-	if (m_p_map_mng->IsMaxMapRange() == true && m_p_player_manager->GetPosRelay(Player::STAR_1).y <= 200.f ||
-		m_p_map_mng->IsMaxMapRange() == true && m_p_player_manager->GetPosRelay(Player::STAR_2).y <= 200.f) {
+	if (m_p_scroll_manager->IsMaxScroll() == true && m_p_player_manager->GetPosRelay(Player::STAR_1).y <= 200.f ||
+		m_p_scroll_manager->IsMaxScroll() == true && m_p_player_manager->GetPosRelay(Player::STAR_2).y <= 200.f) {
+
 		return true;
 	}
 		return false;
@@ -156,7 +177,9 @@ bool ObjectManager::IsClear()const{
 
 
 bool ObjectManager::IsGameOver()const {
-	if (m_p_player_manager->IsActiveRelay(Player::STAR_1) == false && m_p_player_manager->IsActiveRelay(Player::STAR_2) == false) {
+
+	if (m_p_player_manager->IsActiveRelay(Player::STAR_1) == false &&
+		m_p_player_manager->IsActiveRelay(Player::STAR_2) == false) {
 		return true;
 	}
 	return false;

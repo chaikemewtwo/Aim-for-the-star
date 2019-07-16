@@ -150,12 +150,12 @@ bool BackGround::IsScroll(){
 	bool is_scroll = true;
 
 	// 上
-	if (-m_p_map->GetPos().y >= MAX_UP_SCROLL) {
+	if (-m_p_map->GetPos() >= MAX_UP_SCROLL) {
 		is_scroll = false;
 	}
 
 	// 下
-	else if (-m_p_map->GetPos().y < 0.f) {
+	else if (-m_p_map->GetPos() < 0.f) {
 		is_scroll = false;
 	}
 
@@ -216,7 +216,7 @@ void BackGround::PosYToMoveYAdd() {
 
 void BackGround::MoveSub() {
 
-	m_move = m_p_map->GetMove();// 反対方向に行くので-変換
+	m_move.y = m_p_map->GetMove();// 反対方向に行くので-変換
 }
 
 void BackGround::MoveAdjustment(int adjustment_num) {

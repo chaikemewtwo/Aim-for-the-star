@@ -1,8 +1,7 @@
 ﻿#include"MapManager.h"
 #include"../../Player/Player.h"
-#include"../MapChip/MapChip.h"
+#include"../Map/Map.h"
 #include"../../GameObject/ObjectManager/ObjectManager.h"
-#include"../MapChip/MapChip.h"
 #include"../BackGround/BackGround.h"
 
 
@@ -14,10 +13,12 @@ MapManager::MapManager(PlayerManager*p_mng, EnemyManager*e_mng, ObjectManager*ob
 	if (p_mng == nullptr) {
 		return;
 	}
+
 	if (e_mng == nullptr) {
 		return;
 	}
-	if (obj_mng == nullptr) {
+
+	if (object_manager == nullptr) {
 		return;
 	}
 
@@ -59,6 +60,7 @@ MapManager::MapManager(PlayerManager*p_mng, EnemyManager*e_mng, ObjectManager*ob
 
 	// マップチップ初期化
 	m_p_map->Init();
+
 }
 
 
@@ -75,26 +77,39 @@ MapManager::~MapManager() {
 
 
 void MapManager::Update() {
-
-	// nullチェック
-	if (m_p_map == nullptr) {
-		return;
-	}
-	if (m_p_bg1 == nullptr) {
-		return;
-	}
-
-	// マップ関連更新
-	//m_p_map->Update();
-	//m_p_bg1->Update();
+	m_p_map->Update();
 }
 
 
-void MapManager::Draw(){
+void MapManager::MapCollision(
+	Object*object,
+	D3DXVECTOR2&obj_move,
+	CollisionDirectionType&collision_dir_type_x,
+	CollisionDirectionType&collision_dir_type_y
+) {
 
+	// 衝突位置
+	D3DXVECTOR2 collision_pos = object->GetPos();
+
+	collision_pos.x += MapCollider::VERTEX_OFFSET_X;
+	collision_pos.y += MapCollider::VERTEX_OFFSET_Y;
+
+	// マップとの当たり判定
+	m_p_map->GetMapColliderInstance()->Collision(
+		collision_pos,
+		obj_move,
+		collision_dir_type_x,
+		collision_dir_type_y
+	);
+
+	collision_pos.x -= MapCollider::VERTEX_OFFSET_X;
+	collision_pos.y -= MapCollider::VERTEX_OFFSET_Y;
+
+	// 位置変更
+	object->SetPos(collision_pos);
 }
 
 
-bool MapManager::IsMaxMapRange()const {
-	return m_p_map->IsMaxScroll();
+Map *MapManager::GetMapInstance(){
+	return m_p_map;
 }

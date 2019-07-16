@@ -1,6 +1,6 @@
 ﻿#include "Player.h"
 #include "PlayerState/PlayerWaitState/PlayerWaitState.h"
-#include "../Map/MapChip/MapChip.h"
+#include "../Map/Map/Map.h"
 #include <cmath>
 
 
@@ -22,6 +22,7 @@ Player::Player(ID_TYPE id,D3DXVECTOR2 first_pos) :
 	m_move(0.f, 0.f),
 	m_angle(0.f),
 	m_draw_enable(true),
+	/*m_swim_enable(false),*/
 	m_invisible_count(0),
 	m_stamina(MAX_STAMINA)
 	{

@@ -1,6 +1,6 @@
 ﻿#include"RockChip.h"
 #include"../../Lib/Texture/TextureBoad2D.h"
-#include"../../Map/MapChip/MapChip.h"
+#include"../../Map/Map/Map.h"
 
 
 // オフセット値設定
@@ -31,7 +31,7 @@ RockChip::RockChip(int chip_num,const D3DXVECTOR2 &pos, Map*map) {
 		return;
 	}
 
-	m_is_obj = false;
+	m_is_enemy = false;
 
 	// 生成されている
 	m_is_active = true;
@@ -62,13 +62,15 @@ RockChip::RockChip(int chip_num,const D3DXVECTOR2 &pos, Map*map) {
 	m_map = map;
 }
 
+
 void RockChip::Draw(){
 
 	Texture::Draw2D(bed_rock_chip_name.c_str(), m_pos.x, m_pos.y,1.0f,1.0f);
 }
 
+
 void RockChip::Update(){
 
 	// マップにそって移動
-	m_pos.y += m_map->GetMove().y;
+	m_pos.y += m_map->GetMove();
 }

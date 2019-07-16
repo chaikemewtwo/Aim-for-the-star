@@ -31,10 +31,19 @@ enum CollisionDirectionType {
 };
 
 
+
 /**
 * @brief マップの衝突装置クラス
 */
 class MapCollider {
+public:
+
+	//! オブジェクトとマップ当たり判定の頂点位置X	
+	static constexpr float VERTEX_OFFSET_X = -32.f;
+
+	//! オブジェクトとマップ当たり判定の頂点位置Y
+	static constexpr float VERTEX_OFFSET_Y = -56.f;
+
 public:
 
 
@@ -64,6 +73,7 @@ private:
 
 	//! 衝突チップサイズX
 	const float CHIP_SCALE_X = 6.f;
+
 	//! 衝突チップサイズY
 	const float CHIP_SCALE_Y = 6.f;
 
@@ -157,11 +167,10 @@ private:
 	bool IsWallCollision(float pos_x, float pos_y, float move_x, float move_y);
 
 
-
 private:
 
 	//! マップインスタンス
-	Map*mp_map;
+	Map*m_p_map;
 
 	//! スクロールの状態
 	CollisionDirectionType m_scroll_dir_y_type;

@@ -4,8 +4,10 @@
 #include"NaporeonFish.h"
 
 
-EnemyManager::EnemyManager(ObjectManager* const obg_mng) {
+
+EnemyManager::EnemyManager(ObjectManager* const obg_mng,PlayerManager*const player_manager) {
 	m_p_obj_mng = obg_mng;
+	m_p_player_manager = player_manager;
 }
 //――――――――――――――――――――――――――
 
@@ -28,7 +30,8 @@ void EnemyManager::Update() {
 //―――――――――――――――――――――――――――
 
 // 指定された敵を指定の位置に生成する
-void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* const map, PlayerManager* const p_mng, const EnemyType type_num) {
+
+void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* const map,const EnemyType type_num) {
 
 	switch (type_num) {
 

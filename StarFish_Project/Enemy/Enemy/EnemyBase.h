@@ -3,7 +3,7 @@
 #include"../../Lib/Texture/TextureBoad2D.h"
 #include"../../Lib/Window/Window.h"
 #include"../../CollisionObject/CircleCollisionObject.h"
-#include"../../Map/MapChip/MapChip.h"
+#include"../../Map/Map/Map.h"
 #include"../../Player/PlayerManager.h"
 #include"../../Enemy/EnemyState/EnemyStateBase.h"
 

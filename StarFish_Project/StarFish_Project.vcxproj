@@ -65,7 +65,7 @@
     <ClCompile Include="Main\Main.cpp" />
     <ClCompile Include="Map\BackGround\BackGround.cpp" />
     <ClCompile Include="Map\BedRockChip\RockChip.cpp" />
-    <ClCompile Include="Map\MapChip\MapChip.cpp" />
+    <ClCompile Include="Map\Map\Map.cpp" />
     <ClCompile Include="Map\MapCollision\MapCollider.cpp">
       <SubType>
       </SubType>
@@ -100,6 +100,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ScrollManager\ScrollManager.cpp" />
     <ClCompile Include="SetRenderStateFile\SetRenderStateFile.cpp" />
     <ClCompile Include="GameUI\GameUI.cpp">
       <SubType>
@@ -152,18 +153,26 @@
     <ClInclude Include="Lib\UV\UV.h" />
     <ClInclude Include="Lib\Window\Window.h" />
     <ClInclude Include="LoadResource\LoadResource.h" />
+    <ClInclude Include="ManagerBase\ManagerBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Map\BackGround\BackGround.h" />
     <ClInclude Include="Map\BedRockChip\RockChip.h" />
     <ClInclude Include="Map\ChipBase\ChipBase.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Map\MapChip\MapChip.h" />
+    <ClInclude Include="Map\Map\Map.h" />
     <ClInclude Include="Map\MapCollision\MapCollider.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Map\MapManager\MapManager.h" />
+    <ClInclude Include="Map\NormalChip\NormalChip.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\PlayerManager.h">
       <SubType>
@@ -198,6 +207,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ScrollManager\ScrollManager.h" />
     <ClInclude Include="SetRenderStateFile\SetRenderStateFile.h" />
     <ClInclude Include="GameUI\GameUI.h">
       <SubType>

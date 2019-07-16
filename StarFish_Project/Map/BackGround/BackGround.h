@@ -1,7 +1,8 @@
 ﻿#pragma once
 #include"../../GameObject/Object/Object.h"
 #include"../../Lib/Window/Window.h"
-#include"../MapChip/MapChip.h"
+#include"../Map/Map.h"
+
 
 
 // =============================
@@ -11,6 +12,7 @@
 * @author maekawa
 */
 // =============================
+
 
 /* =============================
   背景動作説明
@@ -27,12 +29,13 @@
 class BackGround : public Object{
 public:
 
-
 	//! 背景の最大画像数
 	static constexpr int MAX_BACKGROUND_GRAPH = 5;  
+
 	//! 上の最大スクロール
 	static constexpr float MAX_UP_SCROLL = (Map::CHIP_SIZE * 18) * MAX_BACKGROUND_GRAPH + 1170;
 
+public:
 
 	/**
 	* @brief 背景クラスのコンストラクタ(ファイル名とスクロールする位置の参照をいれる)

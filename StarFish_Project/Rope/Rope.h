@@ -6,6 +6,7 @@
 // ロープクラス、最大全長は650×16
 class Rope:public Object {
 public:
+
 	Rope(PlayerManager*pm);
 
 	void Update()override;
@@ -46,5 +47,6 @@ private:
 	static const float POS_Y_OFFSET;
 
 private:
+
 	PlayerManager* m_p_player_manager;	// プレイヤー管理クラス
 };

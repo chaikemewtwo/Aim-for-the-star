@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include<vector>
-//#include"../../Player/Player.h"
 #include"../../Player/PlayerManager.h"
 #include"../../GameObject/ObjectManager/ObjectManager.h"
 #include"../ChipBase/ChipBase.h"
@@ -34,7 +33,7 @@ enum CollisionDirectionType;
 /**
 * @brief チップを構成するマップクラス
 */
-class Map : public Object {
+class Map{
 public:
 	
 	//! チップ間の間隔
@@ -50,10 +49,10 @@ public:
 	static const int MAX_IN_WINDOW_CHIP_NUM_H = ((int)(Window::HEIGHT) / CHIP_SIZE);  
 
 	//! スクロール範囲上
-	static constexpr float SCROLL_RANGE_UP = 400.f;
+	static constexpr float INIT_SCROLL_RANGE_UP = 400.f;
 
 	//! スクロール範囲下
-	static constexpr float SCROLL_RANGE_DOWN = 800.f;
+	static constexpr float INIT_SCROLL_RANGE_DOWN = 800.f;
 
 public:
 
@@ -71,6 +70,12 @@ public:
 	* @brief マップのデストラクタ
 	*/
 	~Map();
+
+
+	/**
+	* @brief マップチップの初期化
+	*/
+	void Init();
 
 
 	/**
@@ -109,7 +114,7 @@ public:
 	* @brief スクロール移動値ゲッター
 	* @return D3DXVECTOR2
 	*/
-	D3DXVECTOR2 GetMove()const;
+	float GetMove()const;
 
 
 	/**
@@ -148,17 +153,17 @@ public:
 
 
 	/**
-	* @brief 最大スクロールかどうか
-	* @return bool
+	* @brief スクロール位置を返す
+	* @return float
 	*/
-	bool IsMaxScroll()const; 
+	float GetPos()const;
 
 
 	/**
-	* @brief マップのスクロールの初期化セッター
-	* @param[in] is_scroll スクロールしているか
+	* @brief スクロール位置を代入
+	* @param[in] pos
 	*/
-	void SetIsScroll(bool is_scroll);
+	void SetPos(const float&pos);
 
 
 	/**
@@ -176,20 +181,31 @@ public:
 
 
 	/**
-	* @brief マップ当たり判定器ゲッター
-	* @return MapCollider マップの当たり判定
+	* @brief マップ当たり判定のゲッター
 	*/
 	MapCollider *GetMapColliderInstance();
 
 
 	/**
-	* @brief スクロールする関数
-	* @param[out] screen_pos_y 現在いるスクリーン座標値
-	* @param[out] move_y オブジェクトの移動値
+	* @brief 移動値のセッター
 	*/
-	void Scroll(float &screen_pos_y, float &move_y);
+	void SetScrollMove(const float&move);
 
-	
+
+	/**
+	* @brief 上のマップスクロール線を変えるセッター
+	* @param[in] scroll_line_y
+	*/
+	void SetScrollUpLine(const float &scroll_line_y);
+
+
+	/**
+	* @brief 下のマップスクロール線を変えるセッター
+	* @param[in] scroll_line_y
+	*/
+	void SetScrollDownLine(const float &scroll_line_y);
+
+
 private:
 	
 
@@ -198,12 +214,6 @@ private:
 	* @param[out] load_file_name
 	*/
 	void Load(const std::string&load_file_name);
-
-
-	/**
-	* @brief 最大スクロール関数
-	*/
-	void MaxScroll();
 
 
 	/**
@@ -278,8 +288,11 @@ private:
 	//! マップを構成するチップリスト
 	std::vector<std::vector<ChipBase*>>m_map_chip_list; 
 
+	//! スクロール位置
+	float m_scroll_pos;
+
 	//! マップスクロールの動き
-	D3DXVECTOR2 m_scroll_move;
+	float m_scroll_move;
 
 	//! 最大マップの高さチップサイズ
 	int m_max_map_chip_height_size;		
@@ -292,9 +305,6 @@ private:
 
 	//! スクロールしているか
 	bool m_is_scroll;
-
-	//! 最大スクロールか 
-	bool m_is_max_scroll;
 
 	//! 衝突方向[自機2体分][xとy]
 	CollisionDirectionType collision_dir_type[2][2];
@@ -310,7 +320,6 @@ private:
 
 	//! 敵管理のポインタ
 	EnemyManager *m_p_enemy_manager;
-
 };
 
 

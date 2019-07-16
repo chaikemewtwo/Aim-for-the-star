@@ -25,7 +25,7 @@ public:
 		// 本体のチップは生成されていないようにする
 		m_is_active = false;
 		m_is_chip_active = false;
-		m_is_obj = false;
+		m_is_enemy = false;
 	}
 
 
@@ -37,7 +37,7 @@ public:
 		m_chip_num = chip_num;
 		m_is_active = false;
 		m_is_chip_active = false;
-		m_is_obj = false;
+		m_is_enemy = false;
 	}
 
 
@@ -103,16 +103,18 @@ public:
 	* @param[in] オブジェクトかどうか
 	*/
 	void SetIsObject(bool is_obj) {
-		m_is_obj = is_obj;
+		m_is_enemy = is_obj;
 	}
 
 protected:
 
 	//! チップの種類番号
 	int  m_chip_num;
+
 	//! 存在しているか
 	bool m_is_chip_active;
-	//! チップではなくオブジェクトかどうか
-	bool m_is_obj;             
+
+	//! チップではなく敵かどうか
+	bool m_is_enemy;             
 };
 

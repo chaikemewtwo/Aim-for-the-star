@@ -30,7 +30,7 @@ void SeaUrchin::Update() {
 
 	m_p_state_base->Action(this);
 	// マップスクロールに合わせた移動処理
-	m_pos.y += m_p_map->GetMove().y;
+	m_pos.y += m_p_map->GetMove();
 
 	CheckEnemyActiv();
 }

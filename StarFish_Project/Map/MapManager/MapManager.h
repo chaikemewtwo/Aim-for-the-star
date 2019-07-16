@@ -1,5 +1,7 @@
 ﻿#pragma once
-
+#include"../../GameObject/Object/Object.h"
+#include"../MapCollision/MapCollider.h"
+#include"../../ManagerBase/ManagerBase.h"
 
 
 // =========================
@@ -11,9 +13,9 @@
 // =========================
 
 
+
 // 前方参照
 class EnemyManager;
-//class Player;
 class PlayerManager;
 class Map;
 class BackGround;
@@ -23,7 +25,7 @@ class ObjectManager;
 /**
 * @brief マップ関連の管理者
 */
-class MapManager {
+class MapManager : public ManagerBase{
 public:
 
 	/**
@@ -33,7 +35,8 @@ public:
 	* @param[out] EnemyManagerのポインタ
 	* @param[out] ObjectManagerのポインタ 
 	*/
-	MapManager(PlayerManager*p_mng, EnemyManager*e_mng, ObjectManager*obj_mng);
+
+	MapManager(EnemyManager*e_mng,ObjectManager*obj_mng);
 
 
 	/**
@@ -43,22 +46,26 @@ public:
 
 
 	/**
-	* @brief MapManagerの更新(Objectのオーバーライド関数)
+	* マップの更新
 	*/
 	void Update();
 
 
 	/**
-	* @brief MapManagerの描画(Objectのオーバーライド関数)
+	* @brief マップの当たり判定
 	*/
-	void Draw();
+	void MapCollision(
+		Object*object,
+		D3DXVECTOR2&obj_move,
+		CollisionDirectionType&collision_dir_type_x,
+		CollisionDirectionType&collision_dir_type_y
+	);
 
 
 	/**
-	* @brief マップが最大スクロールかどうかを返す
-	* @return bool 同上
+	* @brief
 	*/
-	bool IsMaxMapRange()const;// マップが最大値になったら返す
+	Map *GetMapInstance();
 
 
 private:
