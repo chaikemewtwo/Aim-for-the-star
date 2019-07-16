@@ -5,6 +5,7 @@
 #include"../SceneBase.h"
 
 
+// タイトルシーンクラス
 class Title :public SceneBase {
 public:
 	Title();
@@ -27,10 +28,10 @@ private:
 	void CheckChangeButton();
 
 private:
-	int m_button_check_num;			// 選択ボタンの数値用
+	int m_button_check_num;			// 選択ボタンの判定数値
 
-	std::string m_button_texture;	
-	std::string m_button_texture_list[TITLE_BUTTON_MAX];
+	std::string m_button_texture;	// 選択ボタン画像
+	std::string m_button_texture_list[TITLE_BUTTON_MAX];	// 選択ボタン画像リスト
 
 	// タイトルロゴの位置
 	const D3DXVECTOR2 TITLE_LOGO_POS = { (Window::WIDTH / 2),(Window::HEIGHT / 2) - 70 };   
@@ -41,5 +42,5 @@ private:
 	const std::string TITLE_TEXTURE = "Resource/Texture/Title/タイトル　背景.png";
 	const std::string TITLE_LOGO = "Resource/Texture/Title/タイトル　ロゴ.png";
 
-	IDirectSoundBuffer8* m_p_title_bgm;
+	IDirectSoundBuffer8* m_p_title_bgm;	// タイトルBGM
 };

@@ -6,8 +6,8 @@ GameMain::GameMain() {
 	m_scene_step = SceneStep::INIT;	
 	
 	// サウンドの登録
-	m_p_main_bgm = m_paudio.getBuffer("Resource/Sound/BGM/main_bgm.wav");
-	m_p_gameover_jingle = m_paudio.getBuffer("Resource/Sound/Failed/game_over.wav");
+	m_p_main_bgm = m_audio.getBuffer("Resource/Sound/BGM/main_bgm.wav");
+	m_p_gameover_jingle = m_audio.getBuffer("Resource/Sound/Failed/game_over.wav");
 }
 //―――――――――――――――――――
 
@@ -61,13 +61,13 @@ void GameMain::Update() {
 	}
 
 	// デバック用
-	if (m_pkey_bord.press(VK_F1)) {
+	if (m_key_bord.press(VK_F1)) {
 
 		m_p_main_bgm->Stop();
 		m_scene_step = SceneStep::END;
 		m_new_scene_id = SceneId::CLEAR;
 	}
-	else if (m_pkey_bord.press(VK_F2)) {
+	else if (m_key_bord.press(VK_F2)) {
 
 		m_p_main_bgm->Stop();
 		m_scene_step = SceneStep::END;
