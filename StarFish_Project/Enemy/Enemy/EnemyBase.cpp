@@ -8,7 +8,6 @@ EnemyBase::EnemyBase() {
 
 	m_angle = 0.f;
 	m_center = 0.5f;
-	m_delete_timer = 100;
 	m_max_animation = 0;
 	m_sin_count = 0.f;
 
@@ -49,19 +48,12 @@ void EnemyBase::ChangeState(StateBase* state) {
 void EnemyBase::CheckEnemyActiv() {
 
 	// 画面外に出たら、削除までの時間をカウントダウン
-	if (m_pos.y > Window::HEIGHT || m_pos.x<0 || m_pos.x>Window::WIDTH) {
-
-		if (m_delete_timer >= 0) {
-
-			m_delete_timer--;
-			if (m_delete_timer <= 0) {
-				m_is_active = false;
-			}
-		}
+	if (m_pos.y > HEIGHT_RANGE_MAX || m_pos.y < HEIGHT_RANGE_MIN || m_pos.x < WIDE_RANGE_MIN || m_pos.x > WIDE_RANGE_MAX) {
+		m_is_active = false;
 	}
 	// 画面内に戻ったら時間を戻す
-	else if (m_pos.y < Window::HEIGHT || m_pos.x>0 || m_pos.x < Window::WIDTH) {
-		m_delete_timer = 100;
+	else if (m_pos.y < HEIGHT_RANGE_MAX || m_pos.y > HEIGHT_RANGE_MIN || m_pos.x < WIDE_RANGE_MIN || m_pos.x < WIDE_RANGE_MAX) {
+		m_is_active = true;
 	}
 }
 //―――――――――――――――――――――

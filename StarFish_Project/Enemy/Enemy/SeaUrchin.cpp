@@ -2,16 +2,13 @@
 
 
 //コンストラクタ
-SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* const map, bool can_move) {
+SeaUrchin::SeaUrchin(const D3DXVECTOR2 pos, Map* const map, bool can_move) {
 
 	// マップを受け取る
 	m_p_map = map;
 
 	// 所得した座標の登録
 	m_pos = pos;
-
-	// can_moveがfalseの場合は動かないウニの生成
-	m_can_move = can_move;
 	
 	m_hit_vertex_offset.x = 128.f;
 	m_hit_vertex_offset.y = 128.f;
@@ -20,12 +17,15 @@ SeaUrchin::SeaUrchin(D3DXVECTOR2 pos, Map* const map, bool can_move) {
 	m_speed = 2.f;
 	m_max_animation = 4;
 	m_anim_change_time = 20;
+	// can_moveがfalseの場合は動かないウニの生成
+	m_can_move = can_move;
 
+	// 画像の登録
 	m_enemy_texture = m_texture_list[EnemyTexture::SEAURCHIN_MOVE];
 }
 //――――――――――――――――――――――――――
 
-// 更新関数
+// 更新
 void SeaUrchin::Update() {
 
 	m_p_state_base->Action(this);
@@ -36,7 +36,7 @@ void SeaUrchin::Update() {
 }
 //―――――――――――――――――――――――――――
 
-// 描画関数
+// 描画
 void SeaUrchin::Draw() {
 
 	Texture::Draw2D(
@@ -47,10 +47,13 @@ void SeaUrchin::Draw() {
 		true, TEX_PARTITION_NUM2, TEX_PARTITION_NUM2,
 		m_animation_count
 	);
+
+	// アニメーションの更新
 	AnimationCount(m_max_animation, m_anim_change_time);
 }
 //―――――――――――――――――――――――――――
 
+// 遷移するStateのチェック
 StateId SeaUrchin::CheckChangeState() {
 
 	// 動かないウニならばWaitのまま

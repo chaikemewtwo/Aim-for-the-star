@@ -28,7 +28,7 @@ void EnemyManager::Update() {
 //―――――――――――――――――――――――――――
 
 // 指定された敵を指定の位置に生成する
-void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* const map, PlayerManager* const p_mng, const EnemyType type_num) {
+void EnemyManager::CreateEnemy(const D3DXVECTOR2 pos, Map* const map, PlayerManager* const p_mng, const EnemyType type_num) {
 
 	switch (type_num) {
 
@@ -55,7 +55,7 @@ void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* const map, PlayerManager* c
 //―――――――――――――――――――――――――――
 
 // 指定の位置にブラインドを生成する
-void EnemyManager::CreateBlind(D3DXVECTOR2 from, D3DXVECTOR2 goal) {
+void EnemyManager::CreateBlind(const D3DXVECTOR2 from, const D3DXVECTOR2 goal) {
 
 	// Objectに登録時にブラインド用変数に代入、その後にブラインドを生成
 	m_p_obj_manager->Entry(m_p_blind = new Blind);
@@ -63,7 +63,7 @@ void EnemyManager::CreateBlind(D3DXVECTOR2 from, D3DXVECTOR2 goal) {
 }
 //―――――――――――――――――――――――――――
 
-// Activeがfalseのものを削除する
+// Activeフラグがfalseのものを削除する
 void EnemyManager::CheckDelete() {
 
 	// 敵の削除ループ
@@ -99,7 +99,7 @@ int EnemyManager::GetEnemyTotal()const {
 //――――――――――――――――――――――――――――
 
 // 指定された敵のインスタンスを返す関数を呼び出す
-EnemyBase* EnemyManager::GetEnemyInstance(int num) {
+EnemyBase* EnemyManager::GetEnemyInstance(const int num) {
 
 	if (m_enemy_list[num] != nullptr) {
 		return m_enemy_list[num]->GetInstance();
