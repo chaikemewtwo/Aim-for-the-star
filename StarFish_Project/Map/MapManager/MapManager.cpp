@@ -6,24 +6,20 @@
 
 
 
-MapManager::MapManager(PlayerManager*p_mng, EnemyManager*e_mng, ObjectManager*obj_mng) {
+MapManager::MapManager(EnemyManager*e_mng, ObjectManager*obj_mng) {
 
 
 	// nullチェック
-	if (p_mng == nullptr) {
-		return;
-	}
-
 	if (e_mng == nullptr) {
 		return;
 	}
 
-	if (object_manager == nullptr) {
+	if (obj_mng == nullptr) {
 		return;
 	}
 
 	// マップ生成
-	m_p_map = new Map(p_mng, e_mng, obj_mng);
+	m_p_map = new Map(e_mng, obj_mng);
 
 	// 背景生成
 	m_p_bg1 = new BackGround(
@@ -48,9 +44,6 @@ MapManager::MapManager(PlayerManager*p_mng, EnemyManager*e_mng, ObjectManager*ob
 	//	(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_1.png")),
 	//	(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_1.png")));
 
-
-	// マップ登録
-	obj_mng->Entry(m_p_map);
 
 	// 背景1登録
 	obj_mng->Entry(m_p_bg1);

@@ -32,8 +32,8 @@ enum SortObjectType {
 	BEFORE_BG,
 	ROPE,
 	PLAYER,
-	ENEMY,
 	ROCK_CHIP,
+	ENEMY,
 	AFTER_BG,
 	GAME_UI,
 	BLIND,
@@ -123,6 +123,9 @@ private:
 
 private:
 
+	//! 最新id
+	int m_current_the_newest_id;
+
 	//! オブジェクトリスト(常に降順ソートを行う)
 	std::map<unsigned int,Object*,std::greater<>>m_p_object_list;
 
@@ -143,7 +146,6 @@ private:
 
 	//! ロープクラスポインタ
 	Rope * m_p_rope;                     
-
 };
 
 

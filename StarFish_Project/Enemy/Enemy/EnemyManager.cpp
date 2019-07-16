@@ -44,11 +44,11 @@ void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* const map,const EnemyType t
 		break;
 
 	case EnemyType::SELLFISH:
-		m_enemy_list.emplace_back(new SellFish(pos, map, p_mng));
+		m_enemy_list.emplace_back(new SellFish(pos, map, m_p_player_manager));
 		break;
 
 	case EnemyType::NAPOREONFISH:
-		m_enemy_list.emplace_back(new NaporeonFish(pos, map, p_mng));
+		m_enemy_list.emplace_back(new NaporeonFish(pos, map,m_p_player_manager));
 		break;
 	}
 

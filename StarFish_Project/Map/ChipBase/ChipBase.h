@@ -76,7 +76,7 @@ public:
 	* @return bool
 	*/
 	bool IsEnemy() {
-		return m_is_obj;
+		return m_is_enemy;
 	}
 
 

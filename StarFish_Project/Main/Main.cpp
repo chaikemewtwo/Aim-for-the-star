@@ -17,6 +17,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 		return -1;
 	}
 
+	// スクリーンモード変更
+	D3D9::SetScreenMode(FALSE);
+
 	Audio::getInterface(Window::GetWindowHandle());
 	Keybord& kb = Keybord::getInterface();
 

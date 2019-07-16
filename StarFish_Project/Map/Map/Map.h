@@ -30,6 +30,7 @@ class EnemyManager;
 enum CollisionDirectionType;
 
 
+
 /**
 * @brief チップを構成するマップクラス
 */
@@ -63,7 +64,7 @@ public:
 	* @param[out] EnemyManagerのポインタ
 	* @param[out] ObjectManagerのポインタ
 	*/
-	Map(PlayerManager*p_mng, EnemyManager*e_mng,ObjectManager*obj_mng);
+	Map(EnemyManager*e_mng,ObjectManager*obj_mng);
 
 
 	/**
@@ -88,12 +89,6 @@ public:
 	* @brief 描画(override)
 	*/
 	void Draw();
-
-
-	/**
-	* @brief マップチップの初期化
-	*/
-	void Init();
 
 
 	/**
@@ -253,21 +248,6 @@ private:
 	* @brief 生成と削除を行う関数
 	*/
 	void CreateAndDestory();
-
-
-	/**
-	* @brief 自機との当たり判定とスクロール
-	* @param[in] player_num 当たりを行う自機番号
-	*/
-	void PlayerCollision(Player::ID_TYPE type);
-
-
-	/** 
-	* @brief 自機のスクロール
-	* @param[in] player_num スクロールを行う自機番号
-	*/
-	void PlayerScroll(Player::ID_TYPE type);
-	
 
 private:
 
