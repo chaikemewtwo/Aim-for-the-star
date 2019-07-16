@@ -9,6 +9,7 @@ VerticalMove* VerticalMove::GetInstance() {
 }
 //――――――――――――――――――――――――
 
+// 縦に直線移動する挙動
 void VerticalMove::Action(EnemyBase* e) {
 
 	e->VerticalMove();

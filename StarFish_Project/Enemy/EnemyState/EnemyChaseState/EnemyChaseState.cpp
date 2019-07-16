@@ -10,6 +10,7 @@ Chase* Chase::GetInstance() {
 }
 //――――――――――――――――――
 
+// 追跡する挙動
 void Chase::Action(EnemyBase* e) {
 
 	e->Chase();

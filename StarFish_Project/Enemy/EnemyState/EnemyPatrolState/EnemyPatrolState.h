@@ -3,6 +3,7 @@
 #include"../EnemyStateBase.h"
 
 
+// 徘徊移動クラス
 class Patrol :public StateBase {
 public:
 	// シングルトン

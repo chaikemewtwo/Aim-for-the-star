@@ -9,7 +9,7 @@ SideMove* SideMove::GetInstance() {
 }
 //――――――――――――――――――――――
 
-// 横に直線移動する処理
+// 横に直線移動する挙動
 void SideMove::Action(EnemyBase* e) {
 
 	e->SideMove();
