@@ -285,7 +285,7 @@ void Map::EnemyCreate(int x, int y) {
 	// 敵の修正位置
 	D3DXVECTOR2 offset_pos[EnemyType::ENEMYTYPE_MAX] =
 	{ { 0.f,-64.f },
-	{ 0.f,-64.f },
+	{ -32.f,-96.f },
 	{ 64.f, -64.f },
 	{ 0.f,0.f },
 	};
@@ -297,14 +297,14 @@ void Map::EnemyCreate(int x, int y) {
 	EnemyType enemy_type[EnemyType::ENEMYTYPE_MAX] = { SEAURCHIN ,NO_MOVE_SEAURCHIN , SELLFISH ,NAPOREONFISH};
 
 	// オブジェクト生成、チップ番号が100以上なら
-	if (chip_num >= enemy_chip[EnemyType::SEAURCHIN - 1] &&
-		chip_num <= enemy_chip[EnemyType::ENEMYTYPE_MAX]) {
+	if (chip_num >= enemy_chip[0] &&
+		chip_num <= enemy_chip[ENEMYTYPE_MAX]) {
 
 		// 敵生成
 		for (int i = 0; i < EnemyType::ENEMYTYPE_MAX; i++){
 
 			// 生成番号と一致していたら
-			if (chip_num == enemy_chip[i]) {
+			if (chip_num == enemy_chip[i]){
 
 				// 生成
 				m_p_enemy_manager->CreateEnemy(pos + offset_pos[i],this,enemy_type[i]);
