@@ -52,6 +52,6 @@ private:
 private:
 	std::vector<EnemyBase*> m_enemy_list;	// 生成した敵の配列
 
-	ObjectManager* m_p_obj_mng;				
+	ObjectManager* m_p_obj_manager;				
 	Blind* m_p_blind;						
 };

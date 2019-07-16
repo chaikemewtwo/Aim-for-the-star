@@ -26,5 +26,5 @@ private:
 	bool CheckTargetInTheRange(D3DXVECTOR2 vec1, D3DXVECTOR2 vec2, D3DXVECTOR2 vec3, D3DXVECTOR2 target_pos);
 
 private:
-	PlayerManager * m_p_p_mng;
+	PlayerManager * m_p_player_manager;
 };

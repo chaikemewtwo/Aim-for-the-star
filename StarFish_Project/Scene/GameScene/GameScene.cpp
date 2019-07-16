@@ -16,7 +16,7 @@ void GameMain::Init() {
 	m_scene_id = SceneId::GAME_MAIN;
 	m_scene_step = SceneStep::UPDATE;
 
-	m_p_obj_mng = new ObjectManager;
+	m_p_obj_manager = new ObjectManager;
 
 	m_gameover_ui_pos = { (Window::WIDTH / 2), 0 };
 	m_gameover_ui_speed = 3.f;
@@ -35,10 +35,10 @@ void GameMain::Init() {
 
 void GameMain::Update() {
 
-	m_p_obj_mng->Update();	
+	m_p_obj_manager->Update();	
 
 	// ゲームオーバージングルの再生
-	if (m_p_obj_mng->IsGameOver() == true) {
+	if (m_p_obj_manager->IsGameOver() == true) {
 
 		m_p_main_bgm->Stop();
 		if (m_p_gameover_jingle != nullptr) {
@@ -47,13 +47,13 @@ void GameMain::Update() {
 	}
 
 	// Scene遷移処理
-	if (m_p_obj_mng->IsClear() == true) {
+	if (m_p_obj_manager->IsClear() == true) {
 	
 		m_p_main_bgm->Stop();
 		m_scene_step = SceneStep::END;
 		m_new_scene_id = SceneId::CLEAR;
 	}
-	else if (m_p_obj_mng->IsGameOver() == true && CheckChangeScene() == true) {
+	else if (m_p_obj_manager->IsGameOver() == true && CheckChangeScene() == true) {
 
 		m_p_gameover_jingle->Stop();
 		m_scene_step = SceneStep::END;
@@ -78,9 +78,9 @@ void GameMain::Update() {
 
 void GameMain::Draw() {
 
-	m_p_obj_mng->Draw();
+	m_p_obj_manager->Draw();
 
-	if (m_p_obj_mng->IsGameOver() == true) {
+	if (m_p_obj_manager->IsGameOver() == true) {
 
 		Texture::Draw2D(
 			m_gameover_ui.c_str(),

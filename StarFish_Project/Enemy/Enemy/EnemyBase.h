@@ -130,5 +130,5 @@ protected:
 
 	StateBase* m_p_state_base;	// 状態を保存する変数
 	Map* m_p_map;
-	PlayerManager* m_p_p_mng;
+	PlayerManager* m_p_player_manager;
 };

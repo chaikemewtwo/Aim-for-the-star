@@ -32,5 +32,5 @@ private:
 	IDirectSoundBuffer8* m_p_main_bgm;			// ゲームシーンBGM
 	IDirectSoundBuffer8* m_p_gameover_jingle;	// ゲームオーバージングル
 
-	ObjectManager* m_p_obj_mng;
+	ObjectManager* m_p_obj_manager;
 };
