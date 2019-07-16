@@ -14,6 +14,8 @@ ScrollManager::ScrollManager(PlayerManager*player_manager, MapManager*map) {
 		return;
 	}
 
+	m_is_max_scroll = false;
+
 	// インスタンス代入
 	m_p_player_manager = player_manager;
 	m_p_map_manager = map;
@@ -87,11 +89,13 @@ void ScrollManager::MaxScroll() {
 		m_p_map_manager->GetMapInstance()->SetPos(-BackGround::MAX_UP_SCROLL - 1.f);
 
 		// 最大スクロールにする
-		m_p_map_manager->GetMapInstance()->SetIsScroll(true);
+		m_is_max_scroll = true;
 	}
 	else if (-m_p_map_manager->GetMapInstance()->GetPos() <= -BackGround::MAX_UP_SCROLL - 50.f) {
 		// 元のスクロール座標に戻す
 		m_p_map_manager->GetMapInstance()->SetScrollUpLine(Map::INIT_SCROLL_RANGE_UP);
+
+		//m_is_max_scroll = false;
 	}
 
 	// 下の最大スクロール(移動値を加算する)
@@ -108,4 +112,9 @@ void ScrollManager::MaxScroll() {
 		// スクロールを最初に戻す
 		m_p_map_manager->GetMapInstance()->SetScrollDownLine(Map::INIT_SCROLL_RANGE_DOWN);
 	}
+}
+
+
+bool ScrollManager::IsMaxScroll()const{
+	return m_is_max_scroll;
 }

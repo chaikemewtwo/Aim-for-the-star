@@ -452,10 +452,6 @@ bool Map::IsScroll()const {
 	return m_is_scroll;
 }
 
-bool Map::IsMaxScroll()const {
-	return m_is_max_scroll;
-}
-
 float Map::GetSignChange(float sign_change_num) {
 	return (sign_change_num *= -1);
 }
@@ -478,10 +474,6 @@ void Map::SetPos(const float&pos) {
 
 void Map::SetScrollMove(const float&move) {
 	m_scroll_move = move;
-}
-
-void Map::SetIsScroll(bool is_scroll) {
-	m_is_scroll = is_scroll;
 }
 
 void Map::SetScrollUpLine(const float &scroll_line_y) {

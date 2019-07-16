@@ -72,11 +72,6 @@ void MapManager::Update() {
 }
 
 
-bool MapManager::IsMaxMapRange()const {
-	return m_p_map->IsMaxScroll();
-}
-
-
 void MapManager::MapCollision(
 	Object*object,
 	D3DXVECTOR2&obj_move,

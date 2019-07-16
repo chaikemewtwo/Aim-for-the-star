@@ -33,8 +33,9 @@ ObjectManager::ObjectManager(){
 	}
 
 	EnemyManager*p_enemy_manager = new EnemyManager(this,m_p_player_manager);
-	m_p_map_manager = new MapManager(p_enemy_manager, this);
+	MapManager * p_map_manager = new MapManager(p_enemy_manager, this);
 
+	m_p_scroll_manager = new ScrollManager(m_p_player_manager, p_map_manager);
 
 	// 管理者登録
 	{
@@ -45,13 +46,13 @@ ObjectManager::ObjectManager(){
 		m_p_manager_list.emplace_back(m_p_player_manager);
 
 		// マップ管理登録
-		m_p_manager_list.emplace_back(m_p_map_manager);
+		m_p_manager_list.emplace_back(p_map_manager);
 
 		// スクロール管理者生成
-		m_p_manager_list.emplace_back(new ScrollManager(m_p_player_manager, m_p_map_manager));
+		m_p_manager_list.emplace_back(m_p_scroll_manager);
 
 		// 当たり判定管理生成
-		m_p_manager_list.emplace_back(new CollisionManager(m_p_player_manager, p_enemy_manager, m_p_map_manager));
+		m_p_manager_list.emplace_back(new CollisionManager(m_p_player_manager, p_enemy_manager, p_map_manager));
 
 	}	
 }
@@ -166,8 +167,8 @@ bool ObjectManager::IsClear()const{
 
 	
 	// マップの背景とチップが最大で、かつ自機の位置が200.fよりも少ない(上)のとき
-	if (m_p_map_manager->IsMaxMapRange() == true && m_p_player_manager->GetPosRelay(Player::STAR_1).y <= 200.f ||
-		m_p_map_manager->IsMaxMapRange() == true && m_p_player_manager->GetPosRelay(Player::STAR_2).y <= 200.f) {
+	if (m_p_scroll_manager->IsMaxScroll() == true && m_p_player_manager->GetPosRelay(Player::STAR_1).y <= 200.f ||
+		m_p_scroll_manager->IsMaxScroll() == true && m_p_player_manager->GetPosRelay(Player::STAR_2).y <= 200.f) {
 		return true;
 	}
 		return false;

@@ -147,13 +147,6 @@ public:
 
 
 	/**
-	* @brief 最大スクロールかどうか
-	* @return bool
-	*/
-	bool IsMaxScroll()const; 
-
-
-	/**
 	* @brief スクロール位置を返す
 	* @return float
 	*/
@@ -165,13 +158,6 @@ public:
 	* @param[in] pos
 	*/
 	void SetPos(const float&pos);
-
-
-	/**
-	* @brief マップのスクロールの初期化セッター
-	* @param[in] is_scroll スクロールしているか
-	*/
-	void SetIsScroll(bool is_scroll);
 
 
 	/**
@@ -296,9 +282,6 @@ private:
 
 	//! スクロールしているか
 	bool m_is_scroll;
-
-	//! 最大スクロールか 
-	bool m_is_max_scroll;
 
 	//! 衝突方向[自機2体分][xとy]
 	CollisionDirectionType collision_dir_type[2][2];

@@ -1,6 +1,6 @@
 ﻿#include "Player.h"
 #include "PlayerState/PlayerWaitState/PlayerWaitState.h"
-#include "../Map/MapChip/MapChip.h"
+#include "../Map/Map/Map.h"
 #include <cmath>
 
 

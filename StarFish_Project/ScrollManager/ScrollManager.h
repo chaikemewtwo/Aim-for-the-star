@@ -36,7 +36,17 @@ public:
 	void MaxScroll();
 
 
+	/**
+	* @brief 最大スクロールかどうか
+	* @return bool
+	*/
+	bool IsMaxScroll()const;
+
+
 private:
+
+	//! 最大スクロールか
+	bool m_is_max_scroll;
 
 	//! 自機配列
 	PlayerManager * m_p_player_manager;

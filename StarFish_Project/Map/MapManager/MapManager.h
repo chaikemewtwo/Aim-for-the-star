@@ -51,13 +51,6 @@ public:
 
 
 	/**
-	* @brief マップが最大スクロールかどうかを返す
-	* @return bool 同上
-	*/
-	bool IsMaxMapRange()const;// マップが最大値になったら返す
-
-
-	/**
 	* @brief マップの当たり判定
 	*/
 	void MapCollision(

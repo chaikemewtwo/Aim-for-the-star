@@ -132,8 +132,8 @@ private:
 	//! 管理者配列
 	std::vector<ManagerBase*>m_p_manager_list;
 
-	//! マップ管理者
-	MapManager * m_p_map_manager;
+	//! スクロール管理者
+	ScrollManager * m_p_scroll_manager;
 
 	//! 自機管理者
 	PlayerManager * m_p_player_manager;
