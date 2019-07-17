@@ -17,7 +17,7 @@
 class Object;          
 class EnemyManager;    
 class MapManager;      
-class PlayerManager;
+class PlayerManager;   
 class CollisionManager;
 class GameUI;          
 class Rope;       
@@ -121,6 +121,19 @@ private:
 	void EntryAndSortDrawObject();
 
 
+	/**
+	* @brief ポーズ画面へ移行する
+	* @return 移行するなら、trueしないならfalseを返す
+	*/
+	void MoveToPouse();
+
+	/**
+	* @brief ポーズ描画
+	* @return bool ポーズを描画
+	*/
+	bool IsPouseDraw();
+
+
 private:
 
 	//! 最新id
@@ -145,7 +158,10 @@ private:
 	GameUI * m_p_ui;  
 
 	//! ロープクラスポインタ
-	Rope * m_p_rope;                     
+	Rope * m_p_rope;                
+
+	//! ポーズフラグ
+	bool m_is_pouse;
 };
 
 

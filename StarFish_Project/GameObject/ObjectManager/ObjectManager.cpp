@@ -11,10 +11,15 @@
 #include<algorithm>
 #include<iostream>
 #include"../../ScrollManager/ScrollManager.h"
+#include"../../Lib/Input/KeyBord.h"
 
 
 
-ObjectManager::ObjectManager(){
+
+ObjectManager::ObjectManager() : 
+	m_current_the_newest_id(0),
+	m_is_pouse(false)
+{
 
 
 	// 各コンストラクタに渡す為、一時的な参照に入れる
@@ -73,6 +78,12 @@ ObjectManager::~ObjectManager() {
 
 
 void ObjectManager::Update() {
+
+	MoveToPouse();
+
+	if (IsPouseDraw() == true) {
+		return;
+	}
 
 	// オブジェクトの更新
 	for (auto&itr : m_p_object_list) {
@@ -180,6 +191,27 @@ bool ObjectManager::IsGameOver()const {
 
 	if (m_p_player_manager->IsActiveRelay(Player::STAR_1) == false &&
 		m_p_player_manager->IsActiveRelay(Player::STAR_2) == false) {
+		return true;
+	}
+	return false;
+}
+
+
+void ObjectManager::MoveToPouse() {
+
+	Keybord& keybord = Keybord::getInterface();
+
+	// キーが離されたら
+	if (keybord.press(VK_SPACE)) {
+		m_is_pouse = !m_is_pouse;
+	}
+}
+
+
+bool ObjectManager::IsPouseDraw() {
+
+	if (m_is_pouse == true) {
+		// 描画
 		return true;
 	}
 	return false;
