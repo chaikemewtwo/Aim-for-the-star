@@ -297,8 +297,8 @@ void Map::EnemyCreate(int x, int y) {
 	EnemyType enemy_type[EnemyType::ENEMYTYPE_MAX] = { SEAURCHIN ,NO_MOVE_SEAURCHIN , SELLFISH ,NAPOREONFISH};
 
 	// オブジェクト生成、チップ番号が100以上なら
-	if (chip_num >= enemy_chip[0] &&
-		chip_num <= enemy_chip[ENEMYTYPE_MAX]) {
+	if (chip_num >= 100 &&
+		chip_num <= 104) {
 
 		// 敵生成
 		for (int i = 0; i < EnemyType::ENEMYTYPE_MAX; i++){
@@ -318,7 +318,7 @@ void Map::EnemyCreate(int x, int y) {
 		}
 
 		// ブラインド生成
-		if (chip_num == 103) {
+		if (chip_num == 104) {
 
 			// 修正位置を少しずらす
 			D3DXVECTOR2 blind_offset_pos((float)Map::CHIP_SIZE + 600.f, 0.f);
