@@ -47,6 +47,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameInput\GameInput.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameObject\ObjectInterface\ObjectInterface.cpp">
       <SubType>
       </SubType>
@@ -130,6 +134,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Enemy\EnemyState\EnemyPatrolState\EnemyPatrolState.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameInput\GameInput.h">
       <SubType>
       </SubType>
     </ClInclude>

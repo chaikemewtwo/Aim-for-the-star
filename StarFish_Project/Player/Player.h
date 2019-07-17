@@ -1,5 +1,4 @@
 ﻿#pragma once
-
 #include"../CollisionObject/CircleCollisionObject.h"
 #include"PlayerState\PlayerStateBase.h"
 #include"../Lib/Texture/TextureBoad2D.h"
@@ -10,7 +9,7 @@ class Map;
 
 // HACK:順序を決め並び替えをする　19/06/14
 
-// プレイヤーオブジェクトクラス（自機2体とも）
+// プレイヤーオブジェクトクラス（自機2体共通）
 class Player : public CircleCollisionObject {
 public:	
 	// 自機1か2かの判断
@@ -135,10 +134,6 @@ public:
 		return PLAYER;
 	}
 
-public:
-	// HACK:public領域の変数をなくす　19/06/14	
-	char imput_button_list[MAX_KEY_NUM];	// 入力キー文字列保持（2体の操作分割のため）
-
 private:
 	// 重力
 	// 1フレームごとの画面下への移動量
@@ -183,7 +178,8 @@ private:
 	static const int INVISIBLE_DRAW_SWITCH_TIME;
 
 private:
-	// 無敵時間タイマー
+	// 被弾したときに無敵タイマーがカウントされる
+	// この関数の内部で下記のInvisibleDrawSwitchが回っています
 	void InvisibleCount();
 
 	// 無敵時間と死亡による描画のONOFF

@@ -17,7 +17,7 @@ const int Player::MAX_INVISIBLE_COUNT = 180;
 const int Player::INVISIBLE_DRAW_SWITCH_TIME = 20;
 
 
-Player::Player(ID_TYPE id,D3DXVECTOR2 first_pos) :
+Player::Player(ID_TYPE id, D3DXVECTOR2 first_pos) :
 	m_p_state(PlayerWaitState::GetInstance()),
 	m_move(0.f, 0.f),
 	m_angle(0.f),
@@ -41,18 +41,8 @@ Player::Player(ID_TYPE id,D3DXVECTOR2 first_pos) :
 	m_p_hit_se = m_p_audio.getBuffer("Resource/Sound/Player/damage.wav");
 
 	// 操作、キー入力
-	char input_list[MAX_TYPE][MAX_KEY_NUM] = {
-		// 自機1
-		{ 'A', 'D', 'W', 'Q'},
+	
 
-		// 自機2
-		{ VK_LEFT, VK_RIGHT, VK_UP, 'M' }
-	};
-
-	// 上記のキー入力を代入
-	for (int i = 0; i < MAX_KEY_NUM; i++){
-		imput_button_list[i] = input_list[id][i];
-	}
 
 	// 画像
 	std::string texture_list[MAX_TYPE][MAX_KEY_NUM] = {
@@ -101,8 +91,7 @@ void Player::Update() {
 		EnableDead();
 	}
 
-	// 無敵時間
-	// ずっとUpdate内で回ってるのがよろしくないかも　19/06/18
+	// 被弾したときに無敵タイマーがカウントされる
 	InvisibleCount();
 
 	// ステート更新（内部の処理は各ステート内で管理しています）

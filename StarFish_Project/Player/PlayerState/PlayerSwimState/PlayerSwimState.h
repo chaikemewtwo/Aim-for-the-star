@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include"../PlayerStateBase.h"
 #include"../../../Lib/Sound/DirectSound.h"
+#include"../../../GameInput/GameInput.h"
 
 
 // 泳ぎ状態
@@ -34,7 +35,9 @@ private:
 	static const float TO_SWIM_USE_STAMINA;
 
 private:
-	IDirectSoundBuffer8* m_p_swim_se;	// 泳ぐSE
+	IDirectSoundBuffer8* m_p_swim_se;			// 泳ぐSE
 
 	Audio& m_p_audio = Audio::getInterface();	// オーディオ
+
+	GameInput * m_p_game_input;					// 入力
 };
