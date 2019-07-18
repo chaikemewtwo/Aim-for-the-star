@@ -3,7 +3,6 @@
 
 
 
-
 namespace Window {
 
 	// ウィンドウハンドル

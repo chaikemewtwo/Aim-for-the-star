@@ -1,7 +1,7 @@
 ﻿#pragma once
-
 #include"../CollisionObject/CircleCollisionObject.h"
 #include"PlayerState\PlayerStateBase.h"
+#include "../../GameInput/GameInput.h"
 #include"../Lib/Texture/TextureBoad2D.h"
 #include"../Lib/Sound/DirectSound.h"
 
@@ -10,7 +10,7 @@ class Map;
 
 // HACK:順序を決め並び替えをする　19/06/14
 
-// プレイヤーオブジェクトクラス（自機2体とも）
+// プレイヤーオブジェクトクラス（自機2体共通）
 class Player : public CircleCollisionObject {
 public:	
 	// 自機1か2かの判断
@@ -21,16 +21,13 @@ public:
 		MAX_TYPE
 	};
 
-	// 入力キーデータ（後々操作入力をまとめたクラスを作成する）
-	// プレイヤーのコンストラクタで初期化し状態クラスで使用
-	enum IMPUT_KEY {
-		LEFT_KEY,		
-		RIGHT_KEY,		
-		SWIM_KEY,		
-		PULL_ROPE_KEY,	
-
-		MAX_KEY_NUM		
+	enum STAR_INPUT {
+		KEY_LEFT,
+		KEY_RIGHT,
+		KEY_SWIM,
+		STAR_KEY_MAX
 	};
+
 
 	// 状態画像データ
 	// プレイヤーのコンストラクタで初期化し状態クラスで使用
@@ -127,6 +124,9 @@ public:
 
 	// 生存フラグ無効化
 	void EnableDead();
+
+	// 自機1か2の入力情報を返す
+	GameInput::INPUT_BUTTON GetStarInput(STAR_INPUT num);
 	//-----------------------------------------------------
 
 	// 自機を返す設定をする
@@ -134,10 +134,6 @@ public:
 	Type GetObjectType()const override { 
 		return PLAYER;
 	}
-
-public:
-	// HACK:public領域の変数をなくす　19/06/14	
-	char imput_button_list[MAX_KEY_NUM];	// 入力キー文字列保持（2体の操作分割のため）
 
 private:
 	// 重力
@@ -183,7 +179,8 @@ private:
 	static const int INVISIBLE_DRAW_SWITCH_TIME;
 
 private:
-	// 無敵時間タイマー
+	// 被弾したときに無敵タイマーがカウントされる
+	// この関数の内部で下記のInvisibleDrawSwitchが回っています
 	void InvisibleCount();
 
 	// 無敵時間と死亡による描画のONOFF
@@ -196,10 +193,11 @@ private:
 	void HitAction(Type type)override;
 
 private:
-	std::string star_texture_list[MAX_TEXTURE_NUM];	// テクスチャ文字列保持
-	std::string m_player_texture;	// 画像格納用
+	std::string texture_list[MAX_TEXTURE_NUM];						// テクスチャ文字列保持
+	std::string m_player_texture;									// 画像格納用
+	GameInput::INPUT_BUTTON command_list[STAR_KEY_MAX];				// 自機それぞれのコマンドリスト
 	D3DXVECTOR2 m_move;				// X、Y方向移動量
-	float m_speed;
+	float m_speed;					// 泳ぐときの速度
 	float m_angle;					// 自機画像角度（MAX_ANGLEから-MAX_ANGLE度まで）
 	float m_stamina;				// スタミナ（最大値はMAX_STAMINA）
 	int m_state_change_timer;		// 状態遷移用タイマー		
@@ -207,8 +205,8 @@ private:
 	bool m_draw_enable;				// 被弾時点滅用描画切り替え			
 	bool m_swim_enable;				// 泳いでるフラグ(泳ぎ状態のときtrue)
 	
-	PlayerStateBase* m_p_state;		// ステート基底クラスを保持					
-	
-	IDirectSoundBuffer8* m_p_hit_se;	// 被弾SE
+	PlayerStateBase* m_p_state;					// ステート基底クラス			
+	GameInput* m_p_game_input;					// 操作入力クラス
+	IDirectSoundBuffer8* m_p_hit_se;			// 被弾SE
 	Audio& m_p_audio = Audio::getInterface();	// オーディオインターフェース
 };
