@@ -13,7 +13,8 @@ public:
 		P2_LEFT_BUTTON,		// プレイヤー2の左ボタン
 		P2_RIGHT_BUTTON,	// プレイヤー2の右ボタン
 		P2_DECIDE_BUTTON,	// プレイヤー2の決定ボタン
-		START_BUTTON		// スタートボタン
+		START_BUTTON,		// スタートボタン
+		BUTTON_MAX_NUM		// 列挙型の最大値
 	};
 
 	enum INPUT_STATE {
@@ -27,12 +28,5 @@ public:
 	// 今回使用するボタンの入力情報を管理
 	// 引数(入力情報を受け取りたいプレイヤー,入力情報を受け取りたいボタン,第一引数のボタンの入力状態)
 	// 戻り値:対応する入力状態を満たしたとき（満たしているとき）trueを返す
-	bool InputButton(INPUT_BUTTON button, INPUT_STATE state);
-
-private:
-
-	// パッドの左スティックが一定以上に倒れることでtrueを返す関数
-	// 引数(左方向に倒れたときに使用する場合true)
-	// 戻り値:一定以上倒れているときtrue、それ以外false
-	bool LeftStickXInput(bool left);
+	bool InputCommand(INPUT_BUTTON button, INPUT_STATE state);
 };

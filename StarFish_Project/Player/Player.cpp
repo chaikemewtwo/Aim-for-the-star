@@ -24,7 +24,7 @@ Player::Player(ID_TYPE id, D3DXVECTOR2 first_pos) :
 	m_draw_enable(true),
 	m_invisible_count(0),
 	m_stamina(MAX_STAMINA)
-	{
+{
 	// 自機2種類の共通部分の初期化
 
 	// 当たり判定の半径
@@ -33,7 +33,7 @@ Player::Player(ID_TYPE id, D3DXVECTOR2 first_pos) :
 	// 当たり判定位置調整（左上から中央に）
 	m_hit_vertex_offset = { PLAYER_COLLSION_RADIUS, PLAYER_COLLSION_RADIUS };
 
-	m_speed = PLAYER_SPEED;	
+	m_speed = PLAYER_SPEED;
 
 	// 描画順ソート
 	m_sort_object_type = SortObjectType::PLAYER;
@@ -41,11 +41,19 @@ Player::Player(ID_TYPE id, D3DXVECTOR2 first_pos) :
 	m_p_hit_se = m_p_audio.getBuffer("Resource/Sound/Player/damage.wav");
 
 	// 操作、キー入力
-	
-
+	if (id == STAR_1) {
+		command_list[KEY_LEFT] = GameInput::P1_LEFT_BUTTON;
+		command_list[KEY_RIGHT] = GameInput::P1_RIGHT_BUTTON;
+		command_list[KEY_SWIM] = GameInput::P1_DECIDE_BUTTON;
+	}
+	else if (id == STAR_2) {
+		command_list[KEY_LEFT] = GameInput::P2_LEFT_BUTTON;
+		command_list[KEY_RIGHT] = GameInput::P2_RIGHT_BUTTON;
+		command_list[KEY_SWIM] = GameInput::P2_DECIDE_BUTTON;
+	}
 
 	// 画像
-	std::string texture_list[MAX_TYPE][MAX_KEY_NUM] = {
+	std::string both_texture_list[MAX_TYPE][MAX_TEXTURE_NUM] = {
 		// 自機1
 		{ "Resource/Texture/Player/de_wait.png",
 		"Resource/Texture/Player/de_standing_wait.png",
@@ -59,9 +67,9 @@ Player::Player(ID_TYPE id, D3DXVECTOR2 first_pos) :
 		"Resource/Texture/Player/hi_die.png" }
 	};
 
-	// 上記の画像を代入
-	for (int i = 0; i < MAX_KEY_NUM; i++) {
-		star_texture_list[i] = texture_list[id][i];
+	// 上記の画像を格納
+	for (int i = 0; i < MAX_TEXTURE_NUM; i++) {
+		texture_list[i] = both_texture_list[id][i];
 	}
 
 	// WaitState初回のみ画像の初期化をしてやる
@@ -216,7 +224,7 @@ void Player::ResetAnimationCount() {
 
 
 void Player::SetPlayerTexture(PLAYER_STATE_TEXTURE new_state_texture) {
-	m_player_texture = star_texture_list[new_state_texture];
+	m_player_texture = texture_list[new_state_texture];
 }
 
 
@@ -262,4 +270,9 @@ float Player::StaminaParcentage() {
 
 void Player::EnableDead() {
 	m_is_active = false;
+}
+
+
+GameInput::INPUT_BUTTON Player::GetStarInput(STAR_INPUT num) {
+	return command_list[num];
 }

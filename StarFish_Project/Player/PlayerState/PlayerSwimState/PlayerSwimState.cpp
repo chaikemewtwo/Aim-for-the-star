@@ -39,11 +39,11 @@ void PlayerSwimState::Update(Player* p) {
 
 	// 左右角度変更
 	// 左
-	if (m_p_game_input->InputButton(m_p_game_input->P1_LEFT_BUTTON, m_p_game_input->PUSH_ON) == true) {
+	if (m_p_game_input->InputCommand(p->GetStarInput(p->KEY_LEFT), m_p_game_input->PUSH_ON) == true) {
 		p->AngleAdjust(false);
 	}
 	// 右
-	if (m_p_game_input->InputButton(m_p_game_input->P1_RIGHT_BUTTON, m_p_game_input->PUSH_ON) == true) {
+	if (m_p_game_input->InputCommand(p->GetStarInput(p->KEY_RIGHT), m_p_game_input->PUSH_ON) == true) {
 		p->AngleAdjust(true);
 	}
 

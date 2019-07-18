@@ -1,7 +1,7 @@
 ﻿#include "GameInput.h"
 
 
-bool GameInput::InputButton(INPUT_BUTTON button, INPUT_STATE state) {
+bool GameInput::InputCommand(INPUT_BUTTON button, INPUT_STATE state) {
 	Keybord& kb = Keybord::getInterface();
 
 	auto& pad1 = Gamepad<0>::getInterface();
@@ -11,12 +11,12 @@ bool GameInput::InputButton(INPUT_BUTTON button, INPUT_STATE state) {
 
 	switch (button){
 	case GameInput::P1_LEFT_BUTTON:
-		if (kb.on('A') || pad1.on(XINPUT_GAMEPAD_DPAD_LEFT) || LeftStickXInput(true)) {
+		if (kb.on('A') || pad1.on(XINPUT_GAMEPAD_DPAD_LEFT) || pad1.getLeftStickX() < -0.5f) {
 			return true;
 		}
 		break;
 	case GameInput::P1_RIGHT_BUTTON:
-		if (kb.on('D') || pad1.on(XINPUT_GAMEPAD_DPAD_RIGHT) || LeftStickXInput(false)) {
+		if (kb.on('D') || pad1.on(XINPUT_GAMEPAD_DPAD_RIGHT) || pad1.getLeftStickX() > 0.5f) {
 			return true;
 		}
 		break;
@@ -26,12 +26,12 @@ bool GameInput::InputButton(INPUT_BUTTON button, INPUT_STATE state) {
 		}
 		break;
 	case GameInput::P2_LEFT_BUTTON:
-		if (kb.on(VK_LEFT) || pad2.on(XINPUT_GAMEPAD_DPAD_LEFT) || LeftStickXInput(true)) {
+		if (kb.on(VK_LEFT) || pad2.on(XINPUT_GAMEPAD_DPAD_LEFT) || pad2.getLeftStickX() < -0.5f) {
 			return true;
 		}
 		break;
 	case GameInput::P2_RIGHT_BUTTON:
-		if (kb.on(VK_RIGHT) || pad2.on(XINPUT_GAMEPAD_DPAD_RIGHT) || LeftStickXInput(false)) {
+		if (kb.on(VK_RIGHT) || pad2.on(XINPUT_GAMEPAD_DPAD_RIGHT) || pad2.getLeftStickX() > 0.5f) {
 			return true;
 		}
 		break;
@@ -46,21 +46,6 @@ bool GameInput::InputButton(INPUT_BUTTON button, INPUT_STATE state) {
 		}
 	default:
 		break;
-	}
-	return false;
-}
-
-
-bool GameInput::LeftStickXInput(bool left) {
-	auto& pad = Gamepad<0>::getInterface();
-	pad.update();
-	// 左方向に倒れた時の処理
-	if (left ==true && pad.getLeftStickX() < -0.5f) {
-		return true;
-	}
-	// 右方向に倒れた時の処理
-	else if (left == false && pad.getLeftStickX() > 0.5f) {
-		return true;
 	}
 	return false;
 }
