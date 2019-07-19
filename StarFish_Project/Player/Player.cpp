@@ -4,14 +4,14 @@
 #include <cmath>
 
 
-const float Player::PLAYER_COLLSION_RADIUS = 64.f;
+const float Player::PLAYER_COLLSION_RADIUS = 50.f;
 const float Player::PLAYER_SPEED = 3.f;
 const D3DXVECTOR2 Player::TEXTURE_SIZE_OFFSET = { 0.25f, 0.25f };
 const D3DXVECTOR2 Player::TEXTURE_PARTITION = { 4.f,4.f };
 const float Player::GRAVITY = 1.f;
 const float Player::ANGLE_ADD = 0.5f;
 const float Player::MAX_ANGLE = 45.f;
-const float Player::MAX_STAMINA = 1000.f;
+const float Player::MAX_STAMINA = 750.f;
 const float Player::DECREASE_STAMINA = 300.f;
 const int Player::MAX_INVISIBLE_COUNT = 180;
 const int Player::INVISIBLE_DRAW_SWITCH_TIME = 20;

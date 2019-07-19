@@ -7,7 +7,7 @@
 const int PlayerSwimState::ONE_ANIMATION_SPEED = 6;
 const int PlayerSwimState::MAX_ANIMATION_TEX_NUM = 16;
 const int PlayerSwimState::CHANGE_STATE_COUNT = ONE_ANIMATION_SPEED * MAX_ANIMATION_TEX_NUM;
-const float PlayerSwimState::TO_SWIM_USE_STAMINA = 200.f;
+const float PlayerSwimState::TO_SWIM_USE_STAMINA = 150.f;
 
 
 void PlayerSwimState::Init(Player* p) {
