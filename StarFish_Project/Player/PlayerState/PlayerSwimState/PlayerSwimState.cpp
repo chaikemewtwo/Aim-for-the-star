@@ -7,7 +7,7 @@
 const int PlayerSwimState::ONE_ANIMATION_SPEED = 6;
 const int PlayerSwimState::MAX_ANIMATION_TEX_NUM = 16;
 const int PlayerSwimState::CHANGE_STATE_COUNT = ONE_ANIMATION_SPEED * MAX_ANIMATION_TEX_NUM;
-const float PlayerSwimState::TO_SWIM_USE_STAMINA = 200.f;
+const float PlayerSwimState::TO_SWIM_USE_STAMINA = 150.f;
 
 
 void PlayerSwimState::Init(Player* p) {
@@ -39,11 +39,11 @@ void PlayerSwimState::Update(Player* p) {
 
 	// 左右角度変更
 	// 左
-	if ((kb.on(p->imput_button_list[p->LEFT_KEY]))) {
+	if (m_p_game_input->InputCommand(p->GetStarInput(p->KEY_LEFT), m_p_game_input->PUSH_ON) == true) {
 		p->AngleAdjust(false);
 	}
 	// 右
-	if ((kb.on(p->imput_button_list[p->RIGHT_KEY]))) {
+	if (m_p_game_input->InputCommand(p->GetStarInput(p->KEY_RIGHT), m_p_game_input->PUSH_ON) == true) {
 		p->AngleAdjust(true);
 	}
 

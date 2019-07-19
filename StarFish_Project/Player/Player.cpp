@@ -4,20 +4,20 @@
 #include <cmath>
 
 
-const float Player::PLAYER_COLLSION_RADIUS = 64.f;
+const float Player::PLAYER_COLLSION_RADIUS = 50.f;
 const float Player::PLAYER_SPEED = 3.f;
 const D3DXVECTOR2 Player::TEXTURE_SIZE_OFFSET = { 0.25f, 0.25f };
 const D3DXVECTOR2 Player::TEXTURE_PARTITION = { 4.f,4.f };
 const float Player::GRAVITY = 1.f;
 const float Player::ANGLE_ADD = 0.5f;
 const float Player::MAX_ANGLE = 45.f;
-const float Player::MAX_STAMINA = 1000.f;
+const float Player::MAX_STAMINA = 750.f;
 const float Player::DECREASE_STAMINA = 300.f;
 const int Player::MAX_INVISIBLE_COUNT = 180;
 const int Player::INVISIBLE_DRAW_SWITCH_TIME = 20;
 
 
-Player::Player(ID_TYPE id,D3DXVECTOR2 first_pos) :
+Player::Player(ID_TYPE id, D3DXVECTOR2 first_pos) :
 	m_p_state(PlayerWaitState::GetInstance()),
 	m_move(0.f, 0.f),
 	m_angle(0.f),
@@ -25,7 +25,7 @@ Player::Player(ID_TYPE id,D3DXVECTOR2 first_pos) :
 	/*m_swim_enable(false),*/
 	m_invisible_count(0),
 	m_stamina(MAX_STAMINA)
-	{
+{
 	// 自機2種類の共通部分の初期化
 
 	// 当たり判定の半径
@@ -34,7 +34,7 @@ Player::Player(ID_TYPE id,D3DXVECTOR2 first_pos) :
 	// 当たり判定位置調整（左上から中央に）
 	m_hit_vertex_offset = { PLAYER_COLLSION_RADIUS, PLAYER_COLLSION_RADIUS };
 
-	m_speed = PLAYER_SPEED;	
+	m_speed = PLAYER_SPEED;
 
 	// 描画順ソート
 	m_sort_object_type = SortObjectType::PLAYER;
@@ -42,21 +42,19 @@ Player::Player(ID_TYPE id,D3DXVECTOR2 first_pos) :
 	m_p_hit_se = m_p_audio.getBuffer("Resource/Sound/Player/damage.wav");
 
 	// 操作、キー入力
-	char input_list[MAX_TYPE][MAX_KEY_NUM] = {
-		// 自機1
-		{ 'A', 'D', 'W', 'Q'},
-
-		// 自機2
-		{ VK_LEFT, VK_RIGHT, VK_UP, 'M' }
-	};
-
-	// 上記のキー入力を代入
-	for (int i = 0; i < MAX_KEY_NUM; i++){
-		imput_button_list[i] = input_list[id][i];
+	if (id == STAR_1) {
+		command_list[KEY_LEFT] = GameInput::P1_LEFT_BUTTON;
+		command_list[KEY_RIGHT] = GameInput::P1_RIGHT_BUTTON;
+		command_list[KEY_SWIM] = GameInput::P1_DECIDE_BUTTON;
+	}
+	else if (id == STAR_2) {
+		command_list[KEY_LEFT] = GameInput::P2_LEFT_BUTTON;
+		command_list[KEY_RIGHT] = GameInput::P2_RIGHT_BUTTON;
+		command_list[KEY_SWIM] = GameInput::P2_DECIDE_BUTTON;
 	}
 
 	// 画像
-	std::string texture_list[MAX_TYPE][MAX_KEY_NUM] = {
+	std::string both_texture_list[MAX_TYPE][MAX_TEXTURE_NUM] = {
 		// 自機1
 		{ "Resource/Texture/Player/de_wait.png",
 		"Resource/Texture/Player/de_standing_wait.png",
@@ -70,9 +68,9 @@ Player::Player(ID_TYPE id,D3DXVECTOR2 first_pos) :
 		"Resource/Texture/Player/hi_die.png" }
 	};
 
-	// 上記の画像を代入
-	for (int i = 0; i < MAX_KEY_NUM; i++) {
-		star_texture_list[i] = texture_list[id][i];
+	// 上記の画像を格納
+	for (int i = 0; i < MAX_TEXTURE_NUM; i++) {
+		texture_list[i] = both_texture_list[id][i];
 	}
 
 	// WaitState初回のみ画像の初期化をしてやる
@@ -102,8 +100,7 @@ void Player::Update() {
 		EnableDead();
 	}
 
-	// 無敵時間
-	// ずっとUpdate内で回ってるのがよろしくないかも　19/06/18
+	// 被弾したときに無敵タイマーがカウントされる
 	InvisibleCount();
 
 	// ステート更新（内部の処理は各ステート内で管理しています）
@@ -228,7 +225,7 @@ void Player::ResetAnimationCount() {
 
 
 void Player::SetPlayerTexture(PLAYER_STATE_TEXTURE new_state_texture) {
-	m_player_texture = star_texture_list[new_state_texture];
+	m_player_texture = texture_list[new_state_texture];
 }
 
 
@@ -274,4 +271,9 @@ float Player::StaminaParcentage() {
 
 void Player::EnableDead() {
 	m_is_active = false;
+}
+
+
+GameInput::INPUT_BUTTON Player::GetStarInput(STAR_INPUT num) {
+	return command_list[num];
 }

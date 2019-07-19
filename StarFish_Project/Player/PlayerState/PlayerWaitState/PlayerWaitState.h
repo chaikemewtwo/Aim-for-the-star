@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "../PlayerStateBase.h"
+#include "../../../GameInput/GameInput.h"
 
 
 // 待機状態
@@ -24,4 +25,7 @@ private:
 	// 統合画像内のアニメーション枚数
 	// 1つの統合画像にキャラの画像が詰め込んであるか
 	static const int MAX_ANIMATION_TEX_NUM;
+
+private:
+	GameInput * m_p_game_input;		// 入力
 };

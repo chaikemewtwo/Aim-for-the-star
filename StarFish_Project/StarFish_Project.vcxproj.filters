@@ -44,6 +44,7 @@
     <ClCompile Include="ScrollManager\ScrollManager.cpp" />
     <ClCompile Include="ScrollManager\ScrollManager.cpp" />
     <ClCompile Include="Map\Map\Map.cpp" />
+    <ClCompile Include="GameInput\GameInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -98,6 +99,7 @@
     <ClInclude Include="ScrollManager\ScrollManager.h" />
     <ClInclude Include="ManagerBase\ManagerBase.h" />
     <ClInclude Include="Map\Map\Map.h" />
+    <ClInclude Include="GameInput\GameInput.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />

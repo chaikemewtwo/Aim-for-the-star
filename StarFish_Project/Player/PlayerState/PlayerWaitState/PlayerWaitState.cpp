@@ -22,24 +22,23 @@ void PlayerWaitState::Init(Player* p) {
 void PlayerWaitState::Update(Player* p) {
 	Keybord& kb = Keybord::getInterface();	
 
-	// HACK:各StateのAnimationDrawはplayerのDrawでやったほうがいいかも　19/06/17
 	p->AnimationCount(MAX_ANIMATION_TEX_NUM, ONE_ANIMATION_SPEED);
 
 	p->AddGravity();
 
 	// 左右角度変更
 	// 左
-	if ((kb.on(p->imput_button_list[p->LEFT_KEY]))) {
+	if (m_p_game_input->InputCommand(p->GetStarInput(p->KEY_LEFT), m_p_game_input->PUSH_ON)==true) {
 		p->AngleAdjust(false);
 	}
 	// 右
-	if ((kb.on(p->imput_button_list[p->RIGHT_KEY]))) {
+	if (m_p_game_input->InputCommand(p->GetStarInput(p->KEY_RIGHT), m_p_game_input->PUSH_ON) == true) {
 		p->AngleAdjust(true);
 	}
 
-	if (kb.press(p->imput_button_list[p->SWIM_KEY])) {
-		// 泳ぎ状態へ移行
-		p->ChangeState(PlayerSwimState::GetInstance());		
+	// 泳ぎ状態へ移行
+	if (m_p_game_input->InputCommand(p->GetStarInput(p->KEY_SWIM), m_p_game_input->PUSH_ENTER) == true) {
+		p->ChangeState(PlayerSwimState::GetInstance());
 	}
 
 	// 未実装、岩オブジェクトとの当たり判定がとれ次第実装します

@@ -31,26 +31,20 @@ void Rope::Draw() {
 
 
 float Rope::AngleCalc() {
+	float dx = m_p_player_manager->GetPosRelay(Player::STAR_2).x - m_p_player_manager->GetPosRelay(Player::STAR_1).x;
+	float dy = m_p_player_manager->GetPosRelay(Player::STAR_2).y - m_p_player_manager->GetPosRelay(Player::STAR_1).y;
 	// 弧度法に変換
-	float angle = atan2((m_p_player_manager->GetPosRelay(Player::STAR_2).y 
-		- m_p_player_manager->GetPosRelay(Player::STAR_1).y) ,
-		(m_p_player_manager->GetPosRelay(Player::STAR_2).x 
-		- m_p_player_manager->GetPosRelay(Player::STAR_1).x)) * (180.f / D3DX_PI);
+	float angle = atan2(dy, dx) * (180.f / D3DX_PI);
 	return angle;
 }
 
 
 float Rope::PlayersRadiusCalc() {
 	// 2点間の距離算出
-	float distance =
-		(((m_p_player_manager->GetPosRelay(Player::STAR_2).x
-			- m_p_player_manager->GetPosRelay(Player::STAR_1).x)) *
-		(m_p_player_manager->GetPosRelay(Player::STAR_2).x
-			- m_p_player_manager->GetPosRelay(Player::STAR_1).x)) +
-		((m_p_player_manager->GetPosRelay(Player::STAR_2).y
-			- m_p_player_manager->GetPosRelay(Player::STAR_1).y) *
-		(m_p_player_manager->GetPosRelay(Player::STAR_2).y
-			- m_p_player_manager->GetPosRelay(Player::STAR_1).y));
+	float dx = m_p_player_manager->GetPosRelay(Player::STAR_2).x - m_p_player_manager->GetPosRelay(Player::STAR_1).x;
+	float dy = m_p_player_manager->GetPosRelay(Player::STAR_2).y - m_p_player_manager->GetPosRelay(Player::STAR_1).y;
+		
+	float distance = (dx * dx) + (dy * dy);
 
 	// 距離から半径算出
 	float radius = sqrt(distance);
@@ -76,7 +70,7 @@ void Rope::PlayersDistanceAdjust() {
 		return;
 	}
 	// どちらかが初期値以外(重力は含む)の移動量を保持していなかった場合（泳いでいない自機がいる場合）
-	if (m_p_player_manager->GetMoveRelay(Player::STAR_1) != D3DXVECTOR2(0.f, 1.f) || m_p_player_manager->GetMoveRelay(Player::STAR_2) != D3DXVECTOR2(0.f, 1.f)) {
+	if (m_p_player_manager->GetMoveRelay(Player::STAR_1) != D3DXVECTOR2(0.f, 0.f) || m_p_player_manager->GetMoveRelay(Player::STAR_2) != D3DXVECTOR2(0.f, 0.f)) {
 		ToPlayersPull();
 	}
 }
@@ -104,4 +98,3 @@ void Rope::ToPlayersPull() {
 		m_p_player_manager->SetMoveRelay(Player::STAR_2, { 0.f , m_p_player_manager->GetMoveRelay(Player::STAR_2).y });
 	}
 }
-
