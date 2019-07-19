@@ -79,35 +79,60 @@ void CollisionManager::ChackHitCircle(CircleCollisionObject*obj1, CircleCollisio
 		(obj1->GetRadius() + obj2->GetRadius()) * (obj1->GetRadius() + obj2->GetRadius())) {
 
 		// 当たっていた時の判定
-		obj1->HitAction(obj2->GetObjectType());
-		obj2->HitAction(obj1->GetObjectType());
+		obj1->HitAction(obj2->GetCollisionObjectType());
+		obj2->HitAction(obj1->GetCollisionObjectType());
 	}
 }
 
 
 void CollisionManager::MapCollision(){
 
-
+	const int ONE_MORE = 1;
+	
 	// 自機とマップの当たり判定
-	for (int i = 0; i < Player::MAX; i++){
+	for (int i = 0; i < Player::COLLISION_OBJECT_TOTAL + ONE_MORE; i++){
 
-		// 衝突移動値
-		D3DXVECTOR2 collision_move = m_p_player_manager->GetPlayerInstance(i)->GetMove();
+		// 衝突移動値受け取り
+		D3DXVECTOR2 collision_move = m_p_player_manager->GetPlayerInstance(i % 2)->GetMove();
+
+		// X移動方向受け取り
+		CollisionDirectionType collision_dir_type_width = 
+			m_p_player_manager->GetPlayerCollisionDirectionType(
+			(Player::ID_TYPE)(i % 2),
+			MoveDirectionType::WIDTH
+			);
+
+		// Y移動方向受け取り
+		CollisionDirectionType collision_dir_type_height = 
+			m_p_player_manager->GetPlayerCollisionDirectionType(
+			(Player::ID_TYPE)(i % 2),
+			MoveDirectionType::HEIGHT
+			);
 
 		// マップとの当たり判定
 		m_p_map_manager->MapCollision(
-			m_p_player_manager->GetPlayerInstance(i),
+			m_p_player_manager->GetPlayerInstance(i % 2),
 			collision_move,
-			m_player_collision_dir_type[i][0],
-			m_player_collision_dir_type[i][1]
+			collision_dir_type_width,
+			collision_dir_type_height
 		);
 
-		// 移動量初期化
-		m_p_player_manager->GetPlayerInstance(i)->SetMove(collision_move);
+		// X移動方向を渡す
+		m_p_player_manager->SetPlayerCollisionDirectionType(
+			(Player::ID_TYPE)(i % 2),
+			MoveDirectionType::WIDTH,
+			collision_dir_type_width
+		);
+
+		// Y移動方向を渡す
+		m_p_player_manager->SetPlayerCollisionDirectionType(
+			(Player::ID_TYPE)(i % 2),
+			MoveDirectionType::HEIGHT, 
+			collision_dir_type_height
+		);
+
+		// 移動量を渡す
+		m_p_player_manager->GetPlayerInstance(i % 2)->SetMove(collision_move);
 	}
 }
 
-
-void CollisionManager::PlayerMoveCollision() {
-
-}

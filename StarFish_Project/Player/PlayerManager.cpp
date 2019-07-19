@@ -63,6 +63,24 @@ bool PlayerManager::SwimEnableRelay(Player::ID_TYPE type) {
 }
 
 
+CollisionDirectionType PlayerManager::GetPlayerCollisionDirectionType(
+	Player::ID_TYPE id_type,
+	MoveDirectionType move_dir_type
+) {
+
+	return m_player_collision_dir_type[id_type][move_dir_type];
+}
+
+
+void PlayerManager::SetPlayerCollisionDirectionType(
+	Player::ID_TYPE id_type,
+	MoveDirectionType move_dir_type,
+	CollisionDirectionType collision_dir_type) {
+
+	m_player_collision_dir_type[id_type][move_dir_type] = collision_dir_type;
+}
+
+
 bool PlayerManager::PartnerIsThereDirection(Player::ID_TYPE myself, Player::ID_TYPE partner) {
 	// myselfのX移動量がmyselfの座標から見て正の方向、myselfの自機から見てpartnerの自機が正の方向
 	if (GetMoveRelay(myself).x < 0.f && GetPosRelay(myself).x < GetPosRelay(partner).x) {

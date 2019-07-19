@@ -131,8 +131,8 @@ public:
 
 	// 自機を返す設定をする
 	// CollisionObjectで使用
-	Type GetObjectType()const override { 
-		return PLAYER;
+	Type GetCollisionObjectType()const override { 
+		return COLLISION_OBJECT_PLAYER;
 	}
 
 public:

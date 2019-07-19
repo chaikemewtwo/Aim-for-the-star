@@ -2,7 +2,7 @@
 #include"../../GameObject/ObjectManager/ObjectManager.h"
 #include"Player.h"
 #include"../ManagerBase/ManagerBase.h"
-
+#include"../Map/MapCollision/MapCollider.h"
 
 
 // プレイヤー管理クラス
@@ -31,6 +31,19 @@ public:
 	// 引数(比較する側のプレイヤーのポインタ,比較される側のプレイヤーポインタ)
 	bool PartnerIsThereDirection(Player::ID_TYPE myself, Player::ID_TYPE partner);
 
+
+	/* 変更点 auther maekawa */
+	CollisionDirectionType GetPlayerCollisionDirectionType(
+		Player::ID_TYPE id_type,  
+		MoveDirectionType move_dir_type
+	);
+
+	void SetPlayerCollisionDirectionType(
+		Player::ID_TYPE id_type,
+		MoveDirectionType move_dir_type,
+		CollisionDirectionType collision_dir_type);
+	/* 変更点 auther maekawa */
+
 private:
 	// 自機1のゲーム開始時の座標
 	static const D3DXVECTOR2 STAR_1_FIRST_POS;
@@ -38,5 +51,8 @@ private:
 	static const D3DXVECTOR2 STAR_2_FIRST_POS;
 
 private:
-	Player * m_p_list[Player::MAX_TYPE];
+	Player * m_p_list[Player::COLLISION_OBJECT_TOTAL];
+
+	// マップ衝突による自機の当たり方向の型 変更点 auther maekawa
+	CollisionDirectionType m_player_collision_dir_type[Player::MAX_TYPE][MoveDirectionType::TOTAL_DIR_MOVE];
 };

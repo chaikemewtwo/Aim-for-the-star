@@ -62,8 +62,8 @@ public:
 	bool IsLeft();
 
 	// オブジェクトタイプのゲッター
-	Type GetObjectType()const override {
-		return Type::ENEMY;
+	Type GetCollisionObjectType()const override {
+		return Type::COLLISION_OBJECT_ENEMY;
 	}
 
 protected:

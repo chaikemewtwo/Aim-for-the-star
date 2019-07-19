@@ -26,6 +26,7 @@ void MapCollider::Collision(
 {
 	// サイズを修正
 	const float RESIZE = 1.f;
+
 	// 当たっているかどうか
 	bool is_collision = false;
 
@@ -110,13 +111,17 @@ bool MapCollider::YVertexHitCheck(
 		// 過去の衝突情報取得
 		CollisionDirectionType prev_dir_type_y = collision_dir_type_y;
 
+
 		// y軸の衝突判定(四隅)
 		for (int i = 0; i < 4; i++) {
-			if (IsWallCollision(collision_info_y[i][0], collision_info_y[i][1],
+			if (IsWallCollision(
+				collision_info_y[i][0], collision_info_y[i][1],
 				collision_info_y[i][2], collision_info_y[i][3]) == true) {
-				
+
 				// 衝突方向受け取り
-				collision_dir_type_y = GetCollisionDirectionSerchY(move_y);
+				if (move_y != 0.f){
+					collision_dir_type_y = GetCollisionDirectionSerchY(move_y);
+				}
 
 				// スクロール方向衝突方向受け取り
 				m_scroll_dir_y_type = GetCollisionDirectionSerchY(-m_p_map->GetMove());
@@ -168,8 +173,10 @@ bool MapCollider::XVertexHitCheck(
 		{ down_right.x, down_right.y, move_x, 0.f },
 		};
 
+
 		for (int i = 0; i < 6; i++) {
-			if (IsWallCollision(collision_info_x[i][0], collision_info_x[i][1],
+			if (IsWallCollision(
+				collision_info_x[i][0], collision_info_x[i][1],
 				collision_info_x[i][2], collision_info_x[i][3]) == true) {
 
 				// 衝突方向受け取り
@@ -235,7 +242,7 @@ void MapCollider::HeightPosPullBackPrevPos(float &pos_y, float &move_y, Collisio
 	float chip_pos_y = 0.f;
 
 	// 上の衝突、スクリーン内の移動値とスクロール移動値による
-	if (collision_dir_type_y == UP || m_scroll_dir_y_type == UP && collision_dir_type_y != DOWN) {
+	if (collision_dir_type_y == UP || m_scroll_dir_y_type == UP) {
 
 		// チップサイズ割り出し
 		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + (m_p_map->GetPos())) + 1);
@@ -249,11 +256,16 @@ void MapCollider::HeightPosPullBackPrevPos(float &pos_y, float &move_y, Collisio
 			pos_y += (Map::CHIP_SIZE - CHIP_SCALE_Y);
 		}
 
+		// 衝突をスクロールにする
+		if (m_scroll_dir_y_type == UP) {
+			collision_dir_type_y = m_scroll_dir_y_type;
+		}
+
 		// 移動ベクトルなし
 		move_y = 0.f;
 	}
 
-
+	
 	// 下の衝突、スクリーン内の移動値による
 	else if (collision_dir_type_y == DOWN) {
 

@@ -18,7 +18,7 @@
 
 ObjectManager::ObjectManager() : 
 	m_current_the_newest_id(0),
-	m_is_pouse(false)
+	m_is_pause(false)
 {
 
 
@@ -79,9 +79,9 @@ ObjectManager::~ObjectManager() {
 
 void ObjectManager::Update() {
 
-	MoveToPouse();
+	MoveToPause();
 
-	if (IsPouseDraw() == true) {
+	if (IsPauseDraw() == true) {
 		return;
 	}
 
@@ -176,10 +176,9 @@ void ObjectManager::Exit(Object*object) {
 
 bool ObjectManager::IsClear()const{
 
-	
 	// マップの背景とチップが最大で、かつ自機の位置が200.fよりも少ない(上)のとき
-	if (m_p_scroll_manager->IsMaxScroll() == true && m_p_player_manager->GetPosRelay(Player::STAR_1).y <= 200.f ||
-		m_p_scroll_manager->IsMaxScroll() == true && m_p_player_manager->GetPosRelay(Player::STAR_2).y <= 200.f) {
+	if (m_p_scroll_manager->IsScrollMax() == true && m_p_player_manager->GetPosRelay(Player::STAR_1).y <= 200.f || 
+		m_p_scroll_manager->IsScrollMax() == true && m_p_player_manager->GetPosRelay(Player::STAR_2).y <= 200.f) { 
 
 		return true;
 	}
@@ -197,20 +196,20 @@ bool ObjectManager::IsGameOver()const {
 }
 
 
-void ObjectManager::MoveToPouse() {
+void ObjectManager::MoveToPause() {
 
 	Keybord& keybord = Keybord::getInterface();
 
 	// キーが離されたら
 	if (keybord.press(VK_SPACE)) {
-		m_is_pouse = !m_is_pouse;
+		m_is_pause = !m_is_pause;
 	}
 }
 
 
-bool ObjectManager::IsPouseDraw() {
+bool ObjectManager::IsPauseDraw() {
 
-	if (m_is_pouse == true) {
+	if (m_is_pause == true) {
 		// 描画
 		return true;
 	}

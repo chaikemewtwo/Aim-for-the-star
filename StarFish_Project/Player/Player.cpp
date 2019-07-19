@@ -169,7 +169,7 @@ void Player::SwimUp() {
 
 
 void  Player::HitAction(Type type) {
-	if (type == ENEMY&&m_is_active == true&& m_invisible_count <= 0) {
+	if (type == COLLISION_OBJECT_ENEMY&&m_is_active == true&& m_invisible_count <= 0) {
 		DecStamina(DECREASE_STAMINA);
 		m_p_hit_se->Play(0,0,0);
 		m_invisible_count = MAX_INVISIBLE_COUNT;

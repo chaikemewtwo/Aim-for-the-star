@@ -107,9 +107,9 @@ void Map::CreateAndDestory(){
 	const int CREATE_LINE_DOWN = -1;
 
 	// 上の削除線
-	const int DESTORY_LINE_UP = CREATE_LINE_UP + 2;
+	const int DESTORY_LINE_UP = CREATE_LINE_UP + 6;
 	// 下の削除線
-	const int DESTORY_LINE_DOWN = CREATE_LINE_DOWN - 2;
+	const int DESTORY_LINE_DOWN = CREATE_LINE_DOWN - 6;
 
 
 	// 生成線
@@ -283,7 +283,7 @@ void Map::EnemyCreate(int x, int y) {
 	int chip_num = m_map_chip_list[create_chip_y][x]->GetChipNum();
 
 	// 敵の修正位置
-	D3DXVECTOR2 offset_pos[EnemyType::ENEMYTYPE_MAX] =
+	D3DXVECTOR2 offset_pos[EnemyType::ENEMYTYPE_MAX] = 
 	{ { 0.f,-64.f },
 	{ -32.f,-96.f },
 	{ 64.f, -64.f },
@@ -377,7 +377,7 @@ void Map::Load(const std::string&load_file_name) {
 			m_map_chip_list[height_chip].emplace_back();
 
 			// 要素追加
-			m_map_chip_list[height_chip][width_chip] = (new NormalChip());
+			m_map_chip_list[height_chip][width_chip] = new NormalChip();
 
 			// 整数値変換してチップ番号に登録
 			m_map_chip_list[height_chip][width_chip++]->SetChipNum(strtol(chip_string, &chip_string, TenBaseNumber));

@@ -11,10 +11,20 @@
 // ===============================
 
 
-
 // 前方参照
 class Map;
 struct D3DXVECTOR2;
+
+
+/**
+* @enum 移動方向の型列挙体
+* @brief 移動方向を示す列挙体
+*/
+enum MoveDirectionType {
+	WIDTH,
+	HEIGHT,
+	TOTAL_DIR_MOVE,
+};
 
 
 /**
@@ -27,7 +37,7 @@ enum CollisionDirectionType {
 	DOWN,
 	RIGHT,
 	LEFT,
-	TOTAL_COLLISION,
+	TOTAL_DIR_COLLISION,
 };
 
 
@@ -38,7 +48,7 @@ enum CollisionDirectionType {
 class MapCollider {
 public:
 
-	//! オブジェクトとマップ当たり判定の頂点位置X	
+	//! オブジェクトとマップ当たり判定の頂点位置X
 	static constexpr float VERTEX_OFFSET_X = -32.f;
 
 	//! オブジェクトとマップ当たり判定の頂点位置Y

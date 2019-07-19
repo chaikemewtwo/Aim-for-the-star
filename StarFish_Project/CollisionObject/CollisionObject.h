@@ -21,6 +21,18 @@
 class CollisionObject : public Object {
 public:
 
+	/**
+	* @enum Type
+	* @brief 衝突した相手を識別する列挙体
+	*/
+	enum Type {
+		COLLISION_OBJECT_PLAYER,
+		COLLISION_OBJECT_ENEMY,
+		COLLISION_OBJECT_TOTAL,
+	};
+
+public:
+
 
 	/**
 	* @brief コンストラクタ
@@ -35,22 +47,11 @@ public:
 
 
 	/**
-	* @enum Type
-	* @brief 衝突した相手を識別する列挙体
-	*/
-	enum Type {
-		PLAYER,
-		ENEMY,
-		MAX,
-	};
-
-
-	/**
 	* @brief どのObjectと接触したのかを返す(virtual)
 	* @return Type
 	*/
-	virtual Type GetObjectType()const {
-		return MAX;
+	virtual Type GetCollisionObjectType()const {
+		return COLLISION_OBJECT_TOTAL;
 	}
 
 

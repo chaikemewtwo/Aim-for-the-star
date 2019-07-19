@@ -125,13 +125,13 @@ private:
 	* @brief ポーズ画面へ移行する
 	* @return 移行するなら、trueしないならfalseを返す
 	*/
-	void MoveToPouse();
+	void MoveToPause();
 
 	/**
 	* @brief ポーズ描画
 	* @return bool ポーズを描画
 	*/
-	bool IsPouseDraw();
+	bool IsPauseDraw();
 
 
 private:
@@ -161,7 +161,7 @@ private:
 	Rope * m_p_rope;                
 
 	//! ポーズフラグ
-	bool m_is_pouse;
+	bool m_is_pause;
 };
 
 

@@ -70,11 +70,6 @@ public:
 	);
 
 
-	/**
-	* @brief 自機の移動による当たり判定
-	*/
-	void PlayerMoveCollision();
-
 
 private:
 	
@@ -88,5 +83,5 @@ private:
 	MapManager*m_p_map_manager;
 
 	//! 自機の当たり方向の型
-	CollisionDirectionType m_player_collision_dir_type[Player::MAX][2];
+	//CollisionDirectionType m_player_collision_dir_type[Player::COLLISION_OBJECT_TOTAL][2];
 };
