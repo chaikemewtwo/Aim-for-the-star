@@ -123,6 +123,9 @@ void Resource::LoadResource() {
 
 	// しっぱいロゴ
 	Texture::Load("Resource/Texture/UI/over_logo.png");
+
+	// テクスチャUI
+	Texture::Load("Resource/Texture/UI/pause.png");
 	//-----------------------------------------------------
 
 

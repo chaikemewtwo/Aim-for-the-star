@@ -125,13 +125,13 @@ private:
 	* @brief ポーズ画面へ移行する
 	* @return 移行するなら、trueしないならfalseを返す
 	*/
-	void MoveToPause();
+	bool IsMoveToPause();
+
 
 	/**
 	* @brief ポーズ描画
-	* @return bool ポーズを描画
 	*/
-	bool IsPauseDraw();
+	void PauseDraw();
 
 
 private:

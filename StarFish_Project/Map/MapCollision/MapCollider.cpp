@@ -241,8 +241,11 @@ void MapCollider::HeightPosPullBackPrevPos(float &pos_y, float &move_y, Collisio
 	// 入ったマップチップの座標を割り出す
 	float chip_pos_y = 0.f;
 
+	float get_move = 0.f;
+
 	// 上の衝突、スクリーン内の移動値とスクロール移動値による
 	if (collision_dir_type_y == UP || m_scroll_dir_y_type == UP) {
+
 
 		// チップサイズ割り出し
 		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + (m_p_map->GetPos())) + 1);

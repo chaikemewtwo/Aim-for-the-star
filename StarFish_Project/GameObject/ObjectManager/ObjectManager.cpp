@@ -12,7 +12,7 @@
 #include<iostream>
 #include"../../ScrollManager/ScrollManager.h"
 #include"../../Lib/Input/KeyBord.h"
-
+#include"../../GameInput/GameInput.h"
 
 
 
@@ -79,9 +79,9 @@ ObjectManager::~ObjectManager() {
 
 void ObjectManager::Update() {
 
-	MoveToPause();
 
-	if (IsPauseDraw() == true) {
+	// ポーズに移行するかどうか
+	if (IsMoveToPause() == true) {
 		return;
 	}
 
@@ -105,10 +105,14 @@ void ObjectManager::Update() {
 
 void ObjectManager::Draw() {
 
+
 	// 描画用オブジェクト描画
 	for (auto &obj : m_draw_object_list) {
 		(*obj).Draw();
 	}
+
+	// ポーズ描画するかどうか
+	PauseDraw();
 }
 
 
@@ -196,22 +200,36 @@ bool ObjectManager::IsGameOver()const {
 }
 
 
-void ObjectManager::MoveToPause() {
+bool ObjectManager::IsMoveToPause() {
 
 	Keybord& keybord = Keybord::getInterface();
+	GameInput game_input;
 
 	// キーが離されたら
-	if (keybord.press(VK_SPACE)) {
+	if (game_input.InputCommand(GameInput::START_BUTTON,GameInput::PUSH_EXIT) == true) {
+
 		m_is_pause = !m_is_pause;
+		return m_is_pause;
 	}
+
+	return m_is_pause;
 }
 
 
-bool ObjectManager::IsPauseDraw() {
+void ObjectManager::PauseDraw() {
 
 	if (m_is_pause == true) {
+
 		// 描画
-		return true;
+		Texture::Draw2D(
+			"Resource/Texture/UI/pause.png",
+			Window::WIDTH / 2,
+			(Window::HEIGHT / 2) - 50,
+			1.f,
+			1.f,
+			0.f,
+			0.5f,
+			0.5f
+		);
 	}
-	return false;
 }
