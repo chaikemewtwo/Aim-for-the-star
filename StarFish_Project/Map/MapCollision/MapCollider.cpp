@@ -243,6 +243,13 @@ void MapCollider::HeightPosPullBackPrevPos(float &pos_y, float &move_y, Collisio
 
 	float get_move = 0.f;
 
+	if (m_p_map->GetMove() != 0.f) {
+		get_move = m_p_map->GetMove();
+	}
+	else if (move_y != 0.f) {
+		get_move = move_y;
+	}
+
 	// 上の衝突、スクリーン内の移動値とスクロール移動値による
 	if (collision_dir_type_y == UP || m_scroll_dir_y_type == UP) {
 
@@ -251,17 +258,12 @@ void MapCollider::HeightPosPullBackPrevPos(float &pos_y, float &move_y, Collisio
 		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + (m_p_map->GetPos())) + 1);
 
 		// 下に戻す
-		pos_y = (chip_pos_y * Map::CHIP_SIZE) + ((-m_p_map->GetPos()) + m_p_map->GetMove());
+		pos_y = (chip_pos_y * Map::CHIP_SIZE) + ((-m_p_map->GetPos()) + get_move + 1.5f);
 
 		// 拡縮Y
 		if (CHIP_SCALE_Y > 0.f) {
 			// 修正(自機の移動とマップの移動を加算)
 			pos_y += (Map::CHIP_SIZE - CHIP_SCALE_Y);
-		}
-
-		// 衝突をスクロールにする
-		if (m_scroll_dir_y_type == UP) {
-			collision_dir_type_y = m_scroll_dir_y_type;
 		}
 
 		// 移動ベクトルなし
@@ -276,7 +278,7 @@ void MapCollider::HeightPosPullBackPrevPos(float &pos_y, float &move_y, Collisio
 		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + m_p_map->GetPos()));
 
 		// 上に戻す
-		pos_y = (chip_pos_y * Map::CHIP_SIZE) + (-m_p_map->GetPos()) + move_y + m_p_map->GetMove();
+		pos_y = (chip_pos_y * Map::CHIP_SIZE) + (-m_p_map->GetPos()) + get_move;
 
 		// 衝突後の移動分減算
 		pos_y += -move_y - m_p_map->GetMove();
