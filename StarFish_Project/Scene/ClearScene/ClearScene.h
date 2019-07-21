@@ -46,7 +46,7 @@ private:
 	void ScrollBackGround();
 	
 	// クリアUIのサイズ変更
-	void SizeChangeClearUi();
+	void ChangeSizeClearUi();
 	
 private:
 	int m_scene_change_count_timer;		// 遷移までの時間カウント用

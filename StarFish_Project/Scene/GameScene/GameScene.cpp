@@ -7,7 +7,7 @@ GameMain::GameMain() {
 	
 	// サウンドの登録
 	m_p_main_bgm = m_audio.getBuffer("Resource/Sound/BGM/main_bgm.wav");
-	m_p_gameover_jingle = m_audio.getBuffer("Resource/Sound/Failed/game_over.wav");
+	m_p_gameover_sound = m_audio.getBuffer("Resource/Sound/Failed/game_over.wav");
 }
 //―――――――――――――――――――
 
@@ -25,7 +25,7 @@ void GameMain::Init() {
 	m_gameover_scene_change_time = 360;
 
 	m_p_main_bgm->SetCurrentPosition(0);
-	m_p_gameover_jingle->SetCurrentPosition(0);
+	m_p_gameover_sound->SetCurrentPosition(0);
 
 	if (m_p_main_bgm != nullptr) {
 		m_p_main_bgm->Play(0, 0, DSBPLAY_LOOPING);
@@ -41,8 +41,8 @@ void GameMain::Update() {
 	if (m_p_obj_manager->IsGameOver() == true) {
 
 		m_p_main_bgm->Stop();
-		if (m_p_gameover_jingle != nullptr) {
-			m_p_gameover_jingle->Play(0, 0, 0);
+		if (m_p_gameover_sound != nullptr) {
+			m_p_gameover_sound->Play(0, 0, 0);
 		}
 	}
 
@@ -55,7 +55,7 @@ void GameMain::Update() {
 	}
 	else if (m_p_obj_manager->IsGameOver() == true && CheckChangeScene() == true) {
 
-		m_p_gameover_jingle->Stop();
+		m_p_gameover_sound->Stop();
 		m_scene_step = SceneStep::END;
 		m_new_scene_id = SceneId::TITLE;
 	}
