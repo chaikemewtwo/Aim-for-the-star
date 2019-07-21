@@ -4,10 +4,9 @@
 #include"NaporeonFish.h"
 
 
-
-EnemyManager::EnemyManager(ObjectManager* const obg_mng,PlayerManager*const player_manager) {
-	m_p_obj_mng = obg_mng;
-	m_p_player_manager = player_manager;
+EnemyManager::EnemyManager(ObjectManager* const obg_mng, PlayerManager* const player_mng) {
+	m_p_obj_manager = obg_mng;
+	m_p_player_manager = player_mng;
 }
 //――――――――――――――――――――――――――
 
@@ -30,8 +29,7 @@ void EnemyManager::Update() {
 //―――――――――――――――――――――――――――
 
 // 指定された敵を指定の位置に生成する
-
-void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* const map,const EnemyType type_num) {
+void EnemyManager::CreateEnemy(const D3DXVECTOR2 pos, Map* const map, const EnemyType type_num) {
 
 	switch (type_num) {
 
@@ -53,20 +51,20 @@ void EnemyManager::CreateEnemy(D3DXVECTOR2 pos, Map* const map,const EnemyType t
 	}
 
 	// 生成された敵をObjectManagerに登録
-	m_p_obj_mng->Entry(m_enemy_list.back());
+	m_p_obj_manager->Entry(m_enemy_list.back());
 }
 //―――――――――――――――――――――――――――
 
 // 指定の位置にブラインドを生成する
-void EnemyManager::CreateBlind(D3DXVECTOR2 from, D3DXVECTOR2 goal) {
+void EnemyManager::CreateBlind(const D3DXVECTOR2 from, const D3DXVECTOR2 goal) {
 
 	// Objectに登録時にブラインド用変数に代入、その後にブラインドを生成
-	m_p_obj_mng->Entry(m_p_blind = new Blind);
+	m_p_obj_manager->Entry(m_p_blind = new Blind);
 	m_p_blind->Create(from, goal);
 }
 //―――――――――――――――――――――――――――
 
-// Activeがfalseのものを削除する
+// Activeフラグがfalseのものを削除する
 void EnemyManager::CheckDelete() {
 
 	// 敵の削除ループ
@@ -75,7 +73,7 @@ void EnemyManager::CheckDelete() {
 		if ((*itr)->IsActive() == false) {
 
 			// 生成時に登録されているIdで、Object配列側の要素を指定
-			m_p_obj_mng->Exit((*itr)->GetId());
+			m_p_obj_manager->Exit((*itr)->GetId());
 			delete (*itr);
 			itr = m_enemy_list.erase(itr);
 		}
@@ -88,7 +86,7 @@ void EnemyManager::CheckDelete() {
 	if (m_p_blind != nullptr && m_p_blind->IsActive()==false) {
 
 		// Objectのリストから削除後、ブラインド自体を削除する
-		m_p_obj_mng->Exit(m_p_blind->GetId());
+		m_p_obj_manager->Exit(m_p_blind->GetId());
 		delete m_p_blind;
 		m_p_blind = nullptr;
 	}
@@ -102,7 +100,7 @@ int EnemyManager::GetEnemyTotal()const {
 //――――――――――――――――――――――――――――
 
 // 指定された敵のインスタンスを返す関数を呼び出す
-EnemyBase* EnemyManager::GetEnemyInstance(int num) {
+EnemyBase* EnemyManager::GetEnemyInstance(const int num) {
 
 	if (m_enemy_list[num] != nullptr) {
 		return m_enemy_list[num]->GetInstance();

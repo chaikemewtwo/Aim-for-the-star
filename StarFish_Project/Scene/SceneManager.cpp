@@ -13,6 +13,7 @@ SceneManager* SceneManager::GetInstance() {
 
 SceneManager::~SceneManager() {
 
+	// シーンリストの解放
 	for (auto scene : m_scene_list) {
 
 		if (&scene != nullptr) {
@@ -35,6 +36,7 @@ void SceneManager::Init() {
 }
 //―――――――――――――――――――――――――
 
+// 更新
 void SceneManager::Update() {
 
 	ChangeScene(m_new_scene_id);
@@ -42,11 +44,13 @@ void SceneManager::Update() {
 }
 //―――――――――――――――――――――――――
 
+// 描画
 void SceneManager::Draw() {
 	m_scene->Draw();
 }
 //―――――――――――――――――――――――――
 
+// シーン遷移のチェック
 void SceneManager::ChangeScene(SceneId new_scene_id) {
 
 	if (new_scene_id == m_scene_id) {

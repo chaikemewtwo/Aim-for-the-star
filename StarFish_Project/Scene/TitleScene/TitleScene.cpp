@@ -12,7 +12,7 @@ Title::Title() {
 	m_button_texture_list[RETURN_BUTTON] = "Resource/Texture/UI/title_button02.png";
 
 	// サウンドの登録
-	m_p_title_bgm = m_paudio.getBuffer("Resource/Sound/BGM/title_bgm.wav");
+	m_p_title_bgm = m_audio.getBuffer("Resource/Sound/BGM/title_bgm.wav");
 }
 //―――――――――――――――――――
 
@@ -36,7 +36,7 @@ void Title::Update() {
 
 	CheckChangeButton();
 
-	if (m_pkey_bord.press(VK_RETURN)) {
+	if (m_key_bord.press(VK_RETURN)) {
 
 		if (m_button_check_num == START_BUTTON) {
 			
@@ -53,7 +53,7 @@ void Title::Update() {
 	}
 	
 	// デバック用　タイトル→ゲームメイン
-	if(m_pkey_bord.press(VK_F1)) {
+	if(m_key_bord.press(VK_F1)) {
 
 		m_p_title_bgm->Stop();
 		m_scene_step = SceneStep::END;
@@ -88,7 +88,7 @@ void Title::Draw() {
 // 説明、スタート、終わるのボタン選択処理
 void Title::CheckChangeButton() {
 	
-	if (m_pkey_bord.press(VK_LEFT) && m_button_check_num > DESCRIPTION_BUTTON) {
+	if (m_key_bord.press(VK_LEFT) && m_button_check_num > DESCRIPTION_BUTTON) {
 
 		m_button_check_num--;
 		if (m_button_check_num == DESCRIPTION_BUTTON) {
@@ -98,7 +98,7 @@ void Title::CheckChangeButton() {
 			m_button_texture = m_button_texture_list[START_BUTTON];
 		}
 	}
-	if (m_pkey_bord.press(VK_RIGHT) && m_button_check_num < RETURN_BUTTON) {
+	if (m_key_bord.press(VK_RIGHT) && m_button_check_num < RETURN_BUTTON) {
 
 		m_button_check_num++;
 		if (m_button_check_num == START_BUTTON) {

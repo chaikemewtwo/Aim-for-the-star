@@ -80,7 +80,7 @@ protected:
 	};
 
 
-	// 画面外に出たらm_is_activをfalseにする関数
+	// 範囲外に出たらm_is_activをfalseにする関数
 	void CheckEnemyActiv();
 
 	// プレイヤーの位置を受け取り、敵自身と指定のプレイヤーとの距離を返す
@@ -95,7 +95,6 @@ protected:
 
 protected:
 	float m_speed;				// 移動速度	
-	int m_delete_timer;			// 削除用タイマー
 	bool m_can_move;			// 移動するかのフラグ
 	bool m_is_left;				// 左右どちら向きかのフラグ
 	D3DXVECTOR2 m_target_pos;	// 追跡するターゲットの座標
@@ -128,7 +127,13 @@ protected:
 	// 攻撃前の準備状態の範囲
 	static const int ATTACK_READY_RANGE = 350;
 
+	// 削除する範囲
+	const float HEIGHT_RANGE_MIN = -300;
+	const float HEIGHT_RANGE_MAX = Window::HEIGHT + 200;
+	const float WIDE_RANGE_MIN = -100;
+	const float WIDE_RANGE_MAX = Window::WIDTH + 100;
+
 	StateBase* m_p_state_base;	// 状態を保存する変数
 	Map* m_p_map;
-	PlayerManager* m_p_p_mng;
+	PlayerManager* m_p_player_manager;
 };

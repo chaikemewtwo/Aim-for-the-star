@@ -13,6 +13,7 @@ Wait* Wait::GetInstance() {
 }
 //―――――――――――――――――――――
 
+// 各Stateへの遷移処理
 void Wait::Action(EnemyBase* e) {
 
 	// 返ってきたStateIdによって遷移先を変える

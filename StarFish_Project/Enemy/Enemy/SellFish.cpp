@@ -1,26 +1,20 @@
 ﻿#include"SellFish.h"
 
 
-SellFish::SellFish(D3DXVECTOR2 pos, Map* const map, PlayerManager* const p_mng,bool can_move) {
+SellFish::SellFish(const D3DXVECTOR2 pos, Map* const map, PlayerManager* const p_mng,bool can_move) {
 
 	// マップとプレイヤーを受け取る
 	m_p_map = map;
-	//m_p_player[0] = p1;
-	//m_p_player[1] = p2;
-	m_p_p_mng = p_mng;
+	m_p_player_manager = p_mng;
 
 	// 取得した座標の登録
 	m_pos = pos;
-
-	m_can_move = can_move;
 
 	// その他変数の初期化
 	m_speed = 5.f;
 	m_max_animation = 2;
 	m_anim_change_time = 20;
-
-	m_enemy_texture = m_texture_list[EnemyTexture::SELLFISH_WAIT];
-
+	m_can_move = can_move;
 
 	// 生成時にどちらを向いているか
 	if (m_pos.x < WINDOW_CENTER_LINE) {
@@ -29,9 +23,13 @@ SellFish::SellFish(D3DXVECTOR2 pos, Map* const map, PlayerManager* const p_mng,b
 	else if (m_pos.x > WINDOW_CENTER_LINE) {
 		m_is_left = false;
 	}
+
+	// 画像の登録
+	m_enemy_texture = m_texture_list[EnemyTexture::SELLFISH_WAIT];
 }
 //―――――――――――――――――――――――
 
+// 更新
 void SellFish::Update() {
 
 	m_p_state_base->Action(this);
@@ -42,6 +40,7 @@ void SellFish::Update() {
 }
 //―――――――――――――――――――――――
 
+// 描画
 void SellFish::Draw() {
 
 	// 左向きと右向きで画像を反転させる(通常は左向き)
@@ -73,10 +72,12 @@ void SellFish::Draw() {
 }
 //―――――――――――――――――――――――
 
+// 遷移するStateのチェック
 StateId SellFish::CheckChangeState() {
 
-	D3DXVECTOR2 distance1= CalcDistanceToPlayer(m_p_p_mng->GetPosRelay(Player::STAR_1));
-	D3DXVECTOR2 distance2= CalcDistanceToPlayer(m_p_p_mng->GetPosRelay(Player::STAR_2));
+	// 自身とプレイヤー2機の距離を算出
+	D3DXVECTOR2 distance1= CalcDistanceToPlayer(m_p_player_manager->GetPosRelay(Player::STAR_1));
+	D3DXVECTOR2 distance2= CalcDistanceToPlayer(m_p_player_manager->GetPosRelay(Player::STAR_2));
 
 	// 近距離で、横移動に遷移
 	if ((distance1.y < ATTACK_RANGE && distance1.x > 0) || (distance2.y < ATTACK_RANGE && distance2.x > 0)) {
@@ -86,7 +87,6 @@ StateId SellFish::CheckChangeState() {
 		m_enemy_texture = m_texture_list[EnemyTexture::SELLFISH_ATTACK];
 
 		return StateId::SIDEMOVE_ID;
-
 	}
 	// 中距離で、画像のみ攻撃前の画像に変更
 	else if (distance1.y < ATTACK_READY_RANGE || distance2.y < ATTACK_READY_RANGE) {

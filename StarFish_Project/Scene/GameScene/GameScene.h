@@ -5,6 +5,7 @@
 #include"../../GameObject/ObjectManager/ObjectManager.h"
 
 
+// ゲームメインシーンクラス
 class GameMain :public SceneBase {
 public:
 	GameMain();
@@ -30,7 +31,7 @@ private:
 	const std::string m_gameover_ui = "Resource/Texture/UI/over_logo.png";
 	
 	IDirectSoundBuffer8* m_p_main_bgm;			// ゲームシーンBGM
-	IDirectSoundBuffer8* m_p_gameover_jingle;	// ゲームオーバージングル
+	IDirectSoundBuffer8* m_p_gameover_sound;	// ゲームオーバーサウンド
 
-	ObjectManager* m_p_obj_mng;
+	ObjectManager* m_p_obj_manager;		
 };

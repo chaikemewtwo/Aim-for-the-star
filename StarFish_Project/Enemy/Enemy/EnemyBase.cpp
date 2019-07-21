@@ -8,19 +8,19 @@ EnemyBase::EnemyBase() {
 
 	m_angle = 0.f;
 	m_center = 0.5f;
+	m_max_animation = 0;
+	m_sin_count = 0.f;
 
 	// 当たり判定の半径
 	m_radius = 64.f;
 	// 当たり位置の頂点を画像の中心にずらす
 	m_hit_vertex_offset.x = 64.f;
 	m_hit_vertex_offset.y = 64.f;
-	m_delete_timer = 100;
-	m_max_animation = 0;
-	m_sin_count = 0.f;
 
+	// Stateを待機で初期化
 	m_p_state_base = Wait::GetInstance();
 
-	// ソートオブジェクトに敵追加
+	// 画像ソート用のID登録
 	m_sort_object_type = SortObjectType::ENEMY;
 
 	//  敵画像の登録　//
@@ -38,28 +38,22 @@ EnemyBase::EnemyBase() {
 }
 //―――――――――――――――――――――
 
-// 引数で指定したStateに遷移
+// State遷移関数
 void EnemyBase::ChangeState(StateBase* state) {
 	m_p_state_base = state;
 }
 //―――――――――――――――――――――
 
+// 敵の生存状態をチェック
 void EnemyBase::CheckEnemyActiv() {
 
 	// 画面外に出たら、削除までの時間をカウントダウン
-	if (m_pos.y > Window::HEIGHT || m_pos.x<0 || m_pos.x>Window::WIDTH) {
-
-		if (m_delete_timer >= 0) {
-
-			m_delete_timer--;
-			if (m_delete_timer <= 0) {
-				m_is_active = false;
-			}
-		}
+	if (m_pos.y > HEIGHT_RANGE_MAX || m_pos.y < HEIGHT_RANGE_MIN || m_pos.x < WIDE_RANGE_MIN || m_pos.x > WIDE_RANGE_MAX) {
+		m_is_active = false;
 	}
 	// 画面内に戻ったら時間を戻す
-	else if (m_pos.y < Window::HEIGHT || m_pos.x>0 || m_pos.x < Window::WIDTH) {
-		m_delete_timer = 60;
+	else if (m_pos.y < HEIGHT_RANGE_MAX || m_pos.y > HEIGHT_RANGE_MIN || m_pos.x < WIDE_RANGE_MIN || m_pos.x < WIDE_RANGE_MAX) {
+		m_is_active = true;
 	}
 }
 //―――――――――――――――――――――
@@ -87,8 +81,9 @@ void EnemyBase::VerticalMove() {
 void EnemyBase::Patrol() {
 
 	// Sin波を計算
-	float curve = (float)sinf(D3DX_PI * 2 / SINCURVE_COUNT_MAX * m_sin_count)*m_speed;
+	float curve = (float)sinf(D3DX_PI * 2 / SINCURVE_COUNT_MAX * m_sin_count) * m_speed;
 	m_sin_count++;
+
 	m_pos.x -= curve;
 
 	// Sin波が1週したらカウントを初期化、向きを左にする
@@ -116,8 +111,8 @@ void EnemyBase::Chase() {
 
 bool EnemyBase::IsTopPos() {
 
-	if (m_p_p_mng->GetPosRelay(Player::STAR_1).y - m_pos.y > m_pos.y
-		&&m_p_p_mng->GetPosRelay(Player::STAR_2).y - m_pos.y > m_pos.y) {
+	if (m_p_player_manager->GetPosRelay(Player::STAR_1).y - m_pos.y > m_pos.y
+		&&m_p_player_manager->GetPosRelay(Player::STAR_2).y - m_pos.y > m_pos.y) {
 		return true;
 	}
 

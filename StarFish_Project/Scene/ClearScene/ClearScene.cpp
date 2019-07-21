@@ -8,21 +8,21 @@ Clear::Clear() {
 	m_scene_step = SceneStep::INIT;
 
 	// プレイヤー1の画像登録
-	m_player1_texture_list[FLY_TEXTURE] = "Resource/Texture/Player/hi_clear_01.png";
-	m_player1_texture_list[CLEAR_POSE_TEXTURE] = "Resource/Texture/Player/hi_clear_02.png";
+	m_player1_texture_list[PlayerClearTex::FLY_TEXTURE] = "Resource/Texture/Player/hi_clear_01.png";
+	m_player1_texture_list[PlayerClearTex::CLEAR_POSE_TEXTURE] = "Resource/Texture/Player/hi_clear_02.png";
 
 	// プレイヤー2の画像登録
-	m_player2_texture_list[FLY_TEXTURE] = "Resource/Texture/Player/de_clear_01.png";
-	m_player2_texture_list[CLEAR_POSE_TEXTURE] = "Resource/Texture/Player/de_clear_02.png";
+	m_player2_texture_list[PlayerClearTex::FLY_TEXTURE] = "Resource/Texture/Player/de_clear_01.png";
+	m_player2_texture_list[PlayerClearTex::CLEAR_POSE_TEXTURE] = "Resource/Texture/Player/de_clear_02.png";
 
 	// 背景の画像登録
-	m_background_texture_list[TEXTURE_1] = "Resource/Texture/Map/bg_clear_01.png";
-	m_background_texture_list[TEXTURE_2] = "Resource/Texture/Map/bg_clear_02.png";
-	m_background_texture_list[TEXTURE_3] = "Resource/Texture/Map/bg_clear_03.png";
+	m_background_texture_list[BackGroundTex::TEXTURE_1] = "Resource/Texture/Map/bg_clear_01.png";
+	m_background_texture_list[BackGroundTex::TEXTURE_2] = "Resource/Texture/Map/bg_clear_02.png";
+	m_background_texture_list[BackGroundTex::TEXTURE_3] = "Resource/Texture/Map/bg_clear_03.png";
 
 	// サウンドの登録
-	m_p_fly_sound = m_paudio.getBuffer("Resource/Sound/Clear/player_fly.wav");
-	m_p_effect_sound = m_paudio.getBuffer("Resource/Sound/Clear/clear_effect.wav");
+	m_p_fly_sound = m_audio.getBuffer("Resource/Sound/Clear/player_fly.wav");
+	m_p_effect_sound = m_audio.getBuffer("Resource/Sound/Clear/clear_effect.wav");
 }
 //――――――――――――――――――――――――――――――――
 
@@ -32,11 +32,11 @@ void Clear::Init() {
 	m_scene_step = SceneStep::UPDATE;
 
 	// 画像の初期化
-	m_player1_texture = m_player1_texture_list[FLY_TEXTURE];
-	m_player2_texture = m_player2_texture_list[FLY_TEXTURE];
+	m_player1_texture = m_player1_texture_list[PlayerClearTex::FLY_TEXTURE];
+	m_player2_texture = m_player2_texture_list[PlayerClearTex::FLY_TEXTURE];
 
-	m_background_texture1 = m_background_texture_list[TEXTURE_1];
-	m_background_texture2 = m_background_texture_list[TEXTURE_2];
+	m_background_texture1 = m_background_texture_list[BackGroundTex::TEXTURE_1];
+	m_background_texture2 = m_background_texture_list[BackGroundTex::TEXTURE_2];
 	
 	// 座標の初期化
 	m_player1_pos = { (Window::WIDTH / 2) - 256, 1000 };
@@ -58,7 +58,7 @@ void Clear::Init() {
 	m_player_animation_timer = 0;
 
 	// 背景の変数初期化
-	m_is_background_move = false;
+	m_can_background_move = false;
 	m_background_move_speed = 15.f;
 
 	// エフェクトの変数初期化
@@ -69,12 +69,13 @@ void Clear::Init() {
 
 	// UIの変数初期化
 	m_clear_ui_pos = { (Window::WIDTH / 2), (m_player1_pos.y - 700) };
-	m_clear_ui_size = 0;
+	m_clear_ui_size = 0.f;
 	m_clear_ui_size_change_speed = 0.025f;
 	m_is_clear_ui_size_max = false;
 }
 //――――――――――――――――――――――――――――――――
 
+// 更新
 void Clear::Update() {
 
 	if (m_player1_pos.y >= PLAYER_FINISH_POS_Y && m_player2_pos.y >= PLAYER_FINISH_POS_Y) {
@@ -82,7 +83,7 @@ void Clear::Update() {
 		MovePlayer();
 	}
 
-	if (m_is_background_move == true) {
+	if (m_can_background_move == true) {
 
 		// 移動時のサウンド再生
 		m_p_fly_sound->Play(0, 0, 0);
@@ -97,7 +98,7 @@ void Clear::Update() {
 	}
 
 	// UIを描画サイズまで徐々に大きくする 
-	SizeChangeClearUi();
+	ChangeSizeClearUi();
 
 	// 時間経過でタイトルに遷移
 	if (m_player_animation_num >= (m_player_animation_max - 1)) {
@@ -113,7 +114,7 @@ void Clear::Update() {
 	}
 
 	// デバック用
-	if (m_pkey_bord.press(VK_F1)) {
+	if (m_key_bord.press(VK_F1)) {
 
 		m_p_effect_sound->Stop();
 		m_p_fly_sound->Stop();
@@ -123,6 +124,7 @@ void Clear::Update() {
 }
 //――――――――――――――――――――――――――――――――
 
+// 描画
 void Clear::Draw() {
 
 	// 背景の描画
@@ -138,6 +140,7 @@ void Clear::Draw() {
 	if (m_player_animation_num >= PLAYER_CLEARPOSE_START_NUM && m_player_animation_finish == true) {
 
 		// エフェクトの描画
+		// プレイヤー1
 		Texture::Draw2D(
 			m_clear_effect.c_str(),
 			m_player1_pos.x, m_player1_pos.y,
@@ -145,6 +148,7 @@ void Clear::Draw() {
 			true, EFFECT_TEXTURE_PARTITION_NUM, EFFECT_TEXTURE_PARTITION_NUM,
 			m_effect_animation_num
 		);
+		// プレイヤー2
 		Texture::Draw2D(
 			m_clear_effect.c_str(),
 			m_player2_pos.x, m_player2_pos.y,
@@ -152,6 +156,8 @@ void Clear::Draw() {
 			true, EFFECT_TEXTURE_PARTITION_NUM, EFFECT_TEXTURE_PARTITION_NUM,
 			m_effect_animation_num
 		);
+
+		// エフェクトのアニメーション更新
 		ChangeEffectAnimation();
 
 		// せいこうUIの描画
@@ -163,6 +169,7 @@ void Clear::Draw() {
 	}
 
 	// プレイヤーの描画
+	// プレイヤー1
 	Texture::Draw2D(
 		m_player1_texture.c_str(),
 		m_player1_pos.x, m_player1_pos.y,
@@ -170,6 +177,7 @@ void Clear::Draw() {
 		true, PLAYER_TEXTURE_PARTITION_NUM, PLAYER_TEXTURE_PARTITION_NUM, 
 		m_player_animation_num
 	);
+	// プレイヤー2
 	Texture::Draw2D(
 		m_player2_texture.c_str(),
 		m_player2_pos.x, m_player2_pos.y,
@@ -177,21 +185,23 @@ void Clear::Draw() {
 		true, PLAYER_TEXTURE_PARTITION_NUM, PLAYER_TEXTURE_PARTITION_NUM, 
 		m_player_animation_num
 	);
+
+	// プレイヤーのアニメーション更新
 	ChangePlayerAnimation();
 }
 //―――――――――――――――――――――――――――――――――
 
 void Clear::MovePlayer() {
 
-		m_player1_pos.y -= m_player_move_speed;
-		m_player2_pos.y -= m_player_move_speed;
+	m_player1_pos.y -= m_player_move_speed;
+	m_player2_pos.y -= m_player_move_speed;
 
-		// 一定の位置で背景を動かす、プレイヤーの移動速度を減少
-		if (m_player1_pos.y <= PLAYER_DECELERATION_POS_Y && m_player2_pos.y <= PLAYER_DECELERATION_POS_Y) {
+	// 一定の位置で背景を動かす、プレイヤーの移動速度を減少
+	if (m_player1_pos.y <= PLAYER_DECELERATION_POS_Y && m_player2_pos.y <= PLAYER_DECELERATION_POS_Y) {
 
-			m_is_background_move = true;
-			m_player_move_speed -= 0.01f;
-		}
+		m_can_background_move = true;
+		m_player_move_speed -= 0.01f;
+	}
 }
 //―――――――――――――――――――――――――――――――――
 
@@ -203,21 +213,22 @@ void Clear::ScrollBackGround() {
 	// 1枚目が描画し終わったら、3枚目の画像を入れる
 	if (m_background1_pos.y >= BACKGROUND_TEXTURE_SIZE_Y) {
 
-		m_background_texture1 = m_background_texture_list[TEXTURE_3];
+		m_background_texture1 = m_background_texture_list[BackGroundTex::TEXTURE_3];
 		m_background1_pos.y = m_background2_pos.y - BACKGROUND_TEXTURE_SIZE_Y;
 	}
 	// 2枚目を描画し終わったら移動を止める
 	else if (m_background2_pos.y >= BACKGROUND_TEXTURE_SIZE_Y) {
-		m_is_background_move = false;
+		m_can_background_move = false;
 	}
 }
 //―――――――――――――――――――――――――――――――――
 
-void Clear::SizeChangeClearUi() {
+void Clear::ChangeSizeClearUi() {
 
-	if (m_player_animation_finish == true && m_player_animation_num >= PLAYER_CLEARPOSE_START_NUM && m_is_clear_ui_size_max == false && m_clear_ui_size <= 1) {
+	if (m_player_animation_finish == true && m_player_animation_num >= PLAYER_CLEARPOSE_START_NUM && m_is_clear_ui_size_max == false && m_clear_ui_size <= CLEAR_UI_SIZE_MAX) {
 
 		m_clear_ui_size += m_clear_ui_size_change_speed;
+
 		// 描画サイズまで達したら、サイズ変更の値を小さくする
 		if (m_clear_ui_size >= CLEAR_UI_SIZE_MAX) {
 
@@ -242,22 +253,22 @@ void Clear::ChangePlayerAnimation() {
 	if (m_player_animation_finish == true && m_player_animation_num == (m_player_animation_max - 1)) {
 		m_player_animation_num = m_player_animation_max - 1;
 	}
-	// 回り切っていなければアニメーションする
+	// 回り切っていなければアニメーションを更新
 	else{
 		if (m_player_animation_timer >= m_player_animation_change_time) {
 
 			m_player_animation_timer = 0;
 			m_player_animation_num++;
 
-			// 背景が途中の場合、アニメーションをループさせる
+			// 背景が途中の場合、アニメーションを指定範囲でループ
 			if (m_background2_pos.y <= Window::HEIGHT && m_player_animation_num == PLAYER_REPEAT_ANIMATION_LAST_NUM) {
 				m_player_animation_num = PLAYER_REPEAT_ANIMATION_START_NUM;
 			}
 			// 背景スクロール後、アニメーションを次に遷移させる
 			else if (m_player_animation_num >= m_player_animation_max && m_player_animation_finish == false) {
 
-				m_player1_texture = m_player1_texture_list[CLEAR_POSE_TEXTURE];
-				m_player2_texture = m_player2_texture_list[CLEAR_POSE_TEXTURE];
+				m_player1_texture = m_player1_texture_list[PlayerClearTex::CLEAR_POSE_TEXTURE];
+				m_player2_texture = m_player2_texture_list[PlayerClearTex::CLEAR_POSE_TEXTURE];
 				m_player_animation_num = 0;
 				m_player_animation_finish = true;
 			}

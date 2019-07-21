@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include<string>
 #include"../Lib/Input/KeyBord.h"
 #include"../Lib/Sound/DirectSound.h"
 
@@ -13,6 +14,7 @@ enum SceneId {
 };
 
 
+// シーンの基底クラス
 class SceneBase {
 public:
 	SceneBase() {}
@@ -22,14 +24,14 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 
-	virtual SceneId End() {
+	SceneId End() {
 	
 		// ステップの初期化と次のシーンを返す
 		m_scene_step = SceneStep::INIT;
 		return m_new_scene_id;
 	}
 
-	virtual SceneId Control() {
+	SceneId Control() {
 
 		switch (m_scene_step) {
 
@@ -61,6 +63,6 @@ protected:
 	SceneId m_scene_id;			// 各シーンのID
 	SceneId m_new_scene_id;		// 次のシーンのID
 
-	Keybord& m_pkey_bord = Keybord::getInterface();
-	Audio& m_paudio = Audio::getInterface();
+	Keybord& m_key_bord = Keybord::getInterface();
+	Audio& m_audio = Audio::getInterface();
 };

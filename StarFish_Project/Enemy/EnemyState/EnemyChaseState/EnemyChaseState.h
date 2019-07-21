@@ -1,10 +1,9 @@
 ﻿#pragma once
 
-
 #include"../EnemyStateBase.h"
 
 
-// 横移動クラス
+// 追跡クラス
 class Chase :public StateBase {
 public:
 	// シングルトン

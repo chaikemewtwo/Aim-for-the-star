@@ -9,6 +9,7 @@ Patrol* Patrol::GetInstance() {
 }
 //――――――――――――――――――
 
+// 一定の場所を徘徊する挙動
 void Patrol::Action(EnemyBase* e) {
 	
 	e->Patrol();

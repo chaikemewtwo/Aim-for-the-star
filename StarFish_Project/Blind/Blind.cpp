@@ -14,13 +14,16 @@ Blind::Blind() {
 	m_max_animation = 3;
 	m_anim_change_time = 15;
 
+	// 画像ソート用のID登録
 	m_sort_object_type = SortObjectType::BLIND;
 
+	// 画像の登録
 	m_blind_texture = "Resource/Texture/Blind/blind.png";
 }
 //―――――――――――――――――――――――
 
-void Blind::Create(D3DXVECTOR2 pos, D3DXVECTOR2 goal) {
+// 生成
+void Blind::Create(const D3DXVECTOR2 pos, const D3DXVECTOR2 goal) {
 
 	// 生成位置と目的地を設定
 	m_pos = pos;
@@ -31,6 +34,7 @@ void Blind::Create(D3DXVECTOR2 pos, D3DXVECTOR2 goal) {
 }
 //―――――――――――――――――――――――
 
+// 更新
 void Blind::Update() {
 
 	CheckOutScreen();
@@ -44,18 +48,19 @@ void Blind::Update() {
 }
 //―――――――――――――――――――――――
 
-// 引数に求めたい角度の2点を入れる
-float Blind::CalcRadian(D3DXVECTOR2 from, D3DXVECTOR2 to) {
+// 2点の角度を求める
+float Blind::CalcRadian(const D3DXVECTOR2 from, const D3DXVECTOR2 to) {
 
 	float rad = atan2((to.y - from.y), (to.x - from.x));
 	return rad;
 }
 //―――――――――――――――――――――――
 
-// 指定した左右位置(定数)を超えたら削除フラグをたたせる
+// 削除フラグのチェック
 void Blind::CheckOutScreen() {
 
-	if (m_pos.x<DELETE_WIDE_MIN || m_pos.x>DELETE_WIDE_MAX) {
+	// 指定範囲内ならtrue、範囲外ならfalse
+	if (m_pos.x < DELETE_WIDE_MIN || m_pos.x > DELETE_WIDE_MAX) {
 		m_is_active = false;
 	}
 	else if (m_pos.x > DELETE_WIDE_MIN || m_pos.x < DELETE_WIDE_MAX) {
@@ -66,13 +71,13 @@ void Blind::CheckOutScreen() {
 
 void Blind::Draw() {
 
-	// 目的地の座標に合わせて
+	// 目的地の座標に合わせて画像を反転させるかどうか
 	if (m_goal_pos.x < 0) {
 		Texture::Draw2D(
 			m_blind_texture.c_str(),
 			m_pos.x, m_pos.y,
-			0.5, 0.5,
-			m_angle, 0.5, 0.5,
+			0.5f, 0.5f,
+			m_angle, 0.5f, 0.5f,
 			true, TEX_PARTITION_NUM, TEX_PARTITION_NUM,
 			m_animation_count
 		);
@@ -81,11 +86,11 @@ void Blind::Draw() {
 		Texture::Draw2D(
 			m_blind_texture.c_str(),
 			m_pos.x, m_pos.y,
-			0.5, 0.5,
-			m_angle, 0.5, 0.5,
+			0.5f, 0.5f,
+			m_angle, 0.5f, 0.5f,
 			true, TEX_PARTITION_NUM, TEX_PARTITION_NUM,
 			m_animation_count,
-			0,0,
+			0, 0,
 			Texture::MIRROR
 		);
 	}
