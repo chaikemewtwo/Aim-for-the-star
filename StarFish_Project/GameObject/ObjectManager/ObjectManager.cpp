@@ -38,6 +38,7 @@ ObjectManager::ObjectManager() :
 		Entry(m_p_ui);
 	}
 
+	// 管理者生成
 	EnemyManager*p_enemy_manager = new EnemyManager(this,m_p_player_manager);
 	MapManager * p_map_manager = new MapManager(p_enemy_manager, this);
 
@@ -180,9 +181,11 @@ void ObjectManager::Exit(Object*object) {
 
 bool ObjectManager::IsClear()const{
 
+	const float CLEAR_IINE = 200.f;
+
 	// マップの背景とチップが最大で、かつ自機の位置が200.fよりも少ない(上)のとき
-	if (m_p_scroll_manager->IsScrollMax() == true && m_p_player_manager->GetPosRelay(Player::STAR_1).y <= 200.f || 
-		m_p_scroll_manager->IsScrollMax() == true && m_p_player_manager->GetPosRelay(Player::STAR_2).y <= 200.f) { 
+	if (m_p_scroll_manager->IsScrollMax() == true && m_p_player_manager->GetPosRelay(Player::STAR_1).y <= CLEAR_IINE || 
+		m_p_scroll_manager->IsScrollMax() == true && m_p_player_manager->GetPosRelay(Player::STAR_2).y <= CLEAR_IINE) { 
 
 		return true;
 	}
