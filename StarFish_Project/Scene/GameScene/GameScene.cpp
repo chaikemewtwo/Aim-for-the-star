@@ -18,15 +18,18 @@ void GameMain::Init() {
 
 	m_p_obj_manager = new ObjectManager;
 
+	// 変数の初期化
 	m_gameover_ui_pos = { (Window::WIDTH / 2), 0 };
 	m_gameover_ui_speed = 3.f;
 	m_gameover_ui_posy_max = 300;
 	m_scene_change_count_timer = 0;
 	m_gameover_scene_change_time = 360;
 
+	// サウンドの初期化
 	m_p_main_bgm->SetCurrentPosition(0);
 	m_p_gameover_sound->SetCurrentPosition(0);
 
+	// BGMの再生
 	if (m_p_main_bgm != nullptr) {
 		m_p_main_bgm->Play(0, 0, DSBPLAY_LOOPING);
 	}

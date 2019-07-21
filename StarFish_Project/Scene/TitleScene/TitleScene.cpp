@@ -21,11 +21,14 @@ void Title::Init() {
 	m_scene_id = SceneId::TITLE;
 	m_scene_step = SceneStep::UPDATE;
 
+	// ボタンの設定の初期化
 	m_button_texture = m_button_texture_list[START_BUTTON];
 	m_button_check_num = 1;
 
+	// サウンドの初期化
 	m_p_title_bgm->SetCurrentPosition(0);
 
+	// BGMの再生
 	if (m_p_title_bgm != nullptr) {
 		m_p_title_bgm->Play(0, 0, DSBPLAY_LOOPING);
 	}
