@@ -36,7 +36,8 @@ void Title::Update() {
 
 	CheckChangeButton();
 
-	if (m_pkey_bord.press(VK_RETURN)) {
+	if (m_p_game_input->InputCommand(m_p_game_input->P1_DECIDE_BUTTON,m_p_game_input->PUSH_ENTER) ||
+		m_p_game_input->InputCommand(m_p_game_input->P2_DECIDE_BUTTON, m_p_game_input->PUSH_ENTER)){
 
 		if (m_button_check_num == START_BUTTON) {
 			
@@ -53,12 +54,12 @@ void Title::Update() {
 	}
 	
 	// デバック用　タイトル→ゲームメイン
-	if(m_pkey_bord.press(VK_F1)) {
+	//if(m_pkey_bord.press(VK_F1)) {
 
-		m_p_title_bgm->Stop();
-		m_scene_step = SceneStep::END;
-		m_new_scene_id = SceneId:: GAME_MAIN;
-	}
+	//	m_p_title_bgm->Stop();
+	//	m_scene_step = SceneStep::END;
+	//	m_new_scene_id = SceneId:: GAME_MAIN;
+	//}
 }
 //―――――――――――――――――――
 
@@ -88,7 +89,9 @@ void Title::Draw() {
 // 説明、スタート、終わるのボタン選択処理
 void Title::CheckChangeButton() {
 	
-	if (m_pkey_bord.press(VK_LEFT) && m_button_check_num > DESCRIPTION_BUTTON) {
+	if (m_p_game_input->InputCommand(m_p_game_input->P1_LEFT_BUTTON, m_p_game_input->PUSH_ENTER) ||
+		m_p_game_input->InputCommand(m_p_game_input->P2_LEFT_BUTTON, m_p_game_input->PUSH_ENTER) &&
+		m_button_check_num > DESCRIPTION_BUTTON) {
 
 		m_button_check_num--;
 		if (m_button_check_num == DESCRIPTION_BUTTON) {
@@ -98,7 +101,9 @@ void Title::CheckChangeButton() {
 			m_button_texture = m_button_texture_list[START_BUTTON];
 		}
 	}
-	if (m_pkey_bord.press(VK_RIGHT) && m_button_check_num < RETURN_BUTTON) {
+	if (m_p_game_input->InputCommand(m_p_game_input->P1_RIGHT_BUTTON, m_p_game_input->PUSH_ENTER) ||
+		m_p_game_input->InputCommand(m_p_game_input->P2_RIGHT_BUTTON, m_p_game_input->PUSH_ENTER) && 
+		m_button_check_num < RETURN_BUTTON) {
 
 		m_button_check_num++;
 		if (m_button_check_num == START_BUTTON) {

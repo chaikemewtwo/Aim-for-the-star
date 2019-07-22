@@ -43,14 +43,14 @@ Player::Player(ID_TYPE id, D3DXVECTOR2 first_pos) :
 
 	// 操作、キー入力
 	if (id == STAR_1) {
-		command_list[KEY_LEFT] = GameInput::P1_LEFT_BUTTON;
-		command_list[KEY_RIGHT] = GameInput::P1_RIGHT_BUTTON;
-		command_list[KEY_SWIM] = GameInput::P1_DECIDE_BUTTON;
+		command_list[KEY_LEFT] = m_p_game_input->P1_LEFT_BUTTON;
+		command_list[KEY_RIGHT] = m_p_game_input->P1_RIGHT_BUTTON;
+		command_list[KEY_SWIM] = m_p_game_input->P1_DECIDE_BUTTON;
 	}
 	else if (id == STAR_2) {
-		command_list[KEY_LEFT] = GameInput::P2_LEFT_BUTTON;
-		command_list[KEY_RIGHT] = GameInput::P2_RIGHT_BUTTON;
-		command_list[KEY_SWIM] = GameInput::P2_DECIDE_BUTTON;
+		command_list[KEY_LEFT] = m_p_game_input->P2_LEFT_BUTTON;
+		command_list[KEY_RIGHT] = m_p_game_input->P2_RIGHT_BUTTON;
+		command_list[KEY_SWIM] = m_p_game_input->P2_DECIDE_BUTTON;
 	}
 
 	// 画像

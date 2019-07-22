@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include"../Lib/Input/KeyBord.h"
+#include"../GameInput/GameInput.h"
 #include"../Lib/Sound/DirectSound.h"
 
 
@@ -61,6 +61,7 @@ protected:
 	SceneId m_scene_id;			// 各シーンのID
 	SceneId m_new_scene_id;		// 次のシーンのID
 
-	Keybord& m_pkey_bord = Keybord::getInterface();
+	//Keybord& m_pkey_bord = Keybord::getInterface();
+	GameInput* m_p_game_input;	// 操作入力クラス
 	Audio& m_paudio = Audio::getInterface();
 };
