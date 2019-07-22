@@ -11,8 +11,8 @@
 #include<stdio.h>
 #include<string>
 #include"../MapCollision/MapCollider.h"
-#include"../BedRockChip/RockChip.h"
-#include"../NormalChip/NormalChip.h"
+#include"../Chip/RockChip/RockChip.h"
+#include"../Chip/NormalChip/NormalChip.h"
 
 
 

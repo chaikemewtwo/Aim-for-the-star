@@ -37,7 +37,7 @@ enum SortObjectType {
 	AFTER_BG,
 	BLIND,
 	GAME_UI,
-	MAX,
+	TOTAL,
 };
 
 
@@ -188,7 +188,7 @@ void Draw()override
 /* ---削除の仕方---
 
 ①ObjectManagerの方で要素削除
-②先のポインタで削除
+②各管理者で参照を受け取っておき、各管理者側でメモリ削除
 
 */
 

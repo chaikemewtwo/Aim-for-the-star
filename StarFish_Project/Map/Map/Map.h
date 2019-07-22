@@ -2,7 +2,7 @@
 #include<vector>
 #include"../../Player/PlayerManager.h"
 #include"../../GameObject/ObjectManager/ObjectManager.h"
-#include"../ChipBase/ChipBase.h"
+#include"../Chip/ChipBase/ChipBase.h"
 #include"../MapCollision/MapCollider.h"
 
 
