@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-<<<<<<< HEAD
 #include<string>
 #include"../GameInput/GameInput.h"
 #include"../Lib/Sound/DirectSound.h"
@@ -65,5 +64,5 @@ protected:
 	SceneId m_new_scene_id;		// 次のシーンのID
 
 	GameInput* m_p_game_input;	// 操作入力クラス
-	Audio& m_paudio = Audio::getInterface();
+	Audio& m_audio = Audio::getInterface();
 };

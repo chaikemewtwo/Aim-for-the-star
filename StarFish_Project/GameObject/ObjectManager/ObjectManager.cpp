@@ -80,7 +80,6 @@ ObjectManager::~ObjectManager() {
 
 void ObjectManager::Update() {
 
-
 	// ポーズに移行するかどうか
 	if (IsMoveToPause() == true) {
 		return;
@@ -207,9 +206,10 @@ bool ObjectManager::IsMoveToPause() {
 
 	Keybord& keybord = Keybord::getInterface();
 	GameInput game_input;
+	//game_input.Update();
 
 	// キーが離されたら
-	if (game_input.InputCommand(GameInput::START_BUTTON,GameInput::PUSH_EXIT) == true) {
+	if (game_input.InputCommand(game_input.START_BUTTON) == true) {
 
 		m_is_pause = !m_is_pause;
 		return m_is_pause;

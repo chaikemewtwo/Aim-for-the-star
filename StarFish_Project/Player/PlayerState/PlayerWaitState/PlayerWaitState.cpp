@@ -28,16 +28,16 @@ void PlayerWaitState::Update(Player* p) {
 
 	// 左右角度変更
 	// 左
-	if (m_p_game_input->InputCommand(p->GetStarInput(p->KEY_LEFT), m_p_game_input->PUSH_ON)==true) {
+	if (m_p_game_input->InputCommand(p->GetStarInput(p->KEY_LEFT))==true) {
 		p->AngleAdjust(false);
 	}
 	// 右
-	if (m_p_game_input->InputCommand(p->GetStarInput(p->KEY_RIGHT), m_p_game_input->PUSH_ON) == true) {
+	if (m_p_game_input->InputCommand(p->GetStarInput(p->KEY_RIGHT)) == true) {
 		p->AngleAdjust(true);
 	}
 
 	// 泳ぎ状態へ移行
-	if (m_p_game_input->InputCommand(p->GetStarInput(p->KEY_SWIM), m_p_game_input->PUSH_ENTER) == true) {
+	if (m_p_game_input->InputCommand(p->GetStarInput(p->KEY_SWIM)) == true) {
 		p->ChangeState(PlayerSwimState::GetInstance());
 	}
 
