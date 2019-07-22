@@ -55,13 +55,13 @@ bool GameInput::InputCommand(INPUT_BUTTON button) {
 		break;
 	case GameInput::TITLE_LEFT_BUTTON:
 		if (kb.press('A') || pad1.press(XINPUT_GAMEPAD_DPAD_LEFT) || pad1.getLeftStickX() < -0.5f ||
-			kb.press(VK_LEFT) || pad2.press(XINPUT_GAMEPAD_DPAD_LEFT) || pad2.getLeftStickX() < -0.5f) {
+			kb.press(VK_LEFT)) {
 			return true;
 		}
 		break;
 	case GameInput::TITLE_RIGHT_BUTTON:
 		if (kb.press('D') || pad1.press(XINPUT_GAMEPAD_DPAD_RIGHT) || pad1.getLeftStickX() > 0.5f ||
-			kb.press(VK_RIGHT) || pad2.press(XINPUT_GAMEPAD_DPAD_RIGHT || pad2.getLeftStickX() > 0.5f)) {
+			kb.press(VK_RIGHT)) {
 			return true;
 		}
 		break;
