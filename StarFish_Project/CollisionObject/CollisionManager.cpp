@@ -93,25 +93,25 @@ void CollisionManager::MapCollision(){
 	for (int i = 0; i < Player::COLLISION_OBJECT_TOTAL; i++){
 
 		// 衝突移動値受け取り
-		D3DXVECTOR2 collision_move = m_p_player_manager->GetPlayerInstance(i % 2)->GetMove();
+		D3DXVECTOR2 collision_move = m_p_player_manager->GetPlayerInstance(i)->GetMove();
 
 		// X移動方向受け取り
 		CollisionDirectionType collision_dir_type_width = 
 			m_p_player_manager->GetPlayerCollisionDirectionType(
-			(Player::ID_TYPE)(i % 2),
+			(Player::ID_TYPE)(i),
 			MoveDirectionType::WIDTH
 			);
 
 		// Y移動方向受け取り
 		CollisionDirectionType collision_dir_type_height = 
 			m_p_player_manager->GetPlayerCollisionDirectionType(
-			(Player::ID_TYPE)(i % 2),
+			(Player::ID_TYPE)(i),
 			MoveDirectionType::HEIGHT
 			);
 
 		// マップとの当たり判定
 		m_p_map_manager->MapCollision(
-			m_p_player_manager->GetPlayerInstance(i % 2),
+			m_p_player_manager->GetPlayerInstance(i),
 			collision_move,
 			collision_dir_type_width,
 			collision_dir_type_height
@@ -119,20 +119,20 @@ void CollisionManager::MapCollision(){
 
 		// X移動方向を渡す
 		m_p_player_manager->SetPlayerCollisionDirectionType(
-			(Player::ID_TYPE)(i % 2),
+			(Player::ID_TYPE)(i),
 			MoveDirectionType::WIDTH,
 			collision_dir_type_width
 		);
 
 		// Y移動方向を渡す
 		m_p_player_manager->SetPlayerCollisionDirectionType(
-			(Player::ID_TYPE)(i % 2),
+			(Player::ID_TYPE)(i),
 			MoveDirectionType::HEIGHT, 
 			collision_dir_type_height
 		);
 
 		// 移動量を渡す
-		m_p_player_manager->GetPlayerInstance(i % 2)->SetMove(collision_move);
+		m_p_player_manager->GetPlayerInstance(i)->SetMove(collision_move);
 	}
 }
 
