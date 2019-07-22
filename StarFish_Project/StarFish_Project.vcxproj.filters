@@ -34,7 +34,6 @@
     <ClCompile Include="Enemy\Enemy\NaporeonFish.cpp" />
     <ClCompile Include="GameObject\ObjectInterface\ObjectInterface.cpp" />
     <ClCompile Include="Player\PlayerManager.cpp" />
-    <ClCompile Include="Map\MapCollision\MapCollider.cpp" />
     <ClCompile Include="Enemy\EnemyState\EnemyWaitState\EnemyWaitState.cpp" />
     <ClCompile Include="Enemy\EnemyState\EnemyChaseState\EnemyChaseState.cpp" />
     <ClCompile Include="Enemy\EnemyState\EnemySideMoveState\EnemySideMoveState.cpp" />
@@ -45,6 +44,7 @@
     <ClCompile Include="Map\Map\Map.cpp" />
     <ClCompile Include="GameInput\GameInput.cpp" />
     <ClCompile Include="Map\Chip\RockChip\RockChip.cpp" />
+    <ClCompile Include="Map\MapCollider\MapCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\Enemy\EnemyBase.h" />
@@ -85,7 +85,6 @@
     <ClInclude Include="Enemy\Enemy\NaporeonFish.h" />
     <ClInclude Include="GameObject\ObjectInterface\ObjectInterface.h" />
     <ClInclude Include="Player\PlayerManager.h" />
-    <ClInclude Include="Map\MapCollision\MapCollider.h" />
     <ClInclude Include="Enemy\EnemyState\EnemyStateBase.h" />
     <ClInclude Include="Enemy\EnemyState\EnemyWaitState\EnemyWaitState.h" />
     <ClInclude Include="Enemy\EnemyState\EnemyChaseState\EnemyChaseState.h" />
@@ -100,6 +99,7 @@
     <ClInclude Include="Map\Chip\ChipBase\ChipBase.h" />
     <ClInclude Include="Map\Chip\NormalChip\NormalChip.h" />
     <ClInclude Include="Map\Chip\RockChip\RockChip.h" />
+    <ClInclude Include="Map\MapCollider\MapCollider.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\bg_hero_01.png" />

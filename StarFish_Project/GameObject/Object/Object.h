@@ -99,12 +99,16 @@ protected:
 
 	//! 位置
 	D3DXVECTOR2 m_pos;             
+
 	//! Objectが活動しているかの状態変数(活動中true 活動停止false)
 	bool m_is_active;              
+
 	//! アニメーションの時間 
 	int m_animation_timer;         
+
 	//! 現在のアニメーションの数
 	int m_animation_count;         
+
 	//! ソート番号
 	SortObjectType m_sort_object_type; 
 	

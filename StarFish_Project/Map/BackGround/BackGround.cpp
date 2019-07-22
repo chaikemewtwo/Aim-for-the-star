@@ -49,6 +49,19 @@ BackGround::BackGround(
 }
 
 
+BackGround::~BackGround() {
+
+	// メモリの削除
+	for (auto &file_name : m_p_bg_file_name_list) {
+		delete[] file_name;
+	}
+
+	// 要素の解放
+	std::vector<char*> release;
+	m_p_bg_file_name_list.swap(release);
+}
+
+
 void BackGround::Update() {
 
 	const int SCROLL_SPEED = 3;
@@ -170,12 +183,13 @@ void BackGround::BGLoad(const char*file_name) {
 	const int STRING_BUFFER = 256;
 
 	// ストリーム
-	FILE*fp;
+	FILE *fp;
+
 	// ファイルオープン
 	fopen_s(&fp, file_name, "r");
 
 	// 文字列バッファ
-	char str_load_buf[1000][100] = {};
+	//char str_load_buf[STRING_BUFFER] = {};
 
 	// ファイルが読み込まれてない場合
 	if (fp == NULL) {
@@ -185,26 +199,30 @@ void BackGround::BGLoad(const char*file_name) {
 	// 現在の数
 	int current_num = 0;
 
+	// メモリの確保
+	m_p_bg_file_name_list.push_back(new char[STRING_BUFFER]);
+
 	// 文字列読み込み、改行まで
-	while (fgets(str_load_buf[current_num], STRING_BUFFER, fp) != NULL) {
+	while (fgets(m_p_bg_file_name_list[current_num], STRING_BUFFER, fp) != NULL) {
 
 		// 末尾にある改行文字列を削除
-		if (str_load_buf[current_num][strlen(str_load_buf[current_num]) - 1] == '\n') {
-			str_load_buf[current_num][strlen(str_load_buf[current_num]) - 1] = NULL;
+		if (m_p_bg_file_name_list[current_num][strlen(m_p_bg_file_name_list[current_num]) - 1] == '\n') {
+			m_p_bg_file_name_list[current_num][strlen(m_p_bg_file_name_list[current_num]) - 1] = NULL;
 		}
-
-		// 文字列を読み込み
-		m_p_bg_file_name_list.push_back(str_load_buf[current_num]);
 
 		// 次の文字列へ
 		current_num++;
 
 		// 画像数加算
 		m_max_graph_num++;
+
+		// メモリの確保
+		m_p_bg_file_name_list.push_back(new char[STRING_BUFFER]);
 	}
 
 	// ファイルを閉じる
 	fclose(fp);
+
 	return;
 }
 
@@ -227,98 +245,3 @@ float BackGround::GetMaxMapPos()const {
 	// 背景サイズを一つ足す
 	return (((Map::CHIP_SIZE * 18) + Window::HEIGHT) * m_max_graph_num);
 }
-
-
-
-//if ((CHANGE_RANGE_UP) <= (-GRAPH_SIZE_H * m_connect1_graph)) {
-//	m_connect2_graph = m_connect1_graph + 1;
-//}
-//
-//// 前に進んでいる今
-//if ((CHANGE_RANGE_UP) <= (-GRAPH_SIZE_H * m_connect2_graph)) {
-//	m_connect1_graph = m_connect2_graph + 1;
-//}
-//
-//// 下に背景遷移ラインを貼る
-//if ((CHANGE_RANGE_DOWN) >= ((-GRAPH_SIZE_H) * (m_connect1_graph - 1))) {
-//
-//	m_connect2_graph = m_connect1_graph - 1;
-//}
-//
-//// ラインより上の場合
-//if ((CHANGE_RANGE_DOWN) >= (-GRAPH_SIZE_H) * (m_connect2_graph - 1)) {
-//
-//	m_connect1_graph = m_connect2_graph - 1;
-//}
-
-//bool BackGround::IsUpScrollLimit() {
-//
-//	bool is_scroll = false;
-//
-//	// 最深部まで来たらスクロールを止める
-//	if ((float)((Map::CHIP_SIZE * 18) * m_max_graph_num - 1170) <= m_pos.y) {
-//
-//		// 位置を戻す
-//		m_pmap->SetMapReset(-(((float)Map::CHIP_SIZE * 18) * m_max_graph_num - 1170) * m_max_graph_num);
-//		// スクロール領域を0にする
-//		m_pmap->SetScrollRangeUp(0.f);
-//		m_pos.y -= 1.f;
-//
-//		m_is_max_scroll = true; // スクロール最大
-//
-//		is_scroll = true;
-//	}
-//	else {
-//		// 元の状態に戻す
-//		is_scroll = false;
-//	}
-//
-//	if ((float)((Map::CHIP_SIZE * 18) * m_max_graph_num - 900.f) <= m_pos.y) {
-//		m_pmap->SetScrollRangeUp(Map::SCROLL_RANGE_UP);
-//		m_pmap->SetIsScroll(true);
-//		is_scroll = false;
-//	}
-//
-//	return is_scroll;
-//}
-
-
-
-// 端数分GRAPH_DIFFERENCEでずらす
-
-// UVをずらす処理を書く
-//float uv_shift[2];
-
-// 奇数か偶数で処理を変える
-//if (m_connect1_graph % 1 || m_connect2_graph % 1) {
-//	uv_shift[0] = -0.01f;
-//}
-//if (m_connect1_graph % 2 || m_connect2_graph % 2) {
-//	uv_shift[1] = -0.01f;
-//}
-//else {
-//	uv_shift[0] = 0.f;
-//	uv_shift[1] = 0.f;
-//}
-//float shift_num[3];
-//
-//shift_num[0] = -0.01f;
-//shift_num[1] = -0.01f;
-//shift_num[2] = -0.01f;
-//
-//const char *str[3];
-//
-//str[0] = "Resource/Texture/Map/bg_hero_01.png";
-//str[1] = "Resource/Texture/Map/bg_hero_02.png";
-//str[2] = "Resource/Texture/Map/bg_hero_03.png";
-//
-//for (int i = 0; i < 3; i++) {
-//
-//	if (strcmp(m_pback_str[m_connect1_graph % max_graph_num], str[i]) == 0) {
-//		uv_shift[0] = shift_num[i];
-//	}
-//	if (strcmp(m_pback_str[m_connect2_graph % max_graph_num], str[i]) == 0) {
-//		uv_shift[1] = shift_num[i];
-//	}
-//
-//}

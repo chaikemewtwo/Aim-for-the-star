@@ -10,7 +10,6 @@
 #include"../BackGround/BackGround.h"
 #include<stdio.h>
 #include<string>
-#include"../MapCollision/MapCollider.h"
 #include"../Chip/RockChip/RockChip.h"
 #include"../Chip/NormalChip/NormalChip.h"
 

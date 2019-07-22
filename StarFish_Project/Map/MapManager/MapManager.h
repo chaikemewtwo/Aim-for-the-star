@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include"../../GameObject/Object/Object.h"
-#include"../MapCollision/MapCollider.h"
+#include"../MapCollider/MapCollider.h"
 #include"../../ManagerBase/ManagerBase.h"
 
 

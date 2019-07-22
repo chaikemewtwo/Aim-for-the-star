@@ -54,6 +54,12 @@ public:
 
 
 	/**
+	* @brief デストラクタ
+	*/
+	~BackGround();
+
+
+	/**
 	* @brief 更新(override)
 	*/
 	void Update();
@@ -123,7 +129,7 @@ private:
 private:
 
 	//! 背景読み込み用バッファ
-	std::vector<const char*>m_p_bg_file_name_list;      
+	std::vector<char*>m_p_bg_file_name_list;      
 									
 	//! 移動ベクトル
 	D3DXVECTOR2 m_move;                

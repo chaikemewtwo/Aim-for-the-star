@@ -59,7 +59,7 @@ RockChip::RockChip(int chip_num,const D3DXVECTOR2 &pos, Map*map) {
 	bed_rock_chip_name = str_buffer;
 
 	// マップインスタンス代入
-	m_map = map;
+	m_p_map = map;
 }
 
 
@@ -72,5 +72,5 @@ void RockChip::Draw(){
 void RockChip::Update(){
 
 	// マップにそって移動
-	m_pos.y += m_map->GetMove();
+	m_pos.y += m_p_map->GetMove();
 }
