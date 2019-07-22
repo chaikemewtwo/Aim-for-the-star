@@ -12,7 +12,7 @@ public:
 	~Title() {}
 
 private:
-	enum ButtonTexture {
+	enum ButtonType {
 		DESCRIPTION_BUTTON,
 		START_BUTTON,
 		RETURN_BUTTON,

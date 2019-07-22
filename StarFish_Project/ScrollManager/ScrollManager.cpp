@@ -30,9 +30,9 @@ void ScrollManager::Update() {
 	ReturnScreenPos();
 
 	// スクロールを止めるかどうかのチェック
-	if (StopScroll() == true) {
+	/*if (StopScroll() == true) {
 		return;
-	}
+	}*/
 
 	// スクロール
 	if (m_is_scroll == true) {

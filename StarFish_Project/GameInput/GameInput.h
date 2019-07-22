@@ -14,6 +14,9 @@ public:
 		P2_RIGHT_BUTTON,	// プレイヤー2の右ボタン
 		P2_DECIDE_BUTTON,	// プレイヤー2の決定ボタン
 		START_BUTTON,		// スタートボタン
+		TITLE_LEFT_BUTTON,	// タイトル画面での左ボタン(両プレイヤー共通)
+		TITLE_RIGHT_BUTTON,	// タイトル画面での右ボタン(両プレイヤー共通)
+
 		BUTTON_MAX_NUM		// 列挙型の最大値
 	};
 
@@ -25,8 +28,10 @@ public:
 	};
 
 public:
+	void Update();
+
 	// 今回使用するボタンの入力情報を管理
 	// 引数(入力情報を受け取りたいプレイヤー,入力情報を受け取りたいボタン,第一引数のボタンの入力状態)
 	// 戻り値:対応する入力状態を満たしたとき（満たしているとき）trueを返す
-	bool InputCommand(INPUT_BUTTON button, INPUT_STATE state);
+	bool InputCommand(INPUT_BUTTON button);
 };

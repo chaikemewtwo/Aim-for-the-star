@@ -5,7 +5,7 @@
 Title::Title() {
 
 	m_scene_step = SceneStep::INIT;
-
+	m_p_game_input = new GameInput;
 	// 画像の登録
 	m_button_texture_list[DESCRIPTION_BUTTON] = "Resource/Texture/UI/title_button03.png";
 	m_button_texture_list[START_BUTTON] = "Resource/Texture/UI/title_button01.png";
@@ -36,11 +36,12 @@ void Title::Init() {
 //―――――――――――――――――――
 
 void Title::Update() {
-
+	
+	//m_p_game_input->Update();
 	CheckChangeButton();
 
-	if (m_p_game_input->InputCommand(m_p_game_input->P1_DECIDE_BUTTON, m_p_game_input->PUSH_ENTER) ||
-		m_p_game_input->InputCommand(m_p_game_input->P2_DECIDE_BUTTON, m_p_game_input->PUSH_ENTER)){
+	if (m_p_game_input->InputCommand(m_p_game_input->P1_DECIDE_BUTTON) ||
+		m_p_game_input->InputCommand(m_p_game_input->P2_DECIDE_BUTTON) || m_p_game_input->InputCommand(m_p_game_input->START_BUTTON)){
 
 		if (m_button_check_num == START_BUTTON) {
 			
@@ -91,30 +92,33 @@ void Title::Draw() {
 
 // 説明、スタート、終わるのボタン選択処理
 void Title::CheckChangeButton() {
-	
-	if (m_p_game_input->InputCommand(m_p_game_input->P1_LEFT_BUTTON, m_p_game_input->PUSH_ENTER) ||
-		m_p_game_input->InputCommand(m_p_game_input->P2_LEFT_BUTTON, m_p_game_input->PUSH_ENTER) &&
-		m_button_check_num > DESCRIPTION_BUTTON) {
+	static int count = 10;
+	++count;
+	if (count >= 10) {
+		if (m_p_game_input->InputCommand(m_p_game_input->TITLE_LEFT_BUTTON) == true &&
+			m_button_check_num > DESCRIPTION_BUTTON) {
 
-		m_button_check_num--;
-		if (m_button_check_num == DESCRIPTION_BUTTON) {
-			m_button_texture = m_button_texture_list[DESCRIPTION_BUTTON];
+			m_button_check_num--;
+			if (m_button_check_num == DESCRIPTION_BUTTON) {
+				m_button_texture = m_button_texture_list[DESCRIPTION_BUTTON];
+			}
+			else if (m_button_check_num == START_BUTTON) {
+				m_button_texture = m_button_texture_list[START_BUTTON];
+			}
+			count = 0;
 		}
-		else if (m_button_check_num == START_BUTTON) {
-			m_button_texture = m_button_texture_list[START_BUTTON];
-		}
-	}
 
-	if (m_p_game_input->InputCommand(m_p_game_input->P1_RIGHT_BUTTON, m_p_game_input->PUSH_ENTER) ||
-		m_p_game_input->InputCommand(m_p_game_input->P2_RIGHT_BUTTON, m_p_game_input->PUSH_ENTER) && 
-		m_button_check_num < RETURN_BUTTON) {
+		else if (m_p_game_input->InputCommand(m_p_game_input->TITLE_RIGHT_BUTTON) == true &&
+			m_button_check_num < RETURN_BUTTON) {
 
-		m_button_check_num++;
-		if (m_button_check_num == START_BUTTON) {
-			m_button_texture = m_button_texture_list[START_BUTTON];
-		}
-		else if (m_button_check_num == RETURN_BUTTON) {
-			m_button_texture = m_button_texture_list[RETURN_BUTTON];
+			m_button_check_num++;
+			if (m_button_check_num == START_BUTTON) {
+				m_button_texture = m_button_texture_list[START_BUTTON];
+			}
+			else if (m_button_check_num == RETURN_BUTTON) {
+				m_button_texture = m_button_texture_list[RETURN_BUTTON];
+			}
+			count = 0;
 		}
 	}
 }
