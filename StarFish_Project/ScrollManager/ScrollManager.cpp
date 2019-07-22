@@ -219,7 +219,7 @@ bool ScrollManager::StopScroll() {
 		}
 		// 衝突していなくて、スクロール範囲外に出ている時、スクロール開始
 		else if (player_collision_dir_type == NONE &&
-			player_get_pos_y < map_scroll_scope_down) {
+			player_get_pos_y > map_scroll_scope_down) {
 
 			m_is_scroll = true;
 		}

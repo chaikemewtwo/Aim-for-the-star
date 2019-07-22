@@ -180,7 +180,9 @@ bool MapCollider::XVertexHitCheck(
 				collision_info_x[i][2], collision_info_x[i][3]) == true) {
 
 				// 衝突方向受け取り
-				collision_dir_type_x = GetCollisionDirectionSerchX(move_x);
+				if (move_x != 0.f) {
+					collision_dir_type_x = GetCollisionDirectionSerchX(move_x);
+				}
 
 				// 横方向の位置を受け取り、その分引き戻す
 				WidthPosPullBackToPrevPos(pos.x, move_x, collision_dir_type_x);
@@ -243,10 +245,11 @@ void MapCollider::HeightPosPullBackPrevPos(float &pos_y, float &move_y, Collisio
 	float get_move = 0.f;
 
 	if (m_p_map->GetMove() != 0.f) {
+
 		get_move = m_p_map->GetMove();
 	}
 	if (move_y != 0.f) {
-		get_move = move_y + 2.f;
+		get_move = -move_y;
 	}
 
 	// 上の衝突、スクリーン内の移動値とスクロール移動値による
