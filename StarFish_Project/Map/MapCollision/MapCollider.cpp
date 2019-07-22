@@ -247,7 +247,7 @@ void MapCollider::HeightPosPullBackPrevPos(float &pos_y, float &move_y, Collisio
 		get_move = m_p_map->GetMove();
 	}
 	else if (move_y != 0.f) {
-		get_move = move_y;
+		get_move = move_y + 2.f;
 	}
 
 	// 上の衝突、スクリーン内の移動値とスクロール移動値による

@@ -75,8 +75,10 @@ void ScrollManager::ReturnScreenPos() {
 
 void ScrollManager::Scroll() {
 
+	/* 上のスクロールを優先させる */
+
 	for (int i = 0; i < Player::ID_TYPE::MAX_TYPE; i++) {
-		
+
 		// 上のスクロール範囲に入ったら
 		if (IsItInUpScrollScope(i) == true) {
 
@@ -84,18 +86,23 @@ void ScrollManager::Scroll() {
 			m_p_map_manager->GetMapInstance()->SetScrollMove(
 				m_p_player_manager->GetPlayerInstance(i)->GetMove().y
 			);
+			return;
 		}
+	}
 
+	for (int i = 0; i < Player::ID_TYPE::MAX_TYPE; i++) {
 		// 下のスクロール範囲に入ったら
-		else if (IsItInDownScrollScope(i) == true) {
+		if (IsItInDownScrollScope(i) == true) {
 
 			// マップ移動を加算
 			m_p_map_manager->GetMapInstance()->SetScrollMove(
 				m_p_player_manager->GetPlayerInstance(i)->GetMove().y
 			);
+			return;
 		}
 	}
 }
+
 
 
 bool ScrollManager::IsItInUpScrollScope(int i) {
@@ -163,77 +170,90 @@ void ScrollManager::ScrollMax() {
 
 bool ScrollManager::StopScroll() {
 
-	const int STOP_POS_INTERVAL = 100;
+	// 止める間隔
+	const int STOP_POS_INTERVAL = 10;
+	// 自機の移動値
+	float player_get_pos_y = 0.f;
 
-	for (int i = 0; i < Player::MAX_TYPE; i++){
+	// スクロールする上の範囲
+	float map_scroll_scope_up = m_p_map_manager->GetMapInstance()->GetScrollUpMapPosY() + STOP_POS_INTERVAL;
+	// スクロールする下の範囲
+	float map_scroll_scope_down = m_p_map_manager->GetMapInstance()->GetScrollDownMapPosY() - STOP_POS_INTERVAL;
 
-		CollisionDirectionType collision_dir_type = m_p_player_manager->GetPlayerCollisionDirectionType(
-			(Player::ID_TYPE)(i), HEIGHT);
-		
+	// スクロール衝突情報受け取り
+	CollisionDirectionType map_collision_dir_type =
+		m_p_map_manager->GetMapInstance()->GetMapColliderInstance()->GetScrollCollisionDirType();
+
+	// もう一つの自機の位置
+	float one_player_pos_y = 0.f;
+
+	for (int i = 0; i < Player::MAX_TYPE; i++) {
+
+		// 自機の移動値受け取り
+		player_get_pos_y = m_p_player_manager->GetPlayerInstance(i)->GetPos().y;
+
+		// もう一つの自機受け取り
+		one_player_pos_y = m_p_player_manager->GetPlayerInstance((i + 1) % 2)->GetPos().y;
+
+		// 自機の衝突方向受け取り
+		CollisionDirectionType player_collision_dir_type =
+			m_p_player_manager->GetPlayerCollisionDirectionType(
+			(Player::ID_TYPE)(i),
+				HEIGHT
+			);
+
 		// スクロール範囲に入っており、かつチップに衝突している場合スクロール停止
 
 		// スクリーン上の衝突
-		if (collision_dir_type == UP &&
-			m_p_player_manager->GetPlayerInstance(i)->GetPos().y >=
-			m_p_map_manager->GetMapInstance()->GetScrollDownMapPosY() - STOP_POS_INTERVAL
+		if (player_collision_dir_type == UP &&
+			player_get_pos_y >= map_scroll_scope_down
 			||
 			// スクロールの衝突
-			m_p_map_manager->GetMapInstance()->GetMapColliderInstance()->GetScrollCollisionDirType() == UP &&
-			m_p_player_manager->GetPlayerInstance(i)->GetPos().y >=
-			m_p_map_manager->GetMapInstance()->GetScrollDownMapPosY() - STOP_POS_INTERVAL){
-
-			// Y位置を戻す
-			m_p_player_manager->GetPlayerInstance(i)->SetPos(
-				D3DXVECTOR2(
-					m_p_player_manager->GetPlayerInstance(i)->GetPos().x,
-					m_p_map_manager->GetMapInstance()->GetScrollDownMapPosY() - STOP_POS_INTERVAL)
-			);
+			map_collision_dir_type == UP &&
+			player_get_pos_y >= map_scroll_scope_down
+			) {
 
 			// スクロールを止める
 			m_is_scroll = false;
 			return true;
 		}
 		// 衝突していなくて、スクロール範囲外に出ている時、スクロール開始
-		else if(m_p_player_manager->GetPlayerInstance(i)->GetPos().y <
-			m_p_map_manager->GetMapInstance()->GetScrollDownMapPosY() - STOP_POS_INTERVAL){
+		else if (player_collision_dir_type == NONE &&
+			player_get_pos_y < map_scroll_scope_down) {
+
 			m_is_scroll = true;
 		}
 
 		// スクロール範囲に入っており、かつチップに衝突している場合スクロール停止
+		// そしてもう一体の自機が下のスクロール範囲に入っている場合
 
 		// スクリーン上の衝突
-		if (m_p_player_manager->GetPlayerCollisionDirectionType(
-			(Player::ID_TYPE)(i), HEIGHT) == DOWN &&
-			m_p_player_manager->GetPlayerInstance(i)->GetPos().y <=
-			m_p_map_manager->GetMapInstance()->GetScrollUpMapPosY() + STOP_POS_INTERVAL
+		if (player_collision_dir_type == DOWN &&
+			player_get_pos_y <= map_scroll_scope_up &&
+			one_player_pos_y >= map_scroll_scope_down
 			||
 			// スクロール上の衝突
-			m_p_map_manager->GetMapInstance()->GetMapColliderInstance()->GetScrollCollisionDirType() == DOWN &&
-			m_p_player_manager->GetPlayerInstance(i)->GetPos().y <=
-			m_p_map_manager->GetMapInstance()->GetScrollUpMapPosY() - STOP_POS_INTERVAL
+			player_collision_dir_type == DOWN &&
+			player_get_pos_y <= map_scroll_scope_up &&
+			one_player_pos_y >= map_scroll_scope_down
 			) {
-		
-			// Y位置を戻す
-			m_p_player_manager->GetPlayerInstance(i)->SetPos(
-				D3DXVECTOR2(
-					m_p_player_manager->GetPlayerInstance(i)->GetPos().x,
-					m_p_map_manager->GetMapInstance()->GetScrollUpMapPosY() + STOP_POS_INTERVAL)
-			);
-		
 			// スクロールを止める
 			m_is_scroll = false;
 			return true;
 		}
 		// 衝突していなくて、スクロール範囲外に出ている時、スクロール開始
-		else if(m_p_player_manager->GetPlayerInstance(i)->GetPos().y >=
-			m_p_map_manager->GetMapInstance()->GetScrollUpMapPosY() + STOP_POS_INTERVAL){
+		else if (player_collision_dir_type == NONE &&
+			player_get_pos_y >= map_scroll_scope_up) {
+
 			m_is_scroll = true;
 		}
 	}
-	
+
 	// スクロールを止める必要はなし
 	return false;
 }
+
+
 
 
 bool ScrollManager::IsScrollMax()const{
