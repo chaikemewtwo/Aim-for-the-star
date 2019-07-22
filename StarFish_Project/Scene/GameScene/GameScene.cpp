@@ -64,7 +64,7 @@ void GameMain::Update() {
 	}
 
 	// デバック用
-	if (m_key_bord.press(VK_F1)) {
+	/*if (m_pkey_bord.press(VK_F1)) {
 
 		m_p_main_bgm->Stop();
 		m_scene_step = SceneStep::END;
@@ -75,7 +75,7 @@ void GameMain::Update() {
 		m_p_main_bgm->Stop();
 		m_scene_step = SceneStep::END;
 		m_new_scene_id = SceneId::TITLE;
-	}
+	}*/
 }
 //―――――――――――――――――――
 
