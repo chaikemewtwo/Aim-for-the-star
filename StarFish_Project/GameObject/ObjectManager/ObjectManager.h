@@ -35,8 +35,8 @@ enum SortObjectType {
 	ROCK_CHIP,
 	ENEMY,
 	AFTER_BG,
-	GAME_UI,
 	BLIND,
+	GAME_UI,
 	MAX,
 };
 
