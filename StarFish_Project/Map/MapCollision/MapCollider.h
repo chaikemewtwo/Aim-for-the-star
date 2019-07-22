@@ -79,6 +79,13 @@ public:
 	);
 
 
+	/**
+	* @brief スクロール位置を返す
+	* @return スクロールの衝突情報を返す
+	*/
+	CollisionDirectionType GetScrollCollisionDirType();
+
+
 private:
 
 	//! 衝突チップサイズX

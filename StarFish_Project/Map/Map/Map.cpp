@@ -149,15 +149,6 @@ void Map::MapObjectWidthEntryLine(int create_line_y) {
 
 	for (int x = 0; x < Map::MAX_IN_WINDOW_CHIP_NUM_W; x++) {
 
-		//// 位置を代入
-		//D3DXVECTOR2 pos(
-		//	(float)(Map::CHIP_SIZE * x),
-		//	(Map::CHIP_SIZE * -create_line_y) + Window::HEIGHT - m_pos.y
-		//);
-		//
-		//// デバッグ用
-		//Texture::Draw2D("Resource/Texture/Map/chip-map_image_3.png",pos.x,pos.y - (float)CHIP_SIZE);
-
 		// チップが活動中なら生成中止
 		if (m_map_chip_list[m_max_map_chip_height_size - create_line_y][x]->IsChipActive() == true) {
 			continue;
@@ -191,9 +182,6 @@ void Map::MapObjectWidthExitLine(int destory_line_y) {
 			(Map::CHIP_SIZE * -destory_line_y) + Window::HEIGHT - (m_scroll_pos)
 		);
 
-		// デバッグ用
-		//Texture::Draw2D("Resource/Texture/Map/chip-map_image_10.png", pos.x, pos.y);
-
 		// 敵なら
 		if (m_map_chip_list[destory_line][x]->IsEnemy() == true){
 
@@ -225,7 +213,6 @@ void Map::MapObjectWidthExitLine(int destory_line_y) {
 		}
 	}
 }
-
 
 
 void Map::RockChipCreate(int x, int y) {

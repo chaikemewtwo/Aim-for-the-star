@@ -370,3 +370,8 @@ CollisionDirectionType MapCollider::GetCollisionDirectionSerchY(const float&move
 
 	return NONE;
 }
+
+
+CollisionDirectionType MapCollider::GetScrollCollisionDirType() {
+	return m_scroll_dir_y_type;
+}
