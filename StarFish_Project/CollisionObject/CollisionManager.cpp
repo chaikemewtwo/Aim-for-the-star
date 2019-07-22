@@ -90,7 +90,7 @@ void CollisionManager::MapCollision(){
 	const int ONE_MORE = 1;
 	
 	// 自機とマップの当たり判定
-	for (int i = 0; i < Player::COLLISION_OBJECT_TOTAL + ONE_MORE; i++){
+	for (int i = 0; i < Player::COLLISION_OBJECT_TOTAL; i++){
 
 		// 衝突移動値受け取り
 		D3DXVECTOR2 collision_move = m_p_player_manager->GetPlayerInstance(i % 2)->GetMove();

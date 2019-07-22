@@ -107,7 +107,7 @@ public:
 
 	/**
 	* @brief スクロール移動値ゲッター
-	* @return D3DXVECTOR2
+	* @return float
 	*/
 	float GetMove()const;
 
