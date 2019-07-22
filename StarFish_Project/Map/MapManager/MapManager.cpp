@@ -21,7 +21,7 @@ MapManager::MapManager(EnemyManager*e_mng, ObjectManager*obj_mng) {
 	// マップ生成
 	m_p_map = new Map(e_mng, obj_mng);
 
-	// 背景生成
+	// 背景1生成
 	m_p_bg1 = new BackGround(
 		// 読み込むテキスト名
 		"Map/BGData/BG1.csv",
@@ -33,23 +33,25 @@ MapManager::MapManager(EnemyManager*e_mng, ObjectManager*obj_mng) {
 		(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_1.png")),
 		(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_1.png")));
 
-	//m_p_bg2 = new BackGround(
-	//	// 読み込むテキスト名
-	//	"Map/BGData/BG2.csv",
-	//	// マップ実体
-	//	m_p_map,
-	//	// ソートオブジェクトの型
-	//	AFTER_BG,
-	//	// 指定したサイズを基準にスクロール
-	//	(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_1.png")),
-	//	(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_1.png")));
+
+	// 背景2生成
+	m_p_bg2 = new BackGround(
+		// 読み込むテキスト名
+		"Map/BGData/BG2.csv",
+		// マップ実体
+		m_p_map,
+		// ソートオブジェクトの型
+		AFTER_BG,
+		// 指定したサイズを基準にスクロール
+		(Texture::Size::GetGraphSizeX("Resource/Texture/Map/bg_hero_1.png")),
+		(Texture::Size::GetGraphSizeY("Resource/Texture/Map/bg_hero_1.png")));
 
 
 	// 背景1登録
 	obj_mng->Entry(m_p_bg1);
 
-	// 背景2
-	//obj_mng->Entry(m_p_bg2);
+	// 背景2登録
+	obj_mng->Entry(m_p_bg2);
 
 	// マップチップ初期化
 	m_p_map->Init();

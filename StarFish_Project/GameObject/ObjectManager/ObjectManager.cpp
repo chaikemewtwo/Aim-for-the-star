@@ -221,6 +221,9 @@ bool ObjectManager::IsMoveToPause() {
 
 void ObjectManager::PauseDraw() {
 
+	const float OFSET_POS = 0.5f;
+	const float SCALE = 1.f;
+
 	if (m_is_pause == true) {
 
 		// 描画
@@ -228,11 +231,11 @@ void ObjectManager::PauseDraw() {
 			"Resource/Texture/UI/pause.png",
 			Window::WIDTH / 2,
 			(Window::HEIGHT / 2) - 50,
-			1.f,
-			1.f,
+			SCALE,
+			SCALE,
 			0.f,
-			0.5f,
-			0.5f
+			OFSET_POS,
+			OFSET_POS
 		);
 	}
 }

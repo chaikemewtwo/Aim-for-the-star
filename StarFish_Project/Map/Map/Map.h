@@ -3,7 +3,7 @@
 #include"../../Player/PlayerManager.h"
 #include"../../GameObject/ObjectManager/ObjectManager.h"
 #include"../Chip/ChipBase/ChipBase.h"
-#include"../MapCollision/MapCollider.h"
+#include"../MapCollider/MapCollider.h"
 
 
 

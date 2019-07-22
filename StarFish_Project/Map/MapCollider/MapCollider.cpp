@@ -216,7 +216,6 @@ bool MapCollider::IsWallCollision(float pos_x, float pos_y, float move_x, float 
 		}
 		// スクロールしていないなら、スクリーン移動値加算
 		else{
-
 			hit_pos_y = pos_y + (m_p_map->GetPos()) + move_y;
 		}
 	}
@@ -246,19 +245,18 @@ void MapCollider::HeightPosPullBackPrevPos(float &pos_y, float &move_y, Collisio
 	if (m_p_map->GetMove() != 0.f) {
 		get_move = m_p_map->GetMove();
 	}
-	else if (move_y != 0.f) {
+	if (move_y != 0.f) {
 		get_move = move_y + 2.f;
 	}
 
 	// 上の衝突、スクリーン内の移動値とスクロール移動値による
 	if (collision_dir_type_y == UP || m_scroll_dir_y_type == UP) {
 
-
 		// チップサイズ割り出し
 		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + (m_p_map->GetPos())) + 1);
 
 		// 下に戻す
-		pos_y = (chip_pos_y * Map::CHIP_SIZE) + ((-m_p_map->GetPos()) + get_move + 1.5f);
+		pos_y = (chip_pos_y * Map::CHIP_SIZE) + ((-m_p_map->GetPos()) + get_move);
 
 		// 拡縮Y
 		if (CHIP_SCALE_Y > 0.f) {

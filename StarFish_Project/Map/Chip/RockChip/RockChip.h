@@ -68,6 +68,7 @@ private:
 
 	//! 岩盤文字列
 	std::string bed_rock_chip_name;
+
 	//! マップインスタンス
-	Map*m_map;
+	Map * m_p_map;
 };

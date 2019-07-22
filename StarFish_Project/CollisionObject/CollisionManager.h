@@ -81,7 +81,4 @@ private:
 
 	//! マップの管理者
 	MapManager*m_p_map_manager;
-
-	//! 自機の当たり方向の型
-	//CollisionDirectionType m_player_collision_dir_type[Player::COLLISION_OBJECT_TOTAL][2];
 };
