@@ -9,7 +9,7 @@ Object::Object() {
 	m_id = 0;
 	m_animation_timer = 0;
 	m_animation_count = 0;
-	m_sort_object_type = MAX;
+	m_sort_object_type = TOTAL;
 }
 
 
