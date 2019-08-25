@@ -56,14 +56,6 @@ void Title::Update() {
 			m_new_scene_id = SceneId::SCENE_QUIT;
 		}
 	}
-	
-	// デバック用　タイトル→ゲームメイン
-	//if(m_pkey_bord.press(VK_F1)) {
-
-	//	m_p_title_bgm->Stop();
-	//	m_scene_step = SceneStep::END;
-	//	m_new_scene_id = SceneId:: GAME_MAIN;
-	//}
 }
 //―――――――――――――――――――
 

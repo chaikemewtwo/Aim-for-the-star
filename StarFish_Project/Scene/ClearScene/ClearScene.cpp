@@ -112,15 +112,6 @@ void Clear::Update() {
 			m_scene_change_count_timer++;
 		}
 	}
-
-	// デバック用
-	/*if (m_pkey_bord.press(VK_F1)) {
-
-		m_p_effect_sound->Stop();
-		m_p_fly_sound->Stop();
-		m_scene_step = SceneStep::END;
-		m_new_scene_id = SceneId::TITLE;
-	}*/
 }
 //――――――――――――――――――――――――――――――――
 

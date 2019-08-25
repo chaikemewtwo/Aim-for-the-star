@@ -35,10 +35,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
 
 	while (Window::ProcessMessage() == true) {
 
-		//// キー入力情報更新
+		// キー入力情報更新
 		//kb.update();
 
-		//// デバッグ用強制終了
+		// デバッグ用強制終了
 		//if (kb.on(VK_ESCAPE)) {
 		//	break;
 		//}
