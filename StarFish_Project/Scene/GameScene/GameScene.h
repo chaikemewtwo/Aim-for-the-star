@@ -28,7 +28,7 @@ private:
 	float m_scene_change_count_timer;	// 遷移までのカウント
 
 	// ゲームオーバーロゴの登録
-	const std::string m_gameover_ui = "Resource/Texture/UI/over_logo.png";
+	const std::string m_gameover_ui = "Resource/Texture/UI/gameover_logo.png";
 	
 	IDirectSoundBuffer8* m_p_main_bgm;			// ゲームシーンBGM
 	IDirectSoundBuffer8* m_p_gameover_sound;	// ゲームオーバーサウンド

@@ -13,9 +13,9 @@ void Resource::LoadResource() {
 
 	// タイトル--------------------------------------------
 	// 背景
-	Texture::Load("Resource/Texture/Title/タイトル　背景.png");
+	Texture::Load("Resource/Texture/Title/title_bg.png");
 	// ロゴ
-	Texture::Load("Resource/Texture/Title/タイトル　ロゴ.png");
+	Texture::Load("Resource/Texture/Title/title_logo.png");
 	// ボタン
 	Texture::Load("Resource/Texture/UI/title_button01.png");
 	Texture::Load("Resource/Texture/UI/title_button02.png");
@@ -109,20 +109,20 @@ void Resource::LoadResource() {
 	// GameUI
 	// 岩
 	// 左
-	Texture::LoadEx("Resource/Texture/UI/ui_lef.png");
+	Texture::LoadEx("Resource/Texture/UI/ui_left.png");
 	// 右
-	Texture::LoadEx("Resource/Texture/UI/ui_rig.png");
+	Texture::LoadEx("Resource/Texture/UI/ui_right.png");
 	// 黒バー
-	Texture::Load("Resource/Texture/UI/ui_bla.png");
+	Texture::Load("Resource/Texture/UI/ui_black.png");
 	// 紫バー
-	Texture::Load("Resource/Texture/UI/ui_vio.png");
+	Texture::Load("Resource/Texture/UI/ui_violet.png");
 	// 橙バー
-	Texture::Load("Resource/Texture/UI/ui_ora.png");
+	Texture::Load("Resource/Texture/UI/ui_orange.png");
 	// 赤バー
 	Texture::Load("Resource/Texture/UI/ui_red.png");
 
 	// しっぱいロゴ
-	Texture::Load("Resource/Texture/UI/over_logo.png");
+	Texture::Load("Resource/Texture/UI/gameover_logo.png");
 
 	// テクスチャUI
 	Texture::Load("Resource/Texture/UI/pause.png");
@@ -141,7 +141,7 @@ void Resource::LoadResource() {
 	Texture::Load("Resource/Texture/Player/de_clear_02.png");
 
 	// 自機エフェクト
-	Texture::Load("Resource/Texture/Effect/crear_eff.png");
+	Texture::Load("Resource/Texture/Effect/clear_eff.png");
 
 	// 背景
 	Texture::Load("Resource/Texture/Map/bg_clear_01.png");
