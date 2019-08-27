@@ -184,6 +184,7 @@ bool MapCollider::XVertexHitCheck(
 					collision_dir_type_x = GetCollisionDirectionSerchX(move_x);
 				}
 
+
 				// 横方向の位置を受け取り、その分引き戻す
 				WidthPosPullBackToPrevPos(pos.x, move_x, collision_dir_type_x);
 

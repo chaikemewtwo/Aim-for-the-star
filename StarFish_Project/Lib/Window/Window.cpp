@@ -114,7 +114,7 @@ namespace Window {
 		
 		while (PeekMessage(
 			&msg,           // 取得メッセージ
-			window_handle,  // ウィンドウハンドル
+			NULL,           // ウィンドウハンドルは入れない
 			0,              // 取得メッセージの最大値
 			0,			    // 取得メッセージの最小値
 			PM_REMOVE		// 取得メッセージの削除オプション
