@@ -62,20 +62,6 @@ void GameMain::Update() {
 		m_scene_step = SceneStep::END;
 		m_new_scene_id = SceneId::TITLE;
 	}
-
-	// デバック用
-	/*if (m_pkey_bord.press(VK_F1)) {
-
-		m_p_main_bgm->Stop();
-		m_scene_step = SceneStep::END;
-		m_new_scene_id = SceneId::CLEAR;
-	}
-	else if (m_key_bord.press(VK_F2)) {
-
-		m_p_main_bgm->Stop();
-		m_scene_step = SceneStep::END;
-		m_new_scene_id = SceneId::TITLE;
-	}*/
 }
 //―――――――――――――――――――
 

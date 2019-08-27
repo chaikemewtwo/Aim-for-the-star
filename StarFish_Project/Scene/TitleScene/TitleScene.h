@@ -39,8 +39,8 @@ private:
 	const D3DXVECTOR2 TITLE_BUTTON_POS = { (Window::WIDTH / 2),(Window::HEIGHT - 100) };	
 
 	// ロゴと背景の画像を登録
-	const std::string TITLE_TEXTURE = "Resource/Texture/Title/タイトル　背景.png";
-	const std::string TITLE_LOGO = "Resource/Texture/Title/タイトル　ロゴ.png";
+	const std::string TITLE_TEXTURE = "Resource/Texture/Title/title_bg.png";
+	const std::string TITLE_LOGO = "Resource/Texture/Title/title_logo.png";
 
 	IDirectSoundBuffer8* m_p_title_bgm;	// タイトルBGM
 };

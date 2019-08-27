@@ -14,8 +14,8 @@ GameUI::GameUI(PlayerManager* pm) {
 	m_p_player_manager = pm;
 	m_sort_object_type = SortObjectType::GAME_UI;
 	
-	m_1p_gage_texture = "Resource/Texture/UI/ui_ora.png";
-	m_2p_gage_texture = "Resource/Texture/UI/ui_vio.png";
+	m_1p_gage_texture = "Resource/Texture/UI/ui_orange.png";
+	m_2p_gage_texture = "Resource/Texture/UI/ui_violet.png";
 }
 
 
@@ -27,8 +27,8 @@ void GameUI::Update(){
 void GameUI::Draw() {
 	// 左右黒バー
 	// スタミナゲージの奥に背景が描画されるのを防止するため
-	Texture::Draw2D("Resource/Texture/UI/ui_bla.png", 0.f, GAGE_MAX_POS_Y);
-	Texture::Draw2D("Resource/Texture/UI/ui_bla.png", RIGHT_GAGE_POS_X, GAGE_MAX_POS_Y);
+	Texture::Draw2D("Resource/Texture/UI/ui_black.png", 0.f, GAGE_MAX_POS_Y);
+	Texture::Draw2D("Resource/Texture/UI/ui_black.png", RIGHT_GAGE_POS_X, GAGE_MAX_POS_Y);
 
 	// スタミナゲージ
 	// どちらかの自機のスタミナがなくなるとスタミナゲージの描画をしない
@@ -41,8 +41,8 @@ void GameUI::Draw() {
 	}
 
 	// 左右ゲージ枠の岩
-	Texture::Draw2DUVShift("Resource/Texture/UI/ui_lef.png", 0.f, 0.f,0.f,0.f);
-	Texture::Draw2D("Resource/Texture/UI/ui_rig.png", RIGHT_ROCK_POS_X, 0.f);
+	Texture::Draw2DUVShift("Resource/Texture/UI/ui_left.png", 0.f, 0.f,0.f,0.f);
+	Texture::Draw2D("Resource/Texture/UI/ui_right.png", RIGHT_ROCK_POS_X, 0.f);
 }
 
 
@@ -52,7 +52,7 @@ void GameUI::GageColorChange() {
 		m_1p_gage_texture = "Resource/Texture/UI/ui_red.png";
 	}
 	else {
-		m_1p_gage_texture = "Resource/Texture/UI/ui_ora.png";
+		m_1p_gage_texture = "Resource/Texture/UI/ui_orange.png";
 	}
 
 	// 自機2
@@ -60,7 +60,7 @@ void GameUI::GageColorChange() {
 		m_2p_gage_texture = "Resource/Texture/UI/ui_red.png";
 	}
 	else {
-		m_2p_gage_texture = "Resource/Texture/UI/ui_vio.png";
+		m_2p_gage_texture = "Resource/Texture/UI/ui_violet.png";
 	}
 }
 

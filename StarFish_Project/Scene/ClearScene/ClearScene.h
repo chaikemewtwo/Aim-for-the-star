@@ -107,7 +107,7 @@ private:
 	// エフェクトの画像分割数
 	const int EFFECT_TEXTURE_PARTITION_NUM = 4;		
 	// エフェクトの登録
-	const std::string m_clear_effect = "Resource/Texture/Effect/crear_eff.png";
+	const std::string m_clear_effect = "Resource/Texture/Effect/clear_eff.png";
 
 
 	//　成功UI　//

@@ -104,8 +104,8 @@ void EnemyBase::Chase() {
 
 	// 索敵範囲に入ったプレイヤーの角度を計算
 	float radian = atan2((m_target_pos.y - m_pos.y), (m_target_pos.x - m_pos.x));
-	m_pos.x += cosf(radian)*m_speed;
-	m_pos.y += sinf(radian)*m_speed;
+	m_pos.x += cosf(radian) * m_speed;
+	m_pos.y += sinf(radian) * m_speed;
 }
 //―――――――――――――――――――――
 
