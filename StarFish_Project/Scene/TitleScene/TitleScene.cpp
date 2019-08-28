@@ -37,24 +37,35 @@ void Title::Init() {
 
 void Title::Update() {
 	
-	//m_p_game_input->Update();
+	// ボタン選択のチェック
 	CheckChangeButton();
 
 	if (m_p_game_input->InputCommand(m_p_game_input->P1_DECIDE_BUTTON) ||
 		m_p_game_input->InputCommand(m_p_game_input->P2_DECIDE_BUTTON) || m_p_game_input->InputCommand(m_p_game_input->START_BUTTON)){
 
-		if (m_button_check_num == START_BUTTON) {
+		// 選択しているボタンに合わせて遷移
+		// ゲーム開始
+		if (m_button_check_num == ButtonType::START_BUTTON) {
 			
 			m_p_title_bgm->Stop();
 			m_scene_step = SceneStep::END;
 			m_new_scene_id = SceneId::GAME_MAIN;
 		}
-		else if (m_button_check_num == RETURN_BUTTON) {
+		// 説明画面
+		else if (m_button_check_num == ButtonType::DESCRIPTION_BUTTON) {
+
+			m_p_title_bgm->Stop();
+			m_scene_step = SceneStep::END;
+			m_new_scene_id = SceneId::DESCRIPTION;
+		}
+		// ゲーム終了
+		else if (m_button_check_num == ButtonType::RETURN_BUTTON) {
 
 			m_p_title_bgm->Stop();
 			m_scene_step = SceneStep::END;
 			m_new_scene_id = SceneId::SCENE_QUIT;
 		}
+		
 	}
 }
 //―――――――――――――――――――

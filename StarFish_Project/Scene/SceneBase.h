@@ -8,6 +8,7 @@
 // シーンID
 enum SceneId {
 	TITLE,
+	DESCRIPTION,
 	GAME_MAIN,
 	CLEAR,
 	SCENE_QUIT
