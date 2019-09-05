@@ -13,9 +13,11 @@ public:
 
 private:
 	enum ButtonType {
+		BACK_BUTTON,
 		DESCRIPTION_BUTTON,
 		START_BUTTON,
 		RETURN_BUTTON,
+		
 		TITLE_BUTTON_MAX
 	};
 
@@ -28,6 +30,7 @@ private:
 	void CheckChangeButton();
 
 private:
+	bool m_is_description;			// 説明画面表示フラグ
 	int m_button_check_num;			// 選択ボタンの判定数値
 
 	std::string m_button_texture;	// 選択ボタン画像
@@ -38,9 +41,10 @@ private:
 	// 選択ボタンの位置
 	const D3DXVECTOR2 TITLE_BUTTON_POS = { (Window::WIDTH / 2),(Window::HEIGHT - 100) };	
 
-	// ロゴと背景の画像を登録
+	// 画像を登録
 	const std::string TITLE_TEXTURE = "Resource/Texture/Title/title_bg.png";
 	const std::string TITLE_LOGO = "Resource/Texture/Title/title_logo.png";
+	const std::string DESCRIPTION_TEXTURE = "Resource/Texture/Title/description.png";
 
 	IDirectSoundBuffer8* m_p_title_bgm;	// タイトルBGM
 };

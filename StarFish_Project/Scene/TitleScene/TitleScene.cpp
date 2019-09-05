@@ -22,8 +22,10 @@ void Title::Init() {
 	m_scene_step = SceneStep::UPDATE;
 
 	// ボタンの設定の初期化
-	m_button_texture = m_button_texture_list[START_BUTTON];
-	m_button_check_num = 1;
+	m_button_texture = m_button_texture_list[ButtonType::START_BUTTON];
+	m_button_check_num = ButtonType::START_BUTTON;
+
+	m_is_description = false;
 
 	// サウンドの初期化
 	m_p_title_bgm->SetCurrentPosition(0);
@@ -36,93 +38,121 @@ void Title::Init() {
 //―――――――――――――――――――
 
 void Title::Update() {
-	
+
+	//if (m_is_description == true && m_button_check_num != ButtonType::BACK_BUTTON) {
+		//m_is_description = false;
+	//}
 	// ボタン選択のチェック
 	CheckChangeButton();
 
 	if (m_p_game_input->InputCommand(m_p_game_input->P1_DECIDE_BUTTON) ||
-		m_p_game_input->InputCommand(m_p_game_input->P2_DECIDE_BUTTON) || m_p_game_input->InputCommand(m_p_game_input->START_BUTTON)){
+		m_p_game_input->InputCommand(m_p_game_input->P2_DECIDE_BUTTON) || m_p_game_input->InputCommand(m_p_game_input->START_BUTTON)) {
 
 		// 選択しているボタンに合わせて遷移
 		// ゲーム開始
-		if (m_button_check_num == ButtonType::START_BUTTON) {
-			
+		if (m_button_check_num == ButtonType::START_BUTTON && m_is_description == false) {
+
 			m_p_title_bgm->Stop();
 			m_scene_step = SceneStep::END;
 			m_new_scene_id = SceneId::GAME_MAIN;
 		}
 		// 説明画面
-		else if (m_button_check_num == ButtonType::DESCRIPTION_BUTTON) {
+		else if (m_button_check_num == ButtonType::DESCRIPTION_BUTTON && m_is_description == false) {
 
-			m_p_title_bgm->Stop();
-			m_scene_step = SceneStep::END;
-			m_new_scene_id = SceneId::DESCRIPTION;
+			m_is_description = true;
+			//m_button_check_num = ButtonType::BACK_BUTTON;
+			//m_p_title_bgm->Stop();
+			//m_scene_step = SceneStep::END;
+			//m_new_scene_id = SceneId::DESCRIPTION;
 		}
 		// ゲーム終了
-		else if (m_button_check_num == ButtonType::RETURN_BUTTON) {
+		else if (m_button_check_num == ButtonType::RETURN_BUTTON && m_is_description == false) {
 
 			m_p_title_bgm->Stop();
 			m_scene_step = SceneStep::END;
 			m_new_scene_id = SceneId::SCENE_QUIT;
 		}
-		
+		else if (m_button_check_num == ButtonType::BACK_BUTTON && m_is_description == true) {
+
+			m_button_check_num = ButtonType::DESCRIPTION_BUTTON;
+			m_is_description = false;
+		}
 	}
 }
 //―――――――――――――――――――
 
 void Title::Draw() {
 
-	// 背景の描画
-	Texture::Draw2D(
-		TITLE_TEXTURE.c_str(),0,0
-	);
+	
+		// 背景の描画
+		Texture::Draw2D(
+			TITLE_TEXTURE.c_str(), 0, 0
+		);
+		
+		if (m_is_description == false) {
+			// タイトルロゴの描画
+			Texture::Draw2D(
+				TITLE_LOGO.c_str(),
+				TITLE_LOGO_POS.x, TITLE_LOGO_POS.y,
+				1, 1, 0, 0.5, 0.5
+			);
 
-	// タイトルロゴの描画
-	Texture::Draw2D(
-		TITLE_LOGO.c_str(),
-		TITLE_LOGO_POS.x, TITLE_LOGO_POS.y,
-		1, 1, 0, 0.5, 0.5
-	);
+			// UIのボタン描画
+			Texture::Draw2D(
+				m_button_texture.c_str(),
+				TITLE_BUTTON_POS.x, TITLE_BUTTON_POS.y,
+				1, 1, 0, 0.5, 0.5
+			);
+		}
+	
 
-	// UIのボタン描画
-	Texture::Draw2D(
-		m_button_texture.c_str(),
-		TITLE_BUTTON_POS.x, TITLE_BUTTON_POS.y,
-		1, 1, 0, 0.5, 0.5
-	);
+	else if (m_is_description == true) {
+		Texture::Draw2D(DESCRIPTION_TEXTURE.c_str(), Window::WIDTH/2,Window::HEIGHT/2,0.45,0.45,0,0.5,0.5);
+	}
 }
 //―――――――――――――――――――
 
 // 説明、スタート、終わるのボタン選択処理
 void Title::CheckChangeButton() {
+
 	static int count = 10;
 	++count;
-	if (count >= 10) {
+
+	if (count >= 10 && m_is_description==false) {
+
 		if (m_p_game_input->InputCommand(m_p_game_input->TITLE_LEFT_BUTTON) == true &&
-			m_button_check_num > DESCRIPTION_BUTTON) {
+			m_button_check_num > ButtonType::DESCRIPTION_BUTTON) {
 
 			m_button_check_num--;
-			if (m_button_check_num == DESCRIPTION_BUTTON) {
-				m_button_texture = m_button_texture_list[DESCRIPTION_BUTTON];
+
+			if (m_button_check_num == ButtonType::DESCRIPTION_BUTTON) {
+				m_button_texture = m_button_texture_list[ButtonType::DESCRIPTION_BUTTON];
 			}
 			else if (m_button_check_num == START_BUTTON) {
-				m_button_texture = m_button_texture_list[START_BUTTON];
+				m_button_texture = m_button_texture_list[ButtonType::START_BUTTON];
 			}
+
 			count = 0;
 		}
-
 		else if (m_p_game_input->InputCommand(m_p_game_input->TITLE_RIGHT_BUTTON) == true &&
-			m_button_check_num < RETURN_BUTTON) {
+			m_button_check_num < ButtonType::RETURN_BUTTON) {
 
 			m_button_check_num++;
-			if (m_button_check_num == START_BUTTON) {
-				m_button_texture = m_button_texture_list[START_BUTTON];
+
+			if (m_button_check_num == ButtonType::START_BUTTON) {
+				m_button_texture = m_button_texture_list[ButtonType::START_BUTTON];
 			}
-			else if (m_button_check_num == RETURN_BUTTON) {
-				m_button_texture = m_button_texture_list[RETURN_BUTTON];
+			else if (m_button_check_num == ButtonType::RETURN_BUTTON) {
+				m_button_texture = m_button_texture_list[ButtonType::RETURN_BUTTON];
 			}
+
 			count = 0;
 		}
+	}
+	else if (count >= 10 && m_is_description == true) {
+
+		m_button_check_num = ButtonType::BACK_BUTTON;
+		count = 0;
 	}
 }
 //―――――――――――――――――――

@@ -20,6 +20,7 @@ void Resource::LoadResource() {
 	Texture::Load("Resource/Texture/UI/title_button01.png");
 	Texture::Load("Resource/Texture/UI/title_button02.png");
 	Texture::Load("Resource/Texture/UI/title_button03.png");
+	Texture::Load("Resource/Texture/Title/description.png");
 	//-----------------------------------------------------
 
 
