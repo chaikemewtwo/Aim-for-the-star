@@ -155,15 +155,6 @@ private:
 	// この値を1fごとに移動量に加算します
 	static const float PLAYER_SPEED;
 
-
-	// テクスチャサイズ調整
-	// 4*4サイズの統合画像で1枚を0.25倍ずつしたい時この値は{0.25f,0.25f}
-	static const D3DXVECTOR2 TEXTURE_SIZE_OFFSET;
-
-	// 画像分割
-	// 4*4サイズの統合画像ならこの値は{4.f,4.f}
-	static const D3DXVECTOR2 TEXTURE_PARTITION;
-
 	// スタミナ最大値
 	static const float MAX_STAMINA;
 
@@ -183,7 +174,7 @@ private:
 	// この関数の内部で下記のInvisibleDrawSwitchが回っています
 	void InvisibleCount();
 
-	// 無敵時間と死亡による描画のONOFF
+	// 被弾時の無敵時間と死亡による描画のONOFF
 	// 無敵時間に入ると描画が一定の速度で点滅しますが死亡すると永続的に描画します
 	void InvisibleDrawSwitch();
 

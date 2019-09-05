@@ -5,9 +5,9 @@
 void SetRenderStateConfig() {
 	
 	// シェードモード:グラデーション
-	//Graphics::GetLpDirect3DDevice9()->SetRenderState(D3DRS_SHADEMODE,D3DSHADE_GOURAUD);
+	//D3D9::GetLpDirect3DDevice9()->SetRenderState(D3DRS_SHADEMODE,D3DSHADE_GOURAUD);
 	// カリングモード無し
-	//Graphics::GetLpDirect3DDevice9()->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE);
+	//D3D9::GetLpDirect3DDevice9()->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE);
 	// Zバッファオフ
 	D3D9::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ZENABLE, FALSE);
 	D3D9::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ZWRITEENABLE,TRUE);
@@ -27,12 +27,12 @@ void SetRenderStateConfig() {
 	D3D9::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ALPHAREF, 0x0000000);
 	D3D9::GetLpDirect3DDevice9()->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	//// テクスチャαブレンド
-	//Graphics::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-	//Graphics::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-	//Graphics::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-	//Graphics::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-	//Graphics::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-	//Graphics::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+	D3D9::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+	D3D9::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	D3D9::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	D3D9::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	D3D9::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	D3D9::GetLpDirect3DDevice9()->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
 	
 	// tu tvが超えているかもしれない
 	// ワープをクランプに変える

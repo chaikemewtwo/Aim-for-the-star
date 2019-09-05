@@ -3,18 +3,17 @@
 #include "../Map/Map/Map.h"
 #include <cmath>
 
-
-const float Player::PLAYER_COLLSION_RADIUS = 50.f;
+// 値を変えてもよいパラメータ
+// HACK:csvを使用し外部で指定できるようにする
+const float Player::PLAYER_COLLSION_RADIUS = 25.f;
 const float Player::PLAYER_SPEED = 3.f;
-const D3DXVECTOR2 Player::TEXTURE_SIZE_OFFSET = { 0.25f, 0.25f };
-const D3DXVECTOR2 Player::TEXTURE_PARTITION = { 4.f,4.f };
 const float Player::GRAVITY = 1.f;
 const float Player::ANGLE_ADD = 0.5f;
 const float Player::MAX_ANGLE = 45.f;
 const float Player::MAX_STAMINA = 750.f;
 const float Player::DECREASE_STAMINA = 300.f;
 const int Player::MAX_INVISIBLE_COUNT = 180;
-const int Player::INVISIBLE_DRAW_SWITCH_TIME = 20;
+const int Player::INVISIBLE_DRAW_SWITCH_TIME = 15;
 
 
 Player::Player(ID_TYPE id, D3DXVECTOR2 first_pos) :
@@ -22,7 +21,7 @@ Player::Player(ID_TYPE id, D3DXVECTOR2 first_pos) :
 	m_move(0.f, 0.f),
 	m_angle(0.f),
 	m_draw_enable(true),
-	/*m_swim_enable(false),*/
+	m_swim_enable(false),
 	m_invisible_count(0),
 	m_stamina(MAX_STAMINA)
 {
@@ -32,7 +31,7 @@ Player::Player(ID_TYPE id, D3DXVECTOR2 first_pos) :
 	m_radius = PLAYER_COLLSION_RADIUS;
 
 	// 当たり判定位置調整（左上から中央に）
-	m_hit_vertex_offset = { PLAYER_COLLSION_RADIUS, PLAYER_COLLSION_RADIUS };
+	m_hit_vertex_offset = { 64.f, 64.f };
 
 	m_speed = PLAYER_SPEED;
 
@@ -109,6 +108,11 @@ void Player::Update() {
 
 
 void Player::Draw() {
+	// 統合画像を切り取る枚数
+	static const D3DXVECTOR2 TEXTURE_PARTITION = { 4.f,4.f };
+	// 統合画像ピクセル数
+	static const D3DXVECTOR2 TEXTURE_SIZE_OFFSET = { 1.f/ TEXTURE_PARTITION.x, 1.f / TEXTURE_PARTITION.y };
+	
 	// 第7、8引数が0.5fずつで中心座標から描画	
 	// 被弾状態は描画する、しないを切り替えて表現します
 	if (m_draw_enable == true) {
@@ -184,17 +188,13 @@ void Player::InvisibleCount() {
 
 
 void Player::InvisibleDrawSwitch() {
-	// 描画する
-	if ((m_invisible_count / INVISIBLE_DRAW_SWITCH_TIME) % 2 == 0) {
+	// 描画ON
+	if (m_is_active == false ||(m_invisible_count / INVISIBLE_DRAW_SWITCH_TIME) % 2 == 0) {
 		m_draw_enable = true;
 	}
-	// 描画しない
+	// 描画OFF
 	else if ((m_invisible_count / INVISIBLE_DRAW_SWITCH_TIME) % 2 == 1) {
 		m_draw_enable = false;
-	}
-	// 死んだらずっと描画
-	if (m_is_active == false) {
-		m_draw_enable = true;
 	}
 }
 

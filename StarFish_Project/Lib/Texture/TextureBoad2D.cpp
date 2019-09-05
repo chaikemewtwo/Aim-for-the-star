@@ -248,7 +248,8 @@ namespace Texture {
 		int graph_num,				  // カットした画像のどこを使うか
 		float u,					  // テクスチャ座標のu軸をずらす
 		float v,					  // テクスチャ座標のv軸をずらす
-		SamplerStateType type         // サンプラーステートの状態
+		SamplerStateType type,        // サンプラーステートの状態
+		DWORD alpha_color			  // アルファ値（画像透過に使用）
 	)
 	{
 
@@ -295,16 +296,16 @@ namespace Texture {
 		CustomVertex cv[] =
 		{
 		// 左上
-		{ { x1,y1,0.0f },1.0f,D3DCOLOR(0xfffffff),
+		{ { x1,y1,0.0f },1.0f,D3DCOLOR_ARGB(alpha_color,255,255,255),
 		{ uv.GetUvUpLeftPos().x + u_range_num,uv.GetUvUpLeftPos().y } },
 		// 右上
-		{ { x2,y1,0.0f },1.0f,D3DCOLOR(0xfffffff),
+		{ { x2,y1,0.0f },1.0f,D3DCOLOR_ARGB(alpha_color,255,255,255),
 		{ uv.GetUvUpRightPos().x + u + u_range_num,uv.GetUvUpRightPos().y } },
 		// 右下
-		{ { x2,y2,0.0f },1.0f,D3DCOLOR(0xfffffff),
+		{ { x2,y2,0.0f },1.0f,D3DCOLOR_ARGB(alpha_color,255,255,255),
 		{ uv.GetUvDownRightPos().x + u + u_range_num,uv.GetUvDownRightPos().y + v } },
 		// 左下
-		{ { x1,y2,0.0f },1.0f,D3DCOLOR(0xfffffff),
+		{ { x1,y2,0.0f },1.0f,D3DCOLOR_ARGB(alpha_color,255,255,255),
 		{ uv.GetUvDownLeftPos().x + u_range_num,uv.GetUvDownLeftPos().y + v } },
 		};
 

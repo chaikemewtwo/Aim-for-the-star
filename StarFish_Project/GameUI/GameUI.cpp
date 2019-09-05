@@ -41,7 +41,7 @@ void GameUI::Draw() {
 	}
 
 	// 左右ゲージ枠の岩
-	Texture::Draw2DUVShift("Resource/Texture/UI/ui_left.png", 0.f, 0.f,0.f,0.f);
+	Texture::Draw2D("Resource/Texture/UI/ui_left.png", 0.f, 0.f);
 	Texture::Draw2D("Resource/Texture/UI/ui_right.png", RIGHT_ROCK_POS_X, 0.f);
 }
 

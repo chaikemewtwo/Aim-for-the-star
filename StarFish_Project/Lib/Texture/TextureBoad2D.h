@@ -130,7 +130,8 @@ namespace Texture {
 		int graph_num = 0,
 		float u = 0.f,
 		float v = 0.f,
-		SamplerStateType type = CLAMP
+		SamplerStateType type = CLAMP,
+		DWORD alpha_color = 255
 	);
 
 }
