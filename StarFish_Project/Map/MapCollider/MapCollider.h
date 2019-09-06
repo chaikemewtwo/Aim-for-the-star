@@ -37,6 +37,7 @@ enum CollisionDirectionType {
 	DOWN,
 	RIGHT,
 	LEFT,
+	WIDTH_COLLISION,
 	TOTAL_DIR_COLLISION,
 };
 
@@ -49,10 +50,10 @@ class MapCollider {
 public:
 
 	//! オブジェクトとマップ当たり判定の頂点位置X
-	static constexpr float VERTEX_OFFSET_X = -32.f;
+	static constexpr float VERTEX_OFFSET_X = -32.f;// -32.f
 
 	//! オブジェクトとマップ当たり判定の頂点位置Y
-	static constexpr float VERTEX_OFFSET_Y = -56.f;
+	static constexpr float VERTEX_OFFSET_Y = -56.f;// -56.f
 
 public:
 
@@ -184,6 +185,21 @@ private:
 	bool IsWallCollision(float pos_x, float pos_y, float move_x, float move_y);
 
 
+	/**
+	* @brief 指定のセルが壁かどうか
+	* @param[in] チップ位置X
+	* @param[in] チップ位置Y
+	* @return bool 壁ならtrueでないならfalse
+	*/
+	bool IsWallChip(float pos_x, float pos_y);
+
+
+	/**
+	* @brief チップ位置まで戻す(移動値がない場合に使う)
+	*/
+	void ReturnToChipPos(float&pos);
+
+
 private:
 
 	//! マップインスタンス
@@ -191,4 +207,7 @@ private:
 
 	//! スクロールの状態
 	CollisionDirectionType m_scroll_dir_y_type;
+
+	//! 着地しているかどうか
+	bool is_landing;
 };

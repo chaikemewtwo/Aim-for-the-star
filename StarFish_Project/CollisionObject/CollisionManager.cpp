@@ -90,7 +90,8 @@ void CollisionManager::MapCollision(){
 	const int ONE_MORE = 1;
 	
 	// 自機とマップの当たり判定
-	for (int i = 0; i < Player::COLLISION_OBJECT_TOTAL; i++){
+	for (int i = 0; i < Player::MAX_TYPE; i++){
+
 
 		// 衝突移動値受け取り
 		D3DXVECTOR2 collision_move = m_p_player_manager->GetPlayerInstance(i)->GetMove();
@@ -109,13 +110,35 @@ void CollisionManager::MapCollision(){
 			MoveDirectionType::HEIGHT
 			);
 
-		// マップとの当たり判定
+		// マップとの当たり判定(通常)
 		m_p_map_manager->MapCollision(
 			m_p_player_manager->GetPlayerInstance(i),
 			collision_move,
 			collision_dir_type_width,
 			collision_dir_type_height
 		);
+
+
+		// もう一方の移動値受け取り
+		//collision_move = m_p_player_manager->GetPlayerInstance((i + 1) % 2)->GetMove();
+		//
+		//// 引っ張られている場合相手の移動値で当たり判定
+		//if (m_p_player_manager->GetPlayerInstance(i)->RopePullEnable() == true) {
+		//
+		//	collision_move.y = 0.f;
+		//
+		//	// マップ衝突
+		//	m_p_map_manager->MapCollision(
+		//		m_p_player_manager->GetPlayerInstance(i),
+		//		collision_move,
+		//		collision_dir_type_width,
+		//		collision_dir_type_height
+		//	);
+		//
+		//	// 引っ張られていないに変更
+		//	m_p_player_manager->GetPlayerInstance(i)->SetRopePullEnable(false);
+		//}
+
 
 		// X移動方向を渡す
 		m_p_player_manager->SetPlayerCollisionDirectionType(

@@ -25,19 +25,7 @@ ObjectManager::ObjectManager() :
 	// 各コンストラクタに渡す為、一時的な参照に入れる
 	m_p_player_manager = new PlayerManager(this);
 
-	// オブジェクト生成
-	{
-		// ロープ生成
-		m_p_rope = new Rope(m_p_player_manager);
-
-		// スタミナGameUI生成
-		m_p_ui = new GameUI(m_p_player_manager);
-
-		// オブジェクト登録
-		Entry(m_p_rope);
-		Entry(m_p_ui);
-	}
-
+	
 	// 管理者生成
 	EnemyManager*p_enemy_manager = new EnemyManager(this,m_p_player_manager);
 	MapManager * p_map_manager = new MapManager(p_enemy_manager, this);
@@ -63,6 +51,20 @@ ObjectManager::ObjectManager() :
 		m_p_manager_list.emplace_back(new CollisionManager(m_p_player_manager, p_enemy_manager, p_map_manager));
 
 	}	
+
+	// オブジェクト生成
+	{
+		// ロープ生成
+		m_p_rope = new Rope(m_p_player_manager);
+
+		// スタミナGameUI生成
+		m_p_ui = new GameUI(m_p_player_manager);
+
+		// オブジェクト登録
+		Entry(m_p_rope);
+		Entry(m_p_ui);
+	}
+
 }
 
 
