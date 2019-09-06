@@ -15,13 +15,16 @@ MapCollider::MapCollider(Map*map) {
 
 	// スクロール方向初期化
 	m_scroll_dir_y_type = NONE;
+
+	// 着地しているかどうか
+	is_landing = false;
 }
 
 
 void MapCollider::Collision(
-	D3DXVECTOR2&pos, 
-	D3DXVECTOR2&move, 
-	CollisionDirectionType &collision_dir_type_x, 
+	D3DXVECTOR2&pos,
+	D3DXVECTOR2&move,
+	CollisionDirectionType &collision_dir_type_x,
 	CollisionDirectionType &collision_dir_type_y) 
 {
 	// サイズを修正
@@ -96,7 +99,7 @@ bool MapCollider::YVertexHitCheck(
 
 	/* ---Y座標当たり判定--- */
 	{
-
+		
 		// 衝突しているかどうかを調べるbool型
 		bool is_collision = false;
 
@@ -110,18 +113,19 @@ bool MapCollider::YVertexHitCheck(
 
 		// 過去の衝突情報取得
 		CollisionDirectionType prev_dir_type_y = collision_dir_type_y;
+		
 
+		// 衝突方向受け取り
+		if (move_y != 0.f) {
+			collision_dir_type_y = GetCollisionDirectionSerchY(move_y);
+		}
 
 		// y軸の衝突判定(四隅)
 		for (int i = 0; i < 4; i++) {
-			if (IsWallCollision(
-				collision_info_y[i][0], collision_info_y[i][1],
-				collision_info_y[i][2], collision_info_y[i][3]) == true) {
 
-				// 衝突方向受け取り
-				if (move_y != 0.f){
-					collision_dir_type_y = GetCollisionDirectionSerchY(move_y);
-				}
+			if (IsWallCollision(
+				collision_info_y[i][0],collision_info_y[i][1],
+				collision_info_y[i][2],collision_info_y[i][3]) == true) {
 
 				// スクロール方向衝突方向受け取り
 				m_scroll_dir_y_type = GetCollisionDirectionSerchY(-m_p_map->GetMove());
@@ -133,6 +137,13 @@ bool MapCollider::YVertexHitCheck(
 				is_collision = true;
 			}
 		}
+
+		// 地面に着地していないなら
+		if (collision_dir_type_y != DOWN) {
+			// 着地していない
+			is_landing = false;
+		}
+
 
 		// 衝突していないなら
 		if(is_collision != true){
@@ -147,13 +158,14 @@ bool MapCollider::YVertexHitCheck(
 	return false;
 }
 
+// MEMO 相手の移動値を入れる
 
 bool MapCollider::XVertexHitCheck(
 	D3DXVECTOR2 up_left,
 	D3DXVECTOR2 up_right,
 	D3DXVECTOR2 down_left,
 	D3DXVECTOR2 down_right,
-	D3DXVECTOR2&pos,
+	D3DXVECTOR2 & pos,
 	float&move_x,
 	CollisionDirectionType &collision_dir_type_x
 ){
@@ -174,24 +186,32 @@ bool MapCollider::XVertexHitCheck(
 		};
 
 
-		for (int i = 0; i < 6; i++) {
+		// 衝突方向受け取り
+		if (move_x != 0.f){
+			collision_dir_type_x = GetCollisionDirectionSerchX(move_x);
+		}
+
+		for (int i = 0; i < 6; i++){
 			if (IsWallCollision(
 				collision_info_x[i][0], collision_info_x[i][1],
 				collision_info_x[i][2], collision_info_x[i][3]) == true) {
 
-				// 衝突方向受け取り
-				if (move_x != 0.f) {
-					collision_dir_type_x = GetCollisionDirectionSerchX(move_x);
-				}
-
-
 				// 横方向の位置を受け取り、その分引き戻す
 				WidthPosPullBackToPrevPos(pos.x, move_x, collision_dir_type_x);
+
+				// 移動値が無い場合どちらに衝突しているか調べる
+				if (collision_dir_type_x != NONE) {
+					// チップ位置まで戻す
+					ReturnToChipPos(pos.x);
+					// 横に衝突を返す
+					collision_dir_type_x = WIDTH_COLLISION;
+				}
 
 				// 衝突した
 				is_collision = true;
 			}
 		}
+
 
 		// 衝突していないなら衝突方向をNONEにする
 		if (is_collision != true) {
@@ -217,7 +237,7 @@ bool MapCollider::IsWallCollision(float pos_x, float pos_y, float move_x, float 
 
 			hit_pos_y = pos_y + (m_p_map->GetPos()) + -m_p_map->GetMove();
 		}
-		// スクロールしていないなら、スクリーン移動値加算
+		// スクロールしていないなら、プレイヤー移動値加算
 		else{
 			hit_pos_y = pos_y + (m_p_map->GetPos()) + move_y;
 		}
@@ -237,8 +257,11 @@ bool MapCollider::IsWallCollision(float pos_x, float pos_y, float move_x, float 
 }
 
 
-void MapCollider::HeightPosPullBackPrevPos(float &pos_y, float &move_y, CollisionDirectionType &collision_dir_type_y) {
-
+void MapCollider::HeightPosPullBackPrevPos(
+	float &pos_y,
+	float &move_y,
+	CollisionDirectionType &collision_dir_type_y)
+{
 
 	// 入ったマップチップの座標を割り出す
 	float chip_pos_y = 0.f;
@@ -254,7 +277,8 @@ void MapCollider::HeightPosPullBackPrevPos(float &pos_y, float &move_y, Collisio
 	}
 
 	// 上の衝突、スクリーン内の移動値とスクロール移動値による
-	if (collision_dir_type_y == UP || m_scroll_dir_y_type == UP) {
+	if (collision_dir_type_y == UP && is_landing == false || 
+		m_scroll_dir_y_type == UP) {
 
 		// チップサイズ割り出し
 		chip_pos_y = (float)m_p_map->GetChipCastByPos((pos_y + (m_p_map->GetPos())) + 1);
@@ -291,9 +315,10 @@ void MapCollider::HeightPosPullBackPrevPos(float &pos_y, float &move_y, Collisio
 			pos_y += CHIP_SCALE_Y;
 		}
 
-
 		// 移動ベクトルなし
 		move_y = 0.f;
+
+		is_landing = true;
 	}
 }
 
@@ -376,4 +401,27 @@ CollisionDirectionType MapCollider::GetCollisionDirectionSerchY(const float&move
 
 CollisionDirectionType MapCollider::GetScrollCollisionDirType() {
 	return m_scroll_dir_y_type;
+}
+
+
+bool MapCollider::IsWallChip(float pos_x, float pos_y) {
+
+	// 床と衝突しているか(障害物は50番号まで),0番号は何もなし
+	if (m_p_map->GetChipParam(pos_x,pos_y) <= 50 && m_p_map->GetChipParam(pos_x,pos_y) >= 1) {
+
+		// 衝突している
+		return true;
+	}
+	// 衝突していない
+	return false;
+}
+
+
+void MapCollider::ReturnToChipPos(float&pos) {
+
+	// チップサイズ分割る
+	float chip_pos = pos / Map::CHIP_SIZE;
+
+	// チップ位置まで戻す
+	pos = chip_pos * Map::CHIP_SIZE;
 }

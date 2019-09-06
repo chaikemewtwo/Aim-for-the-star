@@ -44,7 +44,7 @@ public:
 	static const int CHIP_SIZE = 64;
 
 	//! 画面マップチップの大きさ
-	static const int MAX_IN_WINDOW_CHIP_NUM_W = ((int)(Window::WIDTH) / CHIP_SIZE);   
+	static const int MAX_IN_WINDOW_CHIP_NUM_W = ((int)(Window::WIDTH) / CHIP_SIZE); 
 
 	//! 画面マップチップの大きさ
 	static const int MAX_IN_WINDOW_CHIP_NUM_H = ((int)(Window::HEIGHT) / CHIP_SIZE);  

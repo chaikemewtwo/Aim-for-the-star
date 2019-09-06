@@ -135,6 +135,15 @@ public:
 		return COLLISION_OBJECT_PLAYER;
 	}
 
+	// By maekawa
+	void SetRopePullEnable(bool enable) {
+		m_rope_pull_enable = enable;
+	}
+
+	bool RopePullEnable() {
+		return m_rope_pull_enable;
+	}
+
 private:
 	// 重力
 	// 1フレームごとの画面下への移動量
@@ -195,6 +204,7 @@ private:
 	int m_invisible_count;			// 敵と被弾後の無敵時間カウント（最大値はMAX_INVISIBLE_COUNT）				
 	bool m_draw_enable;				// 被弾時点滅用描画切り替え			
 	bool m_swim_enable;				// 泳いでるフラグ(泳ぎ状態のときtrue)
+	bool m_rope_pull_enable;        // ロープに引っ張られているかどうかのフラグ(By maekawa)
 	
 	PlayerStateBase* m_p_state;					// ステート基底クラス			
 	GameInput* m_p_game_input;					// 操作入力クラス

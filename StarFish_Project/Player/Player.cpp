@@ -23,7 +23,8 @@ Player::Player(ID_TYPE id, D3DXVECTOR2 first_pos) :
 	m_draw_enable(true),
 	m_swim_enable(false),
 	m_invisible_count(0),
-	m_stamina(MAX_STAMINA)
+	m_stamina(MAX_STAMINA),
+	m_rope_pull_enable(false)
 {
 	// 自機2種類の共通部分の初期化
 

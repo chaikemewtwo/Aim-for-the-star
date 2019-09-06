@@ -77,20 +77,36 @@ void Rope::PlayersDistanceAdjust() {
 
 
 void Rope::ToPlayersPull() {
+
+
+	// 壁に衝突していたら
+	for (int i = 0; i < Player::MAX_TYPE; i++) {
+		if (m_p_player_manager->GetPlayerCollisionDirectionType((Player::ID_TYPE)i, WIDTH) == WIDTH_COLLISION) {
+			return;
+		}
+	}
+
 	// 自機1のみ泳ぐとき
 	if (m_p_player_manager->SwimEnableRelay(Player::STAR_1) == true || m_p_player_manager->SwimEnableRelay(Player::STAR_2) == false) {
 		// 1の進みたい方向に自機2がいるとき、2に1の移動量を加算
 		if (m_p_player_manager->PartnerIsThereDirection(Player::STAR_1, Player::STAR_2) == true) {
 			m_p_player_manager->SetMoveRelay(Player::STAR_2, m_p_player_manager->GetMoveRelay(Player::STAR_1)+ m_p_player_manager->GetMoveRelay(Player::STAR_2));
 		}
+		// 追加 引っ張られているに変更
+		m_p_player_manager->GetPlayerInstance(Player::STAR_2)->SetRopePullEnable(true);
 	}
+
 	// 自機2のみ泳ぐとき
 	if (m_p_player_manager->SwimEnableRelay(Player::STAR_1) == false || m_p_player_manager->SwimEnableRelay(Player::STAR_2) == true) {
 		// 2の進みたい方向に自機1がいるとき、1に2の移動量を加算
 		if (m_p_player_manager->PartnerIsThereDirection(Player::STAR_2, Player::STAR_1) == true) {
 			m_p_player_manager->SetMoveRelay(Player::STAR_1, m_p_player_manager->GetMoveRelay(Player::STAR_1)+ m_p_player_manager->GetMoveRelay(Player::STAR_2));
 		}
+		// 追加 引っ張られているに変更
+		m_p_player_manager->GetPlayerInstance(Player::STAR_1)->SetRopePullEnable(true);
 	}
+
+
 	// 両方の自機が泳ぐとき
 	if (m_p_player_manager->SwimEnableRelay(Player::STAR_1) == true && m_p_player_manager->SwimEnableRelay(Player::STAR_2) == true) {
 		// X方向の移動量を0にすることでロープの最大距離で2体の距離を維持する

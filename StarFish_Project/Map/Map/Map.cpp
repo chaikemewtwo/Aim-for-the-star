@@ -410,8 +410,8 @@ int Map::GetChipParam(const float  pos_x, const float pos_y) {
 	int py = GetChipCastByPos(pos_y);
 
 	// マップチップ範囲外なら戻す
-	if (px < 0 || px >= MAX_IN_WINDOW_CHIP_NUM_W ||
-		(m_max_map_chip_height_size)+(py - MAX_IN_WINDOW_CHIP_NUM_H) < 0 || py > MAX_IN_WINDOW_CHIP_NUM_H) {
+	if (px < 0 || px >= MAX_IN_WINDOW_CHIP_NUM_W || 
+		(m_max_map_chip_height_size) + (py - MAX_IN_WINDOW_CHIP_NUM_H) < 0 || py > MAX_IN_WINDOW_CHIP_NUM_H) {
 		return 0;
 	}
 
