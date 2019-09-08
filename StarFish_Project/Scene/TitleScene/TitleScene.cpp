@@ -39,14 +39,12 @@ void Title::Init() {
 
 void Title::Update() {
 
-	//if (m_is_description == true && m_button_check_num != ButtonType::BACK_BUTTON) {
-		//m_is_description = false;
-	//}
 	// ボタン選択のチェック
 	CheckChangeButton();
 
 	if (m_p_game_input->InputCommand(m_p_game_input->P1_DECIDE_BUTTON) ||
-		m_p_game_input->InputCommand(m_p_game_input->P2_DECIDE_BUTTON) || m_p_game_input->InputCommand(m_p_game_input->START_BUTTON)) {
+		m_p_game_input->InputCommand(m_p_game_input->P2_DECIDE_BUTTON) || 
+		m_p_game_input->InputCommand(m_p_game_input->START_BUTTON)) {
 
 		// 選択しているボタンに合わせて遷移
 		// ゲーム開始
@@ -60,10 +58,6 @@ void Title::Update() {
 		else if (m_button_check_num == ButtonType::DESCRIPTION_BUTTON && m_is_description == false) {
 
 			m_is_description = true;
-			//m_button_check_num = ButtonType::BACK_BUTTON;
-			//m_p_title_bgm->Stop();
-			//m_scene_step = SceneStep::END;
-			//m_new_scene_id = SceneId::DESCRIPTION;
 		}
 		// ゲーム終了
 		else if (m_button_check_num == ButtonType::RETURN_BUTTON && m_is_description == false) {
@@ -104,11 +98,13 @@ void Title::Draw() {
 				1, 1, 0, 0.5, 0.5
 			);
 		}
-	
+		else if (m_is_description == true) {
 
-	else if (m_is_description == true) {
-		Texture::Draw2D(DESCRIPTION_TEXTURE.c_str(), Window::WIDTH/2,Window::HEIGHT/2,0.45,0.45,0,0.5,0.5);
-	}
+			Texture::Draw2D(
+				MANUAL_TEXTURE.c_str(), 
+				Window::WIDTH/2,Window::HEIGHT/2, 
+				0.45, 0.45, 0, 0.5, 0.5);
+		}
 }
 //―――――――――――――――――――
 
@@ -118,7 +114,7 @@ void Title::CheckChangeButton() {
 	static int count = 10;
 	++count;
 
-	if (count >= 10 && m_is_description==false) {
+	if (count >= 10 && m_is_description == false) {
 
 		if (m_p_game_input->InputCommand(m_p_game_input->TITLE_LEFT_BUTTON) == true &&
 			m_button_check_num > ButtonType::DESCRIPTION_BUTTON) {
@@ -148,11 +144,6 @@ void Title::CheckChangeButton() {
 
 			count = 0;
 		}
-	}
-	else if (count >= 10 && m_is_description == true) {
-
-		m_button_check_num = ButtonType::BACK_BUTTON;
-		count = 0;
 	}
 }
 //―――――――――――――――――――

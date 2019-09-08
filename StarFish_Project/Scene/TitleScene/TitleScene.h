@@ -13,11 +13,9 @@ public:
 
 private:
 	enum ButtonType {
-		BACK_BUTTON,
 		DESCRIPTION_BUTTON,
 		START_BUTTON,
 		RETURN_BUTTON,
-		
 		TITLE_BUTTON_MAX
 	};
 
@@ -37,14 +35,14 @@ private:
 	std::string m_button_texture_list[TITLE_BUTTON_MAX];	// 選択ボタン画像リスト
 
 	// タイトルロゴの位置
-	const D3DXVECTOR2 TITLE_LOGO_POS = { (Window::WIDTH / 2),(Window::HEIGHT / 2) - 70 };   
+	const D3DXVECTOR2 TITLE_LOGO_POS = { (Window::WIDTH / 2),(Window::HEIGHT / 2) - 70 }; 
 	// 選択ボタンの位置
-	const D3DXVECTOR2 TITLE_BUTTON_POS = { (Window::WIDTH / 2),(Window::HEIGHT - 100) };	
+	const D3DXVECTOR2 TITLE_BUTTON_POS = { (Window::WIDTH / 2),(Window::HEIGHT - 100) };
 
 	// 画像を登録
 	const std::string TITLE_TEXTURE = "Resource/Texture/Title/title_bg.png";
 	const std::string TITLE_LOGO = "Resource/Texture/Title/title_logo.png";
-	const std::string DESCRIPTION_TEXTURE = "Resource/Texture/Title/description.png";
+	const std::string MANUAL_TEXTURE = "Resource/Texture/Title/manual.png";
 
 	IDirectSoundBuffer8* m_p_title_bgm;	// タイトルBGM
 };
