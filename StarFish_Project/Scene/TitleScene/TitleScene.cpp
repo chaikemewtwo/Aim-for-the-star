@@ -7,7 +7,7 @@ Title::Title() {
 	m_scene_step = SceneStep::INIT;
 	m_p_game_input = new GameInput;
 	// 画像の登録
-	m_button_texture_list[DESCRIPTION_BUTTON] = "Resource/Texture/UI/title_button03.png";
+	m_button_texture_list[MANUAL_BUTTON] = "Resource/Texture/UI/title_button03.png";
 	m_button_texture_list[START_BUTTON] = "Resource/Texture/UI/title_button01.png";
 	m_button_texture_list[RETURN_BUTTON] = "Resource/Texture/UI/title_button02.png";
 
@@ -25,7 +25,7 @@ void Title::Init() {
 	m_button_texture = m_button_texture_list[ButtonType::START_BUTTON];
 	m_button_check_num = ButtonType::START_BUTTON;
 
-	m_is_description = false;
+	m_is_manual = false;
 
 	// サウンドの初期化
 	m_p_title_bgm->SetCurrentPosition(0);
@@ -48,28 +48,28 @@ void Title::Update() {
 
 		// 選択しているボタンに合わせて遷移
 		// ゲーム開始
-		if (m_button_check_num == ButtonType::START_BUTTON && m_is_description == false) {
+		if (m_button_check_num == ButtonType::START_BUTTON && m_is_manual == false) {
 
 			m_p_title_bgm->Stop();
 			m_scene_step = SceneStep::END;
 			m_new_scene_id = SceneId::GAME_MAIN;
 		}
 		// 説明画面
-		else if (m_button_check_num == ButtonType::DESCRIPTION_BUTTON && m_is_description == false) {
+		else if (m_button_check_num == ButtonType::MANUAL_BUTTON && m_is_manual == false) {
 
-			m_is_description = true;
+			m_is_manual = true;
 		}
 		// ゲーム終了
-		else if (m_button_check_num == ButtonType::RETURN_BUTTON && m_is_description == false) {
+		else if (m_button_check_num == ButtonType::RETURN_BUTTON && m_is_manual == false) {
 
 			m_p_title_bgm->Stop();
 			m_scene_step = SceneStep::END;
 			m_new_scene_id = SceneId::SCENE_QUIT;
 		}
-		else if (m_button_check_num == ButtonType::BACK_BUTTON && m_is_description == true) {
+		else if (m_button_check_num == ButtonType::BACK_BUTTON && m_is_manual == true) {
 
-			m_button_check_num = ButtonType::DESCRIPTION_BUTTON;
-			m_is_description = false;
+			m_button_check_num = ButtonType::MANUAL_BUTTON;
+			m_is_manual = false;
 		}
 	}
 }
@@ -83,27 +83,27 @@ void Title::Draw() {
 			TITLE_TEXTURE.c_str(), 0, 0
 		);
 		
-		if (m_is_description == false) {
+		if (m_is_manual == false) {
 			// タイトルロゴの描画
 			Texture::Draw2D(
 				TITLE_LOGO.c_str(),
 				TITLE_LOGO_POS.x, TITLE_LOGO_POS.y,
-				1, 1, 0, 0.5, 0.5
+				1, 1, 0, 0.5f, 0.5f
 			);
 
 			// UIのボタン描画
 			Texture::Draw2D(
 				m_button_texture.c_str(),
 				TITLE_BUTTON_POS.x, TITLE_BUTTON_POS.y,
-				1, 1, 0, 0.5, 0.5
+				1, 1, 0, 0.5f, 0.5f
 			);
 		}
-		else if (m_is_description == true) {
+		else if (m_is_manual == true) {
 
 			Texture::Draw2D(
-				MANUAL_TEXTURE.c_str(), 
-				Window::WIDTH/2,Window::HEIGHT/2, 
-				0.45, 0.45, 0, 0.5, 0.5);
+				MANUAL_TEXTURE.c_str(),
+				MANUAL_POS.x, MANUAL_POS.y,
+				0.45f, 0.45f, 0, 0.5f, 0.5f);
 		}
 }
 //―――――――――――――――――――
@@ -114,15 +114,15 @@ void Title::CheckChangeButton() {
 	static int count = 10;
 	++count;
 
-	if (count >= 10 && m_is_description == false) {
+	if (count >= 10 && m_is_manual == false) {
 
 		if (m_p_game_input->InputCommand(m_p_game_input->TITLE_LEFT_BUTTON) == true &&
-			m_button_check_num > ButtonType::DESCRIPTION_BUTTON) {
+			m_button_check_num > ButtonType::MANUAL_BUTTON) {
 
 			m_button_check_num--;
 
-			if (m_button_check_num == ButtonType::DESCRIPTION_BUTTON) {
-				m_button_texture = m_button_texture_list[ButtonType::DESCRIPTION_BUTTON];
+			if (m_button_check_num == ButtonType::MANUAL_BUTTON) {
+				m_button_texture = m_button_texture_list[ButtonType::MANUAL_BUTTON];
 			}
 			else if (m_button_check_num == START_BUTTON) {
 				m_button_texture = m_button_texture_list[ButtonType::START_BUTTON];
@@ -144,6 +144,9 @@ void Title::CheckChangeButton() {
 
 			count = 0;
 		}
+	}
+	else if (m_is_manual == true) {
+		m_button_check_num = ButtonType::BACK_BUTTON;
 	}
 }
 //―――――――――――――――――――
