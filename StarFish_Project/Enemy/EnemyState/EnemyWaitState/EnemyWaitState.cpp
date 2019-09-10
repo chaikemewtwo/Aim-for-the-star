@@ -26,10 +26,10 @@ void Wait::Action(EnemyBase* e) {
 	else if (e->CheckChangeState() == StateId::VERTICALMOVE_ID) {
 		e->ChangeState(VerticalMove::GetInstance());
 	}
-	else if (e->CheckChangeState() == PATROL_ID) {
+	else if (e->CheckChangeState() == StateId::PATROL_ID) {
 		e->ChangeState(Patrol::GetInstance());
 	}
-	else if (e->CheckChangeState() == CHASE_ID) {
+	else if (e->CheckChangeState() == StateId::CHASE_ID) {
 		e->ChangeState(Chase::GetInstance());
 	}
 }
