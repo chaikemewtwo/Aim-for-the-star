@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"../../GameObject/Object/Object.h"
+#include"../../../GameObject/Object/Object.h"
 #include<string>
 #include"../ChipBase/ChipBase.h"
 

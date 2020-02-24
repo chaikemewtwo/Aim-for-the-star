@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include"../CollisionObject/CircleCollisionObject.h"
 #include"PlayerState\PlayerStateBase.h"
-#include "../../GameInput/GameInput.h"
+#include "../GameInput/GameInput.h"
 #include"../Lib/Texture/TextureBoad2D.h"
 #include"../Lib/Sound/DirectSound.h"
 

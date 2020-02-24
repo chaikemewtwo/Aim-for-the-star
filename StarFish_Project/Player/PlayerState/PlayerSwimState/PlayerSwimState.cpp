@@ -1,7 +1,7 @@
 ﻿#include"PlayerSwimState.h"
 #include"../PlayerWaitState/PlayerWaitState.h"
 #include"../PlayerDeathState/PlayerDeathState.h"
-#include"../../Player/Player.h"
+#include"../../../Player/Player.h"
 
 
 const int PlayerSwimState::ONE_ANIMATION_SPEED = 6;

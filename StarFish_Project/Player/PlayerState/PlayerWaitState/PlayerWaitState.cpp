@@ -2,7 +2,7 @@
 #include"../PlayerSwimState/PlayerSwimState.h"
 #include"../PlayerStandingWaitState/PlayerStandingWaitState.h"
 #include"../PlayerDeathState/PlayerDeathState.h"
-#include"../../Player/Player.h"
+#include"../../../Player/Player.h"
 #include"../../../Lib/Sound/DirectSound.h"
 
 

@@ -1,5 +1,5 @@
 ﻿#include "PlayerDeathState.h"
-#include "../../Player/Player.h"
+#include "../../../Player/Player.h"
 
 
 const int PlayerDeathState::ONE_ANIMATION_SPEED = 10;

@@ -1,6 +1,6 @@
 ﻿#include"RockChip.h"
-#include"../../Lib/Texture/TextureBoad2D.h"
-#include"../../Map/Map/Map.h"
+#include"../../../Lib/Texture/TextureBoad2D.h"
+#include"../../../Map/Map/Map.h"
 
 
 // オフセット値設定

@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"../../GameObject/ObjectManager/ObjectManager.h"
+#include"../GameObject/ObjectManager/ObjectManager.h"
 #include"Player.h"
 #include"../ManagerBase/ManagerBase.h"
 #include"../Map/MapCollider/MapCollider.h"

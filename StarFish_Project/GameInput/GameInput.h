@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include"../../Lib/Input/KeyBord.h"
-#include"../../Lib/Input/GamePad.h"
+#include"../Lib/Input/KeyBord.h"
+#include"../Lib/Input/GamePad.h"
 
 
 // 今回使用する入力（キー、パッド）をまとめたクラス

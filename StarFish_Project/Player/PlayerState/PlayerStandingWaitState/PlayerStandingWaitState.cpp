@@ -1,6 +1,6 @@
 ﻿#include"PlayerStandingWaitState.h"
 #include"../PlayerDeathState/PlayerDeathState.h"
-#include"../../Player/Player.h"
+#include"../../../Player/Player.h"
 
 
 const int PlayerStandingWaitState::ONE_ANIMATION_SPEED = 7;
